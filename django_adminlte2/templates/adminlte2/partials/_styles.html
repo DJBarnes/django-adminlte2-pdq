@@ -1,0 +1,31 @@
+{% load static %}
+
+{% block styles %}
+  {% if debug %}
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap/3.3.7/css/bootstrap.min.css' %}">
+
+    <!-- bootstrap-datepicker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css' %}">
+    <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
+    <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome-5/5.8.2/css/all.min.css' %}">
+    <!-- Font Awesome 4 -->
+    <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome/4.7.0/css/font-awesome.min.css' %}">
+    <!-- AdminLTE -->
+    <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/AdminLTE.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/skins/_all-skins.min.css' %}">
+  {% else %}
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <!-- bootstrap-datepicker -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" integrity="sha256-jO7D3fIsAq+jB8Xt3NI5vBf3k4tvtHwzp8ISLQG4UWU=" crossorigin="anonymous" />
+    <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" integrity="sha256-BtbhCIbtfeVWGsqxk1vOHEYXS6qcvQvLMZqjtpWUEx8=" crossorigin="anonymous" />
+    <!-- Font Awesome 4 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <!-- AdminLTE -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/AdminLTE.min.css" integrity="sha256-flo1BhZxHloxiG+WVTNYRMy6Nn3V+CyV1jLHZ2DoUxY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/skins/_all-skins.css" integrity="sha256-mgkhNy4GDprfEqwRBmDzqzlhJFBS9K0yB9TSw7UoH5E=" crossorigin="anonymous" />
+  {% endif %}
+  <link rel="stylesheet" type="text/css" href="{% static 'django_adminlte2/extra-features/extra-features.css' %}">
+{% endblock styles %}

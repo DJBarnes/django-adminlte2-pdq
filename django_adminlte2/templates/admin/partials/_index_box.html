@@ -1,0 +1,56 @@
+{% load i18n %}
+{% load admin.admin_menu %}
+<div class="box {% block box_header_type %}box-primary{% endblock box_header_type %} box-solid app-box">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">
+      <a href="{{ app.app_url }}" class="section"
+        title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">
+        <i class="{% render_app_icon %}"></i>
+        {{ app.name }}
+      </a>
+    </h3>
+
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse">
+        <i class="fa fa-minus"></i>
+      </button>
+    </div>
+    <!-- /.box-tools -->
+  </div>
+  <!-- /.box-header -->
+
+  <div class="box-body">
+
+    {% for model in app.models %}
+      <div class="col-md-4 col-sm-6 model-box">
+        <div class="info-box {% block model_info_box_color %}bg-light-blue{% endblock model_info_box_color %}">
+          <a href="{{ model.admin_url }}" class="section">
+            <span class="info-box-icon">
+              <i class="{% render_model_icon %}"></i>
+            </span>
+          </a>
+          <div class="info-box-content">
+            <span class="info-box-text">
+              {{ model.name }}
+            </span>
+            {% if model.add_url %}
+              <a href="{{ model.add_url }}" class="{% block add_class %}btn btn-default btn-xs btn-block{% endblock add_class %}">
+                <i class="fa fa-plus"></i>
+                Add
+              </a>
+            {% endif %}
+            {% if model.admin_url %}
+              <a href="{{ model.admin_url }}" class="{% block change_class %}btn btn-warning btn-xs btn-block section{% endblock change_class %}">
+                <i class="fa fa-pencil"></i>
+                Change
+              </a>
+            {% endif %}
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <!-- /.box-body -->
+</div>

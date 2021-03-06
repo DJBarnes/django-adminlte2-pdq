@@ -1,0 +1,15 @@
+{% load sidebar_menu %}
+{% if allowed %}
+  <li class="treeview">
+    <a href="#">
+        <i class="{{ node.icon }}"></i>
+        <span class="treeview-text" title="{{ node.text }}">{{ node.text }}</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+    <ul class="treeview-menu" {% if add_display_block %}style="display:block;"{% endif %}>
+      {% render_nodes node.nodes %}
+    </ul>
+  </li>
+{% endif %}

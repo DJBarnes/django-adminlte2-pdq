@@ -1,0 +1,12 @@
+{% load adminlte_filters %}
+
+<div class="input-group">
+  <label for="{{ field.id_for_label }}" class="input-group-btn">
+    <span class="btn btn-primary">
+      Browse
+      {{ field|with_attrs:'{"style": "display:none;"}' }}
+    </span>
+  </label>
+  <input type="text" class="form-control" readonly />
+</div>
+{% include "adminlte2/partials/_form/_field_error.html" %}

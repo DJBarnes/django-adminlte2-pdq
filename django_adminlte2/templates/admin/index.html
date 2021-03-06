@@ -1,0 +1,29 @@
+{% extends "admin/index.html" %}
+{% load i18n static %}
+{% load admin.admin_menu admin.admin_index %}
+
+{% block breadcrumbs %}
+  <ol class="breadcrumb">
+    {% include "admin/partials/_breadcrumb_home.html" %}
+    <li>
+      {% trans 'Admin' %}
+    </li>
+  </ol>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div id="content-main">
+
+    {% if app_list %}
+      {% for app in app_list %}
+
+      {% index_app_display %}
+
+      {% endfor %}
+    {% else %}
+      <p>
+        {% trans "You don't have permission to edit anything." %}
+      </p>
+    {% endif %}
+  </div>
+{% endblock content %}

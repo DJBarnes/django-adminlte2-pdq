@@ -1,0 +1,53 @@
+{% load i18n %}
+{% load admin.admin_menu %}
+<div class="app-{{ app.app_label }} module">
+  <table class="table table-hover table-striped">
+    <caption class="{% block model_table_header_color %}bg-light-blue{% endblock model_table_header_color %}">
+      <a href="{{ app.app_url }}" class="section"
+        title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">
+        <i class="{% render_app_icon %}"></i>
+        {{ app.name }}
+      </a>
+    </caption>
+    {% for model in app.models %}
+      <tr class="model-{{ model.object_name|lower }}">
+        {% if model.admin_url %}
+          <td>
+            <i class="{% render_model_icon %}"></i>
+          </td>
+          <th scope="row">
+            <a href="{{ model.admin_url }}">
+              {{ model.name }}
+            </a>
+          </th>
+        {% else %}
+          <th scope="row">
+            {{ model.name }}
+          </th>
+        {% endif %}
+
+        {% if model.add_url %}
+          <td>
+            <a href="{{ model.add_url }}" class="{% block add_class %}btn btn-success btn-xs section{% endblock add_class %}">
+              <i class="fa fa-plus"></i>
+              {% trans 'Add' %}
+            </a>
+          </td>
+        {% else %}
+          <td>&nbsp;</td>
+        {% endif %}
+
+        {% if model.admin_url %}
+          <td>
+            <a href="{{ model.admin_url }}" class="{% block change_class %}btn btn-warning btn-xs section{% endblock change_class %}">
+              <i class="fa fa-pencil"></i>
+              {% trans 'Change' %}
+            </a>
+          </td>
+        {% else %}
+            <td>&nbsp;</td>
+        {% endif %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>

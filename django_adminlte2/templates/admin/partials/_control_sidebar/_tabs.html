@@ -1,0 +1,38 @@
+{% if show_csb_tabs %}
+  {% block control_sidebar_tabs %}
+    <!-- Create the tabs -->
+    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+
+      {% if show_csb_recent_tab %}
+        {% block control_sidebar_recent_activity_tab %}
+          <li class="active">
+            <a href="#control-sidebar-home-tab" data-toggle="tab">
+              <i class="fa fa-home"></i>
+            </a>
+          </li>
+        {% endblock control_sidebar_recent_activity_tab %}
+      {% endif %}
+
+      {% if show_csb_settings_tab %}
+        {% block control_sidebar_settings_tab %}
+          <li class="{% if not show_csb_recent_tab %}active{% endif %}">
+            <a href="#control-sidebar-settings-tab" data-toggle="tab">
+              <i class="fa fa-gears"></i>
+            </a>
+          </li>
+        {% endblock control_sidebar_settings_tab %}
+      {% endif %}
+
+      {% if show_csb_extra_tab %}
+        {% block control_sidebar_extra_tabs %}
+          <li>
+            <a href="#control-sidebar-extra-tab" data-toggle="tab">
+              <i class="fa fa-gear"></i>
+            </a>
+          </li>
+        {% endblock control_sidebar_extra_tabs %}
+      {% endif %}
+
+    </ul>
+  {% endblock control_sidebar_tabs %}
+{% endif %}

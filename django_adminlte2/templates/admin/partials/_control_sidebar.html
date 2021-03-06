@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load admin.admin_control_sidebar %}
+
+  <aside class="control-sidebar control-sidebar-light">
+
+    {% show_control_sidebar_tabs %}
+
+    {% block control_sidebar_tab_panes %}
+      <div class="tab-content">
+
+        {% show_control_sidebar_recent_activity_tab_pane %}
+
+        {% show_control_sidebar_settings_tab_pane %}
+
+        {% show_control_sidebar_extra_tab_panes %}
+
+      </div>
+    {% endblock control_sidebar_tab_panes %}
+
+  </aside>

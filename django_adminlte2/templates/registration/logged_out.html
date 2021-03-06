@@ -1,0 +1,17 @@
+{% extends "adminlte2/base_anonymous.html" %}
+{% load i18n %}
+
+{% block anonymous_form_instructions %}
+  <p>{% trans "Thanks for spending some quality time with the Web site today." %}</p>
+{% endblock anonymous_form_instructions %}
+
+{% block anonymous_form %}
+{% endblock anonymous_form %}
+
+{% block anonymous_links %}
+  <p>
+    <a href="{% url 'login' %}" class="btn btn-flat btn-primary">
+      {% trans 'Log in again' %}
+    </a>
+  </p>
+{% endblock anonymous_links %}

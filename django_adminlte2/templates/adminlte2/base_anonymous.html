@@ -1,0 +1,91 @@
+{% extends "adminlte2/base.html" %}
+{% load i18n static %}
+
+{% block body_class %}
+  login-page
+{% endblock body_class %}
+
+{% block body %}
+  <div class="login-box">
+    {% block logo %}
+      <div class="login-logo">
+          {# Mirrors block names used in _main_header.html #}
+          <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}<b>Admin</b>LTE{% endblock logo_text %}</a>
+      </div>
+    {% endblock logo %}
+    <!-- /.login-logo -->
+
+    <div class="login-box-body">
+      {% block anonymous_errors %}
+        {% if form.errors and not form.non_field_errors %}
+          <p class="alert alert-danger">
+            {% if form.errors.items|length == 1 %}
+              {% trans "Please correct the error below." %}
+            {% else %}
+              {% trans "Please correct the errors below." %}
+            {% endif %}
+          </p>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <p class="alert alert-danger">
+              {{ error }}
+            </p>
+          {% endfor %}
+        {% endif %}
+      {% endblock anonymous_errors %}
+
+      {% block anonymous_form_instructions %}
+      {% endblock anonymous_form_instructions %}
+
+      {% block anonymous_form %}
+        {% block anonymous_form_tag %}
+          <form method="post" action="#">
+        {% endblock anonymous_form_tag %}
+          {% csrf_token %}
+
+          {% block anonymous_form_extra_top %}
+          {% endblock anonymous_form_extra_top %}
+
+          {% block anonymous_username %}
+          {% endblock anonymous_username %}
+
+          {% block anonymous_password %}
+          {% endblock anonymous_password %}
+
+          {% block anonymous_form_extra_bottom %}
+          {% endblock anonymous_form_extra_bottom %}
+
+          <div class="row">
+            <div class="col-xs-8">
+              {% block anonymous_form_remember_me %}
+              {% endblock anonymous_form_remember_me %}
+            </div>
+            <div class="col-xs-4">
+              {% block anonymous_form_button %}
+                <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
+              {% endblock anonymous_form_button %}
+            </div>
+          </div>
+        </form>
+      {% endblock anonymous_form %}
+
+      {% block social_auth_links %}
+      {% endblock social_auth_links %}
+
+      {% block anonymous_links %}
+      {% endblock anonymous_links %}
+
+      {% block messages %}
+      {% endblock messages %}
+
+      {% block bottom_alert_message %}
+      {% endblock bottom_alert_message %}
+
+      {% block legal %}
+      {% endblock legal %}
+
+    </div>
+  </div>
+{% endblock %}

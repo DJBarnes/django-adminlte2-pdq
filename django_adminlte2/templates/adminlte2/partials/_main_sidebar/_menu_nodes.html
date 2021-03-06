@@ -1,0 +1,8 @@
+{% load sidebar_menu %}
+{% for node in nodes %}
+  {% if 'nodes' in node %}
+    {% render_tree node %}
+  {% else %}
+    {% render_link node %}
+  {% endif %}
+{% endfor %}

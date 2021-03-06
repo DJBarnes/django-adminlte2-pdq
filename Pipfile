@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django="*"
+
+[dev-packages]
+sphinx="*"
+sphinx-autobuild="*"
+recommonmark="*"
+sphinx_rtd_theme="*"
+
+[requires]
+python_version = "3.8"

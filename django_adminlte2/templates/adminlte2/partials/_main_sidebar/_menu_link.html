@@ -1,0 +1,19 @@
+{% load sidebar_menu %}
+{% if allowed %}
+  <li class="
+    {% if 'active_requires_exact_url_match' in  node and node.active_requires_exact_url_match %}
+      {% if request.path == node.url %}
+        active
+      {% endif %}
+    {% else %}
+      {% if request.path|url_starts_with:node.url %}
+        active
+      {%endif%}
+    {% endif %}
+  ">
+    <a href="{{ node.url }}" class="node-link{% if node.class %} {{ node.class }}{% endif %}"{% for attr, value in node.attributes.items %} {{ attr }}="{{ value }}"{% endfor %}>
+      <i class="{{ node.icon }}"></i>
+      <span class="node-link-text" title="{{ node.title }}">{{ node.text }}</span>
+    </a>
+  </li>
+{% endif %}

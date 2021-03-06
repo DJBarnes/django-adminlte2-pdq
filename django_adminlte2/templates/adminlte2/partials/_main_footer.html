@@ -1,0 +1,26 @@
+<footer class="main-footer">
+  {% block main_footer %}
+
+    {% block footer_left %}
+      {% block legal %}
+        <strong>Copyright &copy; {% now "Y" %}{% if not request.site %}.{% endif %}
+          {% if request.site %}
+            <a href="http://{{ request.site.domain }}">{{ request.site.name }}</a>
+          {% endif %}
+        </strong>
+      {% endblock legal %}
+    {% endblock footer_left %}
+
+    {% block footer_right %}
+      <div class="pull-right hidden-xs">
+        {% block version %}
+          <b>Version </b>
+          {% block version_number %}
+            0.1
+          {% endblock version_number %}
+        {% endblock version %}
+      </div>
+    {% endblock footer_right %}
+
+  {% endblock main_footer %}
+</footer>

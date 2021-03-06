@@ -1,0 +1,24 @@
+{% load static %}
+
+{% block scripts %}
+  {% if debug %}
+    <!-- jQuery and jQuery UI -->
+    <script src="{% static 'third-party/jquery/2.2.4/jquery.min.js' %}"></script>
+    <script src="{% static 'third-party/jqueryui/1.11.4/jquery-ui.min.js' %}"></script>
+    <!-- Bootstrap and Bootstrap Datepicker -->
+    <script src="{% static 'third-party/bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'third-party/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js' %}"></script>
+    <!-- AdminLTE -->
+    <script src="{% static 'third-party/admin-lte/2.3.7/js/app.min.js' %}"></script>
+  {% else %}
+    <!-- jQuery and jQuery UI -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+    <!-- Bootstrap and Bootstrap Datepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha256-bqVeqGdJ7h/lYPq6xrPv/YGzMEb6dNxlfiTUHSgRCp8=" crossorigin="anonymous"></script>
+    <!-- AdminLTE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/js/app.min.js" integrity="sha256-twY1ayIs7adXt9vBEYizRfJ39b731Ar1CnUr7OjzD5o=" crossorigin="anonymous"></script>
+  {% endif %}
+  <script src="{% static 'django_adminlte2/extra-features/extra-features.js' %}"></script>
+{% endblock scripts %}

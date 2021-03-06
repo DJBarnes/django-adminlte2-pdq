@@ -1,0 +1,56 @@
+{% load adminlte_filters %}
+
+{% for field in hidden_fields %}
+  {{ field }}
+{% endfor %}
+
+{% for field in visible_fields %}
+  <div class="col-sm-12">
+    {% if field|fieldtype == "CheckboxInput" or field|fieldtype == "CheckboxSelectMultiple" %}
+      {% include "adminlte2/partials/_form/_checkbox.html" %}
+    {% else %}
+      <div class="form-group {% if field.errors %}has-error{% endif %}">
+        {% if field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
+          {% if labels %}
+            <label for="{{ field.id_for_label }}">
+              {{ field.label }}:
+            </label>
+          {% endif %}
+          {% include "adminlte2/partials/_form/_select.html" %}
+        {% elif field|fieldtype == "RadioSelect" %}
+          {% if labels %}
+            <label for="{{ field.id_for_label }}">
+              {{ field.label }}:
+            </label>
+          {% endif %}
+          {% include "adminlte2/partials/_form/_radio.html" %}
+        {% elif field|fieldtype == "ClearableFileInput" %}
+            {% if labels %}
+              <label for="{{ field.id_for_label }}">
+                {{ field.label }}
+              </label>
+            {% endif %}
+            {% include "adminlte2/partials/_form/_file.html" %}
+        {% elif field|fieldtype == "DateInput" or field|fieldtype == "DateTimeInput" or field|fieldtype == "TimeInput" %}
+          {% if labels %}
+            <label for="{{ field.id_for_label }}">
+              {{ field.label }}:
+            </label>
+          {% endif %}
+          {% include "adminlte2/partials/_form/_date_time.html" %}
+        {% else %}
+          {% if labels %}
+            <label for="{{ field.id_for_label }}">
+              {{ field.label }}:
+            </label>
+          {% endif %}
+          {% include "adminlte2/partials/_form/_text.html" %}
+        {% endif %}
+
+      </div>
+    {% endif %}
+  </div>
+
+{% endfor %}
+
+{{ media|default:"" }}

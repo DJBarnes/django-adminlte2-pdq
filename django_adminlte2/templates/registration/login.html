@@ -1,0 +1,75 @@
+{% extends "adminlte2/base_anonymous.html" %}
+{% load i18n static %}
+
+{% block anonymous_form_tag %}
+  <form method="post" action="{% url 'login' %}">
+  <input type="hidden" name="next" value="{{ next }}"/>
+{% endblock anonymous_form_tag %}
+
+{% block anonymous_form_instructions %}
+  <p class="login-box-msg">Sign in to start your session</p>
+{% endblock anonymous_form_instructions %}
+
+{% block anonymous_username %}
+  <div class="form-group has-feedback {% if form.username.errors|length > 0 %} has-error {% endif %}">
+    {% block anonymous_username_input %}
+      <input name="username" class="form-control" placeholder="Username" autofocus>
+    {% endblock anonymous_username_input %}
+    <span class="glyphicon glyphicon-user form-control-feedback"></span>
+    <div class="text-danger error-list">
+      {{ form.username.errors }}
+    </div>
+  </div>
+{% endblock anonymous_username %}
+
+{% block anonymous_password %}
+  <div class="form-group has-feedback {% if form.password.errors|length > 0 %} has-error {% endif %}">
+    {% block anonymous_password_input %}
+      <input type="password" name="password" class="form-control" placeholder="Password">
+    {% endblock anonymous_password_input %}
+    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+    <div class="text-danger error-list">
+      {{ form.password.errors }}
+    </div>
+  </div>
+{% endblock anonymous_password %}
+
+{% block anonymous_form_remember_me %}
+  <label>
+    <input type="checkbox"> Remember Me
+  </label>
+{% endblock anonymous_form_remember_me %}
+
+{% block social_auth_links %}
+  <div class="social-auth-links text-center">
+    <p>- OR -</p>
+    <a href="#" class="btn btn-block btn-social btn-facebook btn-flat">
+      <i class="fa fa-facebook"></i>
+      Sign in using Facebook
+    </a>
+    <a href="#" class="btn btn-block btn-social btn-google btn-flat">
+      <i class="fa fa-google-plus"></i>
+      Sign in using Google+
+    </a>
+  </div>
+{% endblock social_auth_links %}
+
+{% block anonymous_links %}
+  <a href="{% url 'password_reset' %}">I forgot my password</a>
+  <br>
+  <a href="{% url 'django_adminlte2:register' %}" class="text-center">Register a new membership</a>
+{% endblock anonymous_links %}
+
+{% block bottom_alert_message %}
+  {% if user.is_authenticated %}
+    <p class="alert alert-danger">
+      {% blocktrans trimmed %}
+        You are authenticated as {{ user }}, but are not authorized to
+        access this page. Would you like to login to a different account?
+      {% endblocktrans %}
+    </p>
+  {% endif %}
+{% endblock bottom_alert_message %}
+{% block messages %}
+  {% include 'adminlte2/partials/_messages.html' %}
+{% endblock messages %}

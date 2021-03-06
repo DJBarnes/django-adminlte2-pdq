@@ -1,0 +1,10 @@
+{% load adminlte_filters %}
+
+{% if 'phone' in field.label or 'Phone' in field.label %}
+  {# TODO: this will affect fields 'phoneme' or 'homophone'. Have developer set an attribute 'phone' on the field instead #}
+  {# inputmask library expects: data-inputmask="'mask':'(999) 999-9999'" #}
+  {{ field|with_class:"form-control"|with_placeholder|with_data:'{"inputmask":"\'mask\':\'(999) 999-9999\'", "mask":""}' }}
+{% else %}
+  {{ field|with_class:"form-control"|with_placeholder }}
+{% endif %}
+{% include "adminlte2/partials/_form/_field_error.html" %}

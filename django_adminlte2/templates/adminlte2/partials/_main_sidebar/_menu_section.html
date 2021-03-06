@@ -1,0 +1,11 @@
+{% load sidebar_menu %}
+{% if section.text == '' and section.separator %}
+  <li class="separator"><hr></li>
+{% else %}
+  {% if allowed %}
+    <li class="header">
+      {{ section.text }}
+    </li>
+    {% render_nodes section.nodes %}
+  {% endif %}
+{% endif %}

@@ -1,0 +1,97 @@
+{% load adminlte_filters %}
+
+{% for field in hidden_fields %}
+  {{ field }}
+{% endfor %}
+
+{% for field in visible_fields %}
+  <div class="form-group {% if field.errors %}has-error{% endif %}">
+    {% if field|fieldtype == "ClearableFileInput" %}
+      {% if labels %}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">
+          {{ field.label }}:
+        </label>
+      {% endif %}
+      <div
+        class="
+          col-sm-10
+          {% if not labels %}
+            col-sm-offset-2
+          {% endif %}
+        "
+      >
+        {% include "adminlte2/partials/_form/_file.html" %}
+      </div>
+    {% elif field|fieldtype == "RadioSelect" %}
+      {% if labels %}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">
+          {{ field.label }}:
+        </label>
+      {% endif %}
+      <div
+        class="
+          col-sm-10
+          {% if not labels %}
+            col-sm-offset-2
+          {% endif %}
+        "
+      >
+        {% include "adminlte2/partials/_form/_radio.html" %}
+      </div>
+    {% elif field|fieldtype == "CheckboxInput" or field|fieldtype == "RadioSelect" or field|fieldtype == "CheckboxSelectMultiple" %}
+      <div class="col-sm-offset-2 col-sm-10">
+        {% include "adminlte2/partials/_form/_checkbox.html" %}
+      </div>
+    {% elif field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
+      {% if labels %}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">
+          {{ field.label }}:
+        </label>
+      {% endif %}
+      <div
+        class="
+          col-sm-10
+          {% if not labels %}
+            col-sm-offset-2
+          {% endif %}
+        "
+      >
+        {% include "adminlte2/partials/_form/_select.html" %}
+      </div>
+    {% elif field|fieldtype == "DateInput" or field|fieldtype == "DateTimeInput" or field|fieldtype == "TimeInput" %}
+      {% if labels %}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">
+          {{ field.label }}:
+        </label>
+      {% endif %}
+      <div
+        class="
+          col-sm-10
+          {% if not labels %}
+            col-sm-offset-2
+          {% endif %}
+        "
+      >
+        {% include "adminlte2/partials/_form/_date_time.html" %}
+      </div>
+    {% else %}
+      {% if labels %}
+        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">
+          {{ field.label }}:
+        </label>
+      {% endif %}
+      <div
+        class="
+          col-sm-10
+          {% if not labels %}
+            col-sm-offset-2
+          {% endif %}
+        "
+      >
+        {% include "adminlte2/partials/_form/_text.html" %}
+      </div>
+    {% endif %}
+  </div>
+{% endfor %}
+
+{{ media|default:"" }}

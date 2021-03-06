@@ -1,0 +1,38 @@
+{% load adminlte_helpers %}
+{% load sidebar_menu %}
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    {% block sidebar %}
+      <!-- Sidebar user panel -->
+      {% block sb_user_panel %}
+        <div class="user-panel">
+          <div class="pull-left image">
+            <img src="{% get_avatar_url user=request.user size=90 %}" class="img-circle" alt="User Image">
+          </div>
+          <div class="pull-left info">
+            <p>{% firstof request.user.get_full_name request.user.username %}</p>
+          </div>
+        </div>
+      {% endblock sb_user_panel %}
+
+      {% block sb_form %}
+      {% endblock sb_form %}
+
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      {% block sidebar_menu %}
+
+        <ul class="sidebar-menu">
+          {% block sb_nav_links %}
+
+            {% render_menu %}
+
+          {% endblock sb_nav_links %}
+        </ul>
+
+        {% endblock sidebar_menu %}
+      {% endblock sidebar %}
+    </section>
+    <!-- /.sidebar -->
+</aside>

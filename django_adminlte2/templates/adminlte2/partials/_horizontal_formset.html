@@ -1,0 +1,38 @@
+{% load adminlte_filters %}
+
+<div class="form-inline col-sm-12">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{ section_heading }}
+    </div>
+    <div class="panel-body">
+    {{ formset.management_form }}
+    {% for form in formset %}
+      <div class="col-sm-12">
+        {% for field in form %}
+          {% if field|fieldtype == "HiddenInput" %}
+            {{ field }}
+          {% else %}
+            <div class="form-group col-lg-3 {% if field.errors %}has-error{% endif %}">
+              {% if field|fieldtype == "RadioSelect" %}
+                {% include "adminlte2/partials/_form/_radio.html" %}
+              {% elif field|fieldtype == "CheckboxInput" or field|fieldtype == "CheckboxSelectMultiple" %}
+                {% include "adminlte2/partials/_form/_checkbox.html" %}
+              {% elif field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
+                {% include "adminlte2/partials/_form/_select.html" %}
+              {% elif field|fieldtype == "DateInput" or field|fieldtype == "DateTimeInput" or field|fieldtype == "TimeInput" %}
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
+                {% include "adminlte2/partials/_form/_date_time.html" %}
+              {% else %}
+                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
+                {% include "adminlte2/partials/_form/_text.html" %}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</div>

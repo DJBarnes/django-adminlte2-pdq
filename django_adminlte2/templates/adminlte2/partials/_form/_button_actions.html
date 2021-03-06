@@ -1,0 +1,11 @@
+{% load adminlte_filters %}
+
+<span class="input-group-btn">
+  {% for action, props in field.field.widget.actions.items %}
+    {% if props.href %}
+      <a href="{{ props.href }}" class="{{ props.btn_class }}">{{ action }}</a>
+    {% else %}
+      {{ props.field|with_class:props.btn_class }}
+    {% endif %}
+  {% endfor %}
+</span>

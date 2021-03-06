@@ -1,0 +1,134 @@
+{% load static adminlte_helpers %}<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  {% block title_outer %}
+    <title>
+      {% block title %}
+        {{ request.site.name }}
+      {% endblock title %}
+    </title>
+  {% endblock title_outer %}
+
+  {% block meta %}
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+      {% block viewport_meta %}
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+      {% endblock viewport_meta %}
+  {% endblock meta %}
+
+  {% block extra_meta %}
+  {% endblock extra_meta %}
+
+  {% block favicon %}
+  {% endblock favicon %}
+
+  {% block global_stylesheets %}
+    {% include 'adminlte2/partials/_styles.html' %}
+  {% endblock global_stylesheets %}
+  {# Conflicts is here because must override all previous library css. #}
+  <link rel="stylesheet" type="text/css" href="{% static 'django_adminlte2/conflicts/conflicts.css' %}">
+  {% block page_stylesheets %}
+  {% endblock page_stylesheets %}
+
+  {% block global_javascript_head %}
+    {% include 'adminlte2/partials/_scripts.html' %}
+  {% endblock global_javascript_head %}
+  {# Conflicts is here because must override all previous library js. #}
+  <script src="{% static 'django_adminlte2/conflicts/conflicts.js' %}"></script>
+  {% block page_javascript_head %}
+  {% endblock page_javascript_head %}
+</head>
+
+<body
+  class="
+    hold-transition
+    sidebar-mini
+    {% block skin_class %}skin-blue{% endblock skin_class %}
+    {% block body_class %}{% endblock body_class %}
+  "
+  {% block body-attrs %}{% endblock %}
+>
+  {% block sidebar_state %}
+    {# NOTE: Must be here so that it can be executed as soon as the body tag is rendered. #}
+    <script src="{% static 'django_adminlte2/extra-features/sidebar-state.js' %}"></script>
+  {% endblock sidebar_state %}
+  {% block body %}
+    <div class="wrapper">
+      {% block nav_header %}
+        {% include 'adminlte2/partials/_main_header.html' %}
+      {% endblock nav_header %}
+      {% block nav_sub_header %}
+      {% endblock nav_sub_header %}
+
+      {% block nav_sidebar %}
+        {% include 'adminlte2/partials/_main_sidebar.html' %}
+      {% endblock %}
+
+      <div class="content-wrapper {% block content_wrapper_extra_classes %}{% endblock content_wrapper_extra_classes %}">
+        {% block content_wrapper %}
+          <section class="content-header">
+            {% block content_header %}
+              <h1>
+                {% block page_name %}
+                {% endblock page_name %}
+                {% block no_description %}
+                  <small>
+                    {% block page_description %}
+                    {% endblock page_description %}
+                  </small>
+                {% endblock no_description %}
+                {% block no_page_actions %}
+                  <div class="header-actions">
+                    {% block page_actions %}
+                    {% endblock page_actions %}
+                  </div>
+                {% endblock no_page_actions %}
+              </h1>
+              {% block breadcrumbs %}
+                {# Breadcrumb implementation left to developers #}
+              {% endblock breadcrumbs %}
+              <div class="clearfix"></div> {# Clear float in breadcrumbs #}
+            {% endblock content_header %}
+          </section><!-- content-header -->
+          <section class="content">
+            {% block content_outer %}
+              {% block messages %}
+                {% include 'adminlte2/partials/_messages.html' %}
+              {% endblock messages %}
+              {% block form_errors %}
+                {% render_form_error_summary %}
+              {% endblock form_errors %}
+
+              {% block content_title %}
+              {% endblock content_title %}
+
+              {% block content_block_wrap %}
+                {% block content %}
+                {% endblock content %}
+              {% endblock content_block_wrap %}
+            {% endblock content_outer %}
+          </section><!-- content -->
+        {% endblock content_wrapper %}
+      </div><!-- content-wrapper -->
+
+      {% block nav_footer %}
+        {% include 'adminlte2/partials/_main_footer.html' %}
+      {% endblock %}
+
+      {% block control_sidebar %}
+      {% endblock control_sidebar %}
+
+    </div><!-- wrapper -->
+  {% endblock body %}
+
+  {% block page_javascript_body %}
+  {% endblock page_javascript_body %}
+
+  {% block extra_foot %}
+  {% endblock extra_foot %}
+
+  {% block modals %}
+  {% endblock modals %}
+</body>
+</html>

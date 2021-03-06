@@ -1,0 +1,70 @@
+{% if error_list.has_non_form_errors or error_list.has_non_field_errors or error_list.has_field_errors %}
+  <div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <p class="lead"><b>The following error(s) require your attention!</b></p>
+    <hr style="margin-top:0; margin-bottom:5px;">
+    <ul class="list-unstyled">
+
+      {% comment %} Formset Errors {% endcomment %}
+      {% for formset in adminlte2_formset_list %}
+        {% for error in formset.non_form_errors %}
+          <li>
+            <i class="fa fa-times"></i>
+            {{ error|escape }}
+          </li>
+        {% endfor %}
+      {% endfor %}
+
+      {% if error_list.has_non_form_errors and error_list.has_non_field_errors or error_list.has_non_form_errors and error_list.has_field_errors %}
+        <hr style="margin-top:5px; margin-bottom:5px;">
+      {% endif %}
+
+      {% comment %} Form Errors from Formsets {% endcomment %}
+      {% for formset in adminlte2_formset_list %}
+        {% for form in formset.forms %}
+          {% for error in form.non_field_errors %}
+            <li>
+              <i class="fa fa-times"></i>
+              {{ error|escape }}
+            </li>
+          {% endfor %}
+        {% endfor %}
+      {% endfor %}
+
+      {% comment %} Form Errors from Forms {% endcomment %}
+      {% for form in adminlte2_form_list %}
+        {% for error in form.non_field_errors %}
+          <li>
+            <i class="fa fa-times"></i>
+            {{ error|escape }}
+          </li>
+        {% endfor %}
+      {% endfor %}
+
+      {% if error_list.has_non_field_errors and error_list.has_field_errors %}
+        <hr style="margin-top:5px; margin-bottom:5px;">
+      {% endif %}
+
+      {% comment %} Field Errors {% endcomment %}
+      {% for form in error_list.forms %}
+        {% for field in form %}
+          {% if field.errors %}
+            <li>
+              <i class="fa fa-times-circle-o"></i>
+              {{ field.label }}
+              {% if field.errors|length > 1 %}
+                {{ field.errors }}
+              {% else %}
+                {% for error in field.errors %}
+                  - {{ error }}
+                {% endfor %}
+              {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+
+    </ul>
+  </div>
+{% endif %}
+

@@ -1,0 +1,23 @@
+{% extends "admin/app_index.html" %}
+{% load i18n %}
+
+{% if not is_popup %}
+  {% block breadcrumbs %}
+    <ol class="breadcrumb">
+      {% include "admin/partials/_breadcrumb_home.html" %}
+      <li>
+        <a href="{% url 'admin:index' %}">
+          {% trans 'Admin' %}
+        </a>
+      </li>
+      {% for app in app_list %}
+        <li class="active">
+          {{ app.name }}
+        </li>
+      {% endfor %}
+    </ol>
+  {% endblock %}
+{% endif %}
+
+{% block sidebar %}
+{% endblock %}

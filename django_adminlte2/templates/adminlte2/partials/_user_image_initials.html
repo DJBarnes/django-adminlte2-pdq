@@ -1,0 +1,5 @@
+<div class="user-image user-image-replacement-div" {% if title %}title="{{ title }}"{% endif %}>
+  {{ initials }}
+  {# CSS will overlay this image over the above initials #}
+  <img src="{{ profile_url }}" class="user-image" alt="user image">
+</div>
