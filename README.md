@@ -41,7 +41,7 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
     Alter to whatever your home route is
     ```python
-    ADMINLTE2_HOME_ROUTE = 'django-adminlte2:home'
+    ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
     ```
 
     If you want the admin index page to list the various apps of the django project
@@ -75,8 +75,33 @@ Additionally there are tools, utilities and additional CSS options to aid in the
     ```
 
     Whether routes with no defined permission should be hidden unless added to a Whitelist
+    If this setting is set to False, then all routes without a defined permission are still visible on the sidebar menu
+    If this setting is set to True, then all routes without a defined permission are hidden on the sidebar menu unless the route is found in the ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST setting.
     ```python
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = (True/False)
+    ```
+
+    Assuming ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS is set to True, this is the list of routes that will be shown on the sidebar menu and accessible despite a defined permission.
+    ```python
+    ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = []
+    ```
+
+    This menu setting is useful for defining a menu that should come before the main menu. Sometimes you may be in a subsection of your website that has additional navigation that should precede the normal main navigation but only be shown when in this subsection. This setting allows that without having to change the main navigation menu.
+    See the Menu section (coming soon) for more information.
+    ```python
+    ADMINLTE2_MENU_FIRST = []
+    ```
+
+    This menu setting is the main menu that should be available no matter what section of the website you are in. It is the main navigation.
+    See the Menu section (coming soon) for more information.
+    ```python
+    ADMINLTE2_MENU = []
+    ```
+
+    This menu setting is useful for defining a menu that should come after the admin menu links. A menu footer so to speak.
+    See the Menu section (coming soon) for more information.
+    ```python
+    ADMINLTE2_MENU_LAST = []
     ```
 
 6. Override and update blocks in base.html to customize the layout further
