@@ -76,12 +76,12 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
     Whether routes with no defined permission should be hidden unless added to a Whitelist
     If this setting is set to False, then all routes without a defined permission are still visible on the sidebar menu
-    If this setting is set to True, then all routes without a defined permission are hidden on the sidebar menu unless the route is found in the ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST setting.
+    If this setting is set to True, then all routes without a defined permission are hidden on the sidebar menu unless the route is found in the ```ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST``` setting.
     ```python
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = (True/False)
     ```
 
-    Assuming ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS is set to True, this is the list of routes that will be shown on the sidebar menu and accessible despite a defined permission.
+    Assuming ```ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``` is set to True, this is the list of routes that will be shown on the sidebar menu and accessible despite a defined permission.
     ```python
     ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = []
     ```
