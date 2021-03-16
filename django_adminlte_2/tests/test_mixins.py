@@ -4,7 +4,7 @@ Tests for Mixins
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
 from django.views import View
@@ -42,6 +42,10 @@ class MixinTestCase(TestCase):
                 'change_foo'
             )
         )
+        self.user = UserModel.objects.create(
+            username='john',
+            password='qwerty'
+        )
         self.full_user = UserModel.objects.create(
             username='johnfull',
             password='qwerty'
@@ -54,6 +58,23 @@ class MixinTestCase(TestCase):
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
             permission_required = ['auth.add_foo']
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse('foobar')
+
+        request = self.factory.get('/rand')
+        setattr(request, 'user', self.full_user)
+        response = TestView.as_view()(request)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_mixin_works_with_permission_required_defined_as_string(self):
+        """Test mixin works with permission required defined"""
+
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+            permission_required = 'auth.add_foo'
 
             def get(self, request):
                 """Test get method"""
@@ -81,6 +102,53 @@ class MixinTestCase(TestCase):
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
+
+    def test_mixin_works_with_permission_required_one_defined_as_string(self):
+        """Test mixing works with permission required one defined"""
+
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+            permission_required_one = 'auth.add_foo'
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse('foobar')
+
+        request = self.factory.get('/rand')
+        setattr(request, 'user', self.full_user)
+        response = TestView.as_view()(request)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_mixin_prevents_access_for_no_perms_all(self):
+        """Test mixin prevents access for no perms all"""
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+            permission_required = 'auth.add_foo'
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse('foobar')
+
+        with self.assertRaises(PermissionDenied):
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.user)
+            TestView.as_view()(request)
+
+    def test_mixin_prevents_access_for_no_perms_one(self):
+        """Test mixin prevents access for no perms one"""
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+            permission_required_one = 'auth.add_foo'
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse('foobar')
+
+        with self.assertRaises(PermissionDenied):
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.user)
+            TestView.as_view()(request)
 
     def test_mixin_has_error_when_no_permissions_defined(self):
         """Test mixin has error when no permissions defined"""

@@ -183,16 +183,47 @@ class TemplateTagTestCase(TestCase):
     # | Test with_placeholder
     # |-------------------------------------------------------------------------
 
-    def test_with_placeholder_adds_a_placeholder_attribute_to_an_existing_form_field(self):
-        """Test with placeholder adds a placeholder attribute to an existing form field"""
+    def test_with_placeholder_adds_a_default_placeholder_attribute_to_an_existing_form_field(self):
+        """Test with placeholder adds a default placeholder attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_placeholder(
+            test_form['test_text']
+        )
+
+        self.assertIn(
+            'Test text',
+            str(result)
+        )
+
+    def test_with_placeholder_adds_a_specific_placeholder_attribute_to_an_existing_form_field(self):
+        """Test with placeholder adds a specific placeholder attribute to an existing form field"""
         test_form = self.TestForm()
         result = adminlte_filters.with_placeholder(
             test_form['test_text'],
-            'My Placeholder Text'
+            placeholder='My Placeholder Text'
         )
 
         self.assertIn(
             'My Placeholder Text',
+            str(result)
+        )
+
+    def test_with_placeholder_does_not_override_existing_placeholder_on_an_existing_form_field(self):
+        """Test with placeholder does not override existing placeholder on an existing form field"""
+        # Add a placeholder to field manually before using tag
+        test_form = self.TestForm()
+        attrs = test_form['test_text'].field.widget.attrs
+        attrs['placeholder'] = 'Original Placeholder'
+        test_form['test_text'].field.widget.attrs = {**test_form['test_text'].field.widget.attrs, **attrs}
+
+        # Use tag
+        result = adminlte_filters.with_placeholder(
+            test_form['test_text']
+        )
+
+        # Verify not overwritten
+        self.assertIn(
+            'Original Placeholder',
             str(result)
         )
 

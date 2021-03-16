@@ -83,6 +83,21 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertIn('auth.add_group', permissions)
         self.assertFalse(one_of_permissions)
 
+    def test_get_permissions_from_node_pulls_permissions_from_view_with_hash_route_and_valid_url(self):
+        """Test get permissions from node pull permission from view with hash route and valid url"""
+        node = {
+            'route': '#',
+            'text': 'Sample1',
+            'icon': 'fa fa-building',
+            'url': '/sample1/',
+        }
+
+        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertIn('auth.add_group', permissions)
+        self.assertFalse(one_of_permissions)
+
     def test_get_permissions_from_node_raises_keyerror_when_route_is_missing(self):
         """Test get permissions from node raises KeyError when route is missing"""
         node = {
@@ -1112,6 +1127,109 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         )
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
+    def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_first_when_include_admin_on(self):
+        """Test render menu renders when user has access and includes admin and
+        menu first when include admin on"""
+        self._setup_staffuser(
+            [
+                'add_permission',
+                'change_permission',
+                'delete_permission',
+                'add_user',
+                'change_user',
+                'delete_user',
+            ]
+        )
+
+        request = RequestFactory().get('/sample2/')
+        request.user = self.staffuser
+
+        menu = [
+            {
+                'text': 'Samples',
+                'nodes': [
+                    {
+                        'text': 'Sample Tree',
+                        'icon': 'fa fa-leaf',
+                        'nodes': [
+                            {
+                                'route': 'django_adminlte_2:sample2',
+                                'text': 'Sample2',
+                                'icon': 'fa fa-building',
+                            },
+                        ],
+                    },
+                ]
+            }
+        ]
+
+        menu_first = [
+            {
+                'text': 'First',
+                'nodes': [
+                    {
+                        'route': 'django_adminlte_2:sample1',
+                        'text': 'Sample1',
+                        'icon': 'fa fa-building',
+                    }
+                ]
+            }
+        ]
+
+        context = Context(
+            {
+                'user': self.staffuser,
+                'ADMINLTE2_MENU': menu,
+                'ADMINLTE2_MENU_FIRST': menu_first,
+                'request': request,
+            }
+        )
+
+        template_to_render = Template(
+            "{% load sidebar_menu %}"
+            "{% render_menu %}"
+        )
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn(
+            'Authentication',
+            rendered_template
+        )
+        self.assertIn(
+            '<span class="node-link-text" title="User">User</span>',
+            rendered_template
+        )
+        self.assertIn(
+            'Home',
+            rendered_template
+        )
+        self.assertIn(
+            '<li class="header">',
+            rendered_template
+        )
+        self.assertIn(
+            'Samples',
+            rendered_template
+        )
+        self.assertIn(
+            '<li class="treeview">',
+            rendered_template
+        )
+        self.assertIn(
+            '<span class="node-link-text" title="Sample2">Sample2</span>',
+            rendered_template
+        )
+        self.assertIn(
+            'fa fa-building',
+            rendered_template
+        )
+        self.assertIn(
+            '<li class="separator">',
+            rendered_template
+        )
+
+    @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
     def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_last_when_include_admin_on(self):
         """Test render menu renders when user has access and includes admin and
         menu last when include admin on"""
@@ -1199,6 +1317,131 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         )
         self.assertIn(
             '<li class="treeview">',
+            rendered_template
+        )
+        self.assertIn(
+            '<span class="node-link-text" title="Sample2">Sample2</span>',
+            rendered_template
+        )
+        self.assertIn(
+            'fa fa-building',
+            rendered_template
+        )
+        self.assertIn(
+            '<li class="separator">',
+            rendered_template
+        )
+
+    @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
+    def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_first_and_menu_last_when_include_admin_on(self):
+        """Test render menu renders when user has access and includes admin and
+        menu first and menu last when include admin on"""
+        self._setup_staffuser(
+            [
+                'add_permission',
+                'change_permission',
+                'delete_permission',
+                'add_user',
+                'change_user',
+                'delete_user',
+            ]
+        )
+
+        request = RequestFactory().get('/sample2/')
+        request.user = self.staffuser
+
+        menu = [
+            {
+                'text': 'Samples',
+                'nodes': [
+                    {
+                        'text': 'Sample Tree',
+                        'icon': 'fa fa-leaf',
+                        'nodes': [
+                            {
+                                'route': 'django_adminlte_2:sample2',
+                                'text': 'Sample2',
+                                'icon': 'fa fa-building',
+                            },
+                        ],
+                    },
+                ]
+            }
+        ]
+
+        menu_first = [
+            {
+                'text': 'First',
+                'nodes': [
+                    {
+                        'route': 'django_adminlte_2:demo-css',
+                        'text': 'DemoCSS',
+                        'icon': 'fa fa-building-o',
+                    }
+                ]
+            }
+        ]
+
+        menu_last = [
+            {
+                'text': 'Last',
+                'nodes': [
+                    {
+                        'route': 'django_adminlte_2:sample1',
+                        'text': 'Sample1',
+                        'icon': 'fa fa-building',
+                    }
+                ]
+            }
+        ]
+
+        context = Context(
+            {
+                'user': self.staffuser,
+                'ADMINLTE2_MENU': menu,
+                'ADMINLTE2_MENU_FIRST': menu_first,
+                'ADMINLTE2_MENU_LAST': menu_last,
+                'request': request,
+            }
+        )
+
+        template_to_render = Template(
+            "{% load sidebar_menu %}"
+            "{% render_menu %}"
+        )
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn(
+            'Authentication',
+            rendered_template
+        )
+        self.assertIn(
+            '<span class="node-link-text" title="User">User</span>',
+            rendered_template
+        )
+        self.assertIn(
+            'Home',
+            rendered_template
+        )
+        self.assertIn(
+            '<li class="header">',
+            rendered_template
+        )
+        self.assertIn(
+            'Samples',
+            rendered_template
+        )
+        self.assertIn(
+            '<li class="treeview">',
+            rendered_template
+        )
+        self.assertIn(
+            '<span class="node-link-text" title="DemoCSS">DemoCSS</span>',
+            rendered_template
+        )
+        self.assertIn(
+            'fa fa-building-o',
             rendered_template
         )
         self.assertIn(
@@ -1453,6 +1696,117 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             rendered_template
         )
         self.assertIn(
+            'fa fa-building',
+            rendered_template
+        )
+
+    def test_render_link_renders_with_no_icon_when_not_specified_and_when_user_has_access(self):
+        """Test render link renders with no icon when not specified and when user has access"""
+        self._setup_staffuser('add_permission')
+
+        node = {
+            'route': 'django_adminlte_2:sample2',
+            'text': 'Sample2',
+        }
+
+        context = Context(
+            {
+                'user': self.staffuser,
+                'node': node,
+                'request': {
+                    'path': '/some/path',
+                },
+            }
+        )
+
+        template_to_render = Template(
+            "{% load sidebar_menu %}"
+            "{% render_link node %}"
+        )
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn(
+            '<span class="node-link-text" title="Sample2">Sample2</span>',
+            rendered_template
+        )
+        self.assertNotIn(
+            'fa fa-building',
+            rendered_template
+        )
+
+    def test_render_link_renders_dynamic_text_via_string_returning_hook_when_user_has_access(self):
+        """Test render renders dynamic text via hook when user has access"""
+        self._setup_staffuser('add_permission')
+
+        node = {
+            'route': 'django_adminlte_2:sample2',
+            'text': 'Sample2',
+            'hook': 'django_adminlte_2.tests.utils.valid_string_hook_function',
+            'hook_args': ['foo'],
+            'hook_kwargs': {'kwarg1':'bar'},
+        }
+
+        context = Context(
+            {
+                'user': self.staffuser,
+                'node': node,
+                'request': {
+                    'path': '/some/path',
+                },
+            }
+        )
+
+        template_to_render = Template(
+            "{% load sidebar_menu %}"
+            "{% render_link node %}"
+        )
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn(
+            '<span class="node-link-text" title="foobar foo bar">foobar foo bar</span>',
+            rendered_template
+        )
+        self.assertNotIn(
+            'fa fa-building',
+            rendered_template
+        )
+
+    def test_render_link_renders_dynamic_text_via_tuple_returning_hook_when_user_has_access(self):
+        """Test render link renders dynamic text via tuple returning hook when user has access"""
+        self._setup_staffuser('add_permission')
+
+        node = {
+            'route': 'django_adminlte_2:sample2',
+            'text': 'Sample2',
+            'hook': 'django_adminlte_2.tests.utils.valid_tuple_hook_function',
+            'hook_args': ['foo'],
+            'hook_kwargs': {'kwarg1':'bar'},
+        }
+
+        context = Context(
+            {
+                'user': self.staffuser,
+                'node': node,
+                'request': {
+                    'path': '/some/path',
+                },
+            }
+        )
+
+        template_to_render = Template(
+            "{% load sidebar_menu %}"
+            "{% render_link node %}"
+        )
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn(
+            '<span class="node-link-text" title="foo bar">foobar</span>',
+            rendered_template
+        )
+        self.assertNotIn(
             'fa fa-building',
             rendered_template
         )
