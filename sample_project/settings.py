@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django_adminlte2.apps.DjangoAdminLTE2Config',
+    'django_adminlte_2.apps.DjangoAdminLTE2Config',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -123,12 +123,21 @@ STATIC_URL = '/static/'
 
 
 #**********************************************
-# Added settings to make django_adminlte2 work
+# Added settings to make django_adminlte_2 work
 #**********************************************
 # Default Profile route does not exist. Change to Home.
-LOGIN_REDIRECT_URL = 'django_adminlte2:home'
+LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
 
 ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = True
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = True
 ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES = True
 ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = True
+
+# ADMINLTE2_MENU_FIRST = []
+# ADMINLTE2_MENU = []
+# Admin Menu Rendered Between MENU and MENU_LAST
+# ADMINLTE2_MENU_LAST = []
+
+# WhiteList
+# ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = (True/False)
+# ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = []

@@ -8,8 +8,8 @@ from django.conf import settings
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
 
-from django_adminlte2.menu import MENU, WHITELIST
-from django_adminlte2.templatetags.admin.admin_menu import AdminMenu
+from django_adminlte_2.menu import MENU, WHITELIST
+from django_adminlte_2.templatetags.admin.admin_menu import AdminMenu
 
 register = template.Library()
 

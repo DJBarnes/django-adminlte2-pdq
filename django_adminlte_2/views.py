@@ -1,10 +1,9 @@
 """Django AdminLTE2 Views"""
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django_adminlte2.decorators import requires_all_permissions, requires_one_permission
+from django_adminlte_2.decorators import requires_all_permissions, requires_one_permission
 
 
-@login_required()
 def home(request):
     """Show default home page"""
     return render(request, 'adminlte2/home.html', {})

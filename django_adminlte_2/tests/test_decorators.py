@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
-from django_adminlte2.decorators import (
+from django_adminlte_2.decorators import (
     requires_all_permissions,
     requires_one_permission
 )

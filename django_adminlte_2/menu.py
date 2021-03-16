@@ -7,12 +7,12 @@ MENU = [
         'text': 'Home',
         'nodes': [
             {
-                'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'),
+                'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
                 'text': 'Home',
                 'icon': 'fa fa-dashboard',
             },
             {
-                'route': 'django_adminlte2:demo-css',
+                'route': 'django_adminlte_2:demo-css',
                 'text': 'Demo CSS',
                 'icon': 'fa fa-file'
             },
@@ -32,7 +32,7 @@ MENU = [
         'text': 'Samples',
         'nodes': [
             {
-                'route': 'django_adminlte2:sample1',
+                'route': 'django_adminlte_2:sample1',
                 'text': 'Sample1',
                 'icon': 'fa fa-group',
             },
@@ -41,7 +41,7 @@ MENU = [
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample2',
+                        'route': 'django_adminlte_2:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -54,6 +54,6 @@ MENU = [
 # Default Whitelist
 WHITELIST = [
     'password_change',
-    'django_adminlte2:register',
-    'django_adminlte2:demo-css',
+    'django_adminlte_2:register',
+    'django_adminlte_2:demo-css',
 ]

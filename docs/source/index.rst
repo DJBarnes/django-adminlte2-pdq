@@ -10,7 +10,7 @@ Welcome to Django-AdminLTE-2's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   django_adminlte2
+   django_adminlte_2
 
 
 Indices and tables

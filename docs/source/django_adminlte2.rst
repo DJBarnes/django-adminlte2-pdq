@@ -7,8 +7,8 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   django_adminlte2.templatetags
-   django_adminlte2.tests
+   django_adminlte_2.templatetags
+   django_adminlte_2.tests
 
 Submodules
 ----------
@@ -16,7 +16,7 @@ Submodules
 django\_adminlte2.apps module
 -----------------------------
 
-.. automodule:: django_adminlte2.apps
+.. automodule:: django_adminlte_2.apps
    :members:
    :undoc-members:
    :show-inheritance:
@@ -24,7 +24,7 @@ django\_adminlte2.apps module
 django\_adminlte2.decorators module
 -----------------------------------
 
-.. automodule:: django_adminlte2.decorators
+.. automodule:: django_adminlte_2.decorators
    :members:
    :undoc-members:
    :show-inheritance:
@@ -32,7 +32,7 @@ django\_adminlte2.decorators module
 django\_adminlte2.menu module
 -----------------------------
 
-.. automodule:: django_adminlte2.menu
+.. automodule:: django_adminlte_2.menu
    :members:
    :undoc-members:
    :show-inheritance:
@@ -40,7 +40,7 @@ django\_adminlte2.menu module
 django\_adminlte2.mixins module
 -------------------------------
 
-.. automodule:: django_adminlte2.mixins
+.. automodule:: django_adminlte_2.mixins
    :members:
    :undoc-members:
    :show-inheritance:
@@ -48,7 +48,7 @@ django\_adminlte2.mixins module
 django\_adminlte2.urls module
 -----------------------------
 
-.. automodule:: django_adminlte2.urls
+.. automodule:: django_adminlte_2.urls
    :members:
    :undoc-members:
    :show-inheritance:
@@ -56,7 +56,7 @@ django\_adminlte2.urls module
 django\_adminlte2.views module
 ------------------------------
 
-.. automodule:: django_adminlte2.views
+.. automodule:: django_adminlte_2.views
    :members:
    :undoc-members:
    :show-inheritance:
@@ -64,7 +64,7 @@ django\_adminlte2.views module
 Module contents
 ---------------
 
-.. automodule:: django_adminlte2
+.. automodule:: django_adminlte_2
    :members:
    :undoc-members:
    :show-inheritance:

@@ -8,8 +8,8 @@ from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
 
-from django_adminlte2.menu import WHITELIST
-from django_adminlte2.templatetags import sidebar_menu
+from django_adminlte_2.menu import WHITELIST
+from django_adminlte_2.templatetags import sidebar_menu
 
 UserModel = get_user_model()
 
@@ -57,7 +57,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_permissions_from_direct_assigned_permissions(self):
         """Test get permissions from node pulls permissions from direct assigned permissions"""
         node = {
-            'route': 'django_adminlte2:sample1',
+            'route': 'django_adminlte_2:sample1',
             'text': 'Sample1',
             'icon': 'fa fa-group',
             'permissions': ['add_sample1', 'update_sample1'],
@@ -72,7 +72,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_permissions_from_view_function(self):
         """Test get permissions from node pulls permissins from view function"""
         node = {
-            'route': 'django_adminlte2:sample1',
+            'route': 'django_adminlte_2:sample1',
             'text': 'Sample1',
             'icon': 'fa fa-group',
         }
@@ -124,7 +124,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """Test get permissions from node returns empty list when there are
         no defined permissions on the node"""
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
             'text': 'Home',
             'icon': 'fa fa-dashboard',
         }
@@ -142,7 +142,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_one_of_permissions_from_node_works(self):
         """Test one of permissions from node works"""
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
             'one_of_permissions': ['add_sample2', 'update_sample2'],
@@ -158,7 +158,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_one_of_permissions_from_node_pulls_permissions_from_view_function(self):
         """Test one of permissions from node pulls permissions from view function"""
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -211,7 +211,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """Test one of permissions from node returns empty list when there are
         no defined permissions on the node"""
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
             'text': 'Home',
             'icon': 'fa fa-dashboard',
         }
@@ -230,7 +230,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_ensure_node_has_url_property_works_when_node_has_url_property_defined(self):
         """Test ensure node has url property works when node has url property defined"""
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
             'url': '/foobar/'
@@ -243,7 +243,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_ensure_node_has_url_property_adds_url_property_from_valid_route(self):
         """Test ensure node has url property adds url property from valid route"""
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -289,11 +289,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test check_for_whitelisted_node
     # |-------------------------------------------------------------------------
 
-    @override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=['django_adminlte2:sample2'])
+    @override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=['django_adminlte_2:sample2'])
     def test_check_for_whitelisted_node_returns_true_when_node_in_list(self):
         """Test check for whitelisted node returns true when node in list"""
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -430,7 +430,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """Test is allowed node returns true when user is superuser and whitelist is off"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -444,7 +444,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_group')
 
         node = {
-            'route': 'django_adminlte2:sample1',
+            'route': 'django_adminlte_2:sample1',
             'text': 'Sample1',
             'icon': 'fa fa-building',
             'permissions': ['auth.add_group'],
@@ -459,7 +459,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -473,7 +473,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_group')
 
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
             'text': 'Home',
             'icon': 'fa fa-building',
         }
@@ -488,7 +488,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_superuser()
 
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -503,7 +503,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_group')
 
         node = {
-            'route': 'django_adminlte2:sample1',
+            'route': 'django_adminlte_2:sample1',
             'text': 'Sample1',
             'icon': 'fa fa-building',
             'permissions': ['auth.add_group'],
@@ -519,7 +519,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -529,13 +529,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertTrue(allowed)
 
     @override_settings(ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS=True)
+    @override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=WHITELIST + ['django_adminlte_2:home'])
     def test_is_allowed_node_returns_true_when_there_are_no_perms_and_whitelist_is_on_and_node_is_whitelisted(self):
         """Test is allowed node returns true when there are no perms and
         whitelist is on and node is whitelisted"""
         self._setup_staffuser('add_group')
 
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
             'text': 'Home',
             'icon': 'fa fa-building',
         }
@@ -552,7 +553,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_group')
 
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
             'text': 'Home',
             'icon': 'fa fa-building',
         }
@@ -572,7 +573,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         nodes = [
             {
-                'route': 'django_adminlte2:sample2',
+                'route': 'django_adminlte_2:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -588,7 +589,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -619,7 +620,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         nodes = [
             {
-                'route': 'django_adminlte2:sample2',
+                'route': 'django_adminlte_2:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -643,7 +644,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample2',
+                        'route': 'django_adminlte_2:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -673,7 +674,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -697,7 +698,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         nodes = [
             {
-                'route': 'django_adminlte2:sample2',
+                'route': 'django_adminlte_2:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -721,7 +722,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample2',
+                        'route': 'django_adminlte_2:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -751,7 +752,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -790,7 +791,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node with a match"""
         nodes = [
             {
-                'route': 'django_adminlte2:sample2',
+                'route': 'django_adminlte_2:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -814,7 +815,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample2',
+                        'route': 'django_adminlte_2:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -844,7 +845,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -868,7 +869,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node without a match"""
         nodes = [
             {
-                'route': 'django_adminlte2:sample2',
+                'route': 'django_adminlte_2:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -892,7 +893,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample2',
+                        'route': 'django_adminlte_2:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -922,7 +923,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -972,7 +973,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -1052,7 +1053,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -1137,7 +1138,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte2:sample2',
+                                'route': 'django_adminlte_2:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -1152,7 +1153,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'text': 'Last',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample1',
+                        'route': 'django_adminlte_2:sample1',
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
@@ -1228,7 +1229,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                     'icon': 'fa fa-leaf',
                     'nodes': [
                         {
-                            'route': 'django_adminlte2:sample2',
+                            'route': 'django_adminlte_2:sample2',
                             'text': 'Sample2',
                             'icon': 'fa fa-building',
                         },
@@ -1286,7 +1287,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte2:sample2',
+                        'route': 'django_adminlte_2:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -1334,7 +1335,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-leaf',
             'nodes': [
                 {
-                    'route': 'django_adminlte2:sample2',
+                    'route': 'django_adminlte_2:sample2',
                     'text': 'Sample2',
                     'icon': 'fa fa-building',
                 },
@@ -1381,7 +1382,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'text': 'Sample Tree',
             'nodes': [
                 {
-                    'route': 'django_adminlte2:sample2',
+                    'route': 'django_adminlte_2:sample2',
                     'text': 'Sample2',
                     'icon': 'fa fa-building',
                 },
@@ -1425,7 +1426,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte2:sample2',
+            'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }

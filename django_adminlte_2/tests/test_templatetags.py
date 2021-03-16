@@ -9,7 +9,7 @@ from django.forms import BaseFormSet
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 
-from django_adminlte2.templatetags import adminlte_filters, adminlte_helpers
+from django_adminlte_2.templatetags import adminlte_filters, adminlte_helpers
 
 UserModel = get_user_model()
 

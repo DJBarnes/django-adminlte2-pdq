@@ -10,10 +10,10 @@ Additionally there are tools, utilities and additional CSS options to aid in the
     python -m pip install git+https://github.com/DJBarnes/django-adminlte-2.git@master
     ```
 
-2. Add "django_adminlte2" to your INSTALLED_APPS setting like this:
+2. Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
     ```python
     INSTALLED_APPS = [
-        'django_adminlte2.apps.DjangoAdminLTE2Config',
+        'django_adminlte_2.apps.DjangoAdminLTE2Config',
         ...
     ]
     ```
@@ -24,7 +24,7 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
     urlpatterns = [
         # Adminlte2 default routes for demo purposes
-        path('', include('django_adminlte2.urls')),
+        path('', include('django_adminlte_2.urls')),
         # Django Account Routes - Styled in AdminLTE2
         path('accounts/', include('django.contrib.auth.urls')),
         # Admin - Styled in Django but hosted in AdminLTE2 layout
@@ -34,7 +34,7 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
 4. Django-AdminLTE-2 does not include a route or templates for /accounts/profile which is the default Login redirect. Add the following to settings to have successful logins redirect to the sample home page included in Django-AdminLTE-2
     ```python
-    LOGIN_REDIRECT_URL = 'django_adminlte2:home'
+    LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
     ```
 
 5. Update settings.py to customize the look and feel of Django-AdminLTE-2

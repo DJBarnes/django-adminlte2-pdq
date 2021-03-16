@@ -222,7 +222,7 @@ def get_logout_url():
 @register.simple_tag()
 def get_home_url():
     """Get the home URL"""
-    return reverse(getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte2:home'))
+    return reverse(getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'))
 
 
 @register.simple_tag(takes_context=True)

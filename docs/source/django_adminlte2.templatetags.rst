@@ -7,7 +7,7 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   django_adminlte2.templatetags.admin
+   django_adminlte_2.templatetags.admin
 
 Submodules
 ----------
@@ -15,7 +15,7 @@ Submodules
 django\_adminlte2.templatetags.adminlte\_filters module
 -------------------------------------------------------
 
-.. automodule:: django_adminlte2.templatetags.adminlte_filters
+.. automodule:: django_adminlte_2.templatetags.adminlte_filters
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ django\_adminlte2.templatetags.adminlte\_filters module
 django\_adminlte2.templatetags.adminlte\_helpers module
 -------------------------------------------------------
 
-.. automodule:: django_adminlte2.templatetags.adminlte_helpers
+.. automodule:: django_adminlte_2.templatetags.adminlte_helpers
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ django\_adminlte2.templatetags.adminlte\_helpers module
 django\_adminlte2.templatetags.sidebar\_menu module
 ---------------------------------------------------
 
-.. automodule:: django_adminlte2.templatetags.sidebar_menu
+.. automodule:: django_adminlte_2.templatetags.sidebar_menu
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ django\_adminlte2.templatetags.sidebar\_menu module
 Module contents
 ---------------
 
-.. automodule:: django_adminlte2.templatetags
+.. automodule:: django_adminlte_2.templatetags
    :members:
    :undoc-members:
    :show-inheritance:

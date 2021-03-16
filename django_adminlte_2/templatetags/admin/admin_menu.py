@@ -3,7 +3,7 @@ from django import template
 from django.conf import settings
 from django.contrib.admin.sites import site
 
-from django_adminlte2.menu import MENU
+from django_adminlte_2.menu import MENU
 
 DEFAULT_ICON_ADMIN = 'fa fa-superpowers'
 DEFAULT_ICON_APP = 'fa fa-circle'
