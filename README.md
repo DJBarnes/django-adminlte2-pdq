@@ -44,7 +44,7 @@ Additionally there are tools, utilities and additional CSS options to aid in the
     ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
     ```
 
-    If you want the admin index page to list the various apps of the django project
+    If you want the admin index page to put the various apps in a list format rather than AdminLTE2 Info Boxes.
     ```python
     ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
     ```
@@ -66,12 +66,12 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
     Whether the sidebar admin nav should be shown when on a main page in addition to the main nav
     ```python
-    ADMINLTE2_INCLUDE_ADMIN_NAVE_ON_MAIN_PAGES = (True/False)
+    ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = (True/False)
     ```
 
     Whether to put in sidebar separators between each menu group
     ```python
-    ADMINLTE2_USER_MENU_GROUP_SEPARATOR = (True/False)
+    ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
     ```
 
     Whether routes with no defined permission should be hidden unless added to a Whitelist
