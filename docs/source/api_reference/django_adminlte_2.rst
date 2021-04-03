@@ -1,5 +1,5 @@
-django\_adminlte2 package
-=========================
+django\_adminlte\_2 package
+===========================
 
 Subpackages
 -----------
@@ -13,48 +13,48 @@ Subpackages
 Submodules
 ----------
 
-django\_adminlte2.apps module
------------------------------
+django\_adminlte\_2.apps module
+-------------------------------
 
 .. automodule:: django_adminlte_2.apps
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte2.decorators module
------------------------------------
+django\_adminlte\_2.decorators module
+-------------------------------------
 
 .. automodule:: django_adminlte_2.decorators
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte2.menu module
------------------------------
+django\_adminlte\_2.menu module
+-------------------------------
 
 .. automodule:: django_adminlte_2.menu
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte2.mixins module
--------------------------------
+django\_adminlte\_2.mixins module
+---------------------------------
 
 .. automodule:: django_adminlte_2.mixins
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte2.urls module
------------------------------
+django\_adminlte\_2.urls module
+-------------------------------
 
 .. automodule:: django_adminlte_2.urls
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte2.views module
-------------------------------
+django\_adminlte\_2.views module
+--------------------------------
 
 .. automodule:: django_adminlte_2.views
    :members:

@@ -5,4 +5,6 @@ django-adminlte-2
    :maxdepth: 4
 
    django_adminlte_2
+   manage
+   sample_project
    setup

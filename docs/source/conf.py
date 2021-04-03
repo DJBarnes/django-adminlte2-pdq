@@ -14,6 +14,9 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
+# Make Django happy
+import django
+from django.conf import settings
 
 # -- Project information -----------------------------------------------------
 
@@ -57,3 +60,14 @@ html_theme = 'sphinx_rtd_theme'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# -- Django Configuration ----------------------------------------------------
+settings.configure(
+    SECRET_KEY='something to make Django happy',
+    INSTALLED_APPS=[
+        'django_adminlte_2.apps.DjangoAdminLTE2Config',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+    ])
+django.setup()

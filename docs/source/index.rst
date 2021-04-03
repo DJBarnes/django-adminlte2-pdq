@@ -6,11 +6,21 @@
 Welcome to Django-AdminLTE-2's documentation!
 =============================================
 
+Django-AdminLTE-2 is a Django app to easily style all pages and the admin with AdminLTE2.
+Additionally there are tools, utilities and additional CSS options to aid in the rapid development of a site.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   django_adminlte_2
+   quickstart
+   configuration
+   templates
+   menu
+   authorization
+   filters
+   demo_css
+   api_reference
 
 
 Indices and tables
