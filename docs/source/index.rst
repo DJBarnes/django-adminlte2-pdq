@@ -15,9 +15,9 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
    quickstart
    configuration
-   templates
    menu
    authorization
+   templates
    filters
    demo_css
    api_reference
