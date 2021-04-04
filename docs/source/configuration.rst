@@ -17,8 +17,8 @@ to take the user home.
 :Type: ``string``
 :Default: ``django_adminlte_2:home``
 
-Example:
-::
+Example::
+
     ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
 
 
@@ -35,8 +35,8 @@ to the traditional Django list view.
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = {True|False}
     
 
@@ -48,8 +48,8 @@ Whether the sidebar menu should have a link to the admin index.
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = {True|False}
 
 
@@ -61,8 +61,8 @@ Whether the admin links in the sidebar should be in a tree
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_ADMIN_MENU_IN_TREE = {True|False}
    
 
@@ -77,8 +77,8 @@ Whether the sidebar main nav should be shown when on an admin page in addition t
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES = {True|False}
 
 
@@ -90,8 +90,8 @@ Whether the sidebar admin nav should be shown when on a main page in addition to
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = {True|False}
 
 
@@ -103,8 +103,8 @@ Whether to put in sidebar separators between each menu group
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_USE_MENU_GROUP_SEPARATOR = {True|False}
 
 
@@ -120,8 +120,8 @@ See the :doc:`menu` section for more information.
 :Type: ``list``
 :Default: ``[]``
 
-Example:
-::
+Example::
+
     ADMINLTE2_MENU_FIRST = []
 
 
@@ -135,8 +135,8 @@ See the :doc:`menu` section for more information.
 :Type: ``list``
 :Default: ``[]``
 
-Example:
-::
+Example::
+
     ADMINLTE2_MENU = []
 
 
@@ -150,8 +150,8 @@ See the :doc:`menu` section for more information.
 :Type: ``list``
 :Default: ``[]``
 
-Example:
-::
+Example::
+
     ADMINLTE2_MENU_LAST = []
     
 
@@ -172,8 +172,8 @@ on the sidebar menu unless the route is found in the ``ADMINLTE2_MENU_PERMISSION
 :Type: ``bool``
 :Default: ``False``
 
-Example:
-::
+Example::
+
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = {True|False}
 
 
@@ -187,6 +187,6 @@ despite a defined permission.
 :Type: ``list``
 :Default: ``[]``
 
-Example:
-::
+Example::
+
     ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = []
