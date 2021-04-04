@@ -256,5 +256,76 @@ Simple Settings Example
         },
     ]
 
+.. image:: ../img/django-adminlte-2-static-menu.png
+    :alt: Site with static menu using settings
+
 Advanced Settings and Context Example
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+::
+
+    settings.py
+
+::
+
+    ADMINLTE2_MENU = [
+        {
+            'text': 'Home',
+            'nodes': [
+                {
+                    'route': 'django_adminlte_2:home',
+                    'text': 'Home',
+                    'icon': 'fa fa-dashboard',
+                },
+                {
+                    'route': 'django_adminlte_2:demo-css',
+                    'text': 'Demo CSS',
+                    'icon': 'fa fa-file'
+                },
+            ]
+        },
+    ]
+
+::
+
+    urls.py
+
+::
+
+    urlpatterns = [
+        ...
+        path('sample3/', views.sample3, name="sample3"),
+        ...
+    ]
+
+::
+
+    views.py
+
+::
+
+    def sample3(request):
+        """Show default sample3 page"""
+
+        dynamic_content = [
+            {
+                'text': 'Dynamic Stuff',
+                'nodes': [
+                    {
+                        'route': '#',
+                        'text': 'Dynamic1',
+                        'icon': 'fa fa-circle',
+                    },
+                ]
+            },
+        ]
+
+        return render(
+            request,
+            'adminlte2/sample3.html',
+            {
+                'ADMINLTE2_MENU_FIRST': dynamic_content
+            }
+        )
+
+.. image:: ../img/django-adminlte-2-dynamic-menu.png
+    :alt: Site with static and dynamic menu using settings and context
