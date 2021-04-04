@@ -205,14 +205,6 @@ Full Examples
 
 Simple Settings Example
 ^^^^^^^^^^^^^^^^^^^^^^^
-
-.. literalinclude:: index.rst
-    :linenos: true
-    :language: python
-    :lines: 5-52
-
-Advanced Settings and Context Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ::
 
     ADMINLTE2_MENU = [
@@ -263,3 +255,6 @@ Advanced Settings and Context Example
             ],
         },
     ]
+
+Advanced Settings and Context Example
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
