@@ -10,6 +10,7 @@
     background: #f9fafc;
     border-style: inset;
     border-width: 1px;
+    height: initial;
 }
 
 .user-image-replacement-div {
