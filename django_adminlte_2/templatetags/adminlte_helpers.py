@@ -157,15 +157,15 @@ def render_fields(*fields_to_render, **kwargs):
 
 
 @register.inclusion_tag('adminlte2/partials/_form.html')
-def render_form(form):
+def render_form(form, **kwargs):
     """Render a vertical form"""
     # Send all fields to render_fields which does real logic
-    media = None
+    kwargs['media'] = None
     if form:
-        media = form.media
+        kwargs['media'] = form.media
     form = form or []
     fields_to_render = [field for field in form]
-    return render_fields(*fields_to_render, media=media)
+    return render_fields(*fields_to_render, **kwargs)
 
 
 @register.inclusion_tag('adminlte2/partials/_horizontal_form.html')
@@ -190,14 +190,14 @@ def render_horizontal_fields(*fields_to_render, **kwargs):
 
 
 @register.inclusion_tag('adminlte2/partials/_horizontal_form.html')
-def render_horizontal_form(form):
+def render_horizontal_form(form, **kwargs):
     """Render a horizontal form"""
-    media = None
+    kwargs['media'] = None
     if form:
-        media = form.media
+        kwargs['media'] = form.media
     form = form or []
     fields_to_render = [field for field in form]
-    return render_horizontal_fields(*fields_to_render, media=media)
+    return render_horizontal_fields(*fields_to_render, **kwargs)
 
 
 @register.inclusion_tag('adminlte2/partials/_horizontal_formset.html')
