@@ -65,6 +65,12 @@
     }
 }
 
+ul.no-bullets {
+    list-style-type:none;
+    padding:0;
+    padding-left:20px;
+}
+
 .btn-file {
     position: relative;
     overflow: hidden;
