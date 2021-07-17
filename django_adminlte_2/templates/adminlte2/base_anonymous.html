@@ -41,7 +41,7 @@
 
       {% block anonymous_form %}
         {% block anonymous_form_tag %}
-          <form method="post" action="#">
+          <form method="post" action="#" {% block anonymous_form_tag_attrs %}{% endblock anonymous_form_tag_attrs %}>
         {% endblock anonymous_form_tag %}
           {% csrf_token %}
 

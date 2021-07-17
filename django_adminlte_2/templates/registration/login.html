@@ -2,7 +2,7 @@
 {% load i18n static %}
 
 {% block anonymous_form_tag %}
-  <form method="post" action="{% url 'login' %}">
+  <form method="post" action="{% url 'login' %}" {% block anonymous_form_tag_attrs %}{% endblock anonymous_form_tag_attrs %}>
   <input type="hidden" name="next" value="{{ next }}"/>
 {% endblock anonymous_form_tag %}
 
