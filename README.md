@@ -13,7 +13,7 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 2. Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
     ```python
     INSTALLED_APPS = [
-        'django_adminlte_2.apps.DjangoAdminLTE2Config',
+        'django_adminlte_2',
         ...
     ]
     ```
