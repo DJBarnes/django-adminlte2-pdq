@@ -20,6 +20,7 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
 3. Django-AdminLTE-2 provides templates for django's account routes and some sample routes. Add the routes to your URLconf if you want to use them.
     ```python
+    from django.contrib import admin
     from django.urls import include
 
     urlpatterns = [
