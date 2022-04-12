@@ -21,7 +21,7 @@ from django.conf import settings
 # -- Project information -----------------------------------------------------
 
 project = 'Django-AdminLTE-2'
-copyright = '2021, David Barnes'
+copyright = '2022, David Barnes'
 author = 'David Barnes'
 
 # The full version, including alpha/beta/rc tags
@@ -65,7 +65,7 @@ html_static_path = ['_static']
 settings.configure(
     SECRET_KEY='something to make Django happy',
     INSTALLED_APPS=[
-        'django_adminlte_2.apps.DjangoAdminLTE2Config',
+        'django_adminlte_2',
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',

@@ -11,7 +11,7 @@ Quickstart
     .. code-block:: python
 
         INSTALLED_APPS = [
-            'django_adminlte_2.apps.DjangoAdminLTE2Config',
+            'django_adminlte_2',
             ...
         ]
 
@@ -37,10 +37,11 @@ Quickstart
 
 
 5. Update settings.py to customize the look and feel of Django-AdminLTE-2
-   
+
    See the :doc:`configuration` section for more information.
 
 
-6. Override templates to further customize the look and feel of Django-AdminLTE-2
-   
+6. Override templates to further customize the look and feel of
+   Django-AdminLTE-2
+
    See the :doc:`templates` section for more information.

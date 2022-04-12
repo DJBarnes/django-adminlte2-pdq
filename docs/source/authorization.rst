@@ -13,18 +13,23 @@ user can see and has access to routes defined on the sidebar.
 The first step in using and configuring this correctly is to determine
 what general policy you want to adhere to. Your choices are:
 
-1. Loose Policy - By default all sidebar nodes are visible and accessible to the user.
+1. Loose Policy - By default all sidebar nodes are visible and accessible to
+   the user.
 
    * Majority of sidebar nodes are visible and accessible to all users
-   * Node will still be visible if you set a permission on that route's view and that user has the correct permission
-   * Node will be hidden if you set a permission on that route's view and the user does not have permission
+   * Node will still be visible if you set a permission on that route's view
+     and that user has the correct permission
+   * Node will be hidden if you set a permission on that route's view and the
+     user does not have permission
 
 
-2. Strict Policy - By default all sidebar nodes are hidden and inaccessible to the user.
+2. Strict Policy - By default all sidebar nodes are hidden and inaccessible to
+   the user.
 
    * Majority of sidebar nodes are hidden and inaccessible to all users
-   * Node will still be visible if you set a permission on that route's view and that user has the correct permission
-   * Node will still be visible if put the route in an explicit list
+   * Node will still be visible if you set a permission on that route's view
+     and that user has the correct permission
+   * Node will still be visible if put the route in an explicit whitelist
 
 Once you have determined what general policy you want to follow, use
 the following sections to properly set up and configure authorization.
@@ -32,8 +37,9 @@ the following sections to properly set up and configure authorization.
 Loose Policy
 ^^^^^^^^^^^^
 
-Use the following steps to finish out your policy. Refer to the :doc:`configuration`
-section for information about the specific settings in settings.py.
+Use the following steps to finish out your policy.
+Refer to the :doc:`configuration` section for information about the specific
+settings in settings.py.
 
 1. Ensure that the ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``
    is either not defined in settings.py, or if it is, it is set to ``False``.
@@ -44,8 +50,9 @@ section for information about the specific settings in settings.py.
 Strict Policy
 ^^^^^^^^^^^^^
 
-Use the following steps to finish out your policy. Refer to the :doc:`configuration`
-section for information about the specific settings in settings.py.
+Use the following steps to finish out your policy.
+Refer to the :doc:`configuration` section for information about the specific
+settings in settings.py.
 
 1. Ensure that the ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``
    is defined in settings.py and is set to ``True``.
@@ -53,7 +60,7 @@ section for information about the specific settings in settings.py.
 2. Follow the steps in the BLAHBLAH section to add permissions to the
    views that require permission to access.
 
-3. Add any routes that do not required a specific permission and should
+3. Add any routes that do not require a specific permission and should
    be available to everyone to the ``ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST``
    in settings.py
 
@@ -70,24 +77,24 @@ Requires All permissions
 ``@requires_all_permissions``
 
 This decorator will list all required permissions for the view. It uses
-Djano's default permission checking to know whether to show the view to
+Django's default permission checking to know whether to show the view to
 the user, but also adds the required property to the view so that the
 permissions are required to see the equivilent node on the sidebar.
 
 
 Requires One Permission
+^^^^^^^^^^^^^^^^^^^^^^^
 
 ``@requires_one_permission``
 
-^^^^^^^^^^^^^^^^^^^^^^^
 This decorator will list the permissions that a user must have at least one
 of in order to access the view and see the associated sidebar node.
 
 Full Examples
 -------------
 
-Loose Policy
-^^^^^^^^^^^^
+Loose Policy Example
+^^^^^^^^^^^^^^^^^^^^
 
-Strict Policy
-^^^^^^^^^^^^^
+Strict Policy Example
+^^^^^^^^^^^^^^^^^^^^^

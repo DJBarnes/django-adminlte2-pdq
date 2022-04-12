@@ -1742,7 +1742,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node = {
             'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
-            'hook': 'django_adminlte_2.tests.utils.valid_string_hook_function',
+            'hook': 'tests.utils.valid_string_hook_function',
             'hook_args': ['foo'],
             'hook_kwargs': {'kwarg1':'bar'},
         }
@@ -1780,7 +1780,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node = {
             'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
-            'hook': 'django_adminlte_2.tests.utils.valid_tuple_hook_function',
+            'hook': 'tests.utils.valid_tuple_hook_function',
             'hook_args': ['foo'],
             'hook_kwargs': {'kwarg1':'bar'},
         }

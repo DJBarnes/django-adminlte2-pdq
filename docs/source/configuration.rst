@@ -38,7 +38,7 @@ to the traditional Django list view.
 Example::
 
     ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = {True|False}
-    
+
 
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -64,7 +64,7 @@ Whether the admin links in the sidebar should be in a tree
 Example::
 
     ADMINLTE2_ADMIN_MENU_IN_TREE = {True|False}
-   
+
 
 Menu
 ----
@@ -72,7 +72,8 @@ Menu
 ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Whether the sidebar main nav should be shown when on an admin page in addition to the admin nav
+Whether the sidebar main nav should be shown when on an admin page in addition
+to the admin nav
 
 :Type: ``bool``
 :Default: ``False``
@@ -85,7 +86,8 @@ Example::
 ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Whether the sidebar admin nav should be shown when on a main page in addition to the main nav
+Whether the sidebar admin nav should be shown when on a main page in addition
+to the main nav
 
 :Type: ``bool``
 :Default: ``False``
@@ -111,11 +113,12 @@ Example::
 ADMINLTE2_MENU_FIRST
 ^^^^^^^^^^^^^^^^^^^^
 
-This menu setting is useful for defining a menu that should come before the main menu.
-Sometimes you may be in a subsection of your website that has additional navigation
-that should precede the normal main navigation but only be shown when in this subsection.
-This setting allows that without having to change the main navigation menu.
-See the :doc:`menu` section for more information.
+This menu setting is useful for defining a menu that should come before the
+main menu. Sometimes you may be in a subsection of your website that has
+additional navigation that should precede the normal main navigation but only
+be shown when in this subsection. This setting allows that without having to
+change the main navigation menu. See the :doc:`menu` section for more
+information.
 
 :Type: ``list``
 :Default: ``[]``
@@ -128,7 +131,8 @@ Example::
 ADMINLTE2_MENU
 ^^^^^^^^^^^^^^
 
-This menu setting is the main menu that should be available no matter what section
+This menu setting is the main menu that should be available no matter what
+section
 of the website you are in. It is the main navigation.
 See the :doc:`menu` section for more information.
 
@@ -143,8 +147,8 @@ Example::
 ADMINLTE2_MENU_LAST
 ^^^^^^^^^^^^^^^^^^^
 
-This menu setting is useful for defining a menu that should come after the admin menu links.
-A menu footer so to speak.
+This menu setting is useful for defining a menu that should come after the
+admin menu links. A menu footer so to speak.
 See the :doc:`menu` section for more information.
 
 :Type: ``list``
@@ -153,7 +157,7 @@ See the :doc:`menu` section for more information.
 Example::
 
     ADMINLTE2_MENU_LAST = []
-    
+
 
 Authorization
 -------------
@@ -161,13 +165,15 @@ Authorization
 ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Whether routes with no defined permission should be hidden unless added to a Whitelist
+Whether routes with no defined permission should be hidden unless added to a
+Whitelist
 
-If this setting is set to False, then all routes without a defined permission are still
-visible on the sidebar menu
+If this setting is set to False, then all routes without a defined permission
+are still visible on the sidebar menu
 
-If this setting is set to True, then all routes without a defined permission are hidden
-on the sidebar menu unless the route is found in the ``ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST`` setting.
+If this setting is set to True, then all routes without a defined permission
+are hidden on the sidebar menu unless the route is found in the
+``ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST`` setting.
 
 :Type: ``bool``
 :Default: ``False``
@@ -181,7 +187,8 @@ ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Assuming ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS`` is set to True,
-this is the list of routes that will be shown on the sidebar menu and accessible
+this is the list of routes that will be shown on the sidebar menu and
+accessible
 despite a defined permission.
 
 :Type: ``list``

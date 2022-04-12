@@ -8,4 +8,4 @@ API Reference
    api_reference/django_adminlte_2
    api_reference/django_adminlte_2.templatetags.admin
    api_reference/django_adminlte_2.templatetags
-   api_reference/django_adminlte_2.tests
+   api_reference/tests

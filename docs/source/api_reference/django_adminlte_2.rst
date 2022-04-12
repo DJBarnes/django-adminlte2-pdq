@@ -8,18 +8,9 @@ Subpackages
    :maxdepth: 4
 
    django_adminlte_2.templatetags
-   django_adminlte_2.tests
 
 Submodules
 ----------
-
-django\_adminlte\_2.apps module
--------------------------------
-
-.. automodule:: django_adminlte_2.apps
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 django\_adminlte\_2.decorators module
 -------------------------------------

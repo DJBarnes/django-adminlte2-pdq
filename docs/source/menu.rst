@@ -22,7 +22,7 @@ of the three following settings:
 * ``ADMINLTE2_MENU_LAST``
 
 Defining one of these sections in the settings file is best when the
-sidebar content is static and the only thing the may change is the
+sidebar content is static and the only thing that may change is the
 visibility of entries based on whether or not a user is authorized
 to see that particular thing.
 
@@ -46,7 +46,8 @@ the ``ADMINLTE2_MENU`` setting, and then defining dynamic content
 for the page via the context for a template using the
 ``ADMINLTE2_MENU_FIRST`` key.
 
-See the `Advanced Settings and Context Example`_ section for a demonstration on how to do this.
+See the `Advanced Settings and Context Example`_ section for a demonstration
+on how to do this.
 
 Building Blocks
 ---------------
@@ -84,7 +85,7 @@ sidebar link, or a tree that contains sidebar links.
 
 Section Example
 """""""""""""""
-::
+.. code:: python
 
     {
         'text': 'Home',
@@ -128,7 +129,7 @@ to make the icon show up are required.
 
 Node Example
 """"""""""""
-::
+.. code:: python
 
     {
         'route': 'django_adminlte_2:home',
@@ -174,7 +175,7 @@ sidebar link, or a tree that contains sidebar links.
 
 Tree Example
 """"""""""""
-::
+.. code:: python
 
     {
         'text': 'Sample Tree',
@@ -184,7 +185,7 @@ Tree Example
 
 Tree Example with a Node
 """"""""""""""""""""""""
-::
+.. code:: python
 
     {
         'text': 'Sample Tree',
@@ -205,7 +206,10 @@ Full Examples
 
 Simple Settings Example
 ^^^^^^^^^^^^^^^^^^^^^^^
-::
+
+**settings.py**
+
+.. code:: python
 
     ADMINLTE2_MENU = [
         {
@@ -261,11 +265,11 @@ Simple Settings Example
 
 Advanced Settings and Context Example
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-::
 
-    settings.py
+**settings.py**
 
-::
+.. code:: python
+    :name: settings.py
 
     ADMINLTE2_MENU = [
         {
@@ -285,11 +289,10 @@ Advanced Settings and Context Example
         },
     ]
 
-::
+**urls.py**
 
-    urls.py
-
-::
+.. code:: python
+    :name: urls.py
 
     urlpatterns = [
         ...
@@ -297,11 +300,10 @@ Advanced Settings and Context Example
         ...
     ]
 
-::
+**views.py**
 
-    views.py
-
-::
+.. code:: python
+    :name: views.py
 
     def sample3(request):
         """Show default sample3 page"""

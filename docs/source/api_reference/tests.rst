@@ -1,69 +1,69 @@
-django\_adminlte\_2.tests package
+tests package
 =================================
 
 Submodules
 ----------
 
-django\_adminlte\_2.tests.test\_decorators module
+tests.test\_decorators module
 -------------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_decorators
+.. automodule:: tests.test_decorators
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.test\_mixins module
+tests.test\_mixins module
 ---------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_mixins
+.. automodule:: tests.test_mixins
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.test\_templatetags module
+tests.test\_templatetags module
 ---------------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_templatetags
+.. automodule:: tests.test_templatetags
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.test\_templatetags\_admin module
+tests.test\_templatetags\_admin module
 ----------------------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_templatetags_admin
+.. automodule:: tests.test_templatetags_admin
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.test\_templatetags\_admin\_menu module
+tests.test\_templatetags\_admin\_menu module
 ----------------------------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_templatetags_admin_menu
+.. automodule:: tests.test_templatetags_admin_menu
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.test\_templatetags\_sidebar\_menu module
+tests.test\_templatetags\_sidebar\_menu module
 ------------------------------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_templatetags_sidebar_menu
+.. automodule:: tests.test_templatetags_sidebar_menu
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.test\_views module
+tests.test\_views module
 --------------------------------------------
 
-.. automodule:: django_adminlte_2.tests.test_views
+.. automodule:: tests.test_views
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.tests.utils module
+tests.utils module
 --------------------------------------
 
-.. automodule:: django_adminlte_2.tests.utils
+.. automodule:: tests.utils
    :members:
    :undoc-members:
    :show-inheritance:
@@ -71,7 +71,7 @@ django\_adminlte\_2.tests.utils module
 Module contents
 ---------------
 
-.. automodule:: django_adminlte_2.tests
+.. automodule:: tests
    :members:
    :undoc-members:
    :show-inheritance:
