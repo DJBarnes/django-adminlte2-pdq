@@ -331,7 +331,7 @@ Advanced Settings and Context Example
 
 **dynamic.html**
 
-.. code:: HTML+Django
+.. code:: html+django
     :name: dynamic.html
 
     {% extends "adminlte2/base.html" %}

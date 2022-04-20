@@ -97,7 +97,7 @@ def _update_errors_with_form_data(errors, form):
 @register.inclusion_tag('adminlte2/partials/_form_error_summary.html', takes_context=True)
 def render_form_error_summary(context):
     """
-    Determine if the context contains forms or formsets and that should be
+    Determine if the context contains forms or formsets that should be
     checked for errors, and then add any found errors to the context so they
     can be rendered out at the top of the page.
     """
@@ -137,7 +137,7 @@ def render_form_error_summary(context):
 
 @register.inclusion_tag('adminlte2/partials/_form.html')
 def render_fields(*fields_to_render, **kwargs):
-    """Render given fields with optional labels"""
+    """Render given fields with optional labels."""
     labels = kwargs.get('labels', True)
     media = kwargs.get('media')
     hidden_fields = []
@@ -158,7 +158,7 @@ def render_fields(*fields_to_render, **kwargs):
 
 @register.inclusion_tag('adminlte2/partials/_form.html')
 def render_form(form, **kwargs):
-    """Render a vertical form"""
+    """Render a vertical form."""
     # Send all fields to render_fields which does real logic
     kwargs['media'] = None
     if form:
@@ -170,7 +170,7 @@ def render_form(form, **kwargs):
 
 @register.inclusion_tag('adminlte2/partials/_horizontal_form.html')
 def render_horizontal_fields(*fields_to_render, **kwargs):
-    """Render given fields with optional labels"""
+    """Render given fields with optional labels horizontally."""
     labels = kwargs.get('labels', True)
     media = kwargs.get('media')
     hidden_fields = []
@@ -191,7 +191,7 @@ def render_horizontal_fields(*fields_to_render, **kwargs):
 
 @register.inclusion_tag('adminlte2/partials/_horizontal_form.html')
 def render_horizontal_form(form, **kwargs):
-    """Render a horizontal form"""
+    """Render a horizontal form."""
     kwargs['media'] = None
     if form:
         kwargs['media'] = form.media
@@ -202,7 +202,7 @@ def render_horizontal_form(form, **kwargs):
 
 @register.inclusion_tag('adminlte2/partials/_horizontal_formset.html')
 def render_horizontal_formset(formset, section_heading):
-    """Render a horizontal formset"""
+    """Render a horizontal formset."""
     return {
         'formset': formset,
         'section_heading': section_heading,
