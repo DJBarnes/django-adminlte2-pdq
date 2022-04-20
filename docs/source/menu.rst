@@ -296,7 +296,7 @@ Advanced Settings and Context Example
 
     urlpatterns = [
         ...
-        path('sample3/', views.sample3, name="sample3"),
+        path('dynamic/', views.dynamic, name="dynamic"),
         ...
     ]
 
@@ -305,16 +305,16 @@ Advanced Settings and Context Example
 .. code:: python
     :name: views.py
 
-    def sample3(request):
-        """Show default sample3 page"""
+    def dynamic(request):
+        """Show default dynamic page"""
 
         dynamic_content = [
             {
                 'text': 'Dynamic Stuff',
                 'nodes': [
                     {
-                        'route': '#',
-                        'text': 'Dynamic1',
+                        'route': 'dynamic',
+                        'text': 'Dynamic',
                         'icon': 'fa fa-circle',
                     },
                 ]
@@ -323,11 +323,30 @@ Advanced Settings and Context Example
 
         return render(
             request,
-            'adminlte2/sample3.html',
+            'dynamic.html',
             {
                 'ADMINLTE2_MENU_FIRST': dynamic_content
             }
         )
+
+**dynamic.html**
+
+.. code:: HTML+Django
+    :name: dynamic.html
+
+    {% extends "adminlte2/base.html" %}
+    {% load i18n %}
+    {% block breadcrumbs %}
+    <ol class="breadcrumb">
+        {% include "admin/partials/_breadcrumb_home.html" %}
+        <li>
+        {% trans 'Dynamic' %}
+        </li>
+    </ol>
+    {% endblock breadcrumbs %}
+    {% block content %}
+    <h1>This is the Dynamic page!</h1>
+    {% endblock content %}
 
 .. image:: ../img/django-adminlte-2-dynamic-menu.png
     :alt: Site with static and dynamic menu using settings and context

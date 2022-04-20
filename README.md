@@ -33,10 +33,18 @@ Additionally there are tools, utilities and additional CSS options to aid in the
     ]
     ```
 
-4. Django-AdminLTE-2 does not include a route or templates for /accounts/profile which is the default Login redirect. Add the following to settings to have successful logins redirect to the sample home page included in Django-AdminLTE-2
+4. Ensure that the login redirect will work.
     ```python
     LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
     ```
+    ---
+
+    **NOTE:**
+    Django-AdminLTE-2 does not include a route or templates for /accounts/profile which is the default Login redirect.
+    Adding the above entry to your settings file will allow successful logins to redirect to the sample home page
+    included in Django-AdminLTE-2 until a proper profile is set up.
+
+    ---
 
 5. Update settings.py to customize the look and feel of Django-AdminLTE-2
 

@@ -39,7 +39,7 @@ def with_attrs(field, attrs_as_json=None):
     attrs = field.field.widget.attrs
     data_attrs = json.loads(attrs_as_json)
     for key, value in data_attrs.items():
-        attrs['{0}'.format(key)] = value
+        attrs[f'{key}'] = value
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
     return field
 
@@ -98,7 +98,7 @@ def with_data(field, data_attrs_json=None):
     attrs = field.field.widget.attrs
     data_attrs = json.loads(data_attrs_json)
     for key, value in data_attrs.items():
-        attrs['data-{0}'.format(key)] = value
+        attrs[f'data-{key}'] = value
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
     return field
 
