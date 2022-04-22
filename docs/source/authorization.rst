@@ -1,12 +1,12 @@
 Authorization
-=============
+*************
 
 Setting up authorization for the sidebar and its associated links requires
-choosing a Policy_ and then properly using some provided Decorators_ to set
-permissions on various views.
+choosing a Policy_ and then properly using some provided Decorators_ or Mixins_
+to set permissions on various views.
 
 Policy
-------
+======
 
 There area a few options that can be used to control whether or not a
 user can see and has access to routes defined on the sidebar.
@@ -35,34 +35,41 @@ Once you have determined what general policy you want to follow, use
 the following sections to properly set up and configure authorization.
 
 Loose Policy
-^^^^^^^^^^^^
+------------
 
 Use the following steps to finish out your policy.
 Refer to the :doc:`configuration` section for information about the specific
 settings in settings.py.
 
 1. Ensure that the ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``
-   is either not defined in settings.py, or if it is, it is set to ``False``.
+   is either not defined in ``settings.py``, or set to ``False`` if it is.
 
-2. Follow the steps in the BLAHBLAH section to add permissions to the
-   views that require permission to access.
+2. Follow the steps in the `Decorator Examples`_ section to add
+   permissions to function based views or the steps in the
+   `Mixin Examples`_ section to add permissions to class based views that
+   require permission to access.
 
 Strict Policy
-^^^^^^^^^^^^^
+-------------
 
 Use the following steps to finish out your policy.
 Refer to the :doc:`configuration` section for information about the specific
 settings in settings.py.
 
 1. Ensure that the ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``
-   is defined in settings.py and is set to ``True``.
+   is defined in ``settings.py`` and is set to ``True``.
 
-2. Follow the steps in the BLAHBLAH section to add permissions to the
-   views that require permission to access.
+2. Follow the steps in the `Decorator Examples`_ section to add
+   permissions to function based views or the steps in the
+   `Mixin Examples`_ section to add permissions to class based views that
+   require permission to access.
 
 3. Add any routes that do not require a specific permission and should
    be available to everyone to the ``ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST``
-   in settings.py
+   in ``settings.py``
+
+Function based views
+====================
 
 Decorators
 ----------
@@ -90,8 +97,36 @@ Requires One Permission
 This decorator will list the permissions that a user must have at least one
 of in order to access the view and see the associated sidebar node.
 
-Full Examples
--------------
+Decorator Examples
+------------------
+
+Requires All permissions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Requires One Permission
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Loose Policy Example
+^^^^^^^^^^^^^^^^^^^^
+
+Strict Policy Example
+^^^^^^^^^^^^^^^^^^^^^
+
+
+Class based views
+====================
+
+Mixins
+------
+
+Mixin Examples
+--------------
+
+Requires All permissions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Requires One Permission
+^^^^^^^^^^^^^^^^^^^^^^^
 
 Loose Policy Example
 ^^^^^^^^^^^^^^^^^^^^
