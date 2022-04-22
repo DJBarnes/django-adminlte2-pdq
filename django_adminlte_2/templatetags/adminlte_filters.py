@@ -6,6 +6,7 @@ attributes that the user would like the form fields to have.
 """
 from django import template
 import json
+
 register = template.Library()
 
 
@@ -13,7 +14,11 @@ register = template.Library()
 def fieldtype(field):
     """
     Get a string representation of what fieldtype a given field is.
+
+    :param field: Form Field to get the type of.
+    :return: String representation of form field type.
     """
+
     return field.field.widget.__class__.__name__
 
 
@@ -22,7 +27,9 @@ def with_attrs(field, attrs_as_json=None):
     """
     Add generic attributes to a form field and return the form field so filters can be chained.
 
-    The attrs to add must be in the form of json
+    :param field: Form field to add attributes to.
+    :param attrs_as_json: The attrs to add to the field. Must be in the form of json. Defaults to None.
+    :return: Field that was passed in with attrs added.
 
     Example:
         {% load adminlte_filters %}
@@ -35,6 +42,7 @@ def with_attrs(field, attrs_as_json=None):
 
         <input type="text" name="field" attribute-1="value-1" attribute-2="value-2" id="id_field" />
     """
+
     attrs_as_json = attrs_as_json or {}
     attrs = field.field.widget.attrs
     data_attrs = json.loads(attrs_as_json)
@@ -49,6 +57,10 @@ def with_class(field, class_name=''):
     """
     Add a class attribute to a form field and return the form field so filters can be chained.
 
+    :param field: Form field to add attributes to.
+    :param class_name: Class name to add to add to the field. Defaults to blank string.
+    :return: Field that was passed in with classes added.
+
     Example:
         {% load adminlte_filters %}
         {% for field in form %}
@@ -60,6 +72,7 @@ def with_class(field, class_name=''):
 
         <input type="text" name="field" class="my-added-class" id="id_field" />
     """
+
     if not field:
         return field
     attrs = field.field.widget.attrs
@@ -75,7 +88,9 @@ def with_data(field, data_attrs_json=None):
     """
     Add data attributes to a form field and return the form field so filters can be chained.
 
-    The data fields to add must be in the form of json
+    :param field: Form field to add data attributes to.
+    :param data_attrs_json: The data fields to add. Must be in the form of json. Defaults to None.
+    :return: Field that was passed in with data attributes added.
 
     Example:
         {% load adminlte_filters %}
@@ -94,6 +109,7 @@ def with_data(field, data_attrs_json=None):
             id="id_field"
         />
     """
+
     data_attrs_json = data_attrs_json or {}
     attrs = field.field.widget.attrs
     data_attrs = json.loads(data_attrs_json)
@@ -106,7 +122,11 @@ def with_data(field, data_attrs_json=None):
 @register.filter('with_placeholder')
 def with_placeholder(field, placeholder=None):
     """
-    Add data attributes to a form field and return the form field so filters can be chained.
+    Add placeholder to a form field and return the form field so filters can be chained.
+
+    :param field: Form field to add placeholder to.
+    :param placeholder: Placeholder text to use. Defaults to fields label if nothing provided.
+    :return: Field that was passed in with placeholder added.
 
     Example:
         {% load adminlte_filters %}
@@ -117,8 +137,14 @@ def with_placeholder(field, placeholder=None):
 
         Which will update the form field to look like the following:
 
-        <input type="text" name="field" placeholder="My Placeholder Text" id="id_field" />
+        <input
+            type="text"
+            name="field"
+            placeholder="My Placeholder Text"
+            id="id_field"
+        />
     """
+
     # Default placeholder to field.label if the widget does not already have
     # a placeholder, and a value was not sent to the method.
     # Assume that if a value for placeholder was sent in, we are using it.
@@ -137,7 +163,11 @@ def with_placeholder(field, placeholder=None):
 def directory(field):
     """
     Return the result of calling dir on an object.
+
+    :param field: Form field to run dir on.
+    :return: dir of the field passed in.
     """
+
     return dir(field)
 
 
@@ -145,7 +175,11 @@ def directory(field):
 def dictionary(field):
     """
     Return the result of calling __dict__ on an object.
+
+    :param field: Form field to run __dict__ on.
+    :return: __dict__ of the field passed in.
     """
+
     return field.__dict__
 
 
@@ -153,7 +187,11 @@ def dictionary(field):
 def unsnake(field):
     """
     Return a string that converts underscore to spaces and capitalizes first letter.
+
+    :param field: Form field to unsnake.
+    :return: unsnaked string of the field passed in.
     """
+
     return str(field).replace('_', ' ').capitalize()
 
 
@@ -161,5 +199,9 @@ def unsnake(field):
 def unslugify(field):
     """
     Return a string that converts dash to spaces and capitalizes first letter.
+
+    :param field: Form field to unslugify.
+    :return: dir of the field passed in.
     """
+
     return str(field).replace('-', ' ').capitalize()
