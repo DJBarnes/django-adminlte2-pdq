@@ -4,6 +4,13 @@ Template Tags
 This package includes some template tags that are designed to add some useful
 features to any project.
 
+To use any of the following template tags you first need to load them at the
+top of your template.
+
+.. code:: html+django
+
+    {% load adminlte_helpers %}
+
 render_form_error_summary
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -14,7 +21,7 @@ can be rendered out at the top of the page.
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_form_error_summary.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -25,10 +32,15 @@ render_fields
 
 Render given fields with optional labels vertically.
 
-:Type: ``inclusion``
+:param fields_to_render: List or tuple of fields to render out.
+:param labels: Whether to use labels for fields. Defaults to True.
+:param media: Media that needs to be used in the form. Defaults to None.
+:return: Context to use with template.
+
+:Tag Type: ``inclusion``
 :Template: ``adminlte2/partials/_form.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -37,12 +49,17 @@ Example:
 render_form
 ^^^^^^^^^^^
 
-Render a vertical form.
+Render a vertical form where fields are always below the label.
+
+:param form: Form to render.
+:param labels: Whether to use labels for fields. Defaults to True.
+:param media: Media that needs to be used in the form. Defaults to None.
+:return: Fields to render.
 
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_form.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -53,10 +70,15 @@ render_horizontal_fields
 
 Render given fields with optional labels horizontally.
 
+:param fields_to_render: List or tuple of fields to render.
+:param labels: Whether to use labels for fields. Defaults to True.
+:param media: Media that needs to be used in the form. Defaults to None.
+:return: Context to use with template.
+
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_horizontal_form.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -67,10 +89,15 @@ render_horizontal_form
 
 Render a horizontal form.
 
+:param form: The form to render.
+:param labels: Whether to use labels for fields. Defaults to True.
+:param media: Media that needs to be used in the form. Defaults to None.
+:return: Context for the template.
+
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_horizontal_form.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -81,10 +108,14 @@ render_horizontal_formset
 
 Render a horizontal formset.
 
+:param formset: The formset to render.
+:param section_heading: The section header to render.
+:return: Context for the template.
+
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_horizontal_formset.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -97,7 +128,7 @@ Get the log out URL from the settings.
 
 :Type: ``simple``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -106,11 +137,11 @@ Example:
 get_home_url
 ^^^^^^^^^^^^
 
-Get the home URL from the settings.
+Get the home URL from the settings and default to the django_adminlte_2 home.
 
 :Type: ``simple``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -124,12 +155,19 @@ If no image is found, gravatar will return an image based on the 'default'
 keyword. See http://en.gravatar.com/site/implement/images/ for more info.
 
 This function will get the profile email in this order:
-The 'email' argument,
-The 'user' argument if it has an 'email' attribute.
+
+1. The 'email' argument,
+2. The 'user' argument if it has an 'email' attribute.
+
+:param context: Context that is not used.
+:param user: User that may have an email that can be used for gravatar.
+:param email: Email that can be used for gravatar.
+:param size: Size if it needs to be overridden.
+:param default: The default gravatar that will be used if no email.
 
 :Type: ``simple``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
@@ -150,18 +188,19 @@ Information can be overridden by other key word arguments.
 If the user is NOT passed in, key word arguments for each piece of information
 should be used.
 
-Keyword arguments:
-user - the user to use for information
-email - the email to use in place of the users
-initials - the initials to use in place of generated ones from user
-first_name - the first name to use in place of the users
-last_name the last name to use in place of the users
-size - the size of the image. Default is 25X25px
+:param context: Context for the template.
+:param user: The user to use for information.
+:param email: The email to use for information.
+:param initials: The initials to use in place of generated ones.
+:param first_name: The first name to use in place of the users.
+:param last_name: The last name to use in place of the users.
+:param size: Size if it needs to be overridden. Default is 25x25.
+:return: Context for template.
 
 :Type: ``inclusive``
 :Template: ``adminlte2/partials/_user_image_initials.html``
 
-Example:
+**Example:**
 
 .. code:: html+django
 
