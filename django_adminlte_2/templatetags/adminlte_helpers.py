@@ -289,13 +289,11 @@ def get_avatar_url(context, user=None, email=None, size=None, default='mp'):
 
     if not email and user and hasattr(user, 'email'):
         email = user.email or ''
-    return 'https://www.gravatar.com/avatar/{hash}?s={size}&d={default}'.format(
-        hash=md5(
-            email.encode('utf-8')
-        ).hexdigest(),
-        size=size or '',
-        default=default,
-    )
+
+    hashcode = md5(email.encode('utf-8')).hexdigest()
+    size = size or ''
+
+    return f'https://www.gravatar.com/avatar/{hashcode}?s={size}&d={default}'
 
 
 @register.inclusion_tag('adminlte2/partials/_user_image_initials.html', takes_context=True)
