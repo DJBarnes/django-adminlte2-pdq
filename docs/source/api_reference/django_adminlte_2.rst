@@ -1,8 +1,8 @@
 django\_adminlte\_2 package
-===========================
+***************************
 
 Subpackages
------------
+===========
 
 .. toctree::
    :maxdepth: 4
@@ -10,10 +10,10 @@ Subpackages
    django_adminlte_2.templatetags
 
 Submodules
-----------
+==========
 
 django\_adminlte\_2.decorators module
--------------------------------------
+=====================================
 
 .. automodule:: django_adminlte_2.decorators
    :members:
@@ -21,7 +21,7 @@ django\_adminlte\_2.decorators module
    :show-inheritance:
 
 django\_adminlte\_2.menu module
--------------------------------
+===============================
 
 .. automodule:: django_adminlte_2.menu
    :members:
@@ -29,7 +29,7 @@ django\_adminlte\_2.menu module
    :show-inheritance:
 
 django\_adminlte\_2.mixins module
----------------------------------
+=================================
 
 .. automodule:: django_adminlte_2.mixins
    :members:
@@ -37,7 +37,7 @@ django\_adminlte\_2.mixins module
    :show-inheritance:
 
 django\_adminlte\_2.urls module
--------------------------------
+===============================
 
 .. automodule:: django_adminlte_2.urls
    :members:
@@ -45,7 +45,7 @@ django\_adminlte\_2.urls module
    :show-inheritance:
 
 django\_adminlte\_2.views module
---------------------------------
+================================
 
 .. automodule:: django_adminlte_2.views
    :members:
@@ -53,7 +53,7 @@ django\_adminlte\_2.views module
    :show-inheritance:
 
 Module contents
----------------
+===============
 
 .. automodule:: django_adminlte_2
    :members:

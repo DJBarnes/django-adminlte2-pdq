@@ -1,11 +1,11 @@
 tests package
-=================================
+*************
 
 Submodules
-----------
+==========
 
 tests.test\_decorators module
--------------------------------------------------
+=============================
 
 .. automodule:: tests.test_decorators
    :members:
@@ -13,7 +13,7 @@ tests.test\_decorators module
    :show-inheritance:
 
 tests.test\_mixins module
----------------------------------------------
+=========================
 
 .. automodule:: tests.test_mixins
    :members:
@@ -21,7 +21,7 @@ tests.test\_mixins module
    :show-inheritance:
 
 tests.test\_templatetags module
----------------------------------------------------
+===============================
 
 .. automodule:: tests.test_templatetags
    :members:
@@ -29,7 +29,7 @@ tests.test\_templatetags module
    :show-inheritance:
 
 tests.test\_templatetags\_admin module
-----------------------------------------------------------
+======================================
 
 .. automodule:: tests.test_templatetags_admin
    :members:
@@ -37,7 +37,7 @@ tests.test\_templatetags\_admin module
    :show-inheritance:
 
 tests.test\_templatetags\_admin\_menu module
-----------------------------------------------------------------
+============================================
 
 .. automodule:: tests.test_templatetags_admin_menu
    :members:
@@ -45,7 +45,7 @@ tests.test\_templatetags\_admin\_menu module
    :show-inheritance:
 
 tests.test\_templatetags\_sidebar\_menu module
-------------------------------------------------------------------
+==============================================
 
 .. automodule:: tests.test_templatetags_sidebar_menu
    :members:
@@ -53,7 +53,7 @@ tests.test\_templatetags\_sidebar\_menu module
    :show-inheritance:
 
 tests.test\_views module
---------------------------------------------
+========================
 
 .. automodule:: tests.test_views
    :members:
@@ -61,7 +61,7 @@ tests.test\_views module
    :show-inheritance:
 
 tests.utils module
---------------------------------------
+==================
 
 .. automodule:: tests.utils
    :members:
@@ -69,7 +69,7 @@ tests.utils module
    :show-inheritance:
 
 Module contents
----------------
+===============
 
 .. automodule:: tests
    :members:
