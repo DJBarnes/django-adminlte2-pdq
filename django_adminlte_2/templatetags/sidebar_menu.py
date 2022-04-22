@@ -46,19 +46,19 @@ def get_permissions_from_node(node):
 
     except KeyError as key_error:
         error_message = (
-            "The route key must be provided for the node."
-            " If you do not have a valid route yet you can use '#' as a placeholder."
-            " If you have Whitelisting turned on, be sure to add an entry for '#' to the whitelist."
-            " Missing key was: {0}"
-        ).format(key_error)
+            f"The route key must be provided for the node."
+            f" If you do not have a valid route yet you can use '#' as a placeholder."
+            f" If you have Whitelisting turned on, be sure to add an entry for"
+            f"'#' to the whitelist. Missing key was: {key_error}"
+        )
         raise KeyError(error_message) from key_error
     except NoReverseMatch as reverse_error:
         error_message = (
-            "The node with the route '{0}' is not a valid route."
-            " If you do not have a valid route yet you can use '#' as a placeholder."
-            " If you have Whitelisting turned on, be sure to add an entry for '#' to the whitelist."
-            " Exception Message: {1}"
-        ).format(route, reverse_error)
+            f"The node with the route '{route}' is not a valid route."
+            f" If you do not have a valid route yet you can use '#' as a placeholder."
+            f" If you have Whitelisting turned on, be sure to add an entry for"
+            f"'#' to the whitelist. Exception Message: {reverse_error}"
+        )
         raise NoReverseMatch(error_message) from reverse_error
 
     if view:
@@ -88,21 +88,21 @@ def ensure_node_has_url_property(node):
                 url = '#'
         except KeyError as key_error:
             error_message = (
-                "The route key must be provided for the node."
-                " If you do not have a valid route yet you can use '#' as a placeholder."
-                " If you have Whitelisting turned on, be sure to"
-                " add an entry for '#' to the whitelist."
-                " Missing key was: {0}"
-            ).format(key_error)
+                f"The route key must be provided for the node."
+                f" If you do not have a valid route yet you can use '#' as a placeholder."
+                f" If you have Whitelisting turned on, be sure to"
+                f" add an entry for '#' to the whitelist."
+                f" Missing key was: {key_error}"
+            )
             raise KeyError(error_message) from key_error
         except NoReverseMatch as reverse_error:
             error_message = (
-                "The node with the route '{0}' is not a valid route."
-                " If you do not have a valid route yet you can use '#' as a placeholder."
-                " If you have Whitelisting turned on, be sure to"
-                " add an entry for '#' to the whitelist."
-                " Exception Message: {1}"
-            ).format(route, reverse_error)
+                f"The node with the route '{route}' is not a valid route."
+                f" If you do not have a valid route yet you can use '#' as a placeholder."
+                f" If you have Whitelisting turned on, be sure to"
+                f" add an entry for '#' to the whitelist."
+                f" Exception Message: {reverse_error}"
+            )
             raise NoReverseMatch(error_message) from reverse_error
 
         node['url'] = url

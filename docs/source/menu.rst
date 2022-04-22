@@ -295,7 +295,7 @@ Advanced Settings and Context Example
     :name: urls.py
 
     urlpatterns = [
-        ...
+
         path('dynamic/', views.dynamic, name="dynamic"),
         ...
     ]

@@ -1,8 +1,8 @@
 Filters
 =======
 
-This package includes some template filters that are designed to add some useful
-features to any project.
+This package includes some template filters that are designed to add some
+useful features to any project.
 
 To use any of the following template filters you first need to load them at the
 top of your template.
@@ -58,7 +58,8 @@ Which will update the form field to look like the following:
 with_class
 ^^^^^^^^^^
 
-Add a class attribute to a form field and return the form field so filters can be chained.
+Add a class attribute to a form field and return the form field so filters can
+be chained.
 
 :param field: Form field to add attributes to.
 :param class_name: Class name to add to add to the field.
@@ -85,10 +86,12 @@ Which will update the form field to look like the following:
 with_data
 ^^^^^^^^^
 
-Add data attributes to a form field and return the form field so filters can be chained.
+Add data attributes to a form field and return the form field so filters can be
+chained.
 
 :param field: Form field to add data attributes to.
-:param data_attrs_json: The data fields to add. Must be in the form of json. Defaults to None.
+:param data_attrs_json: The data fields to add. Must be in the form of json.
+ Defaults to None.
 :return: Field that was passed in with data attributes added.
 
 **Example:**
@@ -117,10 +120,12 @@ Which will update the form field to look like the following:
 with_placeholder
 ^^^^^^^^^^^^^^^^
 
-Add placeholder to a form field and return the form field so filters can be chained.
+Add placeholder to a form field and return the form field so filters can be
+chained.
 
 :param field: Form field to add placeholder to.
-:param placeholder: Placeholder text to use. Defaults to fields label if nothing provided.
+:param placeholder: Placeholder text to use.
+ Defaults to fields label if nothing provided.
 :return: Field that was passed in with placeholder added.
 
 **Example:**
@@ -161,7 +166,7 @@ Return the result of calling dir on an object.
 
 
 dictionary
-^^^^^^^^^
+^^^^^^^^^^
 
 Return the result of calling __dict__ on an object.
 
@@ -178,7 +183,8 @@ Return the result of calling __dict__ on an object.
 unsnake
 ^^^^^^^
 
-Return a string that converts underscore to spaces and capitalizes first letter.
+Return a string that converts underscore to spaces and capitalizes first
+letter.
 
 :param field: Form field to unsnake.
 :return: unsnaked string of the field passed in.

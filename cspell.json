@@ -1,0 +1,12 @@
+{ // Settings for VS code cSpell plugin
+    "dictionaryDefinitions": [
+        { "name": "main", "file": ".cspell" }
+    ],
+    "dictionaries": [
+        "main"
+    ],
+    "ignoreRegExpList": [
+        "[^\\s]{25,}", // ignore strings that are 25 chars or longer (e.g. api keys)
+        "[^A-Z][A-Z]{4}[^A-Z]" // 4 letter codes
+    ]
+}

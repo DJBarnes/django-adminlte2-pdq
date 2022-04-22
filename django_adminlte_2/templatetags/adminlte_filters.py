@@ -28,7 +28,8 @@ def with_attrs(field, attrs_as_json=None):
     Add generic attributes to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add attributes to.
-    :param attrs_as_json: The attrs to add to the field. Must be in the form of json. Defaults to None.
+    :param attrs_as_json: The attrs to add to the field. Must be in the form of json.
+     Defaults to None.
     :return: Field that was passed in with attrs added.
 
     Example:

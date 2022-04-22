@@ -79,7 +79,7 @@ Requires All permissions
 This decorator will list all required permissions for the view. It uses
 Django's default permission checking to know whether to show the view to
 the user, but also adds the required property to the view so that the
-permissions are required to see the equivilent node on the sidebar.
+permissions are required to see the equivalent node on the sidebar.
 
 
 Requires One Permission
