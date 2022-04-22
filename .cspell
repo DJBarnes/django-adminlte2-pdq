@@ -1,4 +1,5 @@
 # System
+automodule
 endfor
 formset
 formsets
@@ -7,7 +8,9 @@ htmldjango
 maxdepth
 modindex
 quickstart
+subpackages
 toctree
+undoc
 urlpatterns
 
 # Domain
