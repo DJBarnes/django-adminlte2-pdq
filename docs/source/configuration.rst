@@ -1,14 +1,14 @@
 Configuration
-=============
+*************
 
 There are various configuration options that can be set via Django Settings to
 control the overall look, feel, and functionality of the package.
 
 Home
-----
+====
 
 ADMINLTE2_HOME_ROUTE
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Set the "Home" route for you project so that the package knows
 where to redirect users when they click a link that is designed
@@ -23,10 +23,10 @@ Example::
 
 
 Admin
------
+=====
 
 ADMINLTE2_ADMIN_INDEX_USE_APP_LIST
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------
 
 By default Django-AdminLTE-2 will put the Apps on the Admin Index page
 into AdminLTE Info Boxes. Setting this to True will change that look
@@ -41,7 +41,7 @@ Example::
 
 
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------------
 
 Whether the sidebar menu should have a link to the admin index.
 
@@ -54,7 +54,7 @@ Example::
 
 
 ADMINLTE2_ADMIN_MENU_IN_TREE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------
 
 Whether the admin links in the sidebar should be in a tree
 
@@ -67,10 +67,10 @@ Example::
 
 
 Menu
-----
+====
 
 ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 Whether the sidebar main nav should be shown when on an admin page in addition
 to the admin nav
@@ -84,7 +84,7 @@ Example::
 
 
 ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------
 
 Whether the sidebar admin nav should be shown when on a main page in addition
 to the main nav
@@ -98,7 +98,7 @@ Example::
 
 
 ADMINLTE2_USE_MENU_GROUP_SEPARATOR
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------
 
 Whether to put in sidebar separators between each menu group
 
@@ -111,7 +111,7 @@ Example::
 
 
 ADMINLTE2_MENU_FIRST
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 This menu setting is useful for defining a menu that should come before the
 main menu. Sometimes you may be in a subsection of your website that has
@@ -129,7 +129,7 @@ Example::
 
 
 ADMINLTE2_MENU
-^^^^^^^^^^^^^^
+--------------
 
 This menu setting is the main menu that should be available no matter what
 section
@@ -145,7 +145,7 @@ Example::
 
 
 ADMINLTE2_MENU_LAST
-^^^^^^^^^^^^^^^^^^^
+-------------------
 
 This menu setting is useful for defining a menu that should come after the
 admin menu links. A menu footer so to speak.
@@ -160,10 +160,10 @@ Example::
 
 
 Authorization
--------------
+=============
 
 ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------------------
 
 Whether routes with no defined permission should be hidden unless added to a
 Whitelist
@@ -184,7 +184,7 @@ Example::
 
 
 ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+----------------------------------------
 
 Assuming ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and

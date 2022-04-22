@@ -1,5 +1,5 @@
 Templates
-=========
+*********
 
 1. Override and update blocks in base.html to customize the layout further
     1. Create ``adminlte2/base.html`` in one of your django projects template

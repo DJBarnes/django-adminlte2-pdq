@@ -1,5 +1,5 @@
 Filters
-=======
+*******
 
 This package includes some template filters that are designed to add some
 useful features to any project.
@@ -13,7 +13,7 @@ top of your template.
 
 
 fieldtype
-^^^^^^^^^
+=========
 
 Get a string representation of what field type a given field is.
 
@@ -28,7 +28,7 @@ Get a string representation of what field type a given field is.
 
 
 with_attrs
-^^^^^^^^^^
+==========
 
 Add generic attributes to a form field and return the form field so filters can
 be chained.
@@ -56,7 +56,7 @@ Which will update the form field to look like the following:
 
 
 with_class
-^^^^^^^^^^
+==========
 
 Add a class attribute to a form field and return the form field so filters can
 be chained.
@@ -84,7 +84,7 @@ Which will update the form field to look like the following:
 
 
 with_data
-^^^^^^^^^
+=========
 
 Add data attributes to a form field and return the form field so filters can be
 chained.
@@ -118,7 +118,7 @@ Which will update the form field to look like the following:
 
 
 with_placeholder
-^^^^^^^^^^^^^^^^
+================
 
 Add placeholder to a form field and return the form field so filters can be
 chained.
@@ -151,7 +151,7 @@ Which will update the form field to look like the following:
 
 
 directory
-^^^^^^^^^
+=========
 
 Return the result of calling dir on an object.
 
@@ -166,7 +166,7 @@ Return the result of calling dir on an object.
 
 
 dictionary
-^^^^^^^^^^
+==========
 
 Return the result of calling __dict__ on an object.
 
@@ -181,7 +181,7 @@ Return the result of calling __dict__ on an object.
 
 
 unsnake
-^^^^^^^
+=======
 
 Return a string that converts underscore to spaces and capitalizes first
 letter.
@@ -197,7 +197,7 @@ letter.
 
 
 unslugify
-^^^^^^^^^
+=========
 
 Return a string that converts dash to spaces and capitalizes first letter.
 

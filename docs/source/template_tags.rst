@@ -1,5 +1,5 @@
 Template Tags
-=============
+*************
 
 This package includes some template tags that are designed to add some useful
 features to any project.
@@ -12,7 +12,7 @@ top of your template.
     {% load adminlte_helpers %}
 
 render_form_error_summary
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=========================
 
 Determine if the context contains forms or formsets that should be
 checked for errors, and then add any found errors to the context so they
@@ -28,7 +28,7 @@ can be rendered out at the top of the page.
     {% render_form_error_summary %}
 
 render_fields
-^^^^^^^^^^^^^
+=============
 
 Render given fields with optional labels vertically.
 
@@ -47,7 +47,7 @@ Render given fields with optional labels vertically.
     {% render_fields fields %}
 
 render_form
-^^^^^^^^^^^
+===========
 
 Render a vertical form where fields are always below the label.
 
@@ -66,7 +66,7 @@ Render a vertical form where fields are always below the label.
     {% render_form form %}
 
 render_horizontal_fields
-^^^^^^^^^^^^^^^^^^^^^^^^
+========================
 
 Render given fields with optional labels horizontally.
 
@@ -85,7 +85,7 @@ Render given fields with optional labels horizontally.
     {% render_horizontal_fields field %}
 
 render_horizontal_form
-^^^^^^^^^^^^^^^^^^^^^^^^^
+======================
 
 Render a horizontal form.
 
@@ -104,7 +104,7 @@ Render a horizontal form.
     {% render_horizontal_form form %}
 
 render_horizontal_formset
-^^^^^^^^^^^^^^^^^^^^^^^^^
+=========================
 
 Render a horizontal formset.
 
@@ -122,7 +122,7 @@ Render a horizontal formset.
     {% render_horizontal_formset formset section_heading %}
 
 get_logout_url
-^^^^^^^^^^^^^^
+==============
 
 Get the log out URL from the settings.
 
@@ -135,7 +135,7 @@ Get the log out URL from the settings.
     {{ get_logout_url }}
 
 get_home_url
-^^^^^^^^^^^^
+============
 
 Get the home URL from the settings and default to the django_adminlte_2 home.
 
@@ -148,7 +148,7 @@ Get the home URL from the settings and default to the django_adminlte_2 home.
     {{ get_home_url }}
 
 get_avatar_url
-^^^^^^^^^^^^^^
+==============
 
 Get a gravatar image url.
 If no image is found, gravatar will return an image based on the 'default'
@@ -174,7 +174,7 @@ This function will get the profile email in this order:
     {{ get_avatar_url }}
 
 user_image_initials
-^^^^^^^^^^^^^^^^^^^
+===================
 
 Show user gravatar, initials, or gravatar default mystery person as image
 

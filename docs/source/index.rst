@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Welcome to Django-AdminLTE-2's documentation!
-=============================================
+*********************************************
 
 Django-AdminLTE-2 is a Django app to easily style all pages and the admin
 with AdminLTE2. Additionally there are tools, utilities and additional CSS
@@ -26,7 +26,7 @@ options to aid in the rapid development of a site.
 
 
 Indices and tables
-==================
+******************
 
 * :ref:`genindex`
 * :ref:`modindex`

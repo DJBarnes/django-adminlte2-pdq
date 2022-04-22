@@ -1,5 +1,5 @@
 Quickstart
-==========
+**********
 
 1. Install the Django App via GitHub for now. Working on getting on Pypi soon.
     .. code-block:: bash

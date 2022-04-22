@@ -1,8 +1,8 @@
 Menu
-====
+****
 
 General information
--------------------
+===================
 
 The full sidebar is rendered by parsing the contents of three settings.
 Each sidebar menu definition consists of a list of dictionary building blocks.
@@ -10,10 +10,10 @@ Each building block will render out either a section, node, or a tree.
 A tree will consist of additional sections, nodes, or trees.
 
 Definition Location
--------------------
+===================
 
 Settings
-^^^^^^^^
+--------
 The sidebar building blocks can be defined in one or a combination
 of the three following settings:
 
@@ -34,7 +34,7 @@ information in the database that changes often, see the next
 advanced_ section.
 
 Advanced
-^^^^^^^^
+--------
 
 If you need your menu, or part of your menu to be dynamic and generated
 from data in the database on each page load you can send the dynamic
@@ -50,12 +50,12 @@ See the `Advanced Settings and Context Example`_ section for a demonstration
 on how to do this.
 
 Building Blocks
----------------
+===============
 
 The menu consists of 3 types of building blocks described below.
 
 Sections
-^^^^^^^^
+--------
 
 A section will consist of section text and any trees or nodes that
 make up the remaining parts of the section. Neither the text nor the
@@ -65,7 +65,7 @@ without text if you do not want a header for you nodes. The most
 common implementation will consist of defining both.
 
 Section Fields
-""""""""""""""
+^^^^^^^^^^^^^^
 **text**
 
 A string representing the section text that a user will see.
@@ -84,7 +84,7 @@ sidebar link, or a tree that contains sidebar links.
 :Required: ``False``
 
 Section Example
-"""""""""""""""
+^^^^^^^^^^^^^^^
 .. code:: python
 
     {
@@ -93,13 +93,13 @@ Section Example
     }
 
 Node
-^^^^
+----
 
 A node is a python dictionary that will create a link with a
 name and an icon in the sidebar.
 
 Node Fields
-"""""""""""
+^^^^^^^^^^^
 
 **route**
 
@@ -128,7 +128,7 @@ to make the icon show up are required.
 :Required: ``False``
 
 Node Example
-""""""""""""
+^^^^^^^^^^^^
 .. code:: python
 
     {
@@ -138,14 +138,14 @@ Node Example
     }
 
 Tree
-^^^^
+----
 
 A tree is a python dictionary that will create a link with a
 name and icon in the sidebar. In addition, the tree will contain
 other nodes that will be links under the tree heading.
 
 Tree Fields
-"""""""""""
+^^^^^^^^^^^
 
 **text**
 
@@ -174,7 +174,7 @@ sidebar link, or a tree that contains sidebar links.
 :Required: ``False``
 
 Tree Example
-""""""""""""
+^^^^^^^^^^^^
 .. code:: python
 
     {
@@ -184,7 +184,7 @@ Tree Example
     },
 
 Tree Example with a Node
-""""""""""""""""""""""""
+^^^^^^^^^^^^^^^^^^^^^^^^
 .. code:: python
 
     {
@@ -202,10 +202,10 @@ Tree Example with a Node
 
 
 Full Examples
--------------
+=============
 
 Simple Settings Example
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
 **settings.py**
 
@@ -264,7 +264,7 @@ Simple Settings Example
     :alt: Site with static menu using settings
 
 Advanced Settings and Context Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------------
 
 **settings.py**
 
