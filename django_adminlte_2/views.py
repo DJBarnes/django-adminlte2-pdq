@@ -1,4 +1,5 @@
 """Django AdminLTE2 Views"""
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django_adminlte_2.decorators import requires_all_permissions, requires_one_permission
@@ -38,6 +39,17 @@ def sample2(request):
 @login_required()
 def demo_css(request):
     """Show examples of extra-features.css"""
+
+    # Add messages to demo them.
+    messages.set_level(request, messages.DEBUG)
+    messages.debug(request, 'This is a debug message via the messages framework')
+    messages.info(request, 'This is a info message via the messages framework')
+    messages.success(request, 'This is a success message via the messages framework')
+    messages.warning(request, 'This is a warning message via the messages framework')
+    messages.error(request, 'This is a error message via the messages framework')
+    messages.add_message(request, 50, 'This is an unknown level message via the messages framework')
+
+    # Define the bootstrap "colors" to demo.
     bootstrap_types = [
         'default',
         'primary',
