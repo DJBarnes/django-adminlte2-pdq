@@ -4,10 +4,21 @@ Menu
 General information
 ===================
 
-The full sidebar is rendered by parsing the contents of three settings.
-Each sidebar menu definition consists of a list of dictionary building blocks.
-Each building block will render out either a section, node, or a tree.
-A tree will consist of additional sections, nodes, or trees.
+In its most basic configuration, the full sidebar is rendered by parsing the
+contents of three settings loaded from the Django settings.
+Each of these settings can contain a menu definition consisting of reusable
+building blocks in the form of either a section, node, or tree. In the case of
+a tree, more building blocks are used to define the contents of the tree.
+
+In addition to defining the menu in the settings, it is also possible to pass
+one or all of the menu definitions to each template via the context where the
+context version will take precedence over the settings version. This is great
+if you need to have your menu generated dynamically from data in the database.
+See the advanced_ section for more information.
+
+It is also possible to automatically add menu entries for the entire admin.
+This in controlled via a different set of Django settings. See the
+:doc:`configuration` page for more information about how to enable that.
 
 Definition Location
 ===================
@@ -21,7 +32,7 @@ of the three following settings:
 * ``ADMINLTE2_MENU``
 * ``ADMINLTE2_MENU_LAST``
 
-Defining one of these sections in the settings file is best when the
+Defining one or more of these sections in the settings file is best when the
 sidebar content is static and the only thing that may change is the
 visibility of entries based on whether or not a user is authorized
 to see that particular thing.
@@ -29,19 +40,24 @@ to see that particular thing.
 For information on how to show/hide nodes based on authorization
 see the :doc:`authorization` section.
 
-If you need a more dynamic menu that is database driven based on
-information in the database that changes often, see the next
-advanced_ section.
+Each setting will show in a specific spot of the sidebar. In general, the
+sidebar is rendered in the following order:
+
+1. ``ADMINLTE2_MENU_FIRST`` if defined.
+2. ``ADMINLTE2_MENU`` if defined.
+3. Automatic admin menu if turned on.
+4. ``ADMINLTE2_MENU_LAST`` if defined.
+
 
 Advanced
 --------
 
 If you need your menu, or part of your menu to be dynamic and generated
 from data in the database on each page load you can send the dynamic
-menu to the template in the context. The context version will override
+menu to the template via the context. The context version will override
 the settings version.
 
-A practical use for this would be to define the main menu using
+A practical use for this would be to define the main static menu using
 the ``ADMINLTE2_MENU`` setting, and then defining dynamic content
 for the page via the context for a template using the
 ``ADMINLTE2_MENU_FIRST`` key.
@@ -57,10 +73,10 @@ The menu consists of 3 types of building blocks described below.
 Sections
 --------
 
-A section will consist of section text and any trees or nodes that
+A section will consist of section text and any nodes that
 make up the remaining parts of the section. Neither the text nor the
 nodes are required, but having neither does not make sense. You can
-have text with no nodes if you only want a header. You can have nodes
+have text with no nodes if you only want only a header. You can have nodes
 without text if you do not want a header for you nodes. The most
 common implementation will consist of defining both.
 
@@ -95,7 +111,7 @@ Section Example
 Node
 ----
 
-A node is a python dictionary that will create a link with a
+A node is a python dictionary that will create a clickable sidebar link with a
 name and an icon in the sidebar.
 
 Node Fields
@@ -120,8 +136,11 @@ A string representing what will be rendered for the user to see.
 
 **icon**
 
-Either a Font-Awesome 4 or 5 set of CSS classes. All required
-to make the icon show up are required.
+Either a Font-Awesome 4 or 5 set of CSS classes. All required classes needed
+to make the icon show up are required to be listed. More information about
+Font-Awesome can be found at:
+`Font-Awesome 4 <https://fontawesome.com/v4/icons/>`_ or
+`Font-Awesome 5 <https://fontawesome.com/v5/search?m=free>`_.
 
 :Key: ``icon``
 :Type: ``string``
@@ -340,7 +359,7 @@ Advanced Settings and Context Example
     <ol class="breadcrumb">
         {% include "admin/partials/_breadcrumb_home.html" %}
         <li>
-        {% trans 'Dynamic' %}
+            {% trans 'Dynamic' %}
         </li>
     </ol>
     {% endblock breadcrumbs %}
