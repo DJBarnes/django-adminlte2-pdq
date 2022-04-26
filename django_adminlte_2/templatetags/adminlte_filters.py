@@ -32,7 +32,8 @@ def with_attrs(field, attrs_as_json=None):
      Defaults to None.
     :return: Field that was passed in with attrs added.
 
-    Example:
+    Example::
+
         {% load adminlte_filters %}
         {% for field in form %}
             {% field|with_attrs:'{"attribute-1":"value-1", "attribute-2":"value-2"}' %}
@@ -62,7 +63,8 @@ def with_class(field, class_name=''):
     :param class_name: Class name to add to add to the field. Defaults to blank string.
     :return: Field that was passed in with classes added.
 
-    Example:
+    Example::
+
         {% load adminlte_filters %}
         {% for field in form %}
             {% field|with_class:'my-added-class' %}
@@ -93,7 +95,8 @@ def with_data(field, data_attrs_json=None):
     :param data_attrs_json: The data fields to add. Must be in the form of json. Defaults to None.
     :return: Field that was passed in with data attributes added.
 
-    Example:
+    Example::
+
         {% load adminlte_filters %}
         {% for field in form %}
             {% field|with_data:'{"attribute-1":"value-1", "attribute-2":"value-2"}' %}
@@ -129,7 +132,8 @@ def with_placeholder(field, placeholder=None):
     :param placeholder: Placeholder text to use. Defaults to fields label if nothing provided.
     :return: Field that was passed in with placeholder added.
 
-    Example:
+    Example::
+
         {% load adminlte_filters %}
         {% for field in form %}
             {% field|with_placeholder 'My Placeholder Text' %}
