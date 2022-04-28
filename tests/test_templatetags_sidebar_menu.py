@@ -63,11 +63,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'permissions': ['add_sample1', 'update_sample1'],
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
         self.assertEqual(node['permissions'], permissions)
         self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_view_function(self):
         """Test get permissions from node pulls permissins from view function"""
@@ -77,11 +78,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-group',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
         self.assertIn('auth.add_group', permissions)
         self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_view_with_hash_route_and_valid_url(self):
         """Test get permissions from node pull permission from view with hash route and valid url"""
@@ -92,11 +94,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': '/sample1/',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
         self.assertIn('auth.add_group', permissions)
         self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_get_permissions_from_node_raises_keyerror_when_route_is_missing(self):
         """Test get permissions from node raises KeyError when route is missing"""
@@ -118,11 +121,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-group',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_get_permissions_from_node_raises_error_when_route_causes_a_reverse_error(self):
         """Test get permissions from node raises error when route causes a reverse error"""
@@ -144,11 +148,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-dashboard',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
+        self.assertFalse(login_required)
 
     # |-------------------------------------------------------------------------
     # | Test one_of_permissions
@@ -163,12 +168,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'one_of_permissions': ['add_sample2', 'update_sample2'],
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node
         )
 
         self.assertEqual([], permissions)
         self.assertIn('add_sample2', one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_one_of_permissions_from_node_pulls_permissions_from_view_function(self):
         """Test one of permissions from node pulls permissions from view function"""
@@ -178,12 +184,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-building',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node
         )
 
         self.assertEqual([], permissions)
         self.assertIn('auth.add_permission', one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_one_of_permissions_from_node_raises_keyerror_when_route_is_missing(self):
         """Test one of permissions from node raises KeyError when route is missing"""
@@ -204,12 +211,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-building',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node
         )
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_one_of_permissions_from_node_raises_error_when_route_causes_a_reverse_error(self):
         """Test one of permissions from node raises error when route causes a reverse error"""
@@ -231,12 +239,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-dashboard',
         }
 
-        permissions, one_of_permissions = sidebar_menu.get_permissions_from_node(
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node
         )
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
+        self.assertFalse(login_required)
 
     # |-------------------------------------------------------------------------
     # | Test ensure_node_has_url_property

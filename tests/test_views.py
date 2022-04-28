@@ -5,6 +5,7 @@ Tests for Views
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
+from django.contrib import messages
 from django.test import TestCase, RequestFactory, override_settings
 from django.urls import reverse
 
@@ -79,6 +80,7 @@ class ViewsTestCase(TestCase):
     def test_demo_view_returns_correct_template(self):
         """Test demo view returns correct template"""
         request = RequestFactory().get('demo-css/')
+        request._messages = messages.storage.default_storage(request)
         request.user = self.test_user_w_perms
         request.site = MOCK_SITE
         response = views.demo_css(request)

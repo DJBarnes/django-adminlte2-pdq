@@ -1,6 +1,10 @@
 """Django AdminLTE2 Decorators"""
 from functools import wraps
-from django.contrib.auth.decorators import permission_required, user_passes_test
+from django.contrib.auth.decorators import (
+    permission_required,
+    user_passes_test,
+    login_required as django_login_required
+)
 from django.core.exceptions import PermissionDenied
 
 
@@ -27,6 +31,27 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
         # As the last resort, show the login form
         return False
     return user_passes_test(check_perms, login_url=login_url)
+
+
+def login_required(redirect_field_name='next', login_url=None):
+    """
+    Decorator for views that defines that login is required, and also
+    adds the login required as a property to that view function.
+    The property added to the view function can then be used by the sidebar
+    template to know whether to render the sidebar menu item that links to that
+    view function.
+    """
+    def decorator(function):
+
+        function.login_required = True
+
+        @wraps(function)
+        @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
+        def wrap(request, *args, **kwargs):
+
+            return function(request, *args, **kwargs)
+        return wrap
+    return decorator
 
 
 def requires_all_permissions(permission, login_url=None, raise_exception=False):

@@ -1,8 +1,11 @@
 """Django AdminLTE2 Views"""
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django_adminlte_2.decorators import requires_all_permissions, requires_one_permission
+from django_adminlte_2.decorators import (
+    login_required,
+    requires_all_permissions,
+    requires_one_permission,
+)
 
 
 def home(request):

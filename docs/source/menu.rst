@@ -279,7 +279,7 @@ Simple Settings Example
         },
     ]
 
-.. image:: ../img/django-adminlte-2-static-menu.png
+.. image:: ../img/menu/django-adminlte-2-static-menu.png
     :alt: Site with static menu using settings
 
 Advanced Settings and Context Example
@@ -367,5 +367,5 @@ Advanced Settings and Context Example
     <h1>This is the Dynamic page!</h1>
     {% endblock content %}
 
-.. image:: ../img/django-adminlte-2-dynamic-menu.png
+.. image:: ../img/menu/django-adminlte-2-dynamic-menu.png
     :alt: Site with static and dynamic menu using settings and context

@@ -64,6 +64,9 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Make messaging work in tests that use RequestFactory.
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 
 #**********************************************
 # Added settings to make django_adminlte_2 work
