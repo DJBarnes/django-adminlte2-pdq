@@ -1,6 +1,15 @@
 """Django Admin LTE 2 View Mixins"""
-from django.contrib.auth.mixins import PermissionRequiredMixin as DjangoPermissionRequiredMixin
+from django.contrib.auth.mixins import(
+    LoginRequiredMixin as DjangoLoginRequiredMixin,
+    PermissionRequiredMixin as DjangoPermissionRequiredMixin,
+)
 from django.core.exceptions import ImproperlyConfigured
+
+
+class LoginRequiredMixin(DjangoLoginRequiredMixin):
+    """Verify that the current user is authenticated."""
+
+    login_required = True  # Sets property that Sidebar Node can check.
 
 
 class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
@@ -16,11 +25,11 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
 
         if self.permission_required is None and self.permission_required_one is None:
             raise ImproperlyConfigured(
-                '{0} is missing the permission_required attributes. '
-                'Define {0}.permission_required, or {0}.permission_required_one, '
-                ' or override {0}.get_permission_required().'.format(
-                    self.__class__.__name__
-                )
+                f"{self.__class__.__name__} is missing the "
+                f"permission_required attributes. Define "
+                f"{self.__class__.__name__}.permission_required, "
+                f"{self.__class__.__name__}.permission_required_one, or override "
+                f"{self.__class__.__name__}.get_permission_required()."
             )
         if isinstance(self.permission_required, str):
             perms_all = (self.permission_required,)
