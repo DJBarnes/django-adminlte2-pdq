@@ -23,8 +23,8 @@ what general policy you want to adhere to. Your choices are:
      user does not have permission
 
 
-2. `Strict Policy`_ - By default all sidebar nodes are hidden and inaccessible to
-   the user.
+2. `Strict Policy`_ - By default all sidebar nodes are hidden and inaccessible
+   to the user.
 
    * Majority of sidebar nodes are hidden and inaccessible to all users
    * Node will become visible if you set a permission on that route's view
@@ -186,6 +186,8 @@ Demo CSS requires simply being logged in to see and access.
     we correct our initial mistake and show the proper configuration as well as
     what users will see.
 
+.. _loose_decorator_settings.py:
+
 settings.py
 """""""""""
 
@@ -222,6 +224,8 @@ settings.py
     # Ensures that we are using the Loose Policy.
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = False
 
+.. _loose_decorator_urls.py:
+
 urls.py
 """""""
 
@@ -233,6 +237,8 @@ urls.py
         path('sample2/', views.sample2, name="sample2"),
         path('demo-css/', views.demo_css, name="demo-css"),
     ]
+
+.. _loose_decorator_views.py:
 
 views.py
 """"""""
@@ -307,9 +313,11 @@ What logged in superusers can see and access.
 
     Let's fix our mistake so that Sample2 is protected and see the difference.
 
+.. _loose_decorator_fixed_views.py:
 
 views.py
 """"""""
+
 Add the missing permission decorator to the Sample2 view.
 
 .. code:: python
@@ -368,6 +376,8 @@ Demo CSS requires simply being logged in to see and access.
     our mistake and show the proper configuration as well as what users will
     see.
 
+.. _strict_decorator_settings.py:
+
 settings.py
 """""""""""
 
@@ -404,6 +414,8 @@ settings.py
     # Ensures that we are using the Strict Policy.
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = True
 
+.. _strict_decorator_urls.py:
+
 urls.py
 """""""
 
@@ -415,6 +427,8 @@ urls.py
         path('sample2/', views.sample2, name="sample2"),
         path('demo-css/', views.demo_css, name="demo-css"),
     ]
+
+.. _strict_decorator_views.py:
 
 views.py
 """"""""
@@ -502,9 +516,11 @@ What logged in superusers can see and access.
     Let's fix our mistake so that Home and Sample2 are visible to who they are
     supposed to be and see the difference.
 
+.. _strict_decorator_fixed_settings.py:
 
 settings.py
 """""""""""
+
 Add the missing whitelist to the settings file and ensure it includes the home
 route.
 
@@ -514,8 +530,11 @@ route.
     ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = ['home']
 
 
+.. _strict_decorator_fixed_views.py:
+
 views.py
 """"""""
+
 Add the missing permission decorator to the Sample2 view.
 
 .. code:: python
@@ -659,6 +678,8 @@ Demo CSS requires simply being logged in to see and access.
     we correct our initial mistake and show the proper configuration as well as
     what users will see.
 
+.. _loose_mixin_settings.py:
+
 settings.py
 """""""""""
 
@@ -695,6 +716,8 @@ settings.py
     # Ensures that we are using the Loose Policy.
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = False
 
+.. _loose_mixin_urls.py:
+
 urls.py
 """""""
 
@@ -706,6 +729,8 @@ urls.py
         path('sample2/', views.Sample2.as_view(), name="sample2"),
         path('demo-css/', views.DemoCss.as_view(),name="demo-css"),
     ]
+
+.. _loose_mixin_views.py:
 
 views.py
 """"""""
@@ -784,8 +809,11 @@ What logged in superusers can see and access.
     Let's fix our mistake so that Sample2 is protected and see the difference.
 
 
+.. _loose_mixin_fixed_views.py:
+
 views.py
 """"""""
+
 Add the missing permission required mixin and permission_required_one
 attribute to the Sample2 view.
 
@@ -848,6 +876,8 @@ Demo CSS requires simply being logged in to see and access.
     our mistake and show the proper configuration as well as what users will
     see.
 
+.. _strict_mixin_settings.py:
+
 settings.py
 """""""""""
 
@@ -884,6 +914,8 @@ settings.py
     # Ensures that we are using the Strict Policy.
     ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = True
 
+.. _strict_mixin_urls.py:
+
 urls.py
 """""""
 
@@ -895,6 +927,8 @@ urls.py
         path('sample2/', views.Sample2.as_view(), name="sample2"),
         path('demo-css/', views.DemoCss.as_view(),name="demo-css"),
     ]
+
+.. _strict_mixin_views.py:
 
 views.py
 """"""""
@@ -986,8 +1020,11 @@ What logged in superusers can see and access.
     supposed to be and see the difference.
 
 
+.. _strict_mixin_fixed_settings.py:
+
 settings.py
 """""""""""
+
 Add the missing whitelist to the settings file and ensure it includes the home
 route.
 
@@ -997,8 +1034,11 @@ route.
     ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = ['home']
 
 
+.. _strict_mixin_fixed_views.py:
+
 views.py
 """"""""
+
 Add the missing permission required mixin and permission_required_one
 attribute to the Sample2 view.
 

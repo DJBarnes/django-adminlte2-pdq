@@ -1,6 +1,15 @@
 Templates
 *********
 
+This package comes with a lot of templates that are used right out of the box.
+Any and all of these templates can be overridden to customize the look and feel
+of the site. Rather than listing out every single file and every single block
+within those files that can overridden, it is preferable that you just
+reference the files yourself to see what can be overridden. The files can be
+found on `GitHub <https://github.com/DJBarnes/django-adminlte-2/tree/master/django_adminlte_2/templates>`_.
+
+For general overriding guidance, see the below instructions.
+
 1. Override and update blocks in base.html to customize the layout further
     1. Create ``adminlte2/base.html`` in one of your django projects template
        folders
