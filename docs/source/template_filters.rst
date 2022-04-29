@@ -1,5 +1,5 @@
-Filters
-*******
+Template Filters
+****************
 
 This package includes some template filters that are designed to add some
 useful features to any project.

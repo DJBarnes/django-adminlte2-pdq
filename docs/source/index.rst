@@ -20,7 +20,7 @@ options to aid in the rapid development of a site.
    authorization
    templates
    template_tags
-   filters
+   template_filters
    demo_css
    api_reference
 
