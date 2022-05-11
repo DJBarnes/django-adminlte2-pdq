@@ -95,7 +95,7 @@ can access the view. Django's default login_required decorator is used behind
 the scenes and is only recreated in this package in order to add the magic of
 automatic sidebar node rendering.
 
-When using this decorator on a function view, if the user in not logged in,
+When using this decorator on a function view, if the user is not logged in,
 the user will not be able to access this View nor will they see a sidebar menu
 entry that maps to this View. However, if the user is logged in,
 they will see the sidebar link and have access.
