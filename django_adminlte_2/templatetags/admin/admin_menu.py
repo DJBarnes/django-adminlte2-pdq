@@ -59,14 +59,8 @@ class _AdminMenu:
                         for perm, enabled in model['perms'].items():
                             if enabled:
                                 lower_model_name = model['object_name'].lower()
-                                current_permission = "%s_%s" % (
-                                    perm,
-                                    lower_model_name
-                                )
-                                new_entry = "%s.%s" % (
-                                    app['app_label'],
-                                    current_permission
-                                )
+                                current_permission = f"{perm}_{lower_model_name}"
+                                new_entry = f"{app['app_label']}.{current_permission}"
                                 model_perms.append(new_entry)
                                 all_admin_perms.append(new_entry)
 
@@ -121,7 +115,7 @@ class _AdminMenu:
         else:
             full_list = app_list
 
-        if put_entire_admin_in_tree:
+        if put_entire_admin_in_tree and context['available_apps']:
             root_nodes = [
                 {
                     'text': 'Admin',
