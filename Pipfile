@@ -7,16 +7,19 @@ name = "pypi"
 django="*"
 
 [dev-packages]
-autopep8="*"
+black="*"
+build="*"
 coverage="*"
 doc8="*"
 esbonio="*"
+pip-tools="*"
 pylint="*"
 pylint-django="*"
 rstcheck = "~=3.5.0"
 sphinx="*"
 sphinx-autobuild="*"
 sphinx_rtd_theme="*"
+twine="*"
 
 [requires]
 python_version = "3.8"
