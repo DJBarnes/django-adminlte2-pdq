@@ -28,8 +28,11 @@ def _update_errors_with_formset_data(errors, formset):
     :return: errors.
     """
     try:
+        # Determine error options.
+        use_error_summary = getattr(formset, 'adminlte2_use_error_summary', True)
+
         # If the formset has opted in for using the error summary
-        if hasattr(formset, 'adminlte2_use_error_summary') and formset.adminlte2_use_error_summary:
+        if use_error_summary:
             total_error_count = formset.total_error_count()
             if total_error_count > 0:
                 non_form_error_count = len(formset.non_form_errors())
@@ -63,8 +66,12 @@ def _update_errors_with_form_data(errors, form):
     :return: errors.
     """
     try:
-        # If the form has opted in for using the error summary
-        if hasattr(form, 'adminlte2_use_error_summary') and form.adminlte2_use_error_summary:
+        # Determine error options.
+        use_error_summary = getattr(form, 'adminlte2_use_error_summary', True)
+        show_field_errors_in_summary = getattr(form, 'adminlte2_show_field_errors_in_summary', False)
+
+        # If the form has not disabled using the error summary
+        if use_error_summary:
             # If the form has errors
             if form.errors:
                 # If there are more field errors than non field errors, which will
@@ -75,13 +82,7 @@ def _update_errors_with_form_data(errors, form):
                     if form.non_field_errors():
                         errors['has_non_field_errors'] = True
 
-                    if (
-                            hasattr(
-                                form,
-                                'adminlte2_show_field_errors_in_summary'
-                            )
-                            and form.adminlte2_show_field_errors_in_summary
-                    ):
+                    if show_field_errors_in_summary:
                         errors['forms'].append(form)
                 else:
                     # The only errors are non_field_errors, so flip the bool
