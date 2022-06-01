@@ -19,8 +19,9 @@ options to aid in the rapid development of a site.
    menu
    authorization
    templates
-   template_tags
    template_filters
+   template_tags
+   forms
    demo_css
    api_reference
 

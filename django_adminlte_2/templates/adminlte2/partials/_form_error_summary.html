@@ -1,7 +1,7 @@
 {% if error_list.has_non_form_errors or error_list.has_non_field_errors or error_list.has_field_errors %}
   <div class="alert alert-danger alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <p class="lead"><b>The following error(s) require your attention!</b></p>
+    <p class="lead"><b>Please correct the error{{ error_list|pluralize }} below.</b></p>
     <hr style="margin-top:0; margin-bottom:5px;">
     <ul class="list-unstyled">
 
