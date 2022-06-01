@@ -10,5 +10,5 @@ def runtests():
     execute_from_command_line(argv)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     runtests()
