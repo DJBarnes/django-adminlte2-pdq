@@ -9,7 +9,7 @@ top of your template.
 
 .. code:: html+django
 
-    {% load adminlte_helpers %}
+    {% load adminlte_tags %}
 
 render_form_error_summary
 =========================

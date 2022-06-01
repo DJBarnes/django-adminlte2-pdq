@@ -9,7 +9,7 @@ from django.forms import BaseFormSet
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 
-from django_adminlte_2.templatetags import adminlte_filters, adminlte_helpers
+from django_adminlte_2.templatetags import adminlte_filters, adminlte_tags
 
 UserModel = get_user_model()
 
@@ -282,7 +282,7 @@ class TemplateTagTestCase(TestCase):
         )
 
     # |-------------------------------------------------------------------------
-    # | Adminlte_Helpers.py
+    # | Adminlte_Tags.py
     # |-------------------------------------------------------------------------
     # |-------------------------------------------------------------------------
     # | Test render_form_error_summary and helper methods
@@ -321,7 +321,7 @@ class TemplateTagTestCase(TestCase):
         formset = TestFormSets(data)
         formset.adminlte2_use_error_summary = True
 
-        adminlte_helpers._update_errors_with_formset_data(
+        adminlte_tags._update_errors_with_formset_data(
             errors,
             formset
         )
@@ -352,7 +352,7 @@ class TemplateTagTestCase(TestCase):
 
         formset.forms[0].add_error(None, "Test Form Error")
 
-        adminlte_helpers._update_errors_with_formset_data(
+        adminlte_tags._update_errors_with_formset_data(
             errors,
             formset
         )
@@ -382,7 +382,7 @@ class TemplateTagTestCase(TestCase):
         formset.adminlte2_use_error_summary = True
         formset.forms[0].add_error('test_text', 'Test Field Error')
 
-        adminlte_helpers._update_errors_with_formset_data(
+        adminlte_tags._update_errors_with_formset_data(
             errors,
             formset
         )
@@ -404,7 +404,7 @@ class TemplateTagTestCase(TestCase):
         formset.adminlte2_use_error_summary = True
 
         with self.assertRaises(AttributeError):
-            adminlte_helpers._update_errors_with_formset_data(
+            adminlte_tags._update_errors_with_formset_data(
                 errors,
                 formset
             )
@@ -422,7 +422,7 @@ class TemplateTagTestCase(TestCase):
         formset = namedtuple('Form', ['adminlte2_use_error_summary'])
         formset.adminlte2_use_error_summary = False
 
-        adminlte_helpers._update_errors_with_formset_data(
+        adminlte_tags._update_errors_with_formset_data(
             errors,
             formset
         )
@@ -453,7 +453,7 @@ class TemplateTagTestCase(TestCase):
 
         form.add_error(None, "Test Form Error")
 
-        adminlte_helpers._update_errors_with_form_data(
+        adminlte_tags._update_errors_with_form_data(
             errors,
             form
         )
@@ -476,7 +476,7 @@ class TemplateTagTestCase(TestCase):
         form = self.TestForm(data)
         form.add_error('test_text', 'Test Field Error')
 
-        adminlte_helpers._update_errors_with_form_data(
+        adminlte_tags._update_errors_with_form_data(
             errors,
             form
         )
@@ -503,7 +503,7 @@ class TemplateTagTestCase(TestCase):
         form.add_error(None, "Test Form Error")
         form.add_error('test_text', 'Test Field Error')
 
-        adminlte_helpers._update_errors_with_form_data(
+        adminlte_tags._update_errors_with_form_data(
             errors,
             form
         )
@@ -532,7 +532,7 @@ class TemplateTagTestCase(TestCase):
         form.add_error(None, "Test Form Error")
         form.add_error('test_text', 'Test Field Error')
 
-        adminlte_helpers._update_errors_with_form_data(
+        adminlte_tags._update_errors_with_form_data(
             errors,
             form
         )
@@ -555,7 +555,7 @@ class TemplateTagTestCase(TestCase):
         form.adminlte2_use_error_summary = True
 
         with self.assertRaises(AttributeError):
-            adminlte_helpers._update_errors_with_form_data(
+            adminlte_tags._update_errors_with_form_data(
                 errors,
                 form
             )
@@ -573,7 +573,7 @@ class TemplateTagTestCase(TestCase):
         form = namedtuple('Form', ['adminlte2_use_error_summary'])
         form.adminlte2_use_error_summary = False
 
-        adminlte_helpers._update_errors_with_form_data(
+        adminlte_tags._update_errors_with_form_data(
             errors,
             form
         )
@@ -609,7 +609,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -644,7 +644,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -691,7 +691,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -726,7 +726,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -768,7 +768,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -799,7 +799,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -824,7 +824,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -853,7 +853,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -878,7 +878,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form_error_summary %}"
         )
 
@@ -904,7 +904,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_horizontal_form form %}"
         )
 
@@ -927,7 +927,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_horizontal_form form %}"
         )
 
@@ -954,7 +954,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form form %}"
         )
 
@@ -977,7 +977,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_form form %}"
         )
 
@@ -1013,7 +1013,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% render_horizontal_formset formset 'Test Formset Section' %}"
         )
 
@@ -1039,7 +1039,7 @@ class TemplateTagTestCase(TestCase):
         context = Context({})
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% get_logout_url %}"
         )
 
@@ -1057,7 +1057,7 @@ class TemplateTagTestCase(TestCase):
         context = Context({})
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% get_logout_url %}"
         )
 
@@ -1088,7 +1088,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% get_avatar_url user=user %}"
         )
 
@@ -1114,7 +1114,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% get_avatar_url user=user %}"
         )
 
@@ -1141,7 +1141,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials user=user %}"
         )
 
@@ -1176,7 +1176,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials user=user first_name='John' last_name='Doe' initials='J2D' email='a@b.c' %}"
         )
 
@@ -1211,7 +1211,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials first_name='John' last_name='Doe' %}"
         )
 
@@ -1250,7 +1250,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials first_name='John' %}"
         )
 
@@ -1289,7 +1289,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials last_name='Doe' %}"
         )
 
@@ -1328,7 +1328,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials initials='J2D' %}"
         )
 
@@ -1367,7 +1367,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_helpers %}"
+            "{% load adminlte_tags %}"
             "{% user_image_initials %}"
         )
 

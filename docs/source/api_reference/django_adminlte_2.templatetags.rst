@@ -23,7 +23,7 @@ django\_adminlte\_2.templatetags.adminlte\_filters module
 django\_adminlte\_2.templatetags.adminlte\_helpers module
 =========================================================
 
-.. automodule:: django_adminlte_2.templatetags.adminlte_helpers
+.. automodule:: django_adminlte_2.templatetags.adminlte_tags
    :members:
    :undoc-members:
    :show-inheritance:
