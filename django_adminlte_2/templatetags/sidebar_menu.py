@@ -5,6 +5,7 @@ Template tags and logic for rendering sidebar menu
 """
 from django import template
 from django.conf import settings
+from django.http import Http404
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
 
@@ -40,10 +41,13 @@ def get_permissions_from_node(node):
         url_with_hash = node.get('url', None)
         url = url_with_hash.split('#')[0] if url_with_hash else None
 
-        if route != '#':
-            view = resolve(reverse(route))
-        elif url and url != '':
-            view = resolve(url)
+        try:
+            if route != '#':
+                view = resolve(reverse(route))
+            elif url and url != '':
+                view = resolve(url)
+        except Http404:
+            view = None
 
     except KeyError as key_error:
         error_message = (

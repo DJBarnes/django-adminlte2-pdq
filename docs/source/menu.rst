@@ -5,80 +5,58 @@ General information
 ===================
 
 In its most basic configuration, the full sidebar is rendered by parsing the
-contents of three settings loaded from the Django settings.
-Each of these settings can contain a menu definition consisting of reusable
-building blocks in the form of either a section, node, or tree. In the case of
-a tree, more building blocks are used to define the contents of the tree.
+contents of a Django setting called :ref:`adminlte2_menu`.
+This setting will contain a menu definition consisting of reusable building
+blocks in the form of either a
+section_, separator_, node_, or tree_.
+In the case of a tree, more building blocks are used to define the contents of
+the tree.
 
-In addition to defining the menu in the settings, it is also possible to pass
-one or all of the menu definitions to each template via the context where the
-context version will take precedence over the settings version. This is great
-if you need to have your menu generated dynamically from data in the database.
-See the advanced_ section for more information.
-
-It is also possible to automatically add menu entries for the entire admin.
-This in controlled via a different set of Django settings. See the
-:doc:`configuration` page for more information about how to enable that.
-
-Definition Location
-===================
-
-Settings
---------
-The sidebar building blocks can be defined in one or a combination
-of the three following settings:
-
-* ``ADMINLTE2_MENU_FIRST``
-* ``ADMINLTE2_MENU``
-* ``ADMINLTE2_MENU_LAST``
-
-Defining one or more of these sections in the settings file is best when the
+Defining the menu in the settings file is best when the
 sidebar content is static and the only thing that may change is the
 visibility of entries based on whether or not a user is authorized
 to see that particular thing.
 
 For information on how to show/hide nodes based on authorization
-see the :doc:`authorization` section.
+see the :doc:`authorization` page.
 
-Each setting will show in a specific spot of the sidebar. In general, the
-sidebar is rendered in the following order:
+In addition to defining the menu in the settings, it is also possible to pass
+the menu definition to each template via the context. In this situation, the
+context version will take precedence over the settings version.
+This is great if you need to have your menu generated dynamically from data in
+the database or a combination of static and dynamic entries.
+See the :ref:`advanced` section for more information regarding dynamic menu
+generation and how to do a combination of both a static and a dynamic menu.
 
-1. ``ADMINLTE2_MENU_FIRST`` if defined.
-2. ``ADMINLTE2_MENU`` if defined.
-3. Automatic admin menu if turned on.
-4. ``ADMINLTE2_MENU_LAST`` if defined.
+Adminlte will also automatically add menu entries for the entire admin.
+This will consist of entries for each app as well as each model.
+By default, these admin menu entries can only be seen when the user is on an
+admin page. But, this can be customized via some configuration settings defined
+in the Django settings.
+See the :ref:`menu configuration` and :ref:`admin configuration` sections of
+the :doc:`configuration` page for more information about those options.
+Additionally, the icons used for each admin menu entry can be customized.
+See the :ref:`admin menu` section for information on how to customize the admin
+menu.
 
-
-Advanced
---------
-
-If you need your menu, or part of your menu to be dynamic and generated
-from data in the database on each page load you can send the dynamic
-menu to the template via the context. The context version will override
-the settings version.
-
-A practical use for this would be to define the main static menu using
-the ``ADMINLTE2_MENU`` setting, and then defining dynamic content
-for the page via the context for a template using the
-``ADMINLTE2_MENU_FIRST`` key.
-
-See the `Advanced Settings and Context Example`_ section for a demonstration
-on how to do this.
 
 Building Blocks
 ===============
 
-The menu consists of 3 types of building blocks described below.
+The menu is built using a combination of the following 4 types of
+building blocks described below.
 
-Sections
---------
+Section
+-------
 
 A section will consist of section text and any nodes that
 make up the remaining parts of the section. Neither the text nor the
-nodes are required, but having neither does not make sense. You can
-have text with no nodes if you only want only a header. You can have nodes
-without text if you do not want a header for you nodes. The most
-common implementation will consist of defining both.
+nodes are required.
+You can have no text and no nodes if you just want some extra space in the
+sidebar between other sections.
+You can have text with no nodes if you only want a header.
+You can have nodes without text if you want a blank header for you nodes.
+The most common implementation however will consist of defining both.
 
 Section Fields
 ^^^^^^^^^^^^^^
@@ -92,8 +70,8 @@ A string representing the section text that a user will see.
 
 **nodes**
 
-A list of node dictionaries or trees that will render out each
-sidebar link, or a tree that contains sidebar links.
+A list of node_ dictionaries that will render out each sidebar link,
+and/or a tree_ definition that contains additional nodes to render links.
 
 :Key: ``nodes``
 :Type: ``list``
@@ -107,6 +85,25 @@ Section Example
         'text': 'Home',
         'nodes': []
     }
+
+
+Separator
+---------
+
+A section with no text or nodes, but a key called separator that is set to
+True. This will render out a physical line separating one section from the
+next.
+
+Separator Example
+^^^^^^^^^^^^^^^^^
+.. code:: python
+
+    {
+        'text': '',
+        'nodes': [],
+        'separator': True,
+    }
+
 
 Node
 ----
@@ -146,6 +143,55 @@ Font-Awesome can be found at:
 :Type: ``string``
 :Required: ``False``
 
+**url**
+
+An optional string representing the url for the link. It is **strongly**
+recommended that you use the route key and the route for a view when defining
+where a node will take the user rather than the actual URL.
+However, you can specify the url key with a value of the url to take the user
+to if desired.
+
+:Key: ``url``
+:Type: ``string``
+:Required: ``False``
+
+.. note::
+
+    If you decide to use the url key, you must still provide the route key with
+    a value of **"#"** as well since the sidebar is expecting that every node
+    will have a route key.
+
+.. tip::
+
+    This url key is useful if you need to link to an external website rather
+    than an internal link. External links must define any permissions directly
+    on the node as there is no associated view to be able to pull permissions
+    from. See the :doc:`authorization` page for more information.
+
+**hook**
+
+An optional string representing the name of a fully qualified function that can
+be called to return the text for the node that should be rendered out.
+This allows the ability to dynamically create the node's text.
+
+Adminlte will try to import the value of this field as a function and then
+invoke the function and use it's results as the text for the node.
+The function should return either a string that will be used for both the text
+and the title text of the node, or a 2-tuple with string values for both text
+and title separately.
+
+.. tip::
+
+    This hook is best used for making a few nodes in an otherwise static menu
+    dynamic. If you need a lot of dynamic nodes, the information in the
+    advanced_ section might be more useful.
+
+
+**permission**
+
+TODO: Add this section.
+
+
 Node Example
 ^^^^^^^^^^^^
 .. code:: python
@@ -156,12 +202,42 @@ Node Example
         'icon': 'fa fa-dashboard',
     }
 
+Complex Node Example
+^^^^^^^^^^^^^^^^^^^^
+
+**Menu**
+
+.. code:: python
+
+    {
+        'route': '#',
+        'text': 'Home',
+        'icon': 'fa fa-dashboard',
+        'url': 'https://github.com',
+        'hook': 'core.utils.home_link_text',
+    }
+
+**core/utils.py**
+
+.. code:: python
+
+    def home_link_text(context):
+        "Custom home link text"
+        text = 'Home'
+        if user.is_staff:
+            text = 'Home!!!!!'
+        return text
+
+
 Tree
 ----
 
-A tree is a python dictionary that will create a link with a
-name and icon in the sidebar. In addition, the tree will contain
-other nodes that will be links under the tree heading.
+A tree is a python dictionary that will create an expandable entry with text
+and an icon in the sidebar.
+In addition, the tree will contain other nodes and/or trees as the children of
+the tree.
+The use of trees can make a very large menu fit into a smaller space by
+utilizing the ability to expand an collapse each tree.
 
 Tree Fields
 ^^^^^^^^^^^
@@ -185,8 +261,8 @@ to make the icon show up are required.
 
 **nodes**
 
-A list of node dictionaries or trees that will render out each
-sidebar link, or a tree that contains sidebar links.
+A list of node dictionaries that will render out each sidebar link,
+or a tree that will contain more nodes.
 
 :Key: ``nodes``
 :Type: ``list``
@@ -219,12 +295,8 @@ Tree Example with a Node
     },
 
 
-
-Full Examples
-=============
-
-Simple Settings Example
------------------------
+Static Menu Full Example
+========================
 
 **settings.py**
 
@@ -282,8 +354,47 @@ Simple Settings Example
 .. image:: ../img/menu/django-adminlte-2-static-menu.png
     :alt: Site with static menu using settings
 
-Advanced Settings and Context Example
--------------------------------------
+
+
+Advanced
+========
+
+General
+-------
+
+If you need your menu, or part of your menu to be dynamic and generated
+from data in the database on each page load you can send the dynamic
+menu to the template via the context. The context version will override
+the settings version.
+
+In addition to being able to send your dynamic menu to the template.
+
+A practical use for this would be to define the main static menu using
+the ``ADMINLTE2_MENU`` setting, and then defining dynamic content
+for the page via the context for a template using the
+``ADMINLTE2_MENU_FIRST`` key.
+
+See the `Dynamic and Static Menu Full Example`_ section for a demonstration
+on how to do this.
+
+
+MENU_FIRST and MENU_LAST
+------------------------
+TODO: Add this section.
+
+Main Menu Via Context
+---------------------
+TODO: Add this section.
+
+Fully Dynamic Menu
+------------------
+TODO: Add this section.
+
+
+
+
+Dynamic and Static Menu Full Example
+====================================
 
 **settings.py**
 
@@ -369,3 +480,15 @@ Advanced Settings and Context Example
 
 .. image:: ../img/menu/django-adminlte-2-dynamic-menu.png
     :alt: Site with static and dynamic menu using settings and context
+
+
+Admin Menu
+==========
+
+Displaying Menu
+---------------
+TODO: Add this section.
+
+Customizing icons
+-----------------
+TODO: Add this section.
