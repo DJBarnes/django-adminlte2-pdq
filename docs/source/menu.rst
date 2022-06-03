@@ -60,8 +60,8 @@ You can have text with no nodes if you only want a header.
 You can have nodes without text if you want a blank header for you nodes.
 The most common implementation however will consist of defining both.
 
-Section Fields
-^^^^^^^^^^^^^^
+Section Keys
+^^^^^^^^^^^^
 **text**
 
 A string representing the section text that a user will see.
@@ -96,6 +96,30 @@ A section with no text or nodes, but a key called separator that is set to
 True. This will render out a physical line separating one section from the
 next.
 
+**text**
+
+A blank string.
+
+:Key: ``text``
+:Type: ``string``
+:Required: ``True``
+
+**nodes**
+
+An empty list.
+
+:Key: ``nodes``
+:Type: ``list``
+:Required: ``True``
+
+**separator**
+
+Defined as ``True``.
+
+:Key: ``separator``
+:Type: ``bool``
+:Required: ``True``
+
 Separator Example
 ^^^^^^^^^^^^^^^^^
 .. code:: python
@@ -113,8 +137,8 @@ Node
 A node is a python dictionary that will create a clickable sidebar link with a
 name and an icon in the sidebar.
 
-Node Fields
-^^^^^^^^^^^
+Node Keys
+^^^^^^^^^
 
 **route**
 
@@ -145,6 +169,29 @@ Font-Awesome can be found at:
 :Type: ``string``
 :Required: ``False``
 
+**hook**
+
+An optional string representing the name of a fully qualified function that can
+be called to return the text for the node that should be rendered out.
+This allows the ability to dynamically create the node's text.
+
+Adminlte will try to import the value for this key as a function and then
+invoke the function and use it's results as the text for the node.
+The function should return either a string that will be used for both the text
+and the title text of the node, or a 2-tuple with string values for both text
+and title separately.
+
+:Key: ``hook``
+:Type: ``string``
+:Required: ``False``
+
+.. tip::
+
+    This hook is best used for making a few nodes in an otherwise static menu
+    dynamic. If you need a lot of dynamic nodes, the information in the
+    advanced_ section might be more useful.
+
+
 **url**
 
 An optional string representing the url for the link. It is **strongly**
@@ -160,7 +207,7 @@ to if desired.
 .. note::
 
     If you decide to use the url key, you must still provide the route key with
-    a value of **"#"** as well since the sidebar is expecting that every node
+    a value of ``"#"`` as well since the sidebar is expecting that every node
     will have a route key.
 
 .. tip::
@@ -170,28 +217,80 @@ to if desired.
     on the node as there is no associated view to be able to pull permissions
     from. See the :doc:`authorization` page for more information.
 
-**hook**
+**permissions**
 
-An optional string representing the name of a fully qualified function that can
-be called to return the text for the node that should be rendered out.
-This allows the ability to dynamically create the node's text.
+An optional list of permissions as strings that the user must have all of in
+order to see the node.
 
-Adminlte will try to import the value of this field as a function and then
-invoke the function and use it's results as the text for the node.
-The function should return either a string that will be used for both the text
-and the title text of the node, or a 2-tuple with string values for both text
-and title separately.
+:Key: ``url``
+:Type: ``list``
+:Required: ``False``
+
+.. warning::
+
+    In general, you should use the functionality defined on the
+    :doc:`authorization` page to add permissions to a View rather than directly
+    to a node. Defining on the View will handle both hiding a node in the
+    sidebar and preventing direct URL navigation without the need to
+    additionally set the permissions on this node key.
+    This key will **NOT** fully protect the link that the node is associated
+    with.
 
 .. tip::
 
-    This hook is best used for making a few nodes in an otherwise static menu
-    dynamic. If you need a lot of dynamic nodes, the information in the
-    advanced_ section might be more useful.
+    This key may be useful when you have an external link that needs to also
+    be shown or hidden based on a list of permissions.
 
 
-**permission**
+**one_of_permissions**
 
-TODO: Add this section.
+An optional list of permissions as strings that a user must have at least one
+of in order to see the node.
+
+:Key: ``url``
+:Type: ``list``
+:Required: ``False``
+
+.. warning::
+
+    In general, you should use the functionality defined on the
+    :doc:`authorization` page to add permissions to a View rather than directly
+    to a node. Defining on the View will handle both hiding a node in the
+    sidebar and preventing direct URL navigation without the need to
+    additionally set the permissions on this node key.
+    This key will **NOT** fully protect the link that the node is associated
+    with.
+
+.. tip::
+
+    This key may be useful when you have an external link that needs to also
+    be shown or hidden based on a list of permissions.
+
+
+**login_required**
+
+An optional key on the node specifying whether a user must be logged in to
+the system in order to see the node.
+
+:Key: ``url``
+:Type: ``bool``
+:Required: ``False``
+
+.. warning::
+
+    In general, you should use the functionality defined on the
+    :doc:`authorization` page to add a login required criteria to a View rather
+    than directly to a node.
+    Defining on the View will handle both hiding a node in the
+    sidebar and preventing direct URL navigation without the need to
+    additionally define that login is required on this node.
+    This key will **NOT** fully protect the link that the node is associated
+    with.
+
+.. tip::
+
+    This key may be useful when you have an external link that needs to also
+    be shown or hidden based on a the user being logged in.
 
 
 Node Example
@@ -207,16 +306,17 @@ Node Example
 Complex Node Example
 ^^^^^^^^^^^^^^^^^^^^
 
-**Menu**
+**Node**
 
 .. code:: python
 
     {
         'route': '#',
-        'text': 'Home',
-        'icon': 'fa fa-dashboard',
+        'text': 'Github',
+        'icon': 'fa fa-github',
         'url': 'https://github.com',
         'hook': 'core.utils.home_link_text',
+        'permissions': ['is_developer'],
     }
 
 **core/utils.py**
@@ -241,7 +341,7 @@ the tree.
 The use of trees can make a very large menu fit into a smaller space by
 utilizing the ability to expand an collapse each tree.
 
-Tree Fields
+Tree Keys
 ^^^^^^^^^^^
 
 **text**
@@ -364,35 +464,117 @@ Advanced
 General
 -------
 
-If you need your menu, or part of your menu to be dynamic and generated
+This section will cover some advanced concepts for defining your menu.
+The full menu definition technically consists of more than just what can be
+defined in the settings file. In total, there are 4 main sections of the menu.
+They are listed below and are rendered out in the order listed.
+
+* ``ADMINLTE2_MENU_FIRST`` - which must be provided via a template context
+  variable.
+* ``ADMINLTE2_MENU`` - which is defined in the Django settings.
+* ``Admin_Menu`` - which is not defined and automatically included on all admin
+  pages.
+* ``ADMINLTE2_MENU_LAST`` - which must be provided via a template context
+  variable.
+
+Some of the topics here will include all 4 parts, while others will focus on
+only some of those parts. The advanced topics include:
+
+* :ref:`menu:moving the menu outside settings`
+* :ref:`menu:making part of the menu dynamic`
+* :ref:`menu:making the entire menu dynamic`
+
+Moving The Menu Outside Settings
+--------------------------------
+
+More than likely your menu will grower is size over time and become a little
+large to be living in the settings file. Although the menu does technically
+have to live in the settings, there are some workarounds that you can do so
+that your menu can be defined outside the settings file while still being part
+of the settings file.
+
+The most common approach is to make a separate file that will contain your
+menu definition, and then just import that definition in your settings file.
+
+Outside Settings Example
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+**my_django_project/menu.py**
+
+.. code:: python
+
+    ADMINLTE2_MENU = [
+        {
+            'text': 'Home',
+            'nodes': [
+                {
+                    'route': 'home',
+                    'text': 'Home',
+                    'icon': 'fa fa-dashboard',
+                },
+            ]
+        },
+    ]
+
+**my_django_project/settings.py**
+
+.. code:: python
+
+    try:
+        from .menu import ADMINLTE2_MENU
+    except ImportError:
+        pass
+
+
+
+Making Part Of The Menu Dynamic
+-------------------------------
+
+If you need part of your menu to be dynamic and generated
 from data in the database on each page load you can send the dynamic
 menu to the template via the context. The context version will override
-the settings version.
+the settings version. In addition, there are two menu sections that are
+specifically meant to be dynamic and can only be delivered by a template's
+context. Those sections are called
+:ref:`menu:ADMINLTE2_MENU_FIRST and ADMINLTE2_MENU_LAST`.
 
-In addition to being able to send your dynamic menu to the template.
+ADMINLTE2_MENU_FIRST and ADMINLTE2_MENU_LAST
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The two new menu definitions that can be sent via a template context are
+MENU_FIRST, which will render before the static menu defined in the
+``ADMINLTE2_MENU`` setting and MENU_LAST, which will render out after the
+admin menu section.
 
 A practical use for this would be to define the main static menu using
 the ``ADMINLTE2_MENU`` setting, and then defining dynamic content
 for the page via the context for a template using the
-``ADMINLTE2_MENU_FIRST`` key.
+``ADMINLTE2_MENU_FIRST`` or ``ADMINLTE2_MENU_LAST`` key.
 
-See the `Dynamic and Static Menu Full Example`_ section for a demonstration
-on how to do this.
-
-
-MENU_FIRST and MENU_LAST
-------------------------
-TODO: Add this section.
+You can see an example of this in the
+:ref:`menu:Dynamic and Static Menu Full Example`
 
 Main Menu Via Context
----------------------
-TODO: Add this section.
+^^^^^^^^^^^^^^^^^^^^^
 
-Fully Dynamic Menu
-------------------
-TODO: Add this section.
+If you need the main menu to change dynamically vs just adding dynamic content
+before or after the static menu, you can send a template context variable
+called ``ADMINLTE2_MENU`` to the template and it will override the static one
+defined in the Django settings. For an example, look at the
+:ref:`menu:Dynamic and Static Menu Full Example` and pretend that rather than
+using the ``ADMINLTE2_MENU_FIRST`` as the context variable in ``views.py``, you
+are using ``ADMINLTE2_MENU``.
 
+Making The Entire Menu Dynamic
+------------------------------
 
+If you need your menu to be dynamic all the time. Nothing is ever static.
+You may want to consider creating a context processor that could run on
+every request and send the needed menu context variable to each and every
+template on every single request. More information about how to make a
+context processor can be found in the
+`Django docs <https://docs.djangoproject.com/en/dev/ref/templates/api/#writing-your-own-context-processors>`_
+.
 
 
 Dynamic and Static Menu Full Example
