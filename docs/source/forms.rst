@@ -71,6 +71,6 @@ Example setting on an already instantiated form.
 .. warning::
 
     Disabling this will override the
-    :ref:`adminlte2_show_field_errors_in_summary`
+    :ref:`forms:adminlte2_show_field_errors_in_summary`
     option and hide all lines in the
     error summary including field errors.

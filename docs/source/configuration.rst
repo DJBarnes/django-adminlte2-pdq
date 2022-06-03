@@ -35,7 +35,7 @@ Admin Configuration
     the sidebar links inside the admin section of the sidebar. By default,
     the admin sidebar section is only shown on admin pages. If you would like
     to change this behavior so that the admin sidebar section is available on
-    all pages, please see the :ref:`ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES`
+    all pages, please see the :ref:`configuration:ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES`
     section for more information.
 
 
@@ -51,7 +51,7 @@ setting to ``True``.
     This link is in essence another Admin link and as such will be treated like
     all other admin links. If you do not see this link in your sidebar after
     enabling, please refer to the
-    :ref:`ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES`
+    :ref:`configuration:ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES`
     setting for more information.
 
 :Type: ``bool``
@@ -73,7 +73,7 @@ styling.
 .. note::
 
     If you do not see a link for the admin index page in the sidebar, please
-    refer to the :ref:`ADMINLTE2_INCLUDE_ADMIN_HOME_LINK`
+    refer to the :ref:`configuration:ADMINLTE2_INCLUDE_ADMIN_HOME_LINK`
     setting for information on how to enable it.
 
 :Type: ``bool``
@@ -96,7 +96,7 @@ out, set this setting to ``True``.
 
 .. note::
 
-    You can refer to the :ref:`tree` section of the :doc:`menu` page for more
+    You can refer to the :ref:`menu:tree` section of the :doc:`menu` page for more
     information about how trees work and are defined manually.
 
 :Type: ``bool``
@@ -113,9 +113,9 @@ Menu Configuration
 ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES
 -----------------------------------------
 
-By default the main navigation (non-admin) is not part of the sidebar when the user
-is viewing an admin page. If you would like users to be able to see all of the
-main nav links regardless of what page they are on, set this setting to
+By default the main navigation (non-admin) is not part of the sidebar when the
+user is viewing an admin page. If you would like users to be able to see all of
+the main nav links regardless of what page they are on, set this setting to
 ``True``.
 
 :Type: ``bool``

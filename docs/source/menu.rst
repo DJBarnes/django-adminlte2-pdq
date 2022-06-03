@@ -5,7 +5,7 @@ General information
 ===================
 
 In its most basic configuration, the full sidebar is rendered by parsing the
-contents of a Django setting called :ref:`adminlte2_menu`.
+contents of a Django setting called :ref:`configuration:adminlte2_menu`.
 This setting will contain a menu definition consisting of reusable building
 blocks in the form of either a
 section_, separator_, node_, or tree_.
@@ -25,19 +25,21 @@ the menu definition to each template via the context. In this situation, the
 context version will take precedence over the settings version.
 This is great if you need to have your menu generated dynamically from data in
 the database or a combination of static and dynamic entries.
-See the :ref:`advanced` section for more information regarding dynamic menu
-generation and how to do a combination of both a static and a dynamic menu.
+See the :ref:`menu:advanced` section for more information regarding dynamic
+menu generation and how to create a menu that consists of a combination of both
+static and dynamic content.
 
 Adminlte will also automatically add menu entries for the entire admin.
 This will consist of entries for each app as well as each model.
 By default, these admin menu entries can only be seen when the user is on an
 admin page. But, this can be customized via some configuration settings defined
 in the Django settings.
-See the :ref:`menu configuration` and :ref:`admin configuration` sections of
+See the :ref:`configuration:menu configuration`
+and :ref:`configuration:admin configuration` sections of
 the :doc:`configuration` page for more information about those options.
 Additionally, the icons used for each admin menu entry can be customized.
-See the :ref:`admin menu` section for information on how to customize the admin
-menu.
+See the :ref:`menu:admin menu` section for information on how to customize the
+admin menu.
 
 
 Building Blocks

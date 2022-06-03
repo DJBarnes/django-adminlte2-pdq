@@ -49,6 +49,13 @@ templates_path = ['_templates']
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
 
+# Configure autosection so that duplicated titles are unique per page.
+autosectionlabel_prefix_document = True
+
+# Configure autosection so that it will not look any deeper than 3 levels.
+# This should help when we are listing the same files as headings in examples.
+autosectionlabel_maxdepth = 4
+
 
 # -- Options for HTML output -------------------------------------------------
 
