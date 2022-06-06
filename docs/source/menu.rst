@@ -9,16 +9,13 @@ contents of a Django setting called :ref:`configuration:adminlte2_menu`.
 This setting will contain a menu definition consisting of reusable building
 blocks in the form of either a
 section_, separator_, node_, or tree_.
-In the case of a tree, more building blocks are used to define the contents of
-the tree.
+All of which work in conjunction to build out the menu.
 
 Defining the menu in the settings file is best when the
 sidebar content is static and the only thing that may change is the
 visibility of entries based on whether or not a user is authorized
-to see that particular thing.
-
-For information on how to show/hide nodes based on authorization
-see the :doc:`authorization` page.
+to see that particular thing. More information about that available on the
+:doc:`authorization` page.
 
 In addition to defining the menu in the settings, it is also possible to pass
 the menu definition to each template via the context. In this situation, the
@@ -471,7 +468,7 @@ They are listed below and are rendered out in the order listed.
 
 * ``ADMINLTE2_MENU_FIRST`` - which must be provided via a template context
   variable.
-* ``ADMINLTE2_MENU`` - which is defined in the Django settings.
+* ``ADMINLTE2_MENU`` - which is defined in the Django settings or context.
 * ``Admin_Menu`` - which is not defined and automatically included on all admin
   pages.
 * ``ADMINLTE2_MENU_LAST`` - which must be provided via a template context
@@ -487,11 +484,11 @@ only some of those parts. The advanced topics include:
 Moving The Menu Outside Settings
 --------------------------------
 
-More than likely your menu will grower is size over time and become a little
-large to be living in the settings file. Although the menu does technically
-have to live in the settings, there are some workarounds that you can do so
-that your menu can be defined outside the settings file while still being part
-of the settings file.
+More than likely your menu will grow in size over time and become a little
+large to be living directly in the settings file. Although the menu does
+technically have to live in the settings, there are some workarounds that you
+can do so that your menu can be defined outside the settings file while still
+being part of the settings file.
 
 The most common approach is to make a separate file that will contain your
 menu definition, and then just import that definition in your settings file.
@@ -542,9 +539,9 @@ ADMINLTE2_MENU_FIRST and ADMINLTE2_MENU_LAST
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The two new menu definitions that can be sent via a template context are
-MENU_FIRST, which will render before the static menu defined in the
-``ADMINLTE2_MENU`` setting and MENU_LAST, which will render out after the
-admin menu section.
+**ADMINLTE2_MENU_FIRST**, which will render before the static menu defined in
+the ``ADMINLTE2_MENU`` setting and **ADMINLTE2_MENU_LAST**, which will render
+out after the **Admin Menu** section.
 
 A practical use for this would be to define the main static menu using
 the ``ADMINLTE2_MENU`` setting, and then defining dynamic content
@@ -568,8 +565,8 @@ are using ``ADMINLTE2_MENU``.
 Making The Entire Menu Dynamic
 ------------------------------
 
-If you need your menu to be dynamic all the time. Nothing is ever static.
-You may want to consider creating a context processor that could run on
+If you need your menu to be fully dynamic all the time with zero static content
+, you may want to consider creating a context processor that could run on
 every request and send the needed menu context variable to each and every
 template on every single request. More information about how to make a
 context processor can be found in the
@@ -671,8 +668,97 @@ Admin Menu
 
 Displaying Menu
 ---------------
-TODO: Add this section.
+
+By default, an automatic menu with entries for each admin app and each model
+within those apps will be created for you and rendered out after the main menu.
+Also by default, this menu is only shown when a user is on an admin page.
+If you would like to also see the admin menu on non-admin pages, refer to the
+:ref:`configuration:adminlte2_include_admin_nav_on_main_pages`
+section of the :doc:`configuration` page.
 
 Customizing icons
 -----------------
-TODO: Add this section.
+The admin menu is rendered out with a colored in circle ``fa-circle`` as the
+icon for each app, and an empty circle ``fa-circle-o`` for each model.
+These default icons can be changed via adding some lines to an
+``admin.py`` file.
+
+First-party apps
+^^^^^^^^^^^^^^^^
+
+See the below example where a fictitious Blog app and, Post and Comment models
+have their icons updated to be something more useful.
+
+.. note:: The Django ``admin.site.register`` lines have been included for clarity.
+
+**blog/admin.py**
+
+.. code:: python
+
+    from django_adminlte_2.admin_menu import AdminMenu
+
+    ...
+
+    # Register Post model with admin.
+    admin.site.register(Post)
+    # Update icon for Post model in admin menu.
+    AdminMenu.set_model_icon('Post', 'fa fa-pencil-square-o')
+
+    # Register Comment model with admin.
+    admin.site.register(Post)
+    # Update icon for Comment model in admin menu.
+    AdminMenu.set_model_icon('Comment', 'fa fa-comment')
+
+    # Update icon for Blog app in admin menu.
+    AdminMenu.set_app_icon('Blog', 'fa fa-newspaper-o')
+
+
+Third-pary apps
+^^^^^^^^^^^^^^^
+
+If you would like to update the icons for apps that you do not control,
+such as the **User** and **Group** under the
+**Authentication and Authorization** app, you can do that same work as
+above in any ``admin.py`` file. Setting the icons does not need to be in
+the ``admin.py`` file for the app it is configuring.
+For example, the Users and Groups icons can be configured from
+the ``admin.py`` file in the Blog app.
+
+**blog/admin.py**
+
+.. code:: python
+
+    from django_adminlte_2.admin_menu import AdminMenu
+
+    ...
+
+    # Update icon for User model in admin menu.
+    AdminMenu.set_model_icon('User', 'fa fa-user')
+    # Update icon for Group model in admin menu.
+    AdminMenu.set_model_icon('Group', 'fa fa-group')
+    # Update icon for Authentication and Authorization app in admin menu.
+    AdminMenu.set_app_icon('Authentication and Authorization', 'fa fa-user')
+
+Admin Home link
+^^^^^^^^^^^^^^^
+
+If you have configured your site to show the Admin Home link in the sidebar,
+there will be a link in the sidebar with the ``fa-superpowers`` icon.
+You can change the icon for that link as well.
+For information on how to enable the Admin Home link see the
+:ref:`configuration:adminlte2_include_admin_home_link`
+section of the :doc:`configuration` page.
+
+In any ``admin.py`` file you can call one additional method on the
+**AdminMenu** to set the Admin Home link icon.
+
+.. code:: python
+
+    from django_adminlte_2.admin_menu import AdminMenu
+
+    ...
+
+    # Update icon for the Admin Home link.
+    AdminMenu.set_admin_icon('fa fa-magic')
+
+
