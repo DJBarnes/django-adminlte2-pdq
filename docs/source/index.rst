@@ -11,11 +11,10 @@ with AdminLTE2. Additionally there are tools, utilities and additional CSS
 options to aid in the rapid development of a site.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
    quickstart
-   configuration
    menu
    authorization
    templates
@@ -23,6 +22,7 @@ options to aid in the rapid development of a site.
    template_tags
    forms
    demo_css
+   configuration
    api_reference
 
 
