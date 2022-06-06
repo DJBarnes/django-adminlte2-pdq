@@ -20,14 +20,6 @@ django\_adminlte\_2.decorators module
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.menu module
-===============================
-
-.. automodule:: django_adminlte_2.menu
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 django\_adminlte\_2.mixins module
 =================================
 
@@ -36,26 +28,10 @@ django\_adminlte\_2.mixins module
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.urls module
-===============================
-
-.. automodule:: django_adminlte_2.urls
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 django\_adminlte\_2.views module
 ================================
 
 .. automodule:: django_adminlte_2.views
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
-===============
-
-.. automodule:: django_adminlte_2
    :members:
    :undoc-members:
    :show-inheritance:

@@ -35,11 +35,3 @@ django\_adminlte\_2.templatetags.admin.admin\_menu module
    :members:
    :undoc-members:
    :show-inheritance:
-
-Module contents
-===============
-
-.. automodule:: django_adminlte_2.templatetags.admin
-   :members:
-   :undoc-members:
-   :show-inheritance:
