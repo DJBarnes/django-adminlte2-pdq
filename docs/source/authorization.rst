@@ -42,7 +42,7 @@ Use the following steps to finish out your policy.
 Refer to the :doc:`configuration` section for information about the specific
 settings in settings.py mentioned below.
 
-1. Ensure that the ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``
+1. Ensure that the ``ADMINLTE2_USE_STRICT_POLICY``
    is either not defined in ``settings.py``, or set to ``False`` if it is.
 
 2. If you are using function based views, follow the steps in the
@@ -60,7 +60,7 @@ Use the following steps to finish out your policy.
 Refer to the :doc:`configuration` section for information about the specific
 settings in settings.py mentioned below.
 
-1. Ensure that the ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``
+1. Ensure that the ``ADMINLTE2_USE_STRICT_POLICY``
    is defined in ``settings.py`` and is set to ``True``.
 
 2. If you are using function based views, follow the steps in the
@@ -72,7 +72,7 @@ settings in settings.py mentioned below.
    permission to access.
 
 4. Add any routes that do not require a specific permission and should
-   be available to everyone to the ``ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST``
+   be available to everyone to the ``ADMINLTE2_STRICT_POLICY_WHITELIST``
    in ``settings.py``
 
 Function based views
@@ -222,7 +222,7 @@ settings.py
         },
     ]
     # Ensures that we are using the Loose Policy.
-    ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = False
+    ADMINLTE2_USE_STRICT_POLICY = False
 
 .. _loose_decorator_urls.py:
 
@@ -412,7 +412,7 @@ settings.py
         },
     ]
     # Ensures that we are using the Strict Policy.
-    ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = True
+    ADMINLTE2_USE_STRICT_POLICY = True
 
 .. _strict_decorator_urls.py:
 
@@ -527,7 +527,7 @@ route.
 .. code:: python
 
     # Lists the routes that do not need permissions to be seen by all users.
-    ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = ['home']
+    ADMINLTE2_STRICT_POLICY_WHITELIST = ['home']
 
 
 .. _strict_decorator_fixed_views.py:
@@ -714,7 +714,7 @@ settings.py
         },
     ]
     # Ensures that we are using the Loose Policy.
-    ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = False
+    ADMINLTE2_USE_STRICT_POLICY = False
 
 .. _loose_mixin_urls.py:
 
@@ -912,7 +912,7 @@ settings.py
         },
     ]
     # Ensures that we are using the Strict Policy.
-    ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = True
+    ADMINLTE2_USE_STRICT_POLICY = True
 
 .. _strict_mixin_urls.py:
 
@@ -1031,7 +1031,7 @@ route.
 .. code:: python
 
     # Lists the routes that do not need permissions to be seen by all users.
-    ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = ['home']
+    ADMINLTE2_STRICT_POLICY_WHITELIST = ['home']
 
 
 .. _strict_mixin_fixed_views.py:

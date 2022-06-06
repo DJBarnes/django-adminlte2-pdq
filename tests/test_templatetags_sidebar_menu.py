@@ -14,7 +14,7 @@ from django_adminlte_2.templatetags import sidebar_menu
 UserModel = get_user_model()
 
 
-@override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=WHITELIST)
+@override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=WHITELIST)
 class TemplateTagSidebarMenuTestCase(TestCase):
     """
     Test Template Tags and Helper Methods used in those template tags
@@ -313,7 +313,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test check_for_whitelisted_node
     # |-------------------------------------------------------------------------
 
-    @override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=['django_adminlte_2:sample2'])
+    @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=['django_adminlte_2:sample2'])
     def test_check_for_whitelisted_node_returns_true_when_node_in_list(self):
         """Test check for whitelisted node returns true when node in list"""
         node = {
@@ -506,7 +506,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS=True)
+    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
     def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_on(self):
         """Test is allowed node returns true when user is superuser and whitelist is on"""
         self._setup_superuser()
@@ -521,7 +521,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS=True)
+    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
     def test_is_allowed_node_returns_true_when_user_has_all_perms_and_whitelist_is_on(self):
         """Test is allowed node returns true when user has all perms and white list is on"""
         self._setup_staffuser('add_group')
@@ -537,7 +537,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS=True)
+    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
     def test_is_allowed_node_returns_true_when_user_has_one_perm_and_whitelist_is_on(self):
         """Test is allowed node returns true when user has one perm and whitelist is on"""
         self._setup_staffuser('add_permission')
@@ -552,8 +552,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS=True)
-    @override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=WHITELIST + ['django_adminlte_2:home'])
+    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=WHITELIST + ['django_adminlte_2:home'])
     def test_is_allowed_node_returns_true_when_there_are_no_perms_and_whitelist_is_on_and_node_is_whitelisted(self):
         """Test is allowed node returns true when there are no perms and
         whitelist is on and node is whitelisted"""
@@ -569,8 +569,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS=True)
-    @override_settings(ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST=[])
+    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=[])
     def test_is_allowed_node_returns_false_when_there_are_no_perms_and_whitelisting_is_on_but_has_no_entry_for_node(self):
         """Test is allowed node returns false when there are no perms and
         whitelisting is on but has no entry for node"""

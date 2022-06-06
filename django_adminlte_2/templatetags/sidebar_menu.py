@@ -119,7 +119,7 @@ def check_for_whitelisted_node(node):
     """Check to see if the route property on the node is in the whitelist"""
     return node.get('route') in getattr(
         settings,
-        'ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST',
+        'ADMINLTE2_STRICT_POLICY_WHITELIST',
         WHITELIST
     )
 
@@ -204,7 +204,7 @@ def is_allowed_node(user, node):
     # Get whether to do whitelist checking
     do_whitelist_check = getattr(
         settings,
-        'ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS',
+        'ADMINLTE2_USE_STRICT_POLICY',
         False
     )
 

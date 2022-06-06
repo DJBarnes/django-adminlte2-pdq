@@ -85,14 +85,14 @@ Additionally there are tools, utilities and additional CSS options to aid in the
 
     Whether routes with no defined permission should be hidden unless added to a Whitelist
     If this setting is set to False, then all routes without a defined permission are still visible on the sidebar menu
-    If this setting is set to True, then all routes without a defined permission are hidden on the sidebar menu unless the route is found in the ```ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST``` setting.
+    If this setting is set to True, then all routes without a defined permission are hidden on the sidebar menu unless the route is found in the ```ADMINLTE2_STRICT_POLICY_WHITELIST``` setting.
     ```python
-    ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS = (True/False)
+    ADMINLTE2_USE_STRICT_POLICY = (True/False)
     ```
 
-    Assuming ```ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS``` is set to True, this is the list of routes that will be shown on the sidebar menu and accessible despite a defined permission.
+    Assuming ```ADMINLTE2_USE_STRICT_POLICY``` is set to True, this is the list of routes that will be shown on the sidebar menu and accessible despite a defined permission.
     ```python
-    ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST = []
+    ADMINLTE2_STRICT_POLICY_WHITELIST = []
     ```
 
     This menu setting is useful for defining a menu that should come before the main menu. Sometimes you may be in a subsection of your website that has additional navigation that should precede the normal main navigation but only be shown when in this subsection. This setting allows that without having to change the main navigation menu.
