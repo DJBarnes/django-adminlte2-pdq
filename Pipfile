@@ -21,5 +21,10 @@ sphinx-autobuild="*"
 sphinx_rtd_theme="*"
 twine="*"
 
+pytest = "*"                    # Base Pytest package. Current preferred testing method.
+pytest-asyncio = "*"            # Additional Pytest logic for asyncio support.
+pytest-django = "*"             # Additional Pytest logic for Django support.
+pytest-xdist = "*"              # Additional Pytest features, such as multithreading and looping.
+
 [requires]
 python_version = "3.8"
