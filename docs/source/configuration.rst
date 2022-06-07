@@ -8,6 +8,8 @@ such as the :doc:`menu` and :doc:`authorization` can become quite complex and
 have dedicated documentation pages to better explain the full extent of these
 settings.
 
+----
+
 Home Configuration
 ==================
 
@@ -25,6 +27,7 @@ Example::
 
     ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
 
+----
 
 Menu Configuration
 ==================
@@ -102,25 +105,29 @@ Example::
 
     ADMINLTE2_MENU = []
 
+----
 
 Admin Configuration
 ===================
 
-.. note::
+.. important::
 
-    All of the settings in this section work directly with the sidebar and
-    the sidebar links inside the admin section of the sidebar. By default,
-    the admin sidebar section is only shown on admin pages. If you would like
-    to change this behavior so that the admin sidebar section is available on
-    all pages, please see the :ref:`configuration:ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES`
-    section for more information.
+    All of the settings in this section manipulate the admin section of the
+    sidebar.
+
+    However, by default, the admin sidebar section is only shown on
+    `Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
+    . If you would like to change this behavior so that the admin sidebar
+    section is available on all pages, please see the
+    :ref:`configuration:ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES` section for
+    more information.
 
 
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK
 ---------------------------------
 
-By default the site sidebar will not have a link to the admin index page.
-If you would like to see a link to the admin index page in the sidebar set this
+By default the admin menu sidebar will not have a link to the admin index page.
+If you would like to see a link to the admin index page in the sidebar, set this
 setting to ``True``.
 
 .. note::
@@ -144,7 +151,7 @@ ADMINLTE2_ADMIN_INDEX_USE_APP_LIST
 
 By default Django-AdminLTE-2 will put the Apps on the Admin Index page
 into AdminLTE Info Boxes. Setting this to ``True`` will change that look
-to the traditional Django list view but still within the main adminlte site
+to the traditional Django list view but still within the main AdminLTE site
 styling.
 
 .. note::
@@ -164,17 +171,18 @@ Example::
 ADMINLTE2_ADMIN_MENU_IN_TREE
 ----------------------------
 
-By default the sidebar will render a root entry for each app in the project.
-Each app entry will be a tree that can be collapsed and expanded to reveal
-entries for the models in that app. If you would like to put the entire admin
-sidebar section also into a tree so that not only can apps be collapsed and
-expanded out, but also the entire admin section can be collapsed and expanded
-out, set this setting to ``True``.
+By default the admin sidebar will render a root entry for each app in the
+project. Each app entry will be a tree that can be collapsed and expanded to
+reveal entries for the models in that app.
+
+Additionally, the entire admin sidebar section can be grouped into a tree. This
+will allow the entire admin menu section to be collapsable. To enable this
+behavior, change this setting to ``True``.
 
 .. note::
 
-    You can refer to the :ref:`menu:tree` section of the :doc:`menu` page for more
-    information about how trees work and are defined manually.
+    You can refer to the :ref:`menu:tree` section of the :doc:`menu` page for
+    more information about how trees work and are defined.
 
 :Type: ``bool``
 :Default: ``False``
@@ -183,6 +191,7 @@ Example::
 
     ADMINLTE2_ADMIN_MENU_IN_TREE = {True|False}
 
+----
 
 Authorization Configuration
 ===========================
@@ -197,7 +206,7 @@ If this setting is set to False, then all routes without a defined permission
 are still visible on the sidebar menu
 
 If this setting is set to True, then all routes without a defined permission
-are hidden on the sidebar menu unless the route is found in the
+are hidden on the sidebar menu, unless the route is found in the
 ``ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST`` setting.
 
 :Type: ``bool``
@@ -213,8 +222,7 @@ ADMINLTE2_MENU_PERMISSION_FREE_WHITELIST
 
 Assuming ``ADMINLTE2_USE_WHITELIST_FOR_UNDEFINED_PERMISSIONS`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
-accessible
-despite a defined permission.
+accessible, despite said routes having no defined permission.
 
 :Type: ``list``
 :Default: ``[]``
