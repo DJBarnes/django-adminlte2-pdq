@@ -1,6 +1,6 @@
 ###
- # Pipenv Package Declarations.
- # This file is what Pipenv commands build off of.
+ # Package index source declarations.
+ # Where to get python packages from.
  ##
 [[source]]
 url = "https://pypi.python.org/simple"
