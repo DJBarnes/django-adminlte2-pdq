@@ -192,7 +192,7 @@ A string representing what will be rendered for the user to see.
 
 Either a `Font-Awesome 4 <https://fontawesome.com/v4/icons/>`_ or
 `Font-Awesome 5 <https://fontawesome.com/v5/search?m=free>`_ set of CSS classes.
-All required classes needed to make the icon show up are must be listed.
+All required classes needed to make the icon show up must be listed.
 
 :Key: ``icon``
 :Type: ``string``
@@ -389,9 +389,9 @@ A string representing what will be rendered for the user to see.
 
 **icon**
 
-Either a `Font-Awesome 4 <https://fontawesome.com/v4/icons/>`_  or
+Either a `Font-Awesome 4 <https://fontawesome.com/v4/icons/>`_ or
 `Font-Awesome 5 <https://fontawesome.com/v5/search?m=free>`_ set of CSS classes.
-All icon classes required to make the icon show must be listed.
+All required classes needed to make the icon show up must be listed.
 
 :Key: ``icon``
 :Type: ``string``
@@ -428,6 +428,28 @@ Tree Example with a Node
                 'route': 'django_adminlte_2:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
+            },
+        ],
+    },
+
+Tree Example with sub-tree and a Node
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. code:: python
+
+    {
+        'text': 'Sample Tree',
+        'icon': 'fa fa-leaf',
+        'nodes': [
+            {
+                'text': 'Sub Tree',
+                'icon': 'fa fa-box',
+                'nodes': [
+                    {
+                        'route': 'django_adminlte_2:sample2',
+                        'text': 'Sample2',
+                        'icon': 'fa fa-building',
+                    },
+                ],
             },
         ],
     },
