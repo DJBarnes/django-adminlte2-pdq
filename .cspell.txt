@@ -14,8 +14,14 @@ undoc
 urlpatterns
 
 # Domain
+autosection
+autosectionlabel
+autosummary
 adminlte
 fieldtype
+hashcode
+intersphinx
+templatetags
 unslugify
 unsnake
 unsnaked

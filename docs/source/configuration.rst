@@ -58,7 +58,7 @@ setting to ``True``.
 
 .. note::
 
-    Visibility is stil subject to a user having the ``is_staff`` property.
+    Visibility is still subject to a user having the ``is_staff`` property.
     Without that property, the admin section of the sidebar will still be
     hidden to the user regardless of this setting.
 
@@ -176,7 +176,7 @@ project. Each app entry will be a tree that can be collapsed and expanded to
 reveal entries for the models in that app.
 
 Additionally, the entire admin sidebar section can be grouped into a tree. This
-will allow the entire admin menu section to be collapsable. To enable this
+will allow the entire admin menu section to be collapsible. To enable this
 behavior, change this setting to ``True``.
 
 .. note::

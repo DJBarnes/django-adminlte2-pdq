@@ -1,12 +1,20 @@
-{ // Settings for VS code cSpell plugin
+// cSpell Settings
+{
+    // Version of the setting file.  Always 0.2
+    "version": "0.2",
+    // language - current active spelling language
+    "language": "en",
+    // Additional dictionaries
     "dictionaryDefinitions": [
-        { "name": "main", "file": ".cspell" }
+        {"name": "main", "path": ".cspell.txt"}
     ],
+    // Dictionaries to use.
     "dictionaries": [
-        "main"
-    ],
-    "ignoreRegExpList": [
-        "[^\\s]{25,}", // ignore strings that are 25 chars or longer (e.g. api keys)
-        "[^A-Z][A-Z]{4}[^A-Z]" // 4 letter codes
+        "main",
+        "en_US",
+        "softwareTerms",
+        "python",
+        "html",
+        "bash"
     ]
 }
