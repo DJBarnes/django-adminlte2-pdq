@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.shortcuts import render
 from django_adminlte_2.decorators import (
     login_required,
-    requires_all_permissions,
-    requires_one_permission,
+    permission_required,
+    permission_required_one,
 )
 
 
@@ -24,7 +24,7 @@ def register(request):
     })
 
 
-@requires_all_permissions(
+@permission_required(
     ['auth.add_group', 'auth.change_group', 'auth.delete_group']
 )
 def sample1(request):
@@ -32,7 +32,7 @@ def sample1(request):
     return render(request, 'adminlte2/sample1.html', {})
 
 
-@requires_one_permission(
+@permission_required_one(
     ['auth.add_permission', 'auth.change_permission', 'auth.delete_permission']
 )
 def sample2(request):

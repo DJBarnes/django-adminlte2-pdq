@@ -2,14 +2,14 @@
 Tests for Decorators
 """
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import Permission, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
 from django_adminlte_2.decorators import (
-    requires_all_permissions,
-    requires_one_permission
+    permission_required,
+    permission_required_one
 )
 
 UserModel = get_user_model()
@@ -66,14 +66,16 @@ class DecoratorTestCase(TestCase):
             password='qwerty'
         )
 
+        self.anonymous_user = AnonymousUser()
+
     # |--------------------------------------------------------------------------
-    # | Test requires_one_permission
+    # | Test permission_required_one
     # |--------------------------------------------------------------------------
 
-    def test_requires_one_permission_works_when_permission_is_a_string(self):
-        """Test requires one permission works when permission is a string"""
+    def test_permission_required_one_works_when_permission_is_a_string(self):
+        """Test permission_required_one works when permission is a string"""
 
-        @requires_one_permission('auth.add_foo')
+        @permission_required_one('auth.add_foo')
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -89,10 +91,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_one_permission_works_when_user_has_all(self):
-        """Test requires one permission work when user has all"""
+    def test_permission_required_one_works_when_user_has_all(self):
+        """Test permission_required_one work when user has all"""
 
-        @requires_one_permission(('auth.add_foo', 'auth.change_foo'))
+        @permission_required_one(('auth.add_foo', 'auth.change_foo'))
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -109,10 +111,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_one_permission_works_when_user_has_one(self):
-        """Test requires one permission works when user has one"""
+    def test_permission_required_one_works_when_user_has_one(self):
+        """Test permission_required_one works when user has one"""
 
-        @requires_one_permission(('auth.add_foo', 'auth.change_foo'))
+        @permission_required_one(('auth.add_foo', 'auth.change_foo'))
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -129,10 +131,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_one_permission_works_when_user_has_none(self):
-        """Test requires one permission works when user has none"""
+    def test_permission_required_one_works_when_user_has_none(self):
+        """Test permission_required_one works when user has none"""
 
-        @requires_one_permission(('auth.add_foo', 'auth.change_foo'))
+        @permission_required_one(('auth.add_foo', 'auth.change_foo'))
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -149,10 +151,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_one_permission_works_when_user_has_none_and_raise_exception(self):
-        """Test requires one permission works when user has none and raise exception"""
+    def test_permission_required_one_works_when_user_has_none_and_raise_exception(self):
+        """Test permission_required_one works when user has none and raise exception"""
 
-        @requires_one_permission(('auth.add_foo', 'auth.change_foo'), raise_exception=True)
+        @permission_required_one(('auth.add_foo', 'auth.change_foo'), raise_exception=True)
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -172,13 +174,13 @@ class DecoratorTestCase(TestCase):
             )
 
     # |--------------------------------------------------------------------------
-    # | Test requires_all_permissions
+    # | Test permission_required
     # |--------------------------------------------------------------------------
 
-    def test_requires_all_permissions_works_when_permission_is_a_string(self):
-        """Test requires all permissions works when permission is a string"""
+    def test_permission_required_works_when_permission_is_a_string(self):
+        """Test permission_required works when permission is a string"""
 
-        @requires_all_permissions('auth.add_foo')
+        @permission_required('auth.add_foo')
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -194,10 +196,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_all_permissions_works_when_user_has_all(self):
-        """Test requires all permissions works when user has all"""
+    def test_permission_required_works_when_user_has_all(self):
+        """Test permission_required works when user has all"""
 
-        @requires_all_permissions(('auth.add_foo', 'auth.change_foo'))
+        @permission_required(('auth.add_foo', 'auth.change_foo'))
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -214,10 +216,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_all_permissions_works_when_user_has_one(self):
-        """Test requires all permissions works when user has one"""
+    def test_permission_required_works_when_user_has_one(self):
+        """Test permission_required works when user has one"""
 
-        @requires_all_permissions(('auth.add_foo', 'auth.change_foo'))
+        @permission_required(('auth.add_foo', 'auth.change_foo'))
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -234,10 +236,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_all_permissions_works_when_user_has_none(self):
-        """Test requires all permissions works when user has none"""
+    def test_permission_required_works_when_user_has_none(self):
+        """Test permission_required works when user has none"""
 
-        @requires_all_permissions(('auth.add_foo', 'auth.change_foo'))
+        @permission_required(('auth.add_foo', 'auth.change_foo'))
         def a_view(request):
             return HttpResponse('foobar')
 
@@ -254,10 +256,10 @@ class DecoratorTestCase(TestCase):
             )
         )
 
-    def test_requires_all_permissions_works_when_user_has_none_and_raise_exception(self):
-        """Test requires all permissions works when user has none and raise exception"""
+    def test_permission_required_works_when_user_has_none_and_raise_exception(self):
+        """Test permission_required works when user has none and raise exception"""
 
-        @requires_all_permissions(('auth.add_foo', 'auth.change_foo'), raise_exception=True)
+        @permission_required(('auth.add_foo', 'auth.change_foo'), raise_exception=True)
         def a_view(request):
             return HttpResponse('foobar')
 

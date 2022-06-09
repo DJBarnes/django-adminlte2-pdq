@@ -1,9 +1,9 @@
 """Django AdminLTE2 Decorators"""
 from functools import wraps
 from django.contrib.auth.decorators import (
-    permission_required,
+    login_required as django_login_required,
+    permission_required as django_permission_required,
     user_passes_test,
-    login_required as django_login_required
 )
 from django.core.exceptions import PermissionDenied
 
@@ -54,7 +54,7 @@ def login_required(redirect_field_name='next', login_url=None):
     return decorator
 
 
-def requires_all_permissions(permission, login_url=None, raise_exception=False):
+def permission_required(permission, login_url=None, raise_exception=False):
     """
     Decorator for views that defines what permissions are required, and also
     adds the required permissions as a property to that view function.
@@ -72,7 +72,7 @@ def requires_all_permissions(permission, login_url=None, raise_exception=False):
         function.permissions = permissions
 
         @wraps(function)
-        @permission_required(permission, login_url, raise_exception)
+        @django_permission_required(permission, login_url, raise_exception)
         def wrap(request, *args, **kwargs):
 
             return function(request, *args, **kwargs)
@@ -80,7 +80,7 @@ def requires_all_permissions(permission, login_url=None, raise_exception=False):
     return decorator
 
 
-def requires_one_permission(permission, login_url=None, raise_exception=False):
+def permission_required_one(permission, login_url=None, raise_exception=False):
     """
     Decorator for views that defines that one of the permissions are required,
     and also adds the required permissions as a property to that view function.
