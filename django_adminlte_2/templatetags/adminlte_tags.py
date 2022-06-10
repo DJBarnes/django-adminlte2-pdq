@@ -9,6 +9,7 @@ import logging
 from django import template
 from django.conf import settings
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 
 logger = logging.getLogger(__name__)
 register = template.Library()
@@ -262,6 +263,24 @@ def get_logout_url():
 def get_home_url():
     """Get the home URL from the settings and default to the django_adminlte_2 home."""
     return reverse(getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'))
+
+
+@register.simple_tag()
+def get_logo_text():
+    """Get the logo text from the settings and default to AdminLTE"""
+    return getattr(settings, 'ADMINLTE2_LOGO_TEXT', mark_safe('<b>Admin</b>LTE'))
+
+
+@register.simple_tag()
+def get_logo_text_small():
+    """Get the logo text small from the settings and default to ALTE"""
+    return getattr(settings, 'ADMINLTE2_LOGO_TEXT_SMALL', mark_safe('<b>A</b>LTE'))
+
+
+@register.simple_tag()
+def get_skin_class():
+    """Get the skin class to use from the settings and default to skin-blue"""
+    return getattr(settings, 'ADMINLTE2_SKIN_CLASS', 'skin-blue')
 
 
 @register.simple_tag(takes_context=True)

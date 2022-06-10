@@ -44,7 +44,7 @@
   class="
     hold-transition
     sidebar-mini
-    {% block skin_class %}skin-blue{% endblock skin_class %}
+    {% block skin_class %}{% get_skin_class %}{% endblock skin_class %}
     {% block body_class %}{% endblock body_class %}
   "
   {% block body-attrs %}{% endblock %}
