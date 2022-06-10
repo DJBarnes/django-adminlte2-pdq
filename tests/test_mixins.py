@@ -2,14 +2,14 @@
 Tests for Mixins
 """
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission
+from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
 from django.views import View
 
-from django_adminlte_2.mixins import PermissionRequiredMixin
+from django_adminlte_2.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 UserModel = get_user_model()
 
@@ -51,6 +51,8 @@ class MixinTestCase(TestCase):
             password='qwerty'
         )
         self.full_user.user_permissions.add(*full_perms)
+
+        self.anonymous_user = AnonymousUser()
 
     def test_mixin_works_with_permission_required_defined(self):
         """Test mixin works with permission required defined"""
@@ -165,3 +167,39 @@ class MixinTestCase(TestCase):
             request = self.factory.get('/rand')
             setattr(request, 'user', self.full_user)
             TestView.as_view()(request)
+
+    # |-------------------------------------------------------------------------
+    # | Test login_required
+    # |-------------------------------------------------------------------------
+
+    def test_login_required_mixin_works(self):
+        """Test login_required mixin works"""
+
+        class TestView(LoginRequiredMixin, View):
+            """Test View Class"""
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse('foobar')
+
+        request = self.factory.get('/rand')
+        setattr(request, 'user', self.full_user)
+        response = TestView.as_view()(request)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_required_mixin_works_when_user_not_logged_in(self):
+        """Test login_required mixin works when user not logged in"""
+
+        class TestView(LoginRequiredMixin, View):
+            """Test View Class"""
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse('foobar')
+
+        request = self.factory.get('/rand')
+        setattr(request, 'user', self.anonymous_user)
+        response = TestView.as_view()(request)
+
+        self.assertEqual(response.status_code, 302)

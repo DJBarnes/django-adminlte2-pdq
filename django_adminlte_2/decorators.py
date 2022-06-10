@@ -33,7 +33,7 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
     return user_passes_test(check_perms, login_url=login_url)
 
 
-def login_required(redirect_field_name='next', login_url=None):
+def login_required(function=None, redirect_field_name='next', login_url=None):
     """
     Decorator for views that defines that login is required, and also
     adds the login required as a property to that view function.
@@ -51,6 +51,9 @@ def login_required(redirect_field_name='next', login_url=None):
 
             return function(request, *args, **kwargs)
         return wrap
+
+    if function:
+        return decorator(function)
     return decorator
 
 

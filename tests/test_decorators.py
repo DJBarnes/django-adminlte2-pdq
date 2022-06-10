@@ -2,12 +2,13 @@
 Tests for Decorators
 """
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Permission, AnonymousUser
+from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
 from django_adminlte_2.decorators import (
+    login_required,
     permission_required,
     permission_required_one
 )
@@ -277,3 +278,33 @@ class DecoratorTestCase(TestCase):
                     'auth.change_foo'
                 )
             )
+
+    # |-------------------------------------------------------------------------
+    # | Test login_required
+    # |-------------------------------------------------------------------------
+
+    def test_login_required_decorator_works(self):
+        """Test login_required decorator works"""
+
+        @login_required
+        def a_view(request):
+            return HttpResponse('foobar')
+
+        request = self.factory.get('/rand')
+        setattr(request, 'user', self.full_user)
+        response = a_view(request)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_login_required_decorator_works_when_user_not_logged_in(self):
+        """Test login_required decorator works when user not logged in"""
+
+        @login_required
+        def a_view(request):
+            return HttpResponse('foobar')
+
+        request = self.factory.get('/rand')
+        setattr(request, 'user', self.anonymous_user)
+        response = a_view(request)
+
+        self.assertEqual(response.status_code, 302)
