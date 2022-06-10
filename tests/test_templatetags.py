@@ -21,7 +21,6 @@ class TemplateTagTestCase(TestCase):
 
     class TestForm(forms.Form):
         """Test Form"""
-        # adminlte2_use_error_summary = True
         adminlte2_show_field_errors_in_summary = True
 
         test_hidden = forms.CharField(widget=forms.HiddenInput, required=False)

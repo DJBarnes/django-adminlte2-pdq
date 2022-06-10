@@ -29,3 +29,7 @@ omit =
 
     # Omit Sample Project
     */sample_project/*
+
+    # Omit Testing Scripts
+    ./runpytests.py
+    ./runtests.py

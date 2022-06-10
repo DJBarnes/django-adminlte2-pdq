@@ -155,6 +155,40 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
+    def test_get_permissions_from_node_pulls_permissions_from_direct_assigned_permissions_when_external_url(self):
+        """Test get permissions from node pulls permissions from direct assigned permissions_when_external_url"""
+        node = {
+            'route': '#',
+            'text': 'Sample1',
+            'icon': 'fa fa-group',
+            'url': 'https://github.com',
+            'permissions': ['add_sample1', 'update_sample1'],
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertEqual(node['permissions'], permissions)
+        self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
+
+    def test_get_permissions_from_node_returns_empty_list_when_the_node_is_for_an_external_resource(self):
+        """Test get permissions from node returns empty list when the node is
+        for an external resource"""
+        node = {
+            'route': '#',
+            'text': 'External',
+            'icon': 'fa fa-dashboard',
+            'url': 'https://github.com',
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
+        self.assertFalse(login_required)
+
     # |-------------------------------------------------------------------------
     # | Test one_of_permissions
     # |-------------------------------------------------------------------------
