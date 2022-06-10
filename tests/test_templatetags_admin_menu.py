@@ -771,10 +771,6 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
     def create_user(self):
         """Create a dummy user for views to access."""
-        # TODO: O3G code uses the user when creating its menu, which requires
-        # that the user model have a pk. This may need to be in transactions
-        # then. A possible fix is to override the MENU in settings to use only
-        # this packages menu, and avoid O3G code for these tests.
         user = UserModel()
         user.pk = 1
 
