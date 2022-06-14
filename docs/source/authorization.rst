@@ -50,8 +50,8 @@ Loose Policy
 ------------
 
 Use the following steps to finish out your policy.
-Refer to the :doc:`configuration` section for information about the specific
-settings in settings.py mentioned below.
+Refer to the :doc:`configuration/authorization` section for information about
+the specific settings in settings.py mentioned below.
 
 1. Ensure that the ``ADMINLTE2_USE_STRICT_POLICY``
    is either not defined in ``settings.py``, or is set to ``False`` if it is
@@ -69,8 +69,8 @@ Strict Policy
 -------------
 
 Use the following steps to finish out your policy.
-Refer to the :doc:`configuration` section for information about the specific
-settings in settings.py mentioned below.
+Refer to the :doc:`configuration/authorization` section for information about
+the specific settings in settings.py mentioned below.
 
 1. Ensure that the ``ADMINLTE2_USE_STRICT_POLICY``
    is defined in ``settings.py`` and is set to ``True``.

@@ -14,7 +14,7 @@ Static Menu Definition
 ======================
 
 In its most basic configuration, the full sidebar is rendered by parsing the
-contents of a Django setting called :ref:`configuration:adminlte2_menu`.
+contents of a Django setting called :ref:`configuration/menu:adminlte2_menu`.
 This setting will contain a menu definition consisting of reusable building
 blocks in the form of either a
 :ref:`menu/building_blocks:section`, :ref:`menu/building_blocks:separator`,
@@ -55,9 +55,7 @@ within the menu bar.
 By default, these admin menu entries can only be seen when the user is on a
 `Django Admin page <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_.
 But, it can be customized via some configuration options in the Django settings
-(See the :ref:`configuration:menu configuration` and
-:ref:`configuration:admin configuration` sections of
-the :doc:`../configuration` page for more information).
+(See the :doc:`../configuration/menu` and :doc:`../configuration/admin` pages).
 
 
 Additionally, the icons used for each admin menu entry can be customized as well

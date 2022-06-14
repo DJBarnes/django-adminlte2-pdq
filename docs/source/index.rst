@@ -61,11 +61,20 @@ Features include:
 
 .. toctree::
    :maxdepth: 3
-   :caption: Other
+   :caption: Configuration
+
+   configuration/home
+   configuration/menu
+   configuration/admin
+   configuration/authorization
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Misc
 
    authorization
    demo_css
-   configuration
    api_reference
 
 

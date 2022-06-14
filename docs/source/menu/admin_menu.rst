@@ -13,9 +13,8 @@ This menu will create entries corresponding to each installed app, and each
 corresponding model.
 
 .. note::
-   If you would like to also see the admin menu on non-admin pages, refer to the
-   :ref:`configuration:adminlte2_include_admin_nav_on_main_pages`
-   section of the :doc:`../configuration` page.
+   If you would like to also see the admin menu on non-admin pages, refer to
+   :ref:`configuration/menu:adminlte2_include_admin_nav_on_main_pages`.
 
 
 Customizing Icons
@@ -98,9 +97,8 @@ If you have configured your site to show the Admin Home link in the sidebar,
 there will be a link in the sidebar with the ``fa-superpowers`` icon.
 You can change the icon for that link as well.
 
-For information on how to enable the Admin Home link see the
-:ref:`configuration:adminlte2_include_admin_home_link`
-section of the :doc:`../configuration` page.
+For information on how to enable the Admin Home link see
+:ref:`configuration/admin:adminlte2_include_admin_home_link`.
 
 In any ``admin.py`` file, call one additional method on the
 **AdminMenu** to set the Admin Home link icon.
