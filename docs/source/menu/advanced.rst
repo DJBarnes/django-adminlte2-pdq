@@ -15,7 +15,7 @@ They are listed below and are rendered out in the order listed.
 * ``ADMINLTE2_MENU`` - Manually defined, via either the Django settings or a
   template context variable.
 * ``Admin_Menu`` - Automatically generated from installed Apps and models.
-  Shown/hidden via a settings toggle. See :doc:`admin_menu` for more details.
+  Shown/hidden via a settings toggle. See :doc:`admin` for more details.
 * ``ADMINLTE2_MENU_LAST`` - Manually defined. Must be provided via a template
   context variable.
 

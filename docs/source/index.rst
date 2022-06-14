@@ -55,7 +55,7 @@ Features include:
    menu/general_information
    menu/building_blocks
    menu/advanced
-   menu/admin_menu
+   menu/admin
    menu/examples
 
 

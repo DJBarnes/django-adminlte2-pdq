@@ -48,7 +48,7 @@ group.
 These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
 **Admin Menu**.
 More information about these groups can be found on the
-:doc:`../menu/admin_menu` page. If you would like to disable this
+:doc:`../menu/admin` page. If you would like to disable this
 separator from being automatically rendered set this setting to ``False``.
 
 
@@ -65,7 +65,7 @@ ADMINLTE2_MENU
 
 This setting is the definition for the main navigation menu.
 There are a lot of options when creating this menu.
-See the :doc:`../menu/admin_menu` section for a detailed explanation on how to
+See the :doc:`../menu/admin` section for a detailed explanation on how to
 create this menu and all of the available options that can be used.
 
 :Type: ``list``

@@ -59,4 +59,4 @@ But, it can be customized via some configuration options in the Django settings
 
 
 Additionally, the icons used for each admin menu entry can be customized as well
-(See :doc:`admin_menu`).
+(See :doc:`admin`).
