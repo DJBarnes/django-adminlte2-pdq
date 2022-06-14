@@ -71,9 +71,17 @@ Features include:
 
 .. toctree::
    :maxdepth: 3
+   :caption: Authorization & Access Policies
+
+   authorization/policies
+   authorization/function_views
+   authorization/class_views
+
+
+.. toctree::
+   :maxdepth: 3
    :caption: Misc
 
-   authorization
    demo_css
    api_reference
 

@@ -5,7 +5,7 @@ There are various configuration options that can be set via Django Settings to
 control the overall look, feel, and functionality of the package.
 All settings are listed here for reference even though some of these settings
 such as the :doc:`../menu/general_information` and
-:doc:`../authorization` can become quite complex and have dedicated
+:doc:`../authorization/policies` can become quite complex and have dedicated
 documentation pages to better explain the full extent of these settings.
 
 

@@ -193,7 +193,7 @@ An optional string representing the url for the link.
     This url key is useful if you need to link to an external website rather
     than an internal link. External links must define any permissions directly
     on the node as there is no associated view to be able to pull permissions
-    from. See the :doc:`../authorization` page for more information.
+    from. See the :doc:`../authorization/policies` page for more information.
 
 **permissions**
 
@@ -207,9 +207,9 @@ permissions in order to see the node.
 .. warning::
 
     In general, you should use the functionality defined on the
-    :doc:`../authorization` page to add permissions to a View rather than
-    directly to a node. Defining on the View will handle both hiding a node in
-    the sidebar and preventing direct URL navigation without the need to
+    :doc:`../authorization/policies` page to add permissions to a View rather
+    than directly to a node. Defining on the View will handle both hiding a
+    node in the sidebar and preventing direct URL navigation without the need to
     additionally set the permissions on this node key.
     This key will **NOT** fully protect the link that the node is associated
     with.
@@ -232,9 +232,9 @@ these order to see the node.
 .. warning::
 
     In general, you should use the functionality defined on the
-    :doc:`../authorization` page to add permissions to a View rather than
-    directly to a node. Defining on the View will handle both hiding a node in
-    the sidebar and preventing direct URL navigation without the need to
+    :doc:`../authorization/policies` page to add permissions to a View rather
+    than directly to a node. Defining on the View will handle both hiding a
+    node in the sidebar and preventing direct URL navigation without the need to
     additionally set the permissions on this node key.
     This key will **NOT** fully protect the link that the node is associated
     with.
@@ -257,8 +257,8 @@ the system in order to see the node.
 .. warning::
 
     In general, you should use the functionality defined on the
-    :doc:`../authorization` page to add a login required criteria to a View
-    rather than directly to a node.
+    :doc:`../authorization/policies` page to add a login required criteria to a
+    View rather than directly to a node.
     Defining on the View will handle both hiding a node in the
     sidebar and preventing direct URL navigation without the need to
     additionally define that login is required on this node.

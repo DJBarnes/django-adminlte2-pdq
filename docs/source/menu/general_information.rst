@@ -26,7 +26,7 @@ Defining the menu in the settings file is best when:
 * All (or part) of the sidebar content is static
 * The only thing that may change is the visibility of entries, based on
   whether or not a user is authorized to see that particular thing
-  (More information available on the :doc:`../authorization` page)
+  (More information available on the :doc:`../authorization/policies` page)
 
 
 Dynamic Menu Definition
