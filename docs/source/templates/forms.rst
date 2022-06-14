@@ -1,14 +1,19 @@
 Forms
 *****
 
-Forms and formsets can be easily rendered out and properly styled using the
-provided template tags described in the
-:doc:`template_tags` page.
-By default forms and formsets will display an error summary with non-field
-errors at the top of the form and field errors at each field. The same as
-Django's default behavior.
+Forms and formsets can be easily rendered out and properly styled, using the
+provided template tags described in the :doc:`template_tags` page.
+
+By default, this package renders form/formset errors the same as Django's
+default behavior. IE: forms and formsets will display an error summary with
+non-field errors at the top of the form and field errors at each field.
+
 There are a few attributes that you can add to a form to change this behavior
 if needed. Those options are explained below.
+
+
+----
+
 
 adminlte2_show_field_errors_in_summary
 ======================================
@@ -39,8 +44,9 @@ Example setting on an already instantiated form.
 adminlte2_use_error_summary
 ===========================
 
-If you would not like Adminlte to automatically render out the error summary
+If you would not like AdminLTE to automatically render out the error summary,
 you can turn this off by setting this attribute on your form to ``False``.
+
 This is useful if you want to handle the error summary manually without using
 any of the built in magic.
 

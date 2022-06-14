@@ -5,10 +5,11 @@ Menu Configuration
 ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES
 =========================================
 
-By default the main navigation (non-admin) is not part of the sidebar when the
-user is viewing an admin page. If you would like users to be able to see all of
-the main nav links regardless of what page they are on, set this setting to
-``True``.
+By default the main navigation (non-admin) menu is not part of the sidebar when
+the user is viewing a
+`Django Admin page <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_.
+If you would like users to be able to see all of the main nav links regardless
+of what page they are on, set this value to ``True``.
 
 :Type: ``bool``
 :Default: ``False``
@@ -21,16 +22,17 @@ Example::
 ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES
 =========================================
 
-By default, admin navigation is not part of the sidebar when the user is
-viewing a main navigation (non-admin) page. If you would like users to be able
-to see all of the admin nav links regardless of what page they are on, set this
-setting to ``True``.
+By default, the admin navigation menu is not part of the sidebar when the user
+is viewing a main navigation
+(non-`Django-Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_)
+page. If you would like users to be able to see all of the admin nav links
+regardless of what page they are on, set this value to ``True``.
 
 .. note::
 
     Visibility is still subject to a user having the ``is_staff`` property.
     Without that property, the admin section of the sidebar will still be
-    hidden to the user regardless of this setting.
+    hidden to the user, regardless of this setting.
 
 :Type: ``bool``
 :Default: ``False``
@@ -49,7 +51,7 @@ These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
 **Admin Menu**.
 More information about these groups can be found on the
 :doc:`../menu/admin` page. If you would like to disable this
-separator from being automatically rendered set this setting to ``False``.
+separator from being automatically rendered, set this value to ``False``.
 
 
 :Type: ``bool``

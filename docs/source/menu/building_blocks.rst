@@ -1,7 +1,6 @@
 Building Blocks
 ***************
 
-
 The menu is built using a combination of the following 4 types of
 building blocks:
 
@@ -11,8 +10,14 @@ building blocks:
 * Tree_
 
 
+----
+
+
 Section
 =======
+
+A section is a grouping of other related navigational elements. Technically,
+a section is simply a Python dictionary, with a specific set of expected values.
 
 A section will consist of section text and any nodes that
 make up the remaining parts of the section. Neither the text nor the
@@ -29,8 +34,15 @@ Generally speaking, most common implementation will consist of defining both
 text and nodes.
 
 
+----
+
+
 Section Keys
 ------------
+
+The following are accepted keys used when defining a section menu block.
+
+
 **text**
 
 A string representing the section text that a user will see.
@@ -38,6 +50,7 @@ A string representing the section text that a user will see.
 :Key: ``text``
 :Type: ``string``
 :Required: ``False``
+
 
 **nodes**
 
@@ -60,12 +73,27 @@ Section Example
     }
 
 
+----
+
+
 Separator
 =========
 
-A section with no text or nodes, but a key called separator that is set to
-True. This will render out a physical line separating one section from the
-next.
+A separator is a physical line separating one section from the next.
+
+Technically, this is a section_ block with very specific properties. It has no
+text or node keys, and instead has a key called ``separator`` that is set to
+``True``.
+
+
+----
+
+
+Separator Keys
+--------------
+
+The following are required keys used when defining a separator menu block.
+
 
 **text**
 
@@ -75,6 +103,7 @@ A blank string.
 :Type: ``string``
 :Required: ``True``
 
+
 **nodes**
 
 An empty list.
@@ -82,6 +111,7 @@ An empty list.
 :Key: ``nodes``
 :Type: ``list``
 :Required: ``True``
+
 
 **separator**
 
@@ -104,15 +134,24 @@ Separator Example
     }
 
 
+----
+
+
 Node
 ====
 
-A node is a python dictionary that will create a clickable sidebar link with a
-name and an icon in the sidebar.
+A node is a python dictionary that will create a clickable sidebar link. This
+includes a name and an icon in the sidebar.
+
+
+----
 
 
 Node Keys
 ---------
+
+The following are accepted keys used when defining a node menu block.
+
 
 **route**
 
@@ -123,6 +162,7 @@ not have a valid route yet, just enter a ``#`` as a place holder.
 :Type: ``string``
 :Required: ``True``
 
+
 **text**
 
 A string representing what will be rendered for the user to see.
@@ -130,6 +170,7 @@ A string representing what will be rendered for the user to see.
 :Key: ``text``
 :Type: ``string``
 :Required: ``False``
+
 
 **icon**
 
@@ -141,10 +182,11 @@ All required classes needed to make the icon show up must be listed.
 :Type: ``string``
 :Required: ``False``
 
+
 **hook**
 
-An optional string representing the name of a fully qualified function that can
-be called to return the text for the node that should be rendered out.
+An optional string representing the name of a fully qualified function. This
+function will be called to return the text to render for the node.
 This allows the ability to dynamically create the node's text.
 
 :Key: ``hook``
@@ -153,7 +195,7 @@ This allows the ability to dynamically create the node's text.
 
 .. note::
 
-    Adminlte will try to import the value for this key as a function and then
+    AdminLTE will try to import the value for this key as a function and then
     invoke the function and use it's results as the text for the node.
 
     The function should return either a string that will be used for both the
@@ -164,7 +206,7 @@ This allows the ability to dynamically create the node's text.
 
     This hook is best used for making a few nodes in an otherwise static menu
     dynamic. If you need a lot of dynamic nodes, the information in the
-    doc:`advanced` section might be more useful.
+    :doc:`advanced` section might be more useful.
 
 
 **url**
@@ -177,10 +219,11 @@ An optional string representing the url for the link.
 
 .. warning::
 
+    This key is generally reserved for providing external urls.
+
     When defining internal urls, it is **strongly** recommended that you avoid
-    this key. Instead, preferably use the route key (and the Django route to
-    define the view) for a node, rather than the actual URL. This key is
-    generally reserved for defining external urls.
+    this key. Instead, preferably use the node's route key, rather than
+    defining the actual internal URL here.
 
 .. note::
 
@@ -195,6 +238,7 @@ An optional string representing the url for the link.
     on the node as there is no associated view to be able to pull permissions
     from. See the :doc:`../authorization/policies` page for more information.
 
+
 **permissions**
 
 An optional list of permissions as strings. The user must have all listed
@@ -207,10 +251,14 @@ permissions in order to see the node.
 .. warning::
 
     In general, you should use the functionality defined on the
-    :doc:`../authorization/policies` page to add permissions to a View rather
-    than directly to a node. Defining on the View will handle both hiding a
-    node in the sidebar and preventing direct URL navigation without the need to
-    additionally set the permissions on this node key.
+    :doc:`Authorization <../authorization/policies>` pages to add permissions
+    to a view rather than directly to a node. Defining on the view will handle
+    both:
+
+    * Hiding a node in the sidebar.
+    * Preventing direct URL navigation, without the need to additionally set the
+      permissions on this node key.
+
     This key will **NOT** fully protect the link that the node is associated
     with.
 
@@ -232,10 +280,14 @@ these order to see the node.
 .. warning::
 
     In general, you should use the functionality defined on the
-    :doc:`../authorization/policies` page to add permissions to a View rather
-    than directly to a node. Defining on the View will handle both hiding a
-    node in the sidebar and preventing direct URL navigation without the need to
-    additionally set the permissions on this node key.
+    :doc:`Authorization <../authorization/policies>` pages to add permissions
+    to a view rather than directly to a node. Defining on the view will handle
+    both:
+
+    * Hiding a node in the sidebar.
+    * Preventing direct URL navigation, without the need to additionally set the
+      permissions on this node key.
+
     This key will **NOT** fully protect the link that the node is associated
     with.
 
@@ -257,11 +309,14 @@ the system in order to see the node.
 .. warning::
 
     In general, you should use the functionality defined on the
-    :doc:`../authorization/policies` page to add a login required criteria to a
-    View rather than directly to a node.
-    Defining on the View will handle both hiding a node in the
-    sidebar and preventing direct URL navigation without the need to
-    additionally define that login is required on this node.
+    :doc:`Authorization <../authorization/policies>` pages to add a login
+    required criteria to a view, rather than directly to a node. Defining on the
+    view will handle both:
+
+    * Hiding a node in the sidebar.
+    * Preventing direct URL navigation without the need to additionally define
+      that login is required on this node.
+
     This key will **NOT** fully protect the link that the node is associated
     with.
 
@@ -311,6 +366,9 @@ Complex Node Example
         return text
 
 
+----
+
+
 Tree
 ====
 
@@ -319,11 +377,15 @@ and an icon in the sidebar. In addition, the tree will contain other nodes
 and/or trees as the children of the tree.
 
 Trees can make a very large menu fit into a smaller space by utilizing the
-ability to expand an collapse each tree section.
+ability to expand and collapse each tree section.
+
+
+----
 
 
 Tree Keys
 ---------
+
 
 **text**
 
@@ -332,6 +394,7 @@ A string representing what will be rendered for the user to see.
 :Key: ``text``
 :Type: ``string``
 :Required: ``False``
+
 
 **icon**
 
@@ -342,6 +405,7 @@ All required classes needed to make the icon show up must be listed.
 :Key: ``icon``
 :Type: ``string``
 :Required: ``False``
+
 
 **nodes**
 

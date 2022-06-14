@@ -2,12 +2,14 @@ Quickstart
 **********
 
 1. Install the Django App via GitHub for now. Working on getting on Pypi soon.
+
     .. code-block:: bash
 
         python -m pip install git+https://github.com/DJBarnes/django-adminlte-2.git@master
 
 
 2. Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
+
     .. code-block:: python
 
         INSTALLED_APPS = [
@@ -23,7 +25,9 @@ Quickstart
         the django_adminlte_2 app.
 
 
-3. Django-AdminLTE-2 provides templates for django's account routes and some sample routes. Add the routes to your URLconf if you want to use them.
+3. Django-AdminLTE-2 provides templates for django's account routes and some
+   sample routes. Add the routes to your URLconf if you want to use them.
+
     .. code-block:: python
 
         from django.contrib import admin
@@ -52,12 +56,13 @@ Quickstart
         will allow successful logins to redirect to the sample home page
         included in Django-AdminLTE-2 until a proper profile route is set up.
 
-5. Update ``settings.py`` to customize the look and feel of Django-AdminLTE-2
+5. Update ``settings.py`` to customize the look and feel of
+   **Django-AdminLTE-2**.
 
-   See the :doc:`configuration/home` section for more information.
+   See the :doc:`Configuration <configuration/home>` pages for more information.
 
 
 6. Override templates to further customize the look and feel of
-   Django-AdminLTE-2
+   **Django-AdminLTE-2**.
 
-   See the :doc:`templates/templates` section for more information.
+   See the :doc:`Templates <templates/templates>` pages for more information.

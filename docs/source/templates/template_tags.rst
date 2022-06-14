@@ -11,6 +11,10 @@ top of your template.
 
     {% load adminlte_tags %}
 
+
+----
+
+
 render_form_error_summary
 =========================
 

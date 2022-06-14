@@ -12,6 +12,9 @@ top of your template.
     {% load adminlte_filters %}
 
 
+----
+
+
 fieldtype
 =========
 

@@ -1,12 +1,15 @@
 Home Configuration
 ******************
 
-There are various configuration options that can be set via Django Settings to
-control the overall look, feel, and functionality of the package.
-All settings are listed here for reference even though some of these settings
-such as the :doc:`../menu/general_information` and
-:doc:`../authorization/policies` can become quite complex and have dedicated
-documentation pages to better explain the full extent of these settings.
+`Django settings <https://docs.djangoproject.com/en/dev/topics/settings/>`_ can
+be used to customize and control the overall look, feel, and functionality of
+the **Django-AdminLTE-2** package.
+
+All settings are listed here for reference, even though some of these settings
+(such as the :doc:`../menu/general_information` and
+:doc:`Authorization <../authorization/policies>`) can become quite complex, to
+the point that they have dedicated documentation pages to better explain the
+full extent of these settings.
 
 
 ----
@@ -18,9 +21,8 @@ Base Configuration
 ADMINLTE2_HOME_ROUTE
 --------------------
 
-Set the "Home" route for you project so that the package knows
-where to redirect users when they click a link that is designed
-to take the user home.
+Set the "Home" route for your project. This tells the package where to redirect
+users when they click a link that is designed to take the user home.
 
 :Type: ``string``
 :Default: ``django_adminlte_2:home``
@@ -39,8 +41,8 @@ Logo & Skin Color Configuration
 ADMINLTE2_LOGO_TEXT
 -------------------
 
-Set the Logo text for your site that will be shown in the top left of the top
-bar.
+Set the Logo text for your site. This will be shown in the top left of the top
+bar, when the side bar is expanded.
 
 .. note::
 
@@ -59,8 +61,8 @@ Example::
 ADMINLTE2_LOGO_TEXT_SMALL
 -------------------------
 
-Set the small Logo text for your site that will be shown in the top left of the
-top bar when the side bar is collapsed.
+Set the small Logo text for your site. This will be shown in the top left of the
+top bar, when the side bar is collapsed.
 
 .. note::
 

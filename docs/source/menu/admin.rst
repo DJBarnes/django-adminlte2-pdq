@@ -2,19 +2,16 @@ Admin Menu
 **********
 
 
-Displaying Menu
-===============
+Displaying the Admin Menu
+=========================
 
-By default, an automatic "Admin Menu" will appear on all
-`Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
-.
+As mentioned previously, the AdminLTE package can
+:ref:`Auto-Build an Admin Page menu<menu/general_information:Auto-Built Admin Menu>`.
+By default, this will appear on all
+`Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_,.
 
-This menu will create entries corresponding to each installed app, and each
-corresponding model.
-
-.. note::
-   If you would like to also see the admin menu on non-admin pages, refer to
-   :ref:`configuration/menu:adminlte2_include_admin_nav_on_main_pages`.
+To configure this admin menu to also show on non-admin pages, refer to
+:ref:`configuration/menu:adminlte2_include_admin_nav_on_main_pages`.
 
 
 Customizing Icons
@@ -111,3 +108,29 @@ In any ``admin.py`` file, call one additional method on the
 
     # Update icon for the Admin Home link.
     AdminMenu.set_admin_icon('fa fa-magic')
+
+
+Admin Tri-Cog
+=============
+
+By default when viewing a
+`Django Admin page <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_,
+there is a tri-cog icon in the top right corner of the top bar.
+
+This cog can be clicked to show additional information, via a popup sidebar.
+Within this sidebar, there will be between zero and three different sections
+shown, depending on the value defined for
+:ref:`configuration/admin:ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS`.
+
+Each of these three sections will show different content. If only one section is
+enabled, then it automatically spans the area of the entire sidebar. If more
+than one section is displayed, then navigational tabs are automatically created
+at the top of the sidebar, to allow easy switching between the displayed
+sections.
+
+If all of the tabs are turned off, the entire tri-cog icon and associated
+button will be removed and the user dropdown will shift to the right.
+
+The default behavior is to populate this popup sidebar with the
+"Recent Activity" section of the django admin. The other two sections are hidden
+by default.

@@ -35,17 +35,17 @@ only some of those parts. The advanced topics include:
 Moving The Menu Outside Settings
 ================================
 
-More than likely your menu will grow in size over time and become a little
-large to be living directly in the settings file. Although the menu does
-technically have to live in the settings, there are some workarounds that you
-can do so that your menu can be defined outside the direct settings file.
+More than likely, your menu will grow in size over time and become a little
+large to be living directly in the settings file. Although the menu variable
+does technically have to live in the settings, there are some workarounds that
+allow defining the menu outside of the direct settings file.
 
 The most common approach is to make a separate file that will contain your
 menu definition, and then just import that definition in your settings file.
 
 
-Outside Settings Example
-------------------------
+Example
+-------
 
 **my_django_project/menu.py**
 
@@ -81,17 +81,19 @@ It's possible to make the menu dynamic, and generate from the database (or
 some other dynamic data source) on each page load. This is accomplished by
 sending the dynamic menu to the template, via the page context.
 
-The context version will override the settings version. In addition, there are
-two menu sections that are specifically meant to be dynamic and can only be
-delivered by a template's context. Those sections are called
-:ref:`menu/advanced:ADMINLTE2_MENU_FIRST and ADMINLTE2_MENU_LAST`.
+If the menu is defined in both settings and the context, the context version
+will always take precedence and override the settings version.
+
+In addition, there are two menu sections that are specifically meant to be
+dynamic, and can only be delivered by a template's context. Those sections are
+called ``ADMINLTE2_MENU_FIRST`` and ``ADMINLTE2_MENU_LAST``.
 
 
 ADMINLTE2_MENU_FIRST and ADMINLTE2_MENU_LAST
 --------------------------------------------
 
 The two new menu definitions that can be sent via a template context are
-**ADMINLTE2_MENU_FIRST**, and **ADMINLTE2_MENU_LAST**, which render before or
+``ADMINLTE2_MENU_FIRST``, and ``ADMINLTE2_MENU_LAST``, which render before or
 after all other menu elements, respectively.
 
 To rephrase, the menu sections render in the following order:

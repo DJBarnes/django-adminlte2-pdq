@@ -6,9 +6,10 @@
 Welcome to Django-AdminLTE-2's documentation!
 *********************************************
 
-Django-AdminLTE-2 is a `Django <https://www.djangoproject.com/>`_ app
+**Django-AdminLTE-2** is a `Django <https://www.djangoproject.com/>`_ app
 that takes all of the work out of making a beautiful and functional web
-application using the `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_
+application using the
+`AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_
 theme.
 
 Additionally, the app provides decorators, mixins, template filters, and
@@ -18,7 +19,9 @@ Features include:
 
 * Styled with `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_.
 * Easy sidebar menu creation.
-* Automatic Django Admin styling that matches AdminLTE2.
+* Automatic
+  `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
+  styling that matches AdminLTE2.
 * Automatic inclusion of Admin links in the sidebar.
 * Automatic menu link hiding based on user permissions to views.
 * Template filters to aid in manual styling.
@@ -26,6 +29,8 @@ Features include:
 * Automatic form error and messages styling.
 * `Font Awesome 4 <https://fontawesome.com/v4/icons/>`_
   & `Font Awesome 5 <https://fontawesome.com/v5/search>`_ integration.
+* Highly configurable functionality, via project
+  `Django settings variables <https://docs.djangoproject.com/en/dev/topics/settings/>`_.
 
 .. image:: ../img/menu/django-adminlte-2-static-menu.png
     :alt: Site with static menu using settings

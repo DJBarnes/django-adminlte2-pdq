@@ -6,10 +6,10 @@ ADMINLTE2_USE_STRICT_POLICY
 ===========================
 
 Whether routes with no defined permission should be hidden unless added to a
-Whitelist
+Whitelist.
 
 If this setting is set to False, then all routes without a defined permission
-are still visible on the sidebar menu
+are still visible on the sidebar menu.
 
 If this setting is set to True, then all routes without a defined permission
 are hidden on the sidebar menu unless the route is found in the
