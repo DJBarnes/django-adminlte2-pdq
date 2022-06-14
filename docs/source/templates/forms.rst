@@ -44,8 +44,9 @@ Example setting on an already instantiated form.
 adminlte2_use_error_summary
 ===========================
 
-If you would not like AdminLTE to automatically render out the error summary,
-you can turn this off by setting this attribute on your form to ``False``.
+If you would not like Django-AdminLTE-2 to automatically render out the error
+summary, you can turn this off by setting this attribute on your form to
+``False``.
 
 This is useful if you want to handle the error summary manually without using
 any of the built in magic.

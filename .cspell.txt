@@ -8,12 +8,14 @@ htmldjango
 maxdepth
 modindex
 quickstart
+safestring
 subpackages
 toctree
 undoc
 urlpatterns
 
 # Domain
+ALTE
 autosection
 autosectionlabel
 autosummary

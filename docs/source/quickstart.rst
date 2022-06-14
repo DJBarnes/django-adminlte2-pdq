@@ -19,10 +19,10 @@ Quickstart
 
     .. important::
 
-        The django_adminlte_2 app should be listed before any django apps so
+        The **django_adminlte_2** app should be listed before any django apps so
         that template overriding works correctly. Additionally, if you plan to
-        override any django-adminlte-2 templates, they should be listed above
-        the django_adminlte_2 app.
+        override any Django-AdminLTE-2 templates, they should be listed above
+        the **django_adminlte_2 app**.
 
 
 3. Django-AdminLTE-2 provides templates for django's account routes and some

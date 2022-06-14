@@ -195,8 +195,8 @@ This allows the ability to dynamically create the node's text.
 
 .. note::
 
-    AdminLTE will try to import the value for this key as a function and then
-    invoke the function and use it's results as the text for the node.
+    Django-AdminLTE-2 will try to import the value for this key as a function
+    and then invoke the function and use it's results as the text for the node.
 
     The function should return either a string that will be used for both the
     text and the title text of the node, or a 2-tuple with string values for

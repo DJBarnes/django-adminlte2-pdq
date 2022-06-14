@@ -6,7 +6,7 @@ navigational elements, displayed on the left-hand side of the default page
 layout.
 
 There are three possible configurations (which can be used together) for
-defining a menu in the Django-AdminLTE package:
+defining a menu in the Django-AdminLTE-2 package:
 
 * `Static Menu Definition`_
 * `Dynamic Menu Definition`_
@@ -50,13 +50,13 @@ static and dynamic content.
 Auto-Built Admin Menu
 =====================
 
-Django-AdminLTE also automatically updates the stylings of the site
+Django-AdminLTE-2 also automatically updates the stylings of the site
 `Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_,
 so that they match the same
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_ theme used by the
 rest of the site.
 
-As such, it makes sense that the Django-AdminLTE package will generate a
+As such, it makes sense that the Django-AdminLTE-2 package will generate a
 corresponding set of menu nav elements, to allow navigation of these admin
 pages.
 

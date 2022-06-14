@@ -23,7 +23,7 @@ Those decorators are:
 
   .. code:: python
 
-      from django_adminlte_2.mixing import PermissionRequiredMixin
+      from django_adminlte_2.mixins import PermissionRequiredMixin
 
 
 Login Required Mixin
@@ -67,7 +67,7 @@ the magic of automatic sidebar link rendering.
 
 There are two class level attributes used in conjunction with this mixin.
 ``permission_required`` or ``permission_required_one``.
-Which one you use is dependent on whether users s hould have all listed
+Which one you use is dependent on whether users should have all listed
 permissions to gain view access, or if they only need one of many permissions to
 gain access.
 
@@ -511,7 +511,7 @@ follows:
     added to the
     :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`.
 
-    In the case of the **Home** view, we actuall will add the route to the
+    In the case of the **Home** view, we actual will add the route to the
     ``ADMINLTE2_STRICT_POLICY_WHITELIST`` so that everyone will be able to see
     the **Home** link, regardless of their permissions.
 

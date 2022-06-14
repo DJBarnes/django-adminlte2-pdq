@@ -40,7 +40,7 @@ Example::
 ADMINLTE2_ADMIN_INDEX_USE_APP_LIST
 ==================================
 
-By default Django-AdminLTE will put the Apps on the Admin Index page
+By default Django-AdminLTE-2 will put the Apps on the Admin Index page
 into AdminLTE Info Boxes. Setting this to ``True`` will change that look
 to the traditional Django list view, but still within the main AdminLTE site
 styling.

@@ -5,7 +5,7 @@ Admin Menu
 Displaying the Admin Menu
 =========================
 
-As mentioned previously, the AdminLTE package can
+As mentioned previously, the Django-AdminLTE-2 package can
 :ref:`Auto-Build an Admin Page menu<menu/general_information:Auto-Built Admin Menu>`.
 By default, this will appear on all
 `Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_,.

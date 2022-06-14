@@ -26,8 +26,8 @@ found on
     to override templates, you must ensure that the app you are using to house
     those templates is listed in the
     `INSTALLED_APPS <https://docs.djangoproject.com/en/dev/ref/settings/#std-setting-INSTALLED_APPS>`_
-    setting before the django-adminlte-2 app. Additionally, the
-    django-adminlte-2 app should be listed before any django apps.
+    setting before the **django-adminlte-2** app. Additionally, the
+    **django-adminlte-2** app should be listed before any django apps.
 
 
 Example Customization
@@ -40,7 +40,7 @@ document customizing the login page **social links** section.
 First, we can see what this page looks like by default:
 
 .. image:: ../../img/template/django-adminlte-2-login-template-original.png
-    :alt: Original default login page that comes with django-adminlte-2
+    :alt: Original default login page that comes with Django-AdminLTE-2
 
 
 To change this page, we can create a template to override the original behavior:
