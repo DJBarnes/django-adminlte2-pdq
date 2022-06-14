@@ -30,17 +30,40 @@ Features include:
 .. image:: ../img/menu/django-adminlte-2-static-menu.png
     :alt: Site with static menu using settings
 
+
 .. toctree::
    :maxdepth: 3
    :caption: Table of Contents:
 
    quickstart
-   menu
-   authorization
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Templates
+
    templates
    template_filters
    template_tags
    forms
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Menu
+
+   menu/general_information
+   menu/building_blocks
+   menu/advanced
+   menu/admin_menu
+   menu/examples
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Other
+
+   authorization
    demo_css
    configuration
    api_reference

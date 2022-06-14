@@ -4,9 +4,9 @@ Configuration
 There are various configuration options that can be set via Django Settings to
 control the overall look, feel, and functionality of the package.
 All settings are listed here for reference even though some of these settings
-such as the :doc:`menu` and :doc:`authorization` can become quite complex and
-have dedicated documentation pages to better explain the full extent of these
-settings.
+such as the :doc:`menu/general_information` and
+:doc:`authorization` can become quite complex and have dedicated documentation
+pages to better explain the full extent of these settings.
 
 ----
 
@@ -136,9 +136,9 @@ By default there will be a implicit separator bar rendered between each menu
 group.
 These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
 **Admin Menu**.
-More information about these groups can be found on the :doc:`menu` page.
-If you would like to disable this separator from being automatically rendered
-set this setting to ``False``.
+More information about these groups can be found on the
+:doc:`menu/admin_menu` page. If you would like to disable this
+separator from being automatically rendered set this setting to ``False``.
 
 
 :Type: ``bool``
@@ -154,8 +154,8 @@ ADMINLTE2_MENU
 
 This setting is the definition for the main navigation menu.
 There are a lot of options when creating this menu.
-See the :doc:`menu` section for a detailed explanation on how to create this
-menu and all of the available options that can be used.
+See the :doc:`menu/admin_menu` section for a detailed explanation on how to
+create this menu and all of the available options that can be used.
 
 :Type: ``list``
 :Default: ``[]``
@@ -240,8 +240,9 @@ behavior, change this setting to ``True``.
 
 .. note::
 
-    You can refer to the :ref:`menu:tree` section of the :doc:`menu` page for
-    more information about how trees work and are defined.
+    You can refer to the :ref:`menu/building_blocks:tree` section of the
+    :doc:`menu/building_blocks` page for more information about how trees work
+    and are defined.
 
 :Type: ``bool``
 :Default: ``False``
