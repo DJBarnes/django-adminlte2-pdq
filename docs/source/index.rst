@@ -38,7 +38,7 @@ Features include:
 
 .. toctree::
    :maxdepth: 3
-   :caption: Table of Contents:
+   :caption: Getting Started
 
    quickstart
 
