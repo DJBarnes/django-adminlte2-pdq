@@ -42,10 +42,10 @@ Features include:
    :maxdepth: 3
    :caption: Templates
 
-   templates
-   template_filters
-   template_tags
-   forms
+   templates/templates
+   templates/template_filters
+   templates/template_tags
+   templates/forms
 
 
 .. toctree::

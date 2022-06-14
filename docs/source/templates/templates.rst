@@ -32,7 +32,7 @@ Use the following steps as an example of a change that can be made to change
 parts of the site. Let's say that we want to remove or change the login with
 social links section from the login page.
 
-.. image:: ../img/template/django-adminlte-2-login-template-original.png
+.. image:: ../../img/template/django-adminlte-2-login-template-original.png
     :alt: Original default login page that comes with django-adminlte-2
 
 We can accomplish this with the following steps:
@@ -57,7 +57,7 @@ We can accomplish this with the following steps:
 
         {% block social_auth_links %}{% endblock social_auth_links %}
 
-    .. image:: ../img/template/django-adminlte-2-login-template-no-social.png
+    .. image:: ../../img/template/django-adminlte-2-login-template-no-social.png
         :alt: Updated login page with no social links
 
     **Replacement**
@@ -74,5 +74,5 @@ We can accomplish this with the following steps:
           </div>
         {% endblock social_auth_links %}
 
-    .. image:: ../img/template/django-adminlte-2-login-template-github.png
+    .. image:: ../../img/template/django-adminlte-2-login-template-github.png
         :alt: Updated login page with GitHub as the social link.

@@ -60,4 +60,4 @@ Quickstart
 6. Override templates to further customize the look and feel of
    Django-AdminLTE-2
 
-   See the :doc:`templates` section for more information.
+   See the :doc:`templates/templates` section for more information.
