@@ -1,16 +1,41 @@
 # Django-AdminLTE-2
 
-Django-AdminLTE-2 is a Django app to easily style all pages and the admin with AdminLTE2.
-Additionally there are tools, utilities and additional CSS options to aid in the rapid development of a site.
+**Django-AdminLTE-2** is a [Django](https://www.djangoproject.com/) app
+that takes all of the work out of making a beautiful and functional web
+application using the
+[AdminLTE2](https://adminlte.io/themes/AdminLTE/index2.html)
+theme.
+
+Additionally, the app provides decorators, mixins, template filters, and
+template tags to aid in the rapid development of a site.
+
+Features include:
+
+* Styled with [AdminLTE2](https://adminlte.io/themes/AdminLTE/index2.html).
+* Easy sidebar menu creation.
+* Automatic
+  [Django Admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
+  styling that matches AdminLTE2.
+* Automatic inclusion of Admin links in the sidebar.
+* Automatic menu link hiding based on user permissions to views.
+* Template filters to aid in manual styling.
+* Template tags for form rendering that matches AdminLTE2.
+* Automatic form error and messages styling.
+* [Font Awesome 4](https://fontawesome.com/v4/icons/)
+  & [Font Awesome 5](https://fontawesome.com/v5/search) integration.
+* Highly configurable functionality, via project
+  [Django settings variables](https://docs.djangoproject.com/en/dev/topics/settings/).
+
+The full documentation can be found on Read The Docs (coming soon).
 
 ## Quick start
 
-1. Install the Django App via GitHub for now. Working on getting on Pypi soon.
+1.  Install the Django App via GitHub for now. Working on getting on Pypi soon.
     ```shell
     python -m pip install git+https://github.com/DJBarnes/django-adminlte-2.git@master
     ```
 
-2. Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
+2.  Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
     ```python
     INSTALLED_APPS = [
         'django_adminlte_2',
@@ -18,7 +43,17 @@ Additionally there are tools, utilities and additional CSS options to aid in the
     ]
     ```
 
-3. Django-AdminLTE-2 provides templates for django's account routes and some sample routes. Add the routes to your URLconf if you want to use them.
+    ---
+    :information_source: **NOTE**
+    The **django_adminlte_2** app should be listed before any django apps so
+    that template overriding works correctly. Additionally, if you plan to
+    override any Django-AdminLTE-2 templates, they should be listed above
+    the **django_adminlte_2 app**.
+
+    ---
+
+3.  Django-AdminLTE-2 provides templates for django's account routes and some
+    sample routes. Add the routes to your URLconf if you want to use them.
     ```python
     from django.contrib import admin
     from django.urls import include
@@ -33,95 +68,133 @@ Additionally there are tools, utilities and additional CSS options to aid in the
     ]
     ```
 
-4. Ensure that the login redirect will work.
+4.  Ensure that the login redirect will work.
     ```python
     LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
     ```
     ---
-
-    **NOTE:**
-    Django-AdminLTE-2 does not include a route or templates for /accounts/profile which is the default Login redirect.
-    Adding the above entry to your settings file will allow successful logins to redirect to the sample home page
-    included in Django-AdminLTE-2 until a proper profile is set up.
+    :information_source: **NOTE**
+    Django-AdminLTE-2 does not include a route or templates for
+    `/accounts/profile` which is the default
+    [Django Login redirect.](https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url)
+    Adding the above entry to your `settings.py` file
+    will allow successful logins to redirect to the sample home page
+    included in Django-AdminLTE-2 until a proper profile route is set up.
 
     ---
 
-5. Update settings.py to customize the look and feel of Django-AdminLTE-2
+5.  Update settings.py to customize the look and feel of Django-AdminLTE-2
+    Common configuration options are listed below.
 
-    Alter to whatever your home route is
+    For the full list of configuration options refer to the documentation on
+    Read The Docs.
+
+    ### Home
+
+    Set the "Home" route for your project. This tells the package where to redirect
+    users when they click a link that is designed to take the user home.
     ```python
     ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
     ```
 
-    If you want the admin index page to put the various apps in a list format rather than AdminLTE2 Info Boxes.
+    Set the Logo text for your site. This will be shown in the top left of the top
+    bar, when the side bar is expanded.
     ```python
-    ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
+    ADMINLTE2_LOGO_TEXT = 'My Awesome Site'
     ```
 
-    Whether the sidebar menu should have a link to the admin index
+    Set the small Logo text for your site. This will be shown in the top left of the
+    top bar, when the side bar is collapsed.
     ```python
-    ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = (True/False)
+    ADMINLTE2_LOGO_TEXT = 'MAS'
     ```
 
-    Whether the admin links in the sidebar should be in a tree
+    Set the skin class to use for the site. Valid skin classes can be found on the
+    [AdminLTE documentation](https://adminlte.io/themes/AdminLTE/documentation/)
+    page.
     ```python
-    ADMINLTE2_ADMIN_MENU_IN_TREE - (True/False)
+    ADMINLTE2_SKIN_CLASS = 'skin-green-light'
     ```
 
-    Whether the sidebar main nav should be shown when on an admin page in addition to the admin nav
+    ### Menu
+
+    By default the main navigation (non-admin) menu is not part of the sidebar when
+    the user is viewing a
+    [Django Admin page](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
+    If you would like users to be able to see all of the main nav links regardless
+    of what page they are on, set this value to ``True``.
     ```python
     ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES = (True/False)
     ```
 
-    Whether the sidebar admin nav should be shown when on a main page in addition to the main nav
+    By default, the admin navigation menu is not part of the sidebar when the user
+    is viewing a main navigation
+    (non-[Django-Admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/))
+    page. If you would like users to be able to see all of the admin nav links
+    regardless of what page they are on, set this value to ``True``.
     ```python
     ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = (True/False)
     ```
 
-    Whether to put in sidebar separators between each menu group
+    By default there will be a implicit separator bar rendered between each menu
+    group.
+    These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
+    **Admin Menu**.
+    More information about these groups can be found on the
+    [Read The Docs Admin page](#). If you would like to disable this
+    separator from being automatically rendered, set this value to ``False``.
     ```python
     ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
     ```
 
-    Whether routes with no defined permission should be hidden unless added to a Whitelist
-    If this setting is set to False, then all routes without a defined permission are still visible on the sidebar menu
-    If this setting is set to True, then all routes without a defined permission are hidden on the sidebar menu unless the route is found in the ```ADMINLTE2_STRICT_POLICY_WHITELIST``` setting.
-    ```python
-    ADMINLTE2_USE_STRICT_POLICY = (True/False)
-    ```
-
-    Assuming ```ADMINLTE2_USE_STRICT_POLICY``` is set to True, this is the list of routes that will be shown on the sidebar menu and accessible despite a defined permission.
-    ```python
-    ADMINLTE2_STRICT_POLICY_WHITELIST = []
-    ```
-
-    This menu setting is useful for defining a menu that should come before the main menu. Sometimes you may be in a subsection of your website that has additional navigation that should precede the normal main navigation but only be shown when in this subsection. This setting allows that without having to change the main navigation menu.
-    See the Menu section (coming soon) for more information.
-    ```python
-    ADMINLTE2_MENU_FIRST = []
-    ```
-
-    This menu setting is the main menu that should be available no matter what section of the website you are in. It is the main navigation.
-    See the Menu section (coming soon) for more information.
+    This setting is the definition for the main navigation menu.
+    There are a lot of options when creating this menu.
+    See the [Read The Docs Menu page](#) for a detailed explanation on how to
+    create this menu and all of the available options that can be used.
     ```python
     ADMINLTE2_MENU = []
     ```
 
-    This menu setting is useful for defining a menu that should come after the admin menu links. A menu footer so to speak.
-    See the Menu section (coming soon) for more information.
+    ### Admin
+
+    By default the admin menu sidebar will not have a link to the admin index page.
+    If you would like to append a link to the admin index page in the sidebar,
+    set this value to ``True``.
     ```python
-    ADMINLTE2_MENU_LAST = []
+    ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = (True/False)
     ```
 
-6. Override and update blocks in base.html to customize the layout further
-    1. Create ```adminlte2/base.html``` in one of your django projects template folders
-    2. Extend the packages default base.html by adding the following line to the file created above.
-        ```htmldjango
-        {% extends "adminlte2/base.html" %}
-        ```
-    3. Override the skin class to set the color theme of the site by adding the following line to the file created above.
-        Valid values can be found here: https://adminlte.io/docs/2.4/layout
-        ```htmldjango
-        {% block skin_class %}skin-blue{% endblock skin_class %}
-        ```
-    4. Optionally override any other template blocks that you would like to either remove or change the implementation of
+    By default Django-AdminLTE-2 will put the Apps on the Admin Index page
+    into AdminLTE Info Boxes. Setting this to ``True`` will change that look
+    to the traditional Django list view, but still within the main AdminLTE site
+    styling.
+    ```python
+    ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
+    ```
+
+    ### Authorization
+
+    Whether routes with no defined permission should be hidden unless added to a
+    Whitelist.
+
+    If this setting is set to False, then all routes without a defined permission
+    are still visible on the sidebar menu.
+
+    If this setting is set to True, then all routes without a defined permission
+    are hidden on the sidebar menu unless the route is found in the
+    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
+    ```python
+    ADMINLTE2_USE_STRICT_POLICY = (True/False)
+    ```
+
+    Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
+    this is the list of routes that will be shown on the sidebar menu and
+    accessible, despite said routes having no defined permission.
+    ```python
+    ADMINLTE2_STRICT_POLICY_WHITELIST = []
+    ```
+
+6. Override templates to further customize the look and feel of
+   **Django-AdminLTE-2**.
+
+   See the Templates section on Read The Docs for more information.
