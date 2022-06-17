@@ -28,6 +28,8 @@ Features include:
 
 The full documentation can be found on [Read The Docs](#) (coming soon).
 
+![django-adminlte-2-static-menu](https://user-images.githubusercontent.com/4390026/174349983-70984453-1aa5-4976-8749-fadd9028a94c.png)
+
 ## Quickstart
 
 1.  Install the Django App via GitHub for now. Working on getting on Pypi soon.
