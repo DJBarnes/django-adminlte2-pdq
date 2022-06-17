@@ -26,9 +26,9 @@ Features include:
 * Highly configurable functionality, via project
   [Django settings variables](https://docs.djangoproject.com/en/dev/topics/settings/).
 
-The full documentation can be found on Read The Docs (coming soon).
+The full documentation can be found on [Read The Docs](#) (coming soon).
 
-## Quick start
+## Quickstart
 
 1.  Install the Django App via GitHub for now. Working on getting on Pypi soon.
     ```shell
@@ -83,118 +83,121 @@ The full documentation can be found on Read The Docs (coming soon).
 
     ---
 
-5.  Update settings.py to customize the look and feel of Django-AdminLTE-2
-    Common configuration options are listed below.
+5.  Update ``settings.py`` to customize the look and feel of
+    **Django-AdminLTE-2**. Common configuration options are listed below in the
+    [configuration section](#configuration).
 
     For the full list of configuration options refer to the documentation on
-    Read The Docs.
-
-    ### Home
-
-    Set the "Home" route for your project. This tells the package where to redirect
-    users when they click a link that is designed to take the user home.
-    ```python
-    ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
-    ```
-
-    Set the Logo text for your site. This will be shown in the top left of the top
-    bar, when the side bar is expanded.
-    ```python
-    ADMINLTE2_LOGO_TEXT = 'My Awesome Site'
-    ```
-
-    Set the small Logo text for your site. This will be shown in the top left of the
-    top bar, when the side bar is collapsed.
-    ```python
-    ADMINLTE2_LOGO_TEXT = 'MAS'
-    ```
-
-    Set the skin class to use for the site. Valid skin classes can be found on the
-    [AdminLTE documentation](https://adminlte.io/themes/AdminLTE/documentation/)
-    page.
-    ```python
-    ADMINLTE2_SKIN_CLASS = 'skin-green-light'
-    ```
-
-    ### Menu
-
-    By default the main navigation (non-admin) menu is not part of the sidebar when
-    the user is viewing a
-    [Django Admin page](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
-    If you would like users to be able to see all of the main nav links regardless
-    of what page they are on, set this value to ``True``.
-    ```python
-    ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES = (True/False)
-    ```
-
-    By default, the admin navigation menu is not part of the sidebar when the user
-    is viewing a main navigation
-    (non-[Django-Admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/))
-    page. If you would like users to be able to see all of the admin nav links
-    regardless of what page they are on, set this value to ``True``.
-    ```python
-    ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = (True/False)
-    ```
-
-    By default there will be a implicit separator bar rendered between each menu
-    group.
-    These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
-    **Admin Menu**.
-    More information about these groups can be found on the
-    [Read The Docs Admin page](#). If you would like to disable this
-    separator from being automatically rendered, set this value to ``False``.
-    ```python
-    ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
-    ```
-
-    This setting is the definition for the main navigation menu.
-    There are a lot of options when creating this menu.
-    See the [Read The Docs Menu page](#) for a detailed explanation on how to
-    create this menu and all of the available options that can be used.
-    ```python
-    ADMINLTE2_MENU = []
-    ```
-
-    ### Admin
-
-    By default the admin menu sidebar will not have a link to the admin index page.
-    If you would like to append a link to the admin index page in the sidebar,
-    set this value to ``True``.
-    ```python
-    ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = (True/False)
-    ```
-
-    By default Django-AdminLTE-2 will put the Apps on the Admin Index page
-    into AdminLTE Info Boxes. Setting this to ``True`` will change that look
-    to the traditional Django list view, but still within the main AdminLTE site
-    styling.
-    ```python
-    ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
-    ```
-
-    ### Authorization
-
-    Whether routes with no defined permission should be hidden unless added to a
-    Whitelist.
-
-    If this setting is set to False, then all routes without a defined permission
-    are still visible on the sidebar menu.
-
-    If this setting is set to True, then all routes without a defined permission
-    are hidden on the sidebar menu unless the route is found in the
-    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
-    ```python
-    ADMINLTE2_USE_STRICT_POLICY = (True/False)
-    ```
-
-    Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
-    this is the list of routes that will be shown on the sidebar menu and
-    accessible, despite said routes having no defined permission.
-    ```python
-    ADMINLTE2_STRICT_POLICY_WHITELIST = []
-    ```
+    [Read The Docs](#).
 
 6. Override templates to further customize the look and feel of
    **Django-AdminLTE-2**.
 
-   See the Templates section on Read The Docs for more information.
+   See the Templates section on [Read The Docs](#) for more information.
+
+## Configuration
+
+### Home
+
+Set the "Home" route for your project. This tells the package where to redirect
+users when they click a link that is designed to take the user home.
+```python
+ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
+```
+
+Set the Logo text for your site. This will be shown in the top left of the top
+bar, when the side bar is expanded.
+```python
+ADMINLTE2_LOGO_TEXT = 'My Awesome Site'
+```
+
+Set the small Logo text for your site. This will be shown in the top left of the
+top bar, when the side bar is collapsed.
+```python
+ADMINLTE2_LOGO_TEXT = 'MAS'
+```
+
+Set the skin class to use for the site. Valid skin classes can be found on the
+[AdminLTE documentation](https://adminlte.io/themes/AdminLTE/documentation/)
+page.
+```python
+ADMINLTE2_SKIN_CLASS = 'skin-green-light'
+```
+
+### Menu
+
+By default the main navigation (non-admin) menu is not part of the sidebar when
+the user is viewing a
+[Django Admin page](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
+If you would like users to be able to see all of the main nav links regardless
+of what page they are on, set this value to ``True``.
+```python
+ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES = (True/False)
+```
+
+By default, the admin navigation menu is not part of the sidebar when the user
+is viewing a main navigation
+(non-[Django-Admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/))
+page. If you would like users to be able to see all of the admin nav links
+regardless of what page they are on, set this value to ``True``.
+```python
+ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = (True/False)
+```
+
+By default there will be a implicit separator bar rendered between each menu
+group.
+These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
+**Admin Menu**.
+More information about these groups can be found on the
+[Read The Docs Admin page](#). If you would like to disable this
+separator from being automatically rendered, set this value to ``False``.
+```python
+ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
+```
+
+This setting is the definition for the main navigation menu.
+There are a lot of options when creating this menu.
+See the [Read The Docs Menu page](#) for a detailed explanation on how to
+create this menu and all of the available options that can be used.
+```python
+ADMINLTE2_MENU = []
+```
+
+### Admin
+
+By default the admin menu sidebar will not have a link to the admin index page.
+If you would like to append a link to the admin index page in the sidebar,
+set this value to ``True``.
+```python
+ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = (True/False)
+```
+
+By default Django-AdminLTE-2 will put the Apps on the Admin Index page
+into AdminLTE Info Boxes. Setting this to ``True`` will change that look
+to the traditional Django list view, but still within the main AdminLTE site
+styling.
+```python
+ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
+```
+
+### Authorization
+
+Whether routes with no defined permission should be hidden unless added to a
+Whitelist.
+
+If this setting is set to False, then all routes without a defined permission
+are still visible on the sidebar menu.
+
+If this setting is set to True, then all routes without a defined permission
+are hidden on the sidebar menu unless the route is found in the
+``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
+```python
+ADMINLTE2_USE_STRICT_POLICY = (True/False)
+```
+
+Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
+this is the list of routes that will be shown on the sidebar menu and
+accessible, despite said routes having no defined permission.
+```python
+ADMINLTE2_STRICT_POLICY_WHITELIST = []
+```
