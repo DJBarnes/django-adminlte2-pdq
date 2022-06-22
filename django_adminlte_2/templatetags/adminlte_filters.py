@@ -164,6 +164,122 @@ def with_placeholder(field, placeholder=None):
     return field
 
 
+@register.filter('with_datalist')
+def with_datalist(field, name=None):
+    """
+    Add datalist to a form field and return the form field so filters can be chained.
+
+    :param field: Form field to add attributes to.
+    :param name: The datalist name.
+     Defaults to None.
+    :return: Field that was passed in with list attribute added.
+
+    Example::
+
+        {% load adminlte_filters %}
+        {% for field in form %}
+            {% field|with_datalist:"my_awesome_list" %}
+            {% field %}
+        {% endfor %}
+
+        Which will update the form field to look like the following:
+
+        <input type="text" name="field" list="my_awesome_list" id="id_field" />
+    """
+    if name is not None:
+        attrs = field.field.widget.attrs
+        attrs['list'] = name
+        field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
+
+    return field
+
+
+@register.filter('with_pattern')
+def with_pattern(field, pattern=r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}"):
+    """
+    Add pattern to a form field and return the form field so filters can be chained.
+
+    :param field: Form field to add attributes to.
+    :param pattern: The pattern to use.
+     Defaults to None.
+    :return: Field that was passed in with pattern attribute added.
+
+    Example::
+
+        {% load adminlte_filters %}
+        {% for field in form %}
+            {% field|with_pattern:"[0-9]{3}-[0-9]{3}-[0-9]{4}" %}
+            {% field %}
+        {% endfor %}
+
+        Which will update the form field to look like the following:
+
+        <input type="text" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="id_field" />
+    """
+
+    attrs = field.field.widget.attrs
+    attrs['pattern'] = pattern
+    field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
+
+    return field
+
+
+@register.filter('with_min_max')
+def with_min_max(field, min_max=None):
+    """
+    Add min and mox to a form field and return the form field so filters can be chained.
+
+    :param field: Form field to add attributes to.
+    :param min_max: The min and max to use as a dict with keys min and max.
+     Defaults to None.
+    :return: Field that was passed in with min and max attribute added.
+
+    Example::
+
+        {% load adminlte_filters %}
+        {% for field in form %}
+            {% field|with_min_max: %}
+            {% field %}
+        {% endfor %}
+
+        Which will update the form field to look like the following:
+
+        <input type="text" name="field" min="4" max="10" id="id_field" />
+    """
+
+    attrs = field.field.widget.attrs
+    attrs['min'] = min_max['min']
+    attrs['max'] = min_max['max']
+    field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
+
+    return field
+
+
+@register.filter('with_input_type')
+def with_input_type(field, new_type):
+    """
+    Change widget input_type to passed value.
+
+    :param field: Form field to change type on.
+    :return: Field that was passed in with input_type changed to passed value.
+
+    Example::
+
+        {% load adminlte_filters %}
+        {% for field in form %}
+            {% field|as_input_type:'date' %}
+            {% field %}
+        {% endfor %}
+
+        Which will update the form field to look like the following:
+
+        <input type="date" name="field" id="id_field" />
+    """
+
+    field.field.widget.input_type = new_type
+    return field
+
+
 @register.filter('dir')
 def directory(field):
     """

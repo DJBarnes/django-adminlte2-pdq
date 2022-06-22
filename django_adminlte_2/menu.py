@@ -32,6 +32,11 @@ MENU = [
         'text': 'Samples',
         'nodes': [
             {
+                'route': 'django_adminlte_2:sample_form',
+                'text': 'Sample Form',
+                'icon': 'fa fa-list-alt',
+            },
+            {
                 'route': 'django_adminlte_2:sample1',
                 'text': 'Sample1',
                 'icon': 'fa fa-group',

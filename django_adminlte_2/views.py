@@ -6,6 +6,7 @@ from django_adminlte_2.decorators import (
     permission_required,
     permission_required_one,
 )
+from django_adminlte_2.forms import SampleForm
 
 
 def home(request):
@@ -23,6 +24,17 @@ def register(request):
         'form': dummy_form,
     })
 
+def sample_form(request):
+    """Show sample form page"""
+    form = SampleForm()
+    form['sample_phone'].phone_pattern = r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+    form['sample_range'].range_min_max = {'min':5, 'max':10}
+    form['sample_color'].is_color = True
+    form['sample_datalist'].datalist = {'name':'my_awesome_datalist', 'data': ('foo','bar')}
+    form['sample_range_datalist'].range_min_max = {'min':5, 'max':9}
+    form['sample_range_datalist'].datalist = {'name':'my_range_datalist', 'data':[5,7,9]}
+
+    return render(request, 'adminlte2/sample_form.html', {'form':form})
 
 @permission_required(
     ['auth.add_group', 'auth.change_group', 'auth.delete_group']

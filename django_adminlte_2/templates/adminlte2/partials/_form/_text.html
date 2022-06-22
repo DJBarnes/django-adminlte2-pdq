@@ -1,10 +1,104 @@
 {% load adminlte_filters %}
 
-{% if 'phone' in field.label or 'Phone' in field.label %}
-  {# TODO: this will affect fields 'phoneme' or 'homophone'. Have developer set an attribute 'phone' on the field instead #}
-  {# inputmask library expects: data-inputmask="'mask':'(999) 999-9999'" #}
-  {{ field|with_class:"form-control"|with_placeholder|with_data:'{"inputmask":"\'mask\':\'(999) 999-9999\'", "mask":""}' }}
+{% if field|fieldtype == "DateTimeInput" %}
+
+  {% block form_date_time_input %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local' }}
+    {% endif %}
+  {% endblock form_date_time_input %}
+
+{% elif field|fieldtype == "DateInput" %}
+
+  {% block form_date_input %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date' }}
+    {% endif %}
+  {% endblock form_date_input %}
+
+{% elif field|fieldtype == "TimeInput" %}
+
+  {% block form_time_input %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time' }}
+    {% endif %}
+  {% endblock form_time_input %}
+
+{% elif field|fieldtype == "EmailInput" %}
+
+  {% block form_email_input %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'email'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'email' }}
+    {% endif %}
+  {% endblock form_email_input %}
+
+{% elif field|fieldtype == "URLInput" %}
+
+  {% block form_url_input %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'url'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'url' }}
+    {% endif %}
+  {% endblock form_url_input %}
+
+{% elif field.phone_pattern %}
+
+  {% block form_phone_input %}
+    {% if field.datalist %}
+      {# inputmask library expects: data-inputmask="'mask':'(999) 999-9999'" #}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_pattern:field.phone_pattern|with_data:'{"inputmask":"\'mask\':\'(999) 999-9999\'", "mask":""}'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_pattern:field.phone_pattern|with_data:'{"inputmask":"\'mask\':\'(999) 999-9999\'", "mask":""}' }}
+    {% endif %}
+  {% endblock form_phone_input %}
+
+{% elif field.range_min_max %}
+
+  {% block form_range_input %}
+    {% if field.datalist %}
+      {{ field|with_input_type:'range'|with_min_max:field.range_min_max|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_input_type:'range'|with_min_max:field.range_min_max }}
+    {% endif %}
+  {% endblock form_range_input %}
+
+{% elif field.is_color %}
+
+  {% block form_color_input %}
+    {% if field.datalist %}
+      {{ field|with_input_type:'color'|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_input_type:'color' }}
+    {% endif %}
+  {% endblock form_color_input %}
+
 {% else %}
-  {{ field|with_class:"form-control"|with_placeholder }}
+
+  {% block form_text_input %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_datalist:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder }}
+    {% endif %}
+  {% endblock form_text_input %}
+
 {% endif %}
+
+{% if field.datalist %}
+  <datalist id="{{ field.datalist.name }}">
+    {% for datalist_option in field.datalist.data %}
+      <option value="{{ datalist_option }}">
+    {% endfor %}
+  </datalist>
+{% endif %}
+
 {% include "adminlte2/partials/_form/_field_error.html" %}

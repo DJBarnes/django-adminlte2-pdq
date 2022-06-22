@@ -29,6 +29,11 @@ urlpatterns = [
         name="register"
     ),
     path(
+        'sample_form/',
+        views.sample_form,
+        name="sample_form"
+    ),
+    path(
         'sample1/',
         views.sample1,
         name="sample1"

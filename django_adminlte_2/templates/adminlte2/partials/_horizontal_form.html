@@ -58,22 +58,6 @@
       >
         {% include "adminlte2/partials/_form/_select.html" %}
       </div>
-    {% elif field|fieldtype == "DateInput" or field|fieldtype == "DateTimeInput" or field|fieldtype == "TimeInput" %}
-      {% if labels %}
-        <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">
-          {{ field.label }}:
-        </label>
-      {% endif %}
-      <div
-        class="
-          col-sm-10
-          {% if not labels %}
-            col-sm-offset-2
-          {% endif %}
-        "
-      >
-        {% include "adminlte2/partials/_form/_date_time.html" %}
-      </div>
     {% else %}
       {% if labels %}
         <label for="{{ field.id_for_label }}" class="col-sm-2 control-label">

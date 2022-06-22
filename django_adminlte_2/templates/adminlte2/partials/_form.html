@@ -31,13 +31,6 @@
               </label>
             {% endif %}
             {% include "adminlte2/partials/_form/_file.html" %}
-        {% elif field|fieldtype == "DateInput" or field|fieldtype == "DateTimeInput" or field|fieldtype == "TimeInput" %}
-          {% if labels %}
-            <label for="{{ field.id_for_label }}">
-              {{ field.label }}:
-            </label>
-          {% endif %}
-          {% include "adminlte2/partials/_form/_date_time.html" %}
         {% else %}
           {% if labels %}
             <label for="{{ field.id_for_label }}">
