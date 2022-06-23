@@ -5,6 +5,7 @@ formset
 formsets
 genindex
 htmldjango
+inputmask
 maxdepth
 modindex
 quickstart
