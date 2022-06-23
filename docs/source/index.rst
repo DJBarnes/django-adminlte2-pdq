@@ -51,6 +51,7 @@ Features include:
    templates/template_filters
    templates/template_tags
    templates/forms
+   templates/fields
 
 
 .. toctree::
