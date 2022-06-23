@@ -5,8 +5,8 @@ Forms and formsets can be easily rendered out and properly styled, using the
 provided template tags described in the :doc:`template_tags` page.
 
 By default, this package renders form/formset errors the same as Django's
-default behavior. IE: forms and formsets will display an error summary with
-non-field errors at the top of the form and field errors at each field.
+default behavior. That is, forms and formsets will display an error summary
+with non-field errors at the top of the form and field errors at each field.
 
 There are a few attributes that you can add to a form to change this behavior
 if needed. Those options are explained below.
