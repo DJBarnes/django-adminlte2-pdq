@@ -38,12 +38,14 @@ def get_permissions_from_node(node):
     view = None
     try:
         route = node['route']
+        route_args = node.get('route_args', [])
+        route_kwargs = node.get('route_kwargs', {})
         url_with_hash = node.get('url', None)
         url = url_with_hash.split('#')[0] if url_with_hash else None
 
         try:
             if route != '#':
-                view = resolve(reverse(route))
+                view = resolve(reverse(route, args=route_args, kwargs=route_kwargs))
             elif url and url != '':
                 view = resolve(url)
         except Http404:
@@ -89,8 +91,10 @@ def ensure_node_has_url_property(node):
     if 'url' not in node:
         try:
             route = node['route']
+            route_args = node.get('route_args', [])
+            route_kwargs = node.get('route_kwargs', {})
             if route != '#':
-                url = reverse(route)
+                url = reverse(route, args=route_args, kwargs=route_kwargs)
             else:
                 url = '#'
         except KeyError as key_error:

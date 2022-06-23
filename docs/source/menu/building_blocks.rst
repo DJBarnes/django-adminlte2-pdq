@@ -163,6 +163,24 @@ not have a valid route yet, just enter a ``#`` as a place holder.
 :Required: ``True``
 
 
+**route_args**
+
+Any required args needed to be able to reverse the route.
+
+:Key: ``route_args``
+:Type: ``list``
+:Required: ``False``
+
+
+**route_kwargs**
+
+Any required kwargs needed to be able to reverse the route.
+
+:Key: ``route_kwargs``
+:Type: ``dict``
+:Required: ``False``
+
+
 **text**
 
 A string representing what will be rendered for the user to see.
@@ -211,7 +229,8 @@ This allows the ability to dynamically create the node's text.
 
 **url**
 
-An optional string representing the url for the link.
+An optional string representing the url for the link. If provided, it will take
+precedence over the url generated from the required route key.
 
 :Key: ``url``
 :Type: ``string``
@@ -222,14 +241,15 @@ An optional string representing the url for the link.
     This key is generally reserved for providing external urls.
 
     When defining internal urls, it is **strongly** recommended that you avoid
-    this key. Instead, preferably use the node's route key, rather than
-    defining the actual internal URL here.
+    this key and instead, use the node's route key.
 
 .. note::
 
     If you decide to use the url key, you must still provide the route key with
     a value of ``"#"`` as well since the sidebar is expecting that every node
     will have a route key.
+
+    Additionally, if this key is used, it will take precedence over the route key.
 
 .. tip::
 
