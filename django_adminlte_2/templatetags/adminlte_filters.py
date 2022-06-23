@@ -185,6 +185,10 @@ def with_datalist(field, name=None):
         Which will update the form field to look like the following:
 
         <input type="text" name="field" list="my_awesome_list" id="id_field" />
+        <datalist id="my_awesome_list">
+            <option value="option 1">
+            <option value="option 2">
+        </datalist>
     """
     if name is not None:
         attrs = field.field.widget.attrs
@@ -194,31 +198,46 @@ def with_datalist(field, name=None):
     return field
 
 
-@register.filter('with_pattern')
-def with_pattern(field, pattern=r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}"):
+@register.filter('with_phone_info')
+def with_phone_info(field, phone_info=None):
     """
-    Add pattern to a form field and return the form field so filters can be chained.
+    Add phone_info to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add attributes to.
-    :param pattern: The pattern to use.
+    :param phone_info: The phone info to use defined as a dict with keys 'pattern' and 'inputmask'.
      Defaults to None.
     :return: Field that was passed in with pattern attribute added.
 
     Example::
 
+        # Assuming that the fields phone_info property is set to the following:
+        # {'pattern':'[0-9]{3}-[0-9]{3}-[0-9]{4}','inputmask':'\'mask\':\'(999) 999-9999\''}
+
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_pattern:"[0-9]{3}-[0-9]{3}-[0-9]{4}" %}
+            {% field|with_phone_info:field.phone_info %}
             {% field %}
         {% endfor %}
 
         Which will update the form field to look like the following:
 
-        <input type="text" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="id_field" />
+        <input type="tel" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" data-inputmask="\'mask\':\'(999) 999-9999\'" id="id_field" />
     """
+    if phone_info is None:
+        phone_info = {
+            'pattern':r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}",
+            'inputmask':"(999) 999-9999"
+        }
+
+    if phone_info is str:
+        phone_info = json.loads(phone_info)
+
+    pattern = phone_info.get('pattern', r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}")
+    inputmask = phone_info.get('inputmask', "(999) 999-9999")
 
     attrs = field.field.widget.attrs
     attrs['pattern'] = pattern
+    attrs['data-inputmask'] = f"'mask':'{inputmask}'"
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
@@ -227,7 +246,7 @@ def with_pattern(field, pattern=r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}"):
 @register.filter('with_min_max')
 def with_min_max(field, min_max=None):
     """
-    Add min and mox to a form field and return the form field so filters can be chained.
+    Add min and max to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add attributes to.
     :param min_max: The min and max to use as a dict with keys min and max.
@@ -236,20 +255,35 @@ def with_min_max(field, min_max=None):
 
     Example::
 
+        # Assuming that the fields range_min_max property is set to the following:
+        # {'min':5, 'max':9}
+
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_min_max: %}
+            {% field|with_min_max:field.range_min_max %}
             {% field %}
         {% endfor %}
 
         Which will update the form field to look like the following:
 
-        <input type="text" name="field" min="4" max="10" id="id_field" />
+        <input type="range" name="field" min="5" max="9" id="id_field" />
     """
 
+    if min_max is None:
+        min_max = {
+            'min':0,
+            'max':100,
+        }
+
+    if min_max is str:
+        min_max = json.loads(min_max)
+
+    min_val = min_max.get('min', 0)
+    max_val = min_max.get('max', 100)
+
     attrs = field.field.widget.attrs
-    attrs['min'] = min_max['min']
-    attrs['max'] = min_max['max']
+    attrs['min'] = min_val
+    attrs['max'] = max_val
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field

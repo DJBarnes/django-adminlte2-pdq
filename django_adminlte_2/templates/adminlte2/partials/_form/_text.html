@@ -30,34 +30,14 @@
     {% endif %}
   {% endblock form_time_input %}
 
-{% elif field|fieldtype == "EmailInput" %}
-
-  {% block form_email_input %}
-    {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'email'|with_datalist:field.datalist.name }}
-    {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'email' }}
-    {% endif %}
-  {% endblock form_email_input %}
-
-{% elif field|fieldtype == "URLInput" %}
-
-  {% block form_url_input %}
-    {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'url'|with_datalist:field.datalist.name }}
-    {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'url' }}
-    {% endif %}
-  {% endblock form_url_input %}
-
-{% elif field.phone_pattern %}
+{% elif field.phone_info %}
 
   {% block form_phone_input %}
     {% if field.datalist %}
       {# inputmask library expects: data-inputmask="'mask':'(999) 999-9999'" #}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_pattern:field.phone_pattern|with_data:'{"inputmask":"\'mask\':\'(999) 999-9999\'", "mask":""}'|with_datalist:field.datalist.name }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_phone_info:field.phone_info|with_datalist:field.datalist.name }}
     {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_pattern:field.phone_pattern|with_data:'{"inputmask":"\'mask\':\'(999) 999-9999\'", "mask":""}' }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_phone_info:field.phone_info }}
     {% endif %}
   {% endblock form_phone_input %}
 

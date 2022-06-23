@@ -36,3 +36,8 @@ class SampleForm(forms.Form):
     sample_typed_multi_choice = forms.TypedMultipleChoiceField(choices=CHOICES, coerce=int)
     sample_url = forms.URLField()
     sample_uuid = forms.UUIDField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self['sample_range_datalist'].range_min_max = {'min':5, 'max':9}
+        self['sample_range_datalist'].datalist = {'name':'my_range_datalist', 'data':[5,7,9]}
