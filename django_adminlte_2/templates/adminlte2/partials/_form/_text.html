@@ -4,7 +4,7 @@
 
   {% block form_date_time_input %}
     {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local'|with_datalist:field.datalist.name }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local'|with_list:field.datalist.name }}
     {% else %}
       {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local' }}
     {% endif %}
@@ -14,7 +14,7 @@
 
   {% block form_date_input %}
     {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date'|with_datalist:field.datalist.name }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date'|with_list:field.datalist.name }}
     {% else %}
       {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date' }}
     {% endif %}
@@ -24,7 +24,7 @@
 
   {% block form_time_input %}
     {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time'|with_datalist:field.datalist.name }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time'|with_list:field.datalist.name }}
     {% else %}
       {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time' }}
     {% endif %}
@@ -35,9 +35,9 @@
   {% block form_phone_input %}
     {% if field.datalist %}
       {# inputmask library expects: data-inputmask="'mask':'(999) 999-9999'" #}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_phone_info:field.phone_info|with_datalist:field.datalist.name }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_pattern:field.phone_info.pattern|with_inputmask:field.phone_info.inputmask|with_list:field.datalist.name }}
     {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_phone_info:field.phone_info }}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'tel'|with_pattern:field.phone_info.pattern|with_inputmask:field.phone_info.inputmask }}
     {% endif %}
   {% endblock form_phone_input %}
 
@@ -45,9 +45,9 @@
 
   {% block form_range_input %}
     {% if field.datalist %}
-      {{ field|with_input_type:'range'|with_min_max:field.range_min_max|with_datalist:field.datalist.name }}
+      {{ field|with_input_type:'range'|with_min:field.range_min_max.min|with_max:field.range_min_max.max|with_list:field.datalist.name }}
     {% else %}
-      {{ field|with_input_type:'range'|with_min_max:field.range_min_max }}
+      {{ field|with_input_type:'range'|with_min:field.range_min_max.min|with_max:field.range_min_max.max }}
     {% endif %}
   {% endblock form_range_input %}
 
@@ -55,7 +55,7 @@
 
   {% block form_color_input %}
     {% if field.datalist %}
-      {{ field|with_input_type:'color'|with_datalist:field.datalist.name }}
+      {{ field|with_input_type:'color'|with_list:field.datalist.name }}
     {% else %}
       {{ field|with_input_type:'color' }}
     {% endif %}
@@ -65,7 +65,7 @@
 
   {% block form_text_input %}
     {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_datalist:field.datalist.name }}
+      {{ field|with_class:"form-control"|with_placeholder|with_list:field.datalist.name }}
     {% else %}
       {{ field|with_class:"form-control"|with_placeholder }}
     {% endif %}

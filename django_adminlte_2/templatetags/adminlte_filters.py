@@ -164,10 +164,12 @@ def with_placeholder(field, placeholder=None):
     return field
 
 
-@register.filter('with_datalist')
-def with_datalist(field, name=None):
+@register.filter('with_list')
+def with_list(field, name=None):
     """
-    Add datalist to a form field and return the form field so filters can be chained.
+    Add list attribute to a form field and return the form field so filters can be chained.
+    This will not automatically create the datalist elements. It will only add
+    the list attribute to the element with name provided.
 
     :param field: Form field to add attributes to.
     :param name: The datalist name.
@@ -178,17 +180,14 @@ def with_datalist(field, name=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_datalist:"my_awesome_list" %}
+            {% field|with_list:"my_awesome_list" %}
             {% field %}
         {% endfor %}
 
         Which will update the form field to look like the following:
 
         <input type="text" name="field" list="my_awesome_list" id="id_field" />
-        <datalist id="my_awesome_list">
-            <option value="option 1">
-            <option value="option 2">
-        </datalist>
+
     """
     if name is not None:
         attrs = field.field.widget.attrs
@@ -198,91 +197,141 @@ def with_datalist(field, name=None):
     return field
 
 
-@register.filter('with_phone_info')
-def with_phone_info(field, phone_info=None):
+@register.filter('with_pattern')
+def with_pattern(field, pattern=None):
     """
-    Add phone_info to a form field and return the form field so filters can be chained.
+    Add pattern to a form field and return the form field so filters can be chained.
+    Unfortunately, the Django template engine can't handle parsing a string
+    regex passed to this filter. Therefore, the regex string needs to be stored
+    in a variable that can be sent to the filter.
 
     :param field: Form field to add attributes to.
-    :param phone_info: The phone info to use defined as a dict with keys 'pattern' and 'inputmask'.
-     Defaults to None.
+    :param pattern: The JavaScript regex pattern to use.
+     Defaults to r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}" if value not passed.
     :return: Field that was passed in with pattern attribute added.
 
     Example::
 
-        # Assuming that the fields phone_info property is set to the following:
-        # {'pattern':'[0-9]{3}-[0-9]{3}-[0-9]{4}','inputmask':'\'mask\':\'(999) 999-9999\''}
+        # Assuming the field has a property called pattern with a string value
+        # that is the needed regex: "\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+        # We can send that variable to the filter.
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_phone_info:field.phone_info %}
+            {% field|with_pattern:field.pattern %}
             {% field %}
         {% endfor %}
 
         Which will update the form field to look like the following:
 
-        <input type="tel" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" data-inputmask="\'mask\':\'(999) 999-9999\'" id="id_field" />
+        <input type="tel" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="id_field" />
     """
-    if phone_info is None:
-        phone_info = {
-            'pattern':r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}",
-            'inputmask':"(999) 999-9999"
-        }
-
-    if phone_info is str:
-        phone_info = json.loads(phone_info)
-
-    pattern = phone_info.get('pattern', r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}")
-    inputmask = phone_info.get('inputmask', "(999) 999-9999")
+    if pattern is None:
+        pattern = r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}",
 
     attrs = field.field.widget.attrs
     attrs['pattern'] = pattern
+    field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
+
+    return field
+
+
+@register.filter('with_inputmask')
+def with_inputmask(field, inputmask=None):
+    """
+    Add inputmask to a form field and return the form field so filters can be chained.
+    Depending on the complexity of inputmask, the Django template engine may
+    not be able to handle parsing the mask. If this is the case, the inputmask
+    will need to be stored in a variable where the variable can be sent to the
+    filter.
+
+    :param field: Form field to add attributes to.
+    :param inputmask: The inputmask pattern to use.
+     Defaults to "(999) 999-9999" if value not passed.
+    :return: Field that was passed in with a inputmask data attribute added.
+
+    Example::
+
+        {% load adminlte_filters %}
+        {% for field in form %}
+            {% field|with_inputmask:'(999) 999-9999' %}
+            {% field %}
+        {% endfor %}
+
+        Which will update the form field to look like the following:
+
+        <input type="tel" name="field" data-inputmask="'mask':'(999) 999-9999'" id="id_field" />
+    """
+    if inputmask is None:
+        inputmask = "(999) 999-9999",
+
+    attrs = field.field.widget.attrs
     attrs['data-inputmask'] = f"'mask':'{inputmask}'"
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_min_max')
-def with_min_max(field, min_max=None):
+@register.filter('with_min')
+def with_min(field, min_val=None):
     """
-    Add min and max to a form field and return the form field so filters can be chained.
+    Add min attribute to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add attributes to.
-    :param min_max: The min and max to use as a dict with keys min and max.
-     Defaults to None.
-    :return: Field that was passed in with min and max attribute added.
+    :param min_val: The min value to use.
+     Defaults to 0 if value not passed.
+    :return: Field that was passed in with min attribute added.
 
     Example::
 
-        # Assuming that the fields range_min_max property is set to the following:
-        # {'min':5, 'max':9}
-
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_min_max:field.range_min_max %}
+            {% field|with_min:5 %}
             {% field %}
         {% endfor %}
 
         Which will update the form field to look like the following:
 
-        <input type="range" name="field" min="5" max="9" id="id_field" />
+        <input type="range" name="field" min="5" id="id_field" />
     """
 
-    if min_max is None:
-        min_max = {
-            'min':0,
-            'max':100,
-        }
-
-    if min_max is str:
-        min_max = json.loads(min_max)
-
-    min_val = min_max.get('min', 0)
-    max_val = min_max.get('max', 100)
+    if min_val is None:
+        min_val = 0
 
     attrs = field.field.widget.attrs
     attrs['min'] = min_val
+    field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
+
+    return field
+
+
+@register.filter('with_max')
+def with_max(field, max_val=None):
+    """
+    Add max attribute to a form field and return the form field so filters can be chained.
+
+    :param field: Form field to add attributes to.
+    :param max_val: The max value to use.
+     Defaults to 100 if value not passed.
+    :return: Field that was passed in with max attribute added.
+
+    Example::
+
+        {% load adminlte_filters %}
+        {% for field in form %}
+            {% field|with_max:9 %}
+            {% field %}
+        {% endfor %}
+
+        Which will update the form field to look like the following:
+
+        <input type="range" name="field" max="9" id="id_field" />
+    """
+
+    if max_val is None:
+        max_val = 100
+
+    attrs = field.field.widget.attrs
     attrs['max'] = max_val
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
