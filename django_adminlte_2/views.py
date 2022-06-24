@@ -1,6 +1,7 @@
 """Django AdminLTE2 Views"""
+from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django_adminlte_2.decorators import (
     login_required,
     permission_required,
@@ -86,3 +87,10 @@ def demo_css(request):
     return render(request, 'adminlte2/demo_css.html', {
         'bootstrap_types': bootstrap_types,
     })
+
+def view_404(request, exception):
+    """Redirect to home page"""
+    messages.warning(request, "The page you were looking for does not exist.")
+    messages.debug(request, str(exception))
+    home_route = getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home')
+    return redirect(home_route)
