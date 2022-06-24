@@ -54,7 +54,37 @@ The full documentation can be found on [Read The Docs](#) (coming soon).
 
     ---
 
-3.  Django-AdminLTE-2 provides templates for django's account routes and some
+3.  Django-AdminLTE-2 provides a middleware that is required for some of the
+    available authentication and authorization scenarios from this package to
+    function.
+
+    Add this middleware to your middleware list in ``settings.py``.
+
+    Once installed the available scenarios are controlled by changing settings
+    in your ``settings.py`` file.
+    For more information about the various scenarios and associated settings
+    refer to the full documentation on [Read The Docs](#) (coming soon).
+
+    ```python
+
+       MIDDLEWARE = [
+           ...
+           'django_adminlte_2.middleware.AuthMiddleware',
+       ]
+    ```
+
+    ---
+    :information_source: **NOTE**
+    Django-AdminLTE-2 has been configured out of the box to get you setup
+    and running as fast as possible. As a result, the settings surrounding
+    authentication and authorization are not as strict as they could be.
+    We **strongly** encourage you to read the Authentication and Authorization
+    section on [Read The Docs](#) (coming soon) once you get the basics of this
+    package working.
+
+    ---
+
+4.  Django-AdminLTE-2 provides templates for django's account routes and some
     sample routes. Add the routes to your URLconf if you want to use them.
     ```python
     from django.contrib import admin
@@ -70,7 +100,7 @@ The full documentation can be found on [Read The Docs](#) (coming soon).
     ]
     ```
 
-4.  Ensure that the login redirect will work.
+5.  Ensure that the login redirect will work.
     ```python
     LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
     ```
@@ -85,14 +115,14 @@ The full documentation can be found on [Read The Docs](#) (coming soon).
 
     ---
 
-5.  Update ``settings.py`` to customize the look and feel of
+6.  Update ``settings.py`` to customize the look and feel of
     **Django-AdminLTE-2**. Common configuration options are listed below in the
     [configuration section](#configuration).
 
     For the full list of configuration options refer to the documentation on
     [Read The Docs](#).
 
-6. Override templates to further customize the look and feel of
+7. Override templates to further customize the look and feel of
    **Django-AdminLTE-2**.
 
    See the Templates section on [Read The Docs](#) for more information.
