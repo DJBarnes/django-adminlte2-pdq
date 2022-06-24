@@ -8,6 +8,7 @@ htmldjango
 inputmask
 maxdepth
 modindex
+qualname
 quickstart
 safestring
 subpackages
