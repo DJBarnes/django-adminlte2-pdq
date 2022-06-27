@@ -139,18 +139,20 @@ Decorator Examples
 Loose Decorator Example
 -----------------------
 
-In this example there are four routes, views, and sidebar entries. To
+In this example there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample 2**
 permissions at first, then show how to correct it. The views are as follows:
 
-* **Home** - Should be visible to all users, regardless of being logged in or
+* **Home** - Should be visible to all users regardless of being logged in or
   having permission.
+* **Sample Form** - Requires simply being logged in to see and access.
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
   (and being logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
-* **Demo CSS** - Requires simply being logged in to see and access.
+* **Demo CSS** - Should be visible to all users regardless of being logged in
+  or having permission.
 
 Below is all the code required to generate these views.
 
@@ -190,6 +192,11 @@ Below is all the code required to generate these views.
                     'icon': 'fa fa-dashboard',
                 },
                 {
+                    'route': 'sample_form',
+                    'text': 'Sample Form',
+                    'icon': 'fa fa-list-alt'
+                },
+                {
                     'route': 'sample1',
                     'text': 'Sample1',
                     'icon': 'fa fa-bank'
@@ -219,6 +226,7 @@ Below is all the code required to generate these views.
 
     urlpatterns = [
         path('home/', views.home, name="home"),
+        path('sample_form/', views.sample_form, name="sample_form"),
         path('sample1/', views.sample1, name="sample1"),
         path('sample2/', views.sample2, name="sample2"),
         path('demo-css/', views.demo_css, name="demo-css"),
@@ -243,6 +251,13 @@ Below is all the code required to generate these views.
         return render(request, 'adminlte2/home.html', {})
 
 
+    @login_required()
+    def sample_form(request):
+        """Show sample form"""
+        form = SampleForm()
+        return render(request, 'adminlte2/sample_form.html', {'form':form})
+
+
     @permission_required(['auth.add_permission', 'auth.view_permission',])
     def sample1(request):
         """Show sample1 page"""
@@ -254,7 +269,6 @@ Below is all the code required to generate these views.
         return render(request, 'adminlte2/sample2.html', {})
 
 
-    @login_required()
     def demo_css(request):
     """Show examples of extra-features.css"""
     return render(request, 'adminlte2/demo_css.html', {
@@ -294,8 +308,8 @@ Below is all the code required to generate these views.
 
     Because we are using a Loose policy, everyone can see and have access to
     this view. This is the **"Loose"** part of the loose policy, as it defaults
-    to everyone being able to see every view unless a permission is explicitly
-    set on that view to add security.
+    to everyone being able to see every view unless a decorator is explicitly
+    used on that view.
 
 Let's fix our mistake so that **Sample2** is protected and see the difference.
 
@@ -344,28 +358,30 @@ Strict Decorator Example
 ------------------------
 
 In this example there are four routes, views, and sidebar entries. To
-demonstrate how our package works, we intentionally mess up the **Home** and
-**Sample 2** permissions at first, then show how to correct it. The views are as
+demonstrate how our package works, we intentionally mess up the **Sample2** and
+**Demo CSS** routes at first, then show how to correct it. The views are as
 follows:
 
 * **Home** - Should be visible to all users, regardless of being logged in or
-  having permission. But we intentionally forgot to add that view's route to
-  the
-  :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST` in order
-  to demonstrate what will happen.
+  having permission.
+* **Sample Form** - Requires simply being logged in to see and access.
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
   (and being logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
-* **Demo CSS** - Requires simply being logged in to see and access.
+* **Demo CSS** - Should be visible to all users, regardless of being logged in
+  or having permission. But we intentionally forgot to add that view's route to
+  the
+  :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`
+  in order to demonstrate what will happen.
 
 Below is all the code required to generate these views.
 
 .. note::
 
     In the below files, we have purposely made a mistake in regards to the
-    **Home** and **Sample2** views in order to not only demonstrate how the
+    **Sample2** and **Demo CSS** views in order to not only demonstrate how the
     various files and contents work, but also to show what sort of side effects
     to expect when using the **Strict Policy**.
 
@@ -398,6 +414,11 @@ Below is all the code required to generate these views.
                     'icon': 'fa fa-dashboard',
                 },
                 {
+                    'route': 'sample_form',
+                    'text': 'Sample Form',
+                    'icon': 'fa fa-list-alt'
+                },
+                {
                     'route': 'sample1',
                     'text': 'Sample1',
                     'icon': 'fa fa-bank'
@@ -427,6 +448,7 @@ Below is all the code required to generate these views.
 
     urlpatterns = [
         path('home/', views.home, name="home"),
+        path('sample_form/', views.sample_form, name="sample_form"),
         path('sample1/', views.sample1, name="sample1"),
         path('sample2/', views.sample2, name="sample2"),
         path('demo-css/', views.demo_css, name="demo-css"),
@@ -449,6 +471,13 @@ Below is all the code required to generate these views.
     def home(request):
         """Show home page"""
         return render(request, 'adminlte2/home.html', {})
+
+
+    @login_required()
+    def sample_form(request):
+        """Show sample form"""
+        form = SampleForm()
+        return render(request, 'adminlte2/sample_form.html', {'form':form})
 
 
     @permission_required(['auth.add_permission', 'auth.view_permission',])
@@ -474,14 +503,12 @@ Below is all the code required to generate these views.
 
 .. note::
 
-    As seen in the following screenshots, the route still works and the user
-    can still directly visit and see the **Home** page, despite there not being
-    a sidebar link for it.
+    As seen in the following screenshots, the **Home** route still works and
+    the user still has access to it.
 
-    This is because the **Strict policy** is only strict at preventing the
-    sidebar menu from rendering links. In order to fully prevent a user from
-    both seeing and directly accessing a view, you must use a decorator/mixin
-    on that view.
+    This is because the **Home** route is one of the routes that automatically
+    included as part of the
+    :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
 
 .. image:: ../../img/authorization/strict_policy_anonymous_wrong.png
     :alt: Strict Policy with anonymous user and missed decorator and setting.
@@ -502,8 +529,8 @@ Below is all the code required to generate these views.
 **What logged in superusers can see and access:**
 
 .. note::
-    Even though we forgot to add the **Home** route to the whitelist and add
-    permissions to the **Sample2** view, the superuser can still see those
+    Even though we forgot to add the **Demo CSS** route to the whitelist and
+    add permissions to the **Sample2** view, the superuser can still see those
     sidebar entries and has access to those pages as superusers can always see
     everything.
 
@@ -514,25 +541,26 @@ Below is all the code required to generate these views.
 
 .. warning::
 
-    We wanted the **Home** view to be visible and accessible to all users. But
-    as configured, it is not visible to anyone. In addition, the **Sample2**
-    page is also not visible to anyone.
+    We wanted the **Demo CSS** view to be visible and accessible to all users.
+    But as configured, it is not visible to anyone. In addition, the
+    **Sample2** page is also not visible to anyone.
 
     Because we are using the Strict Policy, all sidebar menu links are hidden
     by default. This is the **"Strict"** part of the Strict Policy as it
     defaults to everyone not being able to see every sidebar menu link unless a
-    permission is explicitly set on that view or the route for that view is
+    decorator is explicitly used on that view or the route for that view is
     added to the
     :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`.
 
-    In the case of the **Home** view, we actually will add the route to the
-    ``ADMINLTE2_STRICT_POLICY_WHITELIST``, so that everyone will be able to see
-    the **Home** link regardless of their permissions.
+    In the case of the **Demo CSS** view, we add the route to the
+    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` as we don't want to require
+    permissions for it and instead want to ensure that everyone will be able to
+    see the link and page regardless of their permissions or being logged in.
 
     In the case of **Sample2**, we are going to add the missing permissions that
     we accidentally omitted earlier.
 
-Let's fix our mistake so that **Home** and **Sample2** are visible to who
+Let's fix our mistake so that **Demo CSS** and **Sample2** are visible to who
 they are supposed to be.
 
 
@@ -546,7 +574,7 @@ route.
 .. code:: python
 
     # Lists the routes that do not need permissions to be seen by all users.
-    ADMINLTE2_STRICT_POLICY_WHITELIST = ['home']
+    ADMINLTE2_STRICT_POLICY_WHITELIST = ['demo-css']
 
 
 .. _strict_decorator_fixed_views.py:
