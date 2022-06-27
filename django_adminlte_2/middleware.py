@@ -108,7 +108,13 @@ class AuthMiddleware:
 
             # Determine if request url is exempt.
             current_url_name = view.url_name
-            if current_url_name in STRICT_POLICY_WHITELIST or path in STRICT_POLICY_WHITELIST:
+            app_name = view.app_name
+            fully_qualified_url_name = f"{app_name}:{current_url_name}"
+            if (
+                current_url_name in STRICT_POLICY_WHITELIST
+                or fully_qualified_url_name in STRICT_POLICY_WHITELIST
+                or path in STRICT_POLICY_WHITELIST
+            ):
                 exempt = True
 
             view_class = getattr(view.func, 'view_class', None)
@@ -129,10 +135,12 @@ class AuthMiddleware:
 
         # Permissions or Login Required not set, add messages, warnings, and return False
         warning_message = (
-            f"The view {view.func.__qualname__} does not have the permission,"
-            " one_of_permission, or login_required attribute set and the option"
-            " ADMINLTE2_USE_VIEW_STRICT_POLICY is set to True. This means that"
-            " this view is inaccessible until permissions are set on the view"
+            f"The view '{view.func.__qualname__}' does not have the"
+            " permission_required, one_of_permission, or login_required"
+            " attribute set and the option ADMINLTE2_USE_VIEW_STRICT_POLICY is"
+            " set to True. This means that this view is inaccessible until"
+            " either permissions are set on the view or the url_name for the"
+            " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
         )
         warnings.warn(warning_message)
         messages.debug(request, warning_message)
