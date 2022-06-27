@@ -25,6 +25,7 @@ def register(request):
         'form': dummy_form,
     })
 
+@login_required()
 def sample_form(request):
     """Show sample form page"""
     form = SampleForm()
@@ -50,7 +51,6 @@ def sample2(request):
     """Show default sample2 page"""
     return render(request, 'adminlte2/sample2.html', {})
 
-@login_required()
 def demo_css(request):
     """Show examples of extra-features.css"""
 
