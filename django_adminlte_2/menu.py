@@ -55,10 +55,3 @@ MENU = [
         ],
     },
 ]
-
-# Default Whitelist
-WHITELIST = [
-    'password_change',
-    'django_adminlte_2:register',
-    'django_adminlte_2:demo-css',
-]

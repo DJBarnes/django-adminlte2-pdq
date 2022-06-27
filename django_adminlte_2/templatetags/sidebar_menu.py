@@ -9,7 +9,8 @@ from django.http import Http404
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
 
-from django_adminlte_2.menu import MENU, WHITELIST
+from django_adminlte_2.constants import STRICT_POLICY_WHITELIST
+from django_adminlte_2.menu import MENU
 from django_adminlte_2.templatetags.admin.admin_menu import AdminMenu
 
 register = template.Library()
@@ -121,11 +122,7 @@ def ensure_node_has_url_property(node):
 
 def check_for_whitelisted_node(node):
     """Check to see if the route property on the node is in the whitelist"""
-    return node.get('route') in getattr(
-        settings,
-        'ADMINLTE2_STRICT_POLICY_WHITELIST',
-        WHITELIST
-    )
+    return node.get('route') in STRICT_POLICY_WHITELIST
 
 
 def check_for_all_permissions(user, permissions):
