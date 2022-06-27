@@ -156,6 +156,14 @@ permissions at first, then show how to correct it. The views are as follows:
     proper configuration, as well as what users will see.
 
 
+.. important::
+
+    For the purposes of this example we have turned off the global
+    :ref:`authorization/policies:login required` setting and instead choose
+    to define whether or not a view requires being logged in directly on
+    the view rather than globally. This way we can demonstrate all three of
+    the various mixins.
+
 .. _loose_mixin_settings.py:
 
 **settings.py**
@@ -166,7 +174,7 @@ permissions at first, then show how to correct it. The views are as follows:
     ADMINLTE2_MENU = [
         {
             'text': 'Home',
-            'links': [
+            'nodes': [
                 {
                     'route': 'home',
                     'text': 'Home',
@@ -363,6 +371,14 @@ follows:
     Below this initial attempt, we correct our mistake and show the proper
     configuration as well as what users will see.
 
+.. important::
+
+    For the purposes of this example we have turned off the global
+    :ref:`authorization/policies:login required` setting and instead choose
+    to define whether or not a view requires being logged in directly on
+    the view rather than globally. This way we can demonstrate all three of
+    the various mixins.
+
 .. _strict_mixin_settings.py:
 
 
@@ -374,7 +390,7 @@ follows:
     ADMINLTE2_MENU = [
         {
             'text': 'Home',
-            'links': [
+            'nodes': [
                 {
                     'route': 'home',
                     'text': 'Home',

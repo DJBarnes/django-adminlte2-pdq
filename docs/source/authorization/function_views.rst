@@ -164,6 +164,14 @@ Below is all the code required to generate these views.
     Below this initial attempt, we correct our mistake and show the proper
     configuration, as well as what users will see.
 
+.. important::
+
+    For the purposes of this example we have turned off the global
+    :ref:`authorization/policies:login required` setting and instead choose
+    to define whether or not a view requires being logged in directly on
+    the view rather than globally. This way we can demonstrate all three of
+    the various decorators.
+
 
 .. _loose_decorator_settings.py:
 
@@ -175,7 +183,7 @@ Below is all the code required to generate these views.
     ADMINLTE2_MENU = [
         {
             'text': 'Home',
-            'links': [
+            'nodes': [
                 {
                     'route': 'home',
                     'text': 'Home',
@@ -364,6 +372,14 @@ Below is all the code required to generate these views.
     Below this initial attempt we, correct our mistake and show the proper
     configuration, as well as what users will see.
 
+.. important::
+
+    For the purposes of this example we have turned off the global
+    :ref:`authorization/policies:login required` setting and instead choose
+    to define whether or not a view requires being logged in directly on
+    the view rather than globally. This way we can demonstrate all three of
+    the various decorators.
+
 
 .. _strict_decorator_settings.py:
 
@@ -375,7 +391,7 @@ Below is all the code required to generate these views.
     ADMINLTE2_MENU = [
         {
             'text': 'Home',
-            'links': [
+            'nodes': [
                 {
                     'route': 'home',
                     'text': 'Home',
