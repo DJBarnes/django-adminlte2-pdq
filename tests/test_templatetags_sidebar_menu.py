@@ -1,6 +1,7 @@
 """
 Tests for Template Tags
 """
+from unittest.mock import patch
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
@@ -8,13 +9,11 @@ from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
 
-from django_adminlte_2.menu import WHITELIST
 from django_adminlte_2.templatetags import sidebar_menu
 
 UserModel = get_user_model()
 
 
-@override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=WHITELIST)
 class TemplateTagSidebarMenuTestCase(TestCase):
     """
     Test Template Tags and Helper Methods used in those template tags
@@ -71,7 +70,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_view_function(self):
-        """Test get permissions from node pulls permissins from view function"""
+        """Test get permissions from node pulls permissions from view function"""
         node = {
             'route': 'django_adminlte_2:sample1',
             'text': 'Sample1',
@@ -347,7 +346,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test check_for_whitelisted_node
     # |-------------------------------------------------------------------------
 
-    @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=['django_adminlte_2:sample2'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:sample2'])
     def test_check_for_whitelisted_node_returns_true_when_node_in_list(self):
         """Test check for whitelisted node returns true when node in list"""
         node = {
@@ -356,7 +355,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-building',
         }
 
-        is_whitelisted = sidebar_menu.check_for_whitelisted_node(node)
+        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
 
         self.assertTrue(is_whitelisted)
 
@@ -368,7 +367,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-building',
         }
 
-        is_whitelisted = sidebar_menu.check_for_whitelisted_node(node)
+        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
 
         self.assertFalse(is_whitelisted)
 
@@ -484,6 +483,216 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test is_allowed_node
     # |-------------------------------------------------------------------------
 
+    def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_one_perm(self):
+        pass
+
+
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_one_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_one_perm(self):
+        pass
+
+
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_one_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_one_perm(self):
+        pass
+
+
+
+    def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
+        pass
+
+
+
+
+
+
+
+
+
+    def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_one_perm(self):
+        pass
+
+
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_one_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_one_perm(self):
+        pass
+
+
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_one_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_nothing(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_login(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_one_perm(self):
+        pass
+
+
+    # TODO: Not sure what below ones should do.
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
+        pass
+
+
+
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
+        pass
+
+
+
+
+    def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
+        pass
+
+    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
+        pass
+
+
+
+
+
     def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_off(self):
         """Test is allowed node returns true when user is superuser and whitelist is off"""
         self._setup_superuser()
@@ -540,7 +749,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_on(self):
         """Test is allowed node returns true when user is superuser and whitelist is on"""
         self._setup_superuser()
@@ -555,7 +765,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_returns_true_when_user_has_all_perms_and_whitelist_is_on(self):
         """Test is allowed node returns true when user has all perms and white list is on"""
         self._setup_staffuser('add_group')
@@ -571,7 +782,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_returns_true_when_user_has_one_perm_and_whitelist_is_on(self):
         """Test is allowed node returns true when user has one perm and whitelist is on"""
         self._setup_staffuser('add_permission')
@@ -586,8 +798,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-    @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=WHITELIST + ['django_adminlte_2:home'])
+    # @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    # @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=STRICT_POLICY_WHITELIST + ['django_adminlte_2:home'])
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', ['django_adminlte_2:home'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:home'])
     def test_is_allowed_node_returns_true_when_there_are_no_perms_and_whitelist_is_on_and_node_is_whitelisted(self):
         """Test is allowed node returns true when there are no perms and
         whitelist is on and node is whitelisted"""
@@ -603,8 +819,10 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-    @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=[])
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', [])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', [])
     def test_is_allowed_node_returns_false_when_there_are_no_perms_and_whitelisting_is_on_but_has_no_entry_for_node(self):
         """Test is allowed node returns false when there are no perms and
         whitelisting is on but has no entry for node"""
