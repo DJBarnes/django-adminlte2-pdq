@@ -35,7 +35,7 @@ args=("$@")
 
 if [ "${args[0]}" = "all_tests" ]; then
     echo -e "${BLUE}Running All Tests With Coverage Report${NC}"
-    pipenv run coverage run --source . manage.py test ${@:3}
+    pipenv run coverage run --source . runtests.py ${@:3}
     echo -e "${BLUE}Generating HTML${NC}"
     pipenv run coverage html -d ${args[1]}/.django_adminlte_2_coverage_html_report
     echo -e "${BLUE}Output created and located in: ${ORANGE}${args[1]}/.djang_adminlte_2_coverage_html_report/index.html${NC}"
@@ -44,7 +44,7 @@ fi
 
 if [ "${args[0]}" = "all_tests_lt_100" ]; then
     echo -e "${BLUE}Running All Tests With Less Than 100% Coverage Report${NC}"
-    pipenv run coverage run --source . manage.py test ${@:3}
+    pipenv run coverage run --source . runtests.py ${@:3}
     echo -e "${BLUE}Generating HTML${NC}"
     pipenv run coverage html --skip-covered -d ${args[1]}/.djang_adminlte_2_coverage_html_report
     echo -e "${BLUE}Output created and located in: ${ORANGE}${args[1]}/.django_adminlte_2_coverage_html_report/index.html${NC}"
