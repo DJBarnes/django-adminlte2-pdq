@@ -9,7 +9,12 @@ from django.http import Http404
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
 
-from django_adminlte_2.constants import STRICT_POLICY_WHITELIST
+from django_adminlte_2.constants import (
+    LOGIN_REQUIRED,
+    LOGIN_EXEMPT_WHITELIST,
+    STRICT_POLICY,
+    STRICT_POLICY_WHITELIST,
+)
 from django_adminlte_2.menu import MENU
 from django_adminlte_2.templatetags.admin.admin_menu import AdminMenu
 
@@ -120,7 +125,12 @@ def ensure_node_has_url_property(node):
         node['url'] = url
 
 
-def check_for_whitelisted_node(node):
+def check_for_login_whitelisted_node(node):
+    """Check to see if the route property on the node is in the login whitelist"""
+    return node.get('route') in LOGIN_EXEMPT_WHITELIST
+
+
+def check_for_strict_whitelisted_node(node):
     """Check to see if the route property on the node is in the whitelist"""
     return node.get('route') in STRICT_POLICY_WHITELIST
 
@@ -199,36 +209,30 @@ def is_allowed_node(user, node):
 
     # Determine if the node is accessible by permissions alone.
     # This will be false for empty node permission lists
-    allowed_by_perms = check_for_all_permissions(user, permissions) or \
-        check_for_one_permission(user, one_of_permissions)
-
-    # Get whether to do whitelist checking
-    do_whitelist_check = getattr(
-        settings,
-        'ADMINLTE2_USE_STRICT_POLICY',
-        False
+    allowed_by_perms = (
+        check_for_all_permissions(user, permissions)
+        or check_for_one_permission(user, one_of_permissions)
     )
 
-    if login_required:
+    allowed = False
+
+    if login_required or LOGIN_REQUIRED:
         # If login_required, then no perms defined for view, only have to worry
         # about whether user is in fact logged in or not.
-        allowed = user.is_authenticated
+        allowed = user.is_authenticated or check_for_login_whitelisted_node(node)
 
+    # If we are whitelist checking
+    if STRICT_POLICY:
+        # Allowed will be true if the node is allowed by perms, or in the whitelist
+        allowed = allowed_by_perms or check_for_strict_whitelisted_node(node)
     else:
-        # Need to check perms.
-
-        # If we are whitelist checking
-        if do_whitelist_check:
-            # Allowed will be true if the node is allowed by perms, or in the whitelist
-            allowed = allowed_by_perms or check_for_whitelisted_node(node)
+        # Else, if the permission lists are not empty, use those
+        if permissions or one_of_permissions:
+            allowed = allowed_by_perms
         else:
-            # Else, if the permission lists are not empty, use those
-            if permissions or one_of_permissions:
-                allowed = allowed_by_perms
-            else:
-                # Else, there is no white list checking, and there are no defined
-                # permissions, so return true to make the node allowed
-                allowed = True
+            # Else, there is no white list checking, and there are no defined
+            # permissions, so return true to make the node allowed
+            allowed = True
 
     return allowed
 
