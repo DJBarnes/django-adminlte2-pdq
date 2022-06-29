@@ -36,10 +36,10 @@ def get_permissions_from_node(node):
     """
     permissions = node.get('permissions', None)
     one_of_permissions = node.get('one_of_permissions', None)
-    login_required = node.get('login_required', False)
+    login_required = node.get('login_required', None)
 
-    if permissions is not None or one_of_permissions is not None:
-        return permissions or [], one_of_permissions or [], login_required
+    if permissions is not None or one_of_permissions is not None or login_required is not None:
+        return permissions or [], one_of_permissions or [], login_required or False
 
     view = None
     try:
@@ -207,32 +207,34 @@ def is_allowed_node(user, node):
 
     permissions, one_of_permissions, login_required = get_permissions_from_node(node)
 
-    # Determine if the node is accessible by permissions alone.
-    # This will be false for empty node permission lists
-    allowed_by_perms = (
-        check_for_all_permissions(user, permissions)
-        or check_for_one_permission(user, one_of_permissions)
-    )
-
-    allowed = False
+    allowed = not STRICT_POLICY
 
     if login_required or LOGIN_REQUIRED:
         # If login_required, then no perms defined for view, only have to worry
         # about whether user is in fact logged in or not.
         allowed = user.is_authenticated or check_for_login_whitelisted_node(node)
 
-    # If we are whitelist checking
-    if STRICT_POLICY:
-        # Allowed will be true if the node is allowed by perms, or in the whitelist
-        allowed = allowed_by_perms or check_for_strict_whitelisted_node(node)
-    else:
-        # Else, if the permission lists are not empty, use those
-        if permissions or one_of_permissions:
-            allowed = allowed_by_perms
+    if permissions or one_of_permissions:
+
+        # Determine if the node is accessible by permissions alone.
+        # This will be false for empty node permission lists
+        allowed_by_perms = (
+            check_for_all_permissions(user, permissions)
+            or check_for_one_permission(user, one_of_permissions)
+        )
+
+        # If we are whitelist checking
+        if STRICT_POLICY:
+            # Allowed will be true if the node is allowed by perms, or in the whitelist
+            allowed = allowed_by_perms or check_for_strict_whitelisted_node(node)
         else:
-            # Else, there is no white list checking, and there are no defined
-            # permissions, so return true to make the node allowed
-            allowed = True
+            # Else, if the permission lists are not empty, use those
+            if permissions or one_of_permissions:
+                allowed = allowed_by_perms
+            else:
+                # Else, there is no white list checking, and there are no defined
+                # permissions, so return true to make the node allowed
+                allowed = True
 
     return allowed
 
