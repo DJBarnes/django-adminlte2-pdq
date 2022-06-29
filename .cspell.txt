@@ -26,7 +26,10 @@ adminlte
 fieldtype
 hashcode
 intersphinx
+nodetree
 templatetags
+teststaffuser
+testsuperuser
 unslugify
 unsnake
 unsnaked
