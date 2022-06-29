@@ -484,85 +484,85 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # |-------------------------------------------------------------------------
 
     def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_login"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_off_and_node_requires_one_perm"""
 
 
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_login"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_perm("""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_off_and_node_requires_one_perm"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_login"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_perm("""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_off_and_node_requires_one_perm"""
 
 
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_login"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_one_perm"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_login"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_one_perm"""
 
 
 
     def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist"""
 
 
 
@@ -573,121 +573,121 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
 
     def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_login"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_off_and_strict_on_and_node_requires_one_perm"""
 
 
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_login"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_one_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_login"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_one_perm("""
 
 
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_login"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_one_perm"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_nothing(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_nothing"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_login(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_login"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_one_perm(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_one_perm"""
 
 
     # TODO: Not sure what below ones should do.
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist"""
 
 
 
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist"""
 
 
 
 
     def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist"""
 
     def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
-        pass
+        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist"""
 
 
 
@@ -989,7 +989,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     def test_check_for_one_permission_in_node_list_returns_false_for_tree_of_two_nodes_user_can_not_access(self):
         """Test check for one permission in node list returns false for tree of
-        two nodes user can not acccess"""
+        two nodes user can not access"""
         self._setup_staffuser('add_group')
 
         nodes = [
