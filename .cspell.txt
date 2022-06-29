@@ -19,6 +19,7 @@ urlpatterns
 
 # Domain
 ALTE
+anonymoususer
 autosection
 autosectionlabel
 autosummary
@@ -28,6 +29,7 @@ hashcode
 intersphinx
 nodetree
 templatetags
+testanonymoususer
 teststaffuser
 testsuperuser
 unslugify
