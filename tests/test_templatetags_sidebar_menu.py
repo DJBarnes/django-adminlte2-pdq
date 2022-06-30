@@ -589,11 +589,29 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test is_allowed_node
     # |-------------------------------------------------------------------------
 
+    # TODO: Verify the below statement.
+    # NOTE: We only need to test the login_required / permissions on the node as
+    # we have other tests to verify that it is possible to get the
+    # login_required and permissions from the view associated with the node.
+    # Those tests also ensure that node permissions take precedence over view ones.
+
     # Test format is as follows:
-    # def test_is_allowed_node_{result}_{user}_{login}_{strict}_{node}_{view}_{login_WL}_{strict_WL}
+    # def test_is_allowed_node_{result}_{user}_{login}_{strict}_{node}_{login_WL}_{strict_WL}
 
-    def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_off_node_off_view_off(self):
-        """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_off_node_off_view_off"""
+    # Additional details
+    # {login} means that the LOGIN_REQUIRED middleware is active
+    # {strict} means that the STRICT_POLICY middleware is active
+    # {node} means what the node requirements are. Options are: off, login, perm, one_perm
+    # {login_WL} means that the node's route is listed in the LOGIN_EXEMPT_WHITELIST
+    # {strict_WL} means that the node's route is listed in the STRICT_POLICY_WHITELIST
+
+    # The tests do not test a combination of node options.
+    # EX: no test for login required and required perms as requiring perms implicitly means user logged in.
+
+    # Anonymous - login off - strict off
+
+    def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_off_node_off(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_off_node_off"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -605,8 +623,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_login_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_login_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_login(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_login"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -619,8 +637,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_perm_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_perm"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -633,8 +651,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_one_perm_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_one_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_one_perm"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -647,11 +665,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-
+    # Anonymous - login on - strict off
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_off_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_off_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_off(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_off"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -664,8 +682,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(allowed)
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_login_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_login_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_login(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_login"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -679,8 +697,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(allowed)
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -694,8 +712,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(allowed)
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm_view_off"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm"""
         self._setup_anonymoususer()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -708,340 +726,107 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist"""
+    # Anonymous - login on - strict off - login whitelist on
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
-        """test_is_allowed_node_returns_false_when_user_is_anonymous_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist"""
-
-
-
-    def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_view_off(self):
-        """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_view_off"""
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_view_off"""
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_view_off"""
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_view_off"""
-
-
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_view_off_login_wl_on(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_view_off_login_wl_on"""
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_view_off_login_wl_on(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_view_off_login_wl_on"""
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_view_off_strict_wl_on(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_view_off_strict_wl_on"""
-
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_view_off_strict_wl_on(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_view_off_strict_wl_on"""
-
-    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_view_off_login_wl_on_strict_wl_on(self):
-        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_view_off_login_wl_on_strict_wl_on"""
-
-    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_perm_view_off_login_wl_on_strict_wl_on(self):
-        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_perm_view_off_login_wl_on_strict_wl_on"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    def test_is_allowed_node_is_true_when_user_logged_in_login_off_strict_off_node_off_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_login_off_strict_off_node_off_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_is_true_when_user_logged_in_login_off_strict_off_node_login_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_login_off_strict_off_node_off_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'login_required': True,
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_is_false_when_user_logged_in_login_off_strict_off_node_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_logged_in_login_off_strict_off_node_perm_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'permissions': ['auth.add_group'],
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertFalse(allowed)
-
-    def test_is_allowed_node_is_false_when_user_logged_in_login_off_strict_off_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_logged_in_login_off_strict_off_node_one_perm_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'one_of_permissions': ['auth.add_group'],
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertFalse(allowed)
-
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_off_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_off_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_login_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_login_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'login_required': True,
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_perm_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_perm_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'permissions': ['auth.add_group']
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_off_strict_off_node_one_perm_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'one_of_permissions': ['auth.add_group']
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-
-
-
-
-
-
-
+    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_off_login_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_off_login_wl_on"""
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_true_when_user_logged_in_login_on_strict_off_node_off_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_login_on_strict_off_node_off_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
+    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_login_login_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_login_login_wl_on"""
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_true_when_user_logged_in_login_on_strict_off_node_login_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_login_on_strict_off_node_login_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'login_required': True,
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on"""
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_false_when_user_logged_in_login_on_strict_off_node_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_logged_in_login_on_strict_off_node_perm_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'permissions': ['auth.add_group'],
-        }
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm_login_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on"""
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    # Anonymous - login off - strict on
 
-        self.assertFalse(allowed)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_off(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_off"""
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_false_when_user_logged_in_login_on_strict_off_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_false_when_user_logged_in_login_on_strict_off_node_one_perm_view_off"""
-        self._setup_staffuser()
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'one_of_permissions': ['auth.add_group'],
-        }
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login"""
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm"""
 
-        self.assertFalse(allowed)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm"""
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-        }
+    # Anonymous - login off - strict on - strict whitelist on
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on"""
 
-        self.assertTrue(allowed)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_strict_wl_on"""
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_login_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_login_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'login_required': True,
-        }
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_strict_wl_on"""
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_strict_wl_on"""
 
-        self.assertTrue(allowed)
+    # Anonymous - login on - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_perm_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_perm_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'permissions': ['auth.add_group'],
-        }
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off"""
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login"""
 
-        self.assertTrue(allowed)
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm"""
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    def test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_one_perm_view_off(self):
-        """test_is_allowed_node_is_true_when_user_logged_in_perm_login_on_strict_off_node_one_perm_view_off"""
-        self._setup_staffuser('add_group')
-        node = {
-            'route': 'django_adminlte_2:demo-css',
-            'text': 'Demo CSS',
-            'icon': 'fa fa-file',
-            'one_of_permissions': ['auth.add_group'],
-        }
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm"""
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    # Anonymous - login on - strict on - login whitelist on
 
-        self.assertTrue(allowed)
+    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on"""
 
+    # Anonymous - login on - strict on - strict whitelist on
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_strict_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_strict_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_strict_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_strict_wl_on"""
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_nothing_but_in_login_whitelist"""
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_strict_wl_on"""
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist"""
+    # Anonymous - login on - strict on - login whitelist on - strict whitelist on
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_off_and_node_requires_perm_and_in_login_whitelist"""
+    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on_strict_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on_strict_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on_strict_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on_strict_wl_on"""
 
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
+        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
 
 
 
@@ -1050,239 +835,164 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
 
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_nothing(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_nothing"""
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_login(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_login"""
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_perm(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_perm"""
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_one_perm(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_off_and_strict_on_and_node_requires_one_perm"""
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_nothing(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_nothing"""
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_login(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_login"""
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_perm(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_perm"""
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_one_perm(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_off_and_strict_on_and_node_requires_one_perm("""
 
 
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing"""
+    # ***********************
+    # NOTE: Old tests below
+    # ***********************
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_login(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_login"""
+    # def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_off(self):
+    #     """Test is allowed node returns true when user is superuser and whitelist is off"""
+    #     self._setup_superuser()
+    #     node = {
+    #         'route': 'django_adminlte_2:sample2',
+    #         'text': 'Sample2',
+    #         'icon': 'fa fa-building',
+    #     }
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm"""
+    #     allowed = sidebar_menu.is_allowed_node(self.superuser, node)
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_one_perm(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_one_perm"""
+    #     self.assertTrue(allowed)
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_nothing(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_nothing"""
+    # def test_is_allowed_node_returns_true_when_user_has_all_perms_and_whitelist_is_off(self):
+    #     """Test is allowed node returns true when user has all perms and whitelist is off"""
+    #     self._setup_staffuser('add_group')
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_login(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_login"""
+    #     node = {
+    #         'route': 'django_adminlte_2:sample1',
+    #         'text': 'Sample1',
+    #         'icon': 'fa fa-building',
+    #         'permissions': ['auth.add_group'],
+    #     }
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm"""
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_one_perm(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_one_perm"""
+    #     self.assertTrue(allowed)
 
+    # def test_is_allowed_node_returns_true_when_user_has_one_perm_and_whitelist_is_off(self):
+    #     """Test is allowed node returns true when user has one perm and whitelist if off"""
+    #     self._setup_staffuser('add_permission')
 
-    # TODO: Not sure what below ones should do.
+    #     node = {
+    #         'route': 'django_adminlte_2:sample2',
+    #         'text': 'Sample2',
+    #         'icon': 'fa fa-building',
+    #     }
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist"""
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist"""
+    #     self.assertTrue(allowed)
 
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist"""
+    # def test_is_allowed_node_returns_true_when_there_are_no_perms_on_node_and_whitelist_is_off(self):
+    #     """Test is allowed node returns true when there are no perms on node and whitelist if off"""
+    #     self._setup_staffuser('add_group')
 
+    #     node = {
+    #         'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+    #         'text': 'Home',
+    #         'icon': 'fa fa-building',
+    #     }
 
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
 
+    #     self.assertTrue(allowed)
 
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_strict_whitelist"""
-
-    def test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
-        """test_is_allowed_node_returns_false_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist"""
-
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_strict_whitelist"""
-
-
-
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_nothing_but_in_login_whitelist_and_in_strict_whitelist"""
-
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_no_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist"""
-
-    def test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist(self):
-        """test_is_allowed_node_returns_true_when_user_is_logged_in_with_perm_and_login_on_and_strict_on_and_node_requires_perm_and_in_login_whitelist_and_in_strict_whitelist"""
-
-
-
-
-
-    def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_off(self):
-        """Test is allowed node returns true when user is superuser and whitelist is off"""
-        self._setup_superuser()
-        node = {
-            'route': 'django_adminlte_2:sample2',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_returns_true_when_user_has_all_perms_and_whitelist_is_off(self):
-        """Test is allowed node returns true when user has all perms and whitelist is off"""
-        self._setup_staffuser('add_group')
-
-        node = {
-            'route': 'django_adminlte_2:sample1',
-            'text': 'Sample1',
-            'icon': 'fa fa-building',
-            'permissions': ['auth.add_group'],
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_returns_true_when_user_has_one_perm_and_whitelist_is_off(self):
-        """Test is allowed node returns true when user has one perm and whitelist if off"""
-        self._setup_staffuser('add_permission')
-
-        node = {
-            'route': 'django_adminlte_2:sample2',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    def test_is_allowed_node_returns_true_when_there_are_no_perms_on_node_and_whitelist_is_off(self):
-        """Test is allowed node returns true when there are no perms on node and whitelist if off"""
-        self._setup_staffuser('add_group')
-
-        node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
-            'text': 'Home',
-            'icon': 'fa fa-building',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_on(self):
-        """Test is allowed node returns true when user is superuser and whitelist is on"""
-        self._setup_superuser()
-
-        node = {
-            'route': 'django_adminlte_2:sample2',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
-        self.assertTrue(allowed)
-
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    def test_is_allowed_node_returns_true_when_user_has_all_perms_and_whitelist_is_on(self):
-        """Test is allowed node returns true when user has all perms and white list is on"""
-        self._setup_staffuser('add_group')
-
-        node = {
-            'route': 'django_adminlte_2:sample1',
-            'text': 'Sample1',
-            'icon': 'fa fa-building',
-            'permissions': ['auth.add_group'],
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    def test_is_allowed_node_returns_true_when_user_has_one_perm_and_whitelist_is_on(self):
-        """Test is allowed node returns true when user has one perm and whitelist is on"""
-        self._setup_staffuser('add_permission')
-
-        node = {
-            'route': 'django_adminlte_2:sample2',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-        }
-
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
-        self.assertTrue(allowed)
-
-    # @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-    # @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=STRICT_POLICY_WHITELIST + ['django_adminlte_2:home'])
     # @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    # @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', ['django_adminlte_2:home'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:home'])
-    def test_is_allowed_node_returns_true_when_there_are_no_perms_and_whitelist_is_on_and_node_is_whitelisted(self):
-        """Test is allowed node returns true when there are no perms and
-        whitelist is on and node is whitelisted"""
-        self._setup_staffuser('add_group')
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    # def test_is_allowed_node_returns_true_when_user_is_superuser_and_whitelist_is_on(self):
+    #     """Test is allowed node returns true when user is superuser and whitelist is on"""
+    #     self._setup_superuser()
 
-        node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
-            'text': 'Home',
-            'icon': 'fa fa-building',
-        }
+    #     node = {
+    #         'route': 'django_adminlte_2:sample2',
+    #         'text': 'Sample2',
+    #         'icon': 'fa fa-building',
+    #     }
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    #     allowed = sidebar_menu.is_allowed_node(self.superuser, node)
 
-        self.assertTrue(allowed)
+    #     self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', [])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', [])
-    def test_is_allowed_node_returns_false_when_there_are_no_perms_and_whitelisting_is_on_but_has_no_entry_for_node(self):
-        """Test is allowed node returns false when there are no perms and
-        whitelisting is on but has no entry for node"""
-        self._setup_staffuser('add_group')
+    # @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    # def test_is_allowed_node_returns_true_when_user_has_all_perms_and_whitelist_is_on(self):
+    #     """Test is allowed node returns true when user has all perms and white list is on"""
+    #     self._setup_staffuser('add_group')
 
-        node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
-            'text': 'Home',
-            'icon': 'fa fa-building',
-        }
+    #     node = {
+    #         'route': 'django_adminlte_2:sample1',
+    #         'text': 'Sample1',
+    #         'icon': 'fa fa-building',
+    #         'permissions': ['auth.add_group'],
+    #     }
 
-        allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
 
-        self.assertFalse(allowed)
+    #     self.assertTrue(allowed)
+
+    # @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    # def test_is_allowed_node_returns_true_when_user_has_one_perm_and_whitelist_is_on(self):
+    #     """Test is allowed node returns true when user has one perm and whitelist is on"""
+    #     self._setup_staffuser('add_permission')
+
+    #     node = {
+    #         'route': 'django_adminlte_2:sample2',
+    #         'text': 'Sample2',
+    #         'icon': 'fa fa-building',
+    #     }
+
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+
+    #     self.assertTrue(allowed)
+
+    # # @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+    # # @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=STRICT_POLICY_WHITELIST + ['django_adminlte_2:home'])
+    # # @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    # # @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', ['django_adminlte_2:home'])
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:home'])
+    # def test_is_allowed_node_returns_true_when_there_are_no_perms_and_whitelist_is_on_and_node_is_whitelisted(self):
+    #     """Test is allowed node returns true when there are no perms and
+    #     whitelist is on and node is whitelisted"""
+    #     self._setup_staffuser('add_group')
+
+    #     node = {
+    #         'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+    #         'text': 'Home',
+    #         'icon': 'fa fa-building',
+    #     }
+
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+
+    #     self.assertTrue(allowed)
+
+    # @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    # @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', [])
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    # @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', [])
+    # def test_is_allowed_node_returns_false_when_there_are_no_perms_and_whitelisting_is_on_but_has_no_entry_for_node(self):
+    #     """Test is allowed node returns false when there are no perms and
+    #     whitelisting is on but has no entry for node"""
+    #     self._setup_staffuser('add_group')
+
+    #     node = {
+    #         'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+    #         'text': 'Home',
+    #         'icon': 'fa fa-building',
+    #     }
+
+    #     allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
+
+    #     self.assertFalse(allowed)
 
     # |-------------------------------------------------------------------------
     # | Test check_for_one_permission_in_node_list
