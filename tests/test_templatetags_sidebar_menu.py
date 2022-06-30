@@ -112,8 +112,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertFalse(permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_login_required_from_view_function(self):
@@ -127,8 +127,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertFalse(permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_login_required_value_from_node_over_view_function_when_both_set(self):
@@ -143,8 +143,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertFalse(permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_login_required_from_view_with_hash_route_and_valid_url(self):
@@ -159,8 +159,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertFalse(permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertTrue(login_required)
 
     def test_get_permissions_from_node_returns_false_when_not_set_on_the_node(self):
@@ -191,8 +191,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertFalse(permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertTrue(login_required)
 
     def test_get_permissions_from_node_returns_false_when_the_node_is_for_an_external_resource(self):
@@ -229,7 +229,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             node)
 
         self.assertEqual(node['permissions'], permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_view_function(self):
@@ -244,7 +244,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             node)
 
         self.assertIn('auth.add_group', permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
@@ -276,7 +276,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             node)
 
         self.assertIn('auth.add_group', permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_returns_permissions_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
@@ -308,7 +308,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             node)
 
         self.assertEqual(node['permissions'], permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_returns_permissions_empty_list_when_the_node_is_for_an_external_resource(self):
@@ -345,7 +345,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         )
 
         self.assertEqual([], permissions)
-        self.assertIn('add_sample2', one_of_permissions)
+        self.assertEqual(node['one_of_permissions'], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_one_of_permissions_from_view_function(self):
@@ -393,7 +393,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertFalse(permissions)
+        self.assertEqual([], permissions)
         self.assertIn('auth.add_permission', one_of_permissions)
         self.assertFalse(login_required)
 
@@ -420,14 +420,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'text': 'GitHub',
             'icon': 'fa fa-github',
             'url': 'https://github.com',
-            'permissions': ['add_sample2', 'update_sample2'],
+            'one_of_permissions': ['add_sample2', 'update_sample2'],
         }
 
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
             node)
 
-        self.assertEqual(node['permissions'], permissions)
-        self.assertFalse(one_of_permissions)
+        self.assertEqual([], permissions)
+        self.assertEqual(node['one_of_permissions'], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_returns_one_of_permissions_empty_list_when_the_node_is_for_an_external_resource(self):
