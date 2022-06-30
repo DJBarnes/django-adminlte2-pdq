@@ -207,34 +207,33 @@ def is_allowed_node(user, node):
 
     permissions, one_of_permissions, login_required = get_permissions_from_node(node)
 
+    # Start allowed as the opposite of the strict policy.
+    # If we are in strict mode, allowed should start as false.
+    # If we are NOT in strict mode, allowed should start as true.
     allowed = not STRICT_POLICY
 
+    # If the node requires being logged in, or the login required middleware is active.
     if login_required or LOGIN_REQUIRED:
-        # If login_required, then no perms defined for view, only have to worry
-        # about whether user is in fact logged in or not.
+        # If login_required, verify user is authenticated or the route for the
+        # node is whitelisted in the login exempt whitelist.
         allowed = user.is_authenticated or check_for_login_whitelisted_node(node)
 
+    # If the node requires permissions, it will also require being logged in
+    # without explicitly setting that. But, by checking after the login required
+    # check, we can catch both scenarios where they define both.
     if permissions or one_of_permissions:
 
         # Determine if the node is accessible by permissions alone.
-        # This will be false for empty node permission lists
-        allowed_by_perms = (
+        # This will include the need to be logged in even if they didn't specify that.
+        allowed = (
             check_for_all_permissions(user, permissions)
             or check_for_one_permission(user, one_of_permissions)
         )
 
-        # If we are whitelist checking
-        if STRICT_POLICY:
-            # Allowed will be true if the node is allowed by perms, or in the whitelist
-            allowed = allowed_by_perms or check_for_strict_whitelisted_node(node)
-        else:
-            # Else, if the permission lists are not empty, use those
-            if permissions or one_of_permissions:
-                allowed = allowed_by_perms
-            else:
-                # Else, there is no white list checking, and there are no defined
-                # permissions, so return true to make the node allowed
-                allowed = True
+        # If not allowed by permissions, check strict whitelist assuming that
+        # strict mode is on.
+        if not allowed and STRICT_POLICY and check_for_strict_whitelisted_node(node):
+            allowed = True
 
     return allowed
 
