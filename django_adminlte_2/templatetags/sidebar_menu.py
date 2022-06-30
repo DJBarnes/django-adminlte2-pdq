@@ -248,7 +248,11 @@ def is_allowed_node(user, node):
     Any new code that needs to check permissions should use this method.
     """
 
+    # Get the permissions, one_of_perms, and login_required from the node or node's view.
     permissions, one_of_permissions, login_required = get_permissions_from_node(node)
+
+    # Get whether node has at least one property set
+    has_property = bool(permissions) or bool(one_of_permissions) or login_required
 
     # Start allowed as the opposite of the strict policy.
     # If we are in strict mode, allowed should start as false.
@@ -273,10 +277,9 @@ def is_allowed_node(user, node):
             or check_for_one_permission(user, one_of_permissions)
         )
 
-        # If not allowed by permissions, check strict whitelist assuming that
-        # strict mode is on.
-        if not allowed and STRICT_POLICY and check_for_strict_whitelisted_node(node):
-            allowed = True
+    # Check whitelist when in strict mode assuming no properties have been set on the node.
+    if not has_property and STRICT_POLICY and check_for_strict_whitelisted_node(node):
+        allowed = True
 
     return allowed
 

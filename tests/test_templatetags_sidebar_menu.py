@@ -777,104 +777,469 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # Anonymous - login on - strict off - login whitelist on
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_off_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertTrue(allowed)
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_login_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertTrue(allowed)
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     # Anonymous - login off - strict on
 
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_off"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permission': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     # Anonymous - login off - strict on - strict whitelist on
 
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertTrue(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     # Anonymous - login on - strict on
 
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     # Anonymous - login on - strict on - login whitelist on
 
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
 
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on(self):
-        """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on"""
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
 
+        self.assertTrue(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_login_login_wl_on(self):
+        """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_login_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertTrue(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     # Anonymous - login on - strict on - strict whitelist on
 
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
     # Anonymous - login on - strict on - login whitelist on - strict whitelist on
 
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertTrue(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'login_required': True,
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertTrue(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'permissions': ['auth.add_group'],
+        }
 
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
+        self._setup_anonymoususer()
+        node = {
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
+            'one_of_permissions': ['auth.add_group'],
+        }
+
+        allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
+
+        self.assertFalse(allowed)
 
 
 
