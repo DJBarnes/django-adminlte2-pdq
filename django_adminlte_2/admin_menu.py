@@ -69,6 +69,7 @@ class _AdminMenu:
                             'icon': model_icon,
                             'permissions': [],
                             'one_of_permissions': model_perms,
+                            'login_required': True,
                         }
 
                         model_nodes.append(model_node)

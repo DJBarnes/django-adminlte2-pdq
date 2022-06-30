@@ -26,20 +26,8 @@ def strip_hash_bookmark_from_url(url):
     return (url or '').split('#')[0]
 
 
-def get_permissions_from_node(node):
-    """
-    Gets the permissions required from the node
-
-    by using either the 'route' or 'url' key on the node to determine the
-    associated view for the route/url. Then checks the view to see if it
-    contains properties for the required permissions and returns them if found.
-    """
-    permissions = node.get('permissions', None)
-    one_of_permissions = node.get('one_of_permissions', None)
-    login_required = node.get('login_required', None)
-
-    if permissions is not None or one_of_permissions is not None or login_required is not None:
-        return permissions or [], one_of_permissions or [], login_required or False
+def get_view_from_node(node):
+    """Get the view from the node"""
 
     view = None
     try:
@@ -74,22 +62,77 @@ def get_permissions_from_node(node):
         )
         raise NoReverseMatch(error_message) from reverse_error
 
-    if view:
-        view_class = getattr(view.func, 'view_class', None)
-        if view_class:
-            permissions = getattr(view_class, 'permission_required', [])
-            one_of_permissions = getattr(
-                view_class,
-                'permission_required_one',
-                []
-            )
-            login_required = getattr(view_class, 'login_required', False)
-        else:
-            permissions = getattr(view.func, 'permissions', [])
-            one_of_permissions = getattr(view.func, 'one_of_permissions', [])
-            login_required = getattr(view.func, 'login_required', False)
+    return view
 
-    return permissions or [], one_of_permissions or [], login_required
+
+def get_permissions_from_view(view):
+    """Get the permissions and login_required from a view"""
+    view_class = getattr(view.func, 'view_class', None)
+    if view_class:
+        view_permissions = getattr(view_class, 'permission_required', [])
+        view_one_of_permissions = getattr(
+            view_class,
+            'permission_required_one',
+            []
+        )
+        view_login_required = getattr(view_class, 'login_required', None)
+    else:
+        view_permissions = getattr(view.func, 'permissions', [])
+        view_one_of_permissions = getattr(view.func, 'one_of_permissions', [])
+        view_login_required = getattr(view.func, 'login_required', None)
+
+    return view_permissions, view_one_of_permissions, view_login_required
+
+
+def get_permissions_from_node(node):
+    """
+    Gets the permissions required from the node
+
+    by using either the 'route' or 'url' key on the node to determine the
+    associated view for the route/url. Then checks the view to see if it
+    contains properties for the required permissions and returns them if found.
+    """
+
+    # Get permissions and login_required defined directly on the node.
+    node_permissions = node.get('permissions', None)
+    node_one_of_permissions = node.get('one_of_permissions', None)
+    node_login_required = node.get('login_required', None)
+
+    # If all properties are set on the node, we do not need to check the view
+    # as node properties take precedence over view ones. Additionally, all
+    # admin links contain all 3 properties and any searching for properties on
+    # an admin view will raise a route missing exception since admin nodes do
+    # not contain a route key. This saves time and makes admin nodes work.
+    if node_permissions is not None and node_one_of_permissions is not None and node_login_required is not None:
+        return node_permissions, node_one_of_permissions, node_login_required
+
+    # Default the view permissions and login_required to None
+    view_permissions = view_one_of_permissions = view_login_required = None
+
+    # Get the view from the node.
+    view = get_view_from_node(node)
+
+    # If there is a view, use it to get the view permissions and login_required.
+    if view:
+        view_permissions, view_one_of_permissions, view_login_required = get_permissions_from_view(view)
+
+    # Take the property from the node first, fallback to view, and fallback again to default.
+    permissions = node_permissions
+    if permissions is None:
+        permissions = view_permissions or []
+
+    one_of_permissions = node_one_of_permissions
+    if one_of_permissions is None:
+        one_of_permissions = view_one_of_permissions or []
+
+    login_required = node_login_required
+    if login_required is None:
+        login_required = view_login_required
+    if login_required is None:
+        login_required = LOGIN_REQUIRED
+
+    # Return the permissions and login_required
+    return permissions, one_of_permissions, login_required
 
 
 def ensure_node_has_url_property(node):

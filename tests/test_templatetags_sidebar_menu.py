@@ -61,9 +61,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_login_required_from_direct_assignment(self):
         """Test get permissions from node pulls login_required from direct assignment"""
         node = {
-            'route': 'django_adminlte_2:sample1',
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
             'login_required': True,
         }
 
@@ -88,6 +88,22 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(permissions)
         self.assertFalse(one_of_permissions)
         self.assertTrue(login_required)
+
+    def test_get_permissions_from_node_pulls_login_required_value_from_node_over_view_function_when_both_set(self):
+        """Test_get_permissions_from_node_pulls_login_required_value_from_node_over_view_function_when_both_set"""
+        node = {
+            'route': 'django_adminlte_2:sample_form',
+            'text': 'Sample Form',
+            'icon': 'fa fa-file',
+            'login_required': False,
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertFalse(permissions)
+        self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_login_required_from_view_with_hash_route_and_valid_url(self):
         """Test get permissions from node pull login_required from view with hash route and valid url"""
@@ -161,9 +177,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_permissions_from_direct_assigned_permissions(self):
         """Test get permissions from node pulls permissions from direct assigned permissions"""
         node = {
-            'route': 'django_adminlte_2:sample1',
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
             'permissions': ['add_sample1', 'update_sample1'],
         }
 
@@ -187,6 +203,22 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertIn('auth.add_group', permissions)
         self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
+
+    def test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
+        """Test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set"""
+        node = {
+            'route': 'django_adminlte_2:sample1',
+            'text': 'Sample1',
+            'icon': 'fa fa-group',
+            'permissions': [],
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_view_with_hash_route_and_valid_url(self):
@@ -300,9 +332,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_one_of_permissions_from_node_works(self):
         """Test one of permissions from node works"""
         node = {
-            'route': 'django_adminlte_2:sample2',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
+            'route': 'django_adminlte_2:demo-css',
+            'text': 'Demo CSS',
+            'icon': 'fa fa-file',
             'one_of_permissions': ['add_sample2', 'update_sample2'],
         }
 
@@ -328,6 +360,23 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertEqual([], permissions)
         self.assertIn('auth.add_permission', one_of_permissions)
+        self.assertFalse(login_required)
+
+    def test_one_of_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
+        """Test one of permissions from node pulls permissions from view function"""
+        node = {
+            'route': 'django_adminlte_2:sample2',
+            'text': 'Sample2',
+            'icon': 'fa fa-building',
+            'one_of_permissions': [],
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node
+        )
+
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
     def test_one_of_permissions_from_node_raises_keyerror_when_route_is_missing(self):
@@ -589,7 +638,6 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test is_allowed_node
     # |-------------------------------------------------------------------------
 
-    # TODO: Verify the below statement.
     # NOTE: We only need to test the login_required / permissions on the node as
     # we have other tests to verify that it is possible to get the
     # login_required and permissions from the view associated with the node.
@@ -599,11 +647,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # def test_is_allowed_node_{result}_{user}_{login}_{strict}_{node}_{login_WL}_{strict_WL}
 
     # Additional details
-    # {login} means that the LOGIN_REQUIRED middleware is active
-    # {strict} means that the STRICT_POLICY middleware is active
-    # {node} means what the node requirements are. Options are: off, login, perm, one_perm
-    # {login_WL} means that the node's route is listed in the LOGIN_EXEMPT_WHITELIST
-    # {strict_WL} means that the node's route is listed in the STRICT_POLICY_WHITELIST
+    # {login} means that the LOGIN_REQUIRED middleware is active.
+    # {strict} means that the STRICT_POLICY middleware is active.
+    # {node} means what the node requirements are. Options are: off, login, perm, one_perm.
+    # {login_WL} means that the node's route is listed in the LOGIN_EXEMPT_WHITELIST - omitted means it isn't.
+    # {strict_WL} means that the node's route is listed in the STRICT_POLICY_WHITELIST - omitted means it isn't.
 
     # The tests do not test a combination of node options.
     # EX: no test for login required and required perms as requiring perms implicitly means user logged in.
