@@ -55,7 +55,49 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 self.staffuser.user_permissions.add(perm_object)
 
     # |-------------------------------------------------------------------------
-    # | Test login_required from calling get_permissions_from_node
+    # | Test get_permissions_from_node for general errors
+    # |-------------------------------------------------------------------------
+
+    def test_get_permissions_from_node_raises_keyerror_when_route_is_missing(self):
+        """Test get permissions from node raises KeyError when route is missing"""
+        node = {
+            'text': 'Sample1',
+            'icon': 'fa fa-group',
+        }
+
+        with self.assertRaises(KeyError):
+
+            sidebar_menu.get_permissions_from_node(node)
+
+    def test_get_permissions_from_node_returns_empty_list_when_no_reverse_error_and_route_is_a_hash(self):
+        """Test get permissions from node returns empty list when no reverse
+        error and route is a hash"""
+        node = {
+            'route': '#',
+            'text': 'Sample1',
+            'icon': 'fa fa-group',
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertEqual([], permissions)
+        self.assertEqual([], one_of_permissions)
+        self.assertFalse(login_required)
+
+    def test_get_permissions_from_node_raises_error_when_route_causes_a_reverse_error(self):
+        """Test get permissions from node raises error when route causes a reverse error"""
+        node = {
+            'route': 'foobar',
+            'text': 'Sample1',
+            'icon': 'fa fa-group',
+        }
+
+        with self.assertRaises(NoReverseMatch):
+            sidebar_menu.get_permissions_from_node(node)
+
+    # |-------------------------------------------------------------------------
+    # | Test get_permissions_from_node for login_required
     # |-------------------------------------------------------------------------
 
     def test_get_permissions_from_node_pulls_login_required_from_direct_assignment(self):
@@ -90,7 +132,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_login_required_value_from_node_over_view_function_when_both_set(self):
-        """Test_get_permissions_from_node_pulls_login_required_value_from_node_over_view_function_when_both_set"""
+        """Test get permissions from node pulls login required value from node over view function when both set"""
         node = {
             'route': 'django_adminlte_2:sample_form',
             'text': 'Sample Form',
@@ -140,8 +182,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """Test get permissions from node pulls login_required from direct assignment_when_external_url"""
         node = {
             'route': '#',
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
+            'text': 'GitHub',
+            'icon': 'fa fa-github',
             'url': 'https://github.com',
             'login_required': True,
         }
@@ -158,7 +200,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node = {
             'route': '#',
             'text': 'External',
-            'icon': 'fa fa-dashboard',
+            'icon': 'fa fa-github',
             'url': 'https://github.com',
         }
 
@@ -171,7 +213,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
 
     # |-------------------------------------------------------------------------
-    # | Test permissions from calling get_permissions_from_node
+    # | Test get_permissions_from_node for permissions
     # |-------------------------------------------------------------------------
 
     def test_get_permissions_from_node_pulls_permissions_from_direct_assigned_permissions(self):
@@ -206,7 +248,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
-        """Test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set"""
+        """Test get permissions from node pulls permissions from node over view function when both set"""
         node = {
             'route': 'django_adminlte_2:sample1',
             'text': 'Sample1',
@@ -237,47 +279,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_get_permissions_from_node_raises_keyerror_when_route_is_missing(self):
-        """Test get permissions from node raises KeyError when route is missing"""
-        node = {
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
-        }
-
-        with self.assertRaises(KeyError):
-
-            sidebar_menu.get_permissions_from_node(node)
-
-    def test_get_permissions_from_node_returns_empty_list_when_no_reverse_error_and_route_is_a_hash(self):
-        """Test get permissions from node returns empty list when no reverse
-        error and route is a hash"""
-        node = {
-            'route': '#',
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
-        }
-
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
-
-        self.assertEqual([], permissions)
-        self.assertEqual([], one_of_permissions)
-        self.assertFalse(login_required)
-
-    def test_get_permissions_from_node_raises_error_when_route_causes_a_reverse_error(self):
-        """Test get permissions from node raises error when route causes a reverse error"""
-        node = {
-            'route': 'foobar',
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
-        }
-
-        with self.assertRaises(NoReverseMatch):
-            sidebar_menu.get_permissions_from_node(node)
-
-    def test_get_permissions_from_node_returns_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
-        """Test get permissions from node returns empty list when there are
-        no defined permissions on the node"""
+    def test_get_permissions_from_node_returns_permissions_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
+        """Test get permissions from node returns permissions empty list when there are no defined permissions on the node"""
         node = {
             'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
             'text': 'Home',
@@ -295,8 +298,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """Test get permissions from node pulls permissions from direct assigned permissions_when_external_url"""
         node = {
             'route': '#',
-            'text': 'Sample1',
-            'icon': 'fa fa-group',
+            'text': 'GitHub',
+            'icon': 'fa fa-github',
             'url': 'https://github.com',
             'permissions': ['add_sample1', 'update_sample1'],
         }
@@ -308,13 +311,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_get_permissions_from_node_returns_empty_list_when_the_node_is_for_an_external_resource(self):
-        """Test get permissions from node returns empty list when the node is
-        for an external resource"""
+    def test_get_permissions_from_node_returns_permissions_empty_list_when_the_node_is_for_an_external_resource(self):
+        """Test get permissions from node returns permissions empty list when the node is for an external resource"""
         node = {
             'route': '#',
             'text': 'External',
-            'icon': 'fa fa-dashboard',
+            'icon': 'fa fa-github',
             'url': 'https://github.com',
         }
 
@@ -326,11 +328,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertFalse(login_required)
 
     # |-------------------------------------------------------------------------
-    # | Test one_of_permissions from calling get_permissions_from_node
+    # | Test get_permissions_from_node for one_of_permissions
     # |-------------------------------------------------------------------------
 
-    def test_one_of_permissions_from_node_works(self):
-        """Test one of permissions from node works"""
+    def test_get_permissions_from_node_pulls_one_of_permissions_from_direct_assigned_permissions(self):
+        """Test get permissions from node pulls one of permissions from direct assigned permissions"""
         node = {
             'route': 'django_adminlte_2:demo-css',
             'text': 'Demo CSS',
@@ -346,8 +348,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertIn('add_sample2', one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_one_of_permissions_from_node_pulls_permissions_from_view_function(self):
-        """Test one of permissions from node pulls permissions from view function"""
+    def test_get_permissions_from_node_pulls_one_of_permissions_from_view_function(self):
+        """Test get permissions from node pulls one of permissions from view function"""
         node = {
             'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
@@ -362,8 +364,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertIn('auth.add_permission', one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_one_of_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
-        """Test one of permissions from node pulls permissions from view function"""
+    def test_get_permissions_from_node_pulls_one_of_permissions_from_node_over_view_function_when_both_set(self):
+        """Test get permissions from node pulls one of permissions from node over view function when both set"""
         node = {
             'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
@@ -379,23 +381,28 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_one_of_permissions_from_node_raises_keyerror_when_route_is_missing(self):
-        """Test one of permissions from node raises KeyError when route is missing"""
-        node = {
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-        }
-
-        with self.assertRaises(KeyError):
-            sidebar_menu.get_permissions_from_node(node)
-
-    def test_one_of_permissions_from_node_returns_empty_list_when_no_reverse_error_and_route_is_a_hash(self):
-        """Test one of permissions from node returns empty list when
-        no reverse error and route is a hash"""
+    def test_get_permissions_from_node_pulls_one_of_permissions_from_view_with_hash_route_and_valid_url(self):
+        """Test get permissions from node pull one of permissions from view with hash route and valid url"""
         node = {
             'route': '#',
             'text': 'Sample2',
             'icon': 'fa fa-building',
+            'url': '/sample2/',
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
+
+        self.assertFalse(permissions)
+        self.assertIn('auth.add_permission', one_of_permissions)
+        self.assertFalse(login_required)
+
+    def test_get_permissions_from_node_returns_one_of_permission_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
+        """Test get permissions from node returns one of permission empty list when there are no defined permissions on the node"""
+        node = {
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+            'text': 'Home',
+            'icon': 'fa fa-dashboard',
         }
 
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
@@ -406,29 +413,34 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_one_of_permissions_from_node_raises_error_when_route_causes_a_reverse_error(self):
-        """Test one of permissions from node raises error when route causes a reverse error"""
+    def test_get_permissions_from_node_pulls_one_of_permissions_from_direct_assigned_one_of_permissions_when_external_url(self):
+        """Test get permissions from node pulls one of permissions from direct assigned one of permissions_when_external_url"""
         node = {
-            'route': 'foobar',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-        }
-
-        with self.assertRaises(NoReverseMatch):
-            sidebar_menu.get_permissions_from_node(node)
-
-    def test_one_of_permissions_from_node_returns_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
-        """Test one of permissions from node returns empty list when there are
-        no defined permissions on the node"""
-        node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
-            'text': 'Home',
-            'icon': 'fa fa-dashboard',
+            'route': '#',
+            'text': 'GitHub',
+            'icon': 'fa fa-github',
+            'url': 'https://github.com',
+            'permissions': ['add_sample2', 'update_sample2'],
         }
 
         permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node
-        )
+            node)
+
+        self.assertEqual(node['permissions'], permissions)
+        self.assertFalse(one_of_permissions)
+        self.assertFalse(login_required)
+
+    def test_get_permissions_from_node_returns_one_of_permissions_empty_list_when_the_node_is_for_an_external_resource(self):
+        """Test get permissions from node returns one of permissions empty list when the node is for an external resource"""
+        node = {
+            'route': '#',
+            'text': 'External',
+            'icon': 'fa fa-github',
+            'url': 'https://github.com',
+        }
+
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
+            node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -496,14 +508,44 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         with self.assertRaises(NoReverseMatch):
             sidebar_menu.ensure_node_has_url_property(node)
 
-    # TODO: Need to review these and be specific about which whitelist.
+
     # |-------------------------------------------------------------------------
-    # | Test check_for_whitelisted_node
+    # | Test check_for_login_whitelisted_node
+    # |-------------------------------------------------------------------------
+
+    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:sample_form'])
+    def test_check_for_login_whitelisted_node_returns_true_when_node_in_list(self):
+        """Test check for strict whitelisted node returns true when node in list"""
+        node = {
+            'route': 'django_adminlte_2:sample_form',
+            'text': 'Sample Form',
+            'icon': 'fa fa-file',
+        }
+
+        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
+
+        self.assertTrue(is_whitelisted)
+
+    def test_check_for_login_whitelisted_node_returns_false_when_node_not_in_list(self):
+        """Test check for strict whitelisted node returns false when node not in list"""
+        node = {
+            'route': 'foobar',
+            'text': 'Sample Form',
+            'icon': 'fa fa-file',
+        }
+
+        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
+
+        self.assertFalse(is_whitelisted)
+
+
+    # |-------------------------------------------------------------------------
+    # | Test check_for_strict_whitelisted_node
     # |-------------------------------------------------------------------------
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:sample2'])
-    def test_check_for_whitelisted_node_returns_true_when_node_in_list(self):
-        """Test check for whitelisted node returns true when node in list"""
+    def test_check_for_strict_whitelisted_node_returns_true_when_node_in_list(self):
+        """Test check for strict whitelisted node returns true when node in list"""
         node = {
             'route': 'django_adminlte_2:sample2',
             'text': 'Sample2',
@@ -514,8 +556,8 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(is_whitelisted)
 
-    def test_check_for_whitelisted_node_returns_false_when_node_not_in_list(self):
-        """Test check for whitelisted node returns false when node not in list"""
+    def test_check_for_strict_whitelisted_node_returns_false_when_node_not_in_list(self):
+        """Test check for strict whitelisted node returns false when node not in list"""
         node = {
             'route': 'foobar',
             'text': 'Sample2',
