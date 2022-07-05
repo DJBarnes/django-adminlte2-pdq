@@ -278,7 +278,7 @@ def is_allowed_node(user, node):
         )
 
     # Check whitelist when in strict mode assuming no properties have been set on the node.
-    if not has_property and STRICT_POLICY and check_for_strict_whitelisted_node(node):
+    if not has_property and STRICT_POLICY and (check_for_strict_whitelisted_node(node) or user.is_superuser):
         allowed = True
 
     return allowed
