@@ -173,7 +173,7 @@ def with_list(field, name=None):
 
     :param field: Form field to add attributes to.
     :param name: The datalist name.
-     Defaults to None.
+     Defaults to '_list' appended to end of field name.
     :return: Field that was passed in with list attribute added.
 
     Example::
@@ -189,10 +189,12 @@ def with_list(field, name=None):
         <input type="text" name="field" list="my_awesome_list" id="id_field" />
 
     """
-    if name is not None:
-        attrs = field.field.widget.attrs
-        attrs['list'] = name
-        field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
+    if name is None:
+        name = f'{field.name}_list'
+
+    attrs = field.field.widget.attrs
+    attrs['list'] = name
+    field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
@@ -227,7 +229,7 @@ def with_pattern(field, pattern=None):
         <input type="tel" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="id_field" />
     """
     if pattern is None:
-        pattern = r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}",
+        pattern = r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
 
     attrs = field.field.widget.attrs
     attrs['pattern'] = pattern

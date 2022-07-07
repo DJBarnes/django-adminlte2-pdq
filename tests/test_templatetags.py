@@ -227,6 +227,168 @@ class TemplateTagTestCase(TestCase):
         )
 
     # |-------------------------------------------------------------------------
+    # | Test with_list
+    # |-------------------------------------------------------------------------
+
+    def test_with_list_adds_a_default_list_attribute_to_an_existing_form_field(self):
+        """Test with list adds a default list attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_list(
+            test_form['test_text']
+        )
+
+        self.assertIn(
+            'test_text_list',
+            str(result)
+        )
+
+    def test_with_list_adds_a_specific_list_attribute_to_an_existing_form_field(self):
+        """Test with list adds a specific list attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_list(
+            test_form['test_text'],
+            name='my_fancy_list'
+        )
+
+        self.assertIn(
+            'my_fancy_list',
+            str(result)
+        )
+
+    # |-------------------------------------------------------------------------
+    # | Test with_pattern
+    # |-------------------------------------------------------------------------
+
+    def test_with_pattern_adds_a_default_pattern_attribute_to_an_existing_form_field(self):
+        """Test with pattern adds a default pattern attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_pattern(
+            test_form['test_text']
+        )
+
+        self.assertIn(
+            r'\([0-9]{3}\) [0-9]{3}-[0-9]{4}',
+            str(result)
+        )
+
+    def test_with_pattern_adds_a_specific_pattern_attribute_to_an_existing_form_field(self):
+        """Test with pattern adds a specific pattern attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_pattern(
+            test_form['test_text'],
+            pattern=r'[0-9]{3}-[0-9]{4}'
+        )
+
+        self.assertIn(
+            'pattern="[0-9]{3}-[0-9]{4}"',
+            str(result)
+        )
+
+    # |-------------------------------------------------------------------------
+    # | Test with_inputmask
+    # |-------------------------------------------------------------------------
+
+    def test_with_inputmask_adds_a_default_inputmask_attribute_to_an_existing_form_field(self):
+        """Test with inputmask adds a default inputmask attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_inputmask(
+            test_form['test_text']
+        )
+
+        self.assertIn(
+            '(999) 999-9999',
+            str(result)
+        )
+
+    def test_with_inputmask_adds_a_specific_inputmask_attribute_to_an_existing_form_field(self):
+        """Test with inputmask adds a specific inputmask attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_inputmask(
+            test_form['test_text'],
+            inputmask='999-9999'
+        )
+
+        self.assertIn(
+            '999-9999',
+            str(result)
+        )
+
+    # |-------------------------------------------------------------------------
+    # | Test with_min
+    # |-------------------------------------------------------------------------
+
+    def test_with_min_adds_a_default_min_attribute_to_an_existing_form_field(self):
+        """Test with min adds a default min attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_min(
+            test_form['test_text']
+        )
+
+        self.assertIn(
+            'min="0"',
+            str(result)
+        )
+
+    def test_with_min_adds_a_specific_min_attribute_to_an_existing_form_field(self):
+        """Test with min adds a specific min attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_min(
+            test_form['test_text'],
+            min_val=10
+        )
+
+        self.assertIn(
+            'min="10"',
+            str(result)
+        )
+
+    # |-------------------------------------------------------------------------
+    # | Test with_max
+    # |-------------------------------------------------------------------------
+
+    def test_with_max_adds_a_default_max_attribute_to_an_existing_form_field(self):
+        """Test with max adds a default max attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_max(
+            test_form['test_text']
+        )
+
+        self.assertIn(
+            'max="100"',
+            str(result)
+        )
+
+    def test_with_max_adds_a_specific_max_attribute_to_an_existing_form_field(self):
+        """Test with max adds a specific max attribute to an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_max(
+            test_form['test_text'],
+            max_val=90
+        )
+
+        self.assertIn(
+            'max="90"',
+            str(result)
+        )
+
+    # |-------------------------------------------------------------------------
+    # | Test with_input_type
+    # |-------------------------------------------------------------------------
+
+    def test_with_input_type_changes_the_input_type_of_an_existing_form_field(self):
+        """Test with input type changes the input_type of an existing form field"""
+        test_form = self.TestForm()
+        result = adminlte_filters.with_input_type(
+            test_form['test_text'],
+            new_type='url'
+        )
+
+        self.assertIn(
+            'type="url"',
+            str(result)
+        )
+
+    # |-------------------------------------------------------------------------
     # | Test dir
     # |-------------------------------------------------------------------------
 
