@@ -1,13 +1,13 @@
 """
 Tests for Template Tags
 """
-from unittest.mock import patch
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Permission
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
+from unittest.mock import patch
 
 from django_adminlte_2.templatetags import sidebar_menu
 
