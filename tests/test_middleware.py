@@ -1,0 +1,296 @@
+"""
+Tests for Middleware
+"""
+
+import warnings
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import Permission
+from django.test import TestCase
+from django.urls import reverse
+from unittest.mock import patch
+
+from django_adminlte_2.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
+
+UserModel = get_user_model()  # pylint: disable=invalid-name
+
+UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ['django_adminlte_2:demo-css']
+UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ['django_adminlte_2:demo-css']
+
+class MiddlewareTestCase(TestCase):
+    """
+    Test Middleware
+    """
+
+    # |-------------------------------------------------------------------------
+    # | Setup
+    # |-------------------------------------------------------------------------
+    def setUp(self):
+        self.test_anonymous_user = AnonymousUser()
+
+        self.test_user_w_perms = UserModel()
+        self.test_user_w_perms.username = "test_user_w_perms"
+        self.test_user_w_perms.set_password('password')
+        self.test_user_w_perms.save()
+
+        all_permissions = Permission.objects.all()
+        for permission in all_permissions:
+            self.test_user_w_perms.user_permissions.add(permission)
+
+    # |-------------------------------------------------------------------------
+    # | Test middleware works as intended
+    # |-------------------------------------------------------------------------
+
+    # Test format is as follows:
+    # def test_middleware_{result}_{user}_{login}_{strict}_{login_WL}_{strict_WL}
+
+    # Additional details
+    # {login} means that the LOGIN_REQUIRED middleware is active.
+    # {strict} means that the STRICT_POLICY middleware is active.
+    # {login_WL} means that the node's route is listed in the LOGIN_EXEMPT_WHITELIST - omitted means it isn't.
+    # {strict_WL} means that the node's route is listed in the STRICT_POLICY_WHITELIST - omitted means it isn't.
+
+    # **************************************************************************
+    # Anonymous User
+    # **************************************************************************
+
+    def test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off(self):
+        """test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    def test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off(self):
+        """test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Login")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    def test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off(self):
+        """test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    def test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off(self):
+        """test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Home")
+
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    def test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on(self):
+        """test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off(self):
+        """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Login")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off(self):
+        """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off"""
+        # NOTE: This test goes to demo-css, fails the strict policy, then goes to home.
+        # Home is a new request that fails the login required being on and thus redirect to login page.
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Login")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on(self):
+        """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Login")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    def test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on(self):
+        """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on"""
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+
+    # **************************************************************************
+    # Logged In User - All Perms
+    # **************************************************************************
+
+    def test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off(self):
+        """test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off(self):
+        """test_middleware_blocks_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off(self):
+        """test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off(self):
+        """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Home")
+
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    def test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on(self):
+        """test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off(self):
+        """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Home")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off(self):
+        """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off"""
+        with warnings.catch_warnings(record=True) as w:
+            self.client.force_login(self.test_user_w_perms)
+            warning_message = (
+                "The view 'demo_css' does not have the"
+                " permission_required, one_of_permission, or login_required"
+                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " set to True. This means that this view is inaccessible until"
+                " either permissions are set on the view or the url_name for the"
+                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+            )
+
+            response = self.client.get(
+                reverse('django_adminlte_2:demo-css'),
+                follow=True
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Home")
+            self.assertEqual(len(w), 1)
+            self.assertIn(warning_message, str(w[-1].message))
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on(self):
+        """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on(self):
+        """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('django_adminlte_2:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Demo CSS")
+
+    # **************************************************************************
+    # Logged In User - All Perms - Visiting 404
+    # **************************************************************************
+
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown(self):
+        """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown"""
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            'unknown/route/',
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Home")
