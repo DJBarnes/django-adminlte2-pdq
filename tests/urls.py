@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+# Will use the custom 404 provided by the package.
+handler404 = 'django_adminlte_2.views.view_404'
+
 urlpatterns = [
     # Adminlte2
     path('', include('django_adminlte_2.urls')),
