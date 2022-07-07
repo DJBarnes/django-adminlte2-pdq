@@ -209,13 +209,13 @@ def with_pattern(field, pattern=None):
 
     :param field: Form field to add attributes to.
     :param pattern: The JavaScript regex pattern to use.
-     Defaults to r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}" if value not passed.
+     Defaults to "\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}" if value not passed.
     :return: Field that was passed in with pattern attribute added.
 
     Example::
 
         # Assuming the field has a property called pattern with a string value
-        # that is the needed regex: "\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+        # that is the needed regex: "\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}"
         # We can send that variable to the filter.
 
         {% load adminlte_filters %}
