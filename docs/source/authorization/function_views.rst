@@ -385,8 +385,8 @@ Below is all the code required to generate these views.
     various files and contents work, but also to show what sort of side effects
     to expect when using the **Strict Policy**.
 
-    Below this initial attempt we, correct our mistake and show the proper
-    configuration, as well as what users will see.
+    Below this initial attempt we correct our mistake and show the proper
+    configuration as well as what users will see.
 
 .. important::
 
@@ -500,14 +500,14 @@ Below is all the code required to generate these views.
 
 **What logged out users can see and access:**
 
-.. note::
+    .. note::
 
-    As seen in the following screenshots, the **Home** route still works and
-    the user still has access to it.
+        As seen in the following screenshots, the **Home** route still works and
+        the user still has access to it.
 
-    This is because the **Home** route is one of the routes that is
-    automatically included as part of the
-    :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
+        This is because the **Home** route is one of the routes that is
+        automatically included as part of the
+        :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
 
 .. image:: ../../img/authorization/strict_policy_anonymous_wrong.png
     :alt: Strict Policy with anonymous user and missed decorator and setting.
@@ -527,11 +527,11 @@ Below is all the code required to generate these views.
 
 **What logged in superusers can see and access:**
 
-.. note::
-    Even though we forgot to add the **Demo CSS** route to the whitelist and
-    add permissions to the **Sample2** view, the superuser can still see those
-    sidebar entries and has access to those pages as superusers can always see
-    everything.
+    .. note::
+        Even though we forgot to add the **Demo CSS** route to the whitelist and
+        add permissions to the **Sample2** view, the superuser can still see those
+        sidebar entries and has access to those pages as superusers can always see
+        everything.
 
 .. image:: ../../img/authorization/strict_policy_superuser_wrong.png
     :alt: Strict Policy with superuser and missed decorator/setting.
@@ -553,8 +553,9 @@ Below is all the code required to generate these views.
 
     In the case of the **Demo CSS** view, we add the route to the
     ``ADMINLTE2_STRICT_POLICY_WHITELIST`` as we don't want to require
-    permissions for it and instead want to ensure that everyone will be able to
-    see the link and page regardless of their permissions or being logged in.
+    any criteria to see it and instead want to ensure that everyone will be
+    able to see the link and page regardless of their permissions or being
+    logged in.
 
     In the case of **Sample2**, we are going to add the missing permissions that
     we accidentally omitted earlier.
@@ -567,8 +568,8 @@ they are supposed to be.
 
 **settings.py**
 
-Add the missing whitelist to the settings file and ensure it includes the home
-route.
+Add the missing whitelist to the settings file and ensure it includes the
+demo-css route.
 
 .. code:: python
 

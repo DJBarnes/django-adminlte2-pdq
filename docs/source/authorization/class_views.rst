@@ -11,7 +11,7 @@ class-based view to control whether a user:
 * Has access to both the protected view.
 * Can see links in the sidebar, relating to the protected view.
 
-Those decorators are:
+Those mixins are:
 
 * :ref:`authorization/class_views:login required mixin` imported with
 
@@ -65,11 +65,11 @@ permissions before they can access the view. Django's default
 is used behind the scenes and is only recreated in this package in order to add
 the magic of automatic sidebar link rendering.
 
-There are two class level attributes used in conjunction with this mixin.
-``permission_required`` or ``permission_required_one``.
-Which one you use is dependent on whether users should have all listed
-permissions to gain view access, or if they only need one of many permissions to
-gain access.
+There are two class attributes used in conjunction with this mixin.
+They are called ``permission_required`` and ``permission_required_one``.
+You will use one or the other depending on whether users should have all listed
+permissions to gain view access, or if they only need one of many listed
+permissions to gain view access.
 
 
 Permission Required Attribute
@@ -82,6 +82,7 @@ Permission Required Attribute
     class Sample1(PermissionRequiredMixin, View):
     """Show sample1 page"""
 
+        # Require that the user has all three permissions to access.
         permission_required = [
             'auth.add_permission',
             'auth.change_permission',
@@ -115,6 +116,7 @@ Permission Required One Attribute
     class Sample2(PermissionRequiredMixin, View):
         """Show sample2 page"""
 
+        # Require that the user has at least one of the three permissions to access.
         permission_required_one = [
             'auth.add_permission',
             'auth.change_permission',
@@ -132,18 +134,20 @@ Mixin Examples
 Loose Mixin Example
 -------------------
 
-In this example there are four routes, views, and sidebar entries. To
+In this example there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample 2**
 permissions at first, then show how to correct it. The views are as follows:
 
 * **Home** - Should be visible to all users, regardless of being logged in or
   having permission.
+* **Sample Form** - Requires simply being logged in to see and access.
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
   (and being logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
-* **Demo CSS** - Requires simply being logged in to see and access.
+* **Demo CSS** - Should be visible to all users, regardless of being logged in
+  or having permission.
 
 .. note::
 
@@ -161,8 +165,8 @@ permissions at first, then show how to correct it. The views are as follows:
     For the purposes of this example we have turned off the global
     :ref:`authorization/policies:login required` setting and instead choose
     to define whether or not a view requires being logged in directly on
-    the view rather than globally. This way we can demonstrate all three of
-    the various mixins.
+    the view rather than globally. This way we can demonstrate all three options
+    available from the various mixins.
 
 .. _loose_mixin_settings.py:
 
@@ -179,6 +183,11 @@ permissions at first, then show how to correct it. The views are as follows:
                     'route': 'home',
                     'text': 'Home',
                     'icon': 'fa fa-dashboard',
+                },
+                {
+                    'route': 'sample_form',
+                    'text': 'Sample Form',
+                    'icon': 'fa fa-list-alt'
                 },
                 {
                     'route': 'sample1',
@@ -210,6 +219,7 @@ permissions at first, then show how to correct it. The views are as follows:
 
     urlpatterns = [
         path('home/', views.Home.as_view(), name="home"),
+        path('sample_form/', views.sample_form, name="sample_form"),
         path('sample1/', views.Sample1.as_view(), name="sample1"),
         path('sample2/', views.Sample2.as_view(), name="sample2"),
         path('demo-css/', views.DemoCss.as_view(),name="demo-css"),
@@ -234,6 +244,13 @@ permissions at first, then show how to correct it. The views are as follows:
         def get(self, request, *args, **kwargs):
             return render(request, 'adminlte2/home.html', {})
 
+    class SampleForm(LoginRequiredMixin, View):
+        """Show Sample Form Page"""
+
+        def get(request):
+            form = SampleForm()
+            return render(request, 'adminlte2/sample_form.html', {'form':form})
+
     class Sample1(PermissionRequiredMixin, View):
         """Show sample1 page"""
 
@@ -248,7 +265,7 @@ permissions at first, then show how to correct it. The views are as follows:
         def get(self, request, *args, **kwargs):
             return render(request, 'adminlte2/sample2.html', {})
 
-    class DemoCss(LoginRequiredMixin, View):
+    class DemoCss(View):
         """Show examples of extra-features.css"""
         def get(request):
             return render(request, 'adminlte2/demo_css.html', {
@@ -344,31 +361,33 @@ The pages in our example are now displaying as they're supposed to be.
 Strict Mixin Example
 --------------------
 
-In this example there are four routes, views, and sidebar entries. To
-demonstrate how our package works, we intentionally mess up the **Home** and
-**Sample 2** permissions at first, then show how to correct it. The views are as
+In this example there are five routes, views, and sidebar entries. To
+demonstrate how our package works, we intentionally mess up the **Sample2** and
+**Demo CSS** routes at first, then show how to correct it. The views are as
 follows:
 
 * **Home** - Should be shown to all users, regardless of being logged in or
-  having permission. But we intentionally forgot to add that view's route to
-  the
-  :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST` in order
-  to demonstrate what will happen.
+  having permission.
+* **Sample Form** - Requires simply being logged in to see and access.
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
   (and being logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
-* **Demo CSS** - Requires simply being logged in to see and access.
+* **Demo CSS** - Should be visible to all users, regardless of being logged in
+  or having permission. But we intentionally forgot to add that view's route to
+  the
+  :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`
+  in order to demonstrate what will happen.
 
 .. note::
 
     In the below files, we have purposely made a mistake in regards to the
-    **Home** and **Sample2** views in order to not only demonstrate how the
+    **Sample2** and **Demo CSS** views in order to not only demonstrate how the
     various files and contents work, but also to show what sort of side effects
-    to expect when using the Strict Policy.
+    to expect when using the **Strict Policy**.
 
-    Below this initial attempt, we correct our mistake and show the proper
+    Below this initial attempt we correct our mistake and show the proper
     configuration as well as what users will see.
 
 .. important::
@@ -395,6 +414,11 @@ follows:
                     'route': 'home',
                     'text': 'Home',
                     'icon': 'fa fa-dashboard',
+                },
+                {
+                    'route': 'sample_form',
+                    'text': 'Sample Form',
+                    'icon': 'fa fa-list-alt'
                 },
                 {
                     'route': 'sample1',
@@ -426,6 +450,7 @@ follows:
 
     urlpatterns = [
         path('home/', views.Home.as_view(), name="home"),
+        path('sample_form/', views.sample_form, name="sample_form"),
         path('sample1/', views.Sample1.as_view(), name="sample1"),
         path('sample2/', views.Sample2.as_view(), name="sample2"),
         path('demo-css/', views.DemoCss.as_view(),name="demo-css"),
@@ -450,6 +475,13 @@ follows:
         def get(self, request, *args, **kwargs):
             return render(request, 'adminlte2/home.html', {})
 
+    class SampleForm(LoginRequiredMixin, View):
+        """Show Sample Form Page"""
+
+        def get(request):
+            form = SampleForm()
+            return render(request, 'adminlte2/sample_form.html', {'form':form})
+
     class Sample1(PermissionRequiredMixin, View):
         """Show sample1 page"""
 
@@ -464,7 +496,7 @@ follows:
         def get(self, request, *args, **kwargs):
             return render(request, 'adminlte2/sample2.html', {})
 
-    class DemoCss(LoginRequiredMixin, View):
+    class DemoCss(View):
         """Show examples of extra-features.css"""
         def get(request):
             return render(request, 'adminlte2/demo_css.html', {
@@ -474,16 +506,16 @@ follows:
 
 **What logged out users can see and access:**
 
-.. note::
+    .. note::
 
-    As seen in the following screenshots, the route still works and the user
-    can still directly visit and see the **Home** page, despite there not being
-    a sidebar link for it.
+        As seen in the following screenshots, the **Home** route still works and
+        the user still has access to it.
 
-    This is because the **Strict policy** is only strict at preventing the
-    sidebar menu from rendering links. In order to fully prevent a user from
-    both seeing and directly accessing a view, you must use a decorator/mixin
-    on that view.
+        This is because the **Home** route is one of the routes that is
+        automatically included as part of the
+        :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
+        For more information about the automatically included routes, check out
+        the :ref:`authorization/policies:strict policy` section.
 
 .. image:: ../../img/authorization/strict_policy_anonymous_wrong.png
     :alt: Strict Policy with anonymous user and missed mixin and setting.
@@ -503,11 +535,11 @@ follows:
 
 **What logged in superusers can see and access:**
 
-.. note::
-    Even though we forgot to add the **Home** route to the whitelist and add
-    permissions to the **Sample2** view, the superuser can still see those
-    sidebar entries and has access to those pages as superusers can always see
-    everything.
+    .. note::
+        Even though we forgot to add the **Demo CSS** route to the whitelist and
+        add permissions to the **Sample2** view, the superuser can still see those
+        sidebar entries and has access to those pages as superusers can always see
+        everything.
 
 .. image:: ../../img/authorization/strict_policy_superuser_wrong.png
     :alt: Strict Policy with superuser and missed mixin/setting.
@@ -516,25 +548,28 @@ follows:
 
 .. warning::
 
-    We wanted the **Home** view to be visible and accessible to all people but
-    as configured, it is not visible to anyone. In addition, the **Sample2**
-    page is also not visible to anyone.
+    We wanted the **Demo CSS** view to be visible and accessible to all users.
+    But as configured, it is not visible to anyone (other than superusers).
+    In addition, the **Sample2** page is also not visible to anyone
+    (other than superusers).
 
     Because we are using the Strict Policy, all sidebar menu links are hidden
     by default. This is the **"Strict"** part of the Strict Policy as it
     defaults to everyone not being able to see every sidebar menu link unless a
-    permission is explicitly set on that view or the route for that view is
+    mixin is explicitly used on that view or the route for that view is
     added to the
     :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`.
 
-    In the case of the **Home** view, we actual will add the route to the
-    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` so that everyone will be able to see
-    the **Home** link, regardless of their permissions.
+    In the case of the **Demo CSS** view, we add the route to the
+    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` as we don't want to require
+    any criteria to see it and instead want to ensure that everyone will be
+    able to see the link and page regardless of their permissions or being
+    logged in.
 
     In the case of **Sample2**, we are going to add the missing permissions that
     we accidentally omitted earlier.
 
-Let's fix our mistake so that **Home** and **Sample2** are visible to who
+Let's fix our mistake so that **Demo CSS** and **Sample2** are visible to who
 they are supposed to be.
 
 
@@ -542,13 +577,13 @@ they are supposed to be.
 
 **settings.py**
 
-Add the missing whitelist to the settings file and ensure it includes the home
-route.
+Add the missing whitelist to the settings file and ensure it includes the
+demo-css route.
 
 .. code:: python
 
     # Lists the routes that do not need permissions to be seen by all users.
-    ADMINLTE2_STRICT_POLICY_WHITELIST = ['home']
+    ADMINLTE2_STRICT_POLICY_WHITELIST = ['demo-css']
 
 
 .. _strict_mixin_fixed_views.py:
