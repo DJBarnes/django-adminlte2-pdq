@@ -31,9 +31,6 @@ Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
 accessible, despite a user not being logged in.
 
-:Type: ``list``
-:Default: ``[]``
-
 .. note::
 
     Even though the default value for this list is an empty list,
@@ -42,6 +39,9 @@ accessible, despite a user not being logged in.
     :ref:`authorization/policies:login required`
     Documentation. The routes defined in this setting will be appended to that
     default list.
+
+:Type: ``list``
+:Default: ``[]``
 
 Example::
 
@@ -76,9 +76,6 @@ Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
 accessible, despite said routes having no defined permission.
 
-:Type: ``list``
-:Default: ``[]``
-
 .. note::
 
     Even though the default value for this list is an empty list,
@@ -87,6 +84,9 @@ accessible, despite said routes having no defined permission.
     :ref:`authorization/policies:strict policy`
     Documentation. The routes defined in this setting will be appended to that
     default list.
+
+:Type: ``list``
+:Default: ``[]``
 
 Example::
 
