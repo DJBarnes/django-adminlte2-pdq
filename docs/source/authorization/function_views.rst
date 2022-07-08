@@ -357,7 +357,7 @@ The pages in our example are now displaying as they're supposed to be.
 Strict Decorator Example
 ------------------------
 
-In this example there are four routes, views, and sidebar entries. To
+In this example there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample2** and
 **Demo CSS** routes at first, then show how to correct it. The views are as
 follows:
@@ -491,7 +491,6 @@ Below is all the code required to generate these views.
         return render(request, 'adminlte2/sample2.html', {})
 
 
-    @login_required()
     def demo_css(request):
     """Show examples of extra-features.css"""
     return render(request, 'adminlte2/demo_css.html', {
@@ -506,8 +505,8 @@ Below is all the code required to generate these views.
     As seen in the following screenshots, the **Home** route still works and
     the user still has access to it.
 
-    This is because the **Home** route is one of the routes that automatically
-    included as part of the
+    This is because the **Home** route is one of the routes that is
+    automatically included as part of the
     :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
 
 .. image:: ../../img/authorization/strict_policy_anonymous_wrong.png
