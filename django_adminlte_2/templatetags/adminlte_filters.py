@@ -207,6 +207,11 @@ def with_pattern(field, pattern=None):
     regex passed to this filter. Therefore, the regex string needs to be stored
     in a variable that can be sent to the filter.
 
+    NOTE: The default regex in this method is written as a regular string and
+    not a raw string (regex with r prefix) so that the documentation will match.
+    This docstring can not contain a single backslash as python will think it
+    is invalid syntax and raise a warning.
+
     :param field: Form field to add attributes to.
     :param pattern: The JavaScript regex pattern to use.
      Defaults to "\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}" if value not passed.
@@ -229,7 +234,7 @@ def with_pattern(field, pattern=None):
         <input type="tel" name="field" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" id="id_field" />
     """
     if pattern is None:
-        pattern = r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+        pattern = "\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}"
 
     attrs = field.field.widget.attrs
     attrs['pattern'] = pattern

@@ -87,12 +87,24 @@ class MiddlewareTestCase(TestCase):
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off"""
-        response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
-            follow=True
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Home")
+        with warnings.catch_warnings(record=True) as wa:
+            warning_message = (
+                "The view 'demo_css' does not have the"
+                " permission_required, one_of_permission, or login_required"
+                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " set to True. This means that this view is inaccessible until"
+                " either permissions are set on the view or the url_name for the"
+                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+            )
+
+            response = self.client.get(
+                reverse('django_adminlte_2:demo-css'),
+                follow=True
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Home")
+            self.assertEqual(len(wa), 1)
+            self.assertIn(warning_message, str(wa[-1].message))
 
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
     @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
@@ -123,12 +135,24 @@ class MiddlewareTestCase(TestCase):
         """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off"""
         # NOTE: This test goes to demo-css, fails the strict policy, then goes to home.
         # Home is a new request that fails the login required being on and thus redirect to login page.
-        response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
-            follow=True
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Login")
+        with warnings.catch_warnings(record=True) as wa:
+            warning_message = (
+                "The view 'demo_css' does not have the"
+                " permission_required, one_of_permission, or login_required"
+                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " set to True. This means that this view is inaccessible until"
+                " either permissions are set on the view or the url_name for the"
+                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+            )
+
+            response = self.client.get(
+                reverse('django_adminlte_2:demo-css'),
+                follow=True
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Login")
+            self.assertEqual(len(wa), 1)
+            self.assertIn(warning_message, str(wa[-1].message))
 
     @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
@@ -196,13 +220,25 @@ class MiddlewareTestCase(TestCase):
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
-            follow=True
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Home")
+        with warnings.catch_warnings(record=True) as wa:
+            self.client.force_login(self.test_user_w_perms)
+            warning_message = (
+                "The view 'demo_css' does not have the"
+                " permission_required, one_of_permission, or login_required"
+                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " set to True. This means that this view is inaccessible until"
+                " either permissions are set on the view or the url_name for the"
+                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+            )
+
+            response = self.client.get(
+                reverse('django_adminlte_2:demo-css'),
+                follow=True
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Home")
+            self.assertEqual(len(wa), 1)
+            self.assertIn(warning_message, str(wa[-1].message))
 
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
     @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
@@ -220,20 +256,7 @@ class MiddlewareTestCase(TestCase):
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
-            follow=True
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Home")
-
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
-    def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off(self):
-        """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off"""
-        with warnings.catch_warnings(record=True) as w:
+        with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
             warning_message = (
                 "The view 'demo_css' does not have the"
@@ -250,8 +273,33 @@ class MiddlewareTestCase(TestCase):
             )
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
-            self.assertEqual(len(w), 1)
-            self.assertIn(warning_message, str(w[-1].message))
+            self.assertEqual(len(wa), 1)
+            self.assertIn(warning_message, str(wa[-1].message))
+
+    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off(self):
+        """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off"""
+        with warnings.catch_warnings(record=True) as wa:
+            self.client.force_login(self.test_user_w_perms)
+            warning_message = (
+                "The view 'demo_css' does not have the"
+                " permission_required, one_of_permission, or login_required"
+                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " set to True. This means that this view is inaccessible until"
+                " either permissions are set on the view or the url_name for the"
+                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+            )
+
+            response = self.client.get(
+                reverse('django_adminlte_2:demo-css'),
+                follow=True
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Home")
+            self.assertEqual(len(wa), 1)
+            self.assertIn(warning_message, str(wa[-1].message))
 
     @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
     @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
