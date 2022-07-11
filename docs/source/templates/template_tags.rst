@@ -39,7 +39,7 @@ Render given fields with optional labels vertically.
 :param fields_to_render: List or tuple of fields to render out.
 :param labels: Whether to use labels for fields. Defaults to True.
 :param media: Media that needs to be used in the form. Defaults to None.
-:return: Context to use with template.
+:return: Context for the template.
 
 :Tag Type: ``inclusion``
 :Template: ``adminlte2/partials/_form.html``
@@ -77,7 +77,7 @@ Render given fields with optional labels horizontally.
 :param fields_to_render: List or tuple of fields to render.
 :param labels: Whether to use labels for fields. Defaults to True.
 :param media: Media that needs to be used in the form. Defaults to None.
-:return: Context to use with template.
+:return: Context for the template.
 
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_horizontal_form.html``
@@ -128,7 +128,7 @@ Render a horizontal formset.
 get_logout_url
 ==============
 
-Get the log out URL from the settings.
+Get the logout URL from the settings.
 
 :Type: ``simple``
 
@@ -154,7 +154,7 @@ Get the home URL from the settings and default to the django_adminlte_2 home.
 get_avatar_url
 ==============
 
-Get a gravatar image url.
+Get a gravatar image URL.
 If no image is found, gravatar will return an image based on the 'default'
 keyword. See http://en.gravatar.com/site/implement/images/ for more info.
 
@@ -180,7 +180,7 @@ This function will get the profile email in this order:
 user_image_initials
 ===================
 
-Show user gravatar, initials, or gravatar default mystery person as image
+Show user gravatar, initials, or gravatar default mystery person as the image
 
 Attempt to use/create initials of the user in the style of a profile picture.
 Overlay with the user's gravatar image or a blank one if the user does not
@@ -188,8 +188,8 @@ exist. If initials can not be created, change the gravatar default from blank
 to the standard mystery person.
 
 If the user is passed in, the user will be used for the base information.
-Information can be overridden by other key word arguments.
-If the user is NOT passed in, key word arguments for each piece of information
+Information can be overridden by other keyword arguments.
+If the user is NOT passed in, keyword arguments for each piece of information
 should be used.
 
 :param context: Context for the template.

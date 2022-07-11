@@ -33,7 +33,7 @@ or anonymous.
 
 Setting up authentication for the package requires choosing if your site will:
 
-* Require users be logged in to gain access to the majority of site views.
+* Require users to be logged in to gain access to the majority of site views.
 * Allow anonymous users to see site views by default (this is the default Django
   handling).
 
@@ -57,7 +57,7 @@ file to ``True``.
     ADMINLTE2_USE_LOGIN_REQUIRED = True
 
 When enabled, the included middleware will redirect all requests made by an
-anonymous user to the login page unless the url that they are trying to access
+anonymous user to the login page unless the URL that they are trying to access
 is explicitly listed in a whitelist.
 The default whitelist contains the following standard anonymous routes:
 
@@ -69,7 +69,7 @@ The default whitelist contains the following standard anonymous routes:
 * password_reset_complete
 
 If you would like to add additional routes to this list, you can do so by
-adding either the route name or url for the endpoint to the
+adding either the route name or URL for the endpoint to the
 ``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` setting in your ``settings.py`` file.
 
 **settings.py**
@@ -83,7 +83,7 @@ adding either the route name or url for the endpoint to the
 .. tip::
 
     If the majority of your routes do not require being logged in and you only
-    have a handful that do, it is better to leave the
+    have a handful of routes that do, it is better to leave the
     ``ADMINLTE2_USE_LOGIN_REQUIRED`` undefined or set to ``False`` and instead
     use the
     :ref:`authorization/function_views:login required decorator` or
@@ -106,11 +106,11 @@ provided by this package to set permissions on various views.
 Setting the permissions on the view with the
 :ref:`authorization/function_views:Decorators` and
 :ref:`authorization/class_views:Mixins`
-provided by this package will still prevent a user from accessing a view that
-they do not have permission to access. Just like the ones provided by
+provided by this package will prevent a user from accessing a view that
+they do not have permission to. Just like the ones provided by
 `Django <https://docs.djangoproject.com/en/dev/topics/auth/default/#limiting-access-to-logged-in-users>`_.
 But they will additionally dynamically show/hide any menu sidebar links for the
-protected view, in the provided AdminLTE menus.
+protected view, in the, provided AdminLTE menus.
 
 .. note::
 
@@ -127,7 +127,7 @@ Choosing a Policy
 -----------------
 
 The first step in using and configuring authorization for views and sidebar
-menu links is to determine what general policy you want to adhere to.
+menu links are to determine what general policy you want to adhere to.
 Regardless of whether you have the global
 :ref:`authorization/policies:login required`
 turned on or off, knowing what type of policy you want to achieve is critical.
@@ -139,7 +139,7 @@ Your choices are:
 
     * Majority of sidebar links and associated views are visible to all users.
     * Sidebar links and associated views will still be visible and accessible
-      if you set a required permission or the login required criteria on that
+      if you set required permissions or the login required criteria on that
       route's view and that user meets the required criteria to access that
       view.
     * Sidebar links and associated views will be hidden / blocked if you set a
@@ -152,7 +152,7 @@ Your choices are:
         setting turned off and you opt for the
         :ref:`authorization/policies:Loose Policy`
         you  will be allowing all users, both logged in and anonymous, access
-        to every view in your site that does not have a required permission
+        to every view on your site that does not have a required permission
         or the login required criteria defined on the view.
 
 
@@ -161,7 +161,7 @@ Your choices are:
 
     * Majority of sidebar links and associated views are hidden to all users.
     * Sidebar links and associated views will become visible and accessible if
-      you set a required permission or the login required criteria on a route's
+      you set required permissions or the login required criteria on a route's
       view and the user meets the required criteria.
     * Sidebar links and associated views will become visible and accessible if
       you put the route in an explicit whitelist defined in the settings.
@@ -169,13 +169,13 @@ Your choices are:
     .. note::
 
         With the :ref:`authorization/policies:Strict Policy`, if you forget to
-        add a permission to a view, the view will be inaccessible to everyone
-        except superusers.
-        This is a good way to ensure that you don't accidentally create a
-        feature that everyone automatically has access to.
-        You have to explicitly think about what permission is required for the
-        feature, set it on the view, and give the permission to the users that
-        need it before anyone can gain access to it.
+        add permissions to a view, the view will be inaccessible to everyone
+        except for superusers.
+        This is a good way to ensure that you don't accidentally create
+        features that everyone automatically has access to.
+        You have to explicitly think about what permissions are required for
+        each feature, set them on the view, and then assign the permissions to
+        the users that need them before anyone can gain access to it.
 
 Once you have determined what general policy you want to follow, use
 the corresponding section to properly set up and configure authorization.
@@ -190,7 +190,7 @@ by default.
 When enabled, all views that do not use one of the included
 :ref:`authorization/function_views:Decorators` or
 :ref:`authorization/class_views:Mixins` will be accessible to everyone.
-Additionally, if the sidebar menu contains a entry for the view, the link to
+Additionally, if the sidebar menu contains an entry for the view, the link to
 that view will be visible to everyone.
 
 Views will only be hidden if one of the
@@ -251,9 +251,9 @@ as the :ref:`configuration/home:adminlte2_home_route`:
     The Home route is included in the whitelist because we believe that there
     should be at least one view that a logged in user can access after logging
     in.
-    Even if they do not have any permissions to see anything else in the site.
+    Even if they do not have any required permissions to see anything else on the site.
     The alternative would be to send them to the login page after a successful
-    log in, which we believe, even with messages, would be confusing to the
+    login, which we believe, even with messages, would be confusing to the
     user.
 
 Additionally, if a view does have required permissions or login required
@@ -286,7 +286,7 @@ the specific settings in settings.py mentioned below.
     :ref:`authorization/class_views:Strict Mixin Example` section to add
     view permissions that require permission to access.
 
-4.  Add any routes that do not require a specific permission and should
+4.  Add any routes that do not require specific permissions and should
     be available to everyone to the ``ADMINLTE2_STRICT_POLICY_WHITELIST``
     in ``settings.py``
 
@@ -295,7 +295,7 @@ the specific settings in settings.py mentioned below.
     .. code:: python
 
         ADMINLTE2_STRICT_POLICY_WHITELIST = [
-            'tutorial'  # url_name of route to tutorial view.
+            'tutorial'  # url_name of the route to the tutorial view.
         ]
 
 Handling 404s and Permission Denied
@@ -304,7 +304,7 @@ Handling 404s and Permission Denied
 This section shows a common way that you could handle 404 errors and
 a Permission Denied exception being thrown (403).
 
-For starters, Permission Denied can be raised one of two ways.
+For starters, Permission Denied can be raised in one of two ways.
 
 1.  You are using the :ref:`authorization/policies:strict policy`
     and you have not defined any permissions on a view that a user is
@@ -315,7 +315,7 @@ For starters, Permission Denied can be raised one of two ways.
 
 When this happens, we believe that it is good to do something different than
 the default behavior that Django provides of just returning a 403 error.
-In fact, we believe that it may be better to handle it as if it were a 404 so
+We believe that it may be better to handle it as if it were a 404 so
 that users are unaware that the location they are trying to access has an
 actual endpoint that they do not have permission to access. It will make it
 harder for bad actors to phish for endpoints that they should not know exist.
@@ -323,7 +323,7 @@ harder for bad actors to phish for endpoints that they should not know exist.
 This package comes with a view that can be used for 404s and optionally 403s.
 This view will add a warning message via the
 `Django messages framework <https://docs.djangoproject.com/en/dev/ref/contrib/messages/>`_
-indicating that the page does not exist as well as add a debug message with
+indicating that the page does not exist as well as adding a debug message with
 specifics about what caused the exception. It then redirects to the
 :ref:`configuration/home:adminlte2_home_route`
 where the user can see those messages.
@@ -335,7 +335,7 @@ where the user can see those messages.
     debug messages can see it, but in production where debug messages should
     not be shown, it will be not rendered.
 
-If you like this behavior and would like to enable it in your site, you can
+If you like this behavior and would like to enable it on your site, you can
 add the following to your root urls.py file:
 
 **urls.py**
@@ -350,7 +350,7 @@ add the following to your root urls.py file:
 
 .. note::
 
-    It must be added to the root urls.py file. It can not be in an apps urls.py
+    It must be added to the root urls.py file. It can not be in an app's urls.py
     file. More information can be found in the
     `Django Docs <https://docs.djangoproject.com/en/dev/topics/http/urls/#error-handling>`_
 

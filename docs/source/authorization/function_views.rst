@@ -42,8 +42,8 @@ Login Required Decorator
 This decorator will enforce that a user is logged into the system before they
 can access the view. Django's default
 `login_required <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-login-required-decorator>`_
-decorator is used behind the scenes and is only recreated in this package in
-order to add the magic of automatic sidebar link rendering.
+decorator is used behind the scenes and is only recreated in this package
+to add the magic of automatic sidebar link rendering.
 
 When using this decorator on a function view, if the user is not logged in,
 the user will not be able to access this view, nor will they see a sidebar menu
@@ -69,8 +69,8 @@ Permission Required Decorator
 
 This decorator will list all required permissions for the view. Django's default
 `permission_required <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-permission-required-decorator>`_
-decorator is used behind the scenes and is only recreated in this package in
-order to add the magic of automatic sidebar link rendering.
+decorator is used behind the scenes and is only recreated in this package
+to add the magic of automatic sidebar link rendering.
 
 When using this decorator on a function view, if the user does not have all of
 the permissions that we define in this decorator, the user will not be able to
@@ -98,7 +98,7 @@ Permission Required One Decorator
 ``@permission_required_one``
 
 This decorator will list the permissions that a user must have at least one
-of in order to access the view and see the associated sidebar Link.
+of to be able to access the view and see the associated sidebar link.
 
 .. note::
 
@@ -113,8 +113,8 @@ permissions, they will see the sidebar link and have access.
 
 .. tip::
 
-    This decorator is good when you have a landing page for a section of your
-    site and don't care whether the user can only read or has full edit
+    This decorator is good when you have a landing page for a section of
+    your site and don't care whether the user can only read or has full edit
     permissions. Either one should allow the user to see the sidebar link and
     gain access to the landing page where further restrictions can be used
     as needed.
@@ -139,7 +139,7 @@ Decorator Examples
 Loose Decorator Example
 -----------------------
 
-In this example there are five routes, views, and sidebar entries. To
+In this example, there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample 2**
 permissions at first, then show how to correct it. The views are as follows:
 
@@ -149,7 +149,7 @@ permissions at first, then show how to correct it. The views are as follows:
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
-  (and being logged in) to see and access. But we intentionally
+  (and be logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
 * **Demo CSS** - Should be visible to all users regardless of being logged in
   or having permission.
@@ -159,7 +159,7 @@ Below is all the code required to generate these views.
 .. note::
 
     In the below files, we have purposely made a mistake in regards to the
-    **Sample2** view in order to not only demonstrate how the various files and
+    **Sample2** view to not only demonstrate how the various files and
     contents work, but also to show what sort of side effects to expect when
     using the **Loose Policy**.
 
@@ -168,7 +168,7 @@ Below is all the code required to generate these views.
 
 .. important::
 
-    For the purposes of this example we have turned off the global
+    For this example, we have turned off the global
     :ref:`authorization/policies:login required` setting and instead choose
     to define whether or not a view requires being logged in directly on
     the view rather than globally. This way we can demonstrate all three of
@@ -357,9 +357,9 @@ The pages in our example are now displaying as they're supposed to be.
 Strict Decorator Example
 ------------------------
 
-In this example there are five routes, views, and sidebar entries. To
+In this example, there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample2** and
-**Demo CSS** routes at first, then show how to correct it. The views are as
+**Demo CSS** routes at first, then show how to correct them. The views are as
 follows:
 
 * **Home** - Should be visible to all users, regardless of being logged in or
@@ -368,29 +368,29 @@ follows:
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
-  (and being logged in) to see and access. But we intentionally
+  (and be logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
 * **Demo CSS** - Should be visible to all users, regardless of being logged in
   or having permission. But we intentionally forgot to add that view's route to
   the
   :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`
-  in order to demonstrate what will happen.
+  to demonstrate what will happen.
 
 Below is all the code required to generate these views.
 
 .. note::
 
     In the below files, we have purposely made a mistake in regards to the
-    **Sample2** and **Demo CSS** views in order to not only demonstrate how the
+    **Sample2** and **Demo CSS** views to not only demonstrate how the
     various files and contents work, but also to show what sort of side effects
     to expect when using the **Strict Policy**.
 
-    Below this initial attempt we correct our mistake and show the proper
+    Below this initial attempt, we correct our mistake and show the proper
     configuration as well as what users will see.
 
 .. important::
 
-    For the purposes of this example we have turned off the global
+    For this example, we have turned off the global
     :ref:`authorization/policies:login required` setting and instead choose
     to define whether or not a view requires being logged in directly on
     the view rather than globally. This way we can demonstrate all three of
@@ -505,7 +505,7 @@ Below is all the code required to generate these views.
         As seen in the following screenshots, the **Home** route still works and
         the user still has access to it.
 
-        This is because the **Home** route is one of the routes that is
+        This is because the **Home** route is one of the routes that are
         automatically included as part of the
         :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
 
@@ -560,8 +560,8 @@ Below is all the code required to generate these views.
     In the case of **Sample2**, we are going to add the missing permissions that
     we accidentally omitted earlier.
 
-Let's fix our mistake so that **Demo CSS** and **Sample2** are visible to who
-they are supposed to be.
+Let's fix our mistake so that **Demo CSS** and **Sample2** are visible to those
+who they are supposed to be.
 
 
 .. _strict_decorator_fixed_settings.py:

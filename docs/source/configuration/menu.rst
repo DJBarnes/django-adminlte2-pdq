@@ -5,7 +5,7 @@ Menu Configuration
 ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES
 =========================================
 
-By default the main navigation (non-admin) menu is not part of the sidebar when
+By default, the main navigation (non-admin) menu is not part of the sidebar when
 the user is viewing a
 `Django Admin page <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_.
 If you would like users to be able to see all of the main nav links regardless
@@ -45,7 +45,7 @@ Example::
 ADMINLTE2_USE_MENU_GROUP_SEPARATOR
 ==================================
 
-By default there will be a implicit separator bar rendered between each menu
+By default, there will be an implicit separator bar rendered between each menu
 group.
 These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
 **Admin Menu**.
@@ -67,7 +67,7 @@ ADMINLTE2_MENU
 
 This setting is the definition for the main navigation menu.
 There are a lot of options when creating this menu.
-See the :doc:`../menu/admin` section for a detailed explanation on how to
+See the :doc:`../menu/admin` section for a detailed explanation of how to
 create this menu and all of the available options that can be used.
 
 :Type: ``list``

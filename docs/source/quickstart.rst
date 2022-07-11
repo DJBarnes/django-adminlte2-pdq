@@ -19,10 +19,10 @@ Quickstart
 
     .. important::
 
-        The **django_adminlte_2** app should be listed before any django apps so
+        The **django_adminlte_2** app should be listed before any Django apps so
         that template overriding works correctly. Additionally, if you plan to
         override any Django-AdminLTE-2 templates, they should be listed above
-        the **django_adminlte_2 app**.
+        the **django_adminlte_2** app.
 
 
 3.  Django-AdminLTE-2 provides a middleware that is required for some of the
@@ -46,7 +46,7 @@ Quickstart
 
     .. note::
 
-        Django-AdminLTE-2 has been configured out of the box to get you setup
+        Django-AdminLTE-2 has been configured out of the box to get you set up
         and running as fast as possible. As a result, the settings surrounding
         authentication and authorization are not as strict as they could be.
         We **strongly** encourage you to read the section on
@@ -54,7 +54,7 @@ Quickstart
         once you get the basics of this package working.
 
 
-4.  Django-AdminLTE-2 provides templates for django's account routes and some
+4.  Django-AdminLTE-2 provides templates for Django's account routes and some
     sample routes. Add the routes to your URLconf if you want to use them.
 
     .. code-block:: python

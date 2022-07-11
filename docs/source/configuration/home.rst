@@ -7,9 +7,9 @@ the **Django-AdminLTE-2** package.
 
 All settings are listed here for reference, even though some of these settings
 (such as the :doc:`../menu/general_information` and
-:doc:`Authorization <../authorization/policies>`) can become quite complex, to
-the point that they have dedicated documentation pages to better explain the
-full extent of these settings.
+:doc:`Authorization <../authorization/policies>`) can become quite complex,
+to the point that they have dedicated documentation pages to better explain
+the full extent of these settings.
 
 
 ----
@@ -42,13 +42,13 @@ ADMINLTE2_LOGO_TEXT
 -------------------
 
 Set the Logo text for your site. This will be shown in the top left of the top
-bar, when the side bar is expanded.
+bar, when the sidebar is expanded.
 
 .. note::
 
-    If you would like to include html in your text, you will need to import
+    If you would like to include HTML in your text, you will need to import
     and use ``mark_safe`` from ``django.utils.safestring``. Otherwise, your
-    html will be escaped.
+    HTML will be escaped.
 
 :Type: ``string``
 :Default: ``AdminLTE``
@@ -62,13 +62,13 @@ ADMINLTE2_LOGO_TEXT_SMALL
 -------------------------
 
 Set the small Logo text for your site. This will be shown in the top left of the
-top bar, when the side bar is collapsed.
+top bar, when the sidebar is collapsed.
 
 .. note::
 
-    If you would like to include html in your text, you will need to import
+    If you would like to include HTML in your text, you will need to import
     and use ``mark_safe`` from ``django.utils.safestring``. Otherwise, your
-    html will be escaped.
+    HTML will be escaped.
 
 :Type: ``string``
 :Default: ``ALTE``

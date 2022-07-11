@@ -5,7 +5,7 @@ There are no additional fields provided by this package.
 However, there are some :ref:`templates/fields:Enhancements` to existing
 `Django Fields <https://docs.djangoproject.com/en/dev/ref/forms/fields/>`_
 as well as a few :ref:`templates/fields:Text Field Properties` that can be set
-on a django field to add additional rendered functionality.
+on a Django field to add additional rendered functionality.
 Those enhancements and properties are explained below.
 
 .. warning::
@@ -22,7 +22,7 @@ DateTimeField
 -------------
 Any `DateTimeField <https://docs.djangoproject.com/en/dev/ref/forms/fields/#datetimefield>`_
 will be rendered out with the input type set to
-``datetime-local``, which will allow an automatic datetime picker widget
+``datetime-local``, which will allow an automatic DateTime picker widget
 provided by the browser per the HTML5 spec.
 
 
@@ -65,32 +65,32 @@ phone_info
 ----------
 
 If you would like to make a text field render as a phone input, you can add a
-``phone_info`` property defined as a dictionary with keys ``inputmask`` and
-``pattern``.
+``phone_info`` property that is defined as a dictionary with keys ``inputmask``
+and ``pattern``.
 This property will make the field render with both
 an inputmask and regex phone pattern to use as validation.
 
 The ``pattern`` key will have a value that is a JavaScript regular expression
-that the entered phone number must pass in order to be submitted.
+that the entered phone number must pass to be submitted.
 More information about ``pattern`` can be found via the
 `Mozilla Pattern Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel#pattern>`_
 
 The ``inputmask`` is specified as a string.
-Information about making a valid format can be found at the repository for
+Information about making a valid format can be found in the repository for
 `Inputmask <https://github.com/RobinHerbots/Inputmask>`_.
 
 .. warning::
 
     The pattern and inputmask should not be a replacement for server-side
     validation. You should still use a clean method on the phone field
-    server-side to ensure that the field does in fact have a correct value.
+    server-side to ensure that the field does have a correct value.
     The enhancements provided by this property are all client-side and can be
     circumvented. Thus it cannot be fully trusted to be accurate.
 
 .. note::
 
     There are two examples below. One sets the property in the form class.
-    The other in the View class. You should choose one way or the other.
+    The other sets it in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
 
 
@@ -130,8 +130,8 @@ range_min_max
 -------------
 
 If you would like to make a text field render as a range input, you can add a
-``range_min_max`` property defined as a dictionary with keys ``min`` and
-``max``.
+``range_min_max`` property that is defined as a dictionary with keys ``min``
+and ``max``.
 This property will make the field render with both a min and max value
 that can be selected via the range.
 
@@ -148,7 +148,7 @@ that can be selected via the range.
 .. note::
 
     There are two examples below. One sets the property in the form class.
-    The other in the View class. You should choose one way or the other.
+    The other sets it in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
 
 
@@ -189,7 +189,7 @@ More information about ``color`` can be found via the
 .. note::
 
     There are two examples below. One sets the property in the form class.
-    The other in the View class. You should choose one way or the other.
+    The other sets it in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
 
 
@@ -221,7 +221,7 @@ Setting is_color in a View class
 datalist
 --------
 
-If you would like add a datalist to a text field, you can add a
+If you would like to add a datalist to a text field, you can add a
 ``datalist`` property with a value of dictionary with keys ``name`` and
 ``data``.
 
@@ -251,7 +251,7 @@ If you would like add a datalist to a text field, you can add a
 .. note::
 
     There are two examples below. One sets the property in the form class.
-    The other in the View class. You should choose one way or the other.
+    The other sets it in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
 
 
@@ -304,7 +304,7 @@ both properties on the field.
 .. note::
 
     There are two examples below. One sets the property in the form class.
-    The other in the View class. You should choose one way or the other.
+    The other sets it in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
 
 

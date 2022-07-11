@@ -19,7 +19,7 @@ adminlte2_show_field_errors_in_summary
 ======================================
 
 If you would like to include all field errors in the error summary so that all
-errors no matter what type they are show up in the error summary, set this
+errors, no matter what type they are, show up in the error summary, set this
 form attribute to ``True``.
 
 :Type: ``bool``
@@ -49,7 +49,7 @@ summary, you can turn this off by setting this attribute on your form to
 ``False``.
 
 This is useful if you want to handle the error summary manually without using
-any of the built in magic.
+any of the built-in magic.
 
 :Type: ``bool``
 :Default: ``True``

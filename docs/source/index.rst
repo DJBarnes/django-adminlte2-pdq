@@ -26,7 +26,7 @@ Features include:
 * Automatic menu link hiding based on user permissions to views.
 * Template filters to aid in manual styling.
 * Template tags for form rendering that matches AdminLTE2.
-* Automatic form error and messages styling.
+* Automatic form error and message styling.
 * `Font Awesome 4 <https://fontawesome.com/v4/icons/>`_
   & `Font Awesome 5 <https://fontawesome.com/v5/search>`_ integration.
 * Highly configurable functionality, via project

@@ -30,7 +30,7 @@ For Example:
 * You can have text with no nodes if you only want a header.
 * You can have nodes without text if you want a blank header.
 
-Generally speaking, most common implementation will consist of defining both
+Generally speaking, the most common implementation will consist of defining both
 text and nodes.
 
 
@@ -45,7 +45,7 @@ The following are accepted keys used when defining a section menu block.
 
 **text**
 
-A string representing the section text that a user will see.
+A string that represents the section text that a user will see.
 
 :Key: ``text``
 :Type: ``string``
@@ -155,8 +155,8 @@ The following are accepted keys used when defining a node menu block.
 
 **route**
 
-A valid django route. If you are scaffolding your menu out and do
-not have a valid route yet, just enter a ``#`` as a place holder.
+A valid Django route. If you are scaffolding your menu out and do
+not have a valid route yet, just enter a ``#`` as a placeholder.
 
 :Key: ``route``
 :Type: ``string``
@@ -183,7 +183,7 @@ Any required kwargs needed to be able to reverse the route.
 
 **text**
 
-A string representing what will be rendered for the user to see.
+A string that represents what will be rendered for the user to see.
 
 :Key: ``text``
 :Type: ``string``
@@ -203,8 +203,8 @@ All required classes needed to make the icon show up must be listed.
 
 **hook**
 
-An optional string representing the name of a fully qualified function. This
-function will be called to return the text to render for the node.
+An optional string that represents the name of a fully qualified function.
+This function will be called to return the text to render for the node.
 This allows the ability to dynamically create the node's text.
 
 :Key: ``hook``
@@ -214,7 +214,7 @@ This allows the ability to dynamically create the node's text.
 .. note::
 
     Django-AdminLTE-2 will try to import the value for this key as a function
-    and then invoke the function and use it's results as the text for the node.
+    and then invoke the function and use its results as the text for the node.
 
     The function should return either a string that will be used for both the
     text and the title text of the node, or a 2-tuple with string values for
@@ -229,8 +229,8 @@ This allows the ability to dynamically create the node's text.
 
 **url**
 
-An optional string representing the url for the link. If provided, it will take
-precedence over the url generated from the required route key.
+An optional string representing the URL for the link. If provided, it will take
+precedence over the URL generated from the required route key.
 
 :Key: ``url``
 :Type: ``string``
@@ -238,14 +238,14 @@ precedence over the url generated from the required route key.
 
 .. warning::
 
-    This key is generally reserved for providing external urls.
+    This key is generally reserved for providing external URLs.
 
-    When defining internal urls, it is **strongly** recommended that you avoid
+    When defining internal URLs, it is **strongly** recommended that you avoid
     this key and instead, use the node's route key.
 
 .. note::
 
-    If you decide to use the url key, you must still provide the route key with
+    If you decide to use the ``url`` key, you must still provide the route key with
     a value of ``"#"`` as well since the sidebar is expecting that every node
     will have a route key.
 
@@ -253,8 +253,8 @@ precedence over the url generated from the required route key.
 
 .. tip::
 
-    This url key is useful if you need to link to an external website rather
-    than an internal link. External links must define any permissions directly
+    This ``url`` key is useful if you need to link to an external website rather
+    then an internal link. External links must define any permissions directly
     on the node as there is no associated view to be able to pull permissions
     from. See the :doc:`../authorization/policies` page for more information.
 
@@ -262,7 +262,7 @@ precedence over the url generated from the required route key.
 **permissions**
 
 An optional list of permissions as strings. The user must have all listed
-permissions in order to see the node.
+permissions to see the node.
 
 :Key: ``url``
 :Type: ``list``
@@ -272,8 +272,8 @@ permissions in order to see the node.
 
     In general, you should use the functionality defined on the
     :doc:`Authorization <../authorization/policies>` pages to add permissions
-    to a view rather than directly to a node. Defining on the view will handle
-    both:
+    to a view rather than directly to a node. Defining the permissions directly
+    on the view will handle both:
 
     * Hiding a node in the sidebar.
     * Preventing direct URL navigation, without the need to additionally set the
@@ -301,8 +301,8 @@ these order to see the node.
 
     In general, you should use the functionality defined on the
     :doc:`Authorization <../authorization/policies>` pages to add permissions
-    to a view rather than directly to a node. Defining on the view will handle
-    both:
+    to a view rather than directly to a node. Defining the permissions directly
+    on the view will handle both:
 
     * Hiding a node in the sidebar.
     * Preventing direct URL navigation, without the need to additionally set the
@@ -320,7 +320,7 @@ these order to see the node.
 **login_required**
 
 An optional key on the node specifying whether a user must be logged in to
-the system in order to see the node.
+the system to see the node.
 
 :Key: ``url``
 :Type: ``bool``
@@ -330,8 +330,8 @@ the system in order to see the node.
 
     In general, you should use the functionality defined on the
     :doc:`Authorization <../authorization/policies>` pages to add a login
-    required criteria to a view, rather than directly to a node. Defining on the
-    view will handle both:
+    required criteria to a view, rather than directly to a node. Defining
+    login_required on the view will handle both:
 
     * Hiding a node in the sidebar.
     * Preventing direct URL navigation without the need to additionally define
@@ -343,7 +343,7 @@ the system in order to see the node.
 .. tip::
 
     This key may be useful when you have an external link that needs to also
-    be shown or hidden based on a the user being logged in.
+    be shown or hidden based on the user being logged in.
 
 
 Node Example
@@ -409,7 +409,7 @@ Tree Keys
 
 **text**
 
-A string representing what will be rendered for the user to see.
+A string that represents what will be rendered for the user to see.
 
 :Key: ``text``
 :Type: ``string``

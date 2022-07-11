@@ -34,10 +34,10 @@ Login Required Mixin
 This mixin will enforce that a user is logged into the system before they
 can access the view. Django's default
 `LoginRequiredMixin <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-loginrequired-mixin>`_
-is used behind the scenes and is only recreated in this package in order to add
+is used behind the scenes and is only recreated in this package to add
 the magic of automatic sidebar link rendering.
 
-When using this mixin on a class based view, if the user in not logged in,
+When using this mixin on a class based view, if the user is not logged in,
 the user will not be able to access this view nor will they see a sidebar menu
 entry that maps to this view. However, if the user is logged in,
 they will see the sidebar link and have access.
@@ -62,7 +62,7 @@ Permission Required Mixin
 This mixin will enforce that a user has either all or one of a list of
 permissions before they can access the view. Django's default
 `PermissionRequired <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-permissionrequiredmixin-mixin>`_
-is used behind the scenes and is only recreated in this package in order to add
+is used behind the scenes and is only recreated in this package to add
 the magic of automatic sidebar link rendering.
 
 There are two class attributes used in conjunction with this mixin.
@@ -99,7 +99,7 @@ Permission Required One Attribute
 .. note::
 
     Django does not provide a similar class level attribute by default.
-    This attribute and it's functionality is exclusive to this package.
+    This attribute and its functionality are exclusive to this package.
 
 .. tip::
 
@@ -134,7 +134,7 @@ Mixin Examples
 Loose Mixin Example
 -------------------
 
-In this example there are five routes, views, and sidebar entries. To
+In this example, there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample 2**
 permissions at first, then show how to correct it. The views are as follows:
 
@@ -144,7 +144,7 @@ permissions at first, then show how to correct it. The views are as follows:
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
-  (and being logged in) to see and access. But we intentionally
+  (and be logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
 * **Demo CSS** - Should be visible to all users, regardless of being logged in
   or having permission.
@@ -152,7 +152,7 @@ permissions at first, then show how to correct it. The views are as follows:
 .. note::
 
     In the below files, we have purposely made a mistake in regards to the
-    **Sample2** view in order to not only demonstrate how the various files and
+    **Sample2** view to not only demonstrate how the various files and
     contents work, but also to show what sort of side effects to expect when
     using the **Loose Policy**.
 
@@ -162,7 +162,7 @@ permissions at first, then show how to correct it. The views are as follows:
 
 .. important::
 
-    For the purposes of this example we have turned off the global
+    For this example, we have turned off the global
     :ref:`authorization/policies:login required` setting and instead choose
     to define whether or not a view requires being logged in directly on
     the view rather than globally. This way we can demonstrate all three options
@@ -303,10 +303,10 @@ permissions at first, then show how to correct it. The views are as follows:
     We wanted to prevent the **Sample2** view from being accessed by people that
     do not have at least one permission, but forgot to add that to our view.
 
-    Because we are using a Loose policy, everyone can see and have access this
+    Because we are using a Loose policy, everyone can see and have access to this
     view. This is the **"Loose"** part of the loose policy as it defaults to
     everyone being able to see every view unless a permission is explicitly
-    set on that view to add security.
+    set on that view.
 
 Let's fix our mistake so that **Sample2** is protected and see the difference.
 
@@ -361,9 +361,9 @@ The pages in our example are now displaying as they're supposed to be.
 Strict Mixin Example
 --------------------
 
-In this example there are five routes, views, and sidebar entries. To
+In this example, there are five routes, views, and sidebar entries. To
 demonstrate how our package works, we intentionally mess up the **Sample2** and
-**Demo CSS** routes at first, then show how to correct it. The views are as
+**Demo CSS** routes at first, then show how to correct them. The views are as
 follows:
 
 * **Home** - Should be shown to all users, regardless of being logged in or
@@ -372,27 +372,27 @@ follows:
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
 * **Sample 2** - Should require at least one of the listed permissions
-  (and being logged in) to see and access. But we intentionally
+  (and be logged in) to see and access. But we intentionally
   forgot to add that permission to demonstrate what will happen.
 * **Demo CSS** - Should be visible to all users, regardless of being logged in
   or having permission. But we intentionally forgot to add that view's route to
   the
   :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`
-  in order to demonstrate what will happen.
+  to demonstrate what will happen.
 
 .. note::
 
     In the below files, we have purposely made a mistake in regards to the
-    **Sample2** and **Demo CSS** views in order to not only demonstrate how the
+    **Sample2** and **Demo CSS** views to not only demonstrate how the
     various files and contents work, but also to show what sort of side effects
     to expect when using the **Strict Policy**.
 
-    Below this initial attempt we correct our mistake and show the proper
+    Below this initial attempt, we correct our mistake and show the proper
     configuration as well as what users will see.
 
 .. important::
 
-    For the purposes of this example we have turned off the global
+    For this example, we have turned off the global
     :ref:`authorization/policies:login required` setting and instead choose
     to define whether or not a view requires being logged in directly on
     the view rather than globally. This way we can demonstrate all three of
@@ -511,7 +511,7 @@ follows:
         As seen in the following screenshots, the **Home** route still works and
         the user still has access to it.
 
-        This is because the **Home** route is one of the routes that is
+        This is because the **Home** route is one of the routes that are
         automatically included as part of the
         :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
         For more information about the automatically included routes, check out
@@ -569,8 +569,8 @@ follows:
     In the case of **Sample2**, we are going to add the missing permissions that
     we accidentally omitted earlier.
 
-Let's fix our mistake so that **Demo CSS** and **Sample2** are visible to who
-they are supposed to be.
+Let's fix our mistake so that **Demo CSS** and **Sample2** are visible to those
+who they are supposed to be.
 
 
 .. _strict_mixin_fixed_settings.py:

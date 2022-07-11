@@ -2,7 +2,7 @@ General Information
 *******************
 
 In the context of the **Django-AdminLTE-2** package, the "menu" is the set of
-navigational elements, displayed on the left-hand side of the default page
+navigational elements displayed on the left-hand side of the default page
 layout.
 
 There are three possible configurations (which can be used together) for
@@ -56,8 +56,8 @@ so that they match the same
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_ theme used by the
 rest of the site.
 
-As such, it makes sense that the Django-AdminLTE-2 package will generate a
-corresponding set of menu nav elements, to allow navigation of these admin
+As such, it makes sense that the Django-AdminLTE-2 package will generate
+a corresponding set of menu nav elements, to allow navigation of the admin
 pages.
 
 By default, these admin menu entries will only be seen when the user is on a

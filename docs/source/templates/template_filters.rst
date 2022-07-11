@@ -38,7 +38,7 @@ be chained.
 
 :param field: Form field to add attributes to.
 :param attrs_as_json: The attrs to add to the field.
- Must be in the form of json. Defaults to None.
+ Must be in the form of JSON. Defaults to None.
 :return: Field that was passed in with attrs added.
 
 **Example:**
@@ -65,8 +65,8 @@ Add a ``class`` attribute to a form field and return the form field so filters c
 be chained.
 
 :param field: Form field to add attributes to.
-:param class_name: Class name to add to add to the field.
- Defaults to blank string.
+:param class_name: Class name to add to the field.
+ Defaults to a blank string.
 :return: Field that was passed in with classes added.
 
 **Example:**
@@ -93,7 +93,7 @@ Add data attributes to a form field and return the form field so filters can be
 chained.
 
 :param field: Form field to add data attributes to.
-:param data_attrs_json: The data fields to add. Must be in the form of json.
+:param data_attrs_json: The data fields to add. Must be in the form of JSON.
  Defaults to None.
 :return: Field that was passed in with data attributes added.
 
@@ -126,9 +126,9 @@ with_placeholder
 Add ``placeholder`` to a form field and return the form field so filters can be
 chained.
 
-:param field: Form field to add placeholder to.
+:param field: Form field to add the placeholder to.
 :param placeholder: Placeholder text to use.
- Defaults to fields label if nothing provided.
+ Defaults to the label of the field if nothing is provided.
 :return: Field that was passed in with placeholder added.
 
 **Example:**
@@ -251,7 +251,7 @@ site.
 :param field: Form field to add attributes to.
 :param inputmask: The inputmask pattern to use.
  Defaults to ``"(999) 999-9999"`` if value not passed.
-:return: Field that was passed in with a inputmask data attribute added.
+:return: Field that was passed in with an inputmask data attribute added.
 
 **Example:**
 
@@ -342,10 +342,10 @@ Which will update the form field to look like the following:
 with_input_type
 ===============
 
-Change widget input_type to passed value.
+Change widget input_type to the passed value.
 
 :param field: Form field to change type on.
-:return: Field that was passed in with input_type changed to passed value.
+:return: Field that was passed in with input_type changed to the passed value.
 
 **Example:**
 
@@ -413,7 +413,7 @@ letter.
 unslugify
 =========
 
-Return a string that converts dash to spaces and capitalizes first letter.
+Return a string that converts dash to spaces and capitalizes the first letter.
 
 :param field: Form field to unslugify.
 :return: dir of the field passed in.

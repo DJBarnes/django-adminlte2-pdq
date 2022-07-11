@@ -4,15 +4,15 @@ Templates
 General
 =======
 
-The main purpose of the **Django-AdminLTE-2** package is to streamline creation
-of `Django <https://www.djangoproject.com/>`_ sites, using the
+The main purpose of the **Django-AdminLTE-2** package is to streamline the
+creation of `Django <https://www.djangoproject.com/>`_ sites, using the
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_ theme.
 
 As such, this package comes with many templates that are used right out of the
-box, and an automagically-customized site look and feel, just by following the
+box and an automagically-customized site look and feel, just by following the
 minimal steps as described in :doc:`../quickstart`.
 
-Any and all of these templates can be overridden to further customize the look
+All of these templates can be overridden to further customize the look
 and feel of the site, depending on project needs. Rather than listing out every
 single file and every single block within those files that can be overridden,
 it is preferable that you just reference the files yourself. The files can be
@@ -27,7 +27,7 @@ found on
     those templates is listed in the
     `INSTALLED_APPS <https://docs.djangoproject.com/en/dev/ref/settings/#std-setting-INSTALLED_APPS>`_
     setting before the **django-adminlte-2** app. Additionally, the
-    **django-adminlte-2** app should be listed before any django apps.
+    **django-adminlte-2** app should be listed before any Django apps.
 
 
 Example Customization
@@ -45,7 +45,7 @@ First, we can see what this page looks like by default:
 
 To change this page, we can create a template to override the original behavior:
 
-1.  Create ``registration/login.html`` in one of your django project's
+1.  Create ``registration/login.html`` in one of your Django project's
     `template <https://docs.djangoproject.com/en/dev/ref/settings/#templates>`_
     folders, defined via the project settings file.
 2.  Extend the packages default ``registration/login.html`` by adding the

@@ -37,7 +37,7 @@ Moving The Menu Outside Settings
 
 More than likely, your menu will grow in size over time and become a little
 large to be living directly in the settings file. Although the menu variable
-does technically have to live in the settings, there are some workarounds that
+does technically have to live in the settings, some workarounds
 allow defining the menu outside of the direct settings file.
 
 The most common approach is to make a separate file that will contain your
@@ -77,14 +77,14 @@ Example
 Making Part Of The Menu Dynamic
 ===============================
 
-It's possible to make the menu dynamic, and generate from the database (or
+It's possible to make the menu dynamic and generate it from the database (or
 some other dynamic data source) on each page load. This is accomplished by
 sending the dynamic menu to the template, via the page context.
 
 If the menu is defined in both settings and the context, the context version
 will always take precedence and override the settings version.
 
-In addition, there are two menu sections that are specifically meant to be
+In addition, two menu sections are specifically meant to be
 dynamic, and can only be delivered by a template's context. Those sections are
 called ``ADMINLTE2_MENU_FIRST`` and ``ADMINLTE2_MENU_LAST``.
 

@@ -8,7 +8,7 @@ Displaying the Admin Menu
 As mentioned previously, the Django-AdminLTE-2 package can
 :ref:`Auto-Build an Admin Page menu<menu/general_information:Auto-Built Admin Menu>`.
 By default, this will appear on all
-`Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_,.
+`Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_.
 
 To configure this admin menu to also show on non-admin pages, refer to
 :ref:`configuration/menu:adminlte2_include_admin_nav_on_main_pages`.
@@ -124,13 +124,13 @@ shown, depending on the value defined for
 
 Each of these three sections will show different content. If only one section is
 enabled, then it automatically spans the area of the entire sidebar. If more
-than one section is displayed, then navigational tabs are automatically created
+then one section is displayed, then navigational tabs are automatically created
 at the top of the sidebar, to allow easy switching between the displayed
 sections.
 
-If all of the tabs are turned off, the entire tri-cog icon and associated
+If all of the tabs are turned off, the entire tri-cog icon and its associated
 button will be removed and the user dropdown will shift to the right.
 
 The default behavior is to populate this popup sidebar with the
-"Recent Activity" section of the django admin. The other two sections are hidden
+"Recent Activity" section of the Django admin. The other two sections are hidden
 by default.
