@@ -2670,7 +2670,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_login(self):
-        """test_is_allowed_node_is_true_when_user_superuserlogin_off_strict_on_node_login"""
+        """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_login"""
         self._setup_superuser()
         node = {
             'route': 'django_adminlte_2:demo-css',
@@ -2782,7 +2782,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    def test_is_allowed_node_is_true_when_user_superuserlogin_on_strict_on_node_off(self):
+    def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off"""
         self._setup_superuser()
         node = {
