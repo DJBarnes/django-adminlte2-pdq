@@ -17,20 +17,25 @@ policies and scenarios.
 .. important::
 
     Django-AdminLTE-2 provides a middleware that is required for some of the
-    available authentication and authorization scenarios from this package to
-    function.
+    available authentication and authorization functionality this package
+    provides.
 
     If you haven't already done so, reference the :ref:`quickstart:quickstart`
     to add this middleware to your middleware list in ``settings.py`` so that
     you can use the full potential of this package.
 
+
 Authentication
 ==============
 
-Setting up authentication for the package requires choosing whether or not you
-would like to require that users be logged in to gain access to the majority of
-views in your site or if anonymous users are able to see the same things that
-logged in users can.
+Authentication is the handling of user login, and view access when logged in
+or anonymous.
+
+Setting up authentication for the package requires choosing if your site will:
+
+* Require users be logged in to gain access to the majority of site views.
+* Allow anonymous users to see site views by default (this is the default Django
+  handling).
 
 If you would like to require that users are logged in to
 visit the majority of your site, see the
@@ -41,7 +46,7 @@ Login Required
 --------------
 
 If you would like to prevent anonymous users from accessing the majority of
-the views in your site, you can require that people are logged in by
+the views in your site, you can require login by
 setting the ``ADMINLTE2_USE_LOGIN_REQUIRED`` setting in your ``settings.py``
 file to ``True``.
 
@@ -89,6 +94,9 @@ adding either the route name or url for the endpoint to the
 Authorization
 =============
 
+Authorization is the handling of user view access, based on the permissions
+and groups of a given logged in user.
+
 Setting up authorization for the package requires
 :ref:`authorization/policies:choosing a policy` and then properly using
 :ref:`authorization/function_views:Decorators` or
@@ -101,8 +109,8 @@ Setting the permissions on the view with the
 provided by this package will still prevent a user from accessing a view that
 they do not have permission to access. Just like the ones provided by
 `Django <https://docs.djangoproject.com/en/dev/topics/auth/default/#limiting-access-to-logged-in-users>`_.
-But, they will additionally automatically hide any menu sidebar links for the
-protected view from the user.
+But they will additionally dynamically show/hide any menu sidebar links for the
+protected view, in the provided AdminLTE menus.
 
 .. note::
 

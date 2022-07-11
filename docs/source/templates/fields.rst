@@ -66,7 +66,8 @@ phone_info
 
 If you would like to make a text field render as a phone input, you can add a
 ``phone_info`` property defined as a dictionary with keys ``inputmask`` and
-``pattern`` to a text field. This property will make the field render with both
+``pattern``.
+This property will make the field render with both
 an inputmask and regex phone pattern to use as validation.
 
 The ``pattern`` key will have a value that is a JavaScript regular expression
@@ -84,15 +85,14 @@ Information about making a valid format can be found at the repository for
     validation. You should still use a clean method on the phone field
     server-side to ensure that the field does in fact have a correct value.
     The enhancements provided by this property are all client-side and can be
-    circumvented and thus can not be fully trusted to be accurate.
+    circumvented. Thus it cannot be fully trusted to be accurate.
 
 .. note::
 
     There are two examples below. One sets the property in the form class.
     The other in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
-    Additionally, there are probably other ways that the property can be set
-    that are not shown in these examples, but we know that these ways work.
+
 
 Setting phone_info in a Form class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -130,31 +130,27 @@ range_min_max
 -------------
 
 If you would like to make a text field render as a range input, you can add a
-``range_min_max`` property to a text field to make it render with both a min
-and a max value for the range.
-
-If you would like to make a text field render as a range input, you can add a
 ``range_min_max`` property defined as a dictionary with keys ``min`` and
-``max`` to a text field. This property will make the field render with both a
-min and max value that can be selected via the range.
+``max``.
+This property will make the field render with both a min and max value
+that can be selected via the range.
 
-The ``min`` key will provide the lowest value that can be submitted via the
-input.
-More information about ``min`` can be found via the
-`Mozilla Min Range Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range#min>`_
+* The ``min`` key will provide the lowest value that can be submitted via the
+  input.
+  More information about ``min`` can be found via the
+  `Mozilla Min Range Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range#min>`_.
 
-The ``max`` key will provide the highest value that can be submitted via the
-input.
-More information about ``max`` can be found via the
-`Mozilla Max Range Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range#max>`_
+* The ``max`` key will provide the highest value that can be submitted via the
+  input.
+  More information about ``max`` can be found via the
+  `Mozilla Max Range Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range#max>`_.
 
 .. note::
 
     There are two examples below. One sets the property in the form class.
     The other in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
-    Additionally, there are probably other ways that the property can be set
-    that are not shown in these examples, but we know that these ways work.
+
 
 Setting range_min_max in a Form class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -185,18 +181,17 @@ is_color
 --------
 
 If you would like to make a text field render as a color input, you can add a
-``is_color`` property with a value of ``True`` to a text fields.
+``is_color`` property with a value of ``True``.
 This property will make the field render as a color selector.
 More information about ``color`` can be found via the
-`Mozilla Color Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color>`_
+`Mozilla Color Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color>`_.
 
 .. note::
 
     There are two examples below. One sets the property in the form class.
     The other in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
-    Additionally, there are probably other ways that the property can be set
-    that are not shown in these examples, but we know that these ways work.
+
 
 Setting is_color in a Form class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -227,15 +222,15 @@ datalist
 --------
 
 If you would like add a datalist to a text field, you can add a
-``datalist`` property to the text field with a value of dictionary that has
-two keys. ``name`` and ``data``.
+``datalist`` property with a value of dictionary with keys ``name`` and
+``data``.
 
-The ``name`` key will have a value that is the name of the datalist that
-will be used both as the value for the list attribute and the id in the
-rendered datalist.
+* The ``name`` key should define the name of the datalist that
+  will be used both as the value for the list attribute and the id in the
+  rendered datalist.
 
-The ``data`` key will have a value that is the list of data for the datalist.
-This should be a list of values.
+* The ``data`` key should define the data for the datalist.
+  This should be a list of values.
 
 .. note::
 
@@ -251,15 +246,14 @@ This should be a list of values.
 
     More information about how a datalist will work with the particular text
     input you have can be found at the
-    `Mozilla Datalist Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist>`_
+    `Mozilla Datalist Documentation <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist>`_.
 
 .. note::
 
     There are two examples below. One sets the property in the form class.
     The other in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
-    Additionally, there are probably other ways that the property can be set
-    that are not shown in these examples, but we know that these ways work.
+
 
 Setting datalist in a Form class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -298,6 +292,9 @@ Setting datalist in a View class
         ],
     }
 
+Additional Datalist Examples
+----------------------------
+
 It is also possible to combine the work of adding a datalist with one of the
 other properties to enhance the field further. In the below examples we are
 using the datalist on the range input to add tickmarks to the range input at
@@ -309,8 +306,7 @@ both properties on the field.
     There are two examples below. One sets the property in the form class.
     The other in the View class. You should choose one way or the other.
     You do **NOT** need to set the property in both locations.
-    Additionally, there are probably other ways that the property can be set
-    that are not shown in these examples, but we know that these ways work.
+
 
 Setting datalist and range_min_max in a Form class
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
