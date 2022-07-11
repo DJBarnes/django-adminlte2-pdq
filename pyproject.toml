@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta:__legacy__"
 [project]
 name = "django-adminlte-2"
 version = "0.1.0"
-description = "A Django app to add adminlte2 theming and functionality to project."
+description = "A Django app that takes all of the work out of making a beautiful and functional web application using the AdminLTE2 theme."
 readme = "README.md"
 authors = [{ name = "David Barnes", email = "barnesdavidj@gmail.com" }]
 license = { file = "LICENSE" }
@@ -34,9 +34,11 @@ classifiers = [
 keywords = [
     "adminlte2",
     "django",
+    "fast",
+    "rapid",
+    "speed",
     "style",
     "theme",
-    "unused",
 ]
 dependencies = [
     "django >= 3.0.0",
