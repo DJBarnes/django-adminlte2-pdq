@@ -5,7 +5,7 @@ Quickstart
 
     .. code-block:: bash
 
-        python -m pip install git+https://github.com/DJBarnes/django-adminlte-2.git@master
+        python -m pip install django-adminlte-2
 
 
 2.  Add "django_adminlte_2" to your INSTALLED_APPS setting like this:

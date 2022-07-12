@@ -34,7 +34,7 @@ The full documentation can be found on [Read The Docs](https://django-adminlte-2
 
 1.  Install the Django App via GitHub for now. Working on getting on Pypi soon.
     ```shell
-    python -m pip install git+https://github.com/DJBarnes/django-adminlte-2.git@master
+    python -m pip install django-adminlte-2
     ```
 
 2.  Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
