@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta:__legacy__"
 [project]
 name = "django-adminlte2-pdq"
 version = "0.1.0"
-description = "A Django app that takes all of the work out of making a beautiful and functional web application using the AdminLTE2 theme."
+description = "A Django app that takes all of the work out of making a beautiful and functional web application pretty darn quickly (PDQ) using the AdminLTE2 theme."
 readme = "README.md"
 authors = [{ name = "David Barnes", email = "barnesdavidj@gmail.com" }]
 license = { file = "LICENSE" }
@@ -35,6 +35,7 @@ keywords = [
     "adminlte2",
     "django",
     "fast",
+    "pdq",
     "rapid",
     "speed",
     "style",

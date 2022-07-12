@@ -10,7 +10,7 @@ def runtests():
     """Run tests"""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'tests.settings')
     os.environ.setdefault('PYTHONPATH', ROOT_DIR)
-    argv = ['pytest'] + sys.argv[1:] # + ['--asyncio-mode=auto']
+    argv = ['pytest'] + sys.argv[1:]
     subprocess.run(argv, check=True)
 
 
