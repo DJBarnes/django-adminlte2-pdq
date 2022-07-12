@@ -1,7 +1,7 @@
 Authentication and Authorization Policy
 ***************************************
 
-The **Django-AdminLTE-2** package comes with built-in functionality to make it
+The **Django-AdminLTE2-PDQ** package comes with built-in functionality to make it
 easy to customize and manage various user
 :ref:`authorization/policies:authentication` and
 :ref:`authorization/policies:authorization`
@@ -16,7 +16,7 @@ policies and scenarios.
 
 .. important::
 
-    Django-AdminLTE-2 provides a middleware that is required for some of the
+    Django-AdminLTE2-PDQ provides a middleware that is required for some of the
     available authentication and authorization functionality this package
     provides.
 
@@ -342,7 +342,7 @@ add the following to your root urls.py file:
 
 .. code:: python
 
-    handler404 = 'django_adminlte_2.views.view_404'
+    handler404 = 'adminlte2_pdq.views.view_404'
 
     urlpatterns = [
         ...
@@ -361,7 +361,7 @@ exceptions use the same behavior, you can make the 403s also use this same view.
 
 .. code:: python
 
-    handler403 = 'django_adminlte_2.views.view_404'
+    handler403 = 'adminlte2_pdq.views.view_404'
 
     urlpatterns = [
         ...

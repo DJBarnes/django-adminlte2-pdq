@@ -10,12 +10,12 @@ from django.test import TestCase
 from django.urls import reverse
 from unittest.mock import patch
 
-from django_adminlte_2.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
+from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 
 UserModel = get_user_model()  # pylint: disable=invalid-name
 
-UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ['django_adminlte_2:demo-css']
-UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ['django_adminlte_2:demo-css']
+UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ['adminlte2_pdq:demo-css']
+UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ['adminlte2_pdq:demo-css']
 
 class MiddlewareTestCase(TestCase):
     """
@@ -57,34 +57,34 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off(self):
         """test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
@@ -98,7 +98,7 @@ class MiddlewareTestCase(TestCase):
             )
 
             response = self.client.get(
-                reverse('django_adminlte_2:demo-css'),
+                reverse('adminlte2_pdq:demo-css'),
                 follow=True
             )
             self.assertEqual(response.status_code, 200)
@@ -106,31 +106,31 @@ class MiddlewareTestCase(TestCase):
             self.assertEqual(len(wa), 1)
             self.assertIn(warning_message, str(wa[-1].message))
 
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off"""
         # NOTE: This test goes to demo-css, fails the strict policy, then goes to home.
@@ -146,7 +146,7 @@ class MiddlewareTestCase(TestCase):
             )
 
             response = self.client.get(
-                reverse('django_adminlte_2:demo-css'),
+                reverse('adminlte2_pdq:demo-css'),
                 follow=True
             )
             self.assertEqual(response.status_code, 200)
@@ -154,26 +154,26 @@ class MiddlewareTestCase(TestCase):
             self.assertEqual(len(wa), 1)
             self.assertIn(warning_message, str(wa[-1].message))
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on(self):
         """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on"""
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -188,36 +188,36 @@ class MiddlewareTestCase(TestCase):
         """test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off(self):
         """test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
@@ -232,7 +232,7 @@ class MiddlewareTestCase(TestCase):
             )
 
             response = self.client.get(
-                reverse('django_adminlte_2:demo-css'),
+                reverse('adminlte2_pdq:demo-css'),
                 follow=True
             )
             self.assertEqual(response.status_code, 200)
@@ -240,20 +240,20 @@ class MiddlewareTestCase(TestCase):
             self.assertEqual(len(wa), 1)
             self.assertIn(warning_message, str(wa[-1].message))
 
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
@@ -268,7 +268,7 @@ class MiddlewareTestCase(TestCase):
             )
 
             response = self.client.get(
-                reverse('django_adminlte_2:demo-css'),
+                reverse('adminlte2_pdq:demo-css'),
                 follow=True
             )
             self.assertEqual(response.status_code, 200)
@@ -276,9 +276,9 @@ class MiddlewareTestCase(TestCase):
             self.assertEqual(len(wa), 1)
             self.assertIn(warning_message, str(wa[-1].message))
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
@@ -293,7 +293,7 @@ class MiddlewareTestCase(TestCase):
             )
 
             response = self.client.get(
-                reverse('django_adminlte_2:demo-css'),
+                reverse('adminlte2_pdq:demo-css'),
                 follow=True
             )
             self.assertEqual(response.status_code, 200)
@@ -301,28 +301,28 @@ class MiddlewareTestCase(TestCase):
             self.assertEqual(len(wa), 1)
             self.assertIn(warning_message, str(wa[-1].message))
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Demo CSS")
 
-    @patch('django_adminlte_2.middleware.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
-    @patch('django_adminlte_2.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
-    @patch('django_adminlte_2.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on(self):
         """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:demo-css'),
+            reverse('adminlte2_pdq:demo-css'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -332,7 +332,7 @@ class MiddlewareTestCase(TestCase):
     # Logged In User - All Perms - Visiting 404
     # **************************************************************************
 
-    @patch('django_adminlte_2.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown(self):
         """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown"""
         self.client.force_login(self.test_user_w_perms)

@@ -3,7 +3,7 @@ Home Configuration
 
 `Django settings <https://docs.djangoproject.com/en/dev/topics/settings/>`_ can
 be used to customize and control the overall look, feel, and functionality of
-the **Django-AdminLTE-2** package.
+the **Django-AdminLTE2-PDQ** package.
 
 All settings are listed here for reference, even though some of these settings
 (such as the :doc:`../menu/general_information` and
@@ -25,11 +25,11 @@ Set the "Home" route for your project. This tells the package where to redirect
 users when they click a link that is designed to take the user home.
 
 :Type: ``string``
-:Default: ``django_adminlte_2:home``
+:Default: ``adminlte2_pdq:home``
 
 Example::
 
-    ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
+    ADMINLTE2_HOME_ROUTE = 'adminlte2_pdq:home'
 
 
 ----

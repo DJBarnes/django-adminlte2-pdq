@@ -1,12 +1,12 @@
 General Information
 *******************
 
-In the context of the **Django-AdminLTE-2** package, the "menu" is the set of
+In the context of the **Django-AdminLTE2-PDQ** package, the "menu" is the set of
 navigational elements displayed on the left-hand side of the default page
 layout.
 
 There are three possible configurations (which can be used together) for
-defining a menu in the Django-AdminLTE-2 package:
+defining a menu in the Django-AdminLTE2-PDQ package:
 
 * `Static Menu Definition`_
 * `Dynamic Menu Definition`_
@@ -50,13 +50,13 @@ static and dynamic content.
 Auto-Built Admin Menu
 =====================
 
-Django-AdminLTE-2 also automatically updates the stylings of the site
+Django-AdminLTE2-PDQ also automatically updates the stylings of the site
 `Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_,
 so that they match the same
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_ theme used by the
 rest of the site.
 
-As such, it makes sense that the Django-AdminLTE-2 package will generate
+As such, it makes sense that the Django-AdminLTE2-PDQ package will generate
 a corresponding set of menu nav elements, to allow navigation of the admin
 pages.
 

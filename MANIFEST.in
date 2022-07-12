@@ -1,5 +1,5 @@
 include LICENSE.md
 include README.md
-recursive-include django_adminlte_2/static *
-recursive-include django_adminlte_2/templates *
+recursive-include adminlte2_pdq/static *
+recursive-include adminlte2_pdq/templates *
 recursive-include docs *

@@ -106,7 +106,7 @@ media/
 celerybeat.pid
 
 # Coverage
-.django_adminlte_2_coverage_html_report/
+.adminlte2_pdq_coverage_html_report/
 
 local_reset_db.sh
 

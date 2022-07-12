@@ -18,7 +18,7 @@ DATABASES = {
 }
 
 INSTALLED_APPS = (
-    'django_adminlte_2',
+    'adminlte2_pdq',
     'tests',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,7 +36,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_adminlte_2.middleware.AuthMiddleware',
+    'adminlte2_pdq.middleware.AuthMiddleware',
 ]
 
 ROOT_URLCONF = 'tests.urls'
@@ -70,10 +70,10 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 
 #**********************************************
-# Added settings to make django_adminlte_2 work
+# Added settings to make adminlte2_pdq work
 #**********************************************
 # Default Profile route does not exist. Change to Home.
-LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
+LOGIN_REDIRECT_URL = 'adminlte2_pdq:home'
 
 ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = True
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = True

@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.template import Template, Context
 from django.test import TestCase, RequestFactory, override_settings
 
-from django_adminlte_2.templatetags.admin.admin_menu import AdminMenu
+from adminlte2_pdq.templatetags.admin.admin_menu import AdminMenu
 
 UserModel = get_user_model()
 

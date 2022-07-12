@@ -1,14 +1,14 @@
-.. Django-AdminLTE-2 documentation master file, created by
+.. Django-AdminLTE2-PDQ documentation master file, created by
    sphinx-quickstart on Sat Mar  6 10:30:55 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Django-AdminLTE-2's documentation!
-*********************************************
+Welcome to Django-AdminLTE2-PDQ's documentation!
+************************************************
 
-**Django-AdminLTE-2** is a `Django <https://www.djangoproject.com/>`_ app
+**Django-AdminLTE2-PDQ** is a `Django <https://www.djangoproject.com/>`_ app
 that takes all of the work out of making a beautiful and functional web
-application using the
+application pretty darn quickly (PDQ) using the
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_
 theme.
 
@@ -32,7 +32,7 @@ Features include:
 * Highly configurable functionality, via project
   `Django settings variables <https://docs.djangoproject.com/en/dev/topics/settings/>`_.
 
-.. image:: ../img/menu/django-adminlte-2-static-menu.png
+.. image:: ../img/menu/django-adminlte2-pdq-static-menu.png
     :alt: Site with static menu using settings
 
 

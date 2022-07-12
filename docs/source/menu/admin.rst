@@ -5,7 +5,7 @@ Admin Menu
 Displaying the Admin Menu
 =========================
 
-As mentioned previously, the Django-AdminLTE-2 package can
+As mentioned previously, the Django-AdminLTE2-PDQ package can
 :ref:`Auto-Build an Admin Page menu<menu/general_information:Auto-Built Admin Menu>`.
 By default, this will appear on all
 `Django Admin pages <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_.
@@ -39,7 +39,7 @@ have their icons updated to be something more useful.
 
 .. code:: python
 
-    from django_adminlte_2.admin_menu import AdminMenu
+    from adminlte2_pdq.admin_menu import AdminMenu
 
     ...
 
@@ -75,7 +75,7 @@ the ``admin.py`` file in our example Blog app.
 
 .. code:: python
 
-    from django_adminlte_2.admin_menu import AdminMenu
+    from adminlte2_pdq.admin_menu import AdminMenu
 
     ...
 
@@ -102,7 +102,7 @@ In any ``admin.py`` file, call one additional method on the
 
 .. code:: python
 
-    from django_adminlte_2.admin_menu import AdminMenu
+    from adminlte2_pdq.admin_menu import AdminMenu
 
     ...
 

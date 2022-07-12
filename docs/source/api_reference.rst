@@ -5,7 +5,7 @@ API Reference
    :maxdepth: 2
    :caption: Contents:
 
-   api_reference/django_adminlte_2
-   api_reference/django_adminlte_2.templatetags.admin
-   api_reference/django_adminlte_2.templatetags
+   api_reference/adminlte2_pdq
+   api_reference/adminlte2_pdq.templatetags.admin
+   api_reference/adminlte2_pdq.templatetags
    api_reference/tests

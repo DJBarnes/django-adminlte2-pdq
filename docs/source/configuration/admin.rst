@@ -40,7 +40,7 @@ Example::
 ADMINLTE2_ADMIN_INDEX_USE_APP_LIST
 ==================================
 
-By default, Django-AdminLTE-2 will put the Apps on the Admin Index page
+By default, Django-AdminLTE2-PDQ will put the Apps on the Admin Index page
 into AdminLTE Info Boxes. Setting this to ``True`` will change that look
 to the traditional Django list view, but still within the main AdminLTE site
 styling.
@@ -111,7 +111,7 @@ look at and potentially override are:
 * ``admin/partials/_control_sidebar/_extra_tab_panes.html``
 
 See the project
-`GitHub files <https://github.com/DJBarnes/django-adminlte-2/tree/master/django_adminlte_2/templates>`_
+`GitHub files <https://github.com/DJBarnes/django-adminlte2-pdq/tree/master/adminlte2_pdq/templates>`_
 for the current implementation.
 
 

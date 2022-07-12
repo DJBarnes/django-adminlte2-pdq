@@ -9,7 +9,7 @@ Assuming you are including the default routes that come with this package
 
 .. code:: python
 
-    path('', include('django_adminlte_2.urls')),
+    path('', include('adminlte2_pdq.urls')),
 
 You can go to ``<domain>/demo-css`` to see this page. From there you can
 inspect any element using your favorite browser to see which classes are

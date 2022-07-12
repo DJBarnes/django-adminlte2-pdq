@@ -2,8 +2,8 @@
 from django import template
 from django.conf import settings
 
-from django_adminlte_2.menu import MENU
-from django_adminlte_2.admin_menu import AdminMenu
+from adminlte2_pdq.menu import MENU
+from adminlte2_pdq.admin_menu import AdminMenu
 
 
 register = template.Library()

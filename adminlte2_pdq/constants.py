@@ -8,10 +8,10 @@ PWD_RESET_ROUTE = getattr(settings, 'PWD_RESET_ROUTE', 'password_reset')
 PWD_RESET_DONE_ROUTE = getattr(settings, 'PWD_RESET_DONE_ROUTE', 'password_reset_done')
 PWD_RESET_CONFIRM_ROUTE = getattr(settings, 'PWD_RESET_CONFIRM_ROUTE', 'password_reset_confirm')
 PWD_RESET_COMPLETE_ROUTE = getattr(settings, 'PWD_RESET_COMPLETE_ROUTE', 'password_reset_complete')
-REGISTER_ROUTE = getattr(settings, 'REGISTER_ROUTE', 'django_adminlte_2:register')
+REGISTER_ROUTE = getattr(settings, 'REGISTER_ROUTE', 'adminlte2_pdq:register')
 
 # Known routes that should never have a permission check done.
-HOME_ROUTE = getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home')
+HOME_ROUTE = getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home')
 
 # List of known routes that should never require being logged in.
 LOGIN_EXEMPT_WHITELIST = [

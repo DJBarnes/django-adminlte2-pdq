@@ -44,7 +44,7 @@ Example setting on an already instantiated form.
 adminlte2_use_error_summary
 ===========================
 
-If you would not like Django-AdminLTE-2 to automatically render out the error
+If you would not like Django-AdminLTE2-PDQ to automatically render out the error
 summary, you can turn this off by setting this attribute on your form to
 ``False``.
 

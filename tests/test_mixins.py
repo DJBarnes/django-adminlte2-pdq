@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
 from django.views import View
 
-from django_adminlte_2.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from adminlte2_pdq.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 UserModel = get_user_model()
 

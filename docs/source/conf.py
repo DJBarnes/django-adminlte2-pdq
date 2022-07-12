@@ -20,7 +20,7 @@ from django.conf import settings
 
 # -- Project information -----------------------------------------------------
 
-project = 'Django-AdminLTE-2'
+project = 'Django-AdminLTE2-PDQ'
 copyright = '2022, David Barnes'
 author = 'David Barnes'
 
@@ -73,7 +73,7 @@ html_static_path = []
 settings.configure(
     SECRET_KEY='something to make Django happy',
     INSTALLED_APPS=[
-        'django_adminlte_2',
+        'adminlte2_pdq',
         'django.contrib.admin',
         'django.contrib.auth',
         'django.contrib.contenttypes',

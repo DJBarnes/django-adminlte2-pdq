@@ -5,7 +5,7 @@ Authorizing Class Based Views
 Mixins
 ======
 
-There are two mixins provided by Django-AdminLTE-2 that can be used on a
+There are two mixins provided by Django-AdminLTE2-PDQ that can be used on a
 class-based view to control whether a user:
 
 * Has access to both the protected view.
@@ -17,13 +17,13 @@ Those mixins are:
 
   .. code:: python
 
-      from django_adminlte_2.mixins import LoginRequiredMixin
+      from adminlte2_pdq.mixins import LoginRequiredMixin
 
 * :ref:`authorization/class_views:permission required mixin` imported with
 
   .. code:: python
 
-      from django_adminlte_2.mixins import PermissionRequiredMixin
+      from adminlte2_pdq.mixins import PermissionRequiredMixin
 
 
 Login Required Mixin
@@ -44,7 +44,7 @@ they will see the sidebar link and have access.
 
 .. code:: python
 
-    from django_adminlte_2.mixins import LoginRequiredMixin
+    from adminlte2_pdq.mixins import LoginRequiredMixin
 
     class DemoCss(LoginRequiredMixin, View):
         """Show examples of extra-features.css"""
@@ -77,7 +77,7 @@ Permission Required Attribute
 
 .. code:: python
 
-    from django_adminlte_2.mixins import PermissionRequiredMixin
+    from adminlte2_pdq.mixins import PermissionRequiredMixin
 
     class Sample1(PermissionRequiredMixin, View):
     """Show sample1 page"""
@@ -111,7 +111,7 @@ Permission Required One Attribute
 
 .. code:: python
 
-    from django_adminlte_2.mixins import PermissionRequiredMixin
+    from adminlte2_pdq.mixins import PermissionRequiredMixin
 
     class Sample2(PermissionRequiredMixin, View):
         """Show sample2 page"""
@@ -234,7 +234,7 @@ permissions at first, then show how to correct it. The views are as follows:
 
     from django.shortcuts import render
     from django.views import View
-    from django_adminlte_2.mixins import (
+    from adminlte2_pdq.mixins import (
         LoginRequiredMixin,
         PermissionRequiredMixin,
     )
@@ -465,7 +465,7 @@ follows:
 
     from django.shortcuts import render
     from django.views import View
-    from django_adminlte_2.mixins import (
+    from adminlte2_pdq.mixins import (
         LoginRequiredMixin,
         PermissionRequiredMixin,
     )

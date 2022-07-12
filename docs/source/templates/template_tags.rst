@@ -141,7 +141,7 @@ Get the logout URL from the settings.
 get_home_url
 ============
 
-Get the home URL from the settings and default to the django_adminlte_2 home.
+Get the home URL from the settings and default to the adminlte2_pdq home.
 
 :Type: ``simple``
 

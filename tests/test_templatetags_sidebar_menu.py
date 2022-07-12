@@ -9,7 +9,7 @@ from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
 from unittest.mock import patch
 
-from django_adminlte_2.templatetags import sidebar_menu
+from adminlte2_pdq.templatetags import sidebar_menu
 
 UserModel = get_user_model()
 
@@ -103,7 +103,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_login_required_from_direct_assignment(self):
         """Test get permissions from node pulls login_required from direct assignment"""
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -119,7 +119,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_login_required_from_view_function(self):
         """Test get permissions from node pulls login_required from view function"""
         node = {
-            'route': 'django_adminlte_2:sample_form',
+            'route': 'adminlte2_pdq:sample_form',
             'text': 'Sample Form',
             'icon': 'fa fa-file',
         }
@@ -134,7 +134,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_login_required_value_from_node_over_view_function_when_both_set(self):
         """Test get permissions from node pulls login required value from node over view function when both set"""
         node = {
-            'route': 'django_adminlte_2:sample_form',
+            'route': 'adminlte2_pdq:sample_form',
             'text': 'Sample Form',
             'icon': 'fa fa-file',
             'login_required': False,
@@ -166,7 +166,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_returns_false_when_not_set_on_the_node(self):
         """Test get permissions from node returns false when not set on the node"""
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'),
             'text': 'Home',
             'icon': 'fa fa-dashboard',
         }
@@ -219,7 +219,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_permissions_from_direct_assigned_permissions(self):
         """Test get permissions from node pulls permissions from direct assigned permissions"""
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['add_sample1', 'update_sample1'],
@@ -235,7 +235,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_permissions_from_view_function(self):
         """Test get permissions from node pulls permissions from view function"""
         node = {
-            'route': 'django_adminlte_2:sample1',
+            'route': 'adminlte2_pdq:sample1',
             'text': 'Sample1',
             'icon': 'fa fa-group',
         }
@@ -250,7 +250,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
         """Test get permissions from node pulls permissions from node over view function when both set"""
         node = {
-            'route': 'django_adminlte_2:sample1',
+            'route': 'adminlte2_pdq:sample1',
             'text': 'Sample1',
             'icon': 'fa fa-group',
             'permissions': [],
@@ -282,7 +282,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_returns_permissions_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
         """Test get permissions from node returns permissions empty list when there are no defined permissions on the node"""
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'),
             'text': 'Home',
             'icon': 'fa fa-dashboard',
         }
@@ -334,7 +334,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_one_of_permissions_from_direct_assigned_permissions(self):
         """Test get permissions from node pulls one of permissions from direct assigned permissions"""
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['add_sample2', 'update_sample2'],
@@ -351,7 +351,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_one_of_permissions_from_view_function(self):
         """Test get permissions from node pulls one of permissions from view function"""
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -367,7 +367,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_pulls_one_of_permissions_from_node_over_view_function_when_both_set(self):
         """Test get permissions from node pulls one of permissions from node over view function when both set"""
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
             'one_of_permissions': [],
@@ -400,7 +400,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_get_permissions_from_node_returns_one_of_permission_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
         """Test get permissions from node returns one of permission empty list when there are no defined permissions on the node"""
         node = {
-            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+            'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'),
             'text': 'Home',
             'icon': 'fa fa-dashboard',
         }
@@ -453,7 +453,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_ensure_node_has_url_property_works_when_node_has_url_property_defined(self):
         """Test ensure node has url property works when node has url property defined"""
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
             'url': '/foobar/'
@@ -466,7 +466,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     def test_ensure_node_has_url_property_adds_url_property_from_valid_route(self):
         """Test ensure node has url property adds url property from valid route"""
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -513,11 +513,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test check_for_login_whitelisted_node
     # |-------------------------------------------------------------------------
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:sample_form'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:sample_form'])
     def test_check_for_login_whitelisted_node_returns_true_when_node_in_list(self):
         """Test check for strict whitelisted node returns true when node in list"""
         node = {
-            'route': 'django_adminlte_2:sample_form',
+            'route': 'adminlte2_pdq:sample_form',
             'text': 'Sample Form',
             'icon': 'fa fa-file',
         }
@@ -543,11 +543,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # | Test check_for_strict_whitelisted_node
     # |-------------------------------------------------------------------------
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:sample2'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:sample2'])
     def test_check_for_strict_whitelisted_node_returns_true_when_node_in_list(self):
         """Test check for strict whitelisted node returns true when node in list"""
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -708,7 +708,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_off_node_off"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -721,7 +721,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_login"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -735,7 +735,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -749,7 +749,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_off_node_one_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -761,12 +761,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login on - strict off
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_off(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_off"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -775,12 +775,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_login(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_login"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -790,12 +790,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -805,12 +805,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -822,13 +822,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login on - strict off - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_off_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -837,13 +837,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_off_node_login_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -853,13 +853,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -869,13 +869,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -887,12 +887,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login off - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_off"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -901,12 +901,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -916,12 +916,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -931,12 +931,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -948,13 +948,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login off - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -963,13 +963,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_login_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -979,13 +979,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_perm_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -995,13 +995,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_off_strict_on_node_one_perm_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1013,13 +1013,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login on - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1028,13 +1028,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1044,13 +1044,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1060,13 +1060,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1078,14 +1078,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login on - strict on - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1094,14 +1094,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_login_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1111,14 +1111,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1128,14 +1128,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1147,14 +1147,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login on - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_off_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1163,14 +1163,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1180,14 +1180,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1197,14 +1197,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1216,15 +1216,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Anonymous - login on - strict on - login whitelist on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_on_strict_on_node_off_login_wl_on_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1233,15 +1233,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_login_login_wl_on_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1251,15 +1251,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_perm_login_wl_on_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1269,15 +1269,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1297,7 +1297,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_staff_login_off_strict_off_node_off"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1310,7 +1310,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_staff_login_off_strict_off_node_login"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1324,7 +1324,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_off_node_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1338,7 +1338,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_off_node_one_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1350,12 +1350,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login on - strict off
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_off(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_off"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1364,12 +1364,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_login(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_login"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1379,12 +1379,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_perm(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1394,12 +1394,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_one_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1411,13 +1411,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login on - strict off - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_off_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1426,13 +1426,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_off_node_login_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1442,13 +1442,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1458,13 +1458,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1476,12 +1476,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login off - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_off"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1490,12 +1490,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_login_off_strict_on_node_login(self):
         """test_is_allowed_node_is_true_when_user_staff_login_off_strict_on_node_login"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1505,12 +1505,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_perm(self):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1520,12 +1520,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_one_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1537,13 +1537,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login off - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_off_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_off_strict_on_node_off_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1552,13 +1552,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_off_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_off_strict_on_node_login_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1568,13 +1568,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_perm_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1584,13 +1584,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_one_perm_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1602,13 +1602,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login on - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1617,13 +1617,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1633,13 +1633,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1649,13 +1649,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1667,14 +1667,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login on - strict on - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1683,14 +1683,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1700,14 +1700,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1717,14 +1717,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm_login_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1736,14 +1736,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login on - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1752,14 +1752,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1769,14 +1769,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1786,14 +1786,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1805,15 +1805,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In No Perm - login on - strict on - login whitelist on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_off_login_wl_on_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1822,15 +1822,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_login_on_strict_on_node_login_login_wl_on_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1840,15 +1840,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_perm_login_wl_on_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1858,15 +1858,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_false_when_user_staff_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_staffuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1886,7 +1886,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_off_node_off"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1899,7 +1899,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_off_node_login"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1913,7 +1913,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_off_node_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1927,7 +1927,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_off_node_one_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -1939,12 +1939,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login on - strict off
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_off(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_off"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -1953,12 +1953,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_login(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_login"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -1968,12 +1968,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_perm(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -1983,12 +1983,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_one_perm(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_one_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2000,13 +2000,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login on - strict off - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_off_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2015,13 +2015,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_login_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2031,13 +2031,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2047,13 +2047,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2065,12 +2065,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login off - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_false_when_user_staff_perm_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_staff_perm_login_off_strict_on_node_off"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2079,12 +2079,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertFalse(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_login(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_login"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2094,12 +2094,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_perm(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2109,12 +2109,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_one_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2126,13 +2126,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login off - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_off_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2141,13 +2141,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_login_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2157,13 +2157,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_perm_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2173,13 +2173,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_off_strict_on_node_one_perm_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2191,13 +2191,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login on - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2206,13 +2206,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2222,13 +2222,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2238,13 +2238,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2256,14 +2256,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login on - strict on - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2272,14 +2272,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2289,14 +2289,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2306,14 +2306,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2325,14 +2325,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login on - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2341,14 +2341,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2358,14 +2358,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2375,14 +2375,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2394,15 +2394,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Logged In All Perm - login on - strict on - login whitelist on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_off_login_wl_on_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2411,15 +2411,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_login_login_wl_on_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2429,15 +2429,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_perm_login_wl_on_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2447,15 +2447,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2475,7 +2475,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_off_node_off"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2488,7 +2488,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_off_node_login"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2502,7 +2502,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_off_node_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2516,7 +2516,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_off_node_one_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2528,12 +2528,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login on - strict off
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_off(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_off"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2542,12 +2542,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_login(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_login"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2557,12 +2557,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_perm(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2572,12 +2572,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_one_perm(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_one_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2589,13 +2589,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login on - strict off - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_off_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2604,13 +2604,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_login_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2620,13 +2620,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2636,13 +2636,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_off_node_perm_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2654,12 +2654,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login off - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_off"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2668,12 +2668,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_login(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_login"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2683,12 +2683,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_perm(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2698,12 +2698,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_one_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2715,13 +2715,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login off - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_off_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2730,13 +2730,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_login_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2746,13 +2746,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_perm_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2762,13 +2762,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_off_strict_on_node_one_perm_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2780,13 +2780,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login on - strict on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2795,13 +2795,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2811,13 +2811,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2827,13 +2827,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2845,14 +2845,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login on - strict on - login whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2861,14 +2861,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2878,14 +2878,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2895,14 +2895,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2914,14 +2914,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login on - strict on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -2930,14 +2930,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -2947,14 +2947,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -2964,14 +2964,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -2983,15 +2983,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     # Superuser - login on - strict on - login whitelist on - strict whitelist on
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_off_login_wl_on_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
         }
@@ -3000,15 +3000,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_login_login_wl_on_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'login_required': True,
@@ -3018,15 +3018,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_perm_login_wl_on_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'permissions': ['auth.add_group'],
@@ -3036,15 +3036,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertTrue(allowed)
 
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['django_adminlte_2:demo-css'])
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY', True)
-    @patch('django_adminlte_2.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['django_adminlte_2:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
     def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_superuser()
         node = {
-            'route': 'django_adminlte_2:demo-css',
+            'route': 'adminlte2_pdq:demo-css',
             'text': 'Demo CSS',
             'icon': 'fa fa-file',
             'one_of_permissions': ['auth.add_group'],
@@ -3065,7 +3065,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         nodes = [
             {
-                'route': 'django_adminlte_2:sample2',
+                'route': 'adminlte2_pdq:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -3081,7 +3081,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3112,7 +3112,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         nodes = [
             {
-                'route': 'django_adminlte_2:sample2',
+                'route': 'adminlte2_pdq:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -3136,7 +3136,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -3166,7 +3166,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3190,7 +3190,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         nodes = [
             {
-                'route': 'django_adminlte_2:sample2',
+                'route': 'adminlte2_pdq:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -3214,7 +3214,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -3244,7 +3244,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3283,7 +3283,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node with a match"""
         nodes = [
             {
-                'route': 'django_adminlte_2:sample2',
+                'route': 'adminlte2_pdq:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -3307,7 +3307,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -3337,7 +3337,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3361,7 +3361,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         node without a match"""
         nodes = [
             {
-                'route': 'django_adminlte_2:sample2',
+                'route': 'adminlte2_pdq:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             }
@@ -3385,7 +3385,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -3415,7 +3415,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-cube',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3465,7 +3465,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3545,7 +3545,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3630,7 +3630,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3645,7 +3645,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'text': 'First',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample1',
+                        'route': 'adminlte2_pdq:sample1',
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
@@ -3733,7 +3733,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3748,7 +3748,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'text': 'Last',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample1',
+                        'route': 'adminlte2_pdq:sample1',
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
@@ -3836,7 +3836,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'icon': 'fa fa-leaf',
                         'nodes': [
                             {
-                                'route': 'django_adminlte_2:sample2',
+                                'route': 'adminlte2_pdq:sample2',
                                 'text': 'Sample2',
                                 'icon': 'fa fa-building',
                             },
@@ -3851,7 +3851,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'text': 'First',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:demo-css',
+                        'route': 'adminlte2_pdq:demo-css',
                         'text': 'DemoCSS',
                         'icon': 'fa fa-building-o',
                     }
@@ -3864,7 +3864,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'text': 'Last',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample1',
+                        'route': 'adminlte2_pdq:sample1',
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
@@ -3949,7 +3949,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                     'icon': 'fa fa-leaf',
                     'nodes': [
                         {
-                            'route': 'django_adminlte_2:sample2',
+                            'route': 'adminlte2_pdq:sample2',
                             'text': 'Sample2',
                             'icon': 'fa fa-building',
                         },
@@ -4007,7 +4007,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
@@ -4055,7 +4055,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-leaf',
             'nodes': [
                 {
-                    'route': 'django_adminlte_2:sample2',
+                    'route': 'adminlte2_pdq:sample2',
                     'text': 'Sample2',
                     'icon': 'fa fa-building',
                 },
@@ -4102,7 +4102,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'text': 'Sample Tree',
             'nodes': [
                 {
-                    'route': 'django_adminlte_2:sample2',
+                    'route': 'adminlte2_pdq:sample2',
                     'text': 'Sample2',
                     'icon': 'fa fa-building',
                 },
@@ -4146,7 +4146,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'icon': 'fa fa-building',
         }
@@ -4182,7 +4182,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
         }
 
@@ -4217,7 +4217,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'hook': 'tests.utils.valid_string_hook_function',
             'hook_args': ['foo'],
@@ -4255,7 +4255,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         self._setup_staffuser('add_permission')
 
         node = {
-            'route': 'django_adminlte_2:sample2',
+            'route': 'adminlte2_pdq:sample2',
             'text': 'Sample2',
             'hook': 'tests.utils.valid_tuple_hook_function',
             'hook_args': ['foo'],

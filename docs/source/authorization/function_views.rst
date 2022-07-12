@@ -5,7 +5,7 @@ Authorizing Function Based Views
 Decorators
 ==========
 
-There are three decorators provided by Django-AdminLTE-2 that can be used on a
+There are three decorators provided by Django-AdminLTE2-PDQ that can be used on a
 function-based view to control whether a user:
 
 * Has access to the decorated view.
@@ -17,21 +17,21 @@ Those decorators are:
 
   .. code:: python
 
-      from django_adminlte_2.decorators import login_required
+      from adminlte2_pdq.decorators import login_required
 
 * :ref:`authorization/function_views:permission required decorator` imported
   with
 
   .. code:: python
 
-      from django_adminlte_2.decorators import permission_required
+      from adminlte2_pdq.decorators import permission_required
 
 * :ref:`authorization/function_views:permission required one decorator` imported
   with
 
   .. code:: python
 
-      from django_adminlte_2.decorators import permission_required_one
+      from adminlte2_pdq.decorators import permission_required_one
 
 
 Login Required Decorator
@@ -52,7 +52,7 @@ they will see the sidebar link and have access.
 
 .. code:: python
 
-    from django_adminlte_2.decorators import login_required
+    from adminlte2_pdq.decorators import login_required
 
     @login_required
     def demo_css(request):
@@ -80,7 +80,7 @@ sidebar link and have access.
 
 .. code:: python
 
-    from django_adminlte_2.decorators import permission_required
+    from adminlte2_pdq.decorators import permission_required
 
     @permission_required([
         'auth.add_group',
@@ -121,7 +121,7 @@ permissions, they will see the sidebar link and have access.
 
 .. code:: python
 
-    from django_adminlte_2.decorators import permission_required_one
+    from adminlte2_pdq.decorators import permission_required_one
 
     @permission_required_one([
         'auth.add_permission',
@@ -240,7 +240,7 @@ Below is all the code required to generate these views.
 .. code:: python
 
     from django.shortcuts import render
-    from django_adminlte_2.decorators import (
+    from adminlte2_pdq.decorators import (
         login_required,
         permission_required,
         permission_required_one,
@@ -462,7 +462,7 @@ Below is all the code required to generate these views.
 .. code:: python
 
     from django.shortcuts import render
-    from django_adminlte_2.decorators import (
+    from adminlte2_pdq.decorators import (
         login_required,
         permission_required,
         permission_required_one,

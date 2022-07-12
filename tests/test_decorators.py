@@ -7,7 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.test import TestCase, RequestFactory
-from django_adminlte_2.decorators import (
+from adminlte2_pdq.decorators import (
     login_required,
     permission_required,
     permission_required_one

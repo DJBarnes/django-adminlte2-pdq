@@ -1,4 +1,4 @@
-"""Django-AdminLTE-2 Middleware"""
+"""Django-AdminLTE2-PDQ Middleware"""
 
 # System Imports.
 import warnings
@@ -45,7 +45,7 @@ class AuthMiddleware:
 
     def __call__(self, request):
         assert hasattr(request, 'user'), (
-            'The Django-AdminLTE-2 AuthMiddleware'
+            'The Django-AdminLTE2-PDQ AuthMiddleware'
             ' requires authentication middleware to be installed. Edit your'
             ' MIDDLEWARE_CLASSES setting to insert'
             ' "django.contrib.auth.middleware.AuthenticationMiddleware". If that doesn\'t'

@@ -27,7 +27,7 @@
     {% include 'adminlte2/partials/_styles.html' %}
   {% endblock global_stylesheets %}
   {# Conflicts is here because must override all previous library css. #}
-  <link rel="stylesheet" type="text/css" href="{% static 'django_adminlte_2/conflicts/conflicts.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/conflicts/conflicts.css' %}">
   {% block page_stylesheets %}
   {% endblock page_stylesheets %}
 
@@ -35,7 +35,7 @@
     {% include 'adminlte2/partials/_scripts.html' %}
   {% endblock global_javascript_head %}
   {# Conflicts is here because must override all previous library js. #}
-  <script src="{% static 'django_adminlte_2/conflicts/conflicts.js' %}"></script>
+  <script src="{% static 'adminlte2_pdq/conflicts/conflicts.js' %}"></script>
   {% block page_javascript_head %}
   {% endblock page_javascript_head %}
 </head>
@@ -51,7 +51,7 @@
 >
   {% block sidebar_state %}
     {# NOTE: Must be here so that it can be executed as soon as the body tag is rendered. #}
-    <script src="{% static 'django_adminlte_2/extra-features/sidebar-state.js' %}"></script>
+    <script src="{% static 'adminlte2_pdq/extra-features/sidebar-state.js' %}"></script>
   {% endblock sidebar_state %}
   {% block body %}
     <div class="wrapper">

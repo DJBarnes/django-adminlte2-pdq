@@ -6,14 +6,14 @@ from django.conf import settings
 from django.urls import path
 from django.views.generic import RedirectView
 
-app_name = 'django_adminlte_2'
+app_name = 'adminlte2_pdq'
 urlpatterns = [
     # Redirects to the home page
     path('', RedirectView.as_view(
         pattern_name=getattr(
             settings,
             'ADMINLTE2_HOME_ROUTE',
-            'django_adminlte_2:home'
+            'adminlte2_pdq:home'
         ),
         permanent=False
     )),

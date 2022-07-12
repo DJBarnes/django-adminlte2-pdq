@@ -14,12 +14,12 @@ Static Menu Example
             'text': 'Home',
             'nodes': [
                 {
-                    'route': 'django_adminlte_2:home',
+                    'route': 'adminlte2_pdq:home',
                     'text': 'Home',
                     'icon': 'fa fa-dashboard',
                 },
                 {
-                    'route': 'django_adminlte_2:demo-css',
+                    'route': 'adminlte2_pdq:demo-css',
                     'text': 'Demo CSS',
                     'icon': 'fa fa-file'
                 },
@@ -39,7 +39,7 @@ Static Menu Example
             'text': 'Samples',
             'nodes': [
                 {
-                    'route': 'django_adminlte_2:sample1',
+                    'route': 'adminlte2_pdq:sample1',
                     'text': 'Sample1',
                     'icon': 'fa fa-group',
                 },
@@ -48,7 +48,7 @@ Static Menu Example
                     'icon': 'fa fa-leaf',
                     'nodes': [
                         {
-                            'route': 'django_adminlte_2:sample2',
+                            'route': 'adminlte2_pdq:sample2',
                             'text': 'Sample2',
                             'icon': 'fa fa-building',
                         },
@@ -58,7 +58,7 @@ Static Menu Example
         },
     ]
 
-.. image:: ../../img/menu/django-adminlte-2-static-menu.png
+.. image:: ../../img/menu/django-adminlte2-pdq-static-menu.png
     :alt: Site with static menu using settings
 
 
@@ -78,12 +78,12 @@ Dynamic and Static Menu Example
             'text': 'Home',
             'nodes': [
                 {
-                    'route': 'django_adminlte_2:home',
+                    'route': 'adminlte2_pdq:home',
                     'text': 'Home',
                     'icon': 'fa fa-dashboard',
                 },
                 {
-                    'route': 'django_adminlte_2:demo-css',
+                    'route': 'adminlte2_pdq:demo-css',
                     'text': 'Demo CSS',
                     'icon': 'fa fa-file'
                 },
@@ -150,5 +150,5 @@ Dynamic and Static Menu Example
     <h1>This is the Dynamic page!</h1>
     {% endblock content %}
 
-.. image:: ../../img/menu/django-adminlte-2-dynamic-menu.png
+.. image:: ../../img/menu/django-adminlte2-pdq-dynamic-menu.png
     :alt: Site with static and dynamic menu using settings and context

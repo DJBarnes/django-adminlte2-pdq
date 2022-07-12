@@ -1,8 +1,8 @@
-# Django-AdminLTE-2
+# Django-AdminLTE2-PDQ
 
-**Django-AdminLTE-2** is a [Django](https://www.djangoproject.com/) app
+**Django-AdminLTE2-PDQ** is a [Django](https://www.djangoproject.com/) app
 that takes all of the work out of making a beautiful and functional web
-application using the
+application pretty darn quickly (PDQ) using the
 [AdminLTE2](https://adminlte.io/themes/AdminLTE/index2.html)
 theme.
 
@@ -26,35 +26,35 @@ Features include:
 * Highly configurable functionality, via project
   [Django settings variables](https://docs.djangoproject.com/en/dev/topics/settings/).
 
-The full documentation can be found on [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/).
+The full documentation can be found on [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/).
 
-![django-adminlte-2-static-menu](https://user-images.githubusercontent.com/4390026/174349983-70984453-1aa5-4976-8749-fadd9028a94c.png)
+![django-adminlte2-pdq-static-menu](https://user-images.githubusercontent.com/4390026/174349983-70984453-1aa5-4976-8749-fadd9028a94c.png)
 
 ## Quickstart
 
 1.  Install the Django App via GitHub for now. Working on getting on Pypi soon.
     ```shell
-    python -m pip install django-adminlte-2
+    python -m pip install django-adminlte2-pdq
     ```
 
-2.  Add "django_adminlte_2" to your INSTALLED_APPS setting like this:
+2.  Add "adminlte2_pdq" to your INSTALLED_APPS setting like this:
     ```python
     INSTALLED_APPS = [
-        'django_adminlte_2',
+        'adminlte2_pdq',
         ...
     ]
     ```
 
     ---
     :information_source: **NOTE**
-    The **django_adminlte_2** app should be listed before any Django apps so
+    The **adminlte2_pdq** app should be listed before any Django apps so
     that template overriding works correctly. Additionally, if you plan to
-    override any Django-AdminLTE-2 templates, they should be listed above
-    the **django_adminlte_2 app**.
+    override any Django-AdminLTE2-PDQ templates, they should be listed above
+    the **adminlte2_pdq app**.
 
     ---
 
-3.  Django-AdminLTE-2 provides a middleware that is required for some of the
+3.  Django-AdminLTE2-PDQ provides a middleware that is required for some of the
     available authentication and authorization scenarios from this package to
     function.
 
@@ -64,29 +64,29 @@ The full documentation can be found on [Read The Docs](https://django-adminlte-2
     in your ``settings.py`` file.
     For more information about the various scenarios and associated settings
     refer to the full documentation on
-    [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/authorization/policies.html).
+    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html).
 
     ```python
 
        MIDDLEWARE = [
            ...
-           'django_adminlte_2.middleware.AuthMiddleware',
+           'adminlte2_pdq.middleware.AuthMiddleware',
        ]
     ```
 
     ---
     :information_source: **NOTE**
-    Django-AdminLTE-2 has been configured out of the box to get you set up
+    Django-AdminLTE2-PDQ has been configured out of the box to get you set up
     and running as fast as possible. As a result, the settings surrounding
     authentication and authorization are not as strict as they could be.
     We **strongly** encourage you to read the Authentication and Authorization
     section on
-    [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/authorization/policies.html)
+    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html)
     once you get the basics of this package working.
 
     ---
 
-4.  Django-AdminLTE-2 provides templates for django's account routes and some
+4.  Django-AdminLTE2-PDQ provides templates for django's account routes and some
     sample routes. Add the routes to your URLconf if you want to use them.
     ```python
     from django.contrib import admin
@@ -94,7 +94,7 @@ The full documentation can be found on [Read The Docs](https://django-adminlte-2
 
     urlpatterns = [
         # Adminlte2 default routes for demo purposes
-        path('', include('django_adminlte_2.urls')),
+        path('', include('adminlte2_pdq.urls')),
         # Django Account Routes - Styled in AdminLTE2
         path('accounts/', include('django.contrib.auth.urls')),
         # Admin - Styled in Django but hosted in AdminLTE2 layout
@@ -104,31 +104,31 @@ The full documentation can be found on [Read The Docs](https://django-adminlte-2
 
 5.  Ensure that the login redirect will work.
     ```python
-    LOGIN_REDIRECT_URL = 'django_adminlte_2:home'
+    LOGIN_REDIRECT_URL = 'adminlte2_pdq:home'
     ```
     ---
     :information_source: **NOTE**
-    Django-AdminLTE-2 does not include a route or templates for
+    Django-AdminLTE2-PDQ does not include a route or templates for
     `/accounts/profile` which is the default
     [Django Login redirect.](https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url)
     Adding the above entry to your `settings.py` file
     will allow successful logins to redirect to the sample home page
-    included in Django-AdminLTE-2 until a proper profile route is set up.
+    included in Django-AdminLTE2-PDQ until a proper profile route is set up.
 
     ---
 
 6.  Update ``settings.py`` to customize the look and feel of
-    **Django-AdminLTE-2**. Common configuration options are listed below in the
+    **Django-AdminLTE2-PDQ**. Common configuration options are listed below in the
     [configuration section](#configuration).
 
     For the full list of configuration options refer to the documentation on
-    [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/configuration/home.html).
+    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/configuration/home.html).
 
 7. Override templates to further customize the look and feel of
-   **Django-AdminLTE-2**.
+   **Django-AdminLTE2-PDQ**.
 
    See the Templates section on
-   [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/templates/templates.html)
+   [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/templates/templates.html)
    for more information.
 
 ## Configuration
@@ -138,7 +138,7 @@ The full documentation can be found on [Read The Docs](https://django-adminlte-2
 Set the "Home" route for your project. This tells the package where to redirect
 users when they click a link that is designed to take the user home.
 ```python
-ADMINLTE2_HOME_ROUTE = 'django_adminlte_2:home'
+ADMINLTE2_HOME_ROUTE = 'adminlte2_pdq:home'
 ```
 
 Set the Logo text for your site. This will be shown in the top left of the top
@@ -185,7 +185,7 @@ group.
 These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
 **Admin Menu**.
 More information about these groups can be found on the
-[Read The Docs Admin page](https://django-adminlte-2.readthedocs.io/en/latest/menu/general_information.html).
+[Read The Docs Admin page](https://django-adminlte2-pdq.readthedocs.io/en/latest/menu/general_information.html).
 If you would like to disable this
 separator from being automatically rendered, set this value to ``False``.
 ```python
@@ -195,7 +195,7 @@ ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
 This setting is the definition for the main navigation menu.
 There are a lot of options when creating this menu.
 See the
-[Read The Docs Menu page](https://django-adminlte-2.readthedocs.io/en/latest/menu/general_information.html)
+[Read The Docs Menu page](https://django-adminlte2-pdq.readthedocs.io/en/latest/menu/general_information.html)
 for a detailed explanation of how to
 create this menu and all of the available options that can be used.
 ```python
@@ -211,7 +211,7 @@ set this value to ``True``.
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = (True/False)
 ```
 
-By default, Django-AdminLTE-2 will put the Apps on the Admin Index page
+By default, Django-AdminLTE2-PDQ will put the Apps on the Admin Index page
 into AdminLTE Info Boxes. Setting this to ``True`` will change that look
 to the traditional Django list view, but still within the main AdminLTE site
 styling.

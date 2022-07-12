@@ -261,8 +261,8 @@ def get_logout_url():
 
 @register.simple_tag()
 def get_home_url():
-    """Get the home URL from the settings and default to the django_adminlte_2 home."""
-    return reverse(getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'))
+    """Get the home URL from the settings and default to the adminlte2_pdq home."""
+    return reverse(getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'))
 
 
 @register.simple_tag()

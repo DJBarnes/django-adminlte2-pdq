@@ -1,4 +1,4 @@
-django\_adminlte\_2 package
+adminlte2\_pdq package
 ***************************
 
 Subpackages
@@ -7,31 +7,31 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   django_adminlte_2.templatetags
+   adminlte2_pdq.templatetags
 
 Submodules
 ==========
 
-django\_adminlte\_2.decorators module
+adminlte2\_pdq.decorators module
 =====================================
 
-.. automodule:: django_adminlte_2.decorators
+.. automodule:: adminlte2_pdq.decorators
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.mixins module
+adminlte2\_pdq.mixins module
 =================================
 
-.. automodule:: django_adminlte_2.mixins
+.. automodule:: adminlte2_pdq.mixins
    :members:
    :undoc-members:
    :show-inheritance:
 
-django\_adminlte\_2.views module
+adminlte2\_pdq.views module
 ================================
 
-.. automodule:: django_adminlte_2.views
+.. automodule:: adminlte2_pdq.views
    :members:
    :undoc-members:
    :show-inheritance:

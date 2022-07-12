@@ -2,12 +2,12 @@
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from django_adminlte_2.decorators import (
+from adminlte2_pdq.decorators import (
     login_required,
     permission_required,
     permission_required_one,
 )
-from django_adminlte_2.forms import SampleForm
+from adminlte2_pdq.forms import SampleForm
 
 
 def home(request):
@@ -92,5 +92,5 @@ def view_404(request, exception):
     """Redirect to home page"""
     messages.warning(request, "The page you were looking for does not exist.")
     messages.debug(request, str(exception))
-    home_route = getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home')
+    home_route = getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home')
     return redirect(home_route)

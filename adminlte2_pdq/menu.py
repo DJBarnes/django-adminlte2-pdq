@@ -7,12 +7,12 @@ MENU = [
         'text': 'Home',
         'nodes': [
             {
-                'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'django_adminlte_2:home'),
+                'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'),
                 'text': 'Home',
                 'icon': 'fa fa-dashboard',
             },
             {
-                'route': 'django_adminlte_2:demo-css',
+                'route': 'adminlte2_pdq:demo-css',
                 'text': 'Demo CSS',
                 'icon': 'fa fa-file'
             },
@@ -32,12 +32,12 @@ MENU = [
         'text': 'Samples',
         'nodes': [
             {
-                'route': 'django_adminlte_2:sample_form',
+                'route': 'adminlte2_pdq:sample_form',
                 'text': 'Sample Form',
                 'icon': 'fa fa-list-alt',
             },
             {
-                'route': 'django_adminlte_2:sample1',
+                'route': 'adminlte2_pdq:sample1',
                 'text': 'Sample1',
                 'icon': 'fa fa-group',
             },
@@ -46,7 +46,7 @@ MENU = [
                 'icon': 'fa fa-leaf',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },

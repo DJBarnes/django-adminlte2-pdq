@@ -17,11 +17,11 @@ from django.contrib import admin
 from django.urls import include, path
 
 # Will use the custom 404 provided by the package.
-handler404 = 'django_adminlte_2.views.view_404'
+handler404 = 'adminlte2_pdq.views.view_404'
 
 urlpatterns = [
     # Adminlte2
-    path('', include('django_adminlte_2.urls')),
+    path('', include('adminlte2_pdq.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     # Admin
     path('admin/', admin.site.urls),

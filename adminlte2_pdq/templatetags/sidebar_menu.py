@@ -9,14 +9,14 @@ from django.http import Http404
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
 
-from django_adminlte_2.constants import (
+from adminlte2_pdq.constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     STRICT_POLICY,
     STRICT_POLICY_WHITELIST,
 )
-from django_adminlte_2.menu import MENU
-from django_adminlte_2.templatetags.admin.admin_menu import AdminMenu
+from adminlte2_pdq.menu import MENU
+from adminlte2_pdq.templatetags.admin.admin_menu import AdminMenu
 
 register = template.Library()
 

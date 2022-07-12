@@ -9,7 +9,7 @@ from django.contrib import messages
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
-from django_adminlte_2 import views
+from adminlte2_pdq import views
 
 UserModel = get_user_model()  # pylint: disable=invalid-name
 MOCK_SITE = {'name': 'Website', 'domain': 'www.example.com'}
@@ -113,7 +113,7 @@ class ViewsTestCase(TestCase):
                 getattr(
                     settings,
                     'ADMINLTE2_HOME_ROUTE',
-                    'django_adminlte_2:home'
+                    'adminlte2_pdq:home'
                 )
             ),
             follow=True
@@ -124,7 +124,7 @@ class ViewsTestCase(TestCase):
     def test_register_view_works_when_not_authenticated(self):
         """Test register view works when not authenticated"""
         response = self.client.get(
-            reverse('django_adminlte_2:register'),
+            reverse('adminlte2_pdq:register'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -133,7 +133,7 @@ class ViewsTestCase(TestCase):
     def test_sample_form_view_redirects_to_login_when_not_authenticated(self):
         """Test sample_form view redirects to login when not authenticated"""
         response = self.client.get(
-            reverse('django_adminlte_2:sample_form'),
+            reverse('adminlte2_pdq:sample_form'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -144,7 +144,7 @@ class ViewsTestCase(TestCase):
     def test_sample1_view_redirects_to_login_when_not_authenticated(self):
         """Test sample1 view redirects to login when not authenticated"""
         response = self.client.get(
-            reverse('django_adminlte_2:sample1'),
+            reverse('adminlte2_pdq:sample1'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -155,7 +155,7 @@ class ViewsTestCase(TestCase):
     def test_sample2_view_redirects_to_login_when_not_authenticated(self):
         """Test sample2 view redirects to login when not authenticated"""
         response = self.client.get(
-            reverse('django_adminlte_2:sample2'),
+            reverse('adminlte2_pdq:sample2'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -167,7 +167,7 @@ class ViewsTestCase(TestCase):
         """Test sample1 view redirects to login when authenticated with incorrect permissions"""
         self.client.force_login(self.test_user_no_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:sample1'),
+            reverse('adminlte2_pdq:sample1'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -179,7 +179,7 @@ class ViewsTestCase(TestCase):
         """Test sample2 view redirects to login when authenticated with incorrect permissions"""
         self.client.force_login(self.test_user_no_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:sample2'),
+            reverse('adminlte2_pdq:sample2'),
             follow=True
         )
         self.assertEqual(response.status_code, 200)
@@ -191,7 +191,7 @@ class ViewsTestCase(TestCase):
         """Test sample_form view works when authenticated with no permissions"""
         self.client.force_login(self.test_user_no_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:sample_form')
+            reverse('adminlte2_pdq:sample_form')
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample form page!")
@@ -201,7 +201,7 @@ class ViewsTestCase(TestCase):
         """Test sample1 view works when authenticated with correct permissions"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:sample1')
+            reverse('adminlte2_pdq:sample1')
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample1 page!")
@@ -211,7 +211,7 @@ class ViewsTestCase(TestCase):
         """Test sample2 view works when authenticated with correct permissions"""
         self.client.force_login(self.test_user_w_perms)
         response = self.client.get(
-            reverse('django_adminlte_2:sample2')
+            reverse('adminlte2_pdq:sample2')
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample2 page!")

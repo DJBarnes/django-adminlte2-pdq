@@ -213,7 +213,7 @@ This allows the ability to dynamically create the node's text.
 
 .. note::
 
-    Django-AdminLTE-2 will try to import the value for this key as a function
+    Django-AdminLTE2-PDQ will try to import the value for this key as a function
     and then invoke the function and use its results as the text for the node.
 
     The function should return either a string that will be used for both the
@@ -352,7 +352,7 @@ Node Example
 .. code:: python
 
     {
-        'route': 'django_adminlte_2:home',
+        'route': 'adminlte2_pdq:home',
         'text': 'Home',
         'icon': 'fa fa-dashboard',
     }
@@ -458,7 +458,7 @@ Tree Example with a Node
         'icon': 'fa fa-leaf',
         'nodes': [
             {
-                'route': 'django_adminlte_2:sample2',
+                'route': 'adminlte2_pdq:sample2',
                 'text': 'Sample2',
                 'icon': 'fa fa-building',
             },
@@ -479,7 +479,7 @@ Tree Example with sub-tree and a Node
                 'icon': 'fa fa-box',
                 'nodes': [
                     {
-                        'route': 'django_adminlte_2:sample2',
+                        'route': 'adminlte2_pdq:sample2',
                         'text': 'Sample2',
                         'icon': 'fa fa-building',
                     },
