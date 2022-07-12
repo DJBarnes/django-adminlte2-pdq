@@ -26,7 +26,7 @@ Features include:
 * Highly configurable functionality, via project
   [Django settings variables](https://docs.djangoproject.com/en/dev/topics/settings/).
 
-The full documentation can be found on [Read The Docs](#) (coming soon).
+The full documentation can be found on [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/).
 
 ![django-adminlte-2-static-menu](https://user-images.githubusercontent.com/4390026/174349983-70984453-1aa5-4976-8749-fadd9028a94c.png)
 
@@ -63,7 +63,8 @@ The full documentation can be found on [Read The Docs](#) (coming soon).
     Once installed the available scenarios are controlled by changing settings
     in your ``settings.py`` file.
     For more information about the various scenarios and associated settings
-    refer to the full documentation on [Read The Docs](#) (coming soon).
+    refer to the full documentation on
+    [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/authorization/policies.html).
 
     ```python
 
@@ -79,8 +80,9 @@ The full documentation can be found on [Read The Docs](#) (coming soon).
     and running as fast as possible. As a result, the settings surrounding
     authentication and authorization are not as strict as they could be.
     We **strongly** encourage you to read the Authentication and Authorization
-    section on [Read The Docs](#) (coming soon) once you get the basics of this
-    package working.
+    section on
+    [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/authorization/policies.html)
+    once you get the basics of this package working.
 
     ---
 
@@ -120,12 +122,14 @@ The full documentation can be found on [Read The Docs](#) (coming soon).
     [configuration section](#configuration).
 
     For the full list of configuration options refer to the documentation on
-    [Read The Docs](#).
+    [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/configuration/home.html).
 
 7. Override templates to further customize the look and feel of
    **Django-AdminLTE-2**.
 
-   See the Templates section on [Read The Docs](#) for more information.
+   See the Templates section on
+   [Read The Docs](https://django-adminlte-2.readthedocs.io/en/latest/templates/templates.html)
+   for more information.
 
 ## Configuration
 
@@ -181,7 +185,8 @@ group.
 These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
 **Admin Menu**.
 More information about these groups can be found on the
-[Read The Docs Admin page](#). If you would like to disable this
+[Read The Docs Admin page](https://django-adminlte-2.readthedocs.io/en/latest/menu/general_information.html).
+If you would like to disable this
 separator from being automatically rendered, set this value to ``False``.
 ```python
 ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
@@ -189,7 +194,9 @@ ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
 
 This setting is the definition for the main navigation menu.
 There are a lot of options when creating this menu.
-See the [Read The Docs Menu page](#) for a detailed explanation of how to
+See the
+[Read The Docs Menu page](https://django-adminlte-2.readthedocs.io/en/latest/menu/general_information.html)
+for a detailed explanation of how to
 create this menu and all of the available options that can be used.
 ```python
 ADMINLTE2_MENU = []
