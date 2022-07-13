@@ -1,5 +1,11 @@
 # Django-AdminLTE2-PDQ
 
+[![Documentation Status](https://readthedocs.org/projects/django-adminlte2-pdq/badge/?version=latest)](https://django-adminlte2-pdq.readthedocs.io/en/latest/?badge=latest)
+[![PyPI](https://img.shields.io/pypi/v/django-adminlte2-pdq?color=blue)](https://img.shields.io/pypi/v/django-adminlte2-pdq?color=blue)
+[![Python versions](https://img.shields.io/badge/python-%3E%3D3.7-brightgreen)](https://img.shields.io/badge/python-%3E%3D3.7-brightgreen)
+[![Django Versions](https://img.shields.io/badge/django-%3E%3D3-brightgreen)](https://img.shields.io/badge/django-%3E%3D3-brightgreen)
+[![GitHub](https://img.shields.io/github/license/DJBarnes/django-adminlte2-pdq)](https://img.shields.io/github/license/DJBarnes/django-adminlte2-pdq)
+
 **Django-AdminLTE2-PDQ** is a [Django](https://www.djangoproject.com/) app
 that takes all of the work out of making a beautiful and functional web
 application pretty darn quickly (PDQ) using the
