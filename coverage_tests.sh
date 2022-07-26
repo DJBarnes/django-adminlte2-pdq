@@ -33,20 +33,24 @@ cd "$DIR"
 #arg[2] = relativeFile from VSCode * Test file to run.
 args=("$@")
 
-if [ "${args[0]}" = "all_tests" ]; then
+location="$( pwd; )";
+action="${args[0]:-"all_tests"}"
+test_file="${args[2]}"
+
+if [ "${action}" = "all_tests" ]; then
     echo -e "${BLUE}Running All Tests With Coverage Report${NC}"
     pipenv run coverage run --source . runtests.py ${@:3}
     echo -e "${BLUE}Generating HTML${NC}"
-    pipenv run coverage html -d ${args[1]}/.adminlte2_pdq_coverage_html_report
-    echo -e "${BLUE}Output created and located in: ${ORANGE}${args[1]}/.djang_adminlte_2_coverage_html_report/index.html${NC}"
+    pipenv run coverage html -d ${location}/.django_adminlte2_pdq_coverage_html_report
+    echo -e "${BLUE}Report can be accessed at: ${ORANGE}file://${location}/.django_adminlte2_pdq_coverage_html_report/index.html${NC}"
     echo -e "${GREEN}Done!${NC}"
 fi
 
-if [ "${args[0]}" = "all_tests_lt_100" ]; then
+if [ "${action}" = "all_tests_lt_100" ]; then
     echo -e "${BLUE}Running All Tests With Less Than 100% Coverage Report${NC}"
     pipenv run coverage run --source . runtests.py ${@:3}
     echo -e "${BLUE}Generating HTML${NC}"
-    pipenv run coverage html --skip-covered -d ${args[1]}/.djang_adminlte_2_coverage_html_report
-    echo -e "${BLUE}Output created and located in: ${ORANGE}${args[1]}/.adminlte2_pdq_coverage_html_report/index.html${NC}"
+    pipenv run coverage html --skip-covered -d ${location}/.django_adminlte2_pdq_coverage_html_report
+    echo -e "${BLUE}Report can be accessed at: ${ORANGE}file://${location}/.django_adminlte2_pdq_coverage_html_report/index.html${NC}"
     echo -e "${GREEN}Done!${NC}"
 fi
