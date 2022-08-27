@@ -120,6 +120,7 @@ class AuthMiddleware:
                 current_url_name in STRICT_POLICY_WHITELIST
                 or fully_qualified_url_name in STRICT_POLICY_WHITELIST
                 or path in STRICT_POLICY_WHITELIST
+                or app_name == 'admin'
             ):
                 exempt = True
 

@@ -329,6 +329,25 @@ class MiddlewareTestCase(TestCase):
         self.assertContains(response, "Demo CSS")
 
     # **************************************************************************
+    # Logged In User - All Perms - Staff Status - Can see Admin page.
+    # **************************************************************************
+
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    def test_middleware_allows_admin_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on(self):
+        """test_middleware_allows_admin_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on"""
+        self.test_user_w_perms.is_staff = True
+        self.test_user_w_perms.save()
+        self.client.force_login(self.test_user_w_perms)
+        response = self.client.get(
+            reverse('admin:auth_user_changelist'),
+            follow=True
+        )
+        print(response.content.decode())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Select user to change")
+
+    # **************************************************************************
     # Logged In User - All Perms - Visiting 404
     # **************************************************************************
 
