@@ -80,14 +80,17 @@ class AuthMiddleware:
         app_name = resolver.app_name
         current_url_name = resolver.url_name
         fully_qualified_url_name = f"{app_name}:{current_url_name}"
-        if (
+        return (
             current_url_name in LOGIN_EXEMPT_WHITELIST
             or fully_qualified_url_name in LOGIN_EXEMPT_WHITELIST
             or path in LOGIN_EXEMPT_WHITELIST
-        ):
-            return True
+            or self.login_required_hook(request)
+        )
 
-        # Failed all tests, return False
+
+    def login_required_hook(self, request):
+        """Hook that can be overridden in subclasses to add additional ways
+        to pass the login required criteria. Should return either True or False."""
         return False
 
 
