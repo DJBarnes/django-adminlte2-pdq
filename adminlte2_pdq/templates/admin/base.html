@@ -22,6 +22,12 @@
   <!-- End Admin extrastyle -->
 {% endblock global_stylesheets %}
 
+{% block global_conflict_stylesheets %}
+  {{ block.super }}
+  {# Conflicts is here because must override all previous library css including django admin. #}
+  <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/conflicts/django-admin-conflicts.css' %}">
+{% endblock global_conflict_stylesheets %}
+
 {% block global_javascript_head %}
   {{ block.super }}
   <!-- Admin extrahead -->

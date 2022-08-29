@@ -52,6 +52,29 @@
     </div>
   </div>
 
+  {# Anchor Buttons #}
+  <div class="box box-solid box-default">
+    <div class="box-header with-border">
+      <h3 class="box-title">Anchor Buttons</h3>
+    </div>
+    <div class="box-body">
+      <div class="row">
+        <div class="col-sm-12">
+          <h4><i class="fa fa-hand-o-up"></i> Buttons</h4>
+        </div>
+      </div>
+      <div class="row">
+        {% for bootstrap_type in bootstrap_types %}
+          <div class="col-sm-2" style="margin-bottom:10px;">
+            <a href="#" class="btn btn-{{ bootstrap_type }}">
+              {{ bootstrap_type }}
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
   {# Buttons #}
   <div class="box box-solid box-default">
     <div class="box-header with-border">

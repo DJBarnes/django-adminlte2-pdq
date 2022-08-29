@@ -1,0 +1,104 @@
+/* Handle any CSS conflicts between the various libraries */
+
+/* Fix font-size in django admin which uses rem */
+html {
+    font-size: 16px;
+}
+
+/*
+The django admin css applies a blanket square style to 'ul li',
+this messes with our dropdown menus.
+*/
+ul.dropdown-menu li,
+ul.treeview-menu li {
+    list-style: none;
+    padding: initial;
+}
+
+/* Fix datepickers in django admin */
+.calendarbox, .clockbox {
+    z-index: 900;
+}
+
+/*
+Fix h1 tags in django admin by removing the django base css
+*/
+h1 {
+    margin: 0;
+    font-weight: 500;
+    color: inherit;
+}
+
+/*
+Fix headers in modals on django admin pages
+*/
+h4.modal-title {
+    font-size: initial;
+}
+
+/*
+Fix django admin where extra padding is added to nav-bar header from base.css
+*/
+ul.nav > li,
+ul.nav-bar-nav > li {
+    padding: 0;
+}
+
+/*
+Fix error lists in django admin so that the default does not have a style or margin
+*/
+.error-list > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Show scroll bars if form in django admin is too wide */
+fieldset.module {
+    overflow: auto;
+}
+
+/*
+Fix error in content with content-main div
+NOTE: Checked on 08-29-22 and seemed to make no difference. Left in case still needed.
+*/
+#content-main {
+    float: none;
+}
+
+/*
+Put django admin object tools closer to the filter so it doesn't clash with other elements.
+*/
+.object-tools {
+    margin-top: 0px;
+    position: inherit;
+    margin:  0 15px 15px 15px;
+}
+
+/*
+Fix error in django admin where delete button and cancel button were not tall enough
+*/
+.submit-row a.deletelink {
+    height: auto;
+    color: #fff;
+}
+
+.delete-confirmation form a.cancel-link {
+    height: auto;
+}
+
+/*
+Bootstrap has a class 'collapse' that hides the element.
+This conflicts with the django admin that uses 'collapse' to signify
+that an element can be 'collapsed' but isn't always hidden.
+*/
+.admin-change-form .collapse {
+    display: block;
+}
+/*
+In django admin, for some reason the text that is str(object) above inlines is
+cut off because the height is only 1.1em. I reset it to initial here to fix that.
+*/
+.inline-group .tabular td.original p {
+    height: initial;
+}
