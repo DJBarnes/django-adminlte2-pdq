@@ -136,7 +136,7 @@ Get the logout URL from the settings.
 
 .. code:: html+django
 
-    {{ get_logout_url }}
+    {% get_logout_url %}
 
 get_home_url
 ============
@@ -149,7 +149,95 @@ Get the home URL from the settings and default to the adminlte2_pdq home.
 
 .. code:: html+django
 
-    {{ get_home_url }}
+    {% get_home_url %}
+
+get_logo_text
+=============
+
+Get the Logo Text from the settings and default to <b>Admin</b>LTE.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_logo_text %}
+
+get_logo_text_small
+===================
+
+Get the Small Logo Text from the settings and default to <b>A</b>LTE.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_logo_text_small %}
+
+get_skin_class
+==============
+
+Get the AdminLTE2 skin-class from the settings and default to skin-blue.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_skin_class %}
+
+get_datetime_widget
+===================
+
+Get the HTML5 / JS datetime widget from the settings and default to 'native'
+This will get the widget to use when showing a DateTime field in a form.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_datetime_widget %}
+
+get_date_widget
+===============
+
+Get the HTML5 / JS date widget from the settings and default to 'native'
+This will get the widget to use when showing a DateTime field in a form.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_date_widget %}
+
+get_time_widget
+===============
+
+Get the HTML5 / JS time widget from the settings and default to 'native'
+This will get the widget to use when showing a DateTime field in a form.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_time_widget %}
+
 
 get_avatar_url
 ==============
@@ -175,7 +263,7 @@ This function will get the profile email in this order:
 
 .. code:: html+django
 
-    {{ get_avatar_url }}
+    {% get_avatar_url %}
 
 user_image_initials
 ===================
@@ -208,5 +296,5 @@ should be used.
 
 .. code:: html+django
 
-    {{ user_image_initials }}
+    {% user_image_initials %}
 

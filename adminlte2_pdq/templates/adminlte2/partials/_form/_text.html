@@ -2,33 +2,15 @@
 
 {% if field|fieldtype == "DateTimeInput" %}
 
-  {% block form_date_time_input %}
-    {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local'|with_list:field.datalist.name }}
-    {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'datetime-local' }}
-    {% endif %}
-  {% endblock form_date_time_input %}
+  {% include "adminlte2/partials/_form/_datetime.html" %}
 
 {% elif field|fieldtype == "DateInput" %}
 
-  {% block form_date_input %}
-    {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date'|with_list:field.datalist.name }}
-    {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'date' }}
-    {% endif %}
-  {% endblock form_date_input %}
+  {% include "adminlte2/partials/_form/_date.html" %}
 
 {% elif field|fieldtype == "TimeInput" %}
 
-  {% block form_time_input %}
-    {% if field.datalist %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time'|with_list:field.datalist.name }}
-    {% else %}
-      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time' }}
-    {% endif %}
-  {% endblock form_time_input %}
+  {% include "adminlte2/partials/_form/_time.html" %}
 
 {% elif field.phone_info %}
 

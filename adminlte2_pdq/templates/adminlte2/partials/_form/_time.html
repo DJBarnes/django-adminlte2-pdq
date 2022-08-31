@@ -1,0 +1,24 @@
+{% load adminlte_tags adminlte_filters %}
+{% block form_time_input %}
+
+  {% get_time_widget as TIME_WIDGET %}
+  {% if TIME_WIDGET == 'jquery' %}
+    <div class="input-group">
+      {% if field.datalist %}
+        {{ field|with_class:"form-control"|with_placeholder|with_list:field.datalist.name }}
+      {% else %}
+        {{ field|with_class:"form-control"|with_placeholder }}
+      {% endif %}
+      <span class="input-group-addon" id="basic-addon1">
+        <i class="glyphicon glyphicon-time"></i>
+      </span>
+    </div>
+  {% else %}
+    {% if field.datalist %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time'|with_list:field.datalist.name }}
+    {% else %}
+      {{ field|with_class:"form-control"|with_placeholder|with_input_type:'time' }}
+    {% endif %}
+  {% endif %}
+
+{% endblock form_time_input %}

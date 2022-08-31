@@ -1,6 +1,9 @@
-{% load static %}
+{% load adminlte_tags static %}
 
 {% block styles %}
+  {% get_datetime_widget as DATETIME_WIDGET %}
+  {% get_date_widget as DATE_WIDGET %}
+  {% get_time_widget as TIME_WIDGET %}
   {% if debug %}
     <!-- bootstrap -->
     <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap/3.3.7/css/bootstrap.min.css' %}">
@@ -12,6 +15,11 @@
     <!-- AdminLTE -->
     <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/AdminLTE.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/skins/_all-skins.min.css' %}">
+    {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.css' %}">
+    {% elif DATE_WIDGET == 'bootstrap' %}
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+    {% endif %}
   {% else %}
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
@@ -23,6 +31,11 @@
     <!-- AdminLTE -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/AdminLTE.min.css" integrity="sha256-flo1BhZxHloxiG+WVTNYRMy6Nn3V+CyV1jLHZ2DoUxY=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/skins/_all-skins.css" integrity="sha256-mgkhNy4GDprfEqwRBmDzqzlhJFBS9K0yB9TSw7UoH5E=" crossorigin="anonymous" />
+    {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% elif DATE_WIDGET == 'bootstrap' %}
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% endif %}
   {% endif %}
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/extra-features/extra-features.css' %}">
 {% endblock styles %}

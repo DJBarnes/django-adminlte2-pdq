@@ -11,6 +11,8 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from adminlte2_pdq.constants import DATETIME_WIDGET, DATE_WIDGET, TIME_WIDGET
+
 logger = logging.getLogger(__name__)
 register = template.Library()
 
@@ -281,6 +283,24 @@ def get_logo_text_small():
 def get_skin_class():
     """Get the skin class to use from the settings and default to skin-blue"""
     return getattr(settings, 'ADMINLTE2_SKIN_CLASS', 'skin-blue')
+
+
+@register.simple_tag()
+def get_datetime_widget():
+    """Get a generic setting from the settings file"""
+    return DATETIME_WIDGET
+
+
+@register.simple_tag()
+def get_date_widget():
+    """Get a generic setting from the settings file"""
+    return DATE_WIDGET
+
+
+@register.simple_tag()
+def get_time_widget():
+    """Get a generic setting from the settings file"""
+    return TIME_WIDGET
 
 
 @register.simple_tag(takes_context=True)

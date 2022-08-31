@@ -357,7 +357,7 @@ def with_input_type(field, new_type):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|as_input_type:'date' %}
+            {% field|with_input_type:'date' %}
             {% field %}
         {% endfor %}
 

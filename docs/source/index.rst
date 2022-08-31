@@ -73,6 +73,7 @@ Features include:
    configuration/menu
    configuration/admin
    configuration/authorization
+   configuration/form
 
 
 .. toctree::
