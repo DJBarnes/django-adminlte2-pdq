@@ -133,11 +133,17 @@ class AuthMiddleware:
                 permissions = getattr(view_class, 'permission_required', [])
                 one_of_permissions = getattr(view_class, 'permission_required_one', [])
                 login_required = getattr(view_class, 'login_required', False)
+                view_name = view_class.__qualname__
+                view_type = 'class-based'
+                view_perm_type = 'attribute'
             else:
                 # Get attributes
                 permissions = getattr(view.func, 'permissions', [])
                 one_of_permissions = getattr(view.func, 'one_of_permissions', [])
                 login_required = getattr(view.func, 'login_required', False)
+                view_name = view.func.__qualname__
+                view_type = 'function-based'
+                view_perm_type = 'decorator'
 
             # If there are permissions, or login_required
             if exempt or permissions or one_of_permissions or login_required:
@@ -145,9 +151,9 @@ class AuthMiddleware:
 
             # Permissions or Login Required not set, add messages, warnings, and return False
             warning_message = (
-                f"The view '{view.func.__qualname__}' does not have the"
+                f"The {view_type} view '{view_name}' does not have the"
                 " permission_required, one_of_permission, or login_required"
-                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                f" {view_perm_type} set and the option ADMINLTE2_USE_STRICT_POLICY is"
                 " set to True. This means that this view is inaccessible until"
                 " either permissions are set on the view or the url_name for the"
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."

@@ -89,9 +89,9 @@ class MiddlewareTestCase(TestCase):
         """test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
             warning_message = (
-                "The view 'demo_css' does not have the"
+                "The function-based view 'demo_css' does not have the"
                 " permission_required, one_of_permission, or login_required"
-                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
                 " set to True. This means that this view is inaccessible until"
                 " either permissions are set on the view or the url_name for the"
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
@@ -137,9 +137,9 @@ class MiddlewareTestCase(TestCase):
         # Home is a new request that fails the login required being on and thus redirect to login page.
         with warnings.catch_warnings(record=True) as wa:
             warning_message = (
-                "The view 'demo_css' does not have the"
+                "The function-based view 'demo_css' does not have the"
                 " permission_required, one_of_permission, or login_required"
-                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
                 " set to True. This means that this view is inaccessible until"
                 " either permissions are set on the view or the url_name for the"
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
@@ -223,9 +223,9 @@ class MiddlewareTestCase(TestCase):
         with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
             warning_message = (
-                "The view 'demo_css' does not have the"
+                "The function-based view 'demo_css' does not have the"
                 " permission_required, one_of_permission, or login_required"
-                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
                 " set to True. This means that this view is inaccessible until"
                 " either permissions are set on the view or the url_name for the"
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
@@ -259,9 +259,9 @@ class MiddlewareTestCase(TestCase):
         with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
             warning_message = (
-                "The view 'demo_css' does not have the"
+                "The function-based view 'demo_css' does not have the"
                 " permission_required, one_of_permission, or login_required"
-                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
                 " set to True. This means that this view is inaccessible until"
                 " either permissions are set on the view or the url_name for the"
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
@@ -284,9 +284,9 @@ class MiddlewareTestCase(TestCase):
         with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
             warning_message = (
-                "The view 'demo_css' does not have the"
+                "The function-based view 'demo_css' does not have the"
                 " permission_required, one_of_permission, or login_required"
-                " attribute set and the option ADMINLTE2_USE_STRICT_POLICY is"
+                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
                 " set to True. This means that this view is inaccessible until"
                 " either permissions are set on the view or the url_name for the"
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
@@ -343,7 +343,6 @@ class MiddlewareTestCase(TestCase):
             reverse('admin:auth_user_changelist'),
             follow=True
         )
-        print(response.content.decode())
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Select user to change")
 
