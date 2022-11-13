@@ -9,6 +9,7 @@ PWD_RESET_DONE_ROUTE = getattr(settings, 'PWD_RESET_DONE_ROUTE', 'password_reset
 PWD_RESET_CONFIRM_ROUTE = getattr(settings, 'PWD_RESET_CONFIRM_ROUTE', 'password_reset_confirm')
 PWD_RESET_COMPLETE_ROUTE = getattr(settings, 'PWD_RESET_COMPLETE_ROUTE', 'password_reset_complete')
 REGISTER_ROUTE = getattr(settings, 'REGISTER_ROUTE', 'adminlte2_pdq:register')
+MEDIA_ROUTE = getattr(settings, 'MEDIA_URL', '/media/')
 
 # Known routes that should never have a permission check done.
 HOME_ROUTE = getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home')

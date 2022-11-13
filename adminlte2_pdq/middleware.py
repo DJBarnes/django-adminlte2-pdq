@@ -15,6 +15,7 @@ from .constants import (
     STRICT_POLICY_WHITELIST,
     LOGIN_URL,
     HOME_ROUTE,
+    MEDIA_ROUTE,
 )
 
 class AuthMiddleware:
@@ -85,6 +86,7 @@ class AuthMiddleware:
             or fully_qualified_url_name in LOGIN_EXEMPT_WHITELIST
             or path in LOGIN_EXEMPT_WHITELIST
             or self.login_required_hook(request)
+            or self.verify_media_route(path)
         )
 
 
@@ -124,6 +126,7 @@ class AuthMiddleware:
                 or fully_qualified_url_name in STRICT_POLICY_WHITELIST
                 or path in STRICT_POLICY_WHITELIST
                 or app_name == 'admin'
+                or self.verify_media_route(path)
             ):
                 exempt = True
 
@@ -163,3 +166,10 @@ class AuthMiddleware:
 
         # Failed somewhere along the way, return false.
         return False
+
+    def verify_media_route(self, path):
+        """Verify that the path of the request is not a MEDIA URL"""
+        return_val = False
+        if MEDIA_ROUTE and MEDIA_ROUTE != '/':
+            return_val = path.startswith(MEDIA_ROUTE)
+        return return_val

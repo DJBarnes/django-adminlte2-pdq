@@ -67,6 +67,8 @@ The default whitelist contains the following standard anonymous routes:
 * password_reset_done
 * password_reset_confirm
 * password_reset_complete
+* media url - As defined via the ``MEDIA_URL`` setting in ``settings.py``
+  so long as it is not the default value of ``''``. See note below.
 
 If you would like to add additional routes to this list, you can do so by
 adding either the route name or URL for the endpoint to the
@@ -89,6 +91,19 @@ adding either the route name or URL for the endpoint to the
     :ref:`authorization/function_views:login required decorator` or
     :ref:`authorization/class_views:login required mixin` on the specific
     views that do require being logged in.
+
+.. note::
+
+    The ``MEDIA_URL`` is exempt from the login required processing so long as
+    it has a value other than the default.
+
+    By default, the ``MEDIA_URL`` setting is set to ``''``, the blank string.
+    This automatically gets converted to the root URL ``'/'`` to ensure that
+    it is a valid URL and that there will be no issues when running your app.
+
+    If you leave the ``MEDIA_URL`` setting as the default and then try to
+    serve media files from that location with the login required turned on,
+    those files will not be able to be served to anonymous users.
 
 
 Authorization
@@ -245,6 +260,8 @@ as the :ref:`configuration/home:adminlte2_home_route`:
 * password_reset_confirm
 * password_reset_complete
 * home - As defined via the ``ADMINLTE2_HOME_ROUTE`` setting in ``settings.py``
+* media url - As defined via the ``MEDIA_URL`` setting in ``settings.py``
+  so long as it is not the default value of ``''``. See note below.
 
 .. important::
 
@@ -255,6 +272,19 @@ as the :ref:`configuration/home:adminlte2_home_route`:
     The alternative would be to send them to the login page after a successful
     login, which we believe, even with messages, would be confusing to the
     user.
+
+.. note::
+
+    The ``MEDIA_URL`` is exempt from the login required processing so long as
+    it has a value other than the default.
+
+    By default, the ``MEDIA_URL`` setting is set to ``''``, the blank string.
+    This automatically gets converted to the root URL ``'/'`` to ensure that
+    it is a valid URL and that there will be no issues when running your app.
+
+    If you leave the ``MEDIA_URL`` setting as the default and then try to
+    serve media files from that location with the login required turned on,
+    those files will not be able to be served to anonymous users.
 
 Additionally, if a view does have required permissions or login required
 criteria defined on the view, and the user does not meet that criteria, they
