@@ -61,7 +61,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off(self):
@@ -82,7 +82,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off(self):
@@ -115,7 +115,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
@@ -177,7 +177,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
 
     # **************************************************************************
@@ -192,7 +192,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off(self):
@@ -203,7 +203,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
@@ -215,7 +215,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off(self):
@@ -250,7 +250,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
@@ -312,7 +312,7 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
@@ -326,7 +326,19 @@ class MiddlewareTestCase(TestCase):
             follow=True
         )
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
+        self.assertContains(response, "<h1>Demo CSS</h1>")
+
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.MEDIA_ROUTE', '/demo-css/')  # Pretend the demo-css route is a media file.
+    def test_middleware_allows_when_media_url_defined_login_on_strict_on_login_wl_on_strict_wl_on(self):
+        """test_middleware_allows_when_media_url_defined_login_on_strict_on_login_wl_on_strict_wl_on"""
+        response = self.client.get(
+            reverse('adminlte2_pdq:demo-css'),
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<h1>Demo CSS</h1>")
 
     # **************************************************************************
     # Logged In User - All Perms - Staff Status - Can see Admin page.
