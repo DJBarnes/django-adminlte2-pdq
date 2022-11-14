@@ -7,6 +7,7 @@ from django.http import Http404
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import resolve
+from django.views.generic.base import RedirectView
 
 from .constants import (
     LOGIN_REQUIRED,
@@ -117,6 +118,9 @@ class AuthMiddleware:
         # If view, determine if function based or class based
         if view:
 
+            # Get the view class
+            view_class = getattr(view.func, 'view_class', None)
+
             # Determine if request url is exempt.
             current_url_name = view.url_name
             app_name = view.app_name
@@ -127,10 +131,10 @@ class AuthMiddleware:
                 or path in STRICT_POLICY_WHITELIST
                 or app_name == 'admin'
                 or self.verify_media_route(path)
+                or self.verify_redirect_route(view_class)
             ):
                 exempt = True
 
-            view_class = getattr(view.func, 'view_class', None)
             if view_class:
                 # Get attributes
                 permissions = getattr(view_class, 'permission_required', [])
@@ -173,3 +177,7 @@ class AuthMiddleware:
         if MEDIA_ROUTE and MEDIA_ROUTE != '/':
             return_val = path.startswith(MEDIA_ROUTE)
         return return_val
+
+    def verify_redirect_route(self, view_class):
+        """Verify that the view class is a RedirectView"""
+        return view_class and view_class == RedirectView
