@@ -17,6 +17,7 @@ from .constants import (
     LOGIN_URL,
     HOME_ROUTE,
     MEDIA_ROUTE,
+    WEBSOCKET_ROUTE,
 )
 
 class AuthMiddleware:
@@ -88,6 +89,7 @@ class AuthMiddleware:
             or path in LOGIN_EXEMPT_WHITELIST
             or self.login_required_hook(request)
             or self.verify_media_route(path)
+            or self.verify_websocket_route(path)
         )
 
 
@@ -131,6 +133,7 @@ class AuthMiddleware:
                 or path in STRICT_POLICY_WHITELIST
                 or app_name == 'admin'
                 or self.verify_media_route(path)
+                or self.verify_websocket_route(path)
                 or self.verify_redirect_route(view_class)
             ):
                 exempt = True
@@ -176,6 +179,13 @@ class AuthMiddleware:
         return_val = False
         if MEDIA_ROUTE and MEDIA_ROUTE != '/':
             return_val = path.startswith(MEDIA_ROUTE)
+        return return_val
+
+    def verify_websocket_route(self, path):
+        """Verify that the path of the request is not a WEBSOCKET URL"""
+        return_val = False
+        if WEBSOCKET_ROUTE and WEBSOCKET_ROUTE != '/':
+            return_val = path.startswith(WEBSOCKET_ROUTE)
         return return_val
 
     def verify_redirect_route(self, view_class):
