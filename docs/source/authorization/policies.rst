@@ -251,7 +251,8 @@ When enabled, all views that do not use one of the included
 :ref:`configuration/home:adminlte2_home_route` unless the route or url that
 they are trying to access is explicitly listed in a whitelist.
 The default whitelist contains the following standard anonymous routes as well
-as the :ref:`configuration/home:adminlte2_home_route`:
+as the password change, :ref:`configuration/home:adminlte2_home_route`, media
+routes, and websocket routes:
 
 * login - As defined via the ``LOGIN_URL`` setting in ``settings.py``
 * logout
@@ -259,9 +260,13 @@ as the :ref:`configuration/home:adminlte2_home_route`:
 * password_reset_done
 * password_reset_confirm
 * password_reset_complete
+* password_change
+* password_change_done
 * home - As defined via the ``ADMINLTE2_HOME_ROUTE`` setting in ``settings.py``
 * media url - As defined via the ``MEDIA_URL`` setting in ``settings.py``
   so long as it is not the default value of ``''``. See note below.
+* websocket url - As defined via the ``WEBSOCKET_URL`` setting in
+  ``settings.py``. Defaults to ``/ws/``.
 
 .. important::
 
@@ -275,8 +280,8 @@ as the :ref:`configuration/home:adminlte2_home_route`:
 
 .. note::
 
-    The ``MEDIA_URL`` is exempt from the login required processing so long as
-    it has a value other than the default.
+    The ``MEDIA_URL`` is exempt from the login required
+    processing so long as it has a value other than the default.
 
     By default, the ``MEDIA_URL`` setting is set to ``''``, the blank string.
     This automatically gets converted to the root URL ``'/'`` to ensure that
