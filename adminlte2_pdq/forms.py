@@ -26,7 +26,11 @@ class SampleForm(forms.Form):
     sample_float = forms.FloatField()
     sample_generic_ip = forms.GenericIPAddressField()
     sample_integer = forms.IntegerField()
-    sample_json = forms.JSONField()
+    try:
+        # Fails for Django < 3.0. Skip if so.
+        sample_json = forms.JSONField()
+    except:
+        pass
     sample_multi_choice = forms.MultipleChoiceField(choices=CHOICES)
     sample_null_bool = forms.NullBooleanField()
     sample_regex = forms.RegexField(r's*')
