@@ -4,38 +4,64 @@
   {% get_datetime_widget as DATETIME_WIDGET %}
   {% get_date_widget as DATE_WIDGET %}
   {% get_time_widget as TIME_WIDGET %}
+
   {% if debug %}
-    <!-- bootstrap -->
-    <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap/3.3.7/css/bootstrap.min.css' %}">
 
-    <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
-    <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome-5/5.8.2/css/all.min.css' %}">
-    <!-- Font Awesome 4 -->
-    <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome/4.7.0/css/font-awesome.min.css' %}">
-    <!-- AdminLTE -->
-    <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/AdminLTE.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/skins/_all-skins.min.css' %}">
-    {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
-      <link rel="stylesheet" type="text/css" href="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.css' %}">
-    {% elif DATE_WIDGET == 'bootstrap' %}
-      <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
-    {% endif %}
+    {% block styles_debug_bootstrap %}
+      <!-- bootstrap -->
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap/3.3.7/css/bootstrap.min.css' %}">
+    {% endblock styles_debug_bootstrap %}
+
+    {% block styles_debug_font_awesome %}
+      <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome-5/5.8.2/css/all.min.css' %}">
+      <!-- Font Awesome 4 -->
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome/4.7.0/css/font-awesome.min.css' %}">
+    {% endblock styles_debug_font_awesome %}
+
+    {% block styles_debug_adminlte %}
+      <!-- AdminLTE -->
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/AdminLTE.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/skins/_all-skins.min.css' %}">
+    {% endblock styles_debug_adminlte %}
+
+    {% block styles_debug_datetime_picker %}
+      {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.css' %}">
+      {% elif DATE_WIDGET == 'bootstrap' %}
+        <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap-datepicker/bootstrap-datepicker.min.css' %}">
+      {% endif %}
+    {% endblock styles_debug_datetime_picker %}
+
   {% else %}
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 
-    <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" integrity="sha256-BtbhCIbtfeVWGsqxk1vOHEYXS6qcvQvLMZqjtpWUEx8=" crossorigin="anonymous" />
-    <!-- Font Awesome 4 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
-    <!-- AdminLTE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/AdminLTE.min.css" integrity="sha256-flo1BhZxHloxiG+WVTNYRMy6Nn3V+CyV1jLHZ2DoUxY=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/skins/_all-skins.css" integrity="sha256-mgkhNy4GDprfEqwRBmDzqzlhJFBS9K0yB9TSw7UoH5E=" crossorigin="anonymous" />
-    {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {% elif DATE_WIDGET == 'bootstrap' %}
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {% endif %}
+    {% block styles_prod_bootstrap %}
+      <!-- bootstrap -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    {% endblock styles_prod_bootstrap %}
+
+    {% block styles_prod_font_awesome %}
+      <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" integrity="sha256-BtbhCIbtfeVWGsqxk1vOHEYXS6qcvQvLMZqjtpWUEx8=" crossorigin="anonymous" />
+      <!-- Font Awesome 4 -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    {% endblock styles_prod_font_awesome %}
+
+    {% block styles_prod_adminlte %}
+      <!-- AdminLTE -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/AdminLTE.min.css" integrity="sha256-flo1BhZxHloxiG+WVTNYRMy6Nn3V+CyV1jLHZ2DoUxY=" crossorigin="anonymous" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/skins/_all-skins.css" integrity="sha256-mgkhNy4GDprfEqwRBmDzqzlhJFBS9K0yB9TSw7UoH5E=" crossorigin="anonymous" />
+    {% endblock styles_prod_adminlte %}
+
+    {% block styles_prod_datetime_picker %}
+      {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      {% elif DATE_WIDGET == 'bootstrap' %}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+      {% endif %}
+    {% endblock styles_prod_datetime_picker %}
+
   {% endif %}
+
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/extra-features/extra-features.css' %}">
 {% endblock styles %}
