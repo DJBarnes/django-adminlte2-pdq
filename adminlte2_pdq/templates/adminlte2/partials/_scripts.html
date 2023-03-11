@@ -30,6 +30,7 @@
     {% endblock scripts_debug_inputmask %}
 
     {% block scripts_debug_datetime_picker %}
+      <!-- Datetime Widgets -->
       {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
         <script src="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.js' %}"></script>
       {% elif DATE_WIDGET == 'bootstrap' %}
@@ -62,6 +63,7 @@
     {% endblock scripts_prod_inputmask %}
 
     {% block scripts_prod_datetime_picker %}
+      <!-- Datetime Widgets -->
       {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
       {% elif DATE_WIDGET == 'bootstrap' %}
@@ -71,5 +73,7 @@
 
   {% endif %}
 
+  <!-- Package Fixes -->
   <script src="{% static 'adminlte2_pdq/extra-features/extra-features.js' %}"></script>
+  <script src="{% static 'adminlte2_pdq/extra-features/header-breadcrumb-overlap-fix.js' %}"></script>
 {% endblock scripts %}

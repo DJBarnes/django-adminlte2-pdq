@@ -26,6 +26,7 @@
     {% endblock styles_debug_adminlte %}
 
     {% block styles_debug_datetime_picker %}
+      <!-- Datetime Widgets -->
       {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
         <link rel="stylesheet" type="text/css" href="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.css' %}">
       {% elif DATE_WIDGET == 'bootstrap' %}
@@ -54,6 +55,7 @@
     {% endblock styles_prod_adminlte %}
 
     {% block styles_prod_datetime_picker %}
+      <!-- Datetime Widgets -->
       {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
       {% elif DATE_WIDGET == 'bootstrap' %}
@@ -63,5 +65,7 @@
 
   {% endif %}
 
+  <!-- Package Fixes -->
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/extra-features/extra-features.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/extra-features/header-breadcrumb-overlap-fix.css' %}">
 {% endblock styles %}
