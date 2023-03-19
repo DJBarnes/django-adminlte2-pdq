@@ -28,8 +28,14 @@ def render_admin_menu(context):
     }
 
     menu_first = context.get('ADMINLTE2_MENU_FIRST', [])
-    menu_main = getattr(
-        settings, 'ADMINLTE2_MENU', MENU) if include_main_nav else []
+    menu_main = context.get(
+        'ADMINLTE2_MENU',
+        getattr(
+            settings,
+            'ADMINLTE2_MENU',
+            MENU
+        )
+    ) if include_main_nav else []
     menu_admin = AdminMenu.create_menu(context)
     menu_last = context.get('ADMINLTE2_MENU_LAST', [])
 
