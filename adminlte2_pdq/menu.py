@@ -2,6 +2,8 @@
 from django.conf import settings
 
 # Default Menu
+# NOTE: If this default menu is updated to include new routes,
+# there is code in 'sidebar_menu.py' file that also needs to be updated.
 MENU = [
     {
         'text': 'Home',

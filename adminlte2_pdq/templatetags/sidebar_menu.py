@@ -359,13 +359,15 @@ def render_menu(context):
         'separator': True,
     }
 
+    default_menu = MENU if _default_routes_are_registered() else []
+
     menu_first = context.get('ADMINLTE2_MENU_FIRST', [])
     menu_main = context.get(
         'ADMINLTE2_MENU',
         getattr(
             settings,
             'ADMINLTE2_MENU',
-            MENU
+            default_menu,
         )
     )
     menu_admin = AdminMenu.create_menu(context) if include_admin_nav else []
@@ -486,3 +488,16 @@ def url_starts_with(search_string, sub_string):
     stripped_search_string = strip_hash_bookmark_from_url(search_string)
     stripped_sub_string = strip_hash_bookmark_from_url(sub_string)
     return stripped_search_string.startswith(stripped_sub_string)
+
+def _default_routes_are_registered():
+    """Determine if the default routes provided by the package are registered for use"""
+    try:
+        _ = reverse('adminlte2_pdq:home')
+        _ = reverse('adminlte2_pdq:demo-css')
+        _ = reverse('adminlte2_pdq:password_change')
+        _ = reverse('adminlte2_pdq:sample_form')
+        _ = reverse('adminlte2_pdq:sample1')
+        _ = reverse('adminlte2_pdq:sample2')
+    except NoReverseMatch:
+        return False
+    return True
