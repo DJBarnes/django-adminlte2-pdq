@@ -1,7 +1,7 @@
 Quickstart
 **********
 
-1.  Install the Django App via GitHub for now. Working on getting on Pypi soon.
+1.  Install the Django package via pip.
 
     .. code-block:: bash
 
@@ -54,8 +54,16 @@ Quickstart
         once you get the basics of this package working.
 
 
-4.  Django-AdminLTE2-PDQ provides templates for Django's account routes and some
-    sample routes. Add the routes to your URLconf if you want to use them.
+4.  Django-AdminLTE2-PDQ provides routes and templates for a home page,
+    some sample pages, and Django's account pages. You can add these default
+    routes to your URLconf if you would like to use them.
+
+    .. warning::
+
+        Opting not to use these default routes requires that you configure the
+        :doc:`ADMINLTE2_HOME_ROUTE </configuration/home>`
+        setting, as some parts of the default templates expect
+        that your site has at minimum, a home page, defined in that setting.
 
     .. code-block:: python
 
@@ -82,8 +90,16 @@ Quickstart
         ``/accounts/profile`` which is the default
         `Django Login redirect. <https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url>`_
         Adding the above entry to your ``settings.py`` file
-        will allow successful logins to redirect to the sample home page
-        included in Django-AdminLTE2-PDQ until a proper profile route is set up.
+        will allow successful logins to redirect to the default provided home
+        page included in step 4. At least until a proper profile route can be
+        set up.
+
+    .. warning::
+
+        If you are not using the default urls from step 4, we assume that you
+        already know where you would like to have users redirected to on
+        successful login and thus have already done this step with a different
+        value.
 
 6.  Update ``settings.py`` to customize the look and feel of
     **Django-AdminLTE2-PDQ**.
