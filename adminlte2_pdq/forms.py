@@ -10,12 +10,14 @@ class SampleForm(forms.Form):
     """Sample Form with all field types"""
     sample_bool = forms.BooleanField()
     sample_char = forms.CharField()
+    sample_char_opt = forms.CharField(required=False)
     sample_phone = forms.CharField()
     sample_range = forms.CharField()
     sample_color = forms.CharField()
     sample_datalist = forms.CharField()
     sample_range_datalist = forms.CharField()
     sample_choice = forms.ChoiceField(choices=CHOICES)
+    sample_choice_radio = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
     sample_date = forms.DateField()
     sample_date_time = forms.DateTimeField()
     sample_decimal = forms.DecimalField()
@@ -32,6 +34,7 @@ class SampleForm(forms.Form):
     except:
         pass
     sample_multi_choice = forms.MultipleChoiceField(choices=CHOICES)
+    sample_multi_choice_checkbox = forms.MultipleChoiceField(choices=CHOICES, widget=forms.CheckboxSelectMultiple())
     sample_null_bool = forms.NullBooleanField()
     sample_regex = forms.RegexField(r's*')
     sample_slug = forms.SlugField()

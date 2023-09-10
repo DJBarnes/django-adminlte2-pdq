@@ -16,8 +16,10 @@
             <div class="form-group col-lg-3 {% if field.errors %}has-error{% endif %}">
               {% if field|fieldtype == "RadioSelect" %}
                 {% include "adminlte2/partials/_form/_radio.html" %}
-              {% elif field|fieldtype == "CheckboxInput" or field|fieldtype == "CheckboxSelectMultiple" %}
+              {% elif field|fieldtype == "CheckboxInput" %}
                 {% include "adminlte2/partials/_form/_checkbox.html" %}
+              {% elif field|fieldtype == "CheckboxSelectMultiple" %}
+                {% include "adminlte2/partials/_form/_checkbox_select.html" %}
               {% elif field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
                 <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
                 {% include "adminlte2/partials/_form/_select.html" %}

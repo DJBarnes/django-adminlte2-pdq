@@ -1,3 +1,13 @@
+label {
+    font-weight: 400;
+}
+label.required {
+    font-weight: 700;
+}
+.checkbox label.required {
+    font-weight: 700;
+}
+
 .separator {
     padding: 0;
     color: #848484;

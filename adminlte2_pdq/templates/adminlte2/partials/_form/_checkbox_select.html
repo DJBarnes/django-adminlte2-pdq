@@ -1,0 +1,11 @@
+{% load adminlte_filters %}
+
+{% for choice in field %}
+  <div class="checkbox {% if field.errors %}has-error{% endif %}">
+    <label class="control-label">
+      {{ choice.tag }}
+      {{ choice.choice_label }}
+    </label>
+    {% include "adminlte2/partials/_form/_field_error.html" %}
+  </div>
+{% endfor %}
