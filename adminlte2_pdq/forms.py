@@ -48,3 +48,18 @@ class SampleForm(forms.Form):
         super().__init__(*args, **kwargs)
         self['sample_range_datalist'].range_min_max = {'min':5, 'max':9}
         self['sample_range_datalist'].datalist = {'name':'my_range_datalist', 'data':[5,7,9]}
+
+class SampleFormsetForm(forms.Form):
+    """Sample Form for Formset"""
+    sample_bool = forms.BooleanField()
+    sample_char = forms.CharField()
+    sample_char_opt = forms.CharField(required=False)
+    sample_phone = forms.CharField()
+    sample_file = forms.FileField()
+    sample_multi_choice_checkbox = forms.MultipleChoiceField(choices=CHOICES, widget=forms.CheckboxSelectMultiple())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self['sample_phone'].phone_info = {'pattern': r'\([0-9]{3}\) [0-9]{3}-[0-9]{4}', 'inputmask': '(999) 999-9999'}
+
+SampleFormset = forms.formset_factory(SampleFormsetForm, extra=2)

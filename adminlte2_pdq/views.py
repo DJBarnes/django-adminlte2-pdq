@@ -7,7 +7,7 @@ from adminlte2_pdq.decorators import (
     permission_required,
     permission_required_one,
 )
-from adminlte2_pdq.forms import SampleForm
+from adminlte2_pdq.forms import SampleForm, SampleFormset
 
 
 def home(request):
@@ -34,7 +34,9 @@ def sample_form(request):
     form['sample_color'].is_color = True
     form['sample_datalist'].datalist = {'name':'my_awesome_datalist', 'data': ('foo','bar')}
 
-    return render(request, 'adminlte2/sample_form.html', {'form':form})
+    formset = SampleFormset()
+
+    return render(request, 'adminlte2/sample_form.html', {'form':form, 'formset': formset})
 
 @permission_required(
     ['auth.add_group', 'auth.change_group', 'auth.delete_group']

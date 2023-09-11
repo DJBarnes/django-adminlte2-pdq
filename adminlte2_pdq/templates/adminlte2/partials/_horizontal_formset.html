@@ -14,17 +14,23 @@
             {{ field }}
           {% else %}
             <div class="form-group col-lg-3 {% if field.errors %}has-error{% endif %}">
-              {% if field|fieldtype == "RadioSelect" %}
-                {% include "adminlte2/partials/_form/_radio.html" %}
-              {% elif field|fieldtype == "CheckboxInput" %}
+              {% if field|fieldtype != "CheckboxInput" %}
+                <label for="{{ field.id_for_label }}" class="control-label {% if field.field.required %}required{% endif %}">
+                  {{ field.label }}:{% if field.field.required %}*{% endif %}
+                </label>
+              {% endif %}
+
+              {% if field|fieldtype == "CheckboxInput" %}
                 {% include "adminlte2/partials/_form/_checkbox.html" %}
+              {% elif field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
+                {% include "adminlte2/partials/_form/_select.html" %}
+              {% elif field|fieldtype == "RadioSelect" %}
+                {% include "adminlte2/partials/_form/_radio.html" %}
               {% elif field|fieldtype == "CheckboxSelectMultiple" %}
                 {% include "adminlte2/partials/_form/_checkbox_select.html" %}
-              {% elif field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
-                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
-                {% include "adminlte2/partials/_form/_select.html" %}
+              {% elif field|fieldtype == "ClearableFileInput" %}
+                {% include "adminlte2/partials/_form/_file.html" %}
               {% else %}
-                <label for="{{ field.id_for_label }}" class="control-label">{{ field.label }}:</label>
                 {% include "adminlte2/partials/_form/_text.html" %}
               {% endif %}
             </div>
