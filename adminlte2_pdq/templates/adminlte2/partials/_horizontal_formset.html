@@ -15,8 +15,8 @@
           {% else %}
             <div class="form-group col-lg-3 {% if field.errors %}has-error{% endif %}">
               {% if field|fieldtype != "CheckboxInput" %}
-                <label for="{{ field.id_for_label }}" class="control-label {% if field.field.required %}required{% endif %}">
-                  {{ field.label }}:{% if field.field.required %}*{% endif %}
+                <label for="{{ field.id_for_label }}" class="control-label {% if bold_required and field.field.required %}required{% endif %}">
+                  {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
                 </label>
               {% endif %}
 

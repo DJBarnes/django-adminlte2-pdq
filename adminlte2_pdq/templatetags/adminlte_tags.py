@@ -11,7 +11,13 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
-from adminlte2_pdq.constants import DATETIME_WIDGET, DATE_WIDGET, TIME_WIDGET
+from adminlte2_pdq.constants import (
+    DATETIME_WIDGET,
+    DATE_WIDGET,
+    TIME_WIDGET,
+    BOLD_REQUIRED_FIELDS,
+    ASTERISK_REQUIRED_FIELDS,
+)
 
 logger = logging.getLogger(__name__)
 register = template.Library()
@@ -169,6 +175,8 @@ def render_fields(*fields_to_render, labels=True, media=None, **kwargs):
             visible_fields.append(bound_field)
     return {
         'fields_to_render': fields_to_render,
+        'bold_required': BOLD_REQUIRED_FIELDS,
+        'asterisk_required': ASTERISK_REQUIRED_FIELDS,
         'hidden_fields': hidden_fields,
         'visible_fields': visible_fields,
         'labels': labels,
@@ -212,6 +220,8 @@ def render_horizontal_fields(*fields_to_render, labels=True, media=None, **kwarg
             visible_fields.append(bound_field)
     return {
         'fields_to_render': fields_to_render,
+        'bold_required': BOLD_REQUIRED_FIELDS,
+        'asterisk_required': ASTERISK_REQUIRED_FIELDS,
         'hidden_fields': hidden_fields,
         'visible_fields': visible_fields,
         'labels': labels,

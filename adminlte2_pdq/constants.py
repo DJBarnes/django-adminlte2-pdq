@@ -46,3 +46,7 @@ STRICT_POLICY = getattr(settings, 'ADMINLTE2_USE_STRICT_POLICY', False)
 DATETIME_WIDGET = getattr(settings, 'ADMINLTE2_DATETIME_WIDGET', 'native')
 DATE_WIDGET = getattr(settings, 'ADMINLTE2_DATE_WIDGET', 'native')
 TIME_WIDGET = getattr(settings, 'ADMINLTE2_TIME_WIDGET', 'native')
+
+# What required field indicators should be used on a rendered form
+BOLD_REQUIRED_FIELDS = getattr(settings, 'ADMINLTE2_BOLD_REQUIRED_FIELDS', True)
+ASTERISK_REQUIRED_FIELDS = getattr(settings, 'ADMINLTE2_ASTERISK_REQUIRED_FIELDS', True)
