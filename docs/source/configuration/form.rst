@@ -72,3 +72,31 @@ Additionally, you can use ``jquery`` to use the JS jquery-datetimepicker.js libr
 Example::
 
     ADMINLTE2_TIME_WIDGET = 'jquery'
+
+ADMINLTE2_BOLD_REQUIRED_FIELDS
+------------------------------
+
+Set whether required fields on a form should render out with bolded labels to
+denote that the field is required when using any of the template tags that
+help render out forms.
+
+:Type: ``bool``
+:Default: ``True``
+
+Example::
+
+    ADMINLTE2_BOLD_REQUIRED_FIELDS = False
+
+ADMINLTE2_ASTERISK_REQUIRED_FIELDS
+----------------------------------
+
+Set whether required fields on a form should render out an asterisk next to the
+labels for a form field to denote that the field is required when using any of
+the template tags that help render out forms.
+
+:Type: ``bool``
+:Default: ``True``
+
+Example::
+
+    ADMINLTE2_ASTERISK_REQUIRED_FIELDS = False
