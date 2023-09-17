@@ -28,11 +28,7 @@ class SampleForm(forms.Form):
     sample_float = forms.FloatField()
     sample_generic_ip = forms.GenericIPAddressField()
     sample_integer = forms.IntegerField()
-    try:
-        # Fails for Django < 3.0. Skip if so.
-        sample_json = forms.JSONField()
-    except:
-        pass
+    sample_json = forms.JSONField()
     sample_multi_choice = forms.MultipleChoiceField(choices=CHOICES)
     sample_multi_choice_checkbox = forms.MultipleChoiceField(choices=CHOICES, widget=forms.CheckboxSelectMultiple())
     sample_null_bool = forms.NullBooleanField()
