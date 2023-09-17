@@ -21,8 +21,8 @@ Quickstart
 
         The **adminlte2_pdq** app should be listed before any Django apps so
         that template overriding works correctly. Additionally, if you plan to
-        override any Django-AdminLTE2-PDQ templates, they should be listed above
-        the **adminlte2_pdq** app.
+        override any Django-AdminLTE2-PDQ templates, the apps containing those
+        templates should be listed above the **adminlte2_pdq** app.
 
 
 3.  Django-AdminLTE2-PDQ provides a middleware that is required for some of the

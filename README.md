@@ -57,8 +57,8 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
     :information_source: **NOTE**
     The **adminlte2_pdq** app should be listed before any Django apps so
     that template overriding works correctly. Additionally, if you plan to
-    override any Django-AdminLTE2-PDQ templates, they should be listed above
-    the **adminlte2_pdq app**.
+    override any Django-AdminLTE2-PDQ templates, the apps containing those
+    templates should be listed above the **adminlte2_pdq app**.
 
     ---
 
@@ -94,8 +94,24 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
 
     ---
 
-4.  Django-AdminLTE2-PDQ provides templates for django's account routes and some
-    sample routes. Add the routes to your URLconf if you want to use them.
+4.  Django-AdminLTE2-PDQ provides routes and templates for a home page,
+    some sample pages, and Django's account pages. You can add these default
+    routes to your URLconf if you would like to use them.
+
+    ---
+    :information_source: **NOTE**
+    Using the included routes and templates requires that your `urlpatterns`
+    has both the routes from the package added as well as the `accounts`
+    routes provided by Django. See sample code below.
+
+    ---
+    :warning: **WARNING**
+    Opting not to use these default routes requires that you configure the
+    `ADMINLTE2_HOME_ROUTE` setting, as some parts of the default template
+    expect that your site has at minimum, a home page, defined in that setting.
+
+    ---
+
     ```python
     from django.contrib import admin
     from django.urls import include
@@ -120,8 +136,14 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
     `/accounts/profile` which is the default
     [Django Login redirect.](https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url)
     Adding the above entry to your `settings.py` file
-    will allow successful logins to redirect to the sample home page
-    included in Django-AdminLTE2-PDQ until a proper profile route is set up.
+    will allow successful logins to redirect to the default provided home page
+    included in step 4. At least until a proper profile route can be set up.
+
+    ---
+    :warning: **WARNING**
+    If you are not using the default urls from step 4, we assume that you
+    already know where you would like to have users redirected to on successful
+    login and thus have already done this step with a different value.
 
     ---
 
@@ -158,7 +180,7 @@ ADMINLTE2_LOGO_TEXT = 'My Awesome Site'
 Set the small Logo text for your site. This will be shown in the top left of the
 top bar when the sidebar is collapsed.
 ```python
-ADMINLTE2_LOGO_TEXT = 'MAS'
+ADMINLTE2_LOGO_TEXT_SMALL = 'MAS'
 ```
 
 Set the skin class to use for the site. Valid skin classes can be found on the
@@ -228,6 +250,37 @@ ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
 ```
 
 ### Authorization
+
+Whether all routes will require that users are logged in to access unless
+the route is added to a Whitelist.
+
+If this setting is set to False, then all routes will be accessible and
+still visible on the sidebar menu.
+
+If this setting is set to True, then all routes will not be accessible nor will
+there be links on the sidebar menu unless the user is logged in or the route is
+found in the
+``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` setting.
+```python
+ADMINLTE2_USE_LOGIN_REQUIRED = (True/False)
+```
+
+Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True,
+this is the list of routes that will be shown on the sidebar menu and
+accessible, despite a user not being logged in.
+
+---
+:information_source: **NOTE**
+Even though the default value for this list is an empty list, the underlying
+functionality that this setting is used in has some included routes.
+They can be seen in the full Documentation. The routes defined in this
+setting will be appended to that default list.
+
+---
+
+```python
+ADMINLTE2_LOGIN_EXEMPT_WHITELIST = []
+```
 
 Whether routes with no defined permission should be hidden unless added to a
 Whitelist.

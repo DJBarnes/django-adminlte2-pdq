@@ -75,7 +75,7 @@ top bar, when the sidebar is collapsed.
 
 Example::
 
-    ADMINLTE2_LOGO_TEXT = 'MAS'
+    ADMINLTE2_LOGO_TEXT_SMALL = 'MAS'
 
 
 ADMINLTE2_SKIN_CLASS
