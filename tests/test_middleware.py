@@ -352,6 +352,32 @@ class MiddlewareTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.MEDIA_ROUTE', '/')  # Pretend the root url is a media file.
+    def test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on(self):
+        """test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on"""
+        # MEDIA_URL should not be allowed to be the root of a website, thus it can not skip the login required check.
+        response = self.client.get(
+            '/',
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Login")
+
+    @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
+    @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+    @patch('adminlte2_pdq.middleware.WEBSOCKET_ROUTE', '/')  # Pretend the root url is a websocket file.
+    def test_middleware_redirects_to_login_when_websocket_url_defined_as_root_login_on_strict_on_login_wl_on_strict_wl_on(self):
+        """test_middleware_redirects_to_login_when_websocket_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on"""
+        # WEBSOCKET_URL should not be allowed to be the root of a website, thus it can not skip the login required check.
+        response = self.client.get(
+            '/',
+            follow=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Login")
+
     # **************************************************************************
     # Logged In User - All Perms - Staff Status - Can see Admin page.
     # **************************************************************************
