@@ -58,6 +58,12 @@ Quickstart
     some sample pages, and Django's account pages. You can add these default
     routes to your URLconf if you would like to use them.
 
+    .. note::
+
+        Using the included routes and templates requires that your
+        ``urlpatterns`` has both the routes from the package added as well
+        as the ``accounts`` routes provided by Django. See sample code below.
+
     .. warning::
 
         Opting not to use these default routes requires that you configure the
