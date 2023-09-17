@@ -61,7 +61,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         """Test default routes are registered method works when routes are registered"""
         self.assertTrue(sidebar_menu._default_routes_are_registered())
 
-    @patch('adminlte2_pdq.urls.urlpatterns', [])
+    @override_settings(ROOT_URLCONF='tests.urls_empty')
     def test_default_routes_are_registered_method_fails_when_routes_are_not_registered(self):
         """Test default routes are registered method fails when routes are not registered"""
         self.assertFalse(sidebar_menu._default_routes_are_registered())
