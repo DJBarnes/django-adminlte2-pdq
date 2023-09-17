@@ -492,9 +492,10 @@ def url_starts_with(search_string, sub_string):
 def _default_routes_are_registered():
     """Determine if the default routes provided by the package are registered for use"""
     try:
+        _ = reverse('password_change')
         _ = reverse('adminlte2_pdq:home')
         _ = reverse('adminlte2_pdq:demo-css')
-        _ = reverse('adminlte2_pdq:password_change')
+        _ = reverse('adminlte2_pdq:register')
         _ = reverse('adminlte2_pdq:sample_form')
         _ = reverse('adminlte2_pdq:sample1')
         _ = reverse('adminlte2_pdq:sample2')

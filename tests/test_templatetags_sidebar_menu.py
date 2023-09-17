@@ -55,6 +55,18 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                 self.staffuser.user_permissions.add(perm_object)
 
     # |-------------------------------------------------------------------------
+    # | Test that check for demo urls works
+    # |-------------------------------------------------------------------------
+    def test_default_routes_are_registered_method_works_when_routes_are_registered(self):
+        """Test default routes are registered method works when routes are registered"""
+        self.assertTrue(sidebar_menu._default_routes_are_registered())
+
+    @patch('adminlte2_pdq.urls.urlpatterns', [])
+    def test_default_routes_are_registered_method_fails_when_routes_are_not_registered(self):
+        """Test default routes are registered method fails when routes are not registered"""
+        self.assertFalse(sidebar_menu._default_routes_are_registered())
+
+    # |-------------------------------------------------------------------------
     # | Test get_permissions_from_node for general errors
     # |-------------------------------------------------------------------------
 

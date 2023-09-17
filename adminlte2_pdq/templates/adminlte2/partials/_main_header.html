@@ -80,7 +80,8 @@
                                   {% block user_footer %}
                                     {% block user_footer_left_button %}
                                       <div class="pull-left">
-                                        <a href="{% block change_password_url %}{% url 'password_change' %}{% endblock change_password_url %}"
+                                        {% url 'password_change' as pw_change_url %}
+                                        <a href="{% block change_password_url %}{% if pw_change_url %}{{ pw_change_url }}{% else %}#{% endif %}{% endblock change_password_url %}"
                                           class="btn btn-default btn-flat">
                                           {% block change_password_text %}
                                             {% trans 'Change password' %}
