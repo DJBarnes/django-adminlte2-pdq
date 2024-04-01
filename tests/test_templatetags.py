@@ -1,6 +1,7 @@
 """
 Tests for Template Tags
 """
+
 from collections import namedtuple
 from django import forms
 from django.contrib.auth import get_user_model
@@ -51,6 +52,7 @@ class TemplateTagTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Setup
     # |-------------------------------------------------------------------------
+
     def setUp(self):
         self.superuser = None
         self.staffuser = None
@@ -451,6 +453,7 @@ class TemplateTagTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Test _update_errors_with_formset_data
     # |-------------------------------------------------------------------------
+
     def test_update_errors_with_formset_data_returns_errors_for_formset_with_one_formset_error(self):
         """Test update errors with formset data returns errors for formset
         with one formset error"""

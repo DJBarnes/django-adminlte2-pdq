@@ -1,4 +1,5 @@
 """Django Admin LTE 2 View Mixins"""
+
 from django.contrib.auth.mixins import(
     LoginRequiredMixin as DjangoLoginRequiredMixin,
     PermissionRequiredMixin as DjangoPermissionRequiredMixin,

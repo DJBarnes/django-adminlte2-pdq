@@ -1,6 +1,7 @@
 """
 Tests for Admin Template Tags
 """
+
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.models import User
 from django.template import Template, Context

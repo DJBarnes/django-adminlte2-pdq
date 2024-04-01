@@ -1,10 +1,13 @@
 """Django AdminLTE2 Admin Menu"""
+
 from django.conf import settings
 from django.contrib.admin.sites import site
+
 
 DEFAULT_ICON_ADMIN = 'fa fa-superpowers'
 DEFAULT_ICON_APP = 'fa fa-circle'
 DEFAULT_ICON_MODEL = 'fa fa-circle-o'
+
 
 class _AdminMenu:
     """Admin Menu"""
@@ -155,6 +158,7 @@ class _AdminMenu:
     def get_admin_icon(self):
         """Get admin icon"""
         return self.admin_icon
+
 
 # Make the admin menu instance.
 AdminMenu = _AdminMenu()

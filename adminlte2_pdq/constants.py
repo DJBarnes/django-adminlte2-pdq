@@ -1,5 +1,7 @@
 """Django AdminLTE2 default Constants."""
+
 from django.conf import settings
+
 
 # Known routes that should never require being logged in.
 LOGIN_URL = getattr(settings, 'LOGIN_URL', '/accounts/login')

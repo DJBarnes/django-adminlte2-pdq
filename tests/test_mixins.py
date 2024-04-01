@@ -1,6 +1,7 @@
 """
 Tests for Mixins
 """
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType
@@ -10,6 +11,7 @@ from django.test import TestCase, RequestFactory
 from django.views import View
 
 from adminlte2_pdq.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
 
 UserModel = get_user_model()
 

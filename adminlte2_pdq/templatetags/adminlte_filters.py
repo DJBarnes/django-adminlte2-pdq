@@ -4,8 +4,10 @@ Django AdminLTE2 Template Filters
 Various filters that can be used to work with a django form to add missing
 attributes that the user would like the form fields to have.
 """
+
 from django import template
 import json
+
 
 register = template.Library()
 

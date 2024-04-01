@@ -12,10 +12,12 @@ from unittest.mock import patch
 
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 
+
 UserModel = get_user_model()  # pylint: disable=invalid-name
 
 UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ['adminlte2_pdq:demo-css']
 UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ['adminlte2_pdq:demo-css']
+
 
 class MiddlewareTestCase(TestCase):
     """
@@ -178,7 +180,6 @@ class MiddlewareTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
-
 
     # **************************************************************************
     # Logged In User - All Perms

@@ -20,6 +20,7 @@ from .constants import (
     WEBSOCKET_ROUTE,
 )
 
+
 class AuthMiddleware:
     """
     Middleware that requires a user to be authenticated to view any page other
@@ -69,7 +70,6 @@ class AuthMiddleware:
         # User passed all tests, return requested response.
         return self.get_response(request)
 
-
     def verify_logged_in(self, request):
         """Verify User Logged In"""
 
@@ -92,12 +92,10 @@ class AuthMiddleware:
             or self.verify_websocket_route(path)
         )
 
-
     def login_required_hook(self, request):
         """Hook that can be overridden in subclasses to add additional ways
         to pass the login required criteria. Should return either True or False."""
         return False
-
 
     def verify_permission_set(self, request):
         """Verify Permission Set"""

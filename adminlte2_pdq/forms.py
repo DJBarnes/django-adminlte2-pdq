@@ -1,10 +1,13 @@
 """Django AdminLTE2 Sample Forms"""
+
 from django import forms
+
 
 CHOICES = (
     (1, 'foo'),
     (2, 'bar'),
 )
+
 
 class SampleForm(forms.Form):
     """Sample Form with all field types"""
@@ -45,6 +48,7 @@ class SampleForm(forms.Form):
         self['sample_range_datalist'].range_min_max = {'min':5, 'max':9}
         self['sample_range_datalist'].datalist = {'name':'my_range_datalist', 'data':[5,7,9]}
 
+
 class SampleFormsetForm(forms.Form):
     """Sample Form for Formset"""
     sample_bool = forms.BooleanField()
@@ -57,5 +61,6 @@ class SampleFormsetForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self['sample_phone'].phone_info = {'pattern': r'\([0-9]{3}\) [0-9]{3}-[0-9]{4}', 'inputmask': '(999) 999-9999'}
+
 
 SampleFormset = forms.formset_factory(SampleFormsetForm, extra=2)
