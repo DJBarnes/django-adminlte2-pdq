@@ -48,14 +48,23 @@ class AuthMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        assert hasattr(request, 'user'), (
-            'The Django-AdminLTE2-PDQ AuthMiddleware'
-            ' requires authentication middleware to be installed. Edit your'
-            ' MIDDLEWARE_CLASSES setting to insert'
-            ' "django.contrib.auth.middleware.AuthenticationMiddleware". If that doesn\'t'
-            ' work, ensure your TEMPLATE_CONTEXT_PROCESSORS setting includes'
-            '"django.core.context_processors.auth".'
-        )
+
+        # Ensure user object is accessible for Authentication checks.
+        if not hasattr(request, 'user'):
+            # Django SessionMiddleware is required to use Django AuthenticationMiddleware.
+            # Django AuthenticationMiddleware is what gives us access to user object in request.
+            # Django MessageMiddleware is required to display messages to user on middleware failure for a view.
+            raise ImportError(
+                'The Django-AdminLTE2-PDQ AuthMiddleware requires Django authentication middleware to be installed. '
+                'Edit your MIDDLEWARE_CLASSES setting to include:\n\n'
+                ' * "django.contrib.sessions.middleware.SessionMiddleware",\n'
+                ' * "django.contrib.auth.middleware.AuthenticationMiddleware",\n'
+                ' * "django.contrib.messages.middleware.MessageMiddleware",\n'
+                ' * "adminlte2_pdq.middleware.AuthMiddleware",\n'
+                '\nNote that ordering of above middleware DOES matter.\n\n'
+                'If the above doesn\'t solve this error, then ensure your TEMPLATE_CONTEXT_PROCESSORS setting includes'
+                ' "django.core.context_processors.auth" as well.'
+            )
 
         # If the Login Required is turned on.
         if LOGIN_REQUIRED and not self.verify_logged_in(request):
