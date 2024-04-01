@@ -1,6 +1,7 @@
 """
 Tests for Admin Menu Template Tags
 """
+
 from django.contrib.auth import get_user_model
 from django.template import Template, Context
 from django.test import TestCase, RequestFactory, override_settings

@@ -10,12 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:',
     },
 }
+
 
 INSTALLED_APPS = (
     'adminlte2_pdq',
@@ -28,6 +30,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 )
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -39,13 +42,18 @@ MIDDLEWARE = [
     'adminlte2_pdq.middleware.AuthMiddleware',
 ]
 
+
 ROOT_URLCONF = 'tests.urls'
+
 
 USE_TZ = True
 
+
 TIME_ZONE = 'UTC'
 
+
 SECRET_KEY = 'test_secret_key'
+
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -65,6 +73,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 # Make messaging work in tests that use RequestFactory.
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
@@ -72,6 +81,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 #**********************************************
 # Added settings to make adminlte2_pdq work
 #**********************************************
+
 # Default Profile route does not exist. Change to Home.
 LOGIN_REDIRECT_URL = 'adminlte2_pdq:home'
 

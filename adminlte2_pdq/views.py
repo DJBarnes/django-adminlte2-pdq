@@ -1,4 +1,5 @@
 """Django AdminLTE2 Views"""
+
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
@@ -25,6 +26,7 @@ def register(request):
         'form': dummy_form,
     })
 
+
 @login_required()
 def sample_form(request):
     """Show sample form page"""
@@ -37,6 +39,7 @@ def sample_form(request):
     formset = SampleFormset()
 
     return render(request, 'adminlte2/sample_form.html', {'form':form, 'formset': formset})
+
 
 @permission_required(
     ['auth.add_group', 'auth.change_group', 'auth.delete_group']
@@ -52,6 +55,7 @@ def sample1(request):
 def sample2(request):
     """Show default sample2 page"""
     return render(request, 'adminlte2/sample2.html', {})
+
 
 def demo_css(request):
     """Show examples of extra-features.css"""
@@ -89,6 +93,7 @@ def demo_css(request):
     return render(request, 'adminlte2/demo_css.html', {
         'bootstrap_types': bootstrap_types,
     })
+
 
 def view_404(request, exception):
     """Redirect to home page"""

@@ -1,4 +1,5 @@
 """Django AdminLTE2 Decorators"""
+
 from functools import wraps
 from django.contrib.auth.decorators import (
     login_required as django_login_required,

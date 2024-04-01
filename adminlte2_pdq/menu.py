@@ -1,5 +1,7 @@
 """Django AdminLTE2 default Sidebar menu."""
+
 from django.conf import settings
+
 
 # Default Menu
 # NOTE: If this default menu is updated to include new routes,

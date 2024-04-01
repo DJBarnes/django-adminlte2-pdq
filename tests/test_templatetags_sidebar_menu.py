@@ -1,6 +1,7 @@
 """
 Tests for Template Tags
 """
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Permission
@@ -22,6 +23,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Setup
     # |-------------------------------------------------------------------------
+
     def setUp(self):
         self.anonymoususer = None
         self.superuser = None
@@ -57,6 +59,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Test that check for demo urls works
     # |-------------------------------------------------------------------------
+
     def test_default_routes_are_registered_method_works_when_routes_are_registered(self):
         """Test default routes are registered method works when routes are registered"""
         self.assertTrue(sidebar_menu._default_routes_are_registered())
@@ -520,7 +523,6 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         with self.assertRaises(NoReverseMatch):
             sidebar_menu.ensure_node_has_url_property(node)
 
-
     # |-------------------------------------------------------------------------
     # | Test check_for_login_whitelisted_node
     # |-------------------------------------------------------------------------
@@ -549,7 +551,6 @@ class TemplateTagSidebarMenuTestCase(TestCase):
         is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
 
         self.assertFalse(is_whitelisted)
-
 
     # |-------------------------------------------------------------------------
     # | Test check_for_strict_whitelisted_node

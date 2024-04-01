@@ -1,6 +1,7 @@
 """
 Tests for Decorators
 """
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType

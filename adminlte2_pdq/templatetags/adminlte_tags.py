@@ -3,6 +3,7 @@ Django AdminLTE2 Template Tags
 
 Collection of template tags to make rendering things easier.
 """
+
 from hashlib import md5
 import logging
 
@@ -19,13 +20,14 @@ from adminlte2_pdq.constants import (
     ASTERISK_REQUIRED_FIELDS,
 )
 
+
 logger = logging.getLogger(__name__)
 register = template.Library()
+
 
 # |-----------------------------------------------------------------------------
 # | Helper methods for the template tags below
 # |-----------------------------------------------------------------------------
-
 
 def _update_errors_with_formset_data(errors, formset):
     """
@@ -260,10 +262,10 @@ def render_horizontal_formset(formset, section_heading):
         'section_heading': section_heading,
     }
 
+
 # |-----------------------------------------------------------------------------
 # | Value Simple Template Tags
 # |-----------------------------------------------------------------------------
-
 
 @register.simple_tag()
 def get_logout_url():

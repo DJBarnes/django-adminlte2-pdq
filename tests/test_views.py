@@ -11,6 +11,7 @@ from django.urls import reverse
 
 from adminlte2_pdq import views
 
+
 UserModel = get_user_model()  # pylint: disable=invalid-name
 MOCK_SITE = {'name': 'Website', 'domain': 'www.example.com'}
 
@@ -23,6 +24,7 @@ class ViewsTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Setup
     # |-------------------------------------------------------------------------
+
     def setUp(self):
         self.test_user_no_perms = UserModel()
         self.test_user_no_perms.username = "test_user_no_perms"
@@ -41,6 +43,7 @@ class ViewsTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Test that views show correct template
     # |-------------------------------------------------------------------------
+
     def test_home_view_returns_correct_template(self):
         """Test home view returns correct template"""
         request = RequestFactory().get('home/')
@@ -106,6 +109,7 @@ class ViewsTestCase(TestCase):
     # |-------------------------------------------------------------------------
     # | Test views work as expected using Client
     # |-------------------------------------------------------------------------
+
     def test_home_view_works_when_not_authenticated(self):
         """Test home view works when not authenticated"""
         response = self.client.get(
