@@ -3,13 +3,16 @@
 # System Imports.
 import warnings
 
+# Third-Party Imports.
 from django.http import Http404
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import resolve
 from django.views.generic.base import RedirectView
 
+# Internal Imports.
 from .constants import (
+    # General settings.
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     STRICT_POLICY,
@@ -18,7 +21,25 @@ from .constants import (
     HOME_ROUTE,
     MEDIA_ROUTE,
     WEBSOCKET_ROUTE,
+
+    # Debugging settings.
+    TEXT_BLUE,
+    TEXT_CYAN,
+    TEXT_GREEN,
+    TEXT_PURPLE,
+    TEXT_RED,
+    TEXT_RESET,
+    TEXT_YELLOW,
 )
+
+
+# Module Variables.
+debug_header = '{0}{1}{2}'.format(TEXT_CYAN, '{0}', TEXT_RESET)
+debug_var = '{0}{1}{2}{3}'.format(TEXT_PURPLE, '{0}', TEXT_RESET, '{1}')
+debug_info = '{0}{1}{2}'.format(TEXT_BLUE, '{0}', TEXT_RESET)
+debug_success = '{0}{1}{2}'.format(TEXT_GREEN, '{0}', TEXT_RESET)
+debug_warn = '{0}{1}{2}'.format(TEXT_YELLOW, '{0}', TEXT_RESET)
+debug_error = '{0}{1}{2}'.format(TEXT_RED, '{0}', TEXT_RESET)
 
 
 class AuthMiddleware:
@@ -48,6 +69,20 @@ class AuthMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
+        return self.run_auth_checks(request)
+
+    def run_auth_checks(self, request, debug=True):
+        """Various AdminLTE authentication checks upon User trying to access a view.
+
+        Upon failure, user will be redirected accordingly.
+        Redirects are determined by the LOGIN_REDIRECT_URL setting, and the ADMINLTE2_HOME_ROUTE setting.
+        """
+
+        if debug:
+            print('\n\n')
+            print(debug_header.format('AdminLtePdq Middleware run_auth_checks():'))
+            print(debug_var.format('    type(request): ', type(request)))
+            print(debug_var.format('    dir(request): ', dir(request)))
 
         # Ensure user object is accessible for Authentication checks.
         if not hasattr(request, 'user'):
@@ -66,56 +101,87 @@ class AuthMiddleware:
                 ' "django.core.context_processors.auth" as well.'
             )
 
-        # If the Login Required is turned on.
+        # Handle if view requires user login to proceed.
+        # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
         if LOGIN_REQUIRED and not self.verify_logged_in(request):
-            # Not logged in, redirect to login page.
+            # User not logged in and view requires login to access.
+
+            if debug:
+                print(debug_error.format('Failed LoginRequired checks. Redirecting.'))
+
+            # Redirect to login page.
             return redirect(LOGIN_URL + f'?next={request.path}')
 
-        # If View Strict Policy is turned on.
+        # Handle if view requires specific user permissions to proceed.
+        # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
         if STRICT_POLICY and not self.verify_permission_set(request):
-            # No permissions defined on view, redirect to home route.
+            # No permissions defined on view or user failed permission checks.
+
+            if debug:
+                print(debug_error.format('Failed PermissionRequired checks. Redirecting.'))
+
+            # Redirect to home route.
             return redirect(HOME_ROUTE)
 
         # User passed all tests, return requested response.
         return self.get_response(request)
 
-    def verify_logged_in(self, request):
-        """Verify User Logged In"""
+    def verify_logged_in(self, request, debug=True):
+        """Checks to verify User is logged in, for views that require it."""
+
+        if debug:
+            print('\n\n')
+            print(debug_header.format('AdminLtePdq Middleware verify_logged_in():'))
+            print(debug_var.format('    request: ', request))
+            print(debug_var.format('    type(request): ', type(request)))
 
         # If user is already authenticated, just return true.
         if request.user.is_authenticated:
+            if debug:
+                print(debug_success.format('Is Authenticated. Proceeding...'))
+                print('\n\n')
             return True
 
-        # Get the path and current url name and if either listed in exempt whitelist, return true
+        # Determine some variable values.
         path = request.path
         resolver = resolve(path)
         app_name = resolver.app_name
         current_url_name = resolver.url_name
         fully_qualified_url_name = f"{app_name}:{current_url_name}"
+
+        if debug:
+            print('')
+            print(debug_var.format('    path: ', path))
+            print(debug_var.format('    resolver: ', resolver))
+            print(debug_var.format('    app_name: ', app_name))
+            print(debug_var.format('    current_url_name: ', current_url_name))
+            print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
+
+        # User not logged in. Still allow request for the following:
         return (
+            # If url name exists in whitelist.
             current_url_name in LOGIN_EXEMPT_WHITELIST
             or fully_qualified_url_name in LOGIN_EXEMPT_WHITELIST
+            # If path exists in whitelist.
             or path in LOGIN_EXEMPT_WHITELIST
+            # If passes requirements for custom login hook (defined on a per-project basis).
             or self.login_required_hook(request)
+            # If url is for media, as defined in settings.
             or self.verify_media_route(path)
+            # If url is for websockets, as defined in settings.
             or self.verify_websocket_route(path)
         )
 
-    def login_required_hook(self, request):
-        """Hook that can be overridden in subclasses to add additional ways
-        to pass the login required criteria. Should return either True or False."""
-        return False
-
-    def verify_permission_set(self, request):
+    def verify_permission_set(self, request, debug=True):
         """Verify Permission Set"""
 
-        # Default to None for everything
-        permissions = None
-        one_of_permissions = None
-        login_required = None
-        view = None
-        exempt = False
+        if debug:
+            print('\n\n')
+            print(debug_header.format('AdminLtePdq Middleware verify_permission_set():'))
+            print(debug_var.format('    request: ', request))
+            print(debug_var.format('    type(request): ', request))
 
+        exempt = False
         path = request.path
 
         # Try to get the view.
@@ -124,26 +190,48 @@ class AuthMiddleware:
         except Http404:
             view = None
 
+        if debug:
+            print(debug_var.format('    path: ', path))
+            print(debug_var.format('    view: ', view))
+            print(debug_var.format('    is_view: ', bool(view)))
+
         # If view, determine if function based or class based
         if view:
-
             # Get the view class
             view_class = getattr(view.func, 'view_class', None)
 
-            # Determine if request url is exempt.
+            # Determine some variable values.
             current_url_name = view.url_name
             app_name = view.app_name
             fully_qualified_url_name = f"{app_name}:{current_url_name}"
+
+            # Determine if request url is exempt. Is the case for the following:
             if (
+                # If url name exists in whitelist.
                 current_url_name in STRICT_POLICY_WHITELIST
                 or fully_qualified_url_name in STRICT_POLICY_WHITELIST
+                # If path exists in whitelist.
                 or path in STRICT_POLICY_WHITELIST
+                # If is the equivalent of the "Django Admin" app.
                 or app_name == 'admin'
+                # If url is for media, as defined in settings.
                 or self.verify_media_route(path)
+                # If url is for websockets, as defined in settings.
                 or self.verify_websocket_route(path)
+                # If url is for redirecting, as defined in settings.
                 or self.verify_redirect_route(view_class)
             ):
+                # One or more conditions passed for url being exempt from checks.
                 exempt = True
+
+            if debug:
+                print('')
+                print(debug_var.format('    view_class: ', view_class))
+                print(debug_var.format('    is_view_class: ', bool(view_class)))
+                print(debug_var.format('    current_url_name: ', current_url_name))
+                print(debug_var.format('    app_name: ', app_name))
+                print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
+                print(debug_var.format('    exempt: ', exempt))
 
             if view_class:
                 # Get attributes
@@ -162,8 +250,20 @@ class AuthMiddleware:
                 view_type = 'function-based'
                 view_perm_type = 'decorator'
 
-            # If there are permissions, or login_required
+            if debug:
+                print('')
+                print(debug_var.format('    permissions: ', permissions))
+                print(debug_var.format('    one_of_permissions: ', one_of_permissions))
+                print(debug_var.format('    login_required: ', login_required))
+                print(debug_var.format('    view_name: ', view_name))
+                print(debug_var.format('    view_type: ', view_type))
+                print(debug_var.format('    view_perm_type: ', view_perm_type))
+
+            # Allow request if any of the checks passed.
             if exempt or permissions or one_of_permissions or login_required:
+                if debug:
+                    print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
+                    print('\n\n')
                 return True
 
             # Permissions or Login Required not set, add messages, warnings, and return False
@@ -178,7 +278,22 @@ class AuthMiddleware:
             warnings.warn(warning_message)
             messages.debug(request, warning_message)
 
-        # Failed somewhere along the way, return false.
+        if debug:
+            print('')
+            print(debug_error.format('Failed to pass auth checks.'))
+            print('\n\n')
+
+        # If we made it this far, then failed all checks, return False.
+        return False
+
+    def login_required_hook(self, request):
+        """Hook that can be overridden in subclasses to add additional ways
+        to pass the login required criteria. Should return either True or False."""
+        return False
+
+    def permission_required_hook(self, request):
+        """Hook that can be overridden in subclasses to add additional ways
+        to pass the login required criteria. Should return either True or False."""
         return False
 
     def verify_media_route(self, path):
