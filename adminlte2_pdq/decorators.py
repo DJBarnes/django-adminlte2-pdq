@@ -68,16 +68,32 @@ def permission_required(permission, login_url=None, raise_exception=False):
     """
     def decorator(function):
 
-        if isinstance(permission, str):
+        if isinstance(permission, list) or isinstance(permission, tuple):
+            # Is iterable type. Convert to consistent format.
+            permissions = tuple(permission)
+        elif isinstance(permission, str):
+            # Is str type. Assume is a single permission.
             permissions = (permission, )
         else:
-            permissions = permission
+            # Is other type. Raise error.
+            raise TypeError(f'Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.')
+
+        print('\n\n\n\n')
+        print('function: {0}'.format(function))
+        print('permissions: {0}'.format(permissions))
+        print('\n')
 
         function.permissions = permissions
 
         @wraps(function)
         @django_permission_required(permission, login_url, raise_exception)
         def wrap(request, *args, **kwargs):
+
+            print('\n')
+            print('and again....')
+            print('function: {0}'.format(function))
+            print('permissions: {0}'.format(permission))
+            print('\n\n\n\n')
 
             return function(request, *args, **kwargs)
         return wrap
