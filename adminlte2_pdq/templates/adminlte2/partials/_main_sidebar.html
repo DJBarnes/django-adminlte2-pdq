@@ -1,26 +1,36 @@
 {% load adminlte_tags %}
 {% load sidebar_menu %}
+
+
 <!-- Left side column. contains the sidebar -->
 <aside class="main-sidebar">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     {% block sidebar %}
-      <!-- Sidebar user panel -->
+
+      {# Sidebar user panel. Displays gravitar icon and username. #}
       {% block sb_user_panel %}
         <div class="user-panel">
-          <div class="pull-left image">
-            <img src="{% get_avatar_url user=request.user size=90 %}" class="img-circle" alt="User Image">
-          </div>
-          <div class="pull-left info">
-            <p>{% firstof request.user.get_full_name request.user.username %}</p>
-          </div>
+        
+          {% block sb_gravitar %}
+            <div class="pull-left image">
+              <img src="{% get_avatar_url user=request.user size=90 %}" class="img-circle" alt="User Image">
+            </div>
+          {% endblock sb_gravitar %}
+        
+          {% block sb_username %}
+            <div class="pull-left info">
+              <p>{% firstof request.user.get_full_name request.user.username %}</p>
+            </div>
+            <div class="info-height-retainer"></div>
+          {% endblock sb_username %}
         </div>
       {% endblock sb_user_panel %}
 
       {% block sb_form %}
       {% endblock sb_form %}
-
-      <!-- sidebar menu: : style can be found in sidebar.less -->
+      
+      {# The sidebar menu. Rendered with the render_menu tag. Styles can be found in sidebar.less #}
       {% block sidebar_menu %}
 
         <ul class="sidebar-menu">
