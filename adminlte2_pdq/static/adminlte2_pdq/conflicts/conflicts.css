@@ -1,0 +1,6 @@
+
+/* Correct sidebar name text to handle better, if Gravitar is removed. */
+.user-panel > .info {
+    position: static;
+}
+
