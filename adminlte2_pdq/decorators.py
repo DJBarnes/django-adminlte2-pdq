@@ -35,12 +35,17 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
 
 
 def login_required(function=None, redirect_field_name='next', login_url=None):
-    """
-    Decorator for views that defines that login is required, and also
-    adds the login required as a property to that view function.
+    """Decorator for views that defines that login is required.
+
+    Also adds the login required as a property to that view function.
     The property added to the view function can then be used by the sidebar
     template to know whether to render the sidebar menu item that links to that
     view function.
+
+    Does NOT do anything if project is in "strict" mode.
+    For strict mode, see one of the following decorators:
+    * allow_anonymous_access
+    * allow_without_permissions
     """
     def decorator(function):
 
@@ -59,12 +64,12 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
 
 
 def permission_required(permission, login_url=None, raise_exception=False):
-    """
-    Decorator for views that defines what permissions are required, and also
-    adds the required permissions as a property to that view function.
+    """Decorator for views that defines a full set of permissions that are required.
+
+    Also adds the required permissions as a property to that view function.
     The permissions added to the view function can then be used by the sidebar
     template to know whether to render the sidebar menu item that links to that
-    view function
+    view function.
     """
     def decorator(function):
 
@@ -101,12 +106,12 @@ def permission_required(permission, login_url=None, raise_exception=False):
 
 
 def permission_required_one(permission, login_url=None, raise_exception=False):
-    """
-    Decorator for views that defines that one of the permissions are required,
-    and also adds the required permissions as a property to that view function.
+    """Decorator for views that defines that only one of the indicated permissions are required.
+
+    Also adds the required permissions as a property to that view function.
     The permissions added to the view function can then be used by the sidebar
     template to know whether to render the sidebar menu item that links to that
-    view function
+    view function.
     """
     def decorator(function):
 
@@ -123,4 +128,26 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
             return function(request, *args, **kwargs)
         return wrap
+    return decorator
+
+
+def allow_anonymous_access():
+    """Decorator for strict mode, that defines a view can be accessed without login.
+
+    Also adds the required logic to render the view on the sidebar template.
+    """
+    def decorator(function):
+        pass
+
+    return decorator
+
+
+def allow_without_permissions():
+    """Decorator for strict mode, that defines a view which requires login, but no permissions.
+
+    Also adds the required logic to render the view on the sidebar template.
+    """
+    def decorator(function):
+        pass
+
     return decorator
