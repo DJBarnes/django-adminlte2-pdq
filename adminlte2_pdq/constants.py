@@ -77,3 +77,6 @@ TEXT_PURPLE = '{0}{1}{2}'.format(Fore.MAGENTA, Back.RESET, Style.NORMAL) if COLO
 TEXT_RED = '{0}{1}{2}'.format(Fore.RED, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ''
 TEXT_RESET = Style.RESET_ALL if COLORAMA_PRESENT else ''
 TEXT_YELLOW = '{0}{1}{2}'.format(Fore.YELLOW, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ''
+
+# Optionally display package-wide debug printing.
+SHOW_DEBUG_PRINT = getattr(settings, 'ADMINLTE2_SHOW_DEBUG_PRINT', False)
