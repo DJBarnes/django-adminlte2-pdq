@@ -31,6 +31,7 @@ from .constants import (
     TEXT_RESET,
     TEXT_YELLOW,
 )
+from .utlis import debug_print
 
 
 # Module Variables.
@@ -71,18 +72,19 @@ class AuthMiddleware:
     def __call__(self, request):
         return self.run_auth_checks(request)
 
-    def run_auth_checks(self, request, debug=True):
+    def run_auth_checks(self, request, debug=False):
         """Various AdminLTE authentication checks upon User trying to access a view.
 
         Upon failure, user will be redirected accordingly.
         Redirects are determined by the LOGIN_REDIRECT_URL setting, and the ADMINLTE2_HOME_ROUTE setting.
         """
-
         if debug:
-            print('\n\n')
-            print(debug_header.format('AdminLtePdq Middleware run_auth_checks():'))
-            print(debug_var.format('    type(request): ', type(request)))
-            print(debug_var.format('    dir(request): ', dir(request)))
+            debug_print.debug = True
+
+        debug_print('\n\n')
+        debug_print(debug_header.format('AdminLtePdq Middleware run_auth_checks():'))
+        debug_print(debug_var.format('    type(request): ', type(request)))
+        debug_print(debug_var.format('    dir(request): ', dir(request)))
 
         # Ensure user object is accessible for Authentication checks.
         if not hasattr(request, 'user'):
@@ -106,8 +108,7 @@ class AuthMiddleware:
         if LOGIN_REQUIRED and not self.verify_logged_in(request):
             # User not logged in and view requires login to access.
 
-            if debug:
-                print(debug_error.format('Failed LoginRequired checks. Redirecting.'))
+            debug_print(debug_error.format('Failed LoginRequired checks. Redirecting.'))
 
             # Redirect to login page.
             return redirect(LOGIN_URL + f'?next={request.path}')
@@ -117,8 +118,7 @@ class AuthMiddleware:
         if STRICT_POLICY and not self.verify_permission_set(request):
             # No permissions defined on view or user failed permission checks.
 
-            if debug:
-                print(debug_error.format('Failed PermissionRequired checks. Redirecting.'))
+            debug_print(debug_error.format('Failed PermissionRequired checks. Redirecting.'))
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
@@ -126,20 +126,21 @@ class AuthMiddleware:
         # User passed all tests, return requested response.
         return self.get_response(request)
 
-    def verify_logged_in(self, request, debug=True):
+    def verify_logged_in(self, request, debug=False):
         """Checks to verify User is logged in, for views that require it."""
-
         if debug:
-            print('\n\n')
-            print(debug_header.format('AdminLtePdq Middleware verify_logged_in():'))
-            print(debug_var.format('    request: ', request))
-            print(debug_var.format('    type(request): ', type(request)))
+            debug_print.debug = True
+
+        debug_print('\n\n')
+        debug_print(debug_header.format('AdminLtePdq Middleware verify_logged_in():'))
+        debug_print(debug_var.format('    request: ', request))
+        debug_print(debug_var.format('    type(request): ', type(request)))
 
         # If user is already authenticated, just return true.
         if request.user.is_authenticated:
-            if debug:
-                print(debug_success.format('Is Authenticated. Proceeding...'))
-                print('\n\n')
+            debug_print(debug_success.format('Is Authenticated. Proceeding...'))
+            debug_print('\n\n')
+
             return True
 
         # Determine some variable values.
@@ -149,13 +150,12 @@ class AuthMiddleware:
         current_url_name = resolver.url_name
         fully_qualified_url_name = f"{app_name}:{current_url_name}"
 
-        if debug:
-            print('')
-            print(debug_var.format('    path: ', path))
-            print(debug_var.format('    resolver: ', resolver))
-            print(debug_var.format('    app_name: ', app_name))
-            print(debug_var.format('    current_url_name: ', current_url_name))
-            print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
+        debug_print('')
+        debug_print(debug_var.format('    path: ', path))
+        debug_print(debug_var.format('    resolver: ', resolver))
+        debug_print(debug_var.format('    app_name: ', app_name))
+        debug_print(debug_var.format('    current_url_name: ', current_url_name))
+        debug_print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
 
         # User not logged in. Still allow request for the following:
         return (
@@ -172,14 +172,15 @@ class AuthMiddleware:
             or self.verify_websocket_route(path)
         )
 
-    def verify_permission_set(self, request, debug=True):
+    def verify_permission_set(self, request, debug=False):
         """Verify Permission Set"""
-
         if debug:
-            print('\n\n')
-            print(debug_header.format('AdminLtePdq Middleware verify_permission_set():'))
-            print(debug_var.format('    request: ', request))
-            print(debug_var.format('    type(request): ', request))
+            debug_print.debug = True
+
+        debug_print('\n\n')
+        debug_print(debug_header.format('AdminLtePdq Middleware verify_permission_set():'))
+        debug_print(debug_var.format('    request: ', request))
+        debug_print(debug_var.format('    type(request): ', request))
 
         exempt = False
         path = request.path
@@ -190,10 +191,9 @@ class AuthMiddleware:
         except Http404:
             view = None
 
-        if debug:
-            print(debug_var.format('    path: ', path))
-            print(debug_var.format('    view: ', view))
-            print(debug_var.format('    is_view: ', bool(view)))
+        debug_print(debug_var.format('    path: ', path))
+        debug_print(debug_var.format('    view: ', view))
+        debug_print(debug_var.format('    is_view: ', bool(view)))
 
         # If view, determine if function based or class based
         if view:
@@ -224,14 +224,13 @@ class AuthMiddleware:
                 # One or more conditions passed for url being exempt from checks.
                 exempt = True
 
-            if debug:
-                print('')
-                print(debug_var.format('    view_class: ', view_class))
-                print(debug_var.format('    is_view_class: ', bool(view_class)))
-                print(debug_var.format('    current_url_name: ', current_url_name))
-                print(debug_var.format('    app_name: ', app_name))
-                print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
-                print(debug_var.format('    exempt: ', exempt))
+            debug_print('')
+            debug_print(debug_var.format('    view_class: ', view_class))
+            debug_print(debug_var.format('    is_view_class: ', bool(view_class)))
+            debug_print(debug_var.format('    current_url_name: ', current_url_name))
+            debug_print(debug_var.format('    app_name: ', app_name))
+            debug_print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
+            debug_print(debug_var.format('    exempt: ', exempt))
 
             if view_class:
                 # Get attributes
@@ -250,20 +249,19 @@ class AuthMiddleware:
                 view_type = 'function-based'
                 view_perm_type = 'decorator'
 
-            if debug:
-                print('')
-                print(debug_var.format('    permissions: ', permissions))
-                print(debug_var.format('    one_of_permissions: ', one_of_permissions))
-                print(debug_var.format('    login_required: ', login_required))
-                print(debug_var.format('    view_name: ', view_name))
-                print(debug_var.format('    view_type: ', view_type))
-                print(debug_var.format('    view_perm_type: ', view_perm_type))
+            debug_print('')
+            debug_print(debug_var.format('    permissions: ', permissions))
+            debug_print(debug_var.format('    one_of_permissions: ', one_of_permissions))
+            debug_print(debug_var.format('    login_required: ', login_required))
+            debug_print(debug_var.format('    view_name: ', view_name))
+            debug_print(debug_var.format('    view_type: ', view_type))
+            debug_print(debug_var.format('    view_perm_type: ', view_perm_type))
 
             # Allow request if any of the checks passed.
             if exempt or permissions or one_of_permissions or login_required:
-                if debug:
-                    print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
-                    print('\n\n')
+                debug_print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
+                debug_print('\n\n')
+
                 return True
 
             # Permissions or Login Required not set, add messages, warnings, and return False
@@ -278,10 +276,9 @@ class AuthMiddleware:
             warnings.warn(warning_message)
             messages.debug(request, warning_message)
 
-        if debug:
-            print('')
-            print(debug_error.format('Failed to pass auth checks.'))
-            print('\n\n')
+        debug_print('')
+        debug_print(debug_error.format('Failed to pass auth checks.'))
+        debug_print('\n\n')
 
         # If we made it this far, then failed all checks, return False.
         return False
