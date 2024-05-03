@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import (
 )
 from django.core.exceptions import PermissionDenied
 
+from .utlis import debug_print
+
 
 def _one_of_permission_required(perm, login_url=None, raise_exception=False):
     """
@@ -83,10 +85,10 @@ def permission_required(permission, login_url=None, raise_exception=False):
             # Is other type. Raise error.
             raise TypeError(f'Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.')
 
-        print('\n\n\n\n')
-        print('function: {0}'.format(function))
-        print('permissions: {0}'.format(permissions))
-        print('\n')
+        debug_print('\n\n\n\n')
+        debug_print('function: {0}'.format(function))
+        debug_print('permissions: {0}'.format(permissions))
+        debug_print('\n')
 
         function.permissions = permissions
 
@@ -94,11 +96,11 @@ def permission_required(permission, login_url=None, raise_exception=False):
         @django_permission_required(permission, login_url, raise_exception)
         def wrap(request, *args, **kwargs):
 
-            print('\n')
-            print('and again....')
-            print('function: {0}'.format(function))
-            print('permissions: {0}'.format(permission))
-            print('\n\n\n\n')
+            debug_print('\n')
+            debug_print('and again....')
+            debug_print('function: {0}'.format(function))
+            debug_print('permissions: {0}'.format(permission))
+            debug_print('\n\n\n\n')
 
             return function(request, *args, **kwargs)
         return wrap
