@@ -72,11 +72,7 @@ def get_permissions_from_view(view):
     view_class = getattr(view.func, 'view_class', None)
     if view_class:
         view_permissions = getattr(view_class, 'permission_required', [])
-        view_one_of_permissions = getattr(
-            view_class,
-            'permission_required_one',
-            []
-        )
+        view_one_of_permissions = getattr(view_class, 'permission_required_one', [])
         view_login_required = getattr(view_class, 'login_required', None)
     else:
         view_permissions = getattr(view.func, 'permissions', [])
@@ -274,10 +270,7 @@ def is_allowed_node(user, node):
 
         # Determine if the node is accessible by permissions alone.
         # This will include the need to be logged in even if they didn't specify that.
-        allowed = (
-            check_for_all_permissions(user, permissions)
-            or check_for_one_permission(user, one_of_permissions)
-        )
+        allowed = check_for_all_permissions(user, permissions) or check_for_one_permission(user, one_of_permissions)
 
     # Check whitelist when in strict mode assuming no properties have been set on the node.
     if not has_property and STRICT_POLICY and (check_for_strict_whitelisted_node(node) or user.is_superuser):
@@ -298,10 +291,7 @@ def check_for_one_permission_in_node_list(user, nodes):
         for node in nodes:
             child_nodes = node.get('nodes')
             if child_nodes:
-                child_allowed = check_for_one_permission_in_node_list(
-                    user,
-                    child_nodes
-                )
+                child_allowed = check_for_one_permission_in_node_list(user, child_nodes)
                 if child_allowed:
                     allowed = True
             else:
@@ -323,10 +313,7 @@ def check_for_node_that_matches_request_path(request, nodes):
         for node in nodes:
             child_nodes = node.get('nodes')
             if child_nodes:
-                child_match = check_for_node_that_matches_request_path(
-                    request,
-                    child_nodes
-                )
+                child_match = check_for_node_that_matches_request_path(request, child_nodes)
                 if child_match:
                     match = True
             else:
@@ -370,7 +357,7 @@ def render_menu(context):
             settings,
             'ADMINLTE2_MENU',
             default_menu,
-        )
+        ),
     )
     menu_admin = AdminMenu.create_menu(context) if include_admin_nav else []
     menu_last = context.get('ADMINLTE2_MENU_LAST', [])
@@ -425,10 +412,7 @@ def render_tree(context, node):
     """Render out a menu tree"""
     nodes = node.get('nodes')
     allowed = check_for_one_permission_in_node_list(context['user'], nodes)
-    add_display_block = check_for_node_that_matches_request_path(
-        context['request'],
-        nodes
-    )
+    add_display_block = check_for_node_that_matches_request_path(context['request'], nodes)
 
     if not node.get('icon'):
         node['icon'] = 'not-found'

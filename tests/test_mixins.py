@@ -22,36 +22,23 @@ class MixinTestCase(TestCase):
     """
 
     def setUp(self):
-        self.permission_content_type = ContentType.objects.get_for_model(
-            Permission
-        )
+        self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
 
         Permission.objects.create(
             name="add_foo",
             codename='add_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         Permission.objects.create(
             name="change_foo",
             codename='change_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         # Add permissions auth.add_foo and auth.change_foo to full_user
-        full_perms = Permission.objects.filter(
-            codename__in=(
-                'add_foo',
-                'change_foo'
-            )
-        )
-        self.user = UserModel.objects.create(
-            username='john',
-            password='qwerty'
-        )
-        self.full_user = UserModel.objects.create(
-            username='johnfull',
-            password='qwerty'
-        )
+        full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
+        self.user = UserModel.objects.create(username='john', password='qwerty')
+        self.full_user = UserModel.objects.create(username='johnfull', password='qwerty')
         self.full_user.user_permissions.add(*full_perms)
 
         self.anonymous_user = AnonymousUser()
@@ -61,6 +48,7 @@ class MixinTestCase(TestCase):
 
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
+
             permission_required = ['auth.add_foo']
 
             def get(self, request):
@@ -78,6 +66,7 @@ class MixinTestCase(TestCase):
 
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
+
             permission_required = 'auth.add_foo'
 
             def get(self, request):
@@ -95,6 +84,7 @@ class MixinTestCase(TestCase):
 
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
+
             permission_required_one = ['auth.add_foo']
 
             def get(self, request):
@@ -112,6 +102,7 @@ class MixinTestCase(TestCase):
 
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
+
             permission_required_one = 'auth.add_foo'
 
             def get(self, request):
@@ -126,8 +117,10 @@ class MixinTestCase(TestCase):
 
     def test_mixin_prevents_access_for_no_perms_all(self):
         """Test mixin prevents access for no perms all"""
+
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
+
             permission_required = 'auth.add_foo'
 
             def get(self, request):
@@ -141,8 +134,10 @@ class MixinTestCase(TestCase):
 
     def test_mixin_prevents_access_for_no_perms_one(self):
         """Test mixin prevents access for no perms one"""
+
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
+
             permission_required_one = 'auth.add_foo'
 
             def get(self, request):

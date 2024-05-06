@@ -113,33 +113,20 @@ class ViewsTestCase(TestCase):
     def test_home_view_works_when_not_authenticated(self):
         """Test home view works when not authenticated"""
         response = self.client.get(
-            reverse(
-                getattr(
-                    settings,
-                    'ADMINLTE2_HOME_ROUTE',
-                    'adminlte2_pdq:home'
-                )
-            ),
-            follow=True
+            reverse(getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home')), follow=True
         )
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Home")
 
     def test_register_view_works_when_not_authenticated(self):
         """Test register view works when not authenticated"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:register'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:register'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Register")
 
     def test_sample_form_view_redirects_to_login_when_not_authenticated(self):
         """Test sample_form view redirects to login when not authenticated"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample_form'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample_form'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample_form page!")
         self.assertContains(response, "Username")
@@ -147,10 +134,7 @@ class ViewsTestCase(TestCase):
 
     def test_sample1_view_redirects_to_login_when_not_authenticated(self):
         """Test sample1 view redirects to login when not authenticated"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample1'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample1'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample1 page!")
         self.assertContains(response, "Username")
@@ -158,10 +142,7 @@ class ViewsTestCase(TestCase):
 
     def test_sample2_view_redirects_to_login_when_not_authenticated(self):
         """Test sample2 view redirects to login when not authenticated"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample2'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample2'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample2 page!")
         self.assertContains(response, "Username")
@@ -170,10 +151,7 @@ class ViewsTestCase(TestCase):
     def test_sample1_view_redirects_to_login_when_authenticated_with_incorrect_permissions(self):
         """Test sample1 view redirects to login when authenticated with incorrect permissions"""
         self.client.force_login(self.test_user_no_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample1'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample1'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample1 page!")
         self.assertContains(response, "Username")
@@ -182,10 +160,7 @@ class ViewsTestCase(TestCase):
     def test_sample2_view_redirects_to_login_when_authenticated_with_incorrect_permissions(self):
         """Test sample2 view redirects to login when authenticated with incorrect permissions"""
         self.client.force_login(self.test_user_no_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample2'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample2'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample2 page!")
         self.assertContains(response, "Username")
@@ -194,9 +169,7 @@ class ViewsTestCase(TestCase):
     def test_sample_form_view_works_when_authenticated_with_no_permissions(self):
         """Test sample_form view works when authenticated with no permissions"""
         self.client.force_login(self.test_user_no_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample_form')
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample_form'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample form page!")
         self.assertNotContains(response, "Username")
@@ -204,9 +177,7 @@ class ViewsTestCase(TestCase):
     def test_sample1_view_works_when_authenticated_with_correct_permissions(self):
         """Test sample1 view works when authenticated with correct permissions"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample1')
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample1'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample1 page!")
         self.assertNotContains(response, "Username")
@@ -214,9 +185,7 @@ class ViewsTestCase(TestCase):
     def test_sample2_view_works_when_authenticated_with_correct_permissions(self):
         """Test sample2 view works when authenticated with correct permissions"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:sample2')
-        )
+        response = self.client.get(reverse('adminlte2_pdq:sample2'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample2 page!")
         self.assertNotContains(response, "Username")

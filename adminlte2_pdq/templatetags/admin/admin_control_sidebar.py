@@ -1,4 +1,5 @@
 """Django AdminLTE2 Admin Control Sidebar"""
+
 from django import template
 from django.conf import settings
 
@@ -19,11 +20,7 @@ def show_control_sidebar_tabs():
     # overridden by the settings
     control_sidebar_tabs = {
         **default_dict,
-        **getattr(
-            settings,
-            'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS',
-            {}
-        ),
+        **getattr(settings, 'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS', {}),
     }
 
     # Get the number of tabs that should be shown. This sums up the values
@@ -40,20 +37,23 @@ def show_control_sidebar_tabs():
     return {
         'show_csb_tabs': show_tabs,
         'show_csb_recent_tab': control_sidebar_tabs.get(
-            'SHOW_RECENT_ACTIVITY_TAB', False
+            'SHOW_RECENT_ACTIVITY_TAB',
+            False,
         ),
         'show_csb_settings_tab': control_sidebar_tabs.get(
-            'SHOW_SETTINGS_TAB', False
+            'SHOW_SETTINGS_TAB',
+            False,
         ),
         'show_csb_extra_tab': control_sidebar_tabs.get(
-            'SHOW_EXTRA_TABS', False
+            'SHOW_EXTRA_TABS',
+            False,
         ),
     }
 
 
 @register.inclusion_tag(
     'admin/partials/_control_sidebar/_recent_activity_tab_pane.html',
-    takes_context=True
+    takes_context=True,
 )
 def show_control_sidebar_recent_activity_tab_pane(context):
     """Show the control sidebar recent activity tab pane"""
@@ -61,10 +61,13 @@ def show_control_sidebar_recent_activity_tab_pane(context):
     control_sidebar_tabs = getattr(
         settings,
         'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS',
-        {}
+        {},
     )
 
-    show_tab_pane = control_sidebar_tabs.get('SHOW_RECENT_ACTIVITY_TAB', True)
+    show_tab_pane = control_sidebar_tabs.get(
+        'SHOW_RECENT_ACTIVITY_TAB',
+        True,
+    )
 
     new_context = context.flatten()
     new_context.update({
@@ -78,16 +81,15 @@ def show_control_sidebar_recent_activity_tab_pane(context):
 def show_control_sidebar_settings_tab_pane():
     """Show control sidebar settings tab pane"""
 
-    control_sidebar_tabs = getattr(
-        settings,
-        'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS',
-        {}
-    )
+    control_sidebar_tabs = getattr(settings, 'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS', {})
 
-    show_tab_pane = control_sidebar_tabs.get('SHOW_SETTINGS_TAB', False)
+    show_tab_pane = control_sidebar_tabs.get(
+        'SHOW_SETTINGS_TAB',
+        False,
+    )
     tab_pane_active = not control_sidebar_tabs.get(
         'SHOW_RECENT_ACTIVITY_TAB',
-        True
+        True,
     )
 
     return {
@@ -100,16 +102,21 @@ def show_control_sidebar_settings_tab_pane():
 def show_control_sidebar_extra_tab_panes():
     """Show control sidebar extra tab panes"""
 
-    control_sidebar_tabs = getattr(
-        settings,
-        'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS',
-        {}
-    )
+    control_sidebar_tabs = getattr(settings, 'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS', {})
 
-    show_tab_pane = control_sidebar_tabs.get('SHOW_EXTRA_TABS', False)
+    show_tab_pane = control_sidebar_tabs.get(
+        'SHOW_EXTRA_TABS',
+        False,
+    )
     tab_pane_active = not (
-        control_sidebar_tabs.get('SHOW_RECENT_ACTIVITY_TAB', True) or
-        control_sidebar_tabs.get('SHOW_SETTINGS_TAB', False)
+        control_sidebar_tabs.get(
+            'SHOW_RECENT_ACTIVITY_TAB',
+            True,
+        )
+        or control_sidebar_tabs.get(
+            'SHOW_SETTINGS_TAB',
+            False,
+        )
     )
 
     return {

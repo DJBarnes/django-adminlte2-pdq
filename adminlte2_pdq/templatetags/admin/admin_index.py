@@ -1,4 +1,5 @@
 """Django AdminLTE2 Admin Index"""
+
 from django import template
 from django.conf import settings
 
@@ -9,11 +10,7 @@ register = template.Library()
 def index_app_display(context):
     """Index app display"""
 
-    use_app_list = getattr(
-        settings,
-        'ADMINLTE2_ADMIN_INDEX_USE_APP_LIST',
-        False
-    )
+    use_app_list = getattr(settings, 'ADMINLTE2_ADMIN_INDEX_USE_APP_LIST', False)
 
     if use_app_list:
         partial = "admin/partials/_index_list.html"

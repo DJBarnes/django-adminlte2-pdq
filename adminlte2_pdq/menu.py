@@ -18,9 +18,9 @@ MENU = [
             {
                 'route': 'adminlte2_pdq:demo-css',
                 'text': 'Demo CSS',
-                'icon': 'fa fa-file'
+                'icon': 'fa fa-file',
             },
-        ]
+        ],
     },
     {
         'text': 'Profile',
@@ -28,9 +28,9 @@ MENU = [
             {
                 'route': 'password_change',
                 'text': 'Change Password',
-                'icon': 'fa fa-lock'
+                'icon': 'fa fa-lock',
             }
-        ]
+        ],
     },
     {
         'text': 'Samples',

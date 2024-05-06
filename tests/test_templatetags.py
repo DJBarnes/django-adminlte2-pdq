@@ -22,6 +22,7 @@ class TemplateTagTestCase(TestCase):
 
     class TestForm(forms.Form):
         """Test Form"""
+
         adminlte2_show_field_errors_in_summary = True
 
         test_hidden = forms.CharField(widget=forms.HiddenInput, required=False)
@@ -133,14 +134,12 @@ class TemplateTagTestCase(TestCase):
         """Test with attrs adds attributes to an existring form field"""
         test_form = self.TestForm()
         result = adminlte_filters.with_attrs(
-            test_form['test_text'],
-            '{"attribute-1":"value-1", "attribute-2":"value-2"}'
+            test_form['test_text'], '{"attribute-1":"value-1", "attribute-2":"value-2"}'
         )
 
         self.assertInHTML(
-            '<input type="text" name="test_text" attribute-2="value-2"'
-            ' attribute-1="value-1" id="id_test_text" />',
-            str(result)
+            '<input type="text" name="test_text" attribute-2="value-2"' ' attribute-1="value-1" id="id_test_text" />',
+            str(result),
         )
 
     # |-------------------------------------------------------------------------
@@ -150,10 +149,7 @@ class TemplateTagTestCase(TestCase):
     def test_with_class_adds_a_class_to_an_existing_form_field(self):
         """Test with class adds a class to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_class(
-            test_form['test_text'],
-            'my-class-name'
-        )
+        result = adminlte_filters.with_class(test_form['test_text'], 'my-class-name')
 
         self.assertIn('class="my-class-name"', str(result))
 
@@ -170,14 +166,13 @@ class TemplateTagTestCase(TestCase):
         """Test with data adds data attributes to an existing form field"""
         test_form = self.TestForm()
         result = adminlte_filters.with_data(
-            test_form['test_text'],
-            '{"attribute-1":"value-1", "attribute-2":"value-2"}'
+            test_form['test_text'], '{"attribute-1":"value-1", "attribute-2":"value-2"}'
         )
 
         self.assertInHTML(
             '<input type="text" name="test_text" data-attribute-2="value-2"'
             ' data-attribute-1="value-1" id="id_test_text" />',
-            str(result)
+            str(result),
         )
 
     # |-------------------------------------------------------------------------
@@ -187,27 +182,16 @@ class TemplateTagTestCase(TestCase):
     def test_with_placeholder_adds_a_default_placeholder_attribute_to_an_existing_form_field(self):
         """Test with placeholder adds a default placeholder attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_placeholder(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_placeholder(test_form['test_text'])
 
-        self.assertIn(
-            'Test text',
-            str(result)
-        )
+        self.assertIn('Test text', str(result))
 
     def test_with_placeholder_adds_a_specific_placeholder_attribute_to_an_existing_form_field(self):
         """Test with placeholder adds a specific placeholder attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_placeholder(
-            test_form['test_text'],
-            placeholder='My Placeholder Text'
-        )
+        result = adminlte_filters.with_placeholder(test_form['test_text'], placeholder='My Placeholder Text')
 
-        self.assertIn(
-            'My Placeholder Text',
-            str(result)
-        )
+        self.assertIn('My Placeholder Text', str(result))
 
     def test_with_placeholder_does_not_override_existing_placeholder_on_an_existing_form_field(self):
         """Test with placeholder does not override existing placeholder on an existing form field"""
@@ -218,15 +202,10 @@ class TemplateTagTestCase(TestCase):
         test_form['test_text'].field.widget.attrs = {**test_form['test_text'].field.widget.attrs, **attrs}
 
         # Use tag
-        result = adminlte_filters.with_placeholder(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_placeholder(test_form['test_text'])
 
         # Verify not overwritten
-        self.assertIn(
-            'Original Placeholder',
-            str(result)
-        )
+        self.assertIn('Original Placeholder', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test with_list
@@ -235,27 +214,16 @@ class TemplateTagTestCase(TestCase):
     def test_with_list_adds_a_default_list_attribute_to_an_existing_form_field(self):
         """Test with list adds a default list attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_list(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_list(test_form['test_text'])
 
-        self.assertIn(
-            'test_text_list',
-            str(result)
-        )
+        self.assertIn('test_text_list', str(result))
 
     def test_with_list_adds_a_specific_list_attribute_to_an_existing_form_field(self):
         """Test with list adds a specific list attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_list(
-            test_form['test_text'],
-            name='my_fancy_list'
-        )
+        result = adminlte_filters.with_list(test_form['test_text'], name='my_fancy_list')
 
-        self.assertIn(
-            'my_fancy_list',
-            str(result)
-        )
+        self.assertIn('my_fancy_list', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test with_pattern
@@ -264,27 +232,16 @@ class TemplateTagTestCase(TestCase):
     def test_with_pattern_adds_a_default_pattern_attribute_to_an_existing_form_field(self):
         """Test with pattern adds a default pattern attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_pattern(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_pattern(test_form['test_text'])
 
-        self.assertIn(
-            r'\([0-9]{3}\) [0-9]{3}-[0-9]{4}',
-            str(result)
-        )
+        self.assertIn(r'\([0-9]{3}\) [0-9]{3}-[0-9]{4}', str(result))
 
     def test_with_pattern_adds_a_specific_pattern_attribute_to_an_existing_form_field(self):
         """Test with pattern adds a specific pattern attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_pattern(
-            test_form['test_text'],
-            pattern=r'[0-9]{3}-[0-9]{4}'
-        )
+        result = adminlte_filters.with_pattern(test_form['test_text'], pattern=r'[0-9]{3}-[0-9]{4}')
 
-        self.assertIn(
-            'pattern="[0-9]{3}-[0-9]{4}"',
-            str(result)
-        )
+        self.assertIn('pattern="[0-9]{3}-[0-9]{4}"', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test with_inputmask
@@ -293,27 +250,16 @@ class TemplateTagTestCase(TestCase):
     def test_with_inputmask_adds_a_default_inputmask_attribute_to_an_existing_form_field(self):
         """Test with inputmask adds a default inputmask attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_inputmask(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_inputmask(test_form['test_text'])
 
-        self.assertIn(
-            '(999) 999-9999',
-            str(result)
-        )
+        self.assertIn('(999) 999-9999', str(result))
 
     def test_with_inputmask_adds_a_specific_inputmask_attribute_to_an_existing_form_field(self):
         """Test with inputmask adds a specific inputmask attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_inputmask(
-            test_form['test_text'],
-            inputmask='999-9999'
-        )
+        result = adminlte_filters.with_inputmask(test_form['test_text'], inputmask='999-9999')
 
-        self.assertIn(
-            '999-9999',
-            str(result)
-        )
+        self.assertIn('999-9999', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test with_min
@@ -322,27 +268,16 @@ class TemplateTagTestCase(TestCase):
     def test_with_min_adds_a_default_min_attribute_to_an_existing_form_field(self):
         """Test with min adds a default min attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_min(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_min(test_form['test_text'])
 
-        self.assertIn(
-            'min="0"',
-            str(result)
-        )
+        self.assertIn('min="0"', str(result))
 
     def test_with_min_adds_a_specific_min_attribute_to_an_existing_form_field(self):
         """Test with min adds a specific min attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_min(
-            test_form['test_text'],
-            min_val=10
-        )
+        result = adminlte_filters.with_min(test_form['test_text'], min_val=10)
 
-        self.assertIn(
-            'min="10"',
-            str(result)
-        )
+        self.assertIn('min="10"', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test with_max
@@ -351,27 +286,16 @@ class TemplateTagTestCase(TestCase):
     def test_with_max_adds_a_default_max_attribute_to_an_existing_form_field(self):
         """Test with max adds a default max attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_max(
-            test_form['test_text']
-        )
+        result = adminlte_filters.with_max(test_form['test_text'])
 
-        self.assertIn(
-            'max="100"',
-            str(result)
-        )
+        self.assertIn('max="100"', str(result))
 
     def test_with_max_adds_a_specific_max_attribute_to_an_existing_form_field(self):
         """Test with max adds a specific max attribute to an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_max(
-            test_form['test_text'],
-            max_val=90
-        )
+        result = adminlte_filters.with_max(test_form['test_text'], max_val=90)
 
-        self.assertIn(
-            'max="90"',
-            str(result)
-        )
+        self.assertIn('max="90"', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test with_input_type
@@ -380,15 +304,9 @@ class TemplateTagTestCase(TestCase):
     def test_with_input_type_changes_the_input_type_of_an_existing_form_field(self):
         """Test with input type changes the input_type of an existing form field"""
         test_form = self.TestForm()
-        result = adminlte_filters.with_input_type(
-            test_form['test_text'],
-            new_type='url'
-        )
+        result = adminlte_filters.with_input_type(test_form['test_text'], new_type='url')
 
-        self.assertIn(
-            'type="url"',
-            str(result)
-        )
+        self.assertIn('type="url"', str(result))
 
     # |-------------------------------------------------------------------------
     # | Test dir
@@ -399,10 +317,7 @@ class TemplateTagTestCase(TestCase):
         test_form = self.TestForm()
         result = adminlte_filters.directory(test_form['test_text'])
 
-        self.assertIn(
-            "'as_hidden', 'as_text'",
-            str(result)
-        )
+        self.assertIn("'as_hidden', 'as_text'", str(result))
 
     # |-------------------------------------------------------------------------
     # | Test dictionary
@@ -413,10 +328,7 @@ class TemplateTagTestCase(TestCase):
         test_form = self.TestForm()
         result = adminlte_filters.dictionary(test_form['test_text'])
 
-        self.assertIn(
-            "'field': <django.forms.fields.CharField",
-            str(result)
-        )
+        self.assertIn("'field': <django.forms.fields.CharField", str(result))
 
     # |-------------------------------------------------------------------------
     # | Test unsnake
@@ -426,10 +338,7 @@ class TemplateTagTestCase(TestCase):
         """Test unsnake converts underscore to spaces and capitalizes first letter"""
         result = adminlte_filters.unsnake('this_is_only_a_test')
 
-        self.assertIn(
-            "This is only a test",
-            result
-        )
+        self.assertIn("This is only a test", result)
 
     # |-------------------------------------------------------------------------
     # | Test unslugify
@@ -439,10 +348,7 @@ class TemplateTagTestCase(TestCase):
         """Test unslugify converts underscore to spaces and capitalizes first letter"""
         result = adminlte_filters.unslugify('this-is-only-a-test')
 
-        self.assertIn(
-            "This is only a test",
-            result
-        )
+        self.assertIn("This is only a test", result)
 
     # |-------------------------------------------------------------------------
     # | Adminlte_Tags.py
@@ -457,56 +363,41 @@ class TemplateTagTestCase(TestCase):
     def test_update_errors_with_formset_data_returns_errors_for_formset_with_one_formset_error(self):
         """Test update errors with formset data returns errors for formset
         with one formset error"""
+
         class TestFormSet(BaseFormSet):
             """Test Formset"""
 
             def clean(self):
                 raise forms.ValidationError("Test Non Form Error")
 
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         data = {
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MAX_NUM_FORMS': '1',
-            'form-0-test_text': 'text_value'
+            'form-0-test_text': 'text_value',
         }
 
-        TestFormSets = forms.formset_factory(
-            self.TestForm,
-            formset=TestFormSet
-        )
+        TestFormSets = forms.formset_factory(self.TestForm, formset=TestFormSet)
 
         formset = TestFormSets(data)
         formset.adminlte2_use_error_summary = True
 
-        adminlte_tags._update_errors_with_formset_data(
-            errors,
-            formset
-        )
+        adminlte_tags._update_errors_with_formset_data(errors, formset)
 
         self.assertTrue(errors['has_non_form_errors'])
 
     def test_update_errors_with_formset_data_returns_errors_for_formset_with_one_form_error(self):
         """Test update errors with formset data returns errors for formset
         with one form error"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         data = {
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MAX_NUM_FORMS': '1',
-            'form-0-test_text': 'text_value'
+            'form-0-test_text': 'text_value',
         }
 
         TestFormSets = forms.formset_factory(self.TestForm)
@@ -516,28 +407,20 @@ class TemplateTagTestCase(TestCase):
 
         formset.forms[0].add_error(None, "Test Form Error")
 
-        adminlte_tags._update_errors_with_formset_data(
-            errors,
-            formset
-        )
+        adminlte_tags._update_errors_with_formset_data(errors, formset)
 
         self.assertTrue(errors['has_non_field_errors'])
 
     def test_update_errors_with_formset_data_returns_errors_for_formset_with_one_form_field_error(self):
         """Test update errors with formset data returns errors for formset with
         one form field error"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         data = {
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MAX_NUM_FORMS': '1',
-            'form-0-test_text': 'text_value'
+            'form-0-test_text': 'text_value',
         }
 
         TestFormSets = forms.formset_factory(self.TestForm)
@@ -546,10 +429,7 @@ class TemplateTagTestCase(TestCase):
         formset.adminlte2_use_error_summary = True
         formset.forms[0].add_error('test_text', 'Test Field Error')
 
-        adminlte_tags._update_errors_with_formset_data(
-            errors,
-            formset
-        )
+        adminlte_tags._update_errors_with_formset_data(errors, formset)
 
         self.assertTrue(errors['has_field_errors'])
         self.assertEqual(len(errors['forms']), 1)
@@ -557,39 +437,25 @@ class TemplateTagTestCase(TestCase):
     def test_update_errors_with_formset_data_throws_attribute_error_when_formset_is_not_a_valid_formset(self):
         """Test update errors with formset data throws attribute error when
         formset is not a valid formset"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         formset = namedtuple('Form', ['adminlte2_use_error_summary'])
         formset.adminlte2_use_error_summary = True
 
         with self.assertRaises(AttributeError):
-            adminlte_tags._update_errors_with_formset_data(
-                errors,
-                formset
-            )
+            adminlte_tags._update_errors_with_formset_data(errors, formset)
 
-    def test_update_errors_with_formset_data_returns_an_unmodified_errors_dict_if_the_form_does_not_have_use_error_summary_set(self):
+    def test_update_errors_with_formset_data_returns_an_unmodified_errors_dict_if_the_form_does_not_have_use_error_summary_set(
+        self,
+    ):
         """Test update errors with formset data returns an unmodified errors
         dict if the form does not have use error summary set"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         formset = namedtuple('Form', ['adminlte2_use_error_summary'])
         formset.adminlte2_use_error_summary = False
 
-        adminlte_tags._update_errors_with_formset_data(
-            errors,
-            formset
-        )
+        adminlte_tags._update_errors_with_formset_data(errors, formset)
 
         self.assertEqual(errors['forms'], [])
         self.assertEqual(errors['has_non_form_errors'], False)
@@ -602,48 +468,28 @@ class TemplateTagTestCase(TestCase):
 
     def test_update_errors_with_form_data_returns_errors_for_form_with_one_form_error(self):
         """Test update errors with form data returns errors for form with one form error"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
-        data = {
-            'form-0-test_text': 'text_value'
-        }
+        data = {'form-0-test_text': 'text_value'}
 
         form = self.TestForm(data)
 
         form.add_error(None, "Test Form Error")
 
-        adminlte_tags._update_errors_with_form_data(
-            errors,
-            form
-        )
+        adminlte_tags._update_errors_with_form_data(errors, form)
 
         self.assertTrue(errors['has_non_field_errors'])
 
     def test_update_errors_with_form_data_returns_errors_for_form_with_one_form_field_error(self):
         """Test update errors with form data returns errors for form with one form field error"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
-        data = {
-            'form-0-test_text': 'text_value'
-        }
+        data = {'form-0-test_text': 'text_value'}
 
         form = self.TestForm(data)
         form.add_error('test_text', 'Test Field Error')
 
-        adminlte_tags._update_errors_with_form_data(
-            errors,
-            form
-        )
+        adminlte_tags._update_errors_with_form_data(errors, form)
 
         self.assertTrue(errors['has_field_errors'])
         self.assertEqual(len(errors['forms']), 1)
@@ -651,44 +497,29 @@ class TemplateTagTestCase(TestCase):
     def test_update_errors_with_form_data_returns_errors_for_form_with_one_form_error_and_one_field_error(self):
         """Test update errors with form data returns errors for form with one
         form error and one field error"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
-        data = {
-            'form-0-test_text': 'text_value'
-        }
+        data = {'form-0-test_text': 'text_value'}
 
         form = self.TestForm(data)
 
         form.add_error(None, "Test Form Error")
         form.add_error('test_text', 'Test Field Error')
 
-        adminlte_tags._update_errors_with_form_data(
-            errors,
-            form
-        )
+        adminlte_tags._update_errors_with_form_data(errors, form)
 
         self.assertTrue(errors['has_non_field_errors'])
         self.assertTrue(errors['has_field_errors'])
         self.assertEqual(len(errors['forms']), 1)
 
-    def test_update_errors_with_form_data_returns_errors_for_form_with_one_form_error_and_one_field_error_and_form_with_display_in_summary_disabled(self):
+    def test_update_errors_with_form_data_returns_errors_for_form_with_one_form_error_and_one_field_error_and_form_with_display_in_summary_disabled(
+        self,
+    ):
         """Test update errors with form data returns errors for form with one form
         error and one field error and form with display in summary disabled"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
-        data = {
-            'form-0-test_text': 'text_value'
-        }
+        data = {'form-0-test_text': 'text_value'}
 
         form = self.TestForm(data)
         form.adminlte2_show_field_errors_in_summary = False
@@ -696,10 +527,7 @@ class TemplateTagTestCase(TestCase):
         form.add_error(None, "Test Form Error")
         form.add_error('test_text', 'Test Field Error')
 
-        adminlte_tags._update_errors_with_form_data(
-            errors,
-            form
-        )
+        adminlte_tags._update_errors_with_form_data(errors, form)
 
         self.assertTrue(errors['has_non_field_errors'])
         self.assertTrue(errors['has_field_errors'])
@@ -708,39 +536,25 @@ class TemplateTagTestCase(TestCase):
     def test_update_errors_with_form_data_throws_attribute_error_when_form_is_not_a_valid_form(self):
         """Test update errors with form data throws attribute error when form
         is not a valid form"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         form = namedtuple('Form', ['adminlte2_use_error_summary'])
         form.adminlte2_use_error_summary = True
 
         with self.assertRaises(AttributeError):
-            adminlte_tags._update_errors_with_form_data(
-                errors,
-                form
-            )
+            adminlte_tags._update_errors_with_form_data(errors, form)
 
-    def test_update_errors_with_form_data_returns_an_unmodified_errors_dict_if_the_form_does_not_have_use_error_summary_set(self):
+    def test_update_errors_with_form_data_returns_an_unmodified_errors_dict_if_the_form_does_not_have_use_error_summary_set(
+        self,
+    ):
         """Test update errors with form data returns an unmodified errors dict
         if the form does not have use error summary set"""
-        errors = {
-            'forms': [],
-            'has_non_form_errors': False,
-            'has_non_field_errors': False,
-            'has_field_errors': False
-        }
+        errors = {'forms': [], 'has_non_form_errors': False, 'has_non_field_errors': False, 'has_field_errors': False}
 
         form = namedtuple('Form', ['adminlte2_use_error_summary'])
         form.adminlte2_use_error_summary = False
 
-        adminlte_tags._update_errors_with_form_data(
-            errors,
-            form
-        )
+        adminlte_tags._update_errors_with_form_data(errors, form)
 
         self.assertEqual(errors['forms'], [])
         self.assertEqual(errors['has_non_form_errors'], False)
@@ -761,7 +575,7 @@ class TemplateTagTestCase(TestCase):
                 'form-TOTAL_FORMS': '1',
                 'form-INITIAL_FORMS': '0',
                 'form-MAX_NUM_FORMS': '',
-                'form-0-test_text': 'text_value'
+                'form-0-test_text': 'text_value',
             }
         )
         formset.adminlte2_use_error_summary = True
@@ -772,17 +586,11 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertNotIn(
-            'Test Field Error',
-            rendered_template
-        )
+        self.assertNotIn('Test Field Error', rendered_template)
 
     def test_render_form_error_summary_displays_field_errors_for_a_single_formset_with_one_field_error(self):
         """Test render form error summary displays field errors for a single formset
@@ -794,7 +602,7 @@ class TemplateTagTestCase(TestCase):
                 'form-TOTAL_FORMS': '1',
                 'form-INITIAL_FORMS': '0',
                 'form-MAX_NUM_FORMS': '',
-                'form-0-test_text': 'text_value'
+                'form-0-test_text': 'text_value',
             }
         )
         formset.adminlte2_use_error_summary = True
@@ -807,17 +615,11 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Field Error',
-            rendered_template
-        )
+        self.assertIn('Test Field Error', rendered_template)
 
     def test_render_form_error_summary_displays_field_errors_for_a_list_of_formsets_with_one_field_error(self):
         """Test render form error summary displays field errors for a list of
@@ -829,7 +631,7 @@ class TemplateTagTestCase(TestCase):
                 'form-TOTAL_FORMS': '1',
                 'form-INITIAL_FORMS': '0',
                 'form-MAX_NUM_FORMS': '',
-                'form-0-test_text': 'text_value'
+                'form-0-test_text': 'text_value',
             }
         )
         test_formset.adminlte2_use_error_summary = True
@@ -839,7 +641,7 @@ class TemplateTagTestCase(TestCase):
                 'form-TOTAL_FORMS': '1',
                 'form-INITIAL_FORMS': '0',
                 'form-MAX_NUM_FORMS': '',
-                'form-0-test_text': 'text_value'
+                'form-0-test_text': 'text_value',
             }
         )
         test_formset_2.adminlte2_use_error_summary = True
@@ -850,21 +652,15 @@ class TemplateTagTestCase(TestCase):
             {
                 'test_formset': test_formset,
                 'test_formset_2': test_formset_2,
-                'adminlte2_formset_list': [test_formset, test_formset_2]
+                'adminlte2_formset_list': [test_formset, test_formset_2],
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Field Error',
-            rendered_template
-        )
+        self.assertIn('Test Field Error', rendered_template)
 
     def test_render_form_error_summary_displays_form_error_for_a_single_formset_with_one_form_error(self):
         """Test render form error summary displays form error for a single formset
@@ -876,7 +672,7 @@ class TemplateTagTestCase(TestCase):
                 'form-TOTAL_FORMS': '1',
                 'form-INITIAL_FORMS': '0',
                 'form-MAX_NUM_FORMS': '',
-                'form-0-test_text': 'text_value'
+                'form-0-test_text': 'text_value',
             }
         )
         formset.adminlte2_use_error_summary = True
@@ -889,21 +685,16 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Form Error',
-            rendered_template
-        )
+        self.assertIn('Test Form Error', rendered_template)
 
     def test_render_form_error_summary_displays_formset_errors_for_a_single_formset_with_one_formset_error(self):
         """Test render form error summary displays formset errors for a single
         formset with one formset error"""
+
         class TestFormSet(BaseFormSet):
             """Test Formset"""
 
@@ -914,13 +705,10 @@ class TemplateTagTestCase(TestCase):
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MAX_NUM_FORMS': '1',
-            'form-0-test_text': 'text_value'
+            'form-0-test_text': 'text_value',
         }
 
-        TestFormSets = forms.formset_factory(
-            self.TestForm,
-            formset=TestFormSet
-        )
+        TestFormSets = forms.formset_factory(self.TestForm, formset=TestFormSet)
 
         formset = TestFormSets(data)
         formset.adminlte2_use_error_summary = True
@@ -931,17 +719,11 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Non Form Error',
-            rendered_template
-        )
+        self.assertIn('Test Non Form Error', rendered_template)
 
     # |-------------------------------------------------------------------------
     # | Test render_form_error_summary For Forms
@@ -950,11 +732,7 @@ class TemplateTagTestCase(TestCase):
     def test_render_form_error_summary_does_not_display_errors_if_there_are_none_for_a_form(self):
         """Test render form error summary does not display errors if there are
         non for a form"""
-        form = self.TestForm(
-            {
-                'test_text': 'text_value'
-            }
-        )
+        form = self.TestForm({'test_text': 'text_value'})
 
         context = Context(
             {
@@ -962,17 +740,11 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertNotIn(
-            'Test Field Error',
-            rendered_template
-        )
+        self.assertNotIn('Test Field Error', rendered_template)
 
     def test_render_form_error_summary_displays_field_errors_for_a_single_form_with_one_field_error(self):
         """Test render form error summary displays field errors for a single
@@ -987,17 +759,11 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Field Error',
-            rendered_template
-        )
+        self.assertIn('Test Field Error', rendered_template)
 
     def test_render_form_error_summary_displays_field_errors_for_a_list_of_forms_each_with_one_field_error(self):
         """Test render form error summary displays field errors for a list of
@@ -1009,24 +775,14 @@ class TemplateTagTestCase(TestCase):
         test_form_2.add_error('test_text', 'Test Field Error 2')
 
         context = Context(
-            {
-                'test_form': test_form,
-                'test_form2': test_form_2,
-                'adminlte2_form_list': [test_form, test_form_2]
-            }
+            {'test_form': test_form, 'test_form2': test_form_2, 'adminlte2_form_list': [test_form, test_form_2]}
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Field Error',
-            rendered_template
-        )
+        self.assertIn('Test Field Error', rendered_template)
 
     def test_render_form_error_summary_displays_form_errors_for_a_single_form_with_one_form_error(self):
         """Test render form error summary displays form errors for a single form
@@ -1041,17 +797,11 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form_error_summary %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Test Form Error',
-            rendered_template
-        )
+        self.assertIn('Test Form Error', rendered_template)
 
     # |-------------------------------------------------------------------------
     # | Test render_horizontal_form
@@ -1067,40 +817,30 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_horizontal_form form %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_horizontal_form form %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertInHTML(
             '<input type="text" name="test_text" value="text_value"'
             ' class="form-control" placeholder="Test text" id="id_test_text" />',
-            rendered_template
+            rendered_template,
         )
 
     def test_render_horizontal_form_renders_no_fields_when_form_is_none(self):
         """Test render horizontal form renders no fields when form is none"""
         form = None
 
-        context = Context(
-            {
-                'form': form
-            }
-        )
+        context = Context({'form': form})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_horizontal_form form %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_horizontal_form form %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotInHTML(
             '<input type="text" name="test_text" value="text_value"'
             ' class="form-control" placeholder="Test text" id="id_test_text" />',
-            rendered_template
+            rendered_template,
         )
 
     # |-------------------------------------------------------------------------
@@ -1117,40 +857,30 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form form %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form form %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertInHTML(
             '<input type="text" name="test_text" value="text_value"'
             ' class="form-control" placeholder="Test text" id="id_test_text" />',
-            rendered_template
+            rendered_template,
         )
 
     def test_render_form_renders_no_fields_when_form_is_none(self):
         """Test render form renders no fields when form is none"""
         form = None
 
-        context = Context(
-            {
-                'form': form
-            }
-        )
+        context = Context({'form': form})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_form form %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% render_form form %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotInHTML(
             '<input type="text" name="test_text" value="text_value"'
             ' class="form-control" placeholder="Test text" id="id_test_text" />',
-            rendered_template
+            rendered_template,
         )
 
     # |-------------------------------------------------------------------------
@@ -1166,7 +896,7 @@ class TemplateTagTestCase(TestCase):
                 'form-TOTAL_FORMS': '1',
                 'form-INITIAL_FORMS': '0',
                 'form-MAX_NUM_FORMS': '',
-                'form-0-test_text': 'text_value'
+                'form-0-test_text': 'text_value',
             }
         )
 
@@ -1177,8 +907,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% render_horizontal_formset formset 'Test Formset Section' %}"
+            "{% load adminlte_tags %}" "{% render_horizontal_formset formset 'Test Formset Section' %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -1186,12 +915,12 @@ class TemplateTagTestCase(TestCase):
         self.assertIn('Test Formset Section', rendered_template)
         self.assertInHTML(
             '<input type="hidden" name="form-TOTAL_FORMS" value="1" id="id_form-TOTAL_FORMS" />',
-            rendered_template
+            rendered_template,
         )
         self.assertInHTML(
             '<input type="text" name="form-0-test_text" value="text_value"'
             ' class="form-control" placeholder="Test text" id="id_form-0-test_text" />',
-            rendered_template
+            rendered_template,
         )
 
     # |-------------------------------------------------------------------------
@@ -1202,17 +931,11 @@ class TemplateTagTestCase(TestCase):
         """Test get logout url returns correct url when there is an entry in settings"""
         context = Context({})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% get_logout_url %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% get_logout_url %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '/accounts/logout',
-            rendered_template
-        )
+        self.assertIn('/accounts/logout', rendered_template)
 
     @override_settings(LOGOUT_URL='/foobar/logout')
     def test_get_logout_url_returns_correct_url_when_there_is_not_an_entry_in_the_settings_and_default_is_used(self):
@@ -1220,17 +943,11 @@ class TemplateTagTestCase(TestCase):
         the settings and default is used"""
         context = Context({})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% get_logout_url %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% get_logout_url %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '/foobar/logout',
-            rendered_template
-        )
+        self.assertIn('/foobar/logout', rendered_template)
 
     # |-------------------------------------------------------------------------
     # | Test get_avatar_url
@@ -1244,23 +961,15 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% get_avatar_url user=user %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% get_avatar_url user=user %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=mp',
-            rendered_template
+            rendered_template,
         )
 
     def test_get_avatar_url_returns_the_default_url_when_the_user_is_anonymous(self):
@@ -1270,23 +979,15 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = user
 
-        context = Context(
-            {
-                'user': user,
-                'request': request
-            }
-        )
+        context = Context({'user': user, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% get_avatar_url user=user %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% get_avatar_url user=user %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertIn(
             'https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=mp',
-            rendered_template
+            rendered_template,
         )
 
     def test_user_image_initials_returns_user_div_correctly_with_passed_user(self):
@@ -1297,32 +998,18 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% user_image_initials user=user %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials user=user %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            'D B',
-            rendered_template
-        )
-        self.assertIn(
-            'title="David Barnes"',
-            rendered_template
-        )
+        self.assertIn('D B', rendered_template)
+        self.assertIn('title="David Barnes"', rendered_template)
 
     def test_user_image_initials_returns_user_div_correctly_with_passed_user_and_overrides(self):
         """Test user image initials returns user div correctly with passed user and overrides"""
@@ -1332,12 +1019,7 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
         template_to_render = Template(
             "{% load adminlte_tags %}"
@@ -1348,16 +1030,10 @@ class TemplateTagTestCase(TestCase):
 
         self.assertIn(
             'https://www.gravatar.com/avatar/5d60d4e28066df254d5452f92c910092?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            'J2D',
-            rendered_template
-        )
-        self.assertIn(
-            'title="John Doe"',
-            rendered_template
-        )
+        self.assertIn('J2D', rendered_template)
+        self.assertIn('title="John Doe"', rendered_template)
 
     def test_user_image_initials_returns_user_div_correctly_with_passed_f_and_l_names(self):
         """Test user image initials returns user div correctly with passed f and l names"""
@@ -1367,36 +1043,24 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
         template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% user_image_initials first_name='John' last_name='Doe' %}"
+            "{% load adminlte_tags %}" "{% user_image_initials first_name='John' last_name='Doe' %}"
         )
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
         self.assertIn(
             'https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            'J D',
-            rendered_template
-        )
-        self.assertIn(
-            'title="John Doe"',
-            rendered_template
-        )
+        self.assertIn('J D', rendered_template)
+        self.assertIn('title="John Doe"', rendered_template)
 
     def test_user_image_initials_returns_user_div_correctly_with_passed_f_name_only(self):
         """Test user image initials returns user div correctly with passed f name only"""
@@ -1406,36 +1070,22 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% user_image_initials first_name='John' %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials first_name='John' %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
         self.assertIn(
             'https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            'J',
-            rendered_template
-        )
-        self.assertIn(
-            'title="John"',
-            rendered_template
-        )
+        self.assertIn('J', rendered_template)
+        self.assertIn('title="John"', rendered_template)
 
     def test_user_image_initials_returns_user_div_correctly_with_passed_l_name_only(self):
         """Test user image initials returns user div correctly with passed l name only"""
@@ -1445,36 +1095,22 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% user_image_initials last_name='Doe' %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials last_name='Doe' %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
         self.assertIn(
             'https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            'D',
-            rendered_template
-        )
-        self.assertIn(
-            'title="Doe"',
-            rendered_template
-        )
+        self.assertIn('D', rendered_template)
+        self.assertIn('title="Doe"', rendered_template)
 
     def test_user_image_initials_returns_user_div_correctly_with_passed_initials(self):
         """Test user image initials returns user div correctly with passed initials"""
@@ -1484,36 +1120,22 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% user_image_initials initials='J2D' %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials initials='J2D' %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
         self.assertIn(
             'https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            'J2D',
-            rendered_template
-        )
-        self.assertNotIn(
-            'title=',
-            rendered_template
-        )
+        self.assertIn('J2D', rendered_template)
+        self.assertNotIn('title=', rendered_template)
 
     def test_user_image_initials_returns_user_div_correctly_with_no_arguments(self):
         """Test user image initials returns user dive correctly with no arguments"""
@@ -1523,29 +1145,18 @@ class TemplateTagTestCase(TestCase):
         request = RequestFactory().get('/foo')
         request.user = self.superuser
 
-        context = Context(
-            {
-                'user': self.superuser,
-                'request': request
-            }
-        )
+        context = Context({'user': self.superuser, 'request': request})
 
-        template_to_render = Template(
-            "{% load adminlte_tags %}"
-            "{% user_image_initials %}"
-        )
+        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials %}")
 
         rendered_template = template_to_render.render(context)
 
         self.assertNotIn(
             'https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank',
-            rendered_template
+            rendered_template,
         )
         self.assertIn(
             'https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=mp',
-            rendered_template
+            rendered_template,
         )
-        self.assertNotIn(
-            'title=',
-            rendered_template
-        )
+        self.assertNotIn('title=', rendered_template)

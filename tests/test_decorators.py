@@ -15,11 +15,7 @@ from django.http import HttpResponse
 from django.test import TestCase, override_settings, RequestFactory
 
 # Internal Imports.
-from adminlte2_pdq.decorators import (
-    login_required,
-    permission_required,
-    permission_required_one
-)
+from adminlte2_pdq.decorators import login_required, permission_required, permission_required_one
 
 
 UserModel = get_user_model()
@@ -31,50 +27,32 @@ class DecoratorTestCase(TestCase):
     """
 
     def setUp(self):
-        self.permission_content_type = ContentType.objects.get_for_model(
-            Permission
-        )
+        self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
 
         Permission.objects.create(
             name="add_foo",
             codename='add_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         Permission.objects.create(
             name="change_foo",
             codename='change_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         # Add permissions auth.add_foo and auth.change_foo to full_user
-        full_perms = Permission.objects.filter(
-            codename__in=(
-                'add_foo',
-                'change_foo'
-            )
-        )
-        self.full_user = UserModel.objects.create(
-            username='johnfull',
-            password='qwerty'
-        )
+        full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
+        self.full_user = UserModel.objects.create(username='johnfull', password='qwerty')
         self.full_user.user_permissions.add(*full_perms)
 
         # Add permission auth.add_foo to partial_user
-        partial_perms = Permission.objects.filter(
-            codename='add_foo'
-        )
+        partial_perms = Permission.objects.filter(codename='add_foo')
 
-        self.partial_user = UserModel.objects.create(
-            username='janepartial',
-            password='qwerty'
-        )
+        self.partial_user = UserModel.objects.create(username='janepartial', password='qwerty')
         self.partial_user.user_permissions.add(*partial_perms)
 
         # Add no permissions to none_user
-        self.none_user = UserModel.objects.create(
-            username='joenone',
-            password='qwerty'
-        )
+        self.none_user = UserModel.objects.create(username='joenone', password='qwerty')
 
         self.anonymous_user = AnonymousUser()
 
@@ -94,12 +72,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            a_view.one_of_permissions,
-            (
-                'auth.add_foo',
-            )
-        )
+        self.assertEqual(a_view.one_of_permissions, ('auth.add_foo',))
 
     def test_permission_required_one_works_when_user_has_all(self):
         """Test permission_required_one work when user has all"""
@@ -113,13 +86,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            a_view.one_of_permissions,
-            (
-                'auth.add_foo',
-                'auth.change_foo'
-            )
-        )
+        self.assertEqual(a_view.one_of_permissions, ('auth.add_foo', 'auth.change_foo'))
 
     def test_permission_required_one_works_when_user_has_one(self):
         """Test permission_required_one works when user has one"""
@@ -133,13 +100,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            a_view.one_of_permissions,
-            (
-                'auth.add_foo',
-                'auth.change_foo'
-            )
-        )
+        self.assertEqual(a_view.one_of_permissions, ('auth.add_foo', 'auth.change_foo'))
 
     def test_permission_required_one_works_when_user_has_none(self):
         """Test permission_required_one works when user has none"""
@@ -153,13 +114,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(
-            a_view.one_of_permissions,
-            (
-                'auth.add_foo',
-                'auth.change_foo'
-            )
-        )
+        self.assertEqual(a_view.one_of_permissions, ('auth.add_foo', 'auth.change_foo'))
 
     def test_permission_required_one_works_when_user_has_none_and_raise_exception(self):
         """Test permission_required_one works when user has none and raise exception"""
@@ -175,13 +130,7 @@ class DecoratorTestCase(TestCase):
             response = a_view(request)
 
             self.assertEqual(response.status_code, 302)
-            self.assertEqual(
-                a_view.one_of_permissions,
-                (
-                    'auth.add_foo',
-                    'auth.change_foo'
-                )
-            )
+            self.assertEqual(a_view.one_of_permissions, ('auth.add_foo', 'auth.change_foo'))
 
     # |--------------------------------------------------------------------------
     # | Test permission_required
@@ -199,12 +148,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            a_view.permissions,
-            (
-                'auth.add_foo',
-            )
-        )
+        self.assertEqual(a_view.permissions, ('auth.add_foo',))
 
     def test_permission_required_works_when_user_has_all(self):
         """Test permission_required works when user has all"""
@@ -218,13 +162,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(
-            a_view.permissions,
-            (
-                'auth.add_foo',
-                'auth.change_foo'
-            )
-        )
+        self.assertEqual(a_view.permissions, ('auth.add_foo', 'auth.change_foo'))
 
     def test_permission_required_works_when_user_has_one(self):
         """Test permission_required works when user has one"""
@@ -238,13 +176,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(
-            a_view.permissions,
-            (
-                'auth.add_foo',
-                'auth.change_foo'
-            )
-        )
+        self.assertEqual(a_view.permissions, ('auth.add_foo', 'auth.change_foo'))
 
     def test_permission_required_works_when_user_has_none(self):
         """Test permission_required works when user has none"""
@@ -258,13 +190,7 @@ class DecoratorTestCase(TestCase):
         response = a_view(request)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(
-            a_view.permissions,
-            (
-                'auth.add_foo',
-                'auth.change_foo'
-            )
-        )
+        self.assertEqual(a_view.permissions, ('auth.add_foo', 'auth.change_foo'))
 
     def test_permission_required_works_when_user_has_none_and_raise_exception(self):
         """Test permission_required works when user has none and raise exception"""
@@ -280,13 +206,7 @@ class DecoratorTestCase(TestCase):
             response = a_view(request)
 
             self.assertEqual(response.status_code, 302)
-            self.assertEqual(
-                a_view.permissions,
-                (
-                    'auth.add_foo',
-                    'auth.change_foo'
-                )
-            )
+            self.assertEqual(a_view.permissions, ('auth.add_foo', 'auth.change_foo'))
 
     # |-------------------------------------------------------------------------
     # | Test login_required
@@ -329,50 +249,32 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
     """
 
     def setUp(self):
-        self.permission_content_type = ContentType.objects.get_for_model(
-            Permission
-        )
+        self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
 
         Permission.objects.create(
             name="add_foo",
             codename='add_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         Permission.objects.create(
             name="change_foo",
             codename='change_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         # Add permissions auth.add_foo and auth.change_foo to full_user
-        full_perms = Permission.objects.filter(
-            codename__in=(
-                'add_foo',
-                'change_foo'
-            )
-        )
-        self.full_user = UserModel.objects.create(
-            username='johnfull',
-            password='qwerty'
-        )
+        full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
+        self.full_user = UserModel.objects.create(username='johnfull', password='qwerty')
         self.full_user.user_permissions.add(*full_perms)
 
         # Add permission auth.add_foo to partial_user
-        partial_perms = Permission.objects.filter(
-            codename='add_foo'
-        )
+        partial_perms = Permission.objects.filter(codename='add_foo')
 
-        self.partial_user = UserModel.objects.create(
-            username='janepartial',
-            password='qwerty'
-        )
+        self.partial_user = UserModel.objects.create(username='janepartial', password='qwerty')
         self.partial_user.user_permissions.add(*partial_perms)
 
         # Add no permissions to none_user
-        self.none_user = UserModel.objects.create(
-            username='joenone',
-            password='qwerty'
-        )
+        self.none_user = UserModel.objects.create(username='joenone', password='qwerty')
 
         self.anonymous_user = AnonymousUser()
 
@@ -392,6 +294,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
             LOGIN_EXEMPT_WHITELIST,
             STRICT_POLICY_WHITELIST,
         )
+
         self.assertFalse(LOGIN_REQUIRED)
         self.assertFalse(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
@@ -517,7 +420,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(one_permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    ('auth.add_foo', 'auth.change_foo'),
                 )
 
             with self.subTest('As user with one permission'):
@@ -534,7 +437,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(one_permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    ('auth.add_foo', 'auth.change_foo'),
                 )
 
             with self.subTest('As user with full permissions'):
@@ -551,7 +454,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(one_permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    ('auth.add_foo', 'auth.change_foo'),
                 )
 
     def test__permission_required_decorator(self):
@@ -635,8 +538,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
 
                 # Also verify permissions associated with view.
                 self.assertEqual(
-                    getattr(permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    getattr(permission_required_view, 'permissions', None), ('auth.add_foo', 'auth.change_foo')
                 )
 
             with self.subTest('As user with one permission'):
@@ -653,7 +555,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    ('auth.add_foo', 'auth.change_foo'),
                 )
 
             with self.subTest('As user with full permissions'):
@@ -670,7 +572,7 @@ class ReworkedDecoratorTestCase__Standard(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    ('auth.add_foo', 'auth.change_foo'),
                 )
 
 
@@ -684,50 +586,32 @@ class ReworkedDecoratorTestCase__Strict(TestCase):
     """
 
     def setUp(self):
-        self.permission_content_type = ContentType.objects.get_for_model(
-            Permission
-        )
+        self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
 
         Permission.objects.create(
             name="add_foo",
             codename='add_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         Permission.objects.create(
             name="change_foo",
             codename='change_foo',
-            content_type=self.permission_content_type
+            content_type=self.permission_content_type,
         )
         # Add permissions auth.add_foo and auth.change_foo to full_user
-        full_perms = Permission.objects.filter(
-            codename__in=(
-                'add_foo',
-                'change_foo'
-            )
-        )
-        self.full_user = UserModel.objects.create(
-            username='johnfull',
-            password='qwerty'
-        )
+        full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
+        self.full_user = UserModel.objects.create(username='johnfull', password='qwerty')
         self.full_user.user_permissions.add(*full_perms)
 
         # Add permission auth.add_foo to partial_user
-        partial_perms = Permission.objects.filter(
-            codename='add_foo'
-        )
+        partial_perms = Permission.objects.filter(codename='add_foo')
 
-        self.partial_user = UserModel.objects.create(
-            username='janepartial',
-            password='qwerty'
-        )
+        self.partial_user = UserModel.objects.create(username='janepartial', password='qwerty')
         self.partial_user.user_permissions.add(*partial_perms)
 
         # Add no permissions to none_user
-        self.none_user = UserModel.objects.create(
-            username='joenone',
-            password='qwerty'
-        )
+        self.none_user = UserModel.objects.create(username='joenone', password='qwerty')
 
         self.anonymous_user = AnonymousUser()
 
@@ -747,6 +631,7 @@ class ReworkedDecoratorTestCase__Strict(TestCase):
             LOGIN_EXEMPT_WHITELIST,
             STRICT_POLICY_WHITELIST,
         )
+
         self.assertFalse(LOGIN_REQUIRED)
         self.assertTrue(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
@@ -870,7 +755,10 @@ class ReworkedDecoratorTestCase__Strict(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    (
+                        'auth.add_foo',
+                        'auth.change_foo',
+                    ),
                 )
 
             with self.subTest('As user with one permission'):
@@ -887,7 +775,10 @@ class ReworkedDecoratorTestCase__Strict(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    (
+                        'auth.add_foo',
+                        'auth.change_foo',
+                    ),
                 )
 
             with self.subTest('As user with full permissions'):
@@ -904,5 +795,8 @@ class ReworkedDecoratorTestCase__Strict(TestCase):
                 # Also verify permissions associated with view.
                 self.assertEqual(
                     getattr(permission_required_view, 'permissions', None),
-                    ('auth.add_foo', 'auth.change_foo')
+                    (
+                        'auth.add_foo',
+                        'auth.change_foo',
+                    ),
                 )

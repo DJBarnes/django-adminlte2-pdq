@@ -11,6 +11,7 @@ CHOICES = (
 
 class SampleForm(forms.Form):
     """Sample Form with all field types"""
+
     sample_bool = forms.BooleanField()
     sample_char = forms.CharField()
     sample_char_opt = forms.CharField(required=False)
@@ -45,12 +46,13 @@ class SampleForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self['sample_range_datalist'].range_min_max = {'min':5, 'max':9}
-        self['sample_range_datalist'].datalist = {'name':'my_range_datalist', 'data':[5,7,9]}
+        self['sample_range_datalist'].range_min_max = {'min': 5, 'max': 9}
+        self['sample_range_datalist'].datalist = {'name': 'my_range_datalist', 'data': [5, 7, 9]}
 
 
 class SampleFormsetForm(forms.Form):
     """Sample Form for Formset"""
+
     sample_bool = forms.BooleanField()
     sample_char = forms.CharField()
     sample_char_opt = forms.CharField(required=False)

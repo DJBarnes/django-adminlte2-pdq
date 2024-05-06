@@ -29,6 +29,7 @@ register = template.Library()
 # | Helper methods for the template tags below
 # |-----------------------------------------------------------------------------
 
+
 def _update_errors_with_formset_data(errors, formset):
     """
     Inspect a formset, determine what types of errors it has, and then return a
@@ -114,6 +115,7 @@ def _update_errors_with_form_data(errors, form):
 # | Render Inclusion Template Tags
 # |-----------------------------------------------------------------------------
 
+
 @register.inclusion_tag('adminlte2/partials/_form_error_summary.html', takes_context=True)
 def render_form_error_summary(context):
     """
@@ -130,7 +132,7 @@ def render_form_error_summary(context):
         'forms': [],
         'has_non_form_errors': False,
         'has_non_field_errors': False,
-        'has_field_errors': False
+        'has_field_errors': False,
     }
 
     if 'adminlte2_formset_list' in context:
@@ -267,6 +269,7 @@ def render_horizontal_formset(formset, section_heading):
 # | Value Simple Template Tags
 # |-----------------------------------------------------------------------------
 
+
 @register.simple_tag()
 def get_logout_url():
     """Get the log out URL from the settings."""
@@ -350,13 +353,13 @@ def get_avatar_url(context, user=None, email=None, size=None, default='mp'):
 
 @register.inclusion_tag('adminlte2/partials/_user_image_initials.html', takes_context=True)
 def user_image_initials(
-        context,
-        user=None,
-        email=None,
-        initials=None,
-        first_name='',
-        last_name='',
-        size=None
+    context,
+    user=None,
+    email=None,
+    initials=None,
+    first_name='',
+    last_name='',
+    size=None,
 ):
     """
     Show user gravatar, initials, or gravatar default mystery person as image
@@ -409,7 +412,7 @@ def user_image_initials(
         size=size,
         user=user,
         email=email,
-        default=gravatar_default
+        default=gravatar_default,
     )
 
     return {

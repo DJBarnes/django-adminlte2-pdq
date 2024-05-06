@@ -1,4 +1,5 @@
 """Django AdminLTE2 Admin Header"""
+
 from django import template
 from django.conf import settings
 
@@ -15,11 +16,7 @@ def show_control_sidebar_button():
 
     control_sidebar_tabs = {
         **default_dict,
-        **getattr(
-            settings,
-            'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS',
-            {}
-        ),
+        **getattr(settings, 'ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS', {}),
     }
 
     number_of_tabs = sum(control_sidebar_tabs.values())

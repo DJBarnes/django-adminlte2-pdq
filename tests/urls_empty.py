@@ -14,6 +14,5 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-
 # Used in testing to verify methods handle when user has not registered any urls.
 urlpatterns = []

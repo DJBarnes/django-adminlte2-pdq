@@ -1,4 +1,5 @@
 """Django AdminLTE2 Admin Menu"""
+
 from django import template
 from django.conf import settings
 
@@ -13,13 +14,9 @@ register = template.Library()
 def render_admin_menu(context):
     """Render out the admin menu"""
 
-    use_menu_group_separator = getattr(
-        settings, 'ADMINLTE2_USE_MENU_GROUP_SEPARATOR', True)
+    use_menu_group_separator = getattr(settings, 'ADMINLTE2_USE_MENU_GROUP_SEPARATOR', True)
 
-    include_main_nav = getattr(
-        settings, 'ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES',
-        False
-    )
+    include_main_nav = getattr(settings, 'ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES', False)
 
     separator = {
         'text': '',
@@ -28,14 +25,7 @@ def render_admin_menu(context):
     }
 
     menu_first = context.get('ADMINLTE2_MENU_FIRST', [])
-    menu_main = context.get(
-        'ADMINLTE2_MENU',
-        getattr(
-            settings,
-            'ADMINLTE2_MENU',
-            MENU
-        )
-    ) if include_main_nav else []
+    menu_main = context.get('ADMINLTE2_MENU', getattr(settings, 'ADMINLTE2_MENU', MENU)) if include_main_nav else []
     menu_admin = AdminMenu.create_menu(context)
     menu_last = context.get('ADMINLTE2_MENU_LAST', [])
 

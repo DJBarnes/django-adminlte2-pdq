@@ -58,20 +58,14 @@ class MiddlewareTestCase(TestCase):
 
     def test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
@@ -79,10 +73,7 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST', UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off(self):
         """test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -99,10 +90,7 @@ class MiddlewareTestCase(TestCase):
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
             )
 
-            response = self.client.get(
-                reverse('adminlte2_pdq:demo-css'),
-                follow=True
-            )
+            response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
@@ -112,10 +100,7 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -123,10 +108,7 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
@@ -147,10 +129,7 @@ class MiddlewareTestCase(TestCase):
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
             )
 
-            response = self.client.get(
-                reverse('adminlte2_pdq:demo-css'),
-                follow=True
-            )
+            response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Login")
             self.assertEqual(len(wa), 1)
@@ -161,10 +140,7 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
@@ -174,10 +150,7 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST', UPDATED_STRICT_POLICY_WHITELIST)
     def test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on(self):
         """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -188,10 +161,7 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -199,10 +169,7 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -211,10 +178,7 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off(self):
         """test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -232,10 +196,7 @@ class MiddlewareTestCase(TestCase):
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
             )
 
-            response = self.client.get(
-                reverse('adminlte2_pdq:demo-css'),
-                follow=True
-            )
+            response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
@@ -246,10 +207,7 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -268,10 +226,7 @@ class MiddlewareTestCase(TestCase):
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
             )
 
-            response = self.client.get(
-                reverse('adminlte2_pdq:demo-css'),
-                follow=True
-            )
+            response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
@@ -293,10 +248,7 @@ class MiddlewareTestCase(TestCase):
                 " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
             )
 
-            response = self.client.get(
-                reverse('adminlte2_pdq:demo-css'),
-                follow=True
-            )
+            response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
@@ -308,10 +260,7 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on(self):
         """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -322,10 +271,7 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on(self):
         """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -334,10 +280,7 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.MEDIA_ROUTE', '/demo-css/')  # Pretend the demo-css route is a media file.
     def test_middleware_allows_when_media_url_defined_login_on_strict_on_login_wl_on_strict_wl_on(self):
         """test_middleware_allows_when_media_url_defined_login_on_strict_on_login_wl_on_strict_wl_on"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
@@ -346,36 +289,31 @@ class MiddlewareTestCase(TestCase):
     @patch('adminlte2_pdq.middleware.WEBSOCKET_ROUTE', '/demo-css/')  # Pretend the demo-css route is a websocket file.
     def test_middleware_allows_when_websocket_url_defined_login_on_strict_on_login_wl_on_strict_wl_on(self):
         """test_middleware_allows_when_websocket_url_defined_login_on_strict_on_login_wl_on_strict_wl_on"""
-        response = self.client.get(
-            reverse('adminlte2_pdq:demo-css'),
-            follow=True
-        )
+        response = self.client.get(reverse('adminlte2_pdq:demo-css'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     @patch('adminlte2_pdq.middleware.MEDIA_ROUTE', '/')  # Pretend the root url is a media file.
-    def test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on(self):
+    def test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on(
+        self,
+    ):
         """test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on"""
         # MEDIA_URL should not be allowed to be the root of a website, thus it can not skip the login required check.
-        response = self.client.get(
-            '/',
-            follow=True
-        )
+        response = self.client.get('/', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
     @patch('adminlte2_pdq.middleware.LOGIN_REQUIRED', True)
     @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
     @patch('adminlte2_pdq.middleware.WEBSOCKET_ROUTE', '/')  # Pretend the root url is a websocket file.
-    def test_middleware_redirects_to_login_when_websocket_url_defined_as_root_login_on_strict_on_login_wl_on_strict_wl_on(self):
+    def test_middleware_redirects_to_login_when_websocket_url_defined_as_root_login_on_strict_on_login_wl_on_strict_wl_on(
+        self,
+    ):
         """test_middleware_redirects_to_login_when_websocket_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on"""
         # WEBSOCKET_URL should not be allowed to be the root of a website, thus it can not skip the login required check.
-        response = self.client.get(
-            '/',
-            follow=True
-        )
+        response = self.client.get('/', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
@@ -390,10 +328,7 @@ class MiddlewareTestCase(TestCase):
         self.test_user_w_perms.is_staff = True
         self.test_user_w_perms.save()
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            reverse('admin:auth_user_changelist'),
-            follow=True
-        )
+        response = self.client.get(reverse('admin:auth_user_changelist'), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Select user to change")
 
@@ -405,9 +340,6 @@ class MiddlewareTestCase(TestCase):
     def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown(self):
         """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown"""
         self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(
-            'unknown/route/',
-            follow=True
-        )
+        response = self.client.get('unknown/route/', follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Home")

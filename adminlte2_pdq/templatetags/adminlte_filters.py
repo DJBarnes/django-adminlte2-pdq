@@ -272,7 +272,7 @@ def with_inputmask(field, inputmask=None):
         <input type="tel" name="field" data-inputmask="'mask':'(999) 999-9999'" id="id_field" />
     """
     if inputmask is None:
-        inputmask = "(999) 999-9999",
+        inputmask = ("(999) 999-9999",)
 
     attrs = field.field.widget.attrs
     attrs['data-inputmask'] = f"'mask':'{inputmask}'"

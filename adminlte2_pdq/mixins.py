@@ -1,6 +1,6 @@
 """Django Admin LTE 2 View Mixins"""
 
-from django.contrib.auth.mixins import(
+from django.contrib.auth.mixins import (
     LoginRequiredMixin as DjangoLoginRequiredMixin,
     PermissionRequiredMixin as DjangoPermissionRequiredMixin,
 )
@@ -15,6 +15,7 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
 
 class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
     """Verify that the current user has all or some required permissions."""
+
     permission_required = None  # Must have all, same as Django
     permission_required_one = None  # Must have one
 
