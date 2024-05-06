@@ -103,11 +103,15 @@ class _AdminMenu:
         ]
 
         put_entire_admin_in_tree = getattr(
-            settings, 'ADMINLTE2_ADMIN_MENU_IN_TREE', False
+            settings,
+            'ADMINLTE2_ADMIN_MENU_IN_TREE',
+            False,
         )
 
         show_admin_home_link = getattr(
-            settings, 'ADMINLTE2_INCLUDE_ADMIN_HOME_LINK', False
+            settings,
+            'ADMINLTE2_INCLUDE_ADMIN_HOME_LINK',
+            False,
         )
 
         if show_admin_home_link and app_list:

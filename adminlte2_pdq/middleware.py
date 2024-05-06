@@ -21,7 +21,6 @@ from .constants import (
     HOME_ROUTE,
     MEDIA_ROUTE,
     WEBSOCKET_ROUTE,
-
     # Debugging settings.
     TEXT_BLUE,
     TEXT_CYAN,

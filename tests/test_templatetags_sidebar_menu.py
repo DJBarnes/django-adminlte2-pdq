@@ -93,8 +93,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-group',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -124,8 +123,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'login_required': True,
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -139,8 +137,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-file',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -155,8 +152,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'login_required': False,
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -171,8 +167,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': '/sample_form/',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -186,8 +181,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-dashboard',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -203,8 +197,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'login_required': True,
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -219,13 +212,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': 'https://github.com',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
-
 
     # |-------------------------------------------------------------------------
     # | Test get_permissions_from_node for permissions
@@ -240,8 +231,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'permissions': ['add_sample1', 'update_sample1'],
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual(node['permissions'], permissions)
         self.assertEqual([], one_of_permissions)
@@ -255,8 +245,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-group',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertIn('auth.add_group', permissions)
         self.assertEqual([], one_of_permissions)
@@ -271,8 +260,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'permissions': [],
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -287,14 +275,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': '/sample1/',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertIn('auth.add_group', permissions)
         self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_get_permissions_from_node_returns_permissions_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
+    def test_get_permissions_from_node_returns_permissions_empty_list_when_there_are_no_defined_permissions_on_the_node(
+        self,
+    ):
         """Test get permissions from node returns permissions empty list when there are no defined permissions on the node"""
         node = {
             'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'),
@@ -302,8 +291,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-dashboard',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -319,8 +307,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'permissions': ['add_sample1', 'update_sample1'],
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual(node['permissions'], permissions)
         self.assertEqual([], one_of_permissions)
@@ -335,8 +322,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': 'https://github.com',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -355,9 +341,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'one_of_permissions': ['add_sample2', 'update_sample2'],
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node
-        )
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual(node['one_of_permissions'], one_of_permissions)
@@ -371,9 +355,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-building',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node
-        )
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertIn('auth.add_permission', one_of_permissions)
@@ -388,9 +370,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'one_of_permissions': [],
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node
-        )
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -405,14 +385,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': '/sample2/',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertIn('auth.add_permission', one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_get_permissions_from_node_returns_one_of_permission_empty_list_when_there_are_no_defined_permissions_on_the_node(self):
+    def test_get_permissions_from_node_returns_one_of_permission_empty_list_when_there_are_no_defined_permissions_on_the_node(
+        self,
+    ):
         """Test get permissions from node returns one of permission empty list when there are no defined permissions on the node"""
         node = {
             'route': getattr(settings, 'ADMINLTE2_HOME_ROUTE', 'adminlte2_pdq:home'),
@@ -420,15 +401,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'icon': 'fa fa-dashboard',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node
-        )
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_get_permissions_from_node_pulls_one_of_permissions_from_direct_assigned_one_of_permissions_when_external_url(self):
+    def test_get_permissions_from_node_pulls_one_of_permissions_from_direct_assigned_one_of_permissions_when_external_url(
+        self,
+    ):
         """Test get permissions from node pulls one of permissions from direct assigned one of permissions_when_external_url"""
         node = {
             'route': '#',
@@ -438,14 +419,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'one_of_permissions': ['add_sample2', 'update_sample2'],
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual(node['one_of_permissions'], one_of_permissions)
         self.assertFalse(login_required)
 
-    def test_get_permissions_from_node_returns_one_of_permissions_empty_list_when_the_node_is_for_an_external_resource(self):
+    def test_get_permissions_from_node_returns_one_of_permissions_empty_list_when_the_node_is_for_an_external_resource(
+        self,
+    ):
         """Test get permissions from node returns one of permissions empty list when the node is for an external resource"""
         node = {
             'route': '#',
@@ -454,8 +436,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'url': 'https://github.com',
         }
 
-        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(
-            node)
+        permissions, one_of_permissions, login_required = sidebar_menu.get_permissions_from_node(node)
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
@@ -467,12 +448,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
     def test_ensure_node_has_url_property_works_when_node_has_url_property_defined(self):
         """Test ensure node has url property works when node has url property defined"""
-        node = {
-            'route': 'adminlte2_pdq:sample2',
-            'text': 'Sample2',
-            'icon': 'fa fa-building',
-            'url': '/foobar/'
-        }
+        node = {'route': 'adminlte2_pdq:sample2', 'text': 'Sample2', 'icon': 'fa fa-building', 'url': '/foobar/'}
 
         sidebar_menu.ensure_node_has_url_property(node)
 
@@ -591,10 +567,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = ['does_not_matter_since_superuser']
 
-        allowed = sidebar_menu.check_for_all_permissions(
-            self.superuser,
-            permissions
-        )
+        allowed = sidebar_menu.check_for_all_permissions(self.superuser, permissions)
 
         self.assertTrue(allowed)
 
@@ -604,10 +577,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = ['auth.add_group']
 
-        allowed = sidebar_menu.check_for_all_permissions(
-            self.staffuser,
-            permissions
-        )
+        allowed = sidebar_menu.check_for_all_permissions(self.staffuser, permissions)
 
         self.assertTrue(allowed)
 
@@ -617,10 +587,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = []
 
-        allowed = sidebar_menu.check_for_all_permissions(
-            self.staffuser,
-            permissions
-        )
+        allowed = sidebar_menu.check_for_all_permissions(self.staffuser, permissions)
 
         self.assertFalse(allowed)
 
@@ -630,10 +597,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = ['user_does_not_have_this_one']
 
-        allowed = sidebar_menu.check_for_all_permissions(
-            self.staffuser,
-            permissions
-        )
+        allowed = sidebar_menu.check_for_all_permissions(self.staffuser, permissions)
 
         self.assertFalse(allowed)
 
@@ -647,10 +611,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = ['does_not_matter_since_superuser']
 
-        allowed = sidebar_menu.check_for_one_permission(
-            self.superuser,
-            permissions
-        )
+        allowed = sidebar_menu.check_for_one_permission(self.superuser, permissions)
 
         self.assertTrue(allowed)
 
@@ -660,10 +621,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = ['auth.add_group', 'auth.update_group']
 
-        allowed = sidebar_menu.check_for_one_permission(
-            self.staffuser,
-            permissions
-        )
+        allowed = sidebar_menu.check_for_one_permission(self.staffuser, permissions)
 
         self.assertTrue(allowed)
 
@@ -673,8 +631,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = []
 
-        allowed = sidebar_menu.check_for_one_permission(
-            self.staffuser, permissions)
+        allowed = sidebar_menu.check_for_one_permission(self.staffuser, permissions)
 
         self.assertFalse(allowed)
 
@@ -684,8 +641,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         permissions = ['user_does_not_have_this_one']
 
-        allowed = sidebar_menu.check_for_one_permission(
-            self.staffuser, permissions)
+        allowed = sidebar_menu.check_for_one_permission(self.staffuser, permissions)
 
         self.assertFalse(allowed)
 
@@ -1286,7 +1242,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
-    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
+    def test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(
+        self,
+    ):
         """test_is_allowed_node_is_false_when_user_anonymous_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_anonymoususer()
         node = {
@@ -2464,7 +2422,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
-    def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
+    def test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(
+        self,
+    ):
         """test_is_allowed_node_is_true_when_user_staff_perm_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_staffuser(['add_group'])
         node = {
@@ -3053,7 +3013,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     @patch('adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST', ['adminlte2_pdq:demo-css'])
     @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY', True)
     @patch('adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST', ['adminlte2_pdq:demo-css'])
-    def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(self):
+    def test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on(
+        self,
+    ):
         """test_is_allowed_node_is_true_when_user_superuser_login_on_strict_on_node_one_perm_login_wl_on_strict_wl_on"""
         self._setup_superuser()
         node = {
@@ -3104,17 +3066,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             },
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.superuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.superuser, nodes)
 
         self.assertTrue(allowed)
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.superuser,
-            nodetree
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.superuser, nodetree)
 
         self.assertTrue(allowed)
 
@@ -3131,10 +3087,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.staffuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
 
         self.assertTrue(allowed)
 
@@ -3157,10 +3110,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             },
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.staffuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
 
         self.assertTrue(allowed)
 
@@ -3189,10 +3139,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             },
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.staffuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
 
         self.assertTrue(allowed)
 
@@ -3209,10 +3156,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.staffuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
 
         self.assertFalse(allowed)
 
@@ -3235,10 +3179,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             },
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.staffuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
 
         self.assertFalse(allowed)
 
@@ -3267,10 +3208,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             },
         ]
 
-        allowed = sidebar_menu.check_for_one_permission_in_node_list(
-            self.staffuser,
-            nodes
-        )
+        allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
 
         self.assertFalse(allowed)
 
@@ -3284,10 +3222,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample2/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertFalse(match)
 
@@ -3304,10 +3239,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample2/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertTrue(match)
 
@@ -3330,10 +3262,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample2/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertTrue(match)
 
@@ -3362,10 +3291,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample2/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertTrue(match)
 
@@ -3382,10 +3308,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample1/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertFalse(match)
 
@@ -3408,10 +3331,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample1/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertFalse(match)
 
@@ -3440,10 +3360,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         request = RequestFactory().get('/sample1/')
 
-        match = sidebar_menu.check_for_node_that_matches_request_path(
-            request,
-            nodes
-        )
+        match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
         self.assertFalse(match)
 
@@ -3484,7 +3401,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                             },
                         ],
                     },
-                ]
+                ],
             }
         ]
 
@@ -3496,41 +3413,17 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_menu %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertNotIn(
-            'Authentication',
-            rendered_template
-        )
-        self.assertNotIn(
-            '<span>User</span>',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
-        self.assertIn(
-            'Samples',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertNotIn('Authentication', rendered_template)
+        self.assertNotIn('<span>User</span>', rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('Samples', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
     def test_render_menu_renders_when_user_has_access_and_includes_admin_when_include_admin_on(self):
@@ -3564,7 +3457,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                             },
                         ],
                     },
-                ]
+                ],
             }
         ]
 
@@ -3576,45 +3469,18 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_menu %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Authentication',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="User">User</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'Home',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
-        self.assertIn(
-            'Samples',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('Authentication', rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn('Home', rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('Samples', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
     def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_first_when_include_admin_on(self):
@@ -3649,7 +3515,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                             },
                         ],
                     },
-                ]
+                ],
             }
         ]
 
@@ -3662,7 +3528,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
-                ]
+                ],
             }
         ]
 
@@ -3675,49 +3541,19 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_menu %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Authentication',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="User">User</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'Home',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
-        self.assertIn(
-            'Samples',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertIn('Authentication', rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn('Home', rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('Samples', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
+        self.assertIn('<li class="separator">', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
     def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_last_when_include_admin_on(self):
@@ -3752,7 +3588,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                             },
                         ],
                     },
-                ]
+                ],
             }
         ]
 
@@ -3765,7 +3601,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
-                ]
+                ],
             }
         ]
 
@@ -3778,52 +3614,24 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_menu %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Authentication',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="User">User</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'Home',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
-        self.assertIn(
-            'Samples',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertIn('Authentication', rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn('Home', rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('Samples', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
+        self.assertIn('<li class="separator">', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
-    def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_first_and_menu_last_when_include_admin_on(self):
+    def test_render_menu_renders_when_user_has_access_and_includes_admin_and_menu_first_and_menu_last_when_include_admin_on(
+        self,
+    ):
         """Test render menu renders when user has access and includes admin and
         menu first and menu last when include admin on"""
         self._setup_staffuser(
@@ -3855,7 +3663,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                             },
                         ],
                     },
-                ]
+                ],
             }
         ]
 
@@ -3868,7 +3676,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'text': 'DemoCSS',
                         'icon': 'fa fa-building-o',
                     }
-                ]
+                ],
             }
         ]
 
@@ -3881,7 +3689,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         'text': 'Sample1',
                         'icon': 'fa fa-building',
                     }
-                ]
+                ],
             }
         ]
 
@@ -3895,57 +3703,21 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_menu %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'Authentication',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="User">User</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'Home',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
-        self.assertIn(
-            'Samples',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="DemoCSS">DemoCSS</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building-o',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertIn('Authentication', rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn('Home', rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('Samples', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="DemoCSS">DemoCSS</span>', rendered_template)
+        self.assertIn('fa fa-building-o', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
+        self.assertIn('<li class="separator">', rendered_template)
 
     def test_render_section_renders_when_user_has_access(self):
         """Test render section renders when user has access"""
@@ -3968,7 +3740,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
                         },
                     ],
                 },
-            ]
+            ],
         }
 
         context = Context(
@@ -3979,33 +3751,15 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_section section %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_section section %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
-        self.assertIn(
-            'Samples',
-            rendered_template
-        )
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('Samples', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
 
     def test_render_nodes_renders_when_user_has_access(self):
         """Test render nodes renders when user has access"""
@@ -4036,25 +3790,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_nodes nodes %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_nodes nodes %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
 
     def test_render_tree_renders_when_user_has_access(self):
         """Test render tree renders when user has access"""
@@ -4083,25 +3825,13 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_tree node %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_tree node %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
 
     def test_render_tree_renders_with_default_icon_when_user_has_access_and_node_lacks_icon(self):
         """Test render tree renders with default icon when user has access and
@@ -4130,29 +3860,14 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_tree node %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_tree node %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="treeview">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertNotIn(
-            'fa fa-leaf',
-            rendered_template
-        )
-        self.assertIn(
-            'not-found',
-            rendered_template
-        )
+        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertNotIn('fa fa-leaf', rendered_template)
+        self.assertIn('not-found', rendered_template)
 
     def test_render_link_renders_when_user_has_access(self):
         """Test render link renders when user has access"""
@@ -4174,21 +3889,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_link node %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn('fa fa-building', rendered_template)
 
     def test_render_link_renders_with_no_icon_when_not_specified_and_when_user_has_access(self):
         """Test render link renders with no icon when not specified and when user has access"""
@@ -4209,21 +3915,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_link node %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<span class="node-link-text" title="Sample2">Sample2</span>',
-            rendered_template
-        )
-        self.assertNotIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertNotIn('fa fa-building', rendered_template)
 
     def test_render_link_renders_dynamic_text_via_string_returning_hook_when_user_has_access(self):
         """Test render renders dynamic text via hook when user has access"""
@@ -4234,7 +3931,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'text': 'Sample2',
             'hook': 'tests.utils.valid_string_hook_function',
             'hook_args': ['foo'],
-            'hook_kwargs': {'kwarg1':'bar'},
+            'hook_kwargs': {'kwarg1': 'bar'},
         }
 
         context = Context(
@@ -4247,21 +3944,12 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_link node %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<span class="node-link-text" title="foobar foo bar">foobar foo bar</span>',
-            rendered_template
-        )
-        self.assertNotIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<span class="node-link-text" title="foobar foo bar">foobar foo bar</span>', rendered_template)
+        self.assertNotIn('fa fa-building', rendered_template)
 
     def test_render_link_renders_dynamic_text_via_tuple_returning_hook_when_user_has_access(self):
         """Test render link renders dynamic text via tuple returning hook when user has access"""
@@ -4272,7 +3960,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             'text': 'Sample2',
             'hook': 'tests.utils.valid_tuple_hook_function',
             'hook_args': ['foo'],
-            'hook_kwargs': {'kwarg1':'bar'},
+            'hook_kwargs': {'kwarg1': 'bar'},
         }
 
         context = Context(
@@ -4285,18 +3973,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
             }
         )
 
-        template_to_render = Template(
-            "{% load sidebar_menu %}"
-            "{% render_link node %}"
-        )
+        template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<span class="node-link-text" title="foo bar">foobar</span>',
-            rendered_template
-        )
-        self.assertNotIn(
-            'fa fa-building',
-            rendered_template
-        )
+        self.assertIn('<span class="node-link-text" title="foo bar">foobar</span>', rendered_template)
+        self.assertNotIn('fa fa-building', rendered_template)

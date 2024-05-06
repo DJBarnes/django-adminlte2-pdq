@@ -18,9 +18,10 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
     If the raise_exception parameter is given the PermissionDenied exception
     is raised.
     """
+
     def check_perms(user):
         if isinstance(perm, str):
-            perm_list = (perm, )
+            perm_list = (perm,)
         else:
             perm_list = perm
 
@@ -33,6 +34,7 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
             raise PermissionDenied
         # As the last resort, show the login form
         return False
+
     return user_passes_test(check_perms, login_url=login_url)
 
 
@@ -49,6 +51,7 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
     * allow_anonymous_access
     * allow_without_permissions
     """
+
     def decorator(function):
 
         function.login_required = True
@@ -58,6 +61,7 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
         def wrap(request, *args, **kwargs):
 
             return function(request, *args, **kwargs)
+
         return wrap
 
     if function:
@@ -73,6 +77,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
     template to know whether to render the sidebar menu item that links to that
     view function.
     """
+
     def decorator(function):
 
         if isinstance(permission, list) or isinstance(permission, tuple):
@@ -80,7 +85,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
             permissions = tuple(permission)
         elif isinstance(permission, str):
             # Is str type. Assume is a single permission.
-            permissions = (permission, )
+            permissions = (permission,)
         else:
             # Is other type. Raise error.
             raise TypeError(f'Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.')
@@ -103,7 +108,9 @@ def permission_required(permission, login_url=None, raise_exception=False):
             debug_print('\n\n\n\n')
 
             return function(request, *args, **kwargs)
+
         return wrap
+
     return decorator
 
 
@@ -115,10 +122,11 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     template to know whether to render the sidebar menu item that links to that
     view function.
     """
+
     def decorator(function):
 
         if isinstance(permission, str):
-            permissions = (permission, )
+            permissions = (permission,)
         else:
             permissions = permission
 
@@ -129,7 +137,9 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
         def wrap(request, *args, **kwargs):
 
             return function(request, *args, **kwargs)
+
         return wrap
+
     return decorator
 
 
@@ -138,6 +148,7 @@ def allow_anonymous_access():
 
     Also adds the required logic to render the view on the sidebar template.
     """
+
     def decorator(function):
         pass
 
@@ -149,6 +160,7 @@ def allow_without_permissions():
 
     Also adds the required logic to render the view on the sidebar template.
     """
+
     def decorator(function):
         pass
 

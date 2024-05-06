@@ -35,17 +35,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'user': user,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=False)
     @override_settings(ADMINLTE2_ADMIN_MENU_IN_TREE=True)
@@ -63,17 +57,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'user': user,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=True)
     def test_render_admin_menu_works_for_superuser_with_include_main_nav(self):
@@ -90,17 +78,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'user': user,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
 
     def test_render_admin_menu_works_for_staff_with_default_settings(self):
         """Test render admin menu works for staff with default settings"""
@@ -117,17 +99,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'user': user,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
 
     def test_render_admin_works_for_superuser_with_defined_available_apps_in_context(self):
         """Test render admin works for superuser with defined available apps in context"""
@@ -151,7 +127,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                         'object_name': 'foo',
                         'change_url': '/foo',
                     },
-                ]
+                ],
             }
         ]
 
@@ -162,31 +138,21 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'available_apps': available_apps,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
         self.assertIn(
             '<span class="treeview-text" title="Authentication">Authentication</span>',
-            rendered_template
+            rendered_template,
         )
-        self.assertIn(
-            '<a href="/foo" class="node-link">',
-            rendered_template
-        )
-        self.assertIn(
-            '<span class="node-link-text" title="foo">foo</span>',
-            rendered_template
-        )
+        self.assertIn('<a href="/foo" class="node-link">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="foo">foo</span>', rendered_template)
 
-    def test_render_admin_removes_no_perm_urls_for_staff_with_defined_available_apps_in_context_and_no_associated_permissions(self):
+    def test_render_admin_removes_no_perm_urls_for_staff_with_defined_available_apps_in_context_and_no_associated_permissions(
+        self,
+    ):
         """Test render admin removes no perm urls for staff with defined
         available apps in context and no associated permissions"""
 
@@ -210,7 +176,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                         'object_name': 'foo',
                         'change_url': '/foo',
                     },
-                ]
+                ],
             }
         ]
 
@@ -221,29 +187,17 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'available_apps': available_apps,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
         self.assertNotIn(
             '<span class="treeview-text" title="Authentication">Authentication</span>',
-            rendered_template
+            rendered_template,
         )
-        self.assertNotIn(
-            '<a href="/foo">',
-            rendered_template
-        )
-        self.assertNotIn(
-            '<span>foo</span>',
-            rendered_template
-        )
+        self.assertNotIn('<a href="/foo">', rendered_template)
+        self.assertNotIn('<span>foo</span>', rendered_template)
 
     def test_render_admin_fails_for_staff_with_defined_available_apps_in_context_that_has_no_urls(self):
         """Test render admin fails for staff with defined available apps in
@@ -268,7 +222,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                         },
                         'object_name': 'foo',
                     },
-                ]
+                ],
             }
         ]
 
@@ -279,29 +233,17 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'available_apps': available_apps,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="header">',
-            rendered_template
-        )
+        self.assertIn('<li class="header">', rendered_template)
         self.assertNotIn(
             '<span class="treeview-text" title="Authentication">Authentication</span>',
-            rendered_template
+            rendered_template,
         )
-        self.assertNotIn(
-            '<a href="/foo">',
-            rendered_template
-        )
-        self.assertNotIn(
-            '<span>foo</span>',
-            rendered_template
-        )
+        self.assertNotIn('<a href="/foo">', rendered_template)
+        self.assertNotIn('<span>foo</span>', rendered_template)
 
     # |-------------------------------------------------------------------------
     # | Test render_admin_tree_icon
@@ -317,17 +259,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'request': request,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_tree_icon %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_tree_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'fa fa-superpowers',
-            rendered_template
-        )
+        self.assertIn('fa fa-superpowers', rendered_template)
 
     def test_render_admin_tree_icon_tag_renders_the_icon_after_it_has_been_changed(self):
         """Test render admin tree icon tag renders the icon after it has been changed"""
@@ -343,17 +279,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'request': request,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_tree_icon %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_tree_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'fa fa-foo',
-            rendered_template
-        )
+        self.assertIn('fa fa-foo', rendered_template)
 
         AdminMenu.set_admin_icon(original_icon_text)
 
@@ -378,7 +308,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     'object_name': 'foo',
                     'change_url': '/foo',
                 },
-            ]
+            ],
         }
 
         context = Context(
@@ -387,17 +317,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'app': app,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_app_icon %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_app_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'fa fa-circle',
-            rendered_template
-        )
+        self.assertIn('fa fa-circle', rendered_template)
 
     def test_render_app_icon_tag_renders_the_icon_after_it_has_been_changed(self):
         """Test render app icon tag renders the icon after it has been changed"""
@@ -416,7 +340,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     'object_name': 'foo',
                     'change_url': '/foo',
                 },
-            ]
+            ],
         }
 
         original_icon_text = AdminMenu.get_app_icon(app['name'])
@@ -429,17 +353,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'request': request,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_app_icon %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_app_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'fa fa-foo',
-            rendered_template
-        )
+        self.assertIn('fa fa-foo', rendered_template)
 
         AdminMenu.set_app_icon(app['name'], original_icon_text)
 
@@ -467,17 +385,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'model': model,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_model_icon %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_model_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'fa fa-circle-o',
-            rendered_template
-        )
+        self.assertIn('fa fa-circle-o', rendered_template)
 
     def test_render_model_icon_tag_renders_the_icon_after_it_has_been_changed(self):
         """Test render model icon tag renders the icon after it has been changed"""
@@ -503,17 +415,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'model': model,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_model_icon %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_model_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            'fa fa-foo',
-            rendered_template
-        )
+        self.assertIn('fa fa-foo', rendered_template)
 
         AdminMenu.set_model_icon(model['object_name'], original_icon_text)
 
@@ -556,7 +462,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                                 'text': 'First',
                                 'icon': 'fa fa-circle',
                             },
-                        ]
+                        ],
                     },
                 ],
                 'ADMINLTE2_MENU_LAST': [
@@ -568,22 +474,16 @@ class TemplateTagAdminMenuTestCase(TestCase):
                                 'text': 'Last',
                                 'icon': 'fa fa-circle',
                             },
-                        ]
+                        ],
                     },
-                ]
+                ],
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertIn('<li class="separator">', rendered_template)
 
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=True)
     def test_render_admin_renders_correctly_with_menu_group_separator_enabled_and_one_additional_menu(self):
@@ -620,22 +520,16 @@ class TemplateTagAdminMenuTestCase(TestCase):
                                 'text': 'First',
                                 'icon': 'fa fa-circle',
                             },
-                        ]
+                        ],
                     },
                 ],
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertIn('<li class="separator">', rendered_template)
 
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=True)
     def test_render_admin_renders_correctly_with_menu_group_separator_enabled_and_no_additional_menus(self):
@@ -665,17 +559,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'user': user,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertIn('<li class="separator">', rendered_template)
 
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=True)
     @override_settings(ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=False)
@@ -706,17 +594,11 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 'user': user,
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertNotIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertNotIn('<li class="separator">', rendered_template)
 
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=False)
     def test_render_admin_renders_correctly_with_menu_group_separator_disabled_and_one_additional_menu(self):
@@ -753,22 +635,16 @@ class TemplateTagAdminMenuTestCase(TestCase):
                                 'text': 'First',
                                 'icon': 'fa fa-circle',
                             },
-                        ]
+                        ],
                     },
                 ],
             }
         )
-        template_to_render = Template(
-            "{% load admin.admin_menu %}"
-            "{% render_admin_menu %}"
-        )
+        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertNotIn(
-            '<li class="separator">',
-            rendered_template
-        )
+        self.assertNotIn('<li class="separator">', rendered_template)
 
     def create_user(self):
         """Create a dummy user for views to access."""

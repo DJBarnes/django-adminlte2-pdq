@@ -7,6 +7,7 @@ from django.conf import settings
 # Imports that may not be accessible, depending on local python environment setup.
 try:
     from colorama import Back, Fore, Style
+
     COLORAMA_PRESENT = True
 except ImportError:
     COLORAMA_PRESENT = False
