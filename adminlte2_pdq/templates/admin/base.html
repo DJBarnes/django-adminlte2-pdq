@@ -2,73 +2,112 @@
 {% load static i18n %}
 {% load admin.admin_header %}
 
+
 {% block extra_meta %}
   {% block block_bots %}
     <meta name="robots" content="NONE,NOARCHIVE" />
   {% endblock block_bots %}
 {% endblock extra_meta %}
 
+
 {% block global_stylesheets %}
   {{ block.super }}
-  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">
-  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+  
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}"
+  >
+  
+  {% if LANGUAGE_BIDI %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"
+    >
+  {% endif %}
+  
   {% block responsive %}
       <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
       <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
-      {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+      {% if LANGUAGE_BIDI %}
+        <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">
+      {% endif %}
   {% endblock %}
+  
   <!-- Admin extrastyle -->
-  {% block extrastyle %}{% endblock extrastyle %}
+  {% block extrastyle %}
+  {% endblock extrastyle %}
   <!-- End Admin extrastyle -->
+  
 {% endblock global_stylesheets %}
+
 
 {% block global_conflict_stylesheets %}
   {{ block.super }}
+  
   {# Conflicts is here because must override all previous library css including django admin. #}
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/conflicts/django-admin-conflicts.css' %}">
 {% endblock global_conflict_stylesheets %}
 
+
 {% block global_javascript_head %}
   {{ block.super }}
+  
   <!-- Admin extrahead -->
-  {% block extrahead %}{% endblock extrahead %}
+  {% block extrahead %}
+  {% endblock extrahead %}
   <!-- End Admin extrahead -->
+  
 {% endblock global_javascript_head %}
+
 
 {% block body_class %}
   {{ block.super }}
+  
   {% block bodyclass %}{% endblock %} {# Admin name for body_class #}
 {% endblock body_class %}
+
 
 {% block nav_header %}
   {% include 'admin/partials/_main_header.html' %}
 {% endblock %}
 
+
 {% block nav_sidebar %}
   {% include 'admin/partials/_main_sidebar.html' %}
 {% endblock %}
 
+
 {% block page_name %}
+  
   {% block pretitle %}
   {% endblock pretitle %}
+  
   {% if title %}
     {{ title }}
   {% endif %}
+  
 {% endblock page_name %}
+
 
 {% block page_description %}
 {% endblock page_description %}
 
+
 {% block breadcrumbs %}
   <ol class="breadcrumb">
     {% include "admin/partials/_breadcrumb_home.html" %}
+  
     {% if title %}
       <li>
         {{ title }}
       </li>
     {% endif %}
+  
   </ol>
 {% endblock breadcrumbs %}
+
 
 {% block content_block_wrap %}
 
@@ -76,9 +115,7 @@
   {% endblock object-tools %}
 
   {% block content %}
-
     {{ content }}
-
   {% endblock content %}
 
   {% block sidebar %}
@@ -86,9 +123,7 @@
 
 {% endblock content_block_wrap %}
 
+
 {% block control_sidebar %}
-
   {% include "admin/partials/_control_sidebar.html" %}
-
 {% endblock control_sidebar %}
-

@@ -1,5 +1,7 @@
 {% load i18n %}
 {% load admin.admin_menu %}
+
+
 <div class="box {% block box_header_type %}box-primary{% endblock box_header_type %} box-solid app-box">
 
   <div class="box-header with-border">
@@ -30,6 +32,7 @@
               <i class="{% render_model_icon %}"></i>
             </span>
           </a>
+        
           <div class="info-box-content">
             <span class="info-box-text">
               {{ model.name }}
@@ -40,17 +43,20 @@
                 Add
               </a>
             {% endif %}
+          
             {% if model.admin_url %}
               <a href="{{ model.admin_url }}" class="{% block change_class %}btn btn-warning btn-xs btn-block section{% endblock change_class %}">
                 <i class="fa fa-pencil"></i>
                 Change
               </a>
             {% endif %}
+          
           </div>
           <!-- /.info-box-content -->
         </div>
       </div>
     {% endfor %}
+  
   </div>
   <!-- /.box-body -->
 </div>

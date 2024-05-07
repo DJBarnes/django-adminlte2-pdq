@@ -1,5 +1,6 @@
 {% load adminlte_filters %}
 
+
 {% if field|fieldtype == "DateTimeInput" %}
 
   {% include "adminlte2/partials/_form/_datetime.html" %}
@@ -62,5 +63,6 @@
     {% endfor %}
   </datalist>
 {% endif %}
+
 
 {% include "adminlte2/partials/_form/_field_error.html" %}
