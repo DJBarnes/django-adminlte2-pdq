@@ -2,12 +2,12 @@
   <span class="help-block">
     {% if field.errors %}
       <ul class="list-unstyled">
-      {% for error in field.errors %}
-        <li>
-          <i class="fa fa-times-circle-o"></i>
-          {{ error }}
-        </li>
-      {% endfor %}
+        {% for error in field.errors %}
+          <li>
+            <i class="fa fa-times-circle-o"></i>
+            {{ error }}
+          </li>
+        {% endfor %}
       </ul>
     {% endif %}
     {{ field.help_text }}

@@ -51,7 +51,11 @@
           {% block object-tools-items %}
             <li>
               {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
-              <a id="btn-history" href="{% add_preserved_filters history_url %}" class="btn btn-default btn-sm">
+              <a
+                id="btn-history"
+                href="{% add_preserved_filters history_url %}"
+                class="btn btn-default btn-sm"
+              >
                 <i class="fa fa-history"></i> {% trans "History" %}
               </a>
             </li>
@@ -140,7 +144,7 @@
             id="django-admin-form-add-constants"
             src="{% static 'admin/js/change_form.js' %}"
             {% if adminform and add %}
-                data-model-name="{{ opts.model_name }}"
+              data-model-name="{{ opts.model_name }}"
             {% endif %}>
           </script>
         {% endblock admin_change_form_document_ready %}

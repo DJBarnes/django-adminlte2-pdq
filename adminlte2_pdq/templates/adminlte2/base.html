@@ -12,11 +12,11 @@
   {% endblock title_outer %}
 
   {% block meta %}
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
-      {% block viewport_meta %}
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-      {% endblock viewport_meta %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    {% block viewport_meta %}
+      <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    {% endblock viewport_meta %}
   {% endblock meta %}
 
   {% block extra_meta %}
@@ -64,11 +64,13 @@
     {# NOTE: Must be here so that it can be executed as soon as the body tag is rendered. #}
     <script src="{% static 'adminlte2_pdq/extra-features/sidebar-state.js' %}"></script>
   {% endblock sidebar_state %}
+  
   {% block body %}
     <div class="wrapper">
       {% block nav_header %}
         {% include 'adminlte2/partials/_main_header.html' %}
       {% endblock nav_header %}
+    
       {% block nav_sub_header %}
       {% endblock nav_sub_header %}
 

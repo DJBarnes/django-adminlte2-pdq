@@ -84,7 +84,9 @@
             {% if action_form and actions_on_top and cl.show_admin_actions %}
               {% admin_actions %}
             {% endif %}
+            
             {% result_list cl %}
+            
             {% if action_form and actions_on_bottom and cl.show_admin_actions %}
               {% admin_actions %}
             {% endif %}
@@ -100,10 +102,11 @@
       {% block filters %}
         {% if cl.has_filters %}
           {% comment %}
-          L8R: position:absolute (default) causes long filters to be cut off at
-          the bottom. Overriding to initial, with float: right fixes that, but
-          makes the filter list appear below the search bar and date drilldown.
+            L8R: position:absolute (default) causes long filters to be cut off at
+            the bottom. Overriding to initial, with float: right fixes that, but
+            makes the filter list appear below the search bar and date drilldown.
           {% endcomment %}
+          
           <div id="changelist-filter" style="position: initial; float: right;">
             <h2>{% trans 'Filter' %}</h2>
             {% for spec in cl.filter_specs %}

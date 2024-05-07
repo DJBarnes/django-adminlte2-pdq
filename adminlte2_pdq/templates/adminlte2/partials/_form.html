@@ -18,7 +18,10 @@
       
         {% if field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
           {% if labels %}
-            <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
+            <label
+              for="{{ field.id_for_label }}"
+              class="{% if bold_required and field.field.required %}required{% endif %}"
+            >
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}
@@ -27,7 +30,10 @@
         {% elif field|fieldtype == "RadioSelect" %}
           
           {% if labels %}
-            <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
+            <label
+              for="{{ field.id_for_label }}"
+              class="{% if bold_required and field.field.required %}required{% endif %}"
+            >
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}
@@ -36,7 +42,10 @@
         {% elif field|fieldtype == "CheckboxSelectMultiple" %}
           
           {% if labels %}
-            <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
+            <label
+              for="{{ field.id_for_label }}"
+              class="{% if bold_required and field.field.required %}required{% endif %}"
+            >
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}
@@ -45,7 +54,10 @@
         {% elif field|fieldtype == "ClearableFileInput" %}
           
             {% if labels %}
-              <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
+              <label
+                for="{{ field.id_for_label }}"
+                class="{% if bold_required and field.field.required %}required{% endif %}"
+              >
                 {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
               </label>
             {% endif %}
@@ -54,7 +66,10 @@
         {% else %}
           
           {% if labels %}
-            <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
+            <label
+              for="{{ field.id_for_label }}"
+              class="{% if bold_required and field.field.required %}required{% endif %}"
+            >
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}

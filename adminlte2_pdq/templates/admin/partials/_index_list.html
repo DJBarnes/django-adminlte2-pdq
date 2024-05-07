@@ -6,8 +6,10 @@
   <table class="table table-hover table-striped">
   
     <caption class="{% block model_table_header_color %}bg-light-blue{% endblock model_table_header_color %}">
-      <a href="{{ app.app_url }}" class="section"
-        title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}">
+      <a
+        href="{{ app.app_url }}" class="section"
+        title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}"
+      >
         <i class="{% render_app_icon %}"></i>
         {{ app.name }}
       </a>
@@ -33,7 +35,10 @@
 
         {% if model.add_url %}
           <td>
-            <a href="{{ model.add_url }}" class="{% block add_class %}btn btn-success btn-xs section{% endblock add_class %}">
+            <a 
+              href="{{ model.add_url }}"
+              class="{% block add_class %}btn btn-success btn-xs section{% endblock add_class %}"
+            >
               <i class="fa fa-plus"></i>
               {% trans 'Add' %}
             </a>
@@ -44,7 +49,10 @@
 
         {% if model.admin_url %}
           <td>
-            <a href="{{ model.admin_url }}" class="{% block change_class %}btn btn-warning btn-xs section{% endblock change_class %}">
+            <a
+              href="{{ model.admin_url }}"
+              class="{% block change_class %}btn btn-warning btn-xs section{% endblock change_class %}"
+            >
               <i class="fa fa-pencil"></i>
               {% trans 'Change' %}
             </a>
