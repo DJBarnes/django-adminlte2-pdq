@@ -4,12 +4,14 @@ Django AdminLTE2 Sidebar Template Tags
 Template tags and logic for rendering sidebar menu
 """
 
+# Third-Party Imports.
 from django import template
 from django.conf import settings
 from django.http import Http404
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
 
+# Internal Imports.
 from adminlte2_pdq.constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
@@ -20,6 +22,7 @@ from adminlte2_pdq.menu import MENU
 from adminlte2_pdq.templatetags.admin.admin_menu import AdminMenu
 
 
+# Template tag registration.
 register = template.Library()
 
 
