@@ -2,11 +2,14 @@
 
 <div class="form-inline col-sm-12">
   <div class="panel panel-default">
+  
     <div class="panel-heading">
       {{ section_heading }}
     </div>
+  
     <div class="panel-body">
     {{ formset.management_form }}
+    
     {% for form in formset %}
       <div class="col-sm-12">
         {% for field in form %}
@@ -15,7 +18,10 @@
           {% else %}
             <div class="form-group col-lg-3 {% if field.errors %}has-error{% endif %}">
               {% if field|fieldtype != "CheckboxInput" %}
-                <label for="{{ field.id_for_label }}" class="control-label {% if bold_required and field.field.required %}required{% endif %}">
+                <label
+                  for="{{ field.id_for_label }}"
+                  class="control-label {% if bold_required and field.field.required %}required{% endif %}"
+                >
                   {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
                 </label>
               {% endif %}
@@ -33,11 +39,13 @@
               {% else %}
                 {% include "adminlte2/partials/_form/_text.html" %}
               {% endif %}
+
             </div>
           {% endif %}
         {% endfor %}
       </div>
     {% endfor %}
+    
     </div>
   </div>
 </div>

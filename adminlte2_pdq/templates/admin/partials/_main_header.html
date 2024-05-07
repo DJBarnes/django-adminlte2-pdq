@@ -1,9 +1,11 @@
 {% extends 'adminlte2/partials/_main_header.html' %}
 {% load admin.admin_header %}
 
+
 {% block logout_url %}
   {% url 'admin:logout' %}
 {% endblock logout_url %}
+
 
 {% block custom_menu_nav %}
   {{ block.super }}

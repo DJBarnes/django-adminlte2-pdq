@@ -1,8 +1,10 @@
 {% extends "adminlte2/base_anonymous.html" %}
 
+
 {% block anonymous_form_instructions %}
   <p class="login-box-msg">Register a new membership</p>
 {% endblock anonymous_form_instructions %}
+
 
 {% block anonymous_form_extra_top %}
   <div class="form-group has-feedback">
@@ -15,6 +17,7 @@
   </div>
 {% endblock anonymous_form_extra_top %}
 
+
 {% block anonymous_password %}
   <div class="form-group has-feedback">
     {% block anonymous_password_input %}
@@ -24,12 +27,14 @@
   </div>
 {% endblock anonymous_password %}
 
+
 {% block anonymous_form_extra_bottom %}
   <div class="form-group has-feedback">
     <input type="password" name="password2" class="form-control" placeholder="Retype password">
     <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
   </div>
 {% endblock anonymous_form_extra_bottom %}
+
 
 {% block anonymous_form_remember_me %}
   <label>
@@ -38,9 +43,11 @@
   </label>
 {% endblock anonymous_form_remember_me %}
 
+
 {% block anonymous_form_button %}
   <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
 {% endblock anonymous_form_button %}
+
 
 {% block social_auth_links %}
   <div class="social-auth-links text-center">
@@ -55,6 +62,7 @@
     </a>
   </div>
 {% endblock social_auth_links %}
+
 
 {% block anonymous_links %}
   <a href="{% url 'login' %}">I already have a membership</a>

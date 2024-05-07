@@ -1,5 +1,7 @@
 {% load static adminlte_tags %}<!DOCTYPE html>
 <html lang="en-us">
+
+
 <head>
   {% block title_outer %}
     <title>
@@ -26,23 +28,28 @@
   {% block global_stylesheets %}
     {% include 'adminlte2/partials/_styles.html' %}
   {% endblock global_stylesheets %}
+
   {% block global_conflict_stylesheets %}
     {# Conflicts is here because must override all previous library css. #}
     <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/conflicts/conflicts.css' %}">
   {% endblock global_conflict_stylesheets %}
+
   {% block page_stylesheets %}
   {% endblock page_stylesheets %}
 
   {% block global_javascript_head %}
     {% include 'adminlte2/partials/_scripts.html' %}
   {% endblock global_javascript_head %}
+
   {% block global_conflict_javascript_head %}
     {# Conflicts is here because must override all previous library js. #}
     <script src="{% static 'adminlte2_pdq/conflicts/conflicts.js' %}"></script>
   {% endblock global_conflict_javascript_head %}
+
   {% block page_javascript_head %}
   {% endblock page_javascript_head %}
 </head>
+
 
 <body
   class="
@@ -76,30 +83,37 @@
               <h1>
                 {% block page_name %}
                 {% endblock page_name %}
+              
                 {% block no_description %}
                   <small>
                     {% block page_description %}
                     {% endblock page_description %}
                   </small>
                 {% endblock no_description %}
+              
                 {% block no_page_actions %}
                   <div class="header-actions">
                     {% block page_actions %}
                     {% endblock page_actions %}
                   </div>
                 {% endblock no_page_actions %}
+              
               </h1>
               {% block breadcrumbs %}
                 {# Breadcrumb implementation left to developers #}
               {% endblock breadcrumbs %}
+              
               <div class="clearfix"></div> {# Clear float in breadcrumbs #}
             {% endblock content_header %}
           </section><!-- content-header -->
+          
           <section class="content">
             {% block content_outer %}
+              
               {% block messages %}
                 {% include 'adminlte2/partials/_messages.html' %}
               {% endblock messages %}
+              
               {% block form_errors %}
                 {% render_form_error_summary %}
               {% endblock form_errors %}
@@ -135,4 +149,5 @@
   {% block modals %}
   {% endblock modals %}
 </body>
+
 </html>

@@ -1,6 +1,7 @@
 {% extends "admin/delete_selected_confirmation.html" %}
 {% load i18n l10n admin_urls static %}
 
+
 {% block breadcrumbs %}
   <ol class="breadcrumb">
     {% include "admin/partials/_breadcrumb_home.html" %}
@@ -25,9 +26,12 @@
   </ol>
 {% endblock breadcrumbs %}
 
+
 {% block content %}
   <fieldset class="module">
     {% if perms_lacking %}
+      {# Start Section "Perms Lacking" #}
+      
       <p>
         {% blocktrans %}
           Deleting the selected {{ objects_name }} would result in deleting related objects,
@@ -39,7 +43,11 @@
           <li>{{ obj }}</li>
         {% endfor %}
       </ul>
+      
+      {# End Section "Perms Lacking" #}
     {% elif protected %}
+      {# Start Section "Protected" #}
+      
       <p>
         {% blocktrans %}
           Deleting the selected {{ objects_name }} would require deleting the following protected related objects:
@@ -50,33 +58,44 @@
           <li>{{ obj }}</li>
         {% endfor %}
       </ul>
+      
+      {# End Section "Protected" #}
     {% else %}
+      {# Start Section For All Other #}
+      
       <p>
         {% blocktrans %}
           Are you sure you want to delete the selected {{ objects_name }}?
           All of the following objects and their related items will be deleted:
         {% endblocktrans %}
       </p>
+      
       {% include "admin/includes/object_delete_summary.html" %}
+      
       <h2>
         {% trans "Objects" %}
       </h2>
+      
       {% for deletable_object in deletable_objects %}
         <ul>
           {{ deletable_object|unordered_list }}
         </ul>
       {% endfor %}
+      
       <form method="post">{% csrf_token %}
         <div>
           {% for obj in queryset %}
             <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk|unlocalize }}" />
           {% endfor %}
+        
           <input type="hidden" name="action" value="delete_selected" />
           <input type="hidden" name="post" value="yes" />
           <input type="submit" value="{% trans "Yes, I am sure" %}" />
           <a href="#" class="button cancel-link">{% trans "No, take me back" %}</a>
         </div>
       </form>
+      
+      {# End Section For All Other #}
     {% endif %}
   </fieldset>
 {% endblock %}

@@ -1,15 +1,21 @@
 {% load adminlte_filters %}
 
+
 {% for field in hidden_fields %}
   {{ field }}
 {% endfor %}
 
+
 {% for field in visible_fields %}
   <div class="col-sm-12">
     {% if field|fieldtype == "CheckboxInput" %}
+      
       {% include "adminlte2/partials/_form/_checkbox.html" %}
+      
     {% else %}
+      
       <div class="form-group {% if field.errors %}has-error{% endif %}">
+      
         {% if field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
           {% if labels %}
             <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
@@ -17,34 +23,43 @@
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_select.html" %}
+          
         {% elif field|fieldtype == "RadioSelect" %}
+          
           {% if labels %}
             <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_radio.html" %}
+          
         {% elif field|fieldtype == "CheckboxSelectMultiple" %}
+          
           {% if labels %}
             <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_checkbox_select.html" %}
+          
         {% elif field|fieldtype == "ClearableFileInput" %}
+          
             {% if labels %}
               <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
                 {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
               </label>
             {% endif %}
             {% include "adminlte2/partials/_form/_file.html" %}
+          
         {% else %}
+          
           {% if labels %}
             <label for="{{ field.id_for_label }}" class="{% if bold_required and field.field.required %}required{% endif %}">
               {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_text.html" %}
+          
         {% endif %}
 
       </div>
@@ -52,5 +67,6 @@
   </div>
 
 {% endfor %}
+
 
 {{ media|default:"" }}
