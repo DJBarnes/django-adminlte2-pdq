@@ -31,8 +31,15 @@
           {% for bootstrap_type in bootstrap_types %}
             <div class="col-sm-2" style="margin-bottom:10px;">
               <div class="btn-group">
-                <button type="submit" class="btn btn-{{ bootstrap_type }}" name="action" value="finalize">{{ bootstrap_type }}</button>
-                <button type="button" class="btn btn-{{ bootstrap_type }} dropdown-toggle" data-toggle="dropdown" aria-haspop="true" aria-expanded="false">
+                <button type="submit" class="btn btn-{{ bootstrap_type }}" name="action" value="finalize">
+                  {{ bootstrap_type }}
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-{{ bootstrap_type }} dropdown-toggle"
+                  data-toggle="dropdown" aria-haspop="true"
+                  aria-expanded="false"
+                >
                   <span class="caret"></span>
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
@@ -44,10 +51,17 @@
                   <li><a href="#"><i class="fa fa-plus fa-fw"></i> Default Anchor w/ Icon</a></li>
                   <li><a href="#"><i class="fa fa-minus fa-fw"></i> Default Anchor w/ Icon</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><input type="submit" class="btn btn-{{ bootstrap_type }}" value="input-submit .btn.btn-link.btn-{{ bootstrap_type }}"></li>
+                  <li>
+                    <input
+                      type="submit" class="btn btn-{{ bootstrap_type }}"
+                      value="input-submit .btn.btn-link.btn-{{ bootstrap_type }}"
+                    >
+                  </li>
                   <li><input type="submit" class="btn" value="input-submit .btn"></li>
                   <li><input type="submit" class="" value="input-submit"></li>
-                  <li><button class="btn btn-{{ bootstrap_type }}">button .btn.btn-{{ bootstrap_type }}</button></li>
+                  <li>
+                    <button class="btn btn-{{ bootstrap_type }}">button .btn.btn-{{ bootstrap_type }}</button>
+                  </li>
                   <li><button class="btn">button .btn</button></li>
                   <li><button class="">button</button></li>
                 </ul>
@@ -330,7 +344,11 @@
       <div class="row">
         {% for bootstrap_type in bootstrap_types %}
           <div class="col-sm-2" style="margin-bottom:10px;">
-            <button class="btn btn-{{ bootstrap_type }}" data-toggle="modal" data-target="#modal-solid-{{ bootstrap_type }}">
+            <button
+              class="btn btn-{{ bootstrap_type }}"
+              data-toggle="modal"
+              data-target="#modal-solid-{{ bootstrap_type }}"
+            >
               {{ bootstrap_type }} Modal
             </button>
           </div>
@@ -395,58 +413,58 @@
 
 {% block modals %}
   {% for bootstrap_type in bootstrap_types %}
-    
-  <div class="modal modal-{{ bootstrap_type }} fade" id="modal-{{ bootstrap_type }}" style="display: none;">
-    <div class="modal-dialog">
-      <div class="modal-content">
+    <div class="modal modal-{{ bootstrap_type }} fade" id="modal-{{ bootstrap_type }}" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">{{ bootstrap_type }} Modal</h4>
+          </div>
+          
+          <div class="modal-body">
+            <p>One fine body…</p>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-{{ bootstrap_type }}">Save changes</button>
+          </div>
+          
+        </div><!-- /.modal-content -->
         
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span></button>
-          <h4 class="modal-title">{{ bootstrap_type }} Modal</h4>
-        </div>
-        
-        <div class="modal-body">
-          <p>One fine body…</p>
-        </div>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-{{ bootstrap_type }}">Save changes</button>
-        </div>
-        
-      </div>
-      <!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-  </div>
   {% endfor %}
   
   {% for bootstrap_type in bootstrap_types %}
-  <div class="modal fade" id="modal-solid-{{ bootstrap_type }}" style="display: none;">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        
-        <div class="modal-header alert-{{ bootstrap_type }}">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span></button>
-          <h4 class="modal-title">{{ bootstrap_type }} Modal</h4>
-        </div>
-        
-        <div class="modal-body">
-          <p>One fine body…</p>
-        </div>
-        
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-{{ bootstrap_type }}">Save changes</button>
-        </div>
-        
-      </div>
-      <!-- /.modal-content -->
+    <div class="modal fade" id="modal-solid-{{ bootstrap_type }}" style="display: none;">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          
+          <div class="modal-header alert-{{ bootstrap_type }}">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span></button>
+            <h4 class="modal-title">{{ bootstrap_type }} Modal</h4>
+          </div>
+          
+          <div class="modal-body">
+            <p>One fine body…</p>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-{{ bootstrap_type }}">
+              Save changes
+            </button>
+          </div>
+          
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
     </div>
-    <!-- /.modal-dialog -->
-  </div>
   {% endfor %}
   
 {% endblock %}

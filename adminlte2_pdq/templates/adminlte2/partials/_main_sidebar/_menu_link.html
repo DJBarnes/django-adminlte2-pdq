@@ -13,7 +13,12 @@
       {%endif%}
     {% endif %}
   ">
-    <a href="{{ node.url }}" class="node-link{% if node.class %} {{ node.class }}{% endif %}"{% for attr, value in node.attributes.items %} {{ attr }}="{{ value }}"{% endfor %}>
+    <a
+      href="{{ node.url }}" class="node-link{% if node.class %} {{ node.class }}{% endif %}"
+      {% for attr, value in node.attributes.items %}
+        {{ attr }}="{{ value }}"
+      {% endfor %}
+    >
       <i class="{{ node.icon }}"></i>
       <span class="node-link-text" title="{{ node.title }}">{{ node.text }}</span>
     </a>

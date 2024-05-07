@@ -1,3 +1,4 @@
+{# TODO: This file is just kinda weird to format. Probably can be approved. #}
 {% load adminlte_filters %}
 
 
@@ -24,9 +25,7 @@
           {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
         </label>
       {% endif %}
-      <div
-        class="col-sm-10 {% if not labels %} col-sm-offset-2 {% endif %}"
-      >
+      <div class="col-sm-10 {% if not labels %} col-sm-offset-2 {% endif %}">
         {% include "adminlte2/partials/_form/_select.html" %}
       </div>
       
@@ -40,12 +39,12 @@
           {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
         </label>
       {% endif %}
-      <div
-        class="col-sm-10 {% if not labels %} col-sm-offset-2 {% endif %}"
-      >
+      <div class="col-sm-10 {% if not labels %} col-sm-offset-2 {% endif %}">
         {% include "adminlte2/partials/_form/_radio.html" %}
       </div>
+      
     {% elif field|fieldtype == "CheckboxSelectMultiple" %}
+      
       {% if labels %}
         <label
           for="{{ field.id_for_label }}"
@@ -54,14 +53,7 @@
           {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
         </label>
       {% endif %}
-      <div
-        class="
-          col-sm-10
-          {% if not labels %}
-            col-sm-offset-2
-          {% endif %}
-        "
-      >
+      <div class="col-sm-10 {% if not labels %} col-sm-offset-2 {% endif %}">
         {% include "adminlte2/partials/_form/_checkbox_select.html" %}
       </div>
       
@@ -75,14 +67,7 @@
           {{ field.label }}:{% if asterisk_required and field.field.required %}*{% endif %}
         </label>
       {% endif %}
-      <div
-        class="
-          col-sm-10
-          {% if not labels %}
-            col-sm-offset-2
-          {% endif %}
-        "
-      >
+      <div class="col-sm-10 {% if not labels %} col-sm-offset-2{% endif %}">
         {% include "adminlte2/partials/_form/_file.html" %}
       </div>
       
