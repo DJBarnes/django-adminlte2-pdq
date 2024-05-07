@@ -1,9 +1,5 @@
 """
 Tests for Decorators
-
-# TODO: For some reason, redirect-to-login logic in tests seems to return
-#       a completely empty view. Needs examination.
-#       Uncomment out commented testing sections when corrected.
 """
 
 # System Imports.
@@ -15,7 +11,7 @@ from django.contrib.auth.models import AnonymousUser, Permission
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.test import TestCase, override_settings, RequestFactory
 from django_expanded_test_cases import IntegrationTestCase
@@ -438,31 +434,34 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
 
         # endregion Utility Helper Functions
 
-        # with self.subTest('As anonymous user'):
-        #     # Should fail and redirect to login.
-        #
-        #     # Get view.
-        #     request = self.factory.get('/rand')
-        #     setattr(request, 'user', self.anonymous_user)
-        #     response = login_required_view(request)
-        #
-        #     # Display debug information for response.
-        #     self.full_debug_print(response)
-        #
-        #     # Check some page content, to ensure we're on the expected page.
-        #     self.assertPageTitle(response, 'Login Required View | Django AdminLtePdq Testing')
-        #     self.assertPageHeader(response, 'Django AdminLtePdq | Login Required View Header')
-        #
-        #     # Check status code.
-        #     self.assertEqual(response.status_code, 302)
-        #
-        #     # Also verify permissions associated with view.
-        #     self.assertIsNone(
-        #         getattr(login_required_view, 'one_of_permissions', None),
-        #     )
-        #     self.assertIsNone(
-        #         getattr(login_required_view, 'permissions', None),
-        #     )
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            # Get view.
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.anonymous_user)
+            response = login_required_view(request)
+
+            # Display debug information for response.
+            self.full_debug_print(response)
+
+            # Verify is redirect.
+            self.assertTrue(isinstance(response, HttpResponseRedirect))
+            self.assertEqual(
+                settings.LOGIN_URL + '?next=/rand',
+                response.url,
+            )
+
+            # Check status code.
+            self.assertEqual(response.status_code, 302)
+
+            # Also verify permissions associated with view.
+            self.assertIsNone(
+                getattr(login_required_view, 'one_of_permissions', None),
+            )
+            self.assertIsNone(
+                getattr(login_required_view, 'permissions', None),
+            )
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -554,57 +553,65 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
 
         # endregion Utility Helper Functions
 
-        # with self.subTest('As anonymous user'):
-        #     # Should fail and redirect to login.
-        #
-        #     # Get view.
-        #     request = self.factory.get('/rand')
-        #     setattr(request, 'user', self.anonymous_user)
-        #     response = one_permission_required_view(request)
-        #
-        #     # Display debug information for response.
-        #     self.full_debug_print(response)
-        #
-        #     # Check some page content, to ensure we're on the expected page.
-        #     self.assertPageTitle(response, 'One Permission Required View | Django AdminLtePdq Testing')
-        #     self.assertPageHeader(response, 'Django AdminLtePdq | One Permission Required View Header')
-        #
-        #     # Check status code.
-        #     self.assertEqual(response.status_code, 200)
-        #
-        #     # Also verify permissions associated with view.
-        #     self.assertIsNone(
-        #         getattr(one_permission_required_view, 'one_of_permissions', None),
-        #     )
-        #     self.assertIsNone(
-        #         getattr(one_permission_required_view, 'permissions', None),
-        #     )
-        #
-        # with self.subTest('As user with no permissions'):
-        #     # Should fail and redirect to login.
-        #
-        #     # Get view.
-        #     request = self.factory.get('/rand')
-        #     setattr(request, 'user', self.none_user)
-        #     response = one_permission_required_view(request)
-        #
-        #     # Display debug information for response.
-        #     self.full_debug_print(response)
-        #
-        #     # Check some page content, to ensure we're on the expected page.
-        #     self.assertPageTitle(response, 'One Permission Required View | Django AdminLtePdq Testing')
-        #     self.assertPageHeader(response, 'Django AdminLtePdq | One Permission Required View Header')
-        #
-        #     # Check status code.
-        #     self.assertEqual(response.status_code, 200)
-        #
-        #     # Also verify permissions associated with view.
-        #     self.assertIsNone(
-        #         getattr(one_permission_required_view, 'one_of_permissions', None),
-        #     )
-        #     self.assertIsNone(
-        #         getattr(one_permission_required_view, 'permissions', None),
-        #     )
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            # Get view.
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.anonymous_user)
+            response = one_permission_required_view(request)
+
+            # Display debug information for response.
+            self.full_debug_print(response)
+
+            # Verify is redirect.
+            self.assertTrue(isinstance(response, HttpResponseRedirect))
+            self.assertEqual(
+                settings.LOGIN_URL + '?next=/rand',
+                response.url,
+            )
+
+            # Check status code.
+            self.assertEqual(response.status_code, 302)
+
+            # Also verify permissions associated with view.
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                getattr(one_permission_required_view, 'one_of_permissions', None),
+            )
+            self.assertIsNone(
+                getattr(one_permission_required_view, 'permissions', None),
+            )
+
+        with self.subTest('As user with no permissions'):
+            # Should fail and redirect to login.
+
+            # Get view.
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.none_user)
+            response = one_permission_required_view(request)
+
+            # Display debug information for response.
+            self.full_debug_print(response)
+
+            # Verify is redirect.
+            self.assertTrue(isinstance(response, HttpResponseRedirect))
+            self.assertEqual(
+                settings.LOGIN_URL + '?next=/rand',
+                response.url,
+            )
+
+            # Check status code.
+            self.assertEqual(response.status_code, 302)
+
+            # Also verify permissions associated with view.
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                getattr(one_permission_required_view, 'one_of_permissions', None),
+            )
+            self.assertIsNone(
+                getattr(one_permission_required_view, 'permissions', None),
+            )
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -672,83 +679,95 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
 
         # endregion Utility Helper Functions
 
-        # with self.subTest('As anonymous user'):
-        #     # Should fail and redirect to login.
-        #
-        #     # Get view.
-        #     request = self.factory.get('/rand')
-        #     setattr(request, 'user', self.anonymous_user)
-        #     response = full_permissions_required_view(request)
-        #
-        #     # Display debug information for response.
-        #     self.full_debug_print(response)
-        #
-        #     # Check some page content, to ensure we're on the expected page.
-        #     self.assertPageTitle(response, 'Full Permissions Required View | Django AdminLtePdq Testing')
-        #     self.assertPageHeader(response, 'Django AdminLtePdq | Full Permissions Required View Header')
-        #
-        #     # Check status code.
-        #     self.assertEqual(response.status_code, 200)
-        #
-        #     # Also verify permissions associated with view.
-        #     self.assertIsNone(
-        #         getattr(full_permissions_required_view, 'one_of_permissions', None),
-        #     )
-        #     self.assertIsNone(
-        #         getattr(full_permissions_required_view, 'permissions', None),
-        #     )
-        #
-        # with self.subTest('As user with no permissions'):
-        #     # Should fail and redirect to login.
-        #
-        #     # Get view.
-        #     request = self.factory.get('/rand')
-        #     setattr(request, 'user', self.none_user)
-        #     response = full_permissions_required_view(request)
-        #
-        #     # Display debug information for response.
-        #     self.full_debug_print(response)
-        #
-        #     # Check some page content, to ensure we're on the expected page.
-        #     self.assertPageTitle(response, 'Full Permissions Required View | Django AdminLtePdq Testing')
-        #     self.assertPageHeader(response, 'Django AdminLtePdq | Full Permissions Required View Header')
-        #
-        #     # Check status code.
-        #     self.assertEqual(response.status_code, 200)
-        #
-        #     # Also verify permissions associated with view.
-        #     self.assertIsNone(
-        #         getattr(full_permissions_required_view, 'one_of_permissions', None),
-        #     )
-        #     self.assertIsNone(
-        #         getattr(full_permissions_required_view, 'permissions', None),
-        #     )
-        #
-        # with self.subTest('As user with one permission'):
-        #     # Should fail and redirect to login.
-        #
-        #     # Get view.
-        #     request = self.factory.get('/rand')
-        #     setattr(request, 'user', self.partial_user)
-        #     response = full_permissions_required_view(request)
-        #
-        #     # Display debug information for response.
-        #     self.full_debug_print(response)
-        #
-        #     # Check some page content, to ensure we're on the expected page.
-        #     self.assertPageTitle(response, 'Full Permissions Required View | Django AdminLtePdq Testing')
-        #     self.assertPageHeader(response, 'Django AdminLtePdq | Full Permissions Required View Header')
-        #
-        #     # Check status code.
-        #     self.assertEqual(response.status_code, 200)
-        #
-        #     # Also verify permissions associated with view.
-        #     self.assertIsNone(
-        #         getattr(full_permissions_required_view, 'one_of_permissions', None),
-        #     )
-        #     self.assertIsNone(
-        #         getattr(full_permissions_required_view, 'permissions', None),
-        #     )
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            # Get view.
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.anonymous_user)
+            response = full_permissions_required_view(request)
+
+            # Display debug information for response.
+            self.full_debug_print(response)
+
+            # Verify is redirect.
+            self.assertTrue(isinstance(response, HttpResponseRedirect))
+            self.assertEqual(
+                settings.LOGIN_URL + '?next=/rand',
+                response.url,
+            )
+
+            # Check status code.
+            self.assertEqual(response.status_code, 302)
+
+            # Also verify permissions associated with view.
+            self.assertIsNone(
+                getattr(full_permissions_required_view, 'one_of_permissions', None),
+            )
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                getattr(full_permissions_required_view, 'permissions', None),
+            )
+
+        with self.subTest('As user with no permissions'):
+            # Should fail and redirect to login.
+
+            # Get view.
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.none_user)
+            response = full_permissions_required_view(request)
+
+            # Display debug information for response.
+            self.full_debug_print(response)
+
+            # Verify is redirect.
+            self.assertTrue(isinstance(response, HttpResponseRedirect))
+            self.assertEqual(
+                settings.LOGIN_URL + '?next=/rand',
+                response.url,
+            )
+
+            # Check status code.
+            self.assertEqual(response.status_code, 302)
+
+            # Also verify permissions associated with view.
+            self.assertIsNone(
+                getattr(full_permissions_required_view, 'one_of_permissions', None),
+            )
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                getattr(full_permissions_required_view, 'permissions', None),
+            )
+
+        with self.subTest('As user with one permission'):
+            # Should fail and redirect to login.
+
+            # Get view.
+            request = self.factory.get('/rand')
+            setattr(request, 'user', self.partial_user)
+            response = full_permissions_required_view(request)
+
+            # Display debug information for response.
+            self.full_debug_print(response)
+
+            # Verify is redirect.
+            self.assertTrue(isinstance(response, HttpResponseRedirect))
+            self.assertEqual(
+                settings.LOGIN_URL + '?next=/rand',
+                response.url,
+            )
+
+            # Check status code.
+            self.assertEqual(response.status_code, 302)
+
+            # Also verify permissions associated with view.
+            self.assertIsNone(
+                getattr(full_permissions_required_view, 'one_of_permissions', None),
+            )
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                getattr(full_permissions_required_view, 'permissions', None),
+            )
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
