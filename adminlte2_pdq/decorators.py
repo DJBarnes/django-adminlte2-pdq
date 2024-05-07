@@ -15,6 +15,9 @@ from django.core.exceptions import PermissionDenied
 from .utlis import debug_print
 
 
+# region Utility Functions
+
+
 def _one_of_permission_required(perm, login_url=None, raise_exception=False):
     """
     Decorator for views that checks whether a user has at least one particular
@@ -40,6 +43,25 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
         return False
 
     return user_passes_test(check_perms, login_url=login_url)
+
+
+def _sanitize_permissions(permission):
+    """Sanitized permission values based on type."""
+
+    if isinstance(permission, list) or isinstance(permission, tuple):
+        # Is iterable type. Convert to consistent format.
+        permissions = tuple(permission)
+    elif isinstance(permission, str):
+        # Is str type. Assume is a single permission.
+        permissions = (permission,)
+    else:
+        # Is other type. Raise error.
+        raise TypeError(f'Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.')
+
+    return permissions
+
+
+# endregion Utility Functions
 
 
 def login_required(function=None, redirect_field_name='next', login_url=None):
@@ -82,23 +104,17 @@ def permission_required(permission, login_url=None, raise_exception=False):
     view function.
     """
 
-    def decorator(function):
+    # Ensure consistent permission format.
+    permissions = _sanitize_permissions(permission)
 
-        if isinstance(permission, list) or isinstance(permission, tuple):
-            # Is iterable type. Convert to consistent format.
-            permissions = tuple(permission)
-        elif isinstance(permission, str):
-            # Is str type. Assume is a single permission.
-            permissions = (permission,)
-        else:
-            # Is other type. Raise error.
-            raise TypeError(f'Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.')
+    def decorator(function):
 
         debug_print('\n\n\n\n')
         debug_print('function: {0}'.format(function))
         debug_print('permissions: {0}'.format(permissions))
         debug_print('\n')
 
+        # Save permission set to view for potential debugging.
         function.permissions = permissions
 
         @wraps(function)
@@ -127,13 +143,12 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     view function.
     """
 
+    # Ensure consistent permission format.
+    permissions = _sanitize_permissions(permission)
+
     def decorator(function):
 
-        if isinstance(permission, str):
-            permissions = (permission,)
-        else:
-            permissions = permission
-
+        # Save permission set to view for potential debugging.
         function.one_of_permissions = permissions
 
         @wraps(function)
