@@ -1,14 +1,17 @@
 """Django AdminLTE2 Views"""
 
+# Third-Party Imports.
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
-from adminlte2_pdq.decorators import (
+
+# Internal Imports.
+from .decorators import (
     login_required,
     permission_required,
     permission_required_one,
 )
-from adminlte2_pdq.forms import SampleForm, SampleFormset
+from .forms import SampleForm, SampleFormset
 
 
 def home(request):

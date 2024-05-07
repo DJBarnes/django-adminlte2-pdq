@@ -2,10 +2,13 @@
 Django AdminLTE2 Default URL Configuration
 """
 
-from . import views
+# Third-Party Imports.
 from django.conf import settings
 from django.urls import path
 from django.views.generic import RedirectView
+
+# Internal Imports.
+from . import views
 
 
 app_name = 'adminlte2_pdq'

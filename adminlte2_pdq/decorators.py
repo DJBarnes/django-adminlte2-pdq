@@ -1,6 +1,9 @@
 """Django AdminLTE2 Decorators"""
 
+# System Imports.
 from functools import wraps
+
+# Third-Party Imports.
 from django.contrib.auth.decorators import (
     login_required as django_login_required,
     permission_required as django_permission_required,
@@ -8,6 +11,7 @@ from django.contrib.auth.decorators import (
 )
 from django.core.exceptions import PermissionDenied
 
+# Internal Imports.
 from .utlis import debug_print
 
 

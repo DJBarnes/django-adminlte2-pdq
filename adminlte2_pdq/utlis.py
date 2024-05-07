@@ -1,11 +1,7 @@
 """Utility logic."""
 
-# System Imports.
-
 # Third-Party Imports.
 from .constants import SHOW_DEBUG_PRINT
-
-# Internal Imports.
 
 
 def debug_print(value):

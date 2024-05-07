@@ -1,9 +1,11 @@
 """Django AdminLTE2 Admin Menu"""
 
+# Third-Party Imports.
 from django.conf import settings
 from django.contrib.admin.sites import site
 
 
+# Module Variables.
 DEFAULT_ICON_ADMIN = 'fa fa-superpowers'
 DEFAULT_ICON_APP = 'fa fa-circle'
 DEFAULT_ICON_MODEL = 'fa fa-circle-o'

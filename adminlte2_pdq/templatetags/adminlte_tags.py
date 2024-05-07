@@ -21,7 +21,11 @@ from adminlte2_pdq.constants import (
 )
 
 
+# Logging Initialization.
 logger = logging.getLogger(__name__)
+
+
+# Template tag registration.
 register = template.Library()
 
 

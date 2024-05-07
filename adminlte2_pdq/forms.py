@@ -1,8 +1,10 @@
 """Django AdminLTE2 Sample Forms"""
 
+# Third-Party Imports.
 from django import forms
 
 
+# Module Variables.
 CHOICES = (
     (1, 'foo'),
     (2, 'bar'),

@@ -5,10 +5,14 @@ Various filters that can be used to work with a django form to add missing
 attributes that the user would like the form fields to have.
 """
 
-from django import template
+# System Imports.
 import json
 
+# Third-Party Imports.
+from django import template
 
+
+# Template tag registration.
 register = template.Library()
 
 
