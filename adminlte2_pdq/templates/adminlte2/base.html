@@ -64,13 +64,13 @@
     {# NOTE: Must be here so that it can be executed as soon as the body tag is rendered. #}
     <script src="{% static 'adminlte2_pdq/extra-features/sidebar-state.js' %}"></script>
   {% endblock sidebar_state %}
-  
+
   {% block body %}
     <div class="wrapper">
       {% block nav_header %}
         {% include 'adminlte2/partials/_main_header.html' %}
       {% endblock nav_header %}
-    
+
       {% block nav_sub_header %}
       {% endblock nav_sub_header %}
 
@@ -85,37 +85,37 @@
               <h1>
                 {% block page_name %}
                 {% endblock page_name %}
-              
+
                 {% block no_description %}
                   <small>
                     {% block page_description %}
                     {% endblock page_description %}
                   </small>
                 {% endblock no_description %}
-              
+
                 {% block no_page_actions %}
                   <div class="header-actions">
                     {% block page_actions %}
                     {% endblock page_actions %}
                   </div>
                 {% endblock no_page_actions %}
-              
+
               </h1>
               {% block breadcrumbs %}
                 {# Breadcrumb implementation left to developers #}
               {% endblock breadcrumbs %}
-              
+
               <div class="clearfix"></div> {# Clear float in breadcrumbs #}
             {% endblock content_header %}
           </section><!-- content-header -->
-          
+
           <section class="content">
             {% block content_outer %}
-              
+
               {% block messages %}
                 {% include 'adminlte2/partials/_messages.html' %}
               {% endblock messages %}
-              
+
               {% block form_errors %}
                 {% render_form_error_summary %}
               {% endblock form_errors %}
