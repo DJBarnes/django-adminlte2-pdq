@@ -114,22 +114,26 @@ def permission_required(permission, login_url=None, raise_exception=False):
         debug_print('permissions: {0}'.format(permissions))
         debug_print('\n')
 
-        # Save permission set to view for potential debugging.
+        # Save permission set to view fetch function for potential debugging.
+        function.one_of_permissions = None
         function.permissions = permissions
 
         @wraps(function)
         @django_permission_required(permission, login_url, raise_exception)
         def wrap(request, *args, **kwargs):
 
-            debug_print('\n')
-            debug_print('and again....')
-            debug_print('function: {0}'.format(function))
-            debug_print('permissions: {0}'.format(permission))
-            debug_print('\n\n\n\n')
+            # Get our view response object.
+            function_view = function(request, *args, **kwargs)
 
-            return function(request, *args, **kwargs)
+            # Save permission set to fully qualified view for potential debugging.
+            function_view.one_of_permissions = None
+            function_view.permissions = permissions
 
-        return wrap
+            return function_view
+
+        wrapped_function = wrap
+        wrapped_function.permissions = permissions
+        return wrapped_function
 
     return decorator
 
@@ -148,14 +152,22 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
     def decorator(function):
 
-        # Save permission set to view for potential debugging.
+        # Save permission set to view fetch function for potential debugging.
         function.one_of_permissions = permissions
+        function.permissions = None
 
         @wraps(function)
         @_one_of_permission_required(permission, login_url, raise_exception)
         def wrap(request, *args, **kwargs):
 
-            return function(request, *args, **kwargs)
+            # Get our view response object.
+            function_view = function(request, *args, **kwargs)
+
+            # Save permission set to fully qualified view for potential debugging.
+            function_view.one_of_permissions = permissions
+            function_view.permissions = None
+
+            return function_view
 
         return wrap
 
