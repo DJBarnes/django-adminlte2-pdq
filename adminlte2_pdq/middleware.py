@@ -5,6 +5,7 @@ import warnings
 
 # Third-Party Imports.
 from django.http import Http404
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.urls import resolve
@@ -263,17 +264,36 @@ class AuthMiddleware:
 
                 return True
 
-            # Permissions or Login Required not set, add messages, warnings, and return False
-            warning_message = (
-                f"The {view_type} view '{view_name}' does not have the"
-                " permission_required, one_of_permission, or login_required"
-                f" {view_perm_type} set and the option ADMINLTE2_USE_STRICT_POLICY is"
-                " set to True. This means that this view is inaccessible until"
-                " either permissions are set on the view or the url_name for the"
-                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-            )
-            warnings.warn(warning_message)
-            messages.debug(request, warning_message)
+            # Decorator/Mixin failed checks, or Login Required not set.
+            # Add messages, warnings, and return False.
+            if settings.DEBUG:
+                # Warning if in development mode.
+                warning_message = (
+                    "AdminLtePdq Warning: This project is set to run in strict mode, and "
+                    "the {view_type} view '{view_name}' does not have any {view_perm_type} set. "
+                    "This means that this view is inaccessible until a permission {view_perm_type} "
+                    "is set for the {view_type} view, or the view is added to the "
+                    "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+                    "\n\n"
+                    "For further information, please see the docs: "
+                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+                ).format(
+                    view_type=view_type,
+                    view_name=view_name,
+                    view_perm_type=view_perm_type,
+                )
+                # Create console warning message.
+                warnings.warn(warning_message)
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+            else:
+                # Error if in production mode.
+                error_message = (
+                    'Could not access requested page. The site is configured incorrectly. '
+                    'Please contact the site administrator.'
+                )
+                # Create Django Messages warning.
+                messages.warning(request, error_message)
 
         debug_print('')
         debug_print(debug_error.format('Failed to pass auth checks.'))
