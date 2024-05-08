@@ -8,15 +8,16 @@
   <section class="sidebar">
     {% block sidebar %}
 
-      {# Sidebar user panel. Displays gravitar icon and username. #}
+      {# Sidebar user panel. Displays gravatar icon and username. #}
+      <!-- Sidebar user panel -->
       {% block sb_user_panel %}
         <div class="user-panel">
         
-          {% block sb_gravitar %}
+          {% block sb_gravatar %}
             <div class="pull-left image">
               <img src="{% get_avatar_url user=request.user size=90 %}" class="img-circle" alt="User Image">
             </div>
-          {% endblock sb_gravitar %}
+          {% endblock sb_gravatar %}
         
           {% block sb_username %}
             <div class="pull-left info">
@@ -31,6 +32,7 @@
       {% endblock sb_form %}
       
       {# The sidebar menu. Rendered with the render_menu tag. Styles can be found in sidebar.less #}
+      <!-- sidebar menu: : style can be found in sidebar.less -->
       {% block sidebar_menu %}
 
         <ul class="sidebar-menu">
