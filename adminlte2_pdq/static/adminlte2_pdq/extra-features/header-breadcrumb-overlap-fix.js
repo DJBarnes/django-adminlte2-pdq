@@ -17,26 +17,15 @@ $(function () {
         return $.fn.textWidth.fakeEl.width();
     };
 
-    console.log('Loaded header-breadcrumb-overlap-fix.js');
-
     let page_header_element = $('section.content-header > h1:first-child');
-    console.log($(page_header_element));
-    console.log($(page_header_element).textWidth());
     let page_header_width = $(page_header_element).textWidth();
-    console.log(page_header_width);
 
     let breadcrumb_element = $('section.content-header > ol.breadcrumb');
-    console.log($(breadcrumb_element));
-    console.log($(breadcrumb_element).width());
     let breadcrumb_width = $(breadcrumb_element).width()
 
-    console.log('');
     let content_header_section = $('section.content-header');
-    console.log('Total content size: ' + (page_header_width + breadcrumb_width));
-    console.log('Content header size: ' + $(content_header_section).width());
     if ( $(content_header_section).width() <= (page_header_width + breadcrumb_width)) {
         // Width overlaps. Correct by setting breadcrumb element to have mobile-handling.
-        console.log('OVERLAPS!');
 
         // Set CSS for overall breadcrumb element.
         $(breadcrumb_element).css('position', 'relative');
@@ -52,8 +41,6 @@ $(function () {
             $(this).addClass('header-fix');
         });
 
-    } else {
-        console.log('Is okay.');
     }
 
 });
