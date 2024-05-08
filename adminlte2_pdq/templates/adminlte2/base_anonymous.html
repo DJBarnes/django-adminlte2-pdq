@@ -12,7 +12,7 @@
     {% block logo %}
       <div class="login-logo">
         {# Mirrors block names used in _main_header.html #}
-        <a href="{% block logo_href %}/{% endblock %}">{% block logo_text %}{% get_logo_text %}{% endblock logo_text %}</a>
+        <a href="{% block logo_href %}/{% endblock logo_href%}">{% block logo_text %}{% get_logo_text %}{% endblock logo_text %}</a>
       </div>
     {% endblock logo %}<!-- /.login-logo -->
 
@@ -89,4 +89,4 @@
 
     </div>
   </div>
-{% endblock %}
+{% endblock body %}

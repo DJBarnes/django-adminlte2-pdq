@@ -16,14 +16,14 @@
   <link
     rel="stylesheet"
     type="text/css"
-    href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}"
+    href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock stylesheet %}"
   >
   
   {% if LANGUAGE_BIDI %}
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}"
+      href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock stylesheet_rtl %}"
     >
   {% endif %}
   
@@ -33,7 +33,7 @@
     {% if LANGUAGE_BIDI %}
       <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">
     {% endif %}
-  {% endblock %}
+  {% endblock responsive %}
   
   <!-- Admin extrastyle -->
   {% block extrastyle %}
@@ -65,18 +65,20 @@
 {% block body_class %}
   {{ block.super }}
   
-  {% block bodyclass %}{% endblock %} {# Admin name for body_class #}
+  {# Admin name for body_class #}
+  {% block bodyclass %}
+  {% endblock bodyclass %} 
 {% endblock body_class %}
 
 
 {% block nav_header %}
   {% include 'admin/partials/_main_header.html' %}
-{% endblock %}
+{% endblock nav_header %}
 
 
 {% block nav_sidebar %}
   {% include 'admin/partials/_main_sidebar.html' %}
-{% endblock %}
+{% endblock nav_sidebar %}
 
 
 {% block page_name %}
