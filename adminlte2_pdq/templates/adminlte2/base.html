@@ -76,7 +76,7 @@
 
       {% block nav_sidebar %}
         {% include 'adminlte2/partials/_main_sidebar.html' %}
-      {% endblock %}
+      {% endblock nav_sidebar %}
 
       <div class="content-wrapper {% block content_wrapper_extra_classes %}{% endblock content_wrapper_extra_classes %}">
         {% block content_wrapper %}
@@ -134,7 +134,7 @@
 
       {% block nav_footer %}
         {% include 'adminlte2/partials/_main_footer.html' %}
-      {% endblock %}
+      {% endblock nav_footer %}
 
       {% block control_sidebar %}
       {% endblock control_sidebar %}
