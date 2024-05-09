@@ -103,9 +103,15 @@ class AuthMiddleware:
                 ' "django.core.context_processors.auth" as well.'
             )
 
+        view_data = {}
+        if LOGIN_REQUIRED or STRICT_POLICY:
+            view_data = self.parse_request_data(request)
+
+        # Handle if using login_required decorator within STRICT mode.
+
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
-        if LOGIN_REQUIRED and not self.verify_logged_in(request):
+        if LOGIN_REQUIRED and not self.verify_logged_in(request, view_data):
             # User not logged in and view requires login to access.
 
             debug_print(debug_error.format('Failed LoginRequired checks. Redirecting.'))
@@ -115,7 +121,7 @@ class AuthMiddleware:
 
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
-        if STRICT_POLICY and not self.verify_permission_set(request):
+        if STRICT_POLICY and not self.verify_strict_mode_permission_set(request, view_data):
             # No permissions defined on view or user failed permission checks.
 
             debug_print(debug_error.format('Failed PermissionRequired checks. Redirecting.'))
@@ -126,7 +132,75 @@ class AuthMiddleware:
         # User passed all tests, return requested response.
         return self.get_response(request)
 
-    def verify_logged_in(self, request, debug=False):
+    def parse_request_data(self, request, debug=False):
+        """Parses request data and generates dict of calculated values."""
+
+        if debug:
+            debug_print.debug = True
+
+        # Initialize data structure.
+        data_dict = {
+            'path': request.path,
+        }
+
+        # Try to get the view.
+        try:
+            resolver = resolve(data_dict['path'])
+            data_dict['resolver'] = resolver
+
+            # Determine if view function or view class.
+            view_class = getattr(resolver.func, 'view_class', None)
+            data_dict['view_class'] = view_class
+
+            # Determine universal values.
+            app_name = resolver.app_name
+            current_url_name = resolver.url_name
+            fully_qualified_url_name = f"{app_name}:{current_url_name}"
+
+            if view_class:
+                # Get class attributes.
+                decorator_name = getattr(resolver.func, 'decorator_name', '')
+                login_required = getattr(resolver.func, 'login_required', False)
+                permissions = getattr(view_class, 'permission_required', [])
+                one_of_permissions = getattr(view_class, 'permission_required_one', [])
+                view_name = view_class.__qualname__
+                view_type = 'class-based'
+                view_perm_type = 'mixins/attributes'
+            else:
+                # Get function attributes.
+                decorator_name = getattr(resolver.func, 'decorator_name', '')
+                login_required = getattr(resolver.func, 'login_required', False)
+                permissions = getattr(resolver.func, 'permissions', [])
+                one_of_permissions = getattr(resolver.func, 'one_of_permissions', [])
+                view_name = resolver.func.__qualname__
+                view_type = 'function-based'
+                view_perm_type = 'decorators'
+
+            data_dict.update(
+                {
+                    'resolver': resolver,
+                    'app_name': app_name,
+                    'current_url_name': current_url_name,
+                    'fully_qualified_url_name': fully_qualified_url_name,
+                    'decorator_name': decorator_name,
+                    'login_required': login_required,
+                    'permissions': permissions,
+                    'one_of_permissions': one_of_permissions,
+                    'view_name': view_name,
+                    'view_type': view_type,
+                    'view_perm_type': view_perm_type,
+                }
+            )
+
+        except Http404:
+            data_dict.update({'resolver': None})
+
+        debug_print(data_dict)
+
+        # Return parsed data.
+        return data_dict
+
+    def verify_logged_in(self, request, view_data, debug=False):
         """Checks to verify User is logged in, for views that require it."""
         if debug:
             debug_print.debug = True
@@ -143,37 +217,27 @@ class AuthMiddleware:
 
             return True
 
-        # Determine some variable values.
-        path = request.path
-        resolver = resolve(path)
-        app_name = resolver.app_name
-        current_url_name = resolver.url_name
-        fully_qualified_url_name = f"{app_name}:{current_url_name}"
-
-        debug_print('')
-        debug_print(debug_var.format('    path: ', path))
-        debug_print(debug_var.format('    resolver: ', resolver))
-        debug_print(debug_var.format('    app_name: ', app_name))
-        debug_print(debug_var.format('    current_url_name: ', current_url_name))
-        debug_print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
-
         # User not logged in. Still allow request for the following:
         return (
             # If url name exists in whitelist.
-            current_url_name in LOGIN_EXEMPT_WHITELIST
-            or fully_qualified_url_name in LOGIN_EXEMPT_WHITELIST
+            view_data['current_url_name'] in LOGIN_EXEMPT_WHITELIST
+            or view_data['fully_qualified_url_name'] in LOGIN_EXEMPT_WHITELIST
             # If path exists in whitelist.
-            or path in LOGIN_EXEMPT_WHITELIST
+            or view_data['path'] in LOGIN_EXEMPT_WHITELIST
             # If passes requirements for custom login hook (defined on a per-project basis).
             or self.login_required_hook(request)
             # If url is for media, as defined in settings.
-            or self.verify_media_route(path)
+            or self.verify_media_route(view_data['path'])
             # If url is for websockets, as defined in settings.
-            or self.verify_websocket_route(path)
+            or self.verify_websocket_route(view_data['path'])
         )
 
-    def verify_permission_set(self, request, debug=False):
-        """Verify Permission Set"""
+    def verify_strict_mode_permission_set(self, request, view_data, debug=False):
+        """Verify view access based on permission/login requirements on the view object.
+
+        :return: False if user cannot access view as per Strict Mode policy | True otherwise.
+        """
+
         if debug:
             debug_print.debug = True
 
@@ -183,82 +247,38 @@ class AuthMiddleware:
         debug_print(debug_var.format('    type(request): ', request))
 
         exempt = False
-        path = request.path
-
-        # Try to get the view.
-        try:
-            view = resolve(path)
-        except Http404:
-            view = None
-
-        debug_print(debug_var.format('    path: ', path))
-        debug_print(debug_var.format('    view: ', view))
-        debug_print(debug_var.format('    is_view: ', bool(view)))
 
         # If view, determine if function based or class based
-        if view:
-            # Get the view class
-            view_class = getattr(view.func, 'view_class', None)
-
-            # Determine some variable values.
-            current_url_name = view.url_name
-            app_name = view.app_name
-            fully_qualified_url_name = f"{app_name}:{current_url_name}"
+        if view_data['resolver']:
 
             # Determine if request url is exempt. Is the case for the following:
             if (
                 # If url name exists in whitelist.
-                current_url_name in STRICT_POLICY_WHITELIST
-                or fully_qualified_url_name in STRICT_POLICY_WHITELIST
+                view_data['current_url_name'] in STRICT_POLICY_WHITELIST
+                or view_data['fully_qualified_url_name'] in STRICT_POLICY_WHITELIST
                 # If path exists in whitelist.
-                or path in STRICT_POLICY_WHITELIST
+                or view_data['path'] in STRICT_POLICY_WHITELIST
                 # If is the equivalent of the "Django Admin" app.
-                or app_name == 'admin'
+                or view_data['app_name'] == 'admin'
                 # If url is for media, as defined in settings.
-                or self.verify_media_route(path)
+                or self.verify_media_route(view_data['path'])
                 # If url is for websockets, as defined in settings.
-                or self.verify_websocket_route(path)
+                or self.verify_websocket_route(view_data['path'])
                 # If url is for redirecting, as defined in settings.
-                or self.verify_redirect_route(view_class)
+                or self.verify_redirect_route(view_data['view_class'])
             ):
                 # One or more conditions passed for url being exempt from checks.
                 exempt = True
 
-            debug_print('')
-            debug_print(debug_var.format('    view_class: ', view_class))
-            debug_print(debug_var.format('    is_view_class: ', bool(view_class)))
-            debug_print(debug_var.format('    current_url_name: ', current_url_name))
-            debug_print(debug_var.format('    app_name: ', app_name))
-            debug_print(debug_var.format('    fully_qualified_url_name: ', fully_qualified_url_name))
-            debug_print(debug_var.format('    exempt: ', exempt))
-
-            if view_class:
-                # Get attributes
-                permissions = getattr(view_class, 'permission_required', [])
-                one_of_permissions = getattr(view_class, 'permission_required_one', [])
-                login_required = getattr(view_class, 'login_required', False)
-                view_name = view_class.__qualname__
-                view_type = 'class-based'
-                view_perm_type = 'attribute'
-            else:
-                # Get attributes
-                permissions = getattr(view.func, 'permissions', [])
-                one_of_permissions = getattr(view.func, 'one_of_permissions', [])
-                login_required = getattr(view.func, 'login_required', False)
-                view_name = view.func.__qualname__
-                view_type = 'function-based'
-                view_perm_type = 'decorator'
-
-            debug_print('')
-            debug_print(debug_var.format('    permissions: ', permissions))
-            debug_print(debug_var.format('    one_of_permissions: ', one_of_permissions))
-            debug_print(debug_var.format('    login_required: ', login_required))
-            debug_print(debug_var.format('    view_name: ', view_name))
-            debug_print(debug_var.format('    view_type: ', view_type))
-            debug_print(debug_var.format('    view_perm_type: ', view_perm_type))
-
             # Allow request if any of the checks passed.
-            if exempt or permissions or one_of_permissions or login_required:
+            if (
+                # View is exempt from requirements.
+                exempt
+                # OR user had the correct permissions.
+                or view_data['login_required']
+                or view_data['permissions']
+                or view_data['one_of_permissions']
+            ):
                 debug_print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
                 debug_print('\n\n')
 
@@ -271,16 +291,16 @@ class AuthMiddleware:
                 warning_message = (
                     "AdminLtePdq Warning: This project is set to run in strict mode, and "
                     "the {view_type} view '{view_name}' does not have any {view_perm_type} set. "
-                    "This means that this view is inaccessible until a permission {view_perm_type} "
-                    "is set for the {view_type} view, or the view is added to the "
+                    "This means that this view is inaccessible until permission {view_perm_type} "
+                    "are set for the {view_type} view, or the view is added to the "
                     "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
                     "\n\n"
                     "For further information, please see the docs: "
                     "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
                 ).format(
-                    view_type=view_type,
-                    view_name=view_name,
-                    view_perm_type=view_perm_type,
+                    view_type=view_data['view_type'],
+                    view_name=view_data['view_name'],
+                    view_perm_type=view_data['view_perm_type'],
                 )
                 # Create console warning message.
                 warnings.warn(warning_message)
