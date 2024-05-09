@@ -80,11 +80,17 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
 
     def decorator(function):
 
+        # Save boolean to view fetch function for middleware handling + potential debugging.
+        function.decorator_name = 'login_required'
         function.login_required = True
 
         @wraps(function)
         @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
         def wrap(request, *args, **kwargs):
+
+            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            function.decorator_name = 'login_required'
+            function.login_required = True
 
             return function(request, *args, **kwargs)
 
@@ -114,7 +120,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
         debug_print('permissions: {0}'.format(permissions))
         debug_print('\n')
 
-        # Save permission set to view fetch function for potential debugging.
+        # Save permission set to view fetch function for middleware handling + potential debugging.
         function.one_of_permissions = None
         function.permissions = permissions
 
@@ -125,7 +131,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save permission set to fully qualified view for potential debugging.
+            # Save permission set to fully qualified view for middleware handling +  potential debugging.
             function_view.one_of_permissions = None
             function_view.permissions = permissions
 
@@ -152,7 +158,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
     def decorator(function):
 
-        # Save permission set to view fetch function for potential debugging.
+        # Save permission set to view fetch function for middleware handling +  potential debugging.
         function.one_of_permissions = permissions
         function.permissions = None
 
@@ -163,7 +169,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save permission set to fully qualified view for potential debugging.
+            # Save permission set to fully qualified view for middleware handling +  potential debugging.
             function_view.one_of_permissions = permissions
             function_view.permissions = None
 

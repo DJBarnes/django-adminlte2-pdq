@@ -108,6 +108,14 @@ class AuthMiddleware:
             view_data = self.parse_request_data(request)
 
         # Handle if using login_required decorator within STRICT mode.
+        if STRICT_POLICY and view_data['decorator_name'] == 'login_required':
+            raise PermissionError(
+                'The login_required decorator is not supported in AdminLtePdq STRICT mode. '
+                'Having STRICT mode on implicitly assumes login and permissions are required '
+                'for all views that are not in a whitelist setting.'
+                '\n\n'
+                'Also consider the allow_anonymous_access or allow_without_permissions decorators.'
+            )
 
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
@@ -141,6 +149,7 @@ class AuthMiddleware:
         # Initialize data structure.
         data_dict = {
             'path': request.path,
+            'decorator_name': '',
         }
 
         # Try to get the view.
@@ -196,6 +205,9 @@ class AuthMiddleware:
             data_dict.update({'resolver': None})
 
         debug_print(data_dict)
+
+        if debug:
+            debug_print.debug = False
 
         # Return parsed data.
         return data_dict
