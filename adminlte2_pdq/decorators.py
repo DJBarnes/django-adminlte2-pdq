@@ -1,4 +1,4 @@
-"""Django AdminLTE2 Decorators"""
+"""Django AdminLte2Pdq package decorators."""
 
 # System Imports.
 from functools import wraps
@@ -39,6 +39,7 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
         # In case the 403 handler should be called raise the exception
         if raise_exception:
             raise PermissionDenied
+
         # As the last resort, show the login form
         return False
 
@@ -65,7 +66,7 @@ def _sanitize_permissions(permission):
 
 
 def login_required(function=None, redirect_field_name='next', login_url=None):
-    """Decorator for views that defines that login is required.
+    """Decorator for views that defines login is required.
 
     Also adds the login required as a property to that view function.
     The property added to the view function can then be used by the sidebar
@@ -80,7 +81,7 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
 
     def decorator(function):
 
-        # Save boolean to view fetch function for middleware handling + potential debugging.
+        # Save values to view fetch function for middleware handling + potential debugging.
         function.decorator_name = 'login_required'
         function.login_required = True
         function.one_of_permissions = None
@@ -93,7 +94,7 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            # Save values to fully qualified view for middleware handling +  potential debugging.
             function_view.decorator_name = 'login_required'
             function_view.login_required = True
             function_view.one_of_permissions = None
@@ -127,7 +128,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
         debug_print('permissions: {0}'.format(permissions))
         debug_print('\n')
 
-        # Save permission set to view fetch function for middleware handling + potential debugging.
+        # Save values to view fetch function for middleware handling + potential debugging.
         function.decorator_name = 'permission_required'
         function.login_required = True
         function.one_of_permissions = None
@@ -140,7 +141,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save permission set to fully qualified view for middleware handling +  potential debugging.
+            # Save values to fully qualified view for middleware handling +  potential debugging.
             function_view.decorator_name = 'permission_required'
             function_view.login_required = True
             function_view.one_of_permissions = None
@@ -169,7 +170,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
     def decorator(function):
 
-        # Save permission set to view fetch function for middleware handling +  potential debugging.
+        # Save values to view fetch function for middleware handling +  potential debugging.
         function.decorator_name = 'permission_required_one'
         function.login_required = True
         function.one_of_permissions = permissions
@@ -182,7 +183,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save permission set to fully qualified view for middleware handling +  potential debugging.
+            # Save values to fully qualified view for middleware handling +  potential debugging.
             function_view.decorator_name = 'permission_required_one'
             function_view.login_required = True
             function_view.one_of_permissions = permissions
@@ -195,14 +196,14 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     return decorator
 
 
-def allow_anonymous_access(function=None, redirect_field_name='next', login_url=None):
+def allow_anonymous_access(function=None):
     """Decorator for strict mode, that defines a view can be accessed without login.
 
     Also adds the required logic to render the view on the sidebar template.
     """
 
     def decorator(function):
-        # Save boolean to view fetch function for middleware handling + potential debugging.
+        # Save values to view fetch function for middleware handling + potential debugging.
         function.decorator_name = 'allow_anonymous_access'
         function.login_required = False
         function.one_of_permissions = None
@@ -214,7 +215,7 @@ def allow_anonymous_access(function=None, redirect_field_name='next', login_url=
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            # Save values to fully qualified view for middleware handling +  potential debugging.
             function_view.decorator_name = 'allow_anonymous_access'
             function_view.login_required = False
             function_view.one_of_permissions = None
@@ -226,6 +227,13 @@ def allow_anonymous_access(function=None, redirect_field_name='next', login_url=
 
     if function:
         return decorator(function)
+
+    # Save values to view fetch function for middleware handling + potential debugging.
+    decorator.decorator_name = 'allow_anonymous_access'
+    decorator.login_required = False
+    decorator.one_of_permissions = None
+    decorator.permissions = None
+
     return decorator
 
 
@@ -236,7 +244,7 @@ def allow_without_permissions(function=None, redirect_field_name='next', login_u
     """
 
     def decorator(function):
-        # Save boolean to view fetch function for middleware handling + potential debugging.
+        # Save values to view fetch function for middleware handling + potential debugging.
         function.decorator_name = 'allow_without_permissions'
         function.login_required = True
         function.one_of_permissions = None
@@ -249,7 +257,7 @@ def allow_without_permissions(function=None, redirect_field_name='next', login_u
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
 
-            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            # Save values to fully qualified view for middleware handling +  potential debugging.
             function_view.decorator_name = 'allow_without_permissions'
             function_view.login_required = True
             function_view.one_of_permissions = None
