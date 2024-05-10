@@ -23,9 +23,11 @@ handler404 = 'adminlte2_pdq.views.view_404'
 
 
 urlpatterns = [
-    # Adminlte2
-    path('', include('adminlte2_pdq.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-    # Admin
+    # Standard "Django Admin" views, in Adminlte2 format.
     path('admin/', admin.site.urls),
+    # Testing views.
+    path('tests/', include('tests.test_urls')),
+    # Adminlte2 views.
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('', include('adminlte2_pdq.urls')),
 ]
