@@ -323,12 +323,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -343,12 +342,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -363,12 +361,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -383,12 +380,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Loose" mode."""
@@ -410,12 +406,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -430,11 +425,22 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'login_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
             )
 
         with self.subTest('As user with one permission'):
@@ -450,11 +456,22 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'login_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
             )
 
         with self.subTest('As user with full permissions'):
@@ -470,11 +487,22 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'login_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
             )
 
     def test__one_permission_required_decorator(self):
@@ -497,12 +525,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -520,12 +547,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -540,12 +566,23 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'permission_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                getattr(response, 'one_of_permissions', None),
+                getattr(response, 'one_of_permissions'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'permissions'),
             )
 
         with self.subTest('As user with full permissions'):
@@ -561,12 +598,23 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'permission_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                getattr(response, 'one_of_permissions', None),
+                getattr(response, 'one_of_permissions'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'permissions'),
             )
 
     def test__full_permission_required_decorator(self):
@@ -588,12 +636,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -611,12 +658,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -634,12 +680,11 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -654,12 +699,23 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'permission_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
             self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
+                getattr(response, 'one_of_permissions'),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                getattr(response, 'permissions', None),
+                getattr(response, 'permissions'),
             )
 
 
@@ -762,28 +818,27 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
         Everything should redirect with a warning message.
         """
 
-        # with self.subTest('As anonymous user'):
-        #     # View configured incorrectly for strict mode. Should redirect to "home".
+        with self.subTest('As anonymous user'):
+            # View configured incorrectly for strict mode. Should redirect to "home".
 
-        #  Verify we get the expected page.
-        response = self.assertGetResponse(
-            'adminlte2_pdq_tests:function-standard',
-            user=self.anonymous_user,
-            expected_status=200,
-            expected_title='Dashboard',
-            expected_header='Dashboard <small>Version 2.0</small>',
-            expected_messages=[
-                self.pdq_strict__no_decorator_message,
-            ],
-        )
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-standard',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_title='Dashboard',
+                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_messages=[
+                    self.pdq_strict__no_decorator_message,
+                ],
+            )
 
-        # Verify permissions associated with returned view.
-        self.assertIsNone(
-            getattr(response, 'one_of_permissions', None),
-        )
-        self.assertIsNone(
-            getattr(response, 'permissions', None),
-        )
+            # Verify permissions associated with returned view.
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -801,12 +856,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with one permission'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -824,12 +878,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with full permissions'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -847,99 +900,138 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+
+    def test__allow_anonymous_access_decorator(self):
+        """Test for allow_anonymous_access decorator, in project "Strict" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-anonymous-access',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-    # def test__login_required_decorator(self):
-    #     """Test for login_required decorator, in project "Strict" mode."""
-    #
-    #     with self.subTest('As anonymous user'):
-    #         # Should fail and redirect to login.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.anonymous_user,
-    #             expected_status=200,
-    #             expected_title='Login |',
-    #             expected_content=[
-    #                 'Sign in to start your session',
-    #                 'Remember Me',
-    #                 'I forgot my password',
-    #             ],
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
-    #
-    #     with self.subTest('As user with no permissions'):
-    #         # Should succeed and load as expected.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.none_user,
-    #             expected_status=200,
-    #             expected_title='Login Required View | Django AdminLtePdq Testing',
-    #             expected_header='Django AdminLtePdq | Login Required View Header',
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
-    #
-    #     with self.subTest('As user with one permission'):
-    #         # Should succeed and load as expected.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.partial_user,
-    #             expected_status=200,
-    #             expected_title='Login Required View | Django AdminLtePdq Testing',
-    #             expected_header='Django AdminLtePdq | Login Required View Header',
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
-    #
-    #     with self.subTest('As user with full permissions'):
-    #         # Should succeed and load as expected.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.full_user,
-    #             expected_status=200,
-    #             expected_title='Login Required View | Django AdminLtePdq Testing',
-    #             expected_header='Django AdminLtePdq | Login Required View Header',
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_anonymous_access',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertFalse(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+
+        with self.subTest('As user with no permissions'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-anonymous-access',
+                user=self.none_user,
+                expected_status=200,
+                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_anonymous_access',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertFalse(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+
+        with self.subTest('As user with one permission'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-anonymous-access',
+                user=self.partial_user,
+                expected_status=200,
+                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_anonymous_access',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertFalse(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+
+        with self.subTest('As user with full permissions'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-anonymous-access',
+                user=self.full_user,
+                expected_status=200,
+                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_anonymous_access',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertFalse(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
 
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Strict" mode.
@@ -992,92 +1084,125 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 )
             self.assertEqual(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
-    # def test__login_required_decorator(self):
-    #     """Test for login_required decorator, in project "Strict" mode."""
-    #
-    #     with self.subTest('As anonymous user'):
-    #         # Should fail and redirect to login.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.anonymous_user,
-    #             expected_status=200,
-    #             expected_title='Login |',
-    #             expected_content=[
-    #                 'Sign in to start your session',
-    #                 'Remember Me',
-    #                 'I forgot my password',
-    #             ],
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
-    #
-    #     with self.subTest('As user with no permissions'):
-    #         # Should succeed and load as expected.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.none_user,
-    #             expected_status=200,
-    #             expected_title='Login Required View | Django AdminLtePdq Testing',
-    #             expected_header='Django AdminLtePdq | Login Required View Header',
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
-    #
-    #     with self.subTest('As user with one permission'):
-    #         # Should succeed and load as expected.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.partial_user,
-    #             expected_status=200,
-    #             expected_title='Login Required View | Django AdminLtePdq Testing',
-    #             expected_header='Django AdminLtePdq | Login Required View Header',
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
-    #
-    #     with self.subTest('As user with full permissions'):
-    #         # Should succeed and load as expected.
-    #
-    #         #  Verify we get the expected page.
-    #         response = self.assertGetResponse(
-    #             'adminlte2_pdq_tests:function-login-required',
-    #             user=self.full_user,
-    #             expected_status=200,
-    #             expected_title='Login Required View | Django AdminLtePdq Testing',
-    #             expected_header='Django AdminLtePdq | Login Required View Header',
-    #         )
-    #
-    #         # Verify permissions associated with returned view.
-    #         self.assertIsNone(
-    #             getattr(response, 'one_of_permissions', None),
-    #         )
-    #         self.assertIsNone(
-    #             getattr(response, 'permissions', None),
-    #         )
+    def test__allow_without_permissions_decorator(self):
+        """Test for allow_without_permissions decorator, in project "Strict" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-without-permissions',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_title='Login |',
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions', None),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions', None),
+            )
+
+        with self.subTest('As user with no permissions'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-without-permissions',
+                user=self.none_user,
+                expected_status=200,
+                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_without_permissions',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+
+        with self.subTest('As user with one permission'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-without-permissions',
+                user=self.partial_user,
+                expected_status=200,
+                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_without_permissions',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+
+        with self.subTest('As user with full permissions'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-allow-without-permissions',
+                user=self.full_user,
+                expected_status=200,
+                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+            )
+
+            # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'allow_without_permissions',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Strict" mode."""
@@ -1099,12 +1224,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -1122,12 +1246,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -1142,12 +1265,23 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'permission_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                getattr(response, 'one_of_permissions', None),
+                getattr(response, 'one_of_permissions'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'permissions'),
             )
 
         with self.subTest('As user with full permissions'):
@@ -1163,12 +1297,23 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'permission_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                getattr(response, 'one_of_permissions', None),
+                getattr(response, 'one_of_permissions'),
             )
             self.assertIsNone(
-                getattr(response, 'permissions', None),
+                getattr(response, 'permissions'),
             )
 
     def test__full_permission_required_decorator(self):
@@ -1190,12 +1335,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -1213,12 +1357,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -1236,12 +1379,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions', None),
-            )
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -1256,10 +1398,21 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
             )
 
             # Verify permissions associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertEqual(
+                'permission_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
             self.assertIsNone(
-                getattr(response, 'one_of_permissions', None),
+                getattr(response, 'one_of_permissions'),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                getattr(response, 'permissions', None),
+                getattr(response, 'permissions'),
             )
