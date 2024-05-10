@@ -83,16 +83,23 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
         # Save boolean to view fetch function for middleware handling + potential debugging.
         function.decorator_name = 'login_required'
         function.login_required = True
+        function.one_of_permissions = None
+        function.permissions = None
 
         @wraps(function)
         @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
         def wrap(request, *args, **kwargs):
 
-            # Save boolean to fully qualified view for middleware handling +  potential debugging.
-            function.decorator_name = 'login_required'
-            function.login_required = True
+            # Get our view response object.
+            function_view = function(request, *args, **kwargs)
 
-            return function(request, *args, **kwargs)
+            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            function_view.decorator_name = 'login_required'
+            function_view.login_required = True
+            function_view.one_of_permissions = None
+            function_view.permissions = None
+
+            return function_view
 
         return wrap
 
@@ -121,6 +128,8 @@ def permission_required(permission, login_url=None, raise_exception=False):
         debug_print('\n')
 
         # Save permission set to view fetch function for middleware handling + potential debugging.
+        function.decorator_name = 'permission_required'
+        function.login_required = True
         function.one_of_permissions = None
         function.permissions = permissions
 
@@ -132,6 +141,8 @@ def permission_required(permission, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save permission set to fully qualified view for middleware handling +  potential debugging.
+            function_view.decorator_name = 'permission_required'
+            function_view.login_required = True
             function_view.one_of_permissions = None
             function_view.permissions = permissions
 
@@ -159,6 +170,8 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     def decorator(function):
 
         # Save permission set to view fetch function for middleware handling +  potential debugging.
+        function.decorator_name = 'permission_required_one'
+        function.login_required = True
         function.one_of_permissions = permissions
         function.permissions = None
 
@@ -170,6 +183,8 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save permission set to fully qualified view for middleware handling +  potential debugging.
+            function_view.decorator_name = 'permission_required_one'
+            function_view.login_required = True
             function_view.one_of_permissions = permissions
             function_view.permissions = None
 
@@ -180,25 +195,70 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     return decorator
 
 
-def allow_anonymous_access():
+def allow_anonymous_access(function=None, redirect_field_name='next', login_url=None):
     """Decorator for strict mode, that defines a view can be accessed without login.
 
     Also adds the required logic to render the view on the sidebar template.
     """
 
     def decorator(function):
-        pass
+        # Save boolean to view fetch function for middleware handling + potential debugging.
+        function.decorator_name = 'allow_anonymous_access'
+        function.login_required = False
+        function.one_of_permissions = None
+        function.permissions = None
 
+        @wraps(function)
+        def wrap(request, *args, **kwargs):
+
+            # Get our view response object.
+            function_view = function(request, *args, **kwargs)
+
+            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            function_view.decorator_name = 'allow_anonymous_access'
+            function_view.login_required = False
+            function_view.one_of_permissions = None
+            function_view.permissions = None
+
+            return function_view
+
+        return wrap
+
+    if function:
+        return decorator(function)
     return decorator
 
 
-def allow_without_permissions():
+def allow_without_permissions(function=None, redirect_field_name='next', login_url=None):
     """Decorator for strict mode, that defines a view which requires login, but no permissions.
 
     Also adds the required logic to render the view on the sidebar template.
     """
 
     def decorator(function):
-        pass
+        # Save boolean to view fetch function for middleware handling + potential debugging.
+        function.decorator_name = 'allow_without_permissions'
+        function.login_required = True
+        function.one_of_permissions = None
+        function.permissions = None
 
+        @wraps(function)
+        @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
+        def wrap(request, *args, **kwargs):
+
+            # Get our view response object.
+            function_view = function(request, *args, **kwargs)
+
+            # Save boolean to fully qualified view for middleware handling +  potential debugging.
+            function_view.decorator_name = 'allow_without_permissions'
+            function_view.login_required = True
+            function_view.one_of_permissions = None
+            function_view.permissions = None
+
+            return function_view
+
+        return wrap
+
+    if function:
+        return decorator(function)
     return decorator

@@ -103,6 +103,9 @@ class AuthMiddleware:
                 ' "django.core.context_processors.auth" as well.'
             )
 
+        debug_print(debug_var.format('    LOGIN_REQUIRED: ', LOGIN_REQUIRED))
+        debug_print(debug_var.format('    STRICT_POLICY: ', STRICT_POLICY))
+
         view_data = {}
         if LOGIN_REQUIRED or STRICT_POLICY:
             view_data = self.parse_request_data(request)
@@ -129,13 +132,23 @@ class AuthMiddleware:
 
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
-        if STRICT_POLICY and not self.verify_strict_mode_permission_set(request, view_data):
+        if (
+            # Is STRICT mode.
+            STRICT_POLICY
+            # Is not a decorator allowing lesser permissions.
+            and not view_data['decorator_name'] in ['allow_anonymous_access', 'allow_without_permissions']
+            # Fails general checks for everything else.
+            and not self.verify_strict_mode_permission_set(request, view_data)
+        ):
             # No permissions defined on view or user failed permission checks.
 
             debug_print(debug_error.format('Failed PermissionRequired checks. Redirecting.'))
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
+
+        if debug:
+            debug_print.debug = False
 
         # User passed all tests, return requested response.
         return self.get_response(request)
@@ -286,7 +299,15 @@ class AuthMiddleware:
             if (
                 # View is exempt from requirements.
                 exempt
+                # OR view didn't require permissions due to decorators.
+                or view_data['decorator_name'] in ['allow_anonymous_access', 'allow_without_permissions']
                 # OR user had the correct permissions.
+                # For now, this check technically only works because we don't set these values
+                # on the redirect-to-login requests. So they're populated if the user passes
+                # decorator/mixin checks, and unpopulated otherwise.
+                #
+                # If we ever start populating these values on all requests, then
+                # this logic will no longer work.
                 or view_data['login_required']
                 or view_data['permissions']
                 or view_data['one_of_permissions']
