@@ -72,7 +72,7 @@ class AuthMiddleware:
     def __call__(self, request):
         return self.run_auth_checks(request)
 
-    def run_auth_checks(self, request, debug=False):
+    def run_auth_checks(self, request, debug=True):
         """Various AdminLTE authentication checks upon User trying to access a view.
 
         Upon failure, user will be redirected accordingly.
@@ -80,11 +80,6 @@ class AuthMiddleware:
         """
         if debug:
             debug_print.debug = True
-
-        debug_print('\n\n')
-        debug_print(debug_header.format('AdminLtePdq Middleware run_auth_checks():'))
-        debug_print(debug_var.format('    type(request): ', type(request)))
-        debug_print(debug_var.format('    dir(request): ', dir(request)))
 
         # Ensure user object is accessible for Authentication checks.
         if not hasattr(request, 'user'):
@@ -106,19 +101,32 @@ class AuthMiddleware:
         debug_print(debug_var.format('    LOGIN_REQUIRED: ', LOGIN_REQUIRED))
         debug_print(debug_var.format('    STRICT_POLICY: ', STRICT_POLICY))
 
-        view_data = {}
-        if LOGIN_REQUIRED or STRICT_POLICY:
-            view_data = self.parse_request_data(request)
+        # Calculate data for decorated view, in order to determine permission logic.
+        view_data = self.parse_request_data(request)
 
         # Handle if using login_required decorator within STRICT mode.
         if STRICT_POLICY and view_data['decorator_name'] == 'login_required':
-            raise PermissionError(
-                'The login_required decorator is not supported in AdminLtePdq STRICT mode. '
+            error_message = (
+                'The login_required {view_perm_type} is not supported in AdminLtePdq STRICT mode. '
                 'Having STRICT mode on implicitly assumes login and permissions are required '
                 'for all views that are not in a whitelist setting.'
                 '\n\n'
-                'Also consider the allow_anonymous_access or allow_without_permissions decorators.'
+                'Also consider the allow_anonymous_access or allow_without_permissions {view_perm_type}s.'
+            ).format(
+                view_perm_type=view_data['view_perm_type'],
             )
+            raise PermissionError(error_message)
+
+        # Handle if using allow_anonymous_access or allow_without_permissions decorator in LOOSE mode.
+        if not STRICT_POLICY and view_data['decorator_name'] in ['allow_anonymous_access', 'allow_without_permissions']:
+            error_message = (
+                'The {decorator_name} {view_perm_type} is not supported in AdminLtePdq LOOSE mode. '
+                'This {view_perm_type} only exists for clarity of permission access in STRICT mode.'
+            ).format(
+                decorator_name=view_data['decorator_name'],
+                view_perm_type=view_data['view_perm_type'],
+            )
+            raise PermissionError(error_message)
 
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
@@ -151,9 +159,15 @@ class AuthMiddleware:
             debug_print.debug = False
 
         # User passed all tests, return requested response.
-        return self.get_response(request)
+        response = self.get_response(request)
+        if view_data['decorator_name']:
+            response.decorator_name = view_data['decorator_name']
+            response.login_required = view_data['login_required']
+            response.permissions = view_data['permissions']
+            response.one_of_permissions = view_data['one_of_permissions']
+        return response
 
-    def parse_request_data(self, request, debug=False):
+    def parse_request_data(self, request, debug=True):
         """Parses request data and generates dict of calculated values."""
 
         if debug:
@@ -181,13 +195,13 @@ class AuthMiddleware:
 
             if view_class:
                 # Get class attributes.
-                decorator_name = getattr(resolver.func, 'decorator_name', '')
-                login_required = getattr(resolver.func, 'login_required', False)
+                decorator_name = getattr(view_class, 'decorator_name', '')
+                login_required = getattr(view_class, 'login_required', False)
                 permissions = getattr(view_class, 'permission_required', [])
                 one_of_permissions = getattr(view_class, 'permission_required_one', [])
                 view_name = view_class.__qualname__
                 view_type = 'class-based'
-                view_perm_type = 'mixins/attributes'
+                view_perm_type = 'mixin'
             else:
                 # Get function attributes.
                 decorator_name = getattr(resolver.func, 'decorator_name', '')
@@ -196,7 +210,7 @@ class AuthMiddleware:
                 one_of_permissions = getattr(resolver.func, 'one_of_permissions', [])
                 view_name = resolver.func.__qualname__
                 view_type = 'function-based'
-                view_perm_type = 'decorators'
+                view_perm_type = 'decorator'
 
             data_dict.update(
                 {
@@ -323,9 +337,9 @@ class AuthMiddleware:
                 # Warning if in development mode.
                 warning_message = (
                     "AdminLtePdq Warning: This project is set to run in strict mode, and "
-                    "the {view_type} view '{view_name}' does not have any {view_perm_type} set. "
-                    "This means that this view is inaccessible until permission {view_perm_type} "
-                    "are set for the {view_type} view, or the view is added to the "
+                    "the {view_type} view '{view_name}' does not have any {view_perm_type}s set. "
+                    "This means that this view is inaccessible until permission {view_perm_type}s "
+                    "are set for the view, or the view is added to the "
                     "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
                     "\n\n"
                     "For further information, please see the docs: "

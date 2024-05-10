@@ -11,8 +11,7 @@ from django.contrib.auth.models import AnonymousUser, Permission
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponse
 from django.test import TestCase, override_settings, RequestFactory
 from django_expanded_test_cases import IntegrationTestCase
 
@@ -20,6 +19,7 @@ from django_expanded_test_cases import IntegrationTestCase
 from adminlte2_pdq.decorators import login_required, permission_required, permission_required_one
 
 
+# Module Variables.
 UserModel = get_user_model()
 
 
@@ -240,6 +240,15 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
     Test project authentication decorators, under project "Loose" mode.
     """
 
+    pdq_loose__allow_anonymous_access_decorator_message = (
+        'The allow_anonymous_access decorator is not supported in AdminLtePdq LOOSE mode. '
+        'This decorator only exists for clarity of permission access in STRICT mode.'
+    )
+    pdq_loose__allow_without_permissions_decorator_message = (
+        'The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. '
+        'This decorator only exists for clarity of permission access in STRICT mode.'
+    )
+
     def setUp(self):
         self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
@@ -386,6 +395,53 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             self.assertFalse(hasattr(response, 'one_of_permissions'))
             self.assertFalse(hasattr(response, 'permissions'))
 
+    def test__allow_anonymous_access_decorator(self):
+        """Test for allow_anonymous_access decorator, in project "Loose" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-anonymous-access',
+                    user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+
+        with self.subTest('As user with no permissions'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-anonymous-access',
+                    user=self.none_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+
+        with self.subTest('As user with one permission'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-anonymous-access',
+                    user=self.partial_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+
+        with self.subTest('As user with full permissions'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-anonymous-access',
+                    user=self.full_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Loose" mode."""
 
@@ -504,6 +560,53 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             self.assertIsNone(
                 getattr(response, 'permissions'),
             )
+
+    def test__allow_without_permissions_decorator(self):
+        """Test for allow_without_permissions decorator, in project "Loose" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-without-permissions',
+                    user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+
+        with self.subTest('As user with no permissions'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-without-permissions',
+                    user=self.none_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+
+        with self.subTest('As user with one permission'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-without-permissions',
+                    user=self.partial_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+
+        with self.subTest('As user with full permissions'):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    'adminlte2_pdq_tests:function-allow-without-permissions',
+                    user=self.full_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Loose" mode."""
@@ -733,7 +836,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
         "AdminLtePdq Warning: This project is set to run in strict mode, and "
         "the function-based view 'standard_view' does not have any decorators set. "
         "This means that this view is inaccessible until permission decorators "
-        "are set for the function-based view, or the view is added to the "
+        "are set for the view, or the view is added to the "
         "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
         "\n\n"
         "For further information, please see the docs: "
@@ -1035,11 +1138,11 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
 
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Strict" mode.
-        In strict mode, this decorator should NOT function, and instead raise errors.
+        In strict mode, this decorator should NOT work, and instead raise errors.
         """
 
         with self.subTest('As anonymous user'):
-            # Invalid decorator used for strict mode. Should redirect error.
+            # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
@@ -1047,10 +1150,10 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                     user=self.anonymous_user,
                     expected_status=500,
                 )
-            self.assertEqual(self.pdq_strict__login_required_decorator_message, str(err.exception))
+            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest('As user with no permissions'):
-            # Invalid decorator used for strict mode. Should redirect error.
+            # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
@@ -1058,10 +1161,10 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                     user=self.none_user,
                     expected_status=500,
                 )
-            self.assertEqual(self.pdq_strict__login_required_decorator_message, str(err.exception))
+            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest('As user with one permission'):
-            # Invalid decorator used for strict mode. Should redirect error.
+            # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
@@ -1069,12 +1172,12 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                     user=self.partial_user,
                     expected_status=500,
                 )
-            self.assertEqual(self.pdq_strict__login_required_decorator_message, str(err.exception))
+            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
 
-            # Invalid decorator used for strict mode. Should redirect error.
+            # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
@@ -1082,7 +1185,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                     user=self.full_user,
                     expected_status=500,
                 )
-            self.assertEqual(self.pdq_strict__login_required_decorator_message, str(err.exception))
+            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Strict" mode."""

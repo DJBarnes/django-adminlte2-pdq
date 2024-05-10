@@ -16,6 +16,12 @@ from adminlte2_pdq.decorators import (
     permission_required,
     permission_required_one,
 )
+from adminlte2_pdq.mixins import (
+    AllowAnonymousAccessMixin,
+    # AllowWithoutPermissionsMixin,
+    LoginRequiredMixin,
+    PermissionRequiredMixin,
+)
 
 
 # region Function Views
@@ -67,25 +73,29 @@ class StandardView(TemplateView):
     template_name = "standard_view.html"
 
 
-class LoginRequiredView(TemplateView):
-    """Testing view with login requirement."""
+class LoginRequiredView(LoginRequiredMixin, TemplateView):
+    """Testing view for LOOSE mode, with login requirement."""
 
     template_name = "login_required_view.html"
 
 
-class OnePermissionRequiredView(TemplateView):
+class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
+
+    permission_required_one = ['auth.add_foo', 'auth.change_foo']
 
     template_name = "one_permission_required_view.html"
 
 
-class FullPermissionsRequiredView(TemplateView):
+class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
+
+    permission_required = ['auth.add_foo', 'auth.change_foo']
 
     template_name = "full_permissions_required_view.html"
 
 
-class AllowAnonymousAccessView(TemplateView):
+class AllowAnonymousAccessView(AllowAnonymousAccessMixin, TemplateView):
     """Testing view for STRICT mode, allowing full access."""
 
     template_name = "allow_anonymous_access_view.html"
