@@ -24,6 +24,15 @@ class AllowAnonymousAccessMixin:
     permission_required_one = None
 
 
+class LoginRequiredMixin(DjangoLoginRequiredMixin):
+    """Mixin for views that defines login is required."""
+
+    decorator_name = 'login_required'
+    login_required = True  # Sets property that Sidebar Node can check.
+    permission_required = None
+    permission_required_one = None
+
+
 class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
     """Mixin for strict mode, that defines a view which requires login, but no permissions.
 
@@ -32,15 +41,6 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
 
     decorator_name = 'allow_without_permissions'
     login_required = True
-    permission_required = None
-    permission_required_one = None
-
-
-class LoginRequiredMixin(DjangoLoginRequiredMixin):
-    """Mixin for views that defines login is required."""
-
-    decorator_name = 'login_required'
-    login_required = True  # Sets property that Sidebar Node can check.
     permission_required = None
     permission_required_one = None
 
