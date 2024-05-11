@@ -41,4 +41,29 @@ urlpatterns = [
         views.AllowWithoutPermissionsView.as_view(),
         name="class-allow-without-permissions",
     ),
+    path(
+        'class/bleeding/login-with-permissions/',
+        views.BleedingLoginWithPermissionsView.as_view(),
+        name="class-bleeding-login-with-permissions",
+    ),
+    path(
+        'class/bleeding/anonymous-with-permissions/',
+        views.BleedingAnonymousWithPermissionsView.as_view(),
+        name="class-bleeding-anonymous-with-permissions",
+    ),
+    path(
+        'class/bleeding/conflicting-permissions/',
+        views.BleedingConflictingPermissionsView.as_view(),
+        name="class-bleeding-conflicting-permissions",
+    ),
+    path(
+        'class/bleeding/one-permission-missing-permissions/',
+        views.BleedingOnePermissionMissingPermissionsView.as_view(),
+        name="class-bleeding-one-permission-missing-permissions",
+    ),
+    path(
+        'class/bleeding/full-permission-missing-permissions/',
+        views.BleedingFullPermissionMissingPermissionsView.as_view(),
+        name="class-bleeding-full-permission-missing-permissions",
+    ),
 ]

@@ -128,6 +128,39 @@ class AuthMiddleware:
             )
             raise PermissionError(error_message)
 
+        if (
+            # Is a permission view.
+            view_data['decorator_name'] == 'permission_required'
+            # And no permission values defined.
+            and (not view_data['permissions'] and not view_data['one_of_permissions'])
+        ):
+            if settings.DEBUG:
+                # Warning if in development mode.
+                warning_message = (
+                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
+                    "requirements, but does not have any permissions set. "
+                    "This means that this view is inaccessible until permissions "
+                    "are set for the view."
+                    "\n\n"
+                    "For further information, please see the docs: "
+                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+                ).format(
+                    view_type=view_data['view_type'],
+                    view_name=view_data['view_name'],
+                )
+                # Create console warning message.
+                warnings.warn(warning_message)
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+            else:
+                # Error if in production mode.
+                error_message = (
+                    'Could not access requested page. The site is configured incorrectly. '
+                    'Please contact the site administrator.'
+                )
+                # Create Django Messages warning.
+                messages.warning(request, error_message)
+
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
         if LOGIN_REQUIRED and not self.verify_logged_in(request, view_data):

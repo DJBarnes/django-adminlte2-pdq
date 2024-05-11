@@ -24,14 +24,14 @@ class AllowAnonymousAccessMixin:
     permission_required_one = None
 
 
-class AllowWithoutPermissionsMixin:
+class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
     """Mixin for strict mode, that defines a view which requires login, but no permissions.
 
     General logic comes from the login_required project decorator.
     """
 
     decorator_name = 'allow_without_permissions'
-    login_required = False
+    login_required = True
     permission_required = None
     permission_required_one = None
 

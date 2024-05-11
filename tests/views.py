@@ -18,7 +18,7 @@ from adminlte2_pdq.decorators import (
 )
 from adminlte2_pdq.mixins import (
     AllowAnonymousAccessMixin,
-    # AllowWithoutPermissionsMixin,
+    AllowWithoutPermissionsMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
 )
@@ -101,10 +101,80 @@ class AllowAnonymousAccessView(AllowAnonymousAccessMixin, TemplateView):
     template_name = "allow_anonymous_access_view.html"
 
 
-class AllowWithoutPermissionsView(TemplateView):
+class AllowWithoutPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
     """Testing view for STRICT mode, allowing login only requirement."""
 
     template_name = "allow_without_permissions_view.html"
 
 
 # endregion Class Views
+
+
+# region Bleeding Class Views
+
+
+class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
+    """Testing permission bleeding view."""
+
+    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    permission_required = ['auth.add_foo', 'auth.change_foo']
+
+    template_name = "login_required_view.html"
+
+
+class BleedingAnonymousWithPermissionsView(AllowAnonymousAccessMixin, TemplateView):
+    """Testing permission bleeding view."""
+
+    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    permission_required = ['auth.add_foo', 'auth.change_foo']
+
+    template_name = "allow_anonymous_access_view.html"
+
+
+class BleedingConflictingPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
+    """Testing permission bleeding view."""
+
+    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    permission_required = ['auth.add_foo', 'auth.change_foo']
+
+    template_name = "allow_without_permissions_view.html"
+
+
+class BleedingOnePermissionMissingPermissionsView(PermissionRequiredMixin, TemplateView):
+    """Testing view with permission requirement."""
+
+    permission_required_one = tuple()
+
+    template_name = "one_permission_required_view.html"
+
+
+class BleedingFullPermissionMissingPermissionsView(PermissionRequiredMixin, TemplateView):
+    """Testing view with permission requirement."""
+
+    permission_required = tuple()
+
+    template_name = "full_permissions_required_view.html"
+
+
+# endregion Bleeding Class Views
+
+
+# region Stacked Class Views
+
+
+class StackedPermissionRequiredView(PermissionRequiredMixin, TemplateView):
+    """Testing view with both permission attributes set.
+
+    By nature of having one Mixin for both attribute options, it implicitly means
+    that they should be able to stack and do an either-or scenario.
+    """
+
+    # To access view, user should require at least one of these.
+    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    # Or else ALL of these.
+    permission_required = ['auth.view_foo', 'auth.delete_foo']
+
+    template_name = "full_permissions_required_view.html"
+
+
+# endregion Stacked Class Views
