@@ -216,6 +216,7 @@ class MixinTextCaseBase(IntegrationTestCase):
     # region Expected Test Messages
 
     # BUG: Some instances of accessing a Mixin reads as a decorator instead.
+    #   Possibly resolved: Might have just been poorly organized testing urls. Double check later.
     pdq_loose__allow_anonymous_access_decorator_message = (
         'The allow_anonymous_access decorator is not supported in AdminLtePdq LOOSE mode. '
         'This decorator only exists for clarity of permission access in STRICT mode.'
@@ -450,7 +451,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.anonymous_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
         with self.subTest('As user with no permissions'):
             # Invalid mixin used for loose mode. Should raise error.
@@ -461,7 +462,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.none_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
         with self.subTest('As user with one permission'):
             # Invalid mixin used for loose mode. Should raise error.
@@ -472,7 +473,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.partial_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
         with self.subTest('As user with full permissions'):
             # Invalid mixin used for loose mode. Should raise error.
@@ -483,7 +484,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.full_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Loose" mode."""
@@ -616,7 +617,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.anonymous_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
         with self.subTest('As user with no permissions'):
             # Invalid mixin used for loose mode. Should raise error.
@@ -627,7 +628,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.none_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
         with self.subTest('As user with one permission'):
             # Invalid mixin used for loose mode. Should raise error.
@@ -638,7 +639,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.partial_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
         with self.subTest('As user with full permissions'):
             # Invalid mixin used for loose mode. Should raise error.
@@ -649,7 +650,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                     user=self.full_user,
                     expected_status=500,
                 )
-            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+            self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Loose" mode."""

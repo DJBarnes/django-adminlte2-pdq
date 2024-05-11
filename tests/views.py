@@ -73,10 +73,22 @@ class StandardView(TemplateView):
     template_name = "standard_view.html"
 
 
+class AllowAnonymousAccessView(AllowAnonymousAccessMixin, TemplateView):
+    """Testing view for STRICT mode, allowing full access."""
+
+    template_name = "allow_anonymous_access_view.html"
+
+
 class LoginRequiredView(LoginRequiredMixin, TemplateView):
     """Testing view for LOOSE mode, with login requirement."""
 
     template_name = "login_required_view.html"
+
+
+class AllowWithoutPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
+    """Testing view for STRICT mode, allowing login only requirement."""
+
+    template_name = "allow_without_permissions_view.html"
 
 
 class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
@@ -95,26 +107,23 @@ class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     template_name = "full_permissions_required_view.html"
 
 
-class AllowAnonymousAccessView(AllowAnonymousAccessMixin, TemplateView):
-    """Testing view for STRICT mode, allowing full access."""
-
-    template_name = "allow_anonymous_access_view.html"
-
-
-class AllowWithoutPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
-    """Testing view for STRICT mode, allowing login only requirement."""
-
-    template_name = "allow_without_permissions_view.html"
-
-
 # endregion Class Views
 
 
 # region Bleeding Class Views
 
 
+class BleedingAnonymousWithPermissionsView(AllowAnonymousAccessMixin, TemplateView):
+    """Testing "allow_anonymous_access" mixin bleeding view."""
+
+    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    permission_required = ['auth.add_foo', 'auth.change_foo']
+
+    template_name = "allow_anonymous_access_view.html"
+
+
 class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
-    """Testing permission bleeding view."""
+    """Testing "login_required" mixin bleeding view."""
 
     permission_required_one = ['auth.add_foo', 'auth.change_foo']
     permission_required = ['auth.add_foo', 'auth.change_foo']
@@ -122,17 +131,8 @@ class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
     template_name = "login_required_view.html"
 
 
-class BleedingAnonymousWithPermissionsView(AllowAnonymousAccessMixin, TemplateView):
-    """Testing permission bleeding view."""
-
-    permission_required_one = ['auth.add_foo', 'auth.change_foo']
-    permission_required = ['auth.add_foo', 'auth.change_foo']
-
-    template_name = "allow_anonymous_access_view.html"
-
-
 class BleedingConflictingPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
-    """Testing permission bleeding view."""
+    """Testing "allow_without_permissions" mixin bleeding view."""
 
     permission_required_one = ['auth.add_foo', 'auth.change_foo']
     permission_required = ['auth.add_foo', 'auth.change_foo']
@@ -141,7 +141,7 @@ class BleedingConflictingPermissionsView(AllowWithoutPermissionsMixin, TemplateV
 
 
 class BleedingOnePermissionMissingPermissionsView(PermissionRequiredMixin, TemplateView):
-    """Testing view with permission requirement."""
+    """Testing "permission_required_one" mixin bleeding view."""
 
     permission_required_one = tuple()
 
@@ -149,7 +149,7 @@ class BleedingOnePermissionMissingPermissionsView(PermissionRequiredMixin, Templ
 
 
 class BleedingFullPermissionMissingPermissionsView(PermissionRequiredMixin, TemplateView):
-    """Testing view with permission requirement."""
+    """Testing "permission_required" mixin bleeding view."""
 
     permission_required = tuple()
 
