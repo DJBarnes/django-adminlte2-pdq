@@ -10,6 +10,7 @@ from django.shortcuts import redirect
 
 # Internal Imports.
 from .constants import LOGIN_URL
+from .decorators import _has_group
 
 
 class AllowAnonymousAccessMixin:
@@ -52,6 +53,8 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
     login_required = True
     permission_required = None  # Must have all, same as Django
     permission_required_one = None  # Must have one
+    group_required = None
+    group_required_one = None
 
     def dispatch(self, request, *args, **kwargs):
         # Override to always redirect to login in event of permission failure.
@@ -86,6 +89,7 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         elif isinstance(self.permission_required, list) or isinstance(self.permission_required, tuple):
             perms_all = tuple(self.permission_required)
         else:
+            # Need to allow "other" in case user is provided permission_required_one.
             perms_all = tuple()
 
         # Sanitize permission_required_one.
@@ -94,6 +98,7 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         elif isinstance(self.permission_required_one, list) or isinstance(self.permission_required_one, tuple):
             perms_one = tuple(self.permission_required_one)
         else:
+            # Need to allow "other" in case user is provided permission_required.
             perms_one = tuple()
 
         return perms_all, perms_one
@@ -105,7 +110,6 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         perms_all, perms_one = self.get_permission_required()
 
         # Actually process permissions.
-        is_valid = False
         if perms_all and self.request.user.has_perms(perms_all):
             # User has all permissions and view is "all permissions" format.
             return True
@@ -120,10 +124,114 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         return False
 
 
+class GroupRequiredMixin(DjangoPermissionRequiredMixin):
+    """Mixin for views that defines groups are required."""
+
+    decorator_name = 'group_required'
+    login_required = True
+    permission_required = None
+    permission_required_one = None
+    group_required = None  # Must have all, same as Django
+    group_required_one = None  # Must have one
+
+    def __init__(self, *args, **kwargs):
+
+        # Call parent logic.
+        super().__init__(*args, **kwargs)
+
+        # Override default Django message.
+        self.permission_denied_message = (
+            "{class_name} uses the GroupRequiredMixin mixin but is missing group "
+            "definition attributes. To fix this, define either the "
+            "{class_name}.group_required or "
+            "{class_name}.group_required_one attributes. Or override "
+            "{class_name}.get_group_required() to change how the mixin functions."
+        ).format(
+            class_name=self.__class__.__name__,
+        )
+
+    def dispatch(self, request, *args, **kwargs):
+        # Override to always redirect to login in event of group failure.
+        # Default behavior is to redirect to login if unauthenticated, and
+        # raise forbidden view otherwise.
+        if not self.has_group():
+            # Failed group checks. Redirect to login page.
+            return redirect(LOGIN_URL + f'?next={request.path}')
+        return super().dispatch(request, *args, **kwargs)
+
+    def has_group(self):
+        """Check request user matches group criteria."""
+
+        # Sanitize group data and update class values.
+        groups_all, groups_one = self.get_group_required()
+
+        print('groups_all: {0}'.format(groups_all))
+        print('groups_one: {0}'.format(groups_one))
+
+        # Actually process groups.
+        if groups_all and _has_group(self.request.user, groups_all, require='All'):
+            # User has all groups and view is "all groups" format.
+            return True
+
+        if groups_one and _has_group(self.request.user, groups_one, require='Any'):
+            # View is "one of groups" format. Return on first found one.
+            return True
+
+        # If we made it this far, then all group checks failed.
+        return False
+
+    def get_group_required(self):
+        """Override this method to override group attributes.
+        Must return a tuple of two iterables: (perms_all, perms_one)
+        """
+
+        # Raise error if neither of expected attributes defined.
+        if self.group_required is None and self.group_required_one is None:
+            raise ImproperlyConfigured(self.permission_denied_message)
+
+        print('self.group_required: {0}'.format(self.group_required))
+        print('self.group_required_one: {0}'.format(self.group_required_one))
+
+        # Sanitize group_required.
+        if isinstance(self.group_required, str):
+            groups_all = (self.group_required,)
+        elif isinstance(self.group_required, list) or isinstance(self.group_required, tuple):
+            groups_all = tuple(self.group_required)
+        else:
+            # Need to allow "other" in case user is provided group_required_one.
+            groups_all = tuple()
+
+        # Sanitize group_required_one.
+        if isinstance(self.group_required_one, str):
+            groups_one = (self.group_required_one,)
+        elif isinstance(self.group_required_one, list) or isinstance(self.group_required_one, tuple):
+            groups_one = tuple(self.group_required_one)
+        else:
+            # Need to allow "other" in case user is provided group_required.
+            groups_one = tuple()
+
+        print('groups_all: {0}'.format(groups_all))
+        print('groups_one: {0}'.format(groups_one))
+
+        return groups_all, groups_one
+
+    def has_permission(self):
+        """Override default Mixin logic to use Group logic."""
+        return self.has_group()
+
+    def get_permission_required(self):
+        """Override default Mixin logic to use Group logic."""
+        try:
+            self.get_group_required()
+        except ImproperlyConfigured:
+            raise ImproperlyConfigured(self.permission_denied_message)
+
+
 # Limit imports from this file.
 __all__ = [
     'AllowAnonymousAccessMixin',
     'AllowWithoutPermissionsMixin',
     'LoginRequiredMixin',
     'PermissionRequiredMixin',
+    'GroupRequiredMixin',
 ]

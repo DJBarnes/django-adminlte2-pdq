@@ -343,7 +343,7 @@ class DecoratorTestCaseBase(IntegrationTestCase):
 
         # Add only "unused" permission to this incorrect_group_user.
         self.incorrect_group_user = self.get_user('johnny_wrong')
-        self.add_user_group('unused_bar', user=self.full_group_user)
+        self.add_user_group('unused_bar', user=self.incorrect_group_user)
 
         # Add no permissions/groups to none_user.
         self.none_user = self.get_user('joe_none')
@@ -1091,7 +1091,7 @@ class ReworkedDecoratorTestCase__Standard(DecoratorTestCaseBase):
             )
 
     def test__full_permission_required_decorator(self):
-        """Test for permission_required_one decorator, in project "Loose" mode."""
+        """Test for permission_required decorator, in project "Loose" mode."""
 
         with self.subTest('As anonymous user'):
             # Should fail and redirect to login.
@@ -1265,6 +1265,399 @@ class ReworkedDecoratorTestCase__Standard(DecoratorTestCaseBase):
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
                 getattr(response, 'permissions'),
+            )
+
+    def test__one_group_required_decorator(self):
+        """Test for permission_required_one decorator, in project "Loose" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_title='Login |',
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with no permissions'):
+            # Should fail and redirect to login.
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.none_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one permission'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.partial_perm_user,
+                expected_status=200,
+                expected_title='Login |',
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with full permissions'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.full_perm_user,
+                expected_status=200,
+                expected_title='Login |',
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with incorrect groups'):
+            # Should fail and redirect to login.
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.incorrect_group_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one group'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.partial_group_user,
+                expected_status=200,
+                expected_title='One Group Required View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | One Group Required View Header',
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'one_of_groups'))
+            self.assertTrue(hasattr(response, 'groups'))
+            self.assertEqual(
+                'group_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+            self.assertEqual(
+                ('add_bar', 'change_bar'),
+                getattr(response, 'one_of_groups'),
+            )
+            self.assertIsNone(
+                getattr(response, 'groups'),
+            )
+
+        with self.subTest('As user with full groups'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.full_group_user,
+                expected_status=200,
+                expected_title='One Group Required View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | One Group Required View Header',
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'one_of_groups'))
+            self.assertTrue(hasattr(response, 'groups'))
+            self.assertEqual(
+                'group_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+            self.assertEqual(
+                ('add_bar', 'change_bar'),
+                getattr(response, 'one_of_groups'),
+            )
+            self.assertIsNone(
+                getattr(response, 'groups'),
+            )
+
+    def test__full_group_required_decorator(self):
+        """Test for group_required decorator, in project "Loose" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with no permissions'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.none_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one permission'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.partial_perm_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with full permissions'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.full_perm_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with incorrect groups'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.incorrect_group_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one group'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.partial_group_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with full groups'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.full_group_user,
+                expected_status=200,
+                expected_title='Full Groups Required View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Full Groups Required View Header',
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'one_of_groups'))
+            self.assertTrue(hasattr(response, 'groups'))
+            self.assertEqual(
+                'group_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_groups'),
+            )
+            self.assertEqual(
+                ('add_bar', 'change_bar'),
+                getattr(response, 'groups'),
             )
 
 
@@ -2177,7 +2570,7 @@ class ReworkedDecoratorTestCase__Strict(DecoratorTestCaseBase):
             )
 
     def test__full_permission_required_decorator(self):
-        """Test for permission_required_one decorator, in project "Strict" mode."""
+        """Test for permission_required decorator, in project "Strict" mode."""
 
         with self.subTest('As anonymous user'):
             # Should fail and redirect to login.
@@ -2351,4 +2744,395 @@ class ReworkedDecoratorTestCase__Strict(DecoratorTestCaseBase):
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
                 getattr(response, 'permissions'),
+            )
+
+    def test__one_group_required_decorator(self):
+        """Test for group_required_one decorator, in project "Strict" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_title='Login |',
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with no permissions'):
+            # Should fail and redirect to login.
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.none_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one permission'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.partial_perm_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with full permissions'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.full_perm_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with incorrect groups'):
+            # Should fail and redirect to login.
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.incorrect_group_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one group'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.partial_group_user,
+                expected_status=200,
+                expected_title='One Group Required View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | One Group Required View Header',
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'one_of_groups'))
+            self.assertTrue(hasattr(response, 'groups'))
+            self.assertEqual(
+                'group_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+            self.assertEqual(
+                ('add_bar', 'change_bar'),
+                getattr(response, 'one_of_groups'),
+            )
+            self.assertIsNone(
+                getattr(response, 'groups'),
+            )
+
+        with self.subTest('As user with full groups'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-one-group-required',
+                user=self.full_group_user,
+                expected_status=200,
+                expected_title='One Group Required View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | One Group Required View Header',
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'one_of_groups'))
+            self.assertTrue(hasattr(response, 'groups'))
+            self.assertEqual(
+                'group_required_one',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+            self.assertEqual(
+                ('add_bar', 'change_bar'),
+                getattr(response, 'one_of_groups'),
+            )
+            self.assertIsNone(
+                getattr(response, 'groups'),
+            )
+
+    def test__full_groups_required_decorator(self):
+        """Test for group_required decorator, in project "Strict" mode."""
+
+        with self.subTest('As anonymous user'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.anonymous_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with no permissions'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.none_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one permission'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.partial_perm_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with full permissions'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.full_perm_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with incorrect groups'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.incorrect_group_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with one group'):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.partial_group_user,
+                expected_status=200,
+                expected_content=[
+                    'Sign in to start your session',
+                    'Remember Me',
+                    'I forgot my password',
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, 'decorator_name'))
+            self.assertFalse(hasattr(response, 'login_required'))
+            self.assertFalse(hasattr(response, 'one_of_permissions'))
+            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'one_of_groups'))
+            self.assertFalse(hasattr(response, 'groups'))
+
+        with self.subTest('As user with full groups'):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                'adminlte2_pdq_tests:function-full-groups-required',
+                user=self.full_group_user,
+                expected_status=200,
+                expected_title='Full Groups Required View | Django AdminLtePdq Testing',
+                expected_header='Django AdminLtePdq | Full Groups Required View Header',
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, 'decorator_name'))
+            self.assertTrue(hasattr(response, 'login_required'))
+            self.assertTrue(hasattr(response, 'one_of_permissions'))
+            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'one_of_groups'))
+            self.assertTrue(hasattr(response, 'groups'))
+            self.assertEqual(
+                'group_required',
+                getattr(response, 'decorator_name'),
+            )
+            self.assertTrue(
+                getattr(response, 'login_required'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'permissions'),
+            )
+            self.assertIsNone(
+                getattr(response, 'one_of_groups'),
+            )
+            self.assertEqual(
+                ('add_bar', 'change_bar'),
+                getattr(response, 'groups'),
             )
