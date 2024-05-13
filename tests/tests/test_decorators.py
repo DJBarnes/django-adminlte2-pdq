@@ -231,14 +231,10 @@ class DecoratorTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=False)
-@override_settings(STRICT_POLICY=False)
-@patch('adminlte2_pdq.constants.STRICT_POLICY', False)
-@patch('adminlte2_pdq.middleware.STRICT_POLICY', False)
-class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
-    """
-    Test project authentication decorators, under project "Loose" mode.
-    """
+class DecoratorTestCaseBase(IntegrationTestCase):
+    """Base class for Decorator tests."""
+
+    # region Expected Test Messages
 
     pdq_loose__allow_anonymous_access_decorator_message = (
         'The allow_anonymous_access decorator is not supported in AdminLtePdq LOOSE mode. '
@@ -248,12 +244,32 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
         'The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. '
         'This decorator only exists for clarity of permission access in STRICT mode.'
     )
+    pdq_strict__no_decorator_message = (
+        "AdminLtePdq Warning: This project is set to run in strict mode, and "
+        "the function-based view 'standard_view' does not have any decorators set. "
+        "This means that this view is inaccessible until permission decorators "
+        "are set for the view, or the view is added to the "
+        "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+    )
+    pdq_strict__login_required_decorator_message = (
+        'The login_required decorator is not supported in AdminLtePdq STRICT mode. '
+        'Having STRICT mode on implicitly assumes login and permissions are required '
+        'for all views that are not in a whitelist setting.'
+        '\n\n'
+        'Also consider the allow_anonymous_access or allow_without_permissions decorators.'
+    )
+
+    # endregion Expected Test Messages
 
     def setUp(self):
         self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
 
         # Generate test permissions.
+
         # First permission. Generally used anywhere at least one permission is required.
         Permission.objects.create(
             name="add_foo",
@@ -266,7 +282,18 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
             codename='change_foo',
             content_type=self.permission_content_type,
         )
-        # Third permission. Extra permission that's not explicitly used anywhere.
+        # Extra permissions used in some edge case tests.
+        Permission.objects.create(
+            name="view_foo",
+            codename='view_foo',
+            content_type=self.permission_content_type,
+        )
+        Permission.objects.create(
+            name="delete_foo",
+            codename='delete_foo',
+            content_type=self.permission_content_type,
+        )
+        # Final extra permission that's not explicitly used anywhere.
         # To verify permission logic still works with extra, unrelated permissions in the project.
         Permission.objects.create(
             name="unused_foo",
@@ -277,6 +304,8 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
         # Define various permission sets to test against.
         self.full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
         self.partial_perms = Permission.objects.filter(codename='add_foo')
+
+        # Define our actual users to test against.
 
         # Add permissions auth.add_foo and auth.change_foo to full_user.
         self.full_user = self.get_user('john_full')
@@ -292,6 +321,16 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
 
         # Easy access to anonymous user.
         self.anonymous_user = AnonymousUser()
+
+
+@override_settings(ADMINLTE2_USE_STRICT_POLICY=False)
+@override_settings(STRICT_POLICY=False)
+@patch('adminlte2_pdq.constants.STRICT_POLICY', False)
+@patch('adminlte2_pdq.middleware.STRICT_POLICY', False)
+class ReworkedDecoratorTestCase__Standard(DecoratorTestCaseBase):
+    """
+    Test project authentication decorators, under project "Loose" mode.
+    """
 
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
@@ -331,7 +370,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -350,7 +389,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -369,7 +408,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -388,7 +427,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -461,7 +500,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -480,7 +519,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -511,7 +550,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -542,7 +581,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -627,7 +666,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -649,7 +688,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -668,7 +707,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -700,7 +739,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -738,7 +777,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -760,7 +799,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -782,7 +821,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -801,7 +840,7 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Full Permissions Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -827,72 +866,10 @@ class ReworkedDecoratorTestCase__Standard(IntegrationTestCase):
 @override_settings(STRICT_POLICY=True)
 @patch('adminlte2_pdq.constants.STRICT_POLICY', True)
 @patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
-class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
+class ReworkedDecoratorTestCase__Strict(DecoratorTestCaseBase):
     """
     Test project authentication decorators, under project "Strict" mode.
     """
-
-    pdq_strict__no_decorator_message = (
-        "AdminLtePdq Warning: This project is set to run in strict mode, and "
-        "the function-based view 'standard_view' does not have any decorators set. "
-        "This means that this view is inaccessible until permission decorators "
-        "are set for the view, or the view is added to the "
-        "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-        "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-    )
-    pdq_strict__login_required_decorator_message = (
-        'The login_required decorator is not supported in AdminLtePdq STRICT mode. '
-        'Having STRICT mode on implicitly assumes login and permissions are required '
-        'for all views that are not in a whitelist setting.'
-        '\n\n'
-        'Also consider the allow_anonymous_access or allow_without_permissions decorators.'
-    )
-
-    def setUp(self):
-        self.permission_content_type = ContentType.objects.get_for_model(Permission)
-        self.factory = RequestFactory()
-
-        # Generate test permissions.
-        # First permission. Generally used anywhere at least one permission is required.
-        Permission.objects.create(
-            name="add_foo",
-            codename='add_foo',
-            content_type=self.permission_content_type,
-        )
-        # Second permission. Generally used anywhere multiple permissions are required.
-        Permission.objects.create(
-            name="change_foo",
-            codename='change_foo',
-            content_type=self.permission_content_type,
-        )
-        # Third permission. Extra permission that's not explicitly used anywhere.
-        # To verify permission logic still works with extra, unrelated permissions in the project.
-        Permission.objects.create(
-            name="unused_foo",
-            codename='unused_foo',
-            content_type=self.permission_content_type,
-        )
-
-        # Define various permission sets to test against.
-        self.full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
-        self.partial_perms = Permission.objects.filter(codename='add_foo')
-
-        # Add permissions auth.add_foo and auth.change_foo to full_user.
-        self.full_user = self.get_user('john_full')
-        self.add_user_permission('add_foo', user=self.full_user)
-        self.add_user_permission('change_foo', user=self.full_user)
-
-        # Add permission auth.add_foo to partial_user.
-        self.partial_user = self.get_user('jane_partial')
-        self.add_user_permission('add_foo', user=self.partial_user)
-
-        # Add no permissions to none_user.
-        self.none_user = self.get_user('joe_none')
-
-        # Easy access to anonymous user.
-        self.anonymous_user = AnonymousUser()
 
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
@@ -936,7 +913,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -958,7 +935,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -980,7 +957,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1002,7 +979,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1024,7 +1001,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1055,7 +1032,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1086,7 +1063,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1117,7 +1094,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1206,7 +1183,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertIsNone(
                 getattr(response, 'one_of_permissions', None),
             )
@@ -1226,7 +1203,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1257,7 +1234,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1288,7 +1265,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1326,7 +1303,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1348,7 +1325,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1367,7 +1344,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1399,7 +1376,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1437,7 +1414,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1459,7 +1436,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1481,7 +1458,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1500,7 +1477,7 @@ class ReworkedDecoratorTestCase__Strict(IntegrationTestCase):
                 expected_header='Django AdminLtePdq | Full Permissions Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
