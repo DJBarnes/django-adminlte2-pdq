@@ -2,8 +2,6 @@
 Views for UnitTests.
 """
 
-# System Imports.
-
 # Third-Party Imports.
 from django.shortcuts import render
 from django.views.generic import TemplateView
@@ -35,10 +33,22 @@ def standard_view(request):
     return render(request, 'standard_view.html')
 
 
+@allow_anonymous_access
+def allow_anonymous_access_view(request):
+    """Testing view for STRICT mode, allowing full access."""
+    return render(request, 'allow_anonymous_access_view.html')
+
+
 @login_required
 def login_required_view(request):
     """Testing view with login requirement."""
     return render(request, 'login_required_view.html')
+
+
+@allow_without_permissions
+def allow_without_permissions_view(request):
+    """Testing view for STRICT mode, allowing login only requirement."""
+    return render(request, 'allow_without_permissions_view.html')
 
 
 @permission_required_one(['auth.add_foo', 'auth.change_foo'])
@@ -51,18 +61,6 @@ def one_permission_required_view(request):
 def full_permissions_required_view(request):
     """Testing view with permission requirement."""
     return render(request, 'full_permissions_required_view.html')
-
-
-@allow_anonymous_access
-def allow_anonymous_access_view(request):
-    """Testing view for STRICT mode, allowing full access."""
-    return render(request, 'allow_anonymous_access_view.html')
-
-
-@allow_without_permissions
-def allow_without_permissions_view(request):
-    """Testing view for STRICT mode, allowing login only requirement."""
-    return render(request, 'allow_without_permissions_view.html')
 
 
 @group_required_one(['add_bar', 'change_bar'])
@@ -78,6 +76,7 @@ def full_groups_required_view(request):
 
 
 # endregion Function Views
+
 
 # region Class Views
 

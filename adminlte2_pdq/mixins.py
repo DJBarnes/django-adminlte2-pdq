@@ -65,6 +65,26 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
             return redirect(LOGIN_URL + f'?next={request.path}')
         return super().dispatch(request, *args, **kwargs)
 
+    def has_permission(self):
+        """Check request user matches permission criteria."""
+
+        # Sanitize permission data and update class values.
+        perms_all, perms_one = self.get_permission_required()
+
+        # Actually process permissions.
+        if perms_all and self.request.user.has_perms(perms_all):
+            # User has all permissions and view is "all permissions" format.
+            return True
+
+        if perms_one:
+            # View is "one of permissions" format. Return on first found one.
+            for perm in perms_one:
+                if self.request.user.has_perm(perm):
+                    return True
+
+        # If we made it this far, then all permission checks failed.
+        return False
+
     def get_permission_required(self):
         """Override this method to override permission attributes.
         Must return a tuple of two iterables: (perms_all, perms_one)
@@ -86,7 +106,7 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize permission_required.
         if isinstance(self.permission_required, str):
             perms_all = (self.permission_required,)
-        elif isinstance(self.permission_required, list) or isinstance(self.permission_required, tuple):
+        elif isinstance(self.permission_required, (list, tuple)):
             perms_all = tuple(self.permission_required)
         else:
             # Need to allow "other" in case user is provided permission_required_one.
@@ -95,33 +115,13 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize permission_required_one.
         if isinstance(self.permission_required_one, str):
             perms_one = (self.permission_required_one,)
-        elif isinstance(self.permission_required_one, list) or isinstance(self.permission_required_one, tuple):
+        elif isinstance(self.permission_required_one, (list, tuple)):
             perms_one = tuple(self.permission_required_one)
         else:
             # Need to allow "other" in case user is provided permission_required.
             perms_one = tuple()
 
         return perms_all, perms_one
-
-    def has_permission(self):
-        """Check request user matches permission criteria."""
-
-        # Sanitize permission data and update class values.
-        perms_all, perms_one = self.get_permission_required()
-
-        # Actually process permissions.
-        if perms_all and self.request.user.has_perms(perms_all):
-            # User has all permissions and view is "all permissions" format.
-            return True
-
-        if perms_one:
-            # View is "one of permissions" format. Return on first found one.
-            for perm in perms_one:
-                if self.request.user.has_perm(perm):
-                    return True
-
-        # If we made it this far, then all permission checks failed.
-        return False
 
 
 class GroupRequiredMixin(DjangoPermissionRequiredMixin):
@@ -195,7 +195,7 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize group_required.
         if isinstance(self.group_required, str):
             groups_all = (self.group_required,)
-        elif isinstance(self.group_required, list) or isinstance(self.group_required, tuple):
+        elif isinstance(self.group_required, (list, tuple)):
             groups_all = tuple(self.group_required)
         else:
             # Need to allow "other" in case user is provided group_required_one.
@@ -204,7 +204,7 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize group_required_one.
         if isinstance(self.group_required_one, str):
             groups_one = (self.group_required_one,)
-        elif isinstance(self.group_required_one, list) or isinstance(self.group_required_one, tuple):
+        elif isinstance(self.group_required_one, (list, tuple)):
             groups_one = tuple(self.group_required_one)
         else:
             # Need to allow "other" in case user is provided group_required.
