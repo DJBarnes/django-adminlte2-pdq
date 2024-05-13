@@ -128,7 +128,7 @@ def _has_group(user, expected_group_list, require=None):
 def _sanitize_permissions(permission):
     """Sanitized permission values based on type."""
 
-    if isinstance(permission, list) or isinstance(permission, tuple):
+    if isinstance(permission, (list, tuple)):
         # Is iterable type. Convert to consistent format.
         permissions = tuple(permission)
     elif isinstance(permission, str):
@@ -264,6 +264,46 @@ def allow_without_permissions(function=None, redirect_field_name='next', login_u
     return decorator
 
 
+def permission_required_one(permission, login_url=None, raise_exception=False):
+    """Decorator for views that defines that only one of the indicated permissions are required.
+
+    Also adds the required permissions as a property to that view function.
+    The permissions added to the view function can then be used by the sidebar
+    template to know whether to render the sidebar menu item that links to that
+    view function.
+    """
+
+    # Ensure consistent permission format.
+    permissions = _sanitize_permissions(permission)
+
+    def decorator(function):
+
+        # Save values to view fetch function for middleware handling +  potential debugging.
+        function.decorator_name = 'permission_required_one'
+        function.login_required = True
+        function.one_of_permissions = permissions
+        function.permissions = None
+
+        @wraps(function)
+        @_one_of_permission_required(permission, login_url, raise_exception)
+        def wrap(request, *args, **kwargs):
+
+            # Get our view response object.
+            function_view = function(request, *args, **kwargs)
+
+            # Save values to fully qualified view for middleware handling +  potential debugging.
+            function_view.decorator_name = 'permission_required_one'
+            function_view.login_required = True
+            function_view.one_of_permissions = permissions
+            function_view.permissions = None
+
+            return function_view
+
+        return wrap
+
+    return decorator
+
+
 def permission_required(permission, login_url=None, raise_exception=False):
     """Decorator for views that defines a full set of permissions that are required.
 
@@ -307,46 +347,6 @@ def permission_required(permission, login_url=None, raise_exception=False):
         wrapped_function = wrap
         wrapped_function.permissions = permissions
         return wrapped_function
-
-    return decorator
-
-
-def permission_required_one(permission, login_url=None, raise_exception=False):
-    """Decorator for views that defines that only one of the indicated permissions are required.
-
-    Also adds the required permissions as a property to that view function.
-    The permissions added to the view function can then be used by the sidebar
-    template to know whether to render the sidebar menu item that links to that
-    view function.
-    """
-
-    # Ensure consistent permission format.
-    permissions = _sanitize_permissions(permission)
-
-    def decorator(function):
-
-        # Save values to view fetch function for middleware handling +  potential debugging.
-        function.decorator_name = 'permission_required_one'
-        function.login_required = True
-        function.one_of_permissions = permissions
-        function.permissions = None
-
-        @wraps(function)
-        @_one_of_permission_required(permission, login_url, raise_exception)
-        def wrap(request, *args, **kwargs):
-
-            # Get our view response object.
-            function_view = function(request, *args, **kwargs)
-
-            # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'permission_required_one'
-            function_view.login_required = True
-            function_view.one_of_permissions = permissions
-            function_view.permissions = None
-
-            return function_view
-
-        return wrap
 
     return decorator
 
