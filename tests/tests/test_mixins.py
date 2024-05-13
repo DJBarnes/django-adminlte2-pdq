@@ -275,6 +275,7 @@ class MixinTextCaseBase(IntegrationTestCase):
         self.factory = RequestFactory()
 
         # Generate test permissions.
+
         # First permission. Generally used anywhere at least one permission is required.
         Permission.objects.create(
             name="add_foo",
@@ -287,7 +288,7 @@ class MixinTextCaseBase(IntegrationTestCase):
             codename='change_foo',
             content_type=self.permission_content_type,
         )
-        # Extra permissions  used in edge case tests.
+        # Extra permissions used in some edge case tests.
         Permission.objects.create(
             name="view_foo",
             codename='view_foo',
@@ -298,7 +299,6 @@ class MixinTextCaseBase(IntegrationTestCase):
             codename='delete_foo',
             content_type=self.permission_content_type,
         )
-
         # Final extra permission that's not explicitly used anywhere.
         # To verify permission logic still works with extra, unrelated permissions in the project.
         Permission.objects.create(
@@ -310,6 +310,8 @@ class MixinTextCaseBase(IntegrationTestCase):
         # Define various permission sets to test against.
         self.full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
         self.partial_perms = Permission.objects.filter(codename='add_foo')
+
+        # Define our actual users to test against.
 
         # Add permissions auth.add_foo and auth.change_foo to full_user.
         self.full_user = self.get_user('john_full')
@@ -375,7 +377,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -394,7 +396,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -413,7 +415,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -432,7 +434,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Standard View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -505,7 +507,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -524,7 +526,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -555,7 +557,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -586,7 +588,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -671,7 +673,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -693,7 +695,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -712,7 +714,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -744,7 +746,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -782,7 +784,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -804,7 +806,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -826,7 +828,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -845,7 +847,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Full Permissions Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -978,7 +980,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -997,7 +999,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1030,7 +1032,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1061,7 +1063,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Login Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1151,7 +1153,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1176,7 +1178,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1201,7 +1203,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1226,7 +1228,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1254,7 +1256,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1279,7 +1281,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1304,7 +1306,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1329,7 +1331,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1389,7 +1391,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1411,7 +1413,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1433,7 +1435,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1455,7 +1457,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1477,7 +1479,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1508,7 +1510,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1539,7 +1541,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1570,7 +1572,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1657,7 +1659,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
             self.assertFalse(hasattr(response, 'one_of_permissions'))
@@ -1675,7 +1677,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1706,7 +1708,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1737,7 +1739,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1775,7 +1777,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1797,7 +1799,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1816,7 +1818,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1848,7 +1850,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | One Permission Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -1886,7 +1888,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1908,7 +1910,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1930,7 +1932,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -1949,7 +1951,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Full Permissions Required View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2030,7 +2032,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2063,7 +2065,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2096,7 +2098,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2129,7 +2131,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2218,7 +2220,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
             self.assertFalse(hasattr(response, 'one_of_permissions'))
@@ -2236,7 +2238,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2269,7 +2271,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2302,7 +2304,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             self.assertTrue(hasattr(response, 'decorator_name'))
             self.assertTrue(hasattr(response, 'login_required'))
             self.assertTrue(hasattr(response, 'one_of_permissions'))
@@ -2345,7 +2347,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2370,7 +2372,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2395,7 +2397,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2420,7 +2422,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2448,7 +2450,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2473,7 +2475,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2498,7 +2500,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
@@ -2523,7 +2525,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
                 ],
             )
 
-            # Verify permissions associated with returned view.
+            # Verify values associated with returned view.
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, 'decorator_name'))
             self.assertFalse(hasattr(response, 'login_required'))
