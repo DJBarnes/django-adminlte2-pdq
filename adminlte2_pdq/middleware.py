@@ -130,9 +130,18 @@ class AuthMiddleware:
 
         if (
             # Is a permission view.
-            view_data['decorator_name'] == 'permission_required'
+            (
+                # Literal permission view.
+                view_data['decorator_name']
+                in ['permission_required', 'group_required']
+            )
             # And no permission values defined.
-            and (not view_data['permissions'] and not view_data['one_of_permissions'])
+            and (
+                not view_data['one_of_permissions']
+                and not view_data['permissions']
+                and not view_data['one_of_groups']
+                and not view_data['groups']
+            )
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
@@ -163,7 +172,7 @@ class AuthMiddleware:
 
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
-        if LOGIN_REQUIRED and not self.verify_logged_in(request, view_data):
+        if (LOGIN_REQUIRED or view_data['login_required']) and not self.verify_logged_in(request, view_data):
             # User not logged in and view requires login to access.
 
             debug_print(debug_error.format('Failed LoginRequired checks. Redirecting.'))
@@ -196,8 +205,10 @@ class AuthMiddleware:
         if view_data['decorator_name']:
             response.decorator_name = view_data['decorator_name']
             response.login_required = view_data['login_required']
-            response.permissions = view_data['permissions']
             response.one_of_permissions = view_data['one_of_permissions']
+            response.permissions = view_data['permissions']
+            response.one_of_groups = view_data['one_of_groups']
+            response.groups = view_data['groups']
         return response
 
     def parse_request_data(self, request, debug=True):
@@ -230,8 +241,10 @@ class AuthMiddleware:
                 # Get class attributes.
                 decorator_name = getattr(view_class, 'decorator_name', '')
                 login_required = getattr(view_class, 'login_required', False)
-                permissions = getattr(view_class, 'permission_required', [])
                 one_of_permissions = getattr(view_class, 'permission_required_one', [])
+                permissions = getattr(view_class, 'permission_required', [])
+                one_of_groups = getattr(view_class, 'group_required_one', [])
+                groups = getattr(view_class, 'group_required', [])
                 view_name = view_class.__qualname__
                 view_type = 'class-based'
                 view_perm_type = 'mixin'
@@ -239,8 +252,10 @@ class AuthMiddleware:
                 # Get function attributes.
                 decorator_name = getattr(resolver.func, 'decorator_name', '')
                 login_required = getattr(resolver.func, 'login_required', False)
-                permissions = getattr(resolver.func, 'permissions', [])
                 one_of_permissions = getattr(resolver.func, 'one_of_permissions', [])
+                permissions = getattr(resolver.func, 'permissions', [])
+                one_of_groups = getattr(resolver.func, 'one_of_groups', [])
+                groups = getattr(resolver.func, 'groups', [])
                 view_name = resolver.func.__qualname__
                 view_type = 'function-based'
                 view_perm_type = 'decorator'
@@ -253,8 +268,10 @@ class AuthMiddleware:
                     'fully_qualified_url_name': fully_qualified_url_name,
                     'decorator_name': decorator_name,
                     'login_required': login_required,
-                    'permissions': permissions,
                     'one_of_permissions': one_of_permissions,
+                    'permissions': permissions,
+                    'one_of_groups': one_of_groups,
+                    'groups': groups,
                     'view_name': view_name,
                     'view_type': view_type,
                     'view_perm_type': view_perm_type,
@@ -356,8 +373,10 @@ class AuthMiddleware:
                 # If we ever start populating these values on all requests, then
                 # this logic will no longer work.
                 or view_data['login_required']
-                or view_data['permissions']
                 or view_data['one_of_permissions']
+                or view_data['permissions']
+                or view_data['one_of_groups']
+                or view_data['groups']
             ):
                 debug_print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
                 debug_print('\n\n')
