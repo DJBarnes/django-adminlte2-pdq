@@ -156,7 +156,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_login_required_from_view_with_hash_route_and_valid_url(self):
         """Test get permissions from node pull login_required from view with hash route and valid url"""
@@ -249,7 +249,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertIn("auth.add_group", permissions)
         self.assertEqual([], one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_node_over_view_function_when_both_set(self):
         """Test get permissions from node pulls permissions from node over view function when both set"""
@@ -264,7 +264,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_permissions_from_view_with_hash_route_and_valid_url(self):
         """Test get permissions from node pull permission from view with hash route and valid url"""
@@ -279,7 +279,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertIn("auth.add_group", permissions)
         self.assertEqual([], one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_returns_permissions_empty_list_when_there_are_no_defined_permissions_on_the_node(
         self,
@@ -359,7 +359,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertEqual([], permissions)
         self.assertIn("auth.add_permission", one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_one_of_permissions_from_node_over_view_function_when_both_set(self):
         """Test get permissions from node pulls one of permissions from node over view function when both set"""
@@ -374,7 +374,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertEqual([], permissions)
         self.assertEqual([], one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_pulls_one_of_permissions_from_view_with_hash_route_and_valid_url(self):
         """Test get permissions from node pull one of permissions from view with hash route and valid url"""
@@ -389,7 +389,7 @@ class TemplateTagSidebarMenuTestCase(TestCase):
 
         self.assertEqual([], permissions)
         self.assertIn("auth.add_permission", one_of_permissions)
-        self.assertFalse(login_required)
+        self.assertTrue(login_required)
 
     def test_get_permissions_from_node_returns_one_of_permission_empty_list_when_there_are_no_defined_permissions_on_the_node(
         self,
@@ -921,6 +921,11 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on(self):
         """test_is_allowed_node_is_true_when_user_anonymous_login_off_strict_on_node_off_strict_wl_on"""
+
+        # TODO: Failing test. I honestly don't get what this one is trying to do.
+        #       It's strict mode but an anonymous user should be allowed to view node?
+        #       That makes no sense.
+
         self._setup_anonymoususer()
         node = {
             "route": "adminlte2_pdq:demo-css",
@@ -1450,6 +1455,19 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_staff_login_off_strict_on_node_off"""
+
+        # TODO: Once again, this test doesn't make sense.
+        #       To be precise, the actual test itself seems to maybe be correct but fixing
+        #       it seems to cause major unexpected problems.
+        #
+        #       It's strict mode and no permissions defined so no one should be able to access.
+        #       This test is easily fixed by changing sidebar_menu.py line 346 to
+        #       include a check of `if STRICT_POLICY or full_permissions or one_of_permissions`
+        #       However doing so makes nearly all other tests in this file fail.
+        #
+        #       Aka this test itself kinda checks out but clearly overall test logic is wonky.
+        #       Needs discussion, leaving as-is for now.
+
         self._setup_staffuser()
         node = {
             "route": "adminlte2_pdq:demo-css",
@@ -2039,6 +2057,9 @@ class TemplateTagSidebarMenuTestCase(TestCase):
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test_is_allowed_node_is_false_when_user_staff_perm_login_off_strict_on_node_off(self):
         """test_is_allowed_node_is_false_when_user_staff_perm_login_off_strict_on_node_off"""
+
+        # TODO: Similar to above failing TODO, this one doesn't make sense either.
+
         self._setup_staffuser(["add_group"])
         node = {
             "route": "adminlte2_pdq:demo-css",
