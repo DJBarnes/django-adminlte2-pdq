@@ -72,17 +72,39 @@ def get_view_from_node(node):
 
 def get_permissions_from_view(view):
     """Get the permissions and login_required from a view"""
+    view_data = {
+        "decorator_name": "",
+        "login_required": False,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
+    }
+
     view_class = getattr(view.func, "view_class", None)
     if view_class:
-        view_permissions = getattr(view_class, "permission_required", [])
-        view_one_of_permissions = getattr(view_class, "permission_required_one", [])
-        view_login_required = getattr(view_class, "login_required", None)
-    else:
-        view_permissions = getattr(view.func, "permissions", [])
-        view_one_of_permissions = getattr(view.func, "one_of_permissions", [])
-        view_login_required = getattr(view.func, "login_required", None)
+        pdq_data = getattr(view_class, "admin_pdq_data", {})
 
-    return view_permissions, view_one_of_permissions, view_login_required
+        view_data["decorator_name"] = pdq_data.get("decorator_name", "")
+        view_data["login_required"] = pdq_data.get("login_required", False)
+
+        view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
+        view_data["full_permissions"] = pdq_data.get("full_permissions", [])
+        view_data["one_of_groups"] = pdq_data.get("one_of_groups", [])
+        view_data["full_groups"] = pdq_data.get("full_groups", [])
+
+    else:
+        pdq_data = getattr(view.func, "admin_pdq_data", {})
+
+        view_data["decorator_name"] = pdq_data.get("decorator_name", "")
+        view_data["login_required"] = pdq_data.get("login_required", False)
+
+        view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
+        view_data["full_permissions"] = pdq_data.get("full_permissions", [])
+        view_data["one_of_groups"] = pdq_data.get("one_of_groups", [])
+        view_data["full_groups"] = pdq_data.get("full_groups", [])
+
+    return view_data
 
 
 def get_permissions_from_node(node):
@@ -95,7 +117,7 @@ def get_permissions_from_node(node):
     """
 
     # Get permissions and login_required defined directly on the node.
-    node_permissions = node.get("permissions", None)
+    node_full_permissions = node.get("permissions", None)
     node_one_of_permissions = node.get("one_of_permissions", None)
     node_login_required = node.get("login_required", None)
 
@@ -104,36 +126,47 @@ def get_permissions_from_node(node):
     # admin links contain all 3 properties and any searching for properties on
     # an admin view will raise a route missing exception since admin nodes do
     # not contain a route key. This saves time and makes admin nodes work.
-    if node_permissions is not None and node_one_of_permissions is not None and node_login_required is not None:
-        return node_permissions, node_one_of_permissions, node_login_required
+    if node_full_permissions is not None and node_one_of_permissions is not None and node_login_required is not None:
+        return node_full_permissions, node_one_of_permissions, node_login_required
 
     # Default the view permissions and login_required to None
-    view_permissions = view_one_of_permissions = view_login_required = None
+    view_full_permissions = view_one_of_permissions = view_login_required = None
 
     # Get the view from the node.
     view = get_view_from_node(node)
 
     # If there is a view, use it to get the view permissions and login_required.
     if view:
-        view_permissions, view_one_of_permissions, view_login_required = get_permissions_from_view(view)
+        view_data = get_permissions_from_view(view)
 
-    # Take the property from the node first, fallback to view, and fallback again to default.
-    permissions = node_permissions
-    if permissions is None:
-        permissions = view_permissions or []
+        view_login_required = view_data["login_required"]
+        view_one_of_permissions = view_data["one_of_permissions"]
+        view_full_permissions = view_data["full_permissions"]
 
+    # Since this is a boolean, order doesn't really matter.
+    # All that matters is that one of the indicated values requires a login at all.
+    login_required = (
+        # Project settings values override everything.
+        STRICT_POLICY
+        or LOGIN_REQUIRED
+        # Or view decorator/mixin requires login.
+        or view_login_required
+        # Or menu "node" requires login.
+        or node_login_required
+    )
+
+    # For these, take the property from the node first,
+    # fallback to view, and fallback again to default.
     one_of_permissions = node_one_of_permissions
     if one_of_permissions is None:
         one_of_permissions = view_one_of_permissions or []
 
-    login_required = node_login_required
-    if login_required is None:
-        login_required = view_login_required
-    if login_required is None:
-        login_required = LOGIN_REQUIRED
+    full_permissions = node_full_permissions
+    if full_permissions is None:
+        full_permissions = view_full_permissions or []
 
     # Return the permissions and login_required
-    return permissions, one_of_permissions, login_required
+    return full_permissions, one_of_permissions, login_required
 
 
 def ensure_node_has_url_property(node):
@@ -250,10 +283,10 @@ def is_allowed_node(user, node):
     """
 
     # Get the permissions, one_of_perms, and login_required from the node or node's view.
-    permissions, one_of_permissions, login_required = get_permissions_from_node(node)
+    full_permissions, one_of_permissions, login_required = get_permissions_from_node(node)
 
     # Get whether node has at least one property set
-    has_property = bool(permissions) or bool(one_of_permissions) or login_required
+    has_property = bool(full_permissions) or bool(one_of_permissions) or login_required
 
     # Start allowed as the opposite of the strict policy.
     # If we are in strict mode, allowed should start as false.
@@ -269,11 +302,13 @@ def is_allowed_node(user, node):
     # If the node requires permissions, it will also require being logged in
     # without explicitly setting that. But, by checking after the login required
     # check, we can catch both scenarios where they define both.
-    if permissions or one_of_permissions:
+    if full_permissions or one_of_permissions:
 
         # Determine if the node is accessible by permissions alone.
         # This will include the need to be logged in even if they didn't specify that.
-        allowed = check_for_all_permissions(user, permissions) or check_for_one_permission(user, one_of_permissions)
+        allowed = check_for_all_permissions(user, full_permissions) or check_for_one_permission(
+            user, one_of_permissions
+        )
 
     # Check whitelist when in strict mode assuming no properties have been set on the node.
     if not has_property and STRICT_POLICY and (check_for_strict_whitelisted_node(node) or user.is_superuser):
