@@ -11,72 +11,72 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": ":memory:",
     },
 }
 
 
 INSTALLED_APPS = (
-    'adminlte2_pdq',
-    'tests',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+    "adminlte2_pdq",
+    "tests",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
 )
 
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'adminlte2_pdq.middleware.AuthMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "adminlte2_pdq.middleware.AuthMiddleware",
 ]
 
 
-ROOT_URLCONF = 'tests.urls'
+ROOT_URLCONF = "tests.urls"
 
 
 USE_TZ = True
 
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 
-SECRET_KEY = 'test_secret_key'
+SECRET_KEY = "test_secret_key"
 
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     }
 ]
 
 
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Make messaging work in tests that use RequestFactory.
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
 
 # **********************************************
@@ -84,7 +84,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 # **********************************************
 
 # Default Profile route does not exist. Change to Home.
-LOGIN_REDIRECT_URL = 'adminlte2_pdq:home'
+LOGIN_REDIRECT_URL = "adminlte2_pdq:home"
 
 ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = True
 ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = True

@@ -69,13 +69,13 @@ def _group_required(group, login_url=None, raise_exception=False, require_all=Tr
 
         if require_all:
             # Require all groups provided.
-            if _has_group(user, expected_group_list, require='All'):
+            if _has_group(user, expected_group_list, require="All"):
                 # User pass check and had all required groups.
                 return True
 
         else:
             # Require at least one of groups provided.
-            if _has_group(user, expected_group_list, require='Any'):
+            if _has_group(user, expected_group_list, require="Any"):
                 # User passed check and had at least one group.
                 return True
 
@@ -96,7 +96,7 @@ def _has_group(user, expected_group_list, require=None):
     required_arg_error = 'The "require" arg must be one of [any, all].'
 
     # Sanitize "require" value.
-    if require not in ['Any', 'All']:
+    if require not in ["Any", "All"]:
         raise ValueError(required_arg_error)
 
     # Return True for any users with superuser status.
@@ -104,21 +104,21 @@ def _has_group(user, expected_group_list, require=None):
         return True
 
     # Get all groups user is in.
-    user_group_list = user.groups.all().values_list('name', flat=True)
+    user_group_list = user.groups.all().values_list("name", flat=True)
 
-    print('\n\n\n\n')
-    print('expected_group_list: {0}'.format(expected_group_list))
-    print('user_group_list: {0}'.format(user_group_list))
-    print('require: {0}'.format(require))
-    print('has all: {0}'.format(all(expected_group in user_group_list for expected_group in expected_group_list)))
-    print('has any: {0}'.format(any(expected_group in user_group_list for expected_group in expected_group_list)))
-    print('\n\n\n\n')
+    print("\n\n\n\n")
+    print("expected_group_list: {0}".format(expected_group_list))
+    print("user_group_list: {0}".format(user_group_list))
+    print("require: {0}".format(require))
+    print("has all: {0}".format(all(expected_group in user_group_list for expected_group in expected_group_list)))
+    print("has any: {0}".format(any(expected_group in user_group_list for expected_group in expected_group_list)))
+    print("\n\n\n\n")
 
     # Check if user has group, based on mode.
-    if require == 'All':
+    if require == "All":
         # Check if user has all expected groups.
         return all(expected_group in user_group_list for expected_group in expected_group_list)
-    elif require == 'Any':
+    elif require == "Any":
         # Check if user has at least one of expected groups.
         return any(expected_group in user_group_list for expected_group in expected_group_list)
     else:
@@ -136,7 +136,7 @@ def _sanitize_permissions(permission):
         permissions = (permission,)
     else:
         # Is other type. Raise error.
-        raise TypeError(f'Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.')
+        raise TypeError(f"Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.")
 
     return permissions
 
@@ -151,12 +151,12 @@ def allow_anonymous_access(function=None):
     """
 
     pdq_data = {
-        'decorator_name': 'allow_anonymous_access',
-        'login_required': False,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "allow_anonymous_access",
+        "login_required": False,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
     def decorator(function):
@@ -180,7 +180,7 @@ def allow_anonymous_access(function=None):
         return decorator(function)
 
     # Save values to view fetch function for middleware handling + potential debugging.
-    decorator.decorator_name = 'allow_anonymous_access'
+    decorator.decorator_name = "allow_anonymous_access"
     decorator.login_required = False
     decorator.one_of_permissions = None
     decorator.permissions = None
@@ -188,7 +188,7 @@ def allow_anonymous_access(function=None):
     return decorator
 
 
-def login_required(function=None, redirect_field_name='next', login_url=None):
+def login_required(function=None, redirect_field_name="next", login_url=None):
     """Decorator for views that defines login is required.
 
     Also adds the login required as a property to that view function.
@@ -203,12 +203,12 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
     """
 
     pdq_data = {
-        'decorator_name': 'login_required',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "login_required",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
     def decorator(function):
@@ -235,19 +235,19 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
     return decorator
 
 
-def allow_without_permissions(function=None, redirect_field_name='next', login_url=None):
+def allow_without_permissions(function=None, redirect_field_name="next", login_url=None):
     """Decorator for strict mode, that defines a view which requires login, but no permissions.
 
     Also adds the required logic to render the view on the sidebar template.
     """
 
     pdq_data = {
-        'decorator_name': 'allow_without_permissions',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "allow_without_permissions",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
     def decorator(function):
@@ -286,12 +286,12 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     permissions = _sanitize_permissions(permission)
 
     pdq_data = {
-        'decorator_name': 'permission_required',
-        'login_required': True,
-        'one_of_permissions': permissions,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "permission_required",
+        "login_required": True,
+        "one_of_permissions": permissions,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
     def decorator(function):
@@ -329,20 +329,20 @@ def permission_required(permission, login_url=None, raise_exception=False):
     permissions = _sanitize_permissions(permission)
 
     pdq_data = {
-        'decorator_name': 'permission_required',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': permissions,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "permission_required",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": permissions,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
     def decorator(function):
 
-        debug_print('\n\n\n\n')
-        debug_print('function: {0}'.format(function))
-        debug_print('permissions: {0}'.format(permissions))
-        debug_print('\n')
+        debug_print("\n\n\n\n")
+        debug_print("function: {0}".format(function))
+        debug_print("permissions: {0}".format(permissions))
+        debug_print("\n")
 
         # Save values to view fetch function for middleware handling + potential debugging.
         function.admin_pdq_data = pdq_data
@@ -379,12 +379,12 @@ def group_required_one(group, login_url=None, raise_exception=False):
     groups = _sanitize_permissions(group)
 
     pdq_data = {
-        'decorator_name': 'group_required_one',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': groups,
-        'full_groups': None,
+        "decorator_name": "group_required_one",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": groups,
+        "full_groups": None,
     }
 
     def decorator(function):
@@ -422,12 +422,12 @@ def group_required(group, login_url=None, raise_exception=False):
     groups = _sanitize_permissions(group)
 
     pdq_data = {
-        'decorator_name': 'group_required',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': groups,
+        "decorator_name": "group_required",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": groups,
     }
 
     def decorator(function):
@@ -454,11 +454,11 @@ def group_required(group, login_url=None, raise_exception=False):
 
 # Limit imports from this file.
 __all__ = [
-    'allow_anonymous_access',
-    'login_required',
-    'allow_without_permissions',
-    'permission_required',
-    'permission_required_one',
-    'group_required_one',
-    'group_required',
+    "allow_anonymous_access",
+    "login_required",
+    "allow_without_permissions",
+    "permission_required",
+    "permission_required_one",
+    "group_required_one",
+    "group_required",
 ]

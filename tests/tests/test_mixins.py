@@ -35,18 +35,18 @@ class MixinTestCase(TestCase):
 
         Permission.objects.create(
             name="add_foo",
-            codename='add_foo',
+            codename="add_foo",
             content_type=self.permission_content_type,
         )
         Permission.objects.create(
             name="change_foo",
-            codename='change_foo',
+            codename="change_foo",
             content_type=self.permission_content_type,
         )
         # Add permissions auth.add_foo and auth.change_foo to full_user
-        full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
-        self.user = UserModel.objects.create(username='john', password='qwerty')
-        self.full_user = UserModel.objects.create(username='johnfull', password='qwerty')
+        full_perms = Permission.objects.filter(codename__in=("add_foo", "change_foo"))
+        self.user = UserModel.objects.create(username="john", password="qwerty")
+        self.full_user = UserModel.objects.create(username="johnfull", password="qwerty")
         self.full_user.user_permissions.add(*full_perms)
 
         self.anonymous_user = AnonymousUser()
@@ -57,14 +57,14 @@ class MixinTestCase(TestCase):
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
 
-            permission_required = ['auth.add_foo']
+            permission_required = ["auth.add_foo"]
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
-        request = self.factory.get('/rand')
-        setattr(request, 'user', self.full_user)
+        request = self.factory.get("/rand")
+        setattr(request, "user", self.full_user)
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -75,14 +75,14 @@ class MixinTestCase(TestCase):
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
 
-            permission_required = 'auth.add_foo'
+            permission_required = "auth.add_foo"
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
-        request = self.factory.get('/rand')
-        setattr(request, 'user', self.full_user)
+        request = self.factory.get("/rand")
+        setattr(request, "user", self.full_user)
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -93,14 +93,14 @@ class MixinTestCase(TestCase):
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
 
-            permission_required_one = ['auth.add_foo']
+            permission_required_one = ["auth.add_foo"]
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
-        request = self.factory.get('/rand')
-        setattr(request, 'user', self.full_user)
+        request = self.factory.get("/rand")
+        setattr(request, "user", self.full_user)
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -111,14 +111,14 @@ class MixinTestCase(TestCase):
         class TestView(PermissionRequiredMixin, View):
             """Test View Class"""
 
-            permission_required_one = 'auth.add_foo'
+            permission_required_one = "auth.add_foo"
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
-        request = self.factory.get('/rand')
-        setattr(request, 'user', self.full_user)
+        request = self.factory.get("/rand")
+        setattr(request, "user", self.full_user)
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -165,12 +165,12 @@ class MixinTestCase(TestCase):
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
         with self.assertRaises(ImproperlyConfigured):
 
-            request = self.factory.get('/rand')
-            setattr(request, 'user', self.full_user)
+            request = self.factory.get("/rand")
+            setattr(request, "user", self.full_user)
             TestView.as_view()(request)
 
     # |-------------------------------------------------------------------------
@@ -185,10 +185,10 @@ class MixinTestCase(TestCase):
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
-        request = self.factory.get('/rand')
-        setattr(request, 'user', self.full_user)
+        request = self.factory.get("/rand")
+        setattr(request, "user", self.full_user)
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 200)
@@ -201,10 +201,10 @@ class MixinTestCase(TestCase):
 
             def get(self, request):
                 """Test get method"""
-                return HttpResponse('foobar')
+                return HttpResponse("foobar")
 
-        request = self.factory.get('/rand')
-        setattr(request, 'user', self.anonymous_user)
+        request = self.factory.get("/rand")
+        setattr(request, "user", self.anonymous_user)
         response = TestView.as_view()(request)
 
         self.assertEqual(response.status_code, 302)
@@ -218,20 +218,20 @@ class MixinTextCaseBase(IntegrationTestCase):
     # BUG: Some instances of accessing a Mixin reads as a decorator instead.
     #   Possibly resolved: Might have just been poorly organized testing urls. Double check later.
     pdq_loose__allow_anonymous_access_decorator_message = (
-        'The allow_anonymous_access decorator is not supported in AdminLtePdq LOOSE mode. '
-        'This decorator only exists for clarity of permission access in STRICT mode.'
+        "The allow_anonymous_access decorator is not supported in AdminLtePdq LOOSE mode. "
+        "This decorator only exists for clarity of permission access in STRICT mode."
     )
     pdq_loose__allow_without_permissions_decorator_message = (
-        'The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. '
-        'This decorator only exists for clarity of permission access in STRICT mode.'
+        "The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. "
+        "This decorator only exists for clarity of permission access in STRICT mode."
     )
     pdq_loose__allow_anonymous_access_mixin_message = (
-        'The allow_anonymous_access mixin is not supported in AdminLtePdq LOOSE mode. '
-        'This mixin only exists for clarity of permission access in STRICT mode.'
+        "The allow_anonymous_access mixin is not supported in AdminLtePdq LOOSE mode. "
+        "This mixin only exists for clarity of permission access in STRICT mode."
     )
     pdq_loose__allow_without_permissions_mixin_message = (
-        'The allow_without_permissions mixin is not supported in AdminLtePdq LOOSE mode. '
-        'This mixin only exists for clarity of permission access in STRICT mode.'
+        "The allow_without_permissions mixin is not supported in AdminLtePdq LOOSE mode. "
+        "This mixin only exists for clarity of permission access in STRICT mode."
     )
     pdq__no_permissions_one__message = (
         "AdminLtePdq Warning: The class-based view 'BleedingOnePermissionMissingPermissionsView' "
@@ -261,11 +261,11 @@ class MixinTextCaseBase(IntegrationTestCase):
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
     )
     pdq_strict__login_required_mixin_message = (
-        'The login_required mixin is not supported in AdminLtePdq STRICT mode. '
-        'Having STRICT mode on implicitly assumes login and permissions are required '
-        'for all views that are not in a whitelist setting.'
-        '\n\n'
-        'Also consider the allow_anonymous_access or allow_without_permissions mixins.'
+        "The login_required mixin is not supported in AdminLtePdq STRICT mode. "
+        "Having STRICT mode on implicitly assumes login and permissions are required "
+        "for all views that are not in a whitelist setting."
+        "\n\n"
+        "Also consider the allow_anonymous_access or allow_without_permissions mixins."
     )
 
     # endregion Expected Test Messages
@@ -279,37 +279,37 @@ class MixinTextCaseBase(IntegrationTestCase):
         # First permission. Generally used anywhere at least one permission is required.
         add_foo = Permission.objects.create(
             name="add_foo",
-            codename='add_foo',
+            codename="add_foo",
             content_type=self.permission_content_type,
         )
         # Second permission. Generally used anywhere multiple permissions are required.
         change_foo = Permission.objects.create(
             name="change_foo",
-            codename='change_foo',
+            codename="change_foo",
             content_type=self.permission_content_type,
         )
         # Extra permissions used in some edge case tests.
         view_foo = Permission.objects.create(
             name="view_foo",
-            codename='view_foo',
+            codename="view_foo",
             content_type=self.permission_content_type,
         )
         delete_foo = Permission.objects.create(
             name="delete_foo",
-            codename='delete_foo',
+            codename="delete_foo",
             content_type=self.permission_content_type,
         )
         # Final extra permission that's not explicitly used anywhere.
         # To verify permission logic still works with extra, unrelated permissions in the project.
         unused_foo = Permission.objects.create(
             name="unused_foo",
-            codename='unused_foo',
+            codename="unused_foo",
             content_type=self.permission_content_type,
         )
 
         # Define various permission sets to test against.
-        self.full_perms = Permission.objects.filter(codename__in=('add_foo', 'change_foo'))
-        self.partial_perms = Permission.objects.filter(codename='add_foo')
+        self.full_perms = Permission.objects.filter(codename__in=("add_foo", "change_foo"))
+        self.partial_perms = Permission.objects.filter(codename="add_foo")
 
         # Generate test groups. To ensure that as Group logic is handled as expected as well.
         group_instance = Group.objects.create(name="add_bar")
@@ -324,35 +324,35 @@ class MixinTextCaseBase(IntegrationTestCase):
         group_instance.permissions.add(unused_foo)
 
         # Define various group sets to test against.
-        self.full_groups = Group.objects.filter(name__in=('add_bar', 'change_bar'))
-        self.partial_groups = Group.objects.filter(name='add_bar')
+        self.full_groups = Group.objects.filter(name__in=("add_bar", "change_bar"))
+        self.partial_groups = Group.objects.filter(name="add_bar")
 
         # Define our actual users to test against.
 
         # Add permissions auth.add_foo and auth.change_foo to full_perm_user.
-        self.full_perm_user = self.get_user('john_full')
-        self.add_user_permission('add_foo', user=self.full_perm_user)
-        self.add_user_permission('change_foo', user=self.full_perm_user)
+        self.full_perm_user = self.get_user("john_full")
+        self.add_user_permission("add_foo", user=self.full_perm_user)
+        self.add_user_permission("change_foo", user=self.full_perm_user)
 
         # Add permission auth.add_foo to partial_perm_user.
-        self.partial_perm_user = self.get_user('jane_partial')
-        self.add_user_permission('add_foo', user=self.partial_perm_user)
+        self.partial_perm_user = self.get_user("jane_partial")
+        self.add_user_permission("add_foo", user=self.partial_perm_user)
 
         # Add add_barr and change_bar groups to full_group_user.
-        self.full_group_user = self.get_user('jenny_full')
-        self.add_user_group('add_bar', user=self.full_group_user)
-        self.add_user_group('change_bar', user=self.full_group_user)
+        self.full_group_user = self.get_user("jenny_full")
+        self.add_user_group("add_bar", user=self.full_group_user)
+        self.add_user_group("change_bar", user=self.full_group_user)
 
         # Add add_barr and change_bar groups to partial_group_user.
-        self.partial_group_user = self.get_user('jimmy_partial')
-        self.add_user_group('add_bar', user=self.partial_group_user)
+        self.partial_group_user = self.get_user("jimmy_partial")
+        self.add_user_group("add_bar", user=self.partial_group_user)
 
         # Add only "unused" permission to this incorrect_group_user.
-        self.incorrect_group_user = self.get_user('johnny_wrong')
-        self.add_user_group('unused_bar', user=self.full_group_user)
+        self.incorrect_group_user = self.get_user("johnny_wrong")
+        self.add_user_group("unused_bar", user=self.full_group_user)
 
         # Add no permissions/groups to none_user.
-        self.none_user = self.get_user('joe_none')
+        self.none_user = self.get_user("joe_none")
 
         # Easy access to anonymous user.
         self.anonymous_user = AnonymousUser()
@@ -361,8 +361,8 @@ class MixinTextCaseBase(IntegrationTestCase):
 @override_settings(DEBUG=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=False)
 @override_settings(STRICT_POLICY=False)
-@patch('adminlte2_pdq.constants.STRICT_POLICY', False)
-@patch('adminlte2_pdq.middleware.STRICT_POLICY', False)
+@patch("adminlte2_pdq.constants.STRICT_POLICY", False)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
 class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
     """
     Test project authentication mixins, under project "Loose" mode.
@@ -372,10 +372,10 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
         # Verify actual project settings values.
-        self.assertFalse(getattr(settings, 'ADMINLTE2_USE_LOGIN_REQUIRED', False))
-        self.assertFalse(getattr(settings, 'STRICT_POLICY', False))
-        self.assertEqual(0, len(getattr(settings, 'LOGIN_EXEMPT_WHITELIST', [])))
-        self.assertEqual(0, len(getattr(settings, 'STRICT_POLICY_WHITELIST', [])))
+        self.assertFalse(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
+        self.assertFalse(getattr(settings, "STRICT_POLICY", False))
+        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
+        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from contants.py file.
         from adminlte2_pdq.constants import (
@@ -394,193 +394,193 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
     def test__no_mixins(self):
         """Test for view with no mixins, in project "Loose" mode. For sanity checking."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Standard View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Standard View Header',
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
             )
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
     def test__allow_anonymous_access_mixin(self):
         """Test for allow_anonymous_access mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.anonymous_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.none_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.partial_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.full_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.incorrect_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.partial_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-anonymous-access',
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.full_group_user,
                     expected_status=500,
                 )
@@ -589,251 +589,251 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full group'):
+        with self.subTest("As user with full group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-login-required',
+                "adminlte2_pdq_tests:class-login-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.anonymous_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.none_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.partial_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.full_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.incorrect_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.partial_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-allow-without-permissions',
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.full_group_user,
                     expected_status=500,
                 )
@@ -842,630 +842,630 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
             # with self.subTest('As user with one permission'):
             #     # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.anonymous_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Full Permissions Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Full Permissions Required View Header',
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Full Permissions Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Full Permissions Required View Header',
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__one_group_required_mixin(self):
         """Test for group_required_one mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='One Group Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Group Required View Header',
+                expected_title="One Group Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Group Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
-            self.assertEqual('group_required', data_dict['decorator_name'])
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
+            self.assertEqual("group_required", data_dict["decorator_name"])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
             self.assertEqual(
-                ('add_bar', 'change_bar'),
-                tuple(data_dict['one_of_groups']),
+                ("add_bar", "change_bar"),
+                tuple(data_dict["one_of_groups"]),
             )
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='One Group Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Group Required View Header',
+                expected_title="One Group Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Group Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
-            self.assertEqual('group_required', data_dict['decorator_name'])
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
+            self.assertEqual("group_required", data_dict["decorator_name"])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
             self.assertEqual(
-                ('add_bar', 'change_bar'),
-                tuple(data_dict['one_of_groups']),
+                ("add_bar", "change_bar"),
+                tuple(data_dict["one_of_groups"]),
             )
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__full_groups_required_mixin(self):
         """Test for group_required mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.anonymous_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Full Groups Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Full Groups Required View Header',
+                expected_title="Full Groups Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Groups Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'group_required',
-                data_dict['decorator_name'],
+                "group_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
             self.assertEqual(
-                ('add_bar', 'change_bar'),
-                tuple(data_dict['full_groups']),
+                ("add_bar", "change_bar"),
+                tuple(data_dict["full_groups"]),
             )
 
 
 @override_settings(DEBUG=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=False)
 @override_settings(STRICT_POLICY=False)
-@patch('adminlte2_pdq.constants.STRICT_POLICY', False)
-@patch('adminlte2_pdq.middleware.STRICT_POLICY', False)
+@patch("adminlte2_pdq.constants.STRICT_POLICY", False)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
 class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
@@ -1488,10 +1488,10 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
         # Verify actual project settings values.
-        self.assertFalse(getattr(settings, 'ADMINLTE2_USE_LOGIN_REQUIRED', False))
-        self.assertFalse(getattr(settings, 'STRICT_POLICY', False))
-        self.assertEqual(0, len(getattr(settings, 'LOGIN_EXEMPT_WHITELIST', [])))
-        self.assertEqual(0, len(getattr(settings, 'STRICT_POLICY_WHITELIST', [])))
+        self.assertFalse(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
+        self.assertFalse(getattr(settings, "STRICT_POLICY", False))
+        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
+        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from contants.py file.
         from adminlte2_pdq.constants import (
@@ -1510,78 +1510,78 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
     def test__bleeding_anonymous_with_permissions(self):
         """Bleeding tests for allow_anonymous_access mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.anonymous_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.none_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.partial_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.full_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.incorrect_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.partial_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                     user=self.full_group_user,
                     expected_status=500,
                 )
@@ -1590,283 +1590,283 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
     def test__bleeding_login_with_permissions(self):
         """Bleeding tests for login_required mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Login Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Login Required View Header',
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'login_required',
-                data_dict['decorator_name'],
+                "login_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__bleeding_conflicting_permissions(self):
         """Bleeding tests for allow_without_permissions mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.anonymous_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.none_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.partial_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.full_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.incorrect_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.partial_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                     user=self.full_group_user,
                     expected_status=500,
                 )
@@ -1875,19 +1875,19 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
     def test__bleeding_one_permission_missing_permissions(self):
         """Bleeding tests for permission_required_one mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -1896,20 +1896,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -1918,20 +1918,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -1940,20 +1940,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -1962,20 +1962,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -1984,20 +1984,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -2006,20 +2006,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.full_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -2028,23 +2028,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
     def test__bleeding_full_permission_missing_permissions(self):
         """Bleeding tests for permission_required_one mixin, in project "Loose" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2053,20 +2053,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2075,20 +2075,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2097,20 +2097,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2119,20 +2119,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2141,20 +2141,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2163,20 +2163,20 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.full_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -2185,14 +2185,14 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
 
 @override_settings(DEBUG=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
-@patch('adminlte2_pdq.constants.STRICT_POLICY', True)
-@patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
 class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
     """
     Test project authentication mixins, under project "Strict" mode.
@@ -2202,10 +2202,10 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
         # Verify actual project settings values.
-        self.assertFalse(getattr(settings, 'ADMINLTE2_USE_LOGIN_REQUIRED', False))
-        self.assertTrue(getattr(settings, 'STRICT_POLICY', False))
-        self.assertEqual(0, len(getattr(settings, 'LOGIN_EXEMPT_WHITELIST', [])))
-        self.assertEqual(0, len(getattr(settings, 'STRICT_POLICY_WHITELIST', [])))
+        self.assertFalse(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
+        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
+        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
+        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from contants.py file.
         from adminlte2_pdq.constants import (
@@ -2225,16 +2225,16 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
         Everything should redirect with a warning message.
         """
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2242,18 +2242,18 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2261,18 +2261,18 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2280,18 +2280,18 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2299,18 +2299,18 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2318,18 +2318,18 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2337,18 +2337,18 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-standard',
+                "adminlte2_pdq_tests:class-standard",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Dashboard',
-                expected_header='Dashboard <small>Version 2.0</small>',
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_messages=[
                     self.pdq_strict__no_mixin_message,
                 ],
@@ -2356,263 +2356,263 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
     def test__allow_anonymous_access_mixin(self):
         """Test for allow_anonymous_access mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-anonymous-access',
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Strict" mode.
         In strict mode, this mixin should NOT work, and instead raise errors.
         """
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.anonymous_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.none_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.partial_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.full_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.incorrect_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.partial_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-login-required',
+                    "adminlte2_pdq_tests:class-login-required",
                     user=self.full_group_user,
                     expected_status=500,
                 )
@@ -2621,808 +2621,808 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-allow-without-permissions',
+                "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-permission-required',
+                "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='One Permission Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Permission Required View Header',
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.anonymous_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Full Permissions Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Full Permissions Required View Header',
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-permissions-required',
+                "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Full Permissions Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Full Permissions Required View Header',
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'permission_required',
-                data_dict['decorator_name'],
+                "permission_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__one_group_required_mixin(self):
         """Test for group_required_one mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='One Group Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Group Required View Header',
+                expected_title="One Group Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Group Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'group_required',
-                data_dict['decorator_name'],
+                "group_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
             self.assertEqual(
-                ('add_bar', 'change_bar'),
-                tuple(data_dict['one_of_groups']),
+                ("add_bar", "change_bar"),
+                tuple(data_dict["one_of_groups"]),
             )
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-one-group-required',
+                "adminlte2_pdq_tests:class-one-group-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='One Group Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | One Group Required View Header',
+                expected_title="One Group Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Group Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'group_required',
-                data_dict['decorator_name'],
+                "group_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
             self.assertEqual(
-                ('add_bar', 'change_bar'),
-                tuple(data_dict['one_of_groups']),
+                ("add_bar", "change_bar"),
+                tuple(data_dict["one_of_groups"]),
             )
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__full_groups_required_mixin(self):
         """Test for group_required mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.anonymous_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-full-groups-required',
+                "adminlte2_pdq_tests:class-full-groups-required",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Full Groups Required View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Full Groups Required View Header',
+                expected_title="Full Groups Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Groups Required View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'group_required',
-                data_dict['decorator_name'],
+                "group_required",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
-            self.assertIsNone(data_dict['one_of_permissions'])
-            self.assertIsNone(data_dict['full_permissions'])
-            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+            self.assertIsNone(data_dict["one_of_groups"])
             self.assertEqual(
-                ('add_bar', 'change_bar'),
-                tuple(data_dict['full_groups']),
+                ("add_bar", "change_bar"),
+                tuple(data_dict["full_groups"]),
             )
 
 
 @override_settings(DEBUG=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
-@patch('adminlte2_pdq.constants.STRICT_POLICY', True)
-@patch('adminlte2_pdq.middleware.STRICT_POLICY', True)
+@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
 class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
@@ -3445,10 +3445,10 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
         # Verify actual project settings values.
-        self.assertFalse(getattr(settings, 'ADMINLTE2_USE_LOGIN_REQUIRED', False))
-        self.assertTrue(getattr(settings, 'STRICT_POLICY', False))
-        self.assertEqual(0, len(getattr(settings, 'LOGIN_EXEMPT_WHITELIST', [])))
-        self.assertEqual(0, len(getattr(settings, 'STRICT_POLICY_WHITELIST', [])))
+        self.assertFalse(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
+        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
+        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
+        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from contants.py file.
         from adminlte2_pdq.constants import (
@@ -3466,295 +3466,295 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
     def test__bleeding_anonymous_with_permissions(self):
         """Bleeding tests for allow_anonymous_access mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
-            self.assertEqual('allow_anonymous_access', data_dict['decorator_name'])
-            self.assertFalse(data_dict['login_required'])
+            self.assertEqual("allow_anonymous_access", data_dict["decorator_name"])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions',
+                "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Allow Anonymous Access View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Anonymous Access View Header',
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_anonymous_access',
-                data_dict['decorator_name'],
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
             )
-            self.assertFalse(data_dict['login_required'])
+            self.assertFalse(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__bleeding_login_with_permissions(self):
         """Test for login_required mixin, in project "Strict" mode.
         In strict mode, this mixin should NOT work, and instead raise errors.
         """
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.anonymous_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.none_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.partial_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.full_perm_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.incorrect_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.partial_group_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
-                    'adminlte2_pdq_tests:class-bleeding-login-with-permissions',
+                    "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.full_group_user,
                     expected_status=500,
                 )
@@ -3763,227 +3763,227 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
     def test__bleeding_conflicting_permissions(self):
         """Bleeding tests for allow_without_permissions mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.none_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-conflicting-permissions',
+                "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.full_group_user,
                 expected_status=200,
-                expected_title='Allow Without Permissions View | Django AdminLtePdq Testing',
-                expected_header='Django AdminLtePdq | Allow Without Permissions View Header',
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
             data_dict = response.admin_pdq_data
             self.assertEqual(
-                'allow_without_permissions',
-                data_dict['decorator_name'],
+                "allow_without_permissions",
+                data_dict["decorator_name"],
             )
-            self.assertTrue(data_dict['login_required'])
+            self.assertTrue(data_dict["login_required"])
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['one_of_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
             )
             self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(data_dict['full_permissions']),
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict['one_of_groups'])
-            self.assertIsNone(data_dict['full_groups'])
+            self.assertIsNone(data_dict["one_of_groups"])
+            self.assertIsNone(data_dict["full_groups"])
 
     def test__one_permission_required_mixin(self):
         """Bleeding tests for permission_required_one mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
-                expected_title='Login |',
+                expected_title="Login |",
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -3992,20 +3992,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -4014,20 +4014,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -4036,20 +4036,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -4058,20 +4058,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -4080,20 +4080,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -4102,20 +4102,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                 user=self.full_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_one__message,
@@ -4124,23 +4124,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Strict" mode."""
 
-        with self.subTest('As anonymous user'):
+        with self.subTest("As anonymous user"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.anonymous_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4149,20 +4149,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with no permissions'):
+        with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.none_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4171,20 +4171,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.partial_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4193,20 +4193,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full permissions'):
+        with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.full_perm_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4215,20 +4215,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with incorrect groups'):
+        with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.incorrect_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4237,20 +4237,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one group'):
+        with self.subTest("As user with one group"):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.partial_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4259,20 +4259,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with full groups'):
+        with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
-                'adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions',
+                "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                 user=self.full_group_user,
                 expected_status=200,
                 expected_content=[
-                    'Sign in to start your session',
-                    'Remember Me',
-                    'I forgot my password',
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
                 ],
                 expected_messages=[
                     self.pdq__no_permissions_full__message,
@@ -4281,4 +4281,4 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'admin_pdq_data'))
+            self.assertFalse(hasattr(response, "admin_pdq_data"))

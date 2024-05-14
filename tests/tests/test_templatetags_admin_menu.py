@@ -26,13 +26,13 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         user = self.create_user()
         user.is_superuser = True
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         context = Context(
             {
-                'request': request,
-                'user': user,
+                "request": request,
+                "user": user,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -48,13 +48,13 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         user = self.create_user()
         user.is_superuser = True
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         context = Context(
             {
-                'request': request,
-                'user': user,
+                "request": request,
+                "user": user,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -69,13 +69,13 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         user = self.create_user()
         user.is_superuser = True
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         context = Context(
             {
-                'request': request,
-                'user': user,
+                "request": request,
+                "user": user,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -90,13 +90,13 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user = self.create_user()
         user.is_staff = True
         user.pk = 1
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         context = Context(
             {
-                'request': request,
-                'user': user,
+                "request": request,
+                "user": user,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -111,21 +111,21 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user = self.create_user()
         user.is_superuser = True
         user.pk = 1
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         available_apps = [
             {
-                'app_label': 'AUTH',
-                'name': 'Authentication',
-                'models': [
+                "app_label": "AUTH",
+                "name": "Authentication",
+                "models": [
                     {
-                        'perms': {
-                            'add_foo': True,
-                            'update_foo': True,
+                        "perms": {
+                            "add_foo": True,
+                            "update_foo": True,
                         },
-                        'object_name': 'foo',
-                        'change_url': '/foo',
+                        "object_name": "foo",
+                        "change_url": "/foo",
                     },
                 ],
             }
@@ -133,9 +133,9 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         context = Context(
             {
-                'request': request,
-                'user': user,
-                'available_apps': available_apps,
+                "request": request,
+                "user": user,
+                "available_apps": available_apps,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -160,21 +160,21 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         available_apps = [
             {
-                'app_label': 'AUTH',
-                'name': 'Authentication',
-                'models': [
+                "app_label": "AUTH",
+                "name": "Authentication",
+                "models": [
                     {
-                        'perms': {
-                            'add_foo': True,
-                            'update_foo': False,
+                        "perms": {
+                            "add_foo": True,
+                            "update_foo": False,
                         },
-                        'object_name': 'foo',
-                        'change_url': '/foo',
+                        "object_name": "foo",
+                        "change_url": "/foo",
                     },
                 ],
             }
@@ -182,9 +182,9 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         context = Context(
             {
-                'request': request,
-                'user': user,
-                'available_apps': available_apps,
+                "request": request,
+                "user": user,
+                "available_apps": available_apps,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -197,7 +197,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             rendered_template,
         )
         self.assertNotIn('<a href="/foo">', rendered_template)
-        self.assertNotIn('<span>foo</span>', rendered_template)
+        self.assertNotIn("<span>foo</span>", rendered_template)
 
     def test_render_admin_fails_for_staff_with_defined_available_apps_in_context_that_has_no_urls(self):
         """Test render admin fails for staff with defined available apps in
@@ -207,20 +207,20 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         available_apps = [
             {
-                'app_label': 'AUTH',
-                'name': 'Authentication',
-                'models': [
+                "app_label": "AUTH",
+                "name": "Authentication",
+                "models": [
                     {
-                        'perms': {
-                            'add_foo': False,
-                            'update_foo': False,
+                        "perms": {
+                            "add_foo": False,
+                            "update_foo": False,
                         },
-                        'object_name': 'foo',
+                        "object_name": "foo",
                     },
                 ],
             }
@@ -228,9 +228,9 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         context = Context(
             {
-                'request': request,
-                'user': user,
-                'available_apps': available_apps,
+                "request": request,
+                "user": user,
+                "available_apps": available_apps,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -243,7 +243,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             rendered_template,
         )
         self.assertNotIn('<a href="/foo">', rendered_template)
-        self.assertNotIn('<span>foo</span>', rendered_template)
+        self.assertNotIn("<span>foo</span>", rendered_template)
 
     # |-------------------------------------------------------------------------
     # | Test render_admin_tree_icon
@@ -252,38 +252,38 @@ class TemplateTagAdminMenuTestCase(TestCase):
     def test_render_admin_tree_icon_tag_renders_the_icon_when_it_is_the_default(self):
         """Test render admin tree icon tag renders the icon when it is the default"""
 
-        request = RequestFactory().get('/rand')
+        request = RequestFactory().get("/rand")
 
         context = Context(
             {
-                'request': request,
+                "request": request,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_tree_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('fa fa-superpowers', rendered_template)
+        self.assertIn("fa fa-superpowers", rendered_template)
 
     def test_render_admin_tree_icon_tag_renders_the_icon_after_it_has_been_changed(self):
         """Test render admin tree icon tag renders the icon after it has been changed"""
 
-        request = RequestFactory().get('/rand')
+        request = RequestFactory().get("/rand")
 
         original_icon_text = AdminMenu.get_admin_icon()
-        icon_text = 'fa fa-foo'
+        icon_text = "fa fa-foo"
         AdminMenu.set_admin_icon(icon_text)
 
         context = Context(
             {
-                'request': request,
+                "request": request,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_tree_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('fa fa-foo', rendered_template)
+        self.assertIn("fa fa-foo", rendered_template)
 
         AdminMenu.set_admin_icon(original_icon_text)
 
@@ -294,72 +294,72 @@ class TemplateTagAdminMenuTestCase(TestCase):
     def test_render_app_icon_tag_renders_the_icon_when_it_is_the_default(self):
         """Test render app icon tag renders the icon when it is the default"""
 
-        request = RequestFactory().get('/rand')
+        request = RequestFactory().get("/rand")
 
         app = {
-            'app_label': 'Foo',
-            'name': 'FooBar',
-            'models': [
+            "app_label": "Foo",
+            "name": "FooBar",
+            "models": [
                 {
-                    'perms': {
-                        'add_foo': True,
-                        'update_foo': False,
+                    "perms": {
+                        "add_foo": True,
+                        "update_foo": False,
                     },
-                    'object_name': 'foo',
-                    'change_url': '/foo',
+                    "object_name": "foo",
+                    "change_url": "/foo",
                 },
             ],
         }
 
         context = Context(
             {
-                'request': request,
-                'app': app,
+                "request": request,
+                "app": app,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_app_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('fa fa-circle', rendered_template)
+        self.assertIn("fa fa-circle", rendered_template)
 
     def test_render_app_icon_tag_renders_the_icon_after_it_has_been_changed(self):
         """Test render app icon tag renders the icon after it has been changed"""
 
-        request = RequestFactory().get('/rand')
+        request = RequestFactory().get("/rand")
 
         app = {
-            'app_label': 'Foo',
-            'name': 'FooBar',
-            'models': [
+            "app_label": "Foo",
+            "name": "FooBar",
+            "models": [
                 {
-                    'perms': {
-                        'add_foo': True,
-                        'update_foo': False,
+                    "perms": {
+                        "add_foo": True,
+                        "update_foo": False,
                     },
-                    'object_name': 'foo',
-                    'change_url': '/foo',
+                    "object_name": "foo",
+                    "change_url": "/foo",
                 },
             ],
         }
 
-        original_icon_text = AdminMenu.get_app_icon(app['name'])
-        icon_text = 'fa fa-foo'
-        AdminMenu.set_app_icon(app['name'], icon_text)
+        original_icon_text = AdminMenu.get_app_icon(app["name"])
+        icon_text = "fa fa-foo"
+        AdminMenu.set_app_icon(app["name"], icon_text)
 
         context = Context(
             {
-                'app': app,
-                'request': request,
+                "app": app,
+                "request": request,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_app_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('fa fa-foo', rendered_template)
+        self.assertIn("fa fa-foo", rendered_template)
 
-        AdminMenu.set_app_icon(app['name'], original_icon_text)
+        AdminMenu.set_app_icon(app["name"], original_icon_text)
 
     # |-------------------------------------------------------------------------
     # | Test render_model_icon
@@ -368,60 +368,60 @@ class TemplateTagAdminMenuTestCase(TestCase):
     def test_render_model_icon_tag_renders_the_icon_when_it_is_the_default(self):
         """Test render model icon tag renders the icon when it is the default"""
 
-        request = RequestFactory().get('/rand')
+        request = RequestFactory().get("/rand")
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
         context = Context(
             {
-                'request': request,
-                'model': model,
+                "request": request,
+                "model": model,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_model_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('fa fa-circle-o', rendered_template)
+        self.assertIn("fa fa-circle-o", rendered_template)
 
     def test_render_model_icon_tag_renders_the_icon_after_it_has_been_changed(self):
         """Test render model icon tag renders the icon after it has been changed"""
 
-        request = RequestFactory().get('/rand')
+        request = RequestFactory().get("/rand")
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
-        original_icon_text = AdminMenu.get_model_icon(model['object_name'])
-        icon_text = 'fa fa-foo'
-        AdminMenu.set_model_icon(model['object_name'], icon_text)
+        original_icon_text = AdminMenu.get_model_icon(model["object_name"])
+        icon_text = "fa fa-foo"
+        AdminMenu.set_model_icon(model["object_name"], icon_text)
 
         context = Context(
             {
-                'request': request,
-                'model': model,
+                "request": request,
+                "model": model,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_model_icon %}")
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('fa fa-foo', rendered_template)
+        self.assertIn("fa fa-foo", rendered_template)
 
-        AdminMenu.set_model_icon(model['object_name'], original_icon_text)
+        AdminMenu.set_model_icon(model["object_name"], original_icon_text)
 
     # |-------------------------------------------------------------------------
     # | Test menu_group_separator
@@ -436,43 +436,43 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
         context = Context(
             {
-                'request': request,
-                'model': model,
-                'user': user,
-                'ADMINLTE2_MENU_FIRST': [
+                "request": request,
+                "model": model,
+                "user": user,
+                "ADMINLTE2_MENU_FIRST": [
                     {
-                        'text': 'First',
-                        'nodes': [
+                        "text": "First",
+                        "nodes": [
                             {
-                                'route': '#',
-                                'text': 'First',
-                                'icon': 'fa fa-circle',
+                                "route": "#",
+                                "text": "First",
+                                "icon": "fa fa-circle",
                             },
                         ],
                     },
                 ],
-                'ADMINLTE2_MENU_LAST': [
+                "ADMINLTE2_MENU_LAST": [
                     {
-                        'text': 'Last',
-                        'nodes': [
+                        "text": "Last",
+                        "nodes": [
                             {
-                                'route': '#',
-                                'text': 'Last',
-                                'icon': 'fa fa-circle',
+                                "route": "#",
+                                "text": "Last",
+                                "icon": "fa fa-circle",
                             },
                         ],
                     },
@@ -494,31 +494,31 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
         context = Context(
             {
-                'request': request,
-                'model': model,
-                'user': user,
-                'ADMINLTE2_MENU_FIRST': [
+                "request": request,
+                "model": model,
+                "user": user,
+                "ADMINLTE2_MENU_FIRST": [
                     {
-                        'text': 'First',
-                        'nodes': [
+                        "text": "First",
+                        "nodes": [
                             {
-                                'route': '#',
-                                'text': 'First',
-                                'icon': 'fa fa-circle',
+                                "route": "#",
+                                "text": "First",
+                                "icon": "fa fa-circle",
                             },
                         ],
                     },
@@ -540,23 +540,23 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
         context = Context(
             {
-                'request': request,
-                'model': model,
-                'user': user,
+                "request": request,
+                "model": model,
+                "user": user,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -575,23 +575,23 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
         context = Context(
             {
-                'request': request,
-                'model': model,
-                'user': user,
+                "request": request,
+                "model": model,
+                "user": user,
             }
         )
         template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
@@ -609,31 +609,31 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get('/rand')
-        setattr(request, 'user', user)
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
 
         model = {
-            'perms': {
-                'add_foo': True,
-                'update_foo': False,
+            "perms": {
+                "add_foo": True,
+                "update_foo": False,
             },
-            'object_name': 'foo',
-            'change_url': '/foo',
+            "object_name": "foo",
+            "change_url": "/foo",
         }
 
         context = Context(
             {
-                'request': request,
-                'model': model,
-                'user': user,
-                'ADMINLTE2_MENU_FIRST': [
+                "request": request,
+                "model": model,
+                "user": user,
+                "ADMINLTE2_MENU_FIRST": [
                     {
-                        'text': 'First',
-                        'nodes': [
+                        "text": "First",
+                        "nodes": [
                             {
-                                'route': '#',
-                                'text': 'First',
-                                'icon': 'fa fa-circle',
+                                "route": "#",
+                                "text": "First",
+                                "icon": "fa fa-circle",
                             },
                         ],
                     },

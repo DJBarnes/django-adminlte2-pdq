@@ -30,49 +30,49 @@ from adminlte2_pdq.mixins import (
 
 def standard_view(request):
     """Standard testing view. No decorators."""
-    return render(request, 'standard_view.html')
+    return render(request, "standard_view.html")
 
 
 @allow_anonymous_access
 def allow_anonymous_access_view(request):
     """Testing view for STRICT mode, allowing full access."""
-    return render(request, 'allow_anonymous_access_view.html')
+    return render(request, "allow_anonymous_access_view.html")
 
 
 @login_required
 def login_required_view(request):
     """Testing view with login requirement."""
-    return render(request, 'login_required_view.html')
+    return render(request, "login_required_view.html")
 
 
 @allow_without_permissions
 def allow_without_permissions_view(request):
     """Testing view for STRICT mode, allowing login only requirement."""
-    return render(request, 'allow_without_permissions_view.html')
+    return render(request, "allow_without_permissions_view.html")
 
 
-@permission_required_one(['auth.add_foo', 'auth.change_foo'])
+@permission_required_one(["auth.add_foo", "auth.change_foo"])
 def one_permission_required_view(request):
     """Testing view with "one of permissions" requirement."""
-    return render(request, 'one_permission_required_view.html')
+    return render(request, "one_permission_required_view.html")
 
 
-@permission_required(['auth.add_foo', 'auth.change_foo'])
+@permission_required(["auth.add_foo", "auth.change_foo"])
 def full_permissions_required_view(request):
     """Testing view with permission requirement."""
-    return render(request, 'full_permissions_required_view.html')
+    return render(request, "full_permissions_required_view.html")
 
 
-@group_required_one(['add_bar', 'change_bar'])
+@group_required_one(["add_bar", "change_bar"])
 def one_group_required_view(request):
     """Testing view with "one of groups" requirement."""
-    return render(request, 'one_group_required_view.html')
+    return render(request, "one_group_required_view.html")
 
 
-@group_required(['add_bar', 'change_bar'])
+@group_required(["add_bar", "change_bar"])
 def full_groups_required_view(request):
     """Testing view with group requirement."""
-    return render(request, 'full_groups_required_view.html')
+    return render(request, "full_groups_required_view.html")
 
 
 # endregion Function Views
@@ -108,7 +108,7 @@ class AllowWithoutPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
 class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
 
-    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    permission_required_one = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "one_permission_required_view.html"
 
@@ -116,7 +116,7 @@ class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
 class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
 
-    permission_required = ['auth.add_foo', 'auth.change_foo']
+    permission_required = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "full_permissions_required_view.html"
 
@@ -124,7 +124,7 @@ class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
 class OneGroupRequiredView(GroupRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
 
-    group_required_one = ['add_bar', 'change_bar']
+    group_required_one = ["add_bar", "change_bar"]
 
     template_name = "one_group_required_view.html"
 
@@ -132,7 +132,7 @@ class OneGroupRequiredView(GroupRequiredMixin, TemplateView):
 class FullGroupsRequiredView(GroupRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
 
-    group_required = ['add_bar', 'change_bar']
+    group_required = ["add_bar", "change_bar"]
 
     template_name = "full_groups_required_view.html"
 
@@ -146,8 +146,8 @@ class FullGroupsRequiredView(GroupRequiredMixin, TemplateView):
 class BleedingAnonymousWithPermissionsView(AllowAnonymousAccessMixin, TemplateView):
     """Testing "allow_anonymous_access" mixin bleeding view."""
 
-    permission_required_one = ['auth.add_foo', 'auth.change_foo']
-    permission_required = ['auth.add_foo', 'auth.change_foo']
+    permission_required_one = ["auth.add_foo", "auth.change_foo"]
+    permission_required = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "allow_anonymous_access_view.html"
 
@@ -155,8 +155,8 @@ class BleedingAnonymousWithPermissionsView(AllowAnonymousAccessMixin, TemplateVi
 class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
     """Testing "login_required" mixin bleeding view."""
 
-    permission_required_one = ['auth.add_foo', 'auth.change_foo']
-    permission_required = ['auth.add_foo', 'auth.change_foo']
+    permission_required_one = ["auth.add_foo", "auth.change_foo"]
+    permission_required = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "login_required_view.html"
 
@@ -164,8 +164,8 @@ class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
 class BleedingConflictingPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
     """Testing "allow_without_permissions" mixin bleeding view."""
 
-    permission_required_one = ['auth.add_foo', 'auth.change_foo']
-    permission_required = ['auth.add_foo', 'auth.change_foo']
+    permission_required_one = ["auth.add_foo", "auth.change_foo"]
+    permission_required = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "allow_without_permissions_view.html"
 
@@ -200,9 +200,9 @@ class StackedPermissionRequiredView(PermissionRequiredMixin, TemplateView):
     """
 
     # To access view, user should require at least one of these.
-    permission_required_one = ['auth.add_foo', 'auth.change_foo']
+    permission_required_one = ["auth.add_foo", "auth.change_foo"]
     # Or else ALL of these.
-    permission_required = ['auth.view_foo', 'auth.delete_foo']
+    permission_required = ["auth.view_foo", "auth.delete_foo"]
 
     template_name = "full_permissions_required_view.html"
 

@@ -21,12 +21,12 @@ class AllowAnonymousAccessMixin:
 
     # Pdq data processing dict.
     admin_pdq_data = {
-        'decorator_name': 'allow_anonymous_access',
-        'login_required': False,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "allow_anonymous_access",
+        "login_required": False,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
 
@@ -35,12 +35,12 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
 
     # Pdq data processing dict.
     admin_pdq_data = {
-        'decorator_name': 'login_required',
-        'login_required': True,  # Sets property that Sidebar Node can check.
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "login_required",
+        "login_required": True,  # Sets property that Sidebar Node can check.
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
 
@@ -52,12 +52,12 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
 
     # Pdq data processing dict.
     admin_pdq_data = {
-        'decorator_name': 'allow_without_permissions',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "allow_without_permissions",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
 
@@ -70,12 +70,12 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
 
     # Pdq data processing dict.
     admin_pdq_data = {
-        'decorator_name': 'permission_required',
-        'login_required': True,
-        'one_of_permissions': permission_required_one,
-        'full_permissions': permission_required,
-        'one_of_groups': None,
-        'full_groups': None,
+        "decorator_name": "permission_required",
+        "login_required": True,
+        "one_of_permissions": permission_required_one,
+        "full_permissions": permission_required,
+        "one_of_groups": None,
+        "full_groups": None,
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -84,7 +84,7 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         # raise forbidden view otherwise.
         if not self.has_permission():
             # Failed permission checks. Redirect to login page.
-            return redirect(LOGIN_URL + f'?next={request.path}')
+            return redirect(LOGIN_URL + f"?next={request.path}")
         return super().dispatch(request, *args, **kwargs)
 
     def has_permission(self):
@@ -155,12 +155,12 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
 
     # Pdq data processing dict.
     admin_pdq_data = {
-        'decorator_name': 'group_required',
-        'login_required': True,
-        'one_of_permissions': None,
-        'full_permissions': None,
-        'one_of_groups': group_required_one,
-        'full_groups': group_required,
+        "decorator_name": "group_required",
+        "login_required": True,
+        "one_of_permissions": None,
+        "full_permissions": None,
+        "one_of_groups": group_required_one,
+        "full_groups": group_required,
     }
 
     def __init__(self, *args, **kwargs):
@@ -185,7 +185,7 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
         # raise forbidden view otherwise.
         if not self.has_group():
             # Failed group checks. Redirect to login page.
-            return redirect(LOGIN_URL + f'?next={request.path}')
+            return redirect(LOGIN_URL + f"?next={request.path}")
         return super().dispatch(request, *args, **kwargs)
 
     def has_group(self):
@@ -194,15 +194,15 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize group data and update class values.
         groups_all, groups_one = self.get_group_required()
 
-        print('groups_all: {0}'.format(groups_all))
-        print('groups_one: {0}'.format(groups_one))
+        print("groups_all: {0}".format(groups_all))
+        print("groups_one: {0}".format(groups_one))
 
         # Actually process groups.
-        if groups_all and _has_group(self.request.user, groups_all, require='All'):
+        if groups_all and _has_group(self.request.user, groups_all, require="All"):
             # User has all groups and view is "all groups" format.
             return True
 
-        if groups_one and _has_group(self.request.user, groups_one, require='Any'):
+        if groups_one and _has_group(self.request.user, groups_one, require="Any"):
             # View is "one of groups" format. Return on first found one.
             return True
 
@@ -218,8 +218,8 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
         if self.group_required is None and self.group_required_one is None:
             raise ImproperlyConfigured(self.permission_denied_message)
 
-        print('self.group_required: {0}'.format(self.group_required))
-        print('self.group_required_one: {0}'.format(self.group_required_one))
+        print("self.group_required: {0}".format(self.group_required))
+        print("self.group_required_one: {0}".format(self.group_required_one))
 
         # Sanitize group_required.
         if isinstance(self.group_required, str):
@@ -239,8 +239,8 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
             # Need to allow "other" in case user is provided group_required.
             groups_one = tuple()
 
-        print('groups_all: {0}'.format(groups_all))
-        print('groups_one: {0}'.format(groups_one))
+        print("groups_all: {0}".format(groups_all))
+        print("groups_one: {0}".format(groups_one))
 
         return groups_all, groups_one
 
@@ -258,9 +258,9 @@ class GroupRequiredMixin(DjangoPermissionRequiredMixin):
 
 # Limit imports from this file.
 __all__ = [
-    'AllowAnonymousAccessMixin',
-    'AllowWithoutPermissionsMixin',
-    'LoginRequiredMixin',
-    'PermissionRequiredMixin',
-    'GroupRequiredMixin',
+    "AllowAnonymousAccessMixin",
+    "AllowWithoutPermissionsMixin",
+    "LoginRequiredMixin",
+    "PermissionRequiredMixin",
+    "GroupRequiredMixin",
 ]

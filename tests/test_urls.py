@@ -9,46 +9,46 @@ from django.urls import include, path
 from . import views
 
 
-app_name = 'adminlte2_pdq_tests'
+app_name = "adminlte2_pdq_tests"
 urlpatterns = [
     # General Function Test Views.
     path(
-        'function/',
+        "function/",
         include(
             [
-                path('standard/', views.standard_view, name="function-standard"),
+                path("standard/", views.standard_view, name="function-standard"),
                 path(
-                    'allow_anonymous_access/',
+                    "allow_anonymous_access/",
                     views.allow_anonymous_access_view,
                     name="function-allow-anonymous-access",
                 ),
                 path(
-                    'login/',
+                    "login/",
                     views.login_required_view,
                     name="function-login-required",
                 ),
                 path(
-                    'allow_without_permissions/',
+                    "allow_without_permissions/",
                     views.allow_without_permissions_view,
                     name="function-allow-without-permissions",
                 ),
                 path(
-                    'one_permission/',
+                    "one_permission/",
                     views.one_permission_required_view,
                     name="function-one-permission-required",
                 ),
                 path(
-                    'full_permissions/',
+                    "full_permissions/",
                     views.full_permissions_required_view,
                     name="function-full-permissions-required",
                 ),
                 path(
-                    'one_group/',
+                    "one_group/",
                     views.one_group_required_view,
                     name="function-one-group-required",
                 ),
                 path(
-                    'full_group/',
+                    "full_group/",
                     views.full_groups_required_view,
                     name="function-full-groups-required",
                 ),
@@ -57,42 +57,42 @@ urlpatterns = [
     ),
     # General Class Test Views.
     path(
-        'class/',
+        "class/",
         include(
             [
-                path('standard/', views.StandardView.as_view(), name="class-standard"),
+                path("standard/", views.StandardView.as_view(), name="class-standard"),
                 path(
-                    'allow_anonymous_access/',
+                    "allow_anonymous_access/",
                     views.AllowAnonymousAccessView.as_view(),
                     name="class-allow-anonymous-access",
                 ),
                 path(
-                    'login/',
+                    "login/",
                     views.LoginRequiredView.as_view(),
                     name="class-login-required",
                 ),
                 path(
-                    'allow_without_permissions/',
+                    "allow_without_permissions/",
                     views.AllowWithoutPermissionsView.as_view(),
                     name="class-allow-without-permissions",
                 ),
                 path(
-                    'one_permission/',
+                    "one_permission/",
                     views.OnePermissionRequiredView.as_view(),
                     name="class-one-permission-required",
                 ),
                 path(
-                    'full_permissions/',
+                    "full_permissions/",
                     views.FullPermissionsRequiredView.as_view(),
                     name="class-full-permissions-required",
                 ),
                 path(
-                    'one_group/',
+                    "one_group/",
                     views.OneGroupRequiredView.as_view(),
                     name="class-one-group-required",
                 ),
                 path(
-                    'full_groups/',
+                    "full_groups/",
                     views.FullGroupsRequiredView.as_view(),
                     name="class-full-groups-required",
                 ),
@@ -101,36 +101,36 @@ urlpatterns = [
     ),
     # "Bleeding" Edge-Case Class Test Views.
     path(
-        'class/bleeding/',
+        "class/bleeding/",
         include(
             [
                 # Equivalent to "allow_anonymous_access".
                 path(
-                    'anonymous-with-permissions/',
+                    "anonymous-with-permissions/",
                     views.BleedingAnonymousWithPermissionsView.as_view(),
                     name="class-bleeding-anonymous-with-permissions",
                 ),
                 # Equivalent to "login_required".
                 path(
-                    'login-with-permissions/',
+                    "login-with-permissions/",
                     views.BleedingLoginWithPermissionsView.as_view(),
                     name="class-bleeding-login-with-permissions",
                 ),
                 # Equivalent to "allow_without_permissions".
                 path(
-                    'conflicting-permissions/',
+                    "conflicting-permissions/",
                     views.BleedingConflictingPermissionsView.as_view(),
                     name="class-bleeding-conflicting-permissions",
                 ),
                 # Equivalent to "permission_required_one".
                 path(
-                    'one-permission-missing-permissions/',
+                    "one-permission-missing-permissions/",
                     views.BleedingOnePermissionMissingPermissionsView.as_view(),
                     name="class-bleeding-one-permission-missing-permissions",
                 ),
                 # Equivalent to "permission_required".
                 path(
-                    'full-permission-missing-permissions/',
+                    "full-permission-missing-permissions/",
                     views.BleedingFullPermissionMissingPermissionsView.as_view(),
                     name="class-bleeding-full-permission-missing-permissions",
                 ),
