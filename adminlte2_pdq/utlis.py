@@ -15,7 +15,7 @@ def debug_print(value):
         # If package has DEBUG_PRINT value and is True.
         SHOW_DEBUG_PRINT
         # Or if this function has "debug" value set and is True.
-        or (hasattr(debug_print, 'debug') and debug_print.debug)
+        or (hasattr(debug_print, "debug") and debug_print.debug)
     ):
         # Doing a print. Handle based on type.
         print(value)

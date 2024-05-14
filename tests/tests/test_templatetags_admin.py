@@ -22,14 +22,14 @@ class TemplateTagAdminTestCase(TestCase):
         """Test index app display shows box when setting is false"""
 
         app = {
-            'app_url': '/foo',
-            'app_name': 'foo',
-            'name': 'foo',
-            'app_label': 'foo',
-            'models': [],
+            "app_url": "/foo",
+            "app_name": "foo",
+            "name": "foo",
+            "app_label": "foo",
+            "models": [],
         }
 
-        context = Context({'app': app})
+        context = Context({"app": app})
         template_to_render = Template("{% load admin.admin_index %}" "{% index_app_display %}")
 
         rendered_template = template_to_render.render(context)
@@ -41,14 +41,14 @@ class TemplateTagAdminTestCase(TestCase):
     def test_index_app_display_shows_list_when_setting_is_true(self):
         """Test index app display shows list when setting is true"""
         app = {
-            'app_url': '/foo',
-            'app_name': 'foo',
-            'name': 'foo',
-            'app_label': 'foo',
-            'models': [],
+            "app_url": "/foo",
+            "app_name": "foo",
+            "name": "foo",
+            "app_label": "foo",
+            "models": [],
         }
 
-        context = Context({'app': app})
+        context = Context({"app": app})
         template_to_render = Template("{% load admin.admin_index %}" "{% index_app_display %}")
 
         rendered_template = template_to_render.render(context)
@@ -74,7 +74,7 @@ class TemplateTagAdminTestCase(TestCase):
             rendered_template,
         )
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_SETTINGS_TAB': True, 'SHOW_EXTRA_TABS': True})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_SETTINGS_TAB": True, "SHOW_EXTRA_TABS": True})
     def test_show_control_sidebar_button_shows_up_when_settings_defines_all_tabs_to_show(self):
         """Test show control sidebar button shows up when settings defines all
         tabs to show"""
@@ -89,7 +89,7 @@ class TemplateTagAdminTestCase(TestCase):
             rendered_template,
         )
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_RECENT_ACTIVITY_TAB': False})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_RECENT_ACTIVITY_TAB": False})
     def test_show_control_sidebar_button_is_missing_when_settings_hides_all_tabs_to_show(self):
         """Test show control sidebar button is missing when settings hides all tabs to show"""
         context = Context({})
@@ -112,52 +112,56 @@ class TemplateTagAdminTestCase(TestCase):
 
         user = User()
 
-        context = Context({
-            'user': user,
-            'log_entries': LogEntry.objects.none(),
-        })
+        context = Context(
+            {
+                "user": user,
+                "log_entries": LogEntry.objects.none(),
+            }
+        )
         template_to_render = Template(
             "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_recent_activity_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('None available', rendered_template)
+        self.assertIn("None available", rendered_template)
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_RECENT_ACTIVITY_TAB': True})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_RECENT_ACTIVITY_TAB": True})
     def test_show_control_sidebar_recent_activity_tab_pane_displays_when_setting_is_true(self):
         """Test show control sidebar recent activity tab pane displays when
         setting is true"""
 
         user = User()
 
-        context = Context({
-            'user': user,
-            'log_entries': LogEntry.objects.none(),
-        })
+        context = Context(
+            {
+                "user": user,
+                "log_entries": LogEntry.objects.none(),
+            }
+        )
         template_to_render = Template(
             "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_recent_activity_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
 
-        self.assertIn('None available', rendered_template)
+        self.assertIn("None available", rendered_template)
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_RECENT_ACTIVITY_TAB': False})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_RECENT_ACTIVITY_TAB": False})
     def test_show_control_sidebar_recent_activity_tab_pane_is_hidden_when_setting_is_false(self):
         """Tests show control sidebar recent activity tab pane is hidden when
         setting is false"""
 
         user = User()
 
-        context = Context({'user': user})
+        context = Context({"user": user})
         template_to_render = Template(
             "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_recent_activity_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
 
-        self.assertNotIn('None available', rendered_template)
+        self.assertNotIn("None available", rendered_template)
 
     # |-------------------------------------------------------------------------
     # | Test show_control_sidebar_settings_tab_pane
@@ -176,7 +180,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         self.assertNotIn('<h3 class="control-sidebar-heading">General Settings</h3>', rendered_template)
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_SETTINGS_TAB': True})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_SETTINGS_TAB": True})
     def test_show_control_sidebar_settings_tab_pane_displays_when_setting_is_true(self):
         """Test show control sidebar settings tab pane displays when setting
         is true"""
@@ -190,7 +194,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         self.assertIn('<h3 class="control-sidebar-heading">General Settings</h3>', rendered_template)
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_SETTINGS_TAB': False})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_SETTINGS_TAB": False})
     def test_show_control_sidebar_settings_tab_pane_is_hidden_when_setting_is_false(self):
         """Test show control sidebar settings tab pane is hidden when setting
         is false"""
@@ -221,7 +225,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         self.assertNotIn('<h3 class="control-sidebar-heading">Extra Tab</h3>', rendered_template)
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_EXTRA_TABS': True})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_EXTRA_TABS": True})
     def test_show_control_sidebar_extra_tab_panes_displays_when_setting_is_true(self):
         """Test show control sidebar extra tab panes displays when setting is true"""
 
@@ -234,7 +238,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         self.assertIn('<h3 class="control-sidebar-heading">Extra Tab</h3>', rendered_template)
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_EXTRA_TABS': False})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_EXTRA_TABS": False})
     def test_show_control_sidebar_extra_tab_panes_is_hidden_when_setting_is_false(self):
         """Test show control sidebar extra tab panes is hidden when setting is false"""
 
@@ -251,7 +255,7 @@ class TemplateTagAdminTestCase(TestCase):
     # | Test show_control_sidebar_tabs
     # |-------------------------------------------------------------------------
 
-    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={'SHOW_SETTINGS_TAB': True, 'SHOW_EXTRA_TABS': True})
+    @override_settings(ADMINLTE2_ADMIN_CONTROL_SIDEBAR_TABS={"SHOW_SETTINGS_TAB": True, "SHOW_EXTRA_TABS": True})
     def test_show_control_sidebar_tabs_displays_the_enabled_tabs_as_tabs_when_there_is_more_than_one(self):
         """Test show control sidebar tabs displays the enabled tabs as tabs when
         there is more than one"""

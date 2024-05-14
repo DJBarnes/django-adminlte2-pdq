@@ -35,12 +35,12 @@ from .utlis import debug_print
 
 
 # Module Variables.
-debug_header = '{0}{1}{2}'.format(TEXT_CYAN, '{0}', TEXT_RESET)
-debug_var = '{0}{1}{2}{3}'.format(TEXT_PURPLE, '{0}', TEXT_RESET, '{1}')
-debug_info = '{0}{1}{2}'.format(TEXT_BLUE, '{0}', TEXT_RESET)
-debug_success = '{0}{1}{2}'.format(TEXT_GREEN, '{0}', TEXT_RESET)
-debug_warn = '{0}{1}{2}'.format(TEXT_YELLOW, '{0}', TEXT_RESET)
-debug_error = '{0}{1}{2}'.format(TEXT_RED, '{0}', TEXT_RESET)
+debug_header = "{0}{1}{2}".format(TEXT_CYAN, "{0}", TEXT_RESET)
+debug_var = "{0}{1}{2}{3}".format(TEXT_PURPLE, "{0}", TEXT_RESET, "{1}")
+debug_info = "{0}{1}{2}".format(TEXT_BLUE, "{0}", TEXT_RESET)
+debug_success = "{0}{1}{2}".format(TEXT_GREEN, "{0}", TEXT_RESET)
+debug_warn = "{0}{1}{2}".format(TEXT_YELLOW, "{0}", TEXT_RESET)
+debug_error = "{0}{1}{2}".format(TEXT_RED, "{0}", TEXT_RESET)
 
 
 class AuthMiddleware:
@@ -82,49 +82,49 @@ class AuthMiddleware:
             debug_print.debug = True
 
         # Ensure user object is accessible for Authentication checks.
-        if not hasattr(request, 'user'):
+        if not hasattr(request, "user"):
             # Django SessionMiddleware is required to use Django AuthenticationMiddleware.
             # Django AuthenticationMiddleware is what gives us access to user object in request.
             # Django MessageMiddleware is required to display messages to user on middleware failure for a view.
             raise ImportError(
-                'The Django-AdminLTE2-PDQ AuthMiddleware requires Django authentication middleware to be installed. '
-                'Edit your MIDDLEWARE_CLASSES setting to include:\n\n'
+                "The Django-AdminLTE2-PDQ AuthMiddleware requires Django authentication middleware to be installed. "
+                "Edit your MIDDLEWARE_CLASSES setting to include:\n\n"
                 ' * "django.contrib.sessions.middleware.SessionMiddleware",\n'
                 ' * "django.contrib.auth.middleware.AuthenticationMiddleware",\n'
                 ' * "django.contrib.messages.middleware.MessageMiddleware",\n'
                 ' * "adminlte2_pdq.middleware.AuthMiddleware",\n'
-                '\nNote that ordering of above middleware DOES matter.\n\n'
-                'If the above doesn\'t solve this error, then ensure your TEMPLATE_CONTEXT_PROCESSORS setting includes'
+                "\nNote that ordering of above middleware DOES matter.\n\n"
+                "If the above doesn't solve this error, then ensure your TEMPLATE_CONTEXT_PROCESSORS setting includes"
                 ' "django.core.context_processors.auth" as well.'
             )
 
-        debug_print(debug_var.format('    LOGIN_REQUIRED: ', LOGIN_REQUIRED))
-        debug_print(debug_var.format('    STRICT_POLICY: ', STRICT_POLICY))
+        debug_print(debug_var.format("    LOGIN_REQUIRED: ", LOGIN_REQUIRED))
+        debug_print(debug_var.format("    STRICT_POLICY: ", STRICT_POLICY))
 
         # Calculate data for decorated view, in order to determine permission logic.
         view_data = self.parse_request_data(request)
 
         # Handle if using login_required decorator within STRICT mode.
-        if STRICT_POLICY and view_data['decorator_name'] == 'login_required':
+        if STRICT_POLICY and view_data["decorator_name"] == "login_required":
             error_message = (
-                'The login_required {view_perm_type} is not supported in AdminLtePdq STRICT mode. '
-                'Having STRICT mode on implicitly assumes login and permissions are required '
-                'for all views that are not in a whitelist setting.'
-                '\n\n'
-                'Also consider the allow_anonymous_access or allow_without_permissions {view_perm_type}s.'
+                "The login_required {view_perm_type} is not supported in AdminLtePdq STRICT mode. "
+                "Having STRICT mode on implicitly assumes login and permissions are required "
+                "for all views that are not in a whitelist setting."
+                "\n\n"
+                "Also consider the allow_anonymous_access or allow_without_permissions {view_perm_type}s."
             ).format(
-                view_perm_type=view_data['view_perm_type'],
+                view_perm_type=view_data["view_perm_type"],
             )
             raise PermissionError(error_message)
 
         # Handle if using allow_anonymous_access or allow_without_permissions decorator in LOOSE mode.
-        if not STRICT_POLICY and view_data['decorator_name'] in ['allow_anonymous_access', 'allow_without_permissions']:
+        if not STRICT_POLICY and view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]:
             error_message = (
-                'The {decorator_name} {view_perm_type} is not supported in AdminLtePdq LOOSE mode. '
-                'This {view_perm_type} only exists for clarity of permission access in STRICT mode.'
+                "The {decorator_name} {view_perm_type} is not supported in AdminLtePdq LOOSE mode. "
+                "This {view_perm_type} only exists for clarity of permission access in STRICT mode."
             ).format(
-                decorator_name=view_data['decorator_name'],
-                view_perm_type=view_data['view_perm_type'],
+                decorator_name=view_data["decorator_name"],
+                view_perm_type=view_data["view_perm_type"],
             )
             raise PermissionError(error_message)
 
@@ -132,15 +132,15 @@ class AuthMiddleware:
             # Is a permission view.
             (
                 # Literal permission view.
-                view_data['decorator_name']
-                in ['permission_required', 'group_required']
+                view_data["decorator_name"]
+                in ["permission_required", "group_required"]
             )
             # And no permission values defined.
             and (
-                not view_data['one_of_permissions']
-                and not view_data['full_permissions']
-                and not view_data['one_of_groups']
-                and not view_data['full_groups']
+                not view_data["one_of_permissions"]
+                and not view_data["full_permissions"]
+                and not view_data["one_of_groups"]
+                and not view_data["full_groups"]
             )
         ):
             if settings.DEBUG:
@@ -154,8 +154,8 @@ class AuthMiddleware:
                     "For further information, please see the docs: "
                     "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
                 ).format(
-                    view_type=view_data['view_type'],
-                    view_name=view_data['view_name'],
+                    view_type=view_data["view_type"],
+                    view_name=view_data["view_name"],
                 )
                 # Create console warning message.
                 warnings.warn(warning_message)
@@ -164,21 +164,21 @@ class AuthMiddleware:
             else:
                 # Error if in production mode.
                 error_message = (
-                    'Could not access requested page. The site is configured incorrectly. '
-                    'Please contact the site administrator.'
+                    "Could not access requested page. The site is configured incorrectly. "
+                    "Please contact the site administrator."
                 )
                 # Create Django Messages warning.
                 messages.warning(request, error_message)
 
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
-        if (LOGIN_REQUIRED or view_data['login_required']) and not self.verify_logged_in(request, view_data):
+        if (LOGIN_REQUIRED or view_data["login_required"]) and not self.verify_logged_in(request, view_data):
             # User not logged in and view requires login to access.
 
-            debug_print(debug_error.format('Failed LoginRequired checks. Redirecting.'))
+            debug_print(debug_error.format("Failed LoginRequired checks. Redirecting."))
 
             # Redirect to login page.
-            return redirect(LOGIN_URL + f'?next={request.path}')
+            return redirect(LOGIN_URL + f"?next={request.path}")
 
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
@@ -186,24 +186,24 @@ class AuthMiddleware:
             # Is STRICT mode.
             STRICT_POLICY
             # Is not a decorator allowing lesser permissions.
-            and not view_data['decorator_name'] in ['allow_anonymous_access', 'allow_without_permissions']
+            and not view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]
             # Fails general checks for everything else.
             and not self.verify_strict_mode_permission_set(request, view_data)
         ):
             # No permissions defined on view or user failed permission checks.
 
-            debug_print(debug_error.format('Failed PermissionRequired checks. Redirecting.'))
+            debug_print(debug_error.format("Failed PermissionRequired checks. Redirecting."))
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
 
         # User passed all tests, return requested response.
         response = self.get_response(request)
-        debug_print(debug_var.format('    decorator_name: ', view_data['decorator_name']))
-        if view_data['decorator_name']:
+        debug_print(debug_var.format("    decorator_name: ", view_data["decorator_name"]))
+        if view_data["decorator_name"]:
             response.admin_pdq_data = view_data
 
-            debug_print(debug_var.format('    RESPONSE_DATA: ', response.admin_pdq_data))
+            debug_print(debug_var.format("    RESPONSE_DATA: ", response.admin_pdq_data))
 
         if debug:
             debug_print.debug = False
@@ -219,89 +219,89 @@ class AuthMiddleware:
         # Initialize default data structure.
         # This is our fallback if view is not using AdminLtePdq logic.
         data_dict = {
-            'path': request.path,
-            'decorator_name': '',
-            'login_required': False,
-            'one_of_permissions': None,
-            'full_permissions': None,
-            'one_of_groups': None,
-            'full_groups': None,
+            "path": request.path,
+            "decorator_name": "",
+            "login_required": False,
+            "one_of_permissions": None,
+            "full_permissions": None,
+            "one_of_groups": None,
+            "full_groups": None,
         }
 
         # Try to get the view.
         try:
-            resolver = resolve(data_dict['path'])
-            data_dict['resolver'] = resolver
+            resolver = resolve(data_dict["path"])
+            data_dict["resolver"] = resolver
 
             # Determine if view function or view class.
-            view_class = getattr(resolver.func, 'view_class', None)
-            data_dict['view_class'] = view_class
+            view_class = getattr(resolver.func, "view_class", None)
+            data_dict["view_class"] = view_class
 
             # Determine universal values.
             app_name = resolver.app_name
             current_url_name = resolver.url_name
             fully_qualified_url_name = f"{app_name}:{current_url_name}"
-            data_dict['app_name'] = app_name
-            data_dict['current_url_name'] = current_url_name
-            data_dict['fully_qualified_url_name'] = fully_qualified_url_name
+            data_dict["app_name"] = app_name
+            data_dict["current_url_name"] = current_url_name
+            data_dict["fully_qualified_url_name"] = fully_qualified_url_name
 
             # Get extra AdminLtePdq data, if available.
             if view_class:
                 # Is class-based view. Get class data dict.
-                pdq_data = getattr(view_class, 'admin_pdq_data', {})
-                debug_print(debug_var.format('    VIEW_DATA: ', view_class.__dict__))
+                pdq_data = getattr(view_class, "admin_pdq_data", {})
+                debug_print(debug_var.format("    VIEW_DATA: ", view_class.__dict__))
             else:
                 # Is function-based view. Get function data dict.
-                pdq_data = getattr(resolver.func, 'admin_pdq_data', {})
-                debug_print(debug_var.format('    VIEW_DATA: ', resolver.func.__dict__))
+                pdq_data = getattr(resolver.func, "admin_pdq_data", {})
+                debug_print(debug_var.format("    VIEW_DATA: ", resolver.func.__dict__))
 
-            debug_print(debug_var.format('    ADMIN_PDQ_DATA: ', pdq_data))
+            debug_print(debug_var.format("    ADMIN_PDQ_DATA: ", pdq_data))
 
             # Process data.
             if view_class:
                 # Get class attributes.
-                data_dict['view_name'] = view_class.__qualname__
-                data_dict['view_type'] = 'class-based'
-                data_dict['view_perm_type'] = 'mixin'
+                data_dict["view_name"] = view_class.__qualname__
+                data_dict["view_type"] = "class-based"
+                data_dict["view_perm_type"] = "mixin"
 
                 # Handle for AdminLtePdq-specific attributes.
                 if pdq_data:
-                    data_dict['decorator_name'] = pdq_data.get('decorator_name', '')
-                    data_dict['login_required'] = pdq_data.get('login_required', False)
+                    data_dict["decorator_name"] = pdq_data.get("decorator_name", "")
+                    data_dict["login_required"] = pdq_data.get("login_required", False)
 
                     # Because we seem unable to get the "updated" class attributes,
                     # and only have access to the original literal class-level values,
                     # we seem unable to rely on the data dict for this.
-                    data_dict['one_of_permissions'] = getattr(view_class, 'permission_required_one', None)
-                    data_dict['full_permissions'] = getattr(view_class, 'permission_required', None)
-                    data_dict['one_of_groups'] = getattr(view_class, 'group_required_one', None)
-                    data_dict['full_groups'] = getattr(view_class, 'group_required', None)
+                    data_dict["one_of_permissions"] = getattr(view_class, "permission_required_one", None)
+                    data_dict["full_permissions"] = getattr(view_class, "permission_required", None)
+                    data_dict["one_of_groups"] = getattr(view_class, "group_required_one", None)
+                    data_dict["full_groups"] = getattr(view_class, "group_required", None)
 
                     # Update data on the class itself.
-                    view_class.admin_pdq_data['one_of_permissions'] = data_dict['one_of_permissions']
-                    view_class.admin_pdq_data['full_permissions'] = data_dict['full_permissions']
-                    view_class.admin_pdq_data['one_of_groups'] = data_dict['one_of_groups']
-                    view_class.admin_pdq_data['full_groups'] = data_dict['full_groups']
+                    view_class.admin_pdq_data["one_of_permissions"] = data_dict["one_of_permissions"]
+                    view_class.admin_pdq_data["full_permissions"] = data_dict["full_permissions"]
+                    view_class.admin_pdq_data["one_of_groups"] = data_dict["one_of_groups"]
+                    view_class.admin_pdq_data["full_groups"] = data_dict["full_groups"]
 
             else:
                 # Get function attributes.
-                data_dict['view_name'] = resolver.func.__qualname__
-                data_dict['view_type'] = 'function-based'
-                data_dict['view_perm_type'] = 'decorator'
+                data_dict["view_name"] = resolver.func.__qualname__
+                data_dict["view_type"] = "function-based"
+                data_dict["view_perm_type"] = "decorator"
 
                 # Handle for AdminLtePdq-specific attributes.
                 if pdq_data:
-                    data_dict['decorator_name'] = pdq_data.get('decorator_name', '')
-                    data_dict['login_required'] = pdq_data.get('login_required', False)
-                    data_dict['one_of_permissions'] = pdq_data.get('one_of_permissions', [])
-                    data_dict['full_permissions'] = pdq_data.get('full_permissions', [])
-                    data_dict['one_of_groups'] = pdq_data.get('one_of_groups', [])
-                    data_dict['full_groups'] = pdq_data.get('full_groups', [])
+                    data_dict["decorator_name"] = pdq_data.get("decorator_name", "")
+                    data_dict["login_required"] = pdq_data.get("login_required", False)
+                    data_dict["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
+                    data_dict["full_permissions"] = pdq_data.get("full_permissions", [])
+                    data_dict["one_of_groups"] = pdq_data.get("one_of_groups", [])
+                    data_dict["full_groups"] = pdq_data.get("full_groups", [])
 
         except Http404:
-            data_dict.update({'resolver': None})
+            data_dict.update({"resolver": None})
 
-        debug_print(debug_var.format('    PULLED_DATA: ', data_dict))
+        debug_print(debug_var.format("    PULLED_DATA: ", data_dict))
 
         # if debug:
         #     debug_print.debug = False
@@ -314,31 +314,31 @@ class AuthMiddleware:
         if debug:
             debug_print.debug = True
 
-        debug_print('\n\n')
-        debug_print(debug_header.format('AdminLtePdq Middleware verify_logged_in():'))
-        debug_print(debug_var.format('    request: ', request))
-        debug_print(debug_var.format('    type(request): ', type(request)))
+        debug_print("\n\n")
+        debug_print(debug_header.format("AdminLtePdq Middleware verify_logged_in():"))
+        debug_print(debug_var.format("    request: ", request))
+        debug_print(debug_var.format("    type(request): ", type(request)))
 
         # If user is already authenticated, just return true.
         if request.user.is_authenticated:
-            debug_print(debug_success.format('Is Authenticated. Proceeding...'))
-            debug_print('\n\n')
+            debug_print(debug_success.format("Is Authenticated. Proceeding..."))
+            debug_print("\n\n")
 
             return True
 
         # User not logged in. Still allow request for the following:
         return (
             # If url name exists in whitelist.
-            view_data['current_url_name'] in LOGIN_EXEMPT_WHITELIST
-            or view_data['fully_qualified_url_name'] in LOGIN_EXEMPT_WHITELIST
+            view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
+            or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
             # If path exists in whitelist.
-            or view_data['path'] in LOGIN_EXEMPT_WHITELIST
+            or view_data["path"] in LOGIN_EXEMPT_WHITELIST
             # If passes requirements for custom login hook (defined on a per-project basis).
             or self.login_required_hook(request)
             # If url is for media, as defined in settings.
-            or self.verify_media_route(view_data['path'])
+            or self.verify_media_route(view_data["path"])
             # If url is for websockets, as defined in settings.
-            or self.verify_websocket_route(view_data['path'])
+            or self.verify_websocket_route(view_data["path"])
         )
 
     def verify_strict_mode_permission_set(self, request, view_data, debug=False):
@@ -350,31 +350,31 @@ class AuthMiddleware:
         if debug:
             debug_print.debug = True
 
-        debug_print('\n\n')
-        debug_print(debug_header.format('AdminLtePdq Middleware verify_permission_set():'))
-        debug_print(debug_var.format('    request: ', request))
-        debug_print(debug_var.format('    type(request): ', request))
+        debug_print("\n\n")
+        debug_print(debug_header.format("AdminLtePdq Middleware verify_permission_set():"))
+        debug_print(debug_var.format("    request: ", request))
+        debug_print(debug_var.format("    type(request): ", request))
 
         exempt = False
 
         # If view, determine if function based or class based
-        if view_data['resolver']:
+        if view_data["resolver"]:
 
             # Determine if request url is exempt. Is the case for the following:
             if (
                 # If url name exists in whitelist.
-                view_data['current_url_name'] in STRICT_POLICY_WHITELIST
-                or view_data['fully_qualified_url_name'] in STRICT_POLICY_WHITELIST
+                view_data["current_url_name"] in STRICT_POLICY_WHITELIST
+                or view_data["fully_qualified_url_name"] in STRICT_POLICY_WHITELIST
                 # If path exists in whitelist.
-                or view_data['path'] in STRICT_POLICY_WHITELIST
+                or view_data["path"] in STRICT_POLICY_WHITELIST
                 # If is the equivalent of the "Django Admin" app.
-                or view_data['app_name'] == 'admin'
+                or view_data["app_name"] == "admin"
                 # If url is for media, as defined in settings.
-                or self.verify_media_route(view_data['path'])
+                or self.verify_media_route(view_data["path"])
                 # If url is for websockets, as defined in settings.
-                or self.verify_websocket_route(view_data['path'])
+                or self.verify_websocket_route(view_data["path"])
                 # If url is for redirecting, as defined in settings.
-                or self.verify_redirect_route(view_data['view_class'])
+                or self.verify_redirect_route(view_data["view_class"])
             ):
                 # One or more conditions passed for url being exempt from checks.
                 exempt = True
@@ -384,7 +384,7 @@ class AuthMiddleware:
                 # View is exempt from requirements.
                 exempt
                 # OR view didn't require permissions due to decorators.
-                or view_data['decorator_name'] in ['allow_anonymous_access', 'allow_without_permissions']
+                or view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]
                 # OR user had the correct permissions.
                 # For now, this check technically only works because we don't set these values
                 # on the redirect-to-login requests. So they're populated if the user passes
@@ -392,14 +392,14 @@ class AuthMiddleware:
                 #
                 # If we ever start populating these values on all requests, then
                 # this logic will no longer work.
-                or view_data['login_required']
-                or view_data['one_of_permissions']
-                or view_data['full_permissions']
-                or view_data['one_of_groups']
-                or view_data['full_groups']
+                or view_data["login_required"]
+                or view_data["one_of_permissions"]
+                or view_data["full_permissions"]
+                or view_data["one_of_groups"]
+                or view_data["full_groups"]
             ):
-                debug_print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
-                debug_print('\n\n')
+                debug_print(debug_success.format("Passed permission checks OR url was exempt. Proceeding..."))
+                debug_print("\n\n")
 
                 return True
 
@@ -417,9 +417,9 @@ class AuthMiddleware:
                     "For further information, please see the docs: "
                     "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
                 ).format(
-                    view_type=view_data['view_type'],
-                    view_name=view_data['view_name'],
-                    view_perm_type=view_data['view_perm_type'],
+                    view_type=view_data["view_type"],
+                    view_name=view_data["view_name"],
+                    view_perm_type=view_data["view_perm_type"],
                 )
                 # Create console warning message.
                 warnings.warn(warning_message)
@@ -428,15 +428,15 @@ class AuthMiddleware:
             else:
                 # Error if in production mode.
                 error_message = (
-                    'Could not access requested page. The site is configured incorrectly. '
-                    'Please contact the site administrator.'
+                    "Could not access requested page. The site is configured incorrectly. "
+                    "Please contact the site administrator."
                 )
                 # Create Django Messages warning.
                 messages.warning(request, error_message)
 
-        debug_print('')
-        debug_print(debug_error.format('Failed to pass auth checks.'))
-        debug_print('\n\n')
+        debug_print("")
+        debug_print(debug_error.format("Failed to pass auth checks."))
+        debug_print("\n\n")
 
         # If we made it this far, then failed all checks, return False.
         return False
@@ -454,14 +454,14 @@ class AuthMiddleware:
     def verify_media_route(self, path):
         """Verify that the path of the request is not a MEDIA URL"""
         return_val = False
-        if MEDIA_ROUTE and MEDIA_ROUTE != '/':
+        if MEDIA_ROUTE and MEDIA_ROUTE != "/":
             return_val = path.startswith(MEDIA_ROUTE)
         return return_val
 
     def verify_websocket_route(self, path):
         """Verify that the path of the request is not a WEBSOCKET URL"""
         return_val = False
-        if WEBSOCKET_ROUTE and WEBSOCKET_ROUTE != '/':
+        if WEBSOCKET_ROUTE and WEBSOCKET_ROUTE != "/":
             return_val = path.startswith(WEBSOCKET_ROUTE)
         return return_val
 

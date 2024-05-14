@@ -16,7 +16,7 @@ from django import template
 register = template.Library()
 
 
-@register.filter('fieldtype')
+@register.filter("fieldtype")
 def fieldtype(field):
     """
     Get a string representation of what fieldtype a given field is.
@@ -28,7 +28,7 @@ def fieldtype(field):
     return field.field.widget.__class__.__name__
 
 
-@register.filter('with_attrs')
+@register.filter("with_attrs")
 def with_attrs(field, attrs_as_json=None):
     """
     Add generic attributes to a form field and return the form field so filters can be chained.
@@ -55,13 +55,13 @@ def with_attrs(field, attrs_as_json=None):
     attrs = field.field.widget.attrs
     data_attrs = json.loads(attrs_as_json)
     for key, value in data_attrs.items():
-        attrs[f'{key}'] = value
+        attrs[f"{key}"] = value
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
     return field
 
 
-@register.filter('with_class')
-def with_class(field, class_name=''):
+@register.filter("with_class")
+def with_class(field, class_name=""):
     """
     Add a class attribute to a form field and return the form field so filters can be chained.
 
@@ -85,14 +85,14 @@ def with_class(field, class_name=''):
     if not field:
         return field
     attrs = field.field.widget.attrs
-    current_class_list = attrs.get('class', '').split()
+    current_class_list = attrs.get("class", "").split()
     current_class_list.append(class_name)
-    attrs['class'] = " ".join(current_class_list)
+    attrs["class"] = " ".join(current_class_list)
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
     return field
 
 
-@register.filter('with_data')
+@register.filter("with_data")
 def with_data(field, data_attrs_json=None):
     """
     Add data attributes to a form field and return the form field so filters can be chained.
@@ -124,12 +124,12 @@ def with_data(field, data_attrs_json=None):
     attrs = field.field.widget.attrs
     data_attrs = json.loads(data_attrs_json)
     for key, value in data_attrs.items():
-        attrs[f'data-{key}'] = value
+        attrs[f"data-{key}"] = value
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
     return field
 
 
-@register.filter('with_placeholder')
+@register.filter("with_placeholder")
 def with_placeholder(field, placeholder=None):
     """
     Add placeholder to a form field and return the form field so filters can be chained.
@@ -159,18 +159,18 @@ def with_placeholder(field, placeholder=None):
     # Default placeholder to field.label if the widget does not already have
     # a placeholder, and a value was not sent to the method.
     # Assume that if a value for placeholder was sent in, we are using it.
-    if not placeholder and 'placeholder' not in field.field.widget.attrs:
+    if not placeholder and "placeholder" not in field.field.widget.attrs:
         placeholder = field.label
 
     if placeholder:
         attrs = field.field.widget.attrs
-        attrs['placeholder'] = placeholder
+        attrs["placeholder"] = placeholder
         field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_list')
+@register.filter("with_list")
 def with_list(field, name=None):
     """
     Add list attribute to a form field and return the form field so filters can be chained.
@@ -196,16 +196,16 @@ def with_list(field, name=None):
 
     """
     if name is None:
-        name = f'{field.name}_list'
+        name = f"{field.name}_list"
 
     attrs = field.field.widget.attrs
-    attrs['list'] = name
+    attrs["list"] = name
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_pattern')
+@register.filter("with_pattern")
 def with_pattern(field, pattern=None):
     """
     Add pattern to a form field and return the form field so filters can be chained.
@@ -243,13 +243,13 @@ def with_pattern(field, pattern=None):
         pattern = "\\([0-9]{3}\\) [0-9]{3}-[0-9]{4}"
 
     attrs = field.field.widget.attrs
-    attrs['pattern'] = pattern
+    attrs["pattern"] = pattern
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_inputmask')
+@register.filter("with_inputmask")
 def with_inputmask(field, inputmask=None):
     """
     Add inputmask to a form field and return the form field so filters can be chained.
@@ -279,13 +279,13 @@ def with_inputmask(field, inputmask=None):
         inputmask = ("(999) 999-9999",)
 
     attrs = field.field.widget.attrs
-    attrs['data-inputmask'] = f"'mask':'{inputmask}'"
+    attrs["data-inputmask"] = f"'mask':'{inputmask}'"
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_min')
+@register.filter("with_min")
 def with_min(field, min_val=None):
     """
     Add min attribute to a form field and return the form field so filters can be chained.
@@ -312,13 +312,13 @@ def with_min(field, min_val=None):
         min_val = 0
 
     attrs = field.field.widget.attrs
-    attrs['min'] = min_val
+    attrs["min"] = min_val
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_max')
+@register.filter("with_max")
 def with_max(field, max_val=None):
     """
     Add max attribute to a form field and return the form field so filters can be chained.
@@ -345,13 +345,13 @@ def with_max(field, max_val=None):
         max_val = 100
 
     attrs = field.field.widget.attrs
-    attrs['max'] = max_val
+    attrs["max"] = max_val
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
 
     return field
 
 
-@register.filter('with_input_type')
+@register.filter("with_input_type")
 def with_input_type(field, new_type):
     """
     Change widget input_type to passed value.
@@ -376,7 +376,7 @@ def with_input_type(field, new_type):
     return field
 
 
-@register.filter('dir')
+@register.filter("dir")
 def directory(field):
     """
     Return the result of calling dir on an object.
@@ -388,7 +388,7 @@ def directory(field):
     return dir(field)
 
 
-@register.filter('dictionary')
+@register.filter("dictionary")
 def dictionary(field):
     """
     Return the result of calling __dict__ on an object.
@@ -400,7 +400,7 @@ def dictionary(field):
     return field.__dict__
 
 
-@register.filter('unsnake')
+@register.filter("unsnake")
 def unsnake(field):
     """
     Return a string that converts underscore to spaces and capitalizes first letter.
@@ -409,10 +409,10 @@ def unsnake(field):
     :return: unsnaked string of the field passed in.
     """
 
-    return str(field).replace('_', ' ').capitalize()
+    return str(field).replace("_", " ").capitalize()
 
 
-@register.filter('unslugify')
+@register.filter("unslugify")
 def unslugify(field):
     """
     Return a string that converts dash to spaces and capitalizes first letter.
@@ -421,4 +421,4 @@ def unslugify(field):
     :return: dir of the field passed in.
     """
 
-    return str(field).replace('-', ' ').capitalize()
+    return str(field).replace("-", " ").capitalize()
