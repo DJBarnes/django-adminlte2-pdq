@@ -108,6 +108,10 @@ class TemplateTagAdminMenuTestCase(TestCase):
     def test_render_admin_works_for_superuser_with_defined_available_apps_in_context(self):
         """Test render admin works for superuser with defined available apps in context"""
 
+        # TODO: Probably should make additional decorator/mixin subtests for
+        #       superusers, ugh. Also while we're at it, "inactive" users too.
+        #       Just to ensure we get all edge cases we can.
+
         user = self.create_user()
         user.is_superuser = True
         user.pk = 1
