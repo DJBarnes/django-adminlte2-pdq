@@ -138,9 +138,9 @@ class AuthMiddleware:
             # And no permission values defined.
             and (
                 not view_data['one_of_permissions']
-                and not view_data['permissions']
+                and not view_data['full_permissions']
                 and not view_data['one_of_groups']
-                and not view_data['groups']
+                and not view_data['full_groups']
             )
         ):
             if settings.DEBUG:
@@ -197,18 +197,17 @@ class AuthMiddleware:
             # Redirect to home route.
             return redirect(HOME_ROUTE)
 
+        # User passed all tests, return requested response.
+        response = self.get_response(request)
+        debug_print(debug_var.format('    decorator_name: ', view_data['decorator_name']))
+        if view_data['decorator_name']:
+            response.admin_pdq_data = view_data
+
+            debug_print(debug_var.format('    RESPONSE_DATA: ', response.admin_pdq_data))
+
         if debug:
             debug_print.debug = False
 
-        # User passed all tests, return requested response.
-        response = self.get_response(request)
-        if view_data['decorator_name']:
-            response.decorator_name = view_data['decorator_name']
-            response.login_required = view_data['login_required']
-            response.one_of_permissions = view_data['one_of_permissions']
-            response.permissions = view_data['permissions']
-            response.one_of_groups = view_data['one_of_groups']
-            response.groups = view_data['groups']
         return response
 
     def parse_request_data(self, request, debug=True):
@@ -217,10 +216,16 @@ class AuthMiddleware:
         if debug:
             debug_print.debug = True
 
-        # Initialize data structure.
+        # Initialize default data structure.
+        # This is our fallback if view is not using AdminLtePdq logic.
         data_dict = {
             'path': request.path,
             'decorator_name': '',
+            'login_required': False,
+            'one_of_permissions': None,
+            'full_permissions': None,
+            'one_of_groups': None,
+            'full_groups': None,
         }
 
         # Try to get the view.
@@ -236,55 +241,70 @@ class AuthMiddleware:
             app_name = resolver.app_name
             current_url_name = resolver.url_name
             fully_qualified_url_name = f"{app_name}:{current_url_name}"
+            data_dict['app_name'] = app_name
+            data_dict['current_url_name'] = current_url_name
+            data_dict['fully_qualified_url_name'] = fully_qualified_url_name
 
+            # Get extra AdminLtePdq data, if available.
+            if view_class:
+                # Is class-based view. Get class data dict.
+                pdq_data = getattr(view_class, 'admin_pdq_data', {})
+                debug_print(debug_var.format('    VIEW_DATA: ', view_class.__dict__))
+            else:
+                # Is function-based view. Get function data dict.
+                pdq_data = getattr(resolver.func, 'admin_pdq_data', {})
+                debug_print(debug_var.format('    VIEW_DATA: ', resolver.func.__dict__))
+
+            debug_print(debug_var.format('    ADMIN_PDQ_DATA: ', pdq_data))
+
+            # Process data.
             if view_class:
                 # Get class attributes.
-                decorator_name = getattr(view_class, 'decorator_name', '')
-                login_required = getattr(view_class, 'login_required', False)
-                one_of_permissions = getattr(view_class, 'permission_required_one', [])
-                permissions = getattr(view_class, 'permission_required', [])
-                one_of_groups = getattr(view_class, 'group_required_one', [])
-                groups = getattr(view_class, 'group_required', [])
-                view_name = view_class.__qualname__
-                view_type = 'class-based'
-                view_perm_type = 'mixin'
+                data_dict['view_name'] = view_class.__qualname__
+                data_dict['view_type'] = 'class-based'
+                data_dict['view_perm_type'] = 'mixin'
+
+                # Handle for AdminLtePdq-specific attributes.
+                if pdq_data:
+                    data_dict['decorator_name'] = pdq_data.get('decorator_name', '')
+                    data_dict['login_required'] = pdq_data.get('login_required', False)
+
+                    # Because we seem unable to get the "updated" class attributes,
+                    # and only have access to the original literal class-level values,
+                    # we seem unable to rely on the data dict for this.
+                    data_dict['one_of_permissions'] = getattr(view_class, 'permission_required_one', None)
+                    data_dict['full_permissions'] = getattr(view_class, 'permission_required', None)
+                    data_dict['one_of_groups'] = getattr(view_class, 'group_required_one', None)
+                    data_dict['full_groups'] = getattr(view_class, 'group_required', None)
+
+                    # Update data on the class itself.
+                    view_class.admin_pdq_data['one_of_permissions'] = data_dict['one_of_permissions']
+                    view_class.admin_pdq_data['full_permissions'] = data_dict['full_permissions']
+                    view_class.admin_pdq_data['one_of_groups'] = data_dict['one_of_groups']
+                    view_class.admin_pdq_data['full_groups'] = data_dict['full_groups']
+
             else:
                 # Get function attributes.
-                decorator_name = getattr(resolver.func, 'decorator_name', '')
-                login_required = getattr(resolver.func, 'login_required', False)
-                one_of_permissions = getattr(resolver.func, 'one_of_permissions', [])
-                permissions = getattr(resolver.func, 'permissions', [])
-                one_of_groups = getattr(resolver.func, 'one_of_groups', [])
-                groups = getattr(resolver.func, 'groups', [])
-                view_name = resolver.func.__qualname__
-                view_type = 'function-based'
-                view_perm_type = 'decorator'
+                data_dict['view_name'] = resolver.func.__qualname__
+                data_dict['view_type'] = 'function-based'
+                data_dict['view_perm_type'] = 'decorator'
 
-            data_dict.update(
-                {
-                    'resolver': resolver,
-                    'app_name': app_name,
-                    'current_url_name': current_url_name,
-                    'fully_qualified_url_name': fully_qualified_url_name,
-                    'decorator_name': decorator_name,
-                    'login_required': login_required,
-                    'one_of_permissions': one_of_permissions,
-                    'permissions': permissions,
-                    'one_of_groups': one_of_groups,
-                    'groups': groups,
-                    'view_name': view_name,
-                    'view_type': view_type,
-                    'view_perm_type': view_perm_type,
-                }
-            )
+                # Handle for AdminLtePdq-specific attributes.
+                if pdq_data:
+                    data_dict['decorator_name'] = pdq_data.get('decorator_name', '')
+                    data_dict['login_required'] = pdq_data.get('login_required', False)
+                    data_dict['one_of_permissions'] = pdq_data.get('one_of_permissions', [])
+                    data_dict['full_permissions'] = pdq_data.get('full_permissions', [])
+                    data_dict['one_of_groups'] = pdq_data.get('one_of_groups', [])
+                    data_dict['full_groups'] = pdq_data.get('full_groups', [])
 
         except Http404:
             data_dict.update({'resolver': None})
 
-        debug_print(data_dict)
+        debug_print(debug_var.format('    PULLED_DATA: ', data_dict))
 
-        if debug:
-            debug_print.debug = False
+        # if debug:
+        #     debug_print.debug = False
 
         # Return parsed data.
         return data_dict
@@ -374,9 +394,9 @@ class AuthMiddleware:
                 # this logic will no longer work.
                 or view_data['login_required']
                 or view_data['one_of_permissions']
-                or view_data['permissions']
+                or view_data['full_permissions']
                 or view_data['one_of_groups']
-                or view_data['groups']
+                or view_data['full_groups']
             ):
                 debug_print(debug_success.format('Passed permission checks OR url was exempt. Proceeding...'))
                 debug_print('\n\n')
