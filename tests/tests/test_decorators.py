@@ -12,7 +12,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
-from django.test import TestCase, override_settings, RequestFactory
+from django.test import override_settings, RequestFactory, TestCase
 from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.

@@ -6,7 +6,7 @@ import warnings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
-from django.test import TestCase
+from django.test import override_settings, TestCase
 from django.urls import reverse
 from unittest.mock import patch
 
@@ -23,6 +23,21 @@ class MiddlewareTestCase(TestCase):
     """
     Test Middleware
     """
+
+    # region Expected Test Messages
+
+    pdq_strict__no_decorator_message = (
+        "AdminLtePdq Warning: This project is set to run in strict mode, and "
+        "the function-based view 'demo_css' does not have any decorators set. "
+        "This means that this view is inaccessible until permission decorators "
+        "are set for the view, or the view is added to the "
+        "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+    )
+
+    # endregion Expected Test Messages
 
     # |-------------------------------------------------------------------------
     # | Setup
@@ -77,24 +92,17 @@ class MiddlewareTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
+    @override_settings(DEBUG=True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     def test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
-            warning_message = (
-                "The function-based view 'demo_css' does not have the"
-                " permission_required, one_of_permission, or login_required"
-                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
-                " set to True. This means that this view is inaccessible until"
-                " either permissions are set on the view or the url_name for the"
-                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-            )
 
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
-            self.assertIn(warning_message, str(wa[-1].message))
+            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
@@ -112,6 +120,7 @@ class MiddlewareTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Login")
 
+    @override_settings(DEBUG=True)
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
@@ -120,20 +129,12 @@ class MiddlewareTestCase(TestCase):
         # NOTE: This test goes to demo-css, fails the strict policy, then goes to home.
         # Home is a new request that fails the login required being on and thus redirect to login page.
         with warnings.catch_warnings(record=True) as wa:
-            warning_message = (
-                "The function-based view 'demo_css' does not have the"
-                " permission_required, one_of_permission, or login_required"
-                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
-                " set to True. This means that this view is inaccessible until"
-                " either permissions are set on the view or the url_name for the"
-                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-            )
 
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Login")
             self.assertEqual(len(wa), 1)
-            self.assertIn(warning_message, str(wa[-1].message))
+            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
@@ -182,25 +183,18 @@ class MiddlewareTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
+    @override_settings(DEBUG=True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
-            warning_message = (
-                "The function-based view 'demo_css' does not have the"
-                " permission_required, one_of_permission, or login_required"
-                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
-                " set to True. This means that this view is inaccessible until"
-                " either permissions are set on the view or the url_name for the"
-                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-            )
 
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
-            self.assertIn(warning_message, str(wa[-1].message))
+            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
@@ -211,27 +205,21 @@ class MiddlewareTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "<h1>Demo CSS</h1>")
 
+    @override_settings(DEBUG=True)
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off(self):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
-            warning_message = (
-                "The function-based view 'demo_css' does not have the"
-                " permission_required, one_of_permission, or login_required"
-                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
-                " set to True. This means that this view is inaccessible until"
-                " either permissions are set on the view or the url_name for the"
-                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-            )
 
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
-            self.assertIn(warning_message, str(wa[-1].message))
+            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
+    @override_settings(DEBUG=True)
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
@@ -239,20 +227,12 @@ class MiddlewareTestCase(TestCase):
         """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off"""
         with warnings.catch_warnings(record=True) as wa:
             self.client.force_login(self.test_user_w_perms)
-            warning_message = (
-                "The function-based view 'demo_css' does not have the"
-                " permission_required, one_of_permission, or login_required"
-                " decorator set and the option ADMINLTE2_USE_STRICT_POLICY is"
-                " set to True. This means that this view is inaccessible until"
-                " either permissions are set on the view or the url_name for the"
-                " view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-            )
 
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
             self.assertEqual(len(wa), 1)
-            self.assertIn(warning_message, str(wa[-1].message))
+            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)

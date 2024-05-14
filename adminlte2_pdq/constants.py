@@ -54,9 +54,13 @@ LOGIN_EXEMPT_WHITELIST += getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", 
 STRICT_POLICY_WHITELIST += getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", [])
 
 
-# Get whether or not we are using LoginRequired and PermissionRequired
-LOGIN_REQUIRED = getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False)
+# Get whether or not we are using LoginRequired and PermissionRequired.
+# NOTE: By nature of what STRICT_POLICY is, it implicitly means login is required.
 STRICT_POLICY = getattr(settings, "ADMINLTE2_USE_STRICT_POLICY", False)
+if STRICT_POLICY:
+    LOGIN_REQUIRED = True
+else:
+    LOGIN_REQUIRED = getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False)
 
 
 # Date Time Picker Widgets to use. Valid values are 'native', 'jquery', 'bootstrap'
