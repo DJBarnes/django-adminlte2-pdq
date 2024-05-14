@@ -24,10 +24,8 @@ from adminlte2_pdq.mixins import LoginRequiredMixin, PermissionRequiredMixin
 UserModel = get_user_model()
 
 
-class MixinTestCase(TestCase):
-    """
-    Test Mixins
-    """
+class DaveMixinTestCase(TestCase):
+    """Original mixin tests by Dave."""
 
     def setUp(self):
         self.permission_content_type = ContentType.objects.get_for_model(Permission)
@@ -363,7 +361,7 @@ class MixinTextCaseBase(IntegrationTestCase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
+class MixinTestCase__Standard(MixinTextCaseBase):
     """
     Test project authentication mixins, under project "Loose" mode.
     """
@@ -1466,7 +1464,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
+class MixinTestCase__StandardBleeding(MixinTextCaseBase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
     By "bleeding", we refer to instances when the user overlaps values for one
@@ -2193,7 +2191,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
+class MixinTestCase__Strict(MixinTextCaseBase):
     """
     Test project authentication mixins, under project "Strict" mode.
     """
@@ -3423,7 +3421,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
+class MixinTestCase__StrictBleeding(MixinTextCaseBase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
     By "bleeding", we refer to instances when the user overlaps values for one

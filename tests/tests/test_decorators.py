@@ -23,7 +23,7 @@ from adminlte2_pdq.decorators import login_required, permission_required, permis
 UserModel = get_user_model()
 
 
-class DecoratorTestCase(TestCase):
+class DaveDecoratorTestCase(TestCase):
     """Original decorator tests by Dave."""
 
     def setUp(self):
@@ -386,7 +386,7 @@ class DecoratorTestCaseBase(IntegrationTestCase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class ReworkedDecoratorTestCase__Standard(DecoratorTestCaseBase):
+class DecoratorTestCase__Standard(DecoratorTestCaseBase):
     """
     Test project authentication decorators, under project "Loose" mode.
     """
@@ -1487,7 +1487,7 @@ class ReworkedDecoratorTestCase__Standard(DecoratorTestCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class ReworkedDecoratorTestCase__Strict(DecoratorTestCaseBase):
+class DecoratorTestCase__Strict(DecoratorTestCaseBase):
     """
     Test project authentication decorators, under project "Strict" mode.
     """
