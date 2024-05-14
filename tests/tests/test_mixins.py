@@ -123,9 +123,9 @@ class MixinTestCase(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    # def test_mixin_prevents_access_for_no_perms_all(self):
-    #     """Test mixin prevents access for no perms all"""
-    #
+    def test_mixin_prevents_access_for_no_perms_all(self):
+        """Test mixin prevents access for no perms all"""
+
     #     class TestView(PermissionRequiredMixin, View):
     #         """Test View Class"""
     #
@@ -408,10 +408,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -427,10 +424,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -446,10 +440,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -465,10 +456,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -484,10 +472,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -503,10 +488,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -522,10 +504,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
     def test__allow_anonymous_access_mixin(self):
         """Test for allow_anonymous_access mixin, in project "Loose" mode."""
@@ -628,10 +607,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -646,23 +622,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -677,23 +647,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -708,23 +672,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -739,23 +697,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -770,23 +722,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full group'):
             # Should succeed and load as expected.
@@ -801,23 +747,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Loose" mode."""
@@ -920,10 +860,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -942,13 +879,10 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
-        with self.subTest('As user with one permission'):
-            # Should succeed and load as expected.
+            # with self.subTest('As user with one permission'):
+            #     # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -960,24 +894,20 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -992,24 +922,20 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -1028,10 +954,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -1046,24 +969,20 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -1078,24 +997,20 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Loose" mode."""
@@ -1117,10 +1032,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -1139,10 +1051,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -1161,10 +1070,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -1179,24 +1085,20 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
+                tuple(data_dict['full_permissions']),
             )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -1215,10 +1117,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -1237,10 +1136,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -1255,24 +1151,20 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
+                tuple(data_dict['full_permissions']),
             )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__one_group_required_mixin(self):
         """Test for group_required_one mixin, in project "Loose" mode."""
@@ -1295,12 +1187,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -1319,12 +1206,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -1343,12 +1225,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -1367,12 +1244,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -1391,12 +1263,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -1411,32 +1278,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
-            self.assertTrue(hasattr(response, 'one_of_groups'))
-            self.assertTrue(hasattr(response, 'groups'))
-            self.assertEqual(
-                'group_required',
-                getattr(response, 'decorator_name'),
-            )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
+            self.assertEqual('group_required', data_dict['decorator_name'])
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
             self.assertEqual(
                 ('add_bar', 'change_bar'),
-                tuple(getattr(response, 'one_of_groups')),
+                tuple(data_dict['one_of_groups']),
             )
-            self.assertIsNone(
-                getattr(response, 'groups'),
-            )
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -1451,32 +1303,17 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
-            self.assertTrue(hasattr(response, 'one_of_groups'))
-            self.assertTrue(hasattr(response, 'groups'))
-            self.assertEqual(
-                'group_required',
-                getattr(response, 'decorator_name'),
-            )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
+            self.assertEqual('group_required', data_dict['decorator_name'])
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
             self.assertEqual(
                 ('add_bar', 'change_bar'),
-                tuple(getattr(response, 'one_of_groups')),
+                tuple(data_dict['one_of_groups']),
             )
-            self.assertIsNone(
-                getattr(response, 'groups'),
-            )
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__full_groups_required_mixin(self):
         """Test for group_required mixin, in project "Loose" mode."""
@@ -1498,12 +1335,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -1522,12 +1354,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -1546,12 +1373,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -1570,12 +1392,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -1594,12 +1411,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -1618,12 +1430,7 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -1638,31 +1445,19 @@ class ReworkedMixinTestCase__Standard(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
-            self.assertTrue(hasattr(response, 'one_of_groups'))
-            self.assertTrue(hasattr(response, 'groups'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'group_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_groups'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
             self.assertEqual(
                 ('add_bar', 'change_bar'),
-                tuple(getattr(response, 'groups')),
+                tuple(data_dict['full_groups']),
             )
 
 
@@ -1813,10 +1608,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -1831,25 +1623,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -1864,25 +1654,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             #  Verify we get the expected page.
@@ -1895,25 +1683,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -1928,25 +1714,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -1961,25 +1745,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             #  Verify we get the expected page.
@@ -1992,25 +1774,23 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'login_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__bleeding_conflicting_permissions(self):
         """Bleeding tests for allow_without_permissions mixin, in project "Loose" mode."""
@@ -2116,10 +1896,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -2141,10 +1918,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -2166,10 +1940,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -2191,10 +1962,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -2216,10 +1984,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -2241,10 +2006,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should fail and redirect to login.
@@ -2266,10 +2028,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
     def test__bleeding_full_permission_missing_permissions(self):
         """Bleeding tests for permission_required_one mixin, in project "Loose" mode."""
@@ -2294,10 +2053,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -2319,10 +2075,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -2344,10 +2097,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -2369,10 +2119,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -2394,10 +2141,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -2419,10 +2163,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should fail and redirect to login.
@@ -2444,10 +2185,7 @@ class ReworkedMixinTestCase__Standard_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
 
 @override_settings(DEBUG=True)
@@ -2504,10 +2242,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2526,10 +2261,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2548,10 +2280,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2570,10 +2299,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2592,10 +2318,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2614,10 +2337,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2636,10 +2356,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
     def test__allow_anonymous_access_mixin(self):
         """Test for allow_anonymous_access mixin, in project "Strict" mode."""
@@ -2657,23 +2374,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -2688,23 +2399,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -2719,23 +2424,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -2750,23 +2449,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -2781,23 +2474,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -2812,23 +2499,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -2843,23 +2524,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertFalse(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Strict" mode.
@@ -2963,10 +2638,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -2981,23 +2653,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -3012,23 +2678,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -3043,23 +2703,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -3074,23 +2728,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -3105,23 +2753,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -3136,23 +2778,17 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Strict" mode."""
@@ -3175,10 +2811,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -3197,10 +2830,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -3215,24 +2845,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -3247,24 +2873,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -3283,10 +2905,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -3301,24 +2920,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -3333,24 +2948,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
+            self.assertTrue(data_dict['login_required'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['one_of_permissions']),
             )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Strict" mode."""
@@ -3372,10 +2983,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -3394,10 +3002,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -3416,10 +3021,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -3434,24 +3036,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
+                tuple(data_dict['full_permissions']),
             )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -3470,10 +3068,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -3492,10 +3087,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -3510,24 +3102,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'permission_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
+                tuple(data_dict['full_permissions']),
             )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__one_group_required_mixin(self):
         """Test for group_required_one mixin, in project "Strict" mode."""
@@ -3550,12 +3138,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -3574,12 +3157,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -3598,12 +3176,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -3622,12 +3195,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -3646,12 +3214,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -3666,32 +3229,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
-            self.assertTrue(hasattr(response, 'one_of_groups'))
-            self.assertTrue(hasattr(response, 'groups'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'group_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
             self.assertEqual(
                 ('add_bar', 'change_bar'),
-                tuple(getattr(response, 'one_of_groups')),
+                tuple(data_dict['one_of_groups']),
             )
-            self.assertIsNone(
-                getattr(response, 'groups'),
-            )
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -3706,32 +3257,20 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
-            self.assertTrue(hasattr(response, 'one_of_groups'))
-            self.assertTrue(hasattr(response, 'groups'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'group_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
             self.assertEqual(
                 ('add_bar', 'change_bar'),
-                tuple(getattr(response, 'one_of_groups')),
+                tuple(data_dict['one_of_groups']),
             )
-            self.assertIsNone(
-                getattr(response, 'groups'),
-            )
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__full_groups_required_mixin(self):
         """Test for group_required mixin, in project "Strict" mode."""
@@ -3753,12 +3292,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -3777,12 +3311,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -3801,12 +3330,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -3825,12 +3349,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -3849,12 +3368,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -3873,12 +3387,7 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
-            self.assertFalse(hasattr(response, 'one_of_groups'))
-            self.assertFalse(hasattr(response, 'groups'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -3893,31 +3402,19 @@ class ReworkedMixinTestCase__Strict(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
-            self.assertTrue(hasattr(response, 'one_of_groups'))
-            self.assertTrue(hasattr(response, 'groups'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'group_required',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'permissions'),
-            )
-            self.assertIsNone(
-                getattr(response, 'one_of_groups'),
-            )
+            self.assertTrue(data_dict['login_required'])
+            self.assertIsNone(data_dict['one_of_permissions'])
+            self.assertIsNone(data_dict['full_permissions'])
+            self.assertIsNone(data_dict['one_of_groups'])
             self.assertEqual(
                 ('add_bar', 'change_bar'),
-                tuple(getattr(response, 'groups')),
+                tuple(data_dict['full_groups']),
             )
 
 
@@ -3982,24 +3479,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+            self.assertFalse(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
-            )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
+                tuple(data_dict['full_permissions']),
             )
 
         with self.subTest('As user with no permissions'):
@@ -4015,25 +3508,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+            self.assertFalse(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -4048,25 +3539,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+            self.assertFalse(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -4081,25 +3570,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+            self.assertFalse(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -4114,25 +3601,20 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
+            self.assertEqual('allow_anonymous_access', data_dict['decorator_name'])
+            self.assertFalse(data_dict['login_required'])
             self.assertEqual(
-                'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
-            )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -4147,25 +3629,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+            self.assertFalse(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -4180,25 +3660,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_anonymous_access',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertFalse(
-                getattr(response, 'login_required'),
+            self.assertFalse(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__bleeding_login_with_permissions(self):
         """Test for login_required mixin, in project "Strict" mode.
@@ -4302,10 +3780,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should succeed and load as expected.
@@ -4320,25 +3795,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one permission'):
             # Should succeed and load as expected.
@@ -4353,25 +3826,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -4386,25 +3857,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with incorrect groups'):
             # Should succeed and load as expected.
@@ -4419,25 +3888,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with one group'):
             # Should succeed and load as expected.
@@ -4452,25 +3919,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -4485,25 +3950,23 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, 'decorator_name'))
-            self.assertTrue(hasattr(response, 'login_required'))
-            self.assertTrue(hasattr(response, 'one_of_permissions'))
-            self.assertTrue(hasattr(response, 'permissions'))
+            self.assertTrue(hasattr(response, 'admin_pdq_data'))
+            data_dict = response.admin_pdq_data
             self.assertEqual(
                 'allow_without_permissions',
-                getattr(response, 'decorator_name'),
+                data_dict['decorator_name'],
             )
-            self.assertTrue(
-                getattr(response, 'login_required'),
+            self.assertTrue(data_dict['login_required'])
+            self.assertEqual(
+                ('auth.add_foo', 'auth.change_foo'),
+                tuple(data_dict['one_of_permissions']),
             )
             self.assertEqual(
                 ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'one_of_permissions')),
+                tuple(data_dict['full_permissions']),
             )
-            self.assertEqual(
-                ('auth.add_foo', 'auth.change_foo'),
-                tuple(getattr(response, 'permissions')),
-            )
+            self.assertIsNone(data_dict['one_of_groups'])
+            self.assertIsNone(data_dict['full_groups'])
 
     def test__one_permission_required_mixin(self):
         """Bleeding tests for permission_required_one mixin, in project "Strict" mode."""
@@ -4529,10 +3992,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -4554,10 +4014,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -4579,10 +4036,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should fail and redirect to login.
@@ -4604,10 +4058,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -4629,10 +4080,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -4654,10 +4102,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should fail and redirect to login.
@@ -4679,10 +4124,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Strict" mode."""
@@ -4707,10 +4149,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with no permissions'):
             # Should fail and redirect to login.
@@ -4732,10 +4171,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one permission'):
             # Should fail and redirect to login.
@@ -4757,10 +4193,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full permissions'):
             # Should succeed and load as expected.
@@ -4782,10 +4215,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with incorrect groups'):
             # Should fail and redirect to login.
@@ -4807,10 +4237,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with one group'):
             # Should fail and redirect to login.
@@ -4832,10 +4259,7 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))
 
         with self.subTest('As user with full groups'):
             # Should succeed and load as expected.
@@ -4857,7 +4281,4 @@ class ReworkedMixinTestCase__Strict_Bleeding(MixinTextCaseBase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, 'decorator_name'))
-            self.assertFalse(hasattr(response, 'login_required'))
-            self.assertFalse(hasattr(response, 'one_of_permissions'))
-            self.assertFalse(hasattr(response, 'permissions'))
+            self.assertFalse(hasattr(response, 'admin_pdq_data'))

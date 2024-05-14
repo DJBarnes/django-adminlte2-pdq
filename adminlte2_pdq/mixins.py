@@ -19,19 +19,29 @@ class AllowAnonymousAccessMixin:
     General logic comes from the login_required project decorator.
     """
 
-    decorator_name = 'allow_anonymous_access'
-    login_required = False
-    permission_required = None
-    permission_required_one = None
+    # Pdq data processing dict.
+    admin_pdq_data = {
+        'decorator_name': 'allow_anonymous_access',
+        'login_required': False,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
 
 
 class LoginRequiredMixin(DjangoLoginRequiredMixin):
     """Mixin for views that defines login is required."""
 
-    decorator_name = 'login_required'
-    login_required = True  # Sets property that Sidebar Node can check.
-    permission_required = None
-    permission_required_one = None
+    # Pdq data processing dict.
+    admin_pdq_data = {
+        'decorator_name': 'login_required',
+        'login_required': True,  # Sets property that Sidebar Node can check.
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
 
 
 class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
@@ -40,21 +50,33 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
     General logic comes from the login_required project decorator.
     """
 
-    decorator_name = 'allow_without_permissions'
-    login_required = True
-    permission_required = None
-    permission_required_one = None
+    # Pdq data processing dict.
+    admin_pdq_data = {
+        'decorator_name': 'allow_without_permissions',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
 
 
 class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
     """Mixin for views that defines permissions are required."""
 
-    decorator_name = 'permission_required'
-    login_required = True
-    permission_required = None  # Must have all, same as Django
-    permission_required_one = None  # Must have one
-    group_required = None
-    group_required_one = None
+    # Values for user to override.
+    permission_required_one = None  # Must have one, if any.
+    permission_required = None  # Must have all, if any. Same as Django.
+
+    # Pdq data processing dict.
+    admin_pdq_data = {
+        'decorator_name': 'permission_required',
+        'login_required': True,
+        'one_of_permissions': permission_required_one,
+        'full_permissions': permission_required,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
 
     def dispatch(self, request, *args, **kwargs):
         # Override to always redirect to login in event of permission failure.
@@ -127,12 +149,19 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
 class GroupRequiredMixin(DjangoPermissionRequiredMixin):
     """Mixin for views that defines groups are required."""
 
-    decorator_name = 'group_required'
-    login_required = True
-    permission_required = None
-    permission_required_one = None
-    group_required = None  # Must have all, same as Django
-    group_required_one = None  # Must have one
+    # Values for user to override.
+    group_required_one = None  # Must have one, if any.
+    group_required = None  # Must have all, if any. Same as Django.
+
+    # Pdq data processing dict.
+    admin_pdq_data = {
+        'decorator_name': 'group_required',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': group_required_one,
+        'full_groups': group_required,
+    }
 
     def __init__(self, *args, **kwargs):
 

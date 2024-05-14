@@ -150,12 +150,18 @@ def allow_anonymous_access(function=None):
     Also adds the required logic to render the view on the sidebar template.
     """
 
+    pdq_data = {
+        'decorator_name': 'allow_anonymous_access',
+        'login_required': False,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
+
     def decorator(function):
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.decorator_name = 'allow_anonymous_access'
-        function.login_required = False
-        function.one_of_permissions = None
-        function.permissions = None
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         def wrap(request, *args, **kwargs):
@@ -164,10 +170,7 @@ def allow_anonymous_access(function=None):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'allow_anonymous_access'
-            function_view.login_required = False
-            function_view.one_of_permissions = None
-            function_view.permissions = None
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
@@ -199,13 +202,19 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
     * allow_without_permissions
     """
 
+    pdq_data = {
+        'decorator_name': 'login_required',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
+
     def decorator(function):
 
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.decorator_name = 'login_required'
-        function.login_required = True
-        function.one_of_permissions = None
-        function.permissions = None
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
@@ -215,10 +224,7 @@ def login_required(function=None, redirect_field_name='next', login_url=None):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'login_required'
-            function_view.login_required = True
-            function_view.one_of_permissions = None
-            function_view.permissions = None
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
@@ -235,12 +241,18 @@ def allow_without_permissions(function=None, redirect_field_name='next', login_u
     Also adds the required logic to render the view on the sidebar template.
     """
 
+    pdq_data = {
+        'decorator_name': 'allow_without_permissions',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
+
     def decorator(function):
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.decorator_name = 'allow_without_permissions'
-        function.login_required = True
-        function.one_of_permissions = None
-        function.permissions = None
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
@@ -250,10 +262,7 @@ def allow_without_permissions(function=None, redirect_field_name='next', login_u
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'allow_without_permissions'
-            function_view.login_required = True
-            function_view.one_of_permissions = None
-            function_view.permissions = None
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
@@ -276,13 +285,19 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
 
+    pdq_data = {
+        'decorator_name': 'permission_required',
+        'login_required': True,
+        'one_of_permissions': permissions,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
+
     def decorator(function):
 
         # Save values to view fetch function for middleware handling +  potential debugging.
-        function.decorator_name = 'permission_required_one'
-        function.login_required = True
-        function.one_of_permissions = permissions
-        function.permissions = None
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         @_one_of_permission_required(permission, login_url, raise_exception)
@@ -292,10 +307,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'permission_required_one'
-            function_view.login_required = True
-            function_view.one_of_permissions = permissions
-            function_view.permissions = None
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
@@ -316,6 +328,15 @@ def permission_required(permission, login_url=None, raise_exception=False):
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
 
+    pdq_data = {
+        'decorator_name': 'permission_required',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': permissions,
+        'one_of_groups': None,
+        'full_groups': None,
+    }
+
     def decorator(function):
 
         debug_print('\n\n\n\n')
@@ -324,10 +345,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
         debug_print('\n')
 
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.decorator_name = 'permission_required'
-        function.login_required = True
-        function.one_of_permissions = None
-        function.permissions = permissions
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         @django_permission_required(permission, login_url, raise_exception)
@@ -337,10 +355,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'permission_required'
-            function_view.login_required = True
-            function_view.one_of_permissions = None
-            function_view.permissions = permissions
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
@@ -363,15 +378,19 @@ def group_required_one(group, login_url=None, raise_exception=False):
     # Ensure consistent permission format.
     groups = _sanitize_permissions(group)
 
+    pdq_data = {
+        'decorator_name': 'group_required_one',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': groups,
+        'full_groups': None,
+    }
+
     def decorator(function):
 
         # Save values to view fetch function for middleware handling +  potential debugging.
-        function.decorator_name = 'group_required_one'
-        function.login_required = True
-        function.one_of_permissions = None
-        function.permissions = None
-        function.one_of_groups = groups
-        function.groups = None
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         @_group_required(group, login_url=login_url, raise_exception=raise_exception, require_all=False)
@@ -381,12 +400,7 @@ def group_required_one(group, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'group_required_one'
-            function_view.login_required = True
-            function_view.one_of_permissions = None
-            function_view.permissions = None
-            function_view.one_of_groups = groups
-            function_view.groups = None
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
@@ -407,15 +421,19 @@ def group_required(group, login_url=None, raise_exception=False):
     # Ensure consistent permission format.
     groups = _sanitize_permissions(group)
 
+    pdq_data = {
+        'decorator_name': 'group_required',
+        'login_required': True,
+        'one_of_permissions': None,
+        'full_permissions': None,
+        'one_of_groups': None,
+        'full_groups': groups,
+    }
+
     def decorator(function):
 
         # Save values to view fetch function for middleware handling +  potential debugging.
-        function.decorator_name = 'group_required'
-        function.login_required = True
-        function.one_of_permissions = None
-        function.permissions = None
-        function.one_of_groups = None
-        function.groups = groups
+        function.admin_pdq_data = pdq_data
 
         @wraps(function)
         @_group_required(group, login_url=login_url, raise_exception=raise_exception, require_all=True)
@@ -425,12 +443,7 @@ def group_required(group, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.decorator_name = 'group_required'
-            function_view.login_required = True
-            function_view.one_of_permissions = None
-            function_view.permissions = None
-            function_view.one_of_groups = None
-            function_view.groups = groups
+            function_view.admin_pdq_data = pdq_data
 
             return function_view
 
