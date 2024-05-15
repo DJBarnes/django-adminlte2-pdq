@@ -2,7 +2,10 @@
 Tests for Template Tags
 """
 
+# System Imports.
 from collections import namedtuple
+
+# Third-Party Imports.
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission, AnonymousUser
@@ -10,8 +13,11 @@ from django.forms import BaseFormSet
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 
+# Internal Imports.
 from adminlte2_pdq.templatetags import adminlte_filters, adminlte_tags
 
+
+# Module Variables.
 UserModel = get_user_model()
 
 
