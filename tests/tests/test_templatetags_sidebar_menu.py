@@ -2,16 +2,22 @@
 Tests for Template Tags
 """
 
+# System Imports.
+from unittest.mock import patch
+
+# Third-party Imports.
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Permission
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
-from unittest.mock import patch
 
+# Internal Imports.
 from adminlte2_pdq.templatetags import sidebar_menu
 
+
+# Module Variables.
 UserModel = get_user_model()
 
 

@@ -2,12 +2,16 @@
 Tests for Admin Menu Template Tags
 """
 
+# Third-Party Imports.
 from django.contrib.auth import get_user_model
 from django.template import Template, Context
 from django.test import TestCase, RequestFactory, override_settings
 
+# Internal Imports.
 from adminlte2_pdq.templatetags.admin.admin_menu import AdminMenu
 
+
+# Module Variables.
 UserModel = get_user_model()
 
 
