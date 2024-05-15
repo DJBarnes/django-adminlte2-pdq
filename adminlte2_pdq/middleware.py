@@ -133,15 +133,10 @@ class AuthMiddleware:
             (
                 # Literal permission view.
                 view_data["decorator_name"]
-                in ["permission_required", "group_required"]
+                == "permission_required"
             )
             # And no permission values defined.
-            and (
-                not view_data["one_of_permissions"]
-                and not view_data["full_permissions"]
-                and not view_data["one_of_groups"]
-                and not view_data["full_groups"]
-            )
+            and (not view_data["one_of_permissions"] and not view_data["full_permissions"])
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
@@ -224,8 +219,6 @@ class AuthMiddleware:
             "login_required": False,
             "one_of_permissions": None,
             "full_permissions": None,
-            "one_of_groups": None,
-            "full_groups": None,
         }
 
         # Try to get the view.
@@ -274,14 +267,10 @@ class AuthMiddleware:
                     # we seem unable to rely on the data dict for this.
                     data_dict["one_of_permissions"] = getattr(view_class, "permission_required_one", None)
                     data_dict["full_permissions"] = getattr(view_class, "permission_required", None)
-                    data_dict["one_of_groups"] = getattr(view_class, "group_required_one", None)
-                    data_dict["full_groups"] = getattr(view_class, "group_required", None)
 
                     # Update data on the class itself.
                     view_class.admin_pdq_data["one_of_permissions"] = data_dict["one_of_permissions"]
                     view_class.admin_pdq_data["full_permissions"] = data_dict["full_permissions"]
-                    view_class.admin_pdq_data["one_of_groups"] = data_dict["one_of_groups"]
-                    view_class.admin_pdq_data["full_groups"] = data_dict["full_groups"]
 
             else:
                 # Get function attributes.
@@ -295,8 +284,6 @@ class AuthMiddleware:
                     data_dict["login_required"] = pdq_data.get("login_required", False)
                     data_dict["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
                     data_dict["full_permissions"] = pdq_data.get("full_permissions", [])
-                    data_dict["one_of_groups"] = pdq_data.get("one_of_groups", [])
-                    data_dict["full_groups"] = pdq_data.get("full_groups", [])
 
         except Http404:
             data_dict.update({"resolver": None})
@@ -395,8 +382,6 @@ class AuthMiddleware:
                 or view_data["login_required"]
                 or view_data["one_of_permissions"]
                 or view_data["full_permissions"]
-                or view_data["one_of_groups"]
-                or view_data["full_groups"]
             ):
                 debug_print(debug_success.format("Passed permission checks OR url was exempt. Proceeding..."))
                 debug_print("\n\n")

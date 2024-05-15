@@ -10,8 +10,6 @@ from django.views.generic import TemplateView
 from adminlte2_pdq.decorators import (
     allow_anonymous_access,
     allow_without_permissions,
-    group_required_one,
-    group_required,
     login_required,
     permission_required,
     permission_required_one,
@@ -21,7 +19,6 @@ from adminlte2_pdq.mixins import (
     AllowWithoutPermissionsMixin,
     LoginRequiredMixin,
     PermissionRequiredMixin,
-    GroupRequiredMixin,
 )
 
 
@@ -61,18 +58,6 @@ def one_permission_required_view(request):
 def full_permissions_required_view(request):
     """Testing view with permission requirement."""
     return render(request, "full_permissions_required_view.html")
-
-
-@group_required_one(["add_bar", "change_bar"])
-def one_group_required_view(request):
-    """Testing view with "one of groups" requirement."""
-    return render(request, "one_group_required_view.html")
-
-
-@group_required(["add_bar", "change_bar"])
-def full_groups_required_view(request):
-    """Testing view with group requirement."""
-    return render(request, "full_groups_required_view.html")
 
 
 # endregion Function Views
@@ -119,22 +104,6 @@ class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     permission_required = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "full_permissions_required_view.html"
-
-
-class OneGroupRequiredView(GroupRequiredMixin, TemplateView):
-    """Testing view with permission requirement."""
-
-    group_required_one = ["add_bar", "change_bar"]
-
-    template_name = "one_group_required_view.html"
-
-
-class FullGroupsRequiredView(GroupRequiredMixin, TemplateView):
-    """Testing view with permission requirement."""
-
-    group_required = ["add_bar", "change_bar"]
-
-    template_name = "full_groups_required_view.html"
 
 
 # endregion Class Views

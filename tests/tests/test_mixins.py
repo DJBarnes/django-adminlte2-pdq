@@ -629,8 +629,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -654,8 +652,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -679,8 +675,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -704,8 +698,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -729,8 +721,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full group"):
             # Should succeed and load as expected.
@@ -754,8 +744,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Loose" mode."""
@@ -904,8 +892,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -932,8 +918,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -979,8 +963,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -1007,8 +989,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Loose" mode."""
@@ -1095,8 +1075,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -1160,302 +1138,6 @@ class MixinTestCase__Standard(MixinTextCaseBase):
             self.assertEqual(
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
-            )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
-
-    def test__one_group_required_mixin(self):
-        """Test for group_required_one mixin, in project "Loose" mode."""
-
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.anonymous_user,
-                expected_status=200,
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
-
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.none_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.partial_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with full permissions"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.full_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
-
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.incorrect_group_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one group"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.partial_group_user,
-                expected_status=200,
-                expected_title="One Group Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Group Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual("group_required", data_dict["decorator_name"])
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
-            self.assertEqual(
-                ("add_bar", "change_bar"),
-                tuple(data_dict["one_of_groups"]),
-            )
-            self.assertIsNone(data_dict["full_groups"])
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.full_group_user,
-                expected_status=200,
-                expected_title="One Group Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Group Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual("group_required", data_dict["decorator_name"])
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
-            self.assertEqual(
-                ("add_bar", "change_bar"),
-                tuple(data_dict["one_of_groups"]),
-            )
-            self.assertIsNone(data_dict["full_groups"])
-
-    def test__full_groups_required_mixin(self):
-        """Test for group_required mixin, in project "Loose" mode."""
-
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.anonymous_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.none_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.partial_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with full permissions"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.full_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.incorrect_group_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.partial_group_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.full_group_user,
-                expected_status=200,
-                expected_title="Full Groups Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Full Groups Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "group_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertEqual(
-                ("add_bar", "change_bar"),
-                tuple(data_dict["full_groups"]),
             )
 
 
@@ -1636,8 +1318,6 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -1667,8 +1347,6 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             #  Verify we get the expected page.
@@ -1696,8 +1374,6 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -1727,8 +1403,6 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -1758,8 +1432,6 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             #  Verify we get the expected page.
@@ -1787,8 +1459,6 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__bleeding_conflicting_permissions(self):
         """Bleeding tests for allow_without_permissions mixin, in project "Loose" mode."""
@@ -2381,8 +2051,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
@@ -2406,8 +2074,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -2431,8 +2097,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -2456,8 +2120,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -2481,8 +2143,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -2506,8 +2166,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -2531,8 +2189,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertFalse(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Strict" mode.
@@ -2660,8 +2316,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -2685,8 +2339,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -2710,8 +2362,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -2735,8 +2385,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -2760,8 +2408,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -2785,8 +2431,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertTrue(data_dict["login_required"])
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Strict" mode."""
@@ -2855,8 +2499,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -2883,8 +2525,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -2930,8 +2570,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -2958,8 +2596,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
                 tuple(data_dict["one_of_permissions"]),
             )
             self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Strict" mode."""
@@ -3046,8 +2682,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -3111,308 +2745,6 @@ class MixinTestCase__Strict(MixinTextCaseBase):
             self.assertEqual(
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
-            )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
-
-    def test__one_group_required_mixin(self):
-        """Test for group_required_one mixin, in project "Strict" mode."""
-
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.anonymous_user,
-                expected_status=200,
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
-
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.none_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.partial_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with full permissions"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.full_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
-
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.incorrect_group_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one group"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.partial_group_user,
-                expected_status=200,
-                expected_title="One Group Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Group Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "group_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
-            self.assertEqual(
-                ("add_bar", "change_bar"),
-                tuple(data_dict["one_of_groups"]),
-            )
-            self.assertIsNone(data_dict["full_groups"])
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-one-group-required",
-                user=self.full_group_user,
-                expected_status=200,
-                expected_title="One Group Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Group Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "group_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
-            self.assertEqual(
-                ("add_bar", "change_bar"),
-                tuple(data_dict["one_of_groups"]),
-            )
-            self.assertIsNone(data_dict["full_groups"])
-
-    def test__full_groups_required_mixin(self):
-        """Test for group_required mixin, in project "Strict" mode."""
-
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.anonymous_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.none_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.partial_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with full permissions"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.full_perm_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.incorrect_group_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.partial_group_user,
-                expected_status=200,
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:class-full-groups-required",
-                user=self.full_group_user,
-                expected_status=200,
-                expected_title="Full Groups Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Full Groups Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "group_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertEqual(
-                ("add_bar", "change_bar"),
-                tuple(data_dict["full_groups"]),
             )
 
 
@@ -3521,8 +2853,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -3552,8 +2882,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -3583,8 +2911,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -3611,8 +2937,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -3642,8 +2966,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -3673,8 +2995,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__bleeding_login_with_permissions(self):
         """Test for login_required mixin, in project "Strict" mode.
@@ -3808,8 +3128,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -3839,8 +3157,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -3870,8 +3186,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -3901,8 +3215,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -3932,8 +3244,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -3963,8 +3273,6 @@ class MixinTestCase__StrictBleeding(MixinTextCaseBase):
                 ("auth.add_foo", "auth.change_foo"),
                 tuple(data_dict["full_permissions"]),
             )
-            self.assertIsNone(data_dict["one_of_groups"])
-            self.assertIsNone(data_dict["full_groups"])
 
     def test__one_permission_required_mixin(self):
         """Bleeding tests for permission_required_one mixin, in project "Strict" mode."""
