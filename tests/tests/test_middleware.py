@@ -2,27 +2,30 @@
 Tests for Middleware
 """
 
+# System Imports.
 import warnings
+from unittest.mock import patch
+
+# Third-Party Imports.
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
 from django.test import override_settings, TestCase
 from django.urls import reverse
-from unittest.mock import patch
 
+# Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 
 
+# Module Variables.
 UserModel = get_user_model()  # pylint: disable=invalid-name
-
 UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:demo-css"]
 UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ["adminlte2_pdq:demo-css"]
 
 
-class MiddlewareTestCase(TestCase):
-    """
-    Test Middleware
-    """
+class MiddlewareBaseTestCase(TestCase):
+    """Setup class for Middleware TestCases."""
 
     # region Expected Test Messages
 
@@ -39,9 +42,6 @@ class MiddlewareTestCase(TestCase):
 
     # endregion Expected Test Messages
 
-    # |-------------------------------------------------------------------------
-    # | Setup
-    # |-------------------------------------------------------------------------
     def setUp(self):
         self.test_anonymous_user = AnonymousUser()
 
@@ -54,272 +54,311 @@ class MiddlewareTestCase(TestCase):
         for permission in all_permissions:
             self.test_user_w_perms.user_permissions.add(permission)
 
-    # |-------------------------------------------------------------------------
-    # | Test middleware works as intended
-    # |-------------------------------------------------------------------------
 
-    # Test format is as follows:
-    # def test_middleware_{result}_{user}_{login}_{strict}_{login_WL}_{strict_WL}
+@override_settings(DEBUG=True)
+class MiddlewareTestCase__Standard(MiddlewareBaseTestCase):
+    """Test Middleware handling when in "LOOSE" authentication mode."""
 
-    # Additional details
-    # {login} means that the LOGIN_REQUIRED middleware is active.
-    # {strict} means that the STRICT_POLICY middleware is active.
-    # {login_WL} means that the node's route is listed in the LOGIN_EXEMPT_WHITELIST - omitted means it isn't.
-    # {strict_WL} means that the node's route is listed in the STRICT_POLICY_WHITELIST - omitted means it isn't.
+    def test__no_whitelists(self):
+        """Test when "loose" mode and no whitelists set."""
 
-    # **************************************************************************
-    # Anonymous User
-    # **************************************************************************
+        with self.subTest("As anonymous user"):
+            # Should succeed and load as expected.
 
-    def test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off(self):
-        """test_middleware_allows_when_user_anonymous_login_off_strict_off_login_wl_off_strict_wl_off"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    def test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off(self):
-        """test_middleware_blocks_when_user_anonymous_login_on_strict_off_login_wl_off_strict_wl_off"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Login")
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
-    def test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off(self):
-        """test_middleware_allows_when_user_anonymous_login_on_strict_off_login_wl_on_strict_wl_off"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    @override_settings(DEBUG=True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    def test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off(self):
-        """test_middleware_blocks_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_off"""
-        with warnings.catch_warnings(record=True) as wa:
-
+            # Process response.
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "Home")
-            self.assertEqual(len(wa), 1)
-            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+            self.assertContains(response, "<h1>Demo CSS</h1>")
 
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
-    def test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on(self):
-        """test_middleware_allows_when_user_anonymous_login_off_strict_on_login_wl_off_strict_wl_on"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
+        with self.subTest("As user with full permissions"):
+            # Should succeed and load as expected.
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off(self):
-        """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_off"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Login")
-
-    @override_settings(DEBUG=True)
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
-    def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off(self):
-        """test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_off"""
-        # NOTE: This test goes to demo-css, fails the strict policy, then goes to home.
-        # Home is a new request that fails the login required being on and thus redirect to login page.
-        with warnings.catch_warnings(record=True) as wa:
-
+            # Process response.
+            self.client.force_login(self.test_user_w_perms)
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
+
+@override_settings(DEBUG=True)
+@patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+class MiddlewareTestCase__LoginRequired(MiddlewareBaseTestCase):
+    """Test Middleware handling when in "LOGIN_REQUIRED" authentication mode."""
+
+    def test__verify_patch_settings(self):
+        """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
+
+        # Verify values imported from middleware file.
+        # We don't use constants.py values because the above settings techncially don't override such.
+        # Plus this test is a middleware test so it's probably fine.
+        from adminlte2_pdq.middleware import (
+            LOGIN_REQUIRED,
+            STRICT_POLICY,
+            LOGIN_EXEMPT_WHITELIST,
+            STRICT_POLICY_WHITELIST,
+        )
+
+        self.assertTrue(LOGIN_REQUIRED)
+        self.assertFalse(STRICT_POLICY)
+        self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
+        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+
+    def test__no_whitelists(self):
+        """Test when "LOGIN_REQUIRED" mode and no whitelists set."""
+
+        with self.subTest("As anonymous user"):
+            # Should fail and redirect to login.
+
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Login")
-            self.assertEqual(len(wa), 1)
-            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
-    def test_middleware_blocks_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on(self):
-        """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_off_strict_wl_on"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Login")
+        with self.subTest("As user with full permissions"):
+            # Should succeed and load as expected.
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
-    def test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on(self):
-        """test_middleware_allows_when_user_anonymous_login_on_strict_on_login_wl_on_strict_wl_on"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    # **************************************************************************
-    # Logged In User - All Perms
-    # **************************************************************************
-
-    def test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off(self):
-        """test_middleware_allows_when_user_logged_in_login_off_strict_off_login_wl_off_strict_wl_off"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off(self):
-        """test_middleware_blocks_when_user_logged_in_login_on_strict_off_login_wl_off_strict_wl_off"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
-    def test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off(self):
-        """test_middleware_allows_when_user_logged_in_login_on_strict_off_login_wl_on_strict_wl_off"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    @override_settings(DEBUG=True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off(self):
-        """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off"""
-        with warnings.catch_warnings(record=True) as wa:
+            # Process response.
             self.client.force_login(self.test_user_w_perms)
-
             response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
+    def test__with_login_whitelist(self):
+        """Test when "LOGIN_REQUIRED" mode and login whitelist is set."""
+
+        with self.subTest("As anonymous user"):
+            # Should succeed and load as expected.
+
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
+        with self.subTest("As user with full permissions"):
+            # Should succeed and load as expected.
+
+            # Process response.
+            self.client.force_login(self.test_user_w_perms)
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
+
+# TODO: Even though the value in constants should always set LOGIN_REQUIRED = True when in STRICT mode,
+#       this patch doesn't seem to. Not sure if there's a better way to handle overriding the settings.
+@override_settings(DEBUG=True)
+@patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+class MiddlewareTestCase__Strict(MiddlewareBaseTestCase):
+    """Test Middleware handling when in "STRICT" authentication mode."""
+
+    def test__verify_patch_settings(self):
+        """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
+
+        # Verify values imported from middleware file.
+        # We don't use constants.py values because the above settings techncially don't override such.
+        # Plus this test is a middleware test so it's probably fine.
+        from adminlte2_pdq.middleware import (
+            LOGIN_REQUIRED,
+            STRICT_POLICY,
+            LOGIN_EXEMPT_WHITELIST,
+            STRICT_POLICY_WHITELIST,
+        )
+
+        self.assertTrue(LOGIN_REQUIRED)
+        self.assertTrue(STRICT_POLICY)
+        self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
+        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+
+    def test__no_whitelists(self):
+        """Test when "STRICT" mode and no whitelist is set."""
+
+        with self.subTest("As anonymous user"):
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Login")
+
+        with self.subTest("As user with full permissions"):
+            with warnings.catch_warnings(record=True) as wa:
+                # Process response.
+                self.client.force_login(self.test_user_w_perms)
+                response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+                # Verify values associated with returned view.
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, "Home")
+                self.assertEqual(len(wa), 1)
+                self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+
+    def test__no_whitelists__admin_page(self):
+        """Test when "STRICT" mode and accessing the admin page."""
+
+        with self.subTest("As user with full permissions"):
+            # Process response.
+            self.test_user_w_perms.is_staff = True
+            self.test_user_w_perms.save()
+
+            self.client.force_login(self.test_user_w_perms)
+            response = self.client.get(reverse("admin:auth_user_changelist"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Select user to change")
+
+    def test__no_whitelists__unknown_page(self):
+        """Test when "STRICT" mode and accessing a "bad" url."""
+
+        with self.subTest("As user with full permissions"):
+            # Process response.
+            self.client.force_login(self.test_user_w_perms)
+            response = self.client.get("unknown/route/", follow=True)
+
+            # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "Home")
-            self.assertEqual(len(wa), 1)
-            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
-    def test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on(self):
-        """test_middleware_allows_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_on"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
-
-    @override_settings(DEBUG=True)
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off(self):
-        """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_off"""
-        with warnings.catch_warnings(record=True) as wa:
-            self.client.force_login(self.test_user_w_perms)
-
-            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "Home")
-            self.assertEqual(len(wa), 1)
-            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
-
-    @override_settings(DEBUG=True)
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
-    def test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off(self):
-        """test_middleware_blocks_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_off"""
-        with warnings.catch_warnings(record=True) as wa:
-            self.client.force_login(self.test_user_w_perms)
+    def test__with_login_whitelist(self):
+        """Test when "STRICT" mode and login whitelist is set."""
 
-            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-            self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "Home")
-            self.assertEqual(len(wa), 1)
-            self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+        with self.subTest("As anonymous user"):
+            # Should go to demo-css, fails the strict policy, then go to home.
+            # Home is a new request that fails the login required being on and thus redirect to login page.
+            with warnings.catch_warnings(record=True) as wa:
+                # Process response.
+                response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+                self.assertEqual(response.status_code, 200)
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+                # Verify values associated with returned view.
+                self.assertContains(response, "Login")
+                self.assertEqual(len(wa), 1)
+                self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+
+        with self.subTest("As user with full permissions"):
+            # Should go to demo-css, fail the strict policy, then go to home.
+            # Home is a new request that succeeds.
+            with warnings.catch_warnings(record=True) as wa:
+                self.client.force_login(self.test_user_w_perms)
+
+                response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+                self.assertEqual(response.status_code, 200)
+                self.assertContains(response, "Home")
+                self.assertEqual(len(wa), 1)
+                self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
-    def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on(self):
-        """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_off_strict_wl_on"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
+    def test__with_permission_whitelist(self):
+        """Test when "STRICT" mode and permission whitelist is set."""
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+        with self.subTest("As anonymous user"):
+            # Should fail and redirect to login.
+
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Login")
+
+        with self.subTest("As user with full permissions"):
+            # Should succeed and load as expected.
+
+            # Process response.
+            self.client.force_login(self.test_user_w_perms)
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
-    def test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on(self):
-        """test_middleware_allows_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
+    def test__with_both_whitelists(self):
+        """Test when "STRICT" mode and both whitelists are set."""
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/demo-css/")  # Pretend the demo-css route is a media file.
-    def test_middleware_allows_when_media_url_defined_login_on_strict_on_login_wl_on_strict_wl_on(self):
-        """test_middleware_allows_when_media_url_defined_login_on_strict_on_login_wl_on_strict_wl_on"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
+        with self.subTest("As anonymous user"):
+            # Should succeed and load as expected.
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.WEBSOCKET_ROUTE", "/demo-css/")  # Pretend the demo-css route is a websocket file.
-    def test_middleware_allows_when_websocket_url_defined_login_on_strict_on_login_wl_on_strict_wl_on(self):
-        """test_middleware_allows_when_websocket_url_defined_login_on_strict_on_login_wl_on_strict_wl_on"""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<h1>Demo CSS</h1>")
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
+        with self.subTest("As user with full permissions"):
+            # Should succeed and load as expected.
+
+            # Process response.
+            self.client.force_login(self.test_user_w_perms)
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
     @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/")  # Pretend the root url is a media file.
-    def test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on(
-        self,
-    ):
-        """test_middleware_redirects_to_login_when_media_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on"""
-        # MEDIA_URL should not be allowed to be the root of a website, thus it can not skip the login required check.
-        response = self.client.get("/", follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Login")
+    def test__no_whitelists_and_home_page_is_media_route(self):
+        # MEDIA_URL should not be allowed to be the root of a website, thus can not skip the login required check.
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+        with self.subTest("As anonymous user"):
+            # Should fail and redirect to login.
+
+            # Process response.
+            response = self.client.get("/", follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Login")
+
+    @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/demo-css/")  # Pretend the demo-css route is a media file.
+    def test__no_whitelists_and_misc_page_is_media_route(self):
+
+        with self.subTest("As anonymous user"):
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
     @patch("adminlte2_pdq.middleware.WEBSOCKET_ROUTE", "/")  # Pretend the root url is a websocket file.
-    def test_middleware_redirects_to_login_when_websocket_url_defined_as_root_login_on_strict_on_login_wl_on_strict_wl_on(
-        self,
-    ):
-        """test_middleware_redirects_to_login_when_websocket_url_defined_as_root__login_on_strict_on_login_wl_on_strict_wl_on"""
-        # WEBSOCKET_URL should not be allowed to be the root of a website, thus it can not skip the login required check.
-        response = self.client.get("/", follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Login")
+    def test__no_whitelists_and_home_page_is_websocket_route(self):
+        # WEBSOCKET_URL should not be allowed to be the root of a website, thus can not skip the login required check.
 
-    # **************************************************************************
-    # Logged In User - All Perms - Staff Status - Can see Admin page.
-    # **************************************************************************
+        with self.subTest("As anonymous user"):
+            # Should fail and redirect to login.
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    def test_middleware_allows_admin_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on(self):
-        """test_middleware_allows_admin_when_user_logged_in_login_on_strict_on_login_wl_on_strict_wl_on"""
-        self.test_user_w_perms.is_staff = True
-        self.test_user_w_perms.save()
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get(reverse("admin:auth_user_changelist"), follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Select user to change")
+            # Process response.
+            response = self.client.get("/", follow=True)
 
-    # **************************************************************************
-    # Logged In User - All Perms - Visiting 404
-    # **************************************************************************
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Login")
 
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    def test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown(self):
-        """test_middleware_blocks_when_user_logged_in_login_off_strict_on_login_wl_off_strict_wl_off_route_unknown"""
-        self.client.force_login(self.test_user_w_perms)
-        response = self.client.get("unknown/route/", follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Home")
+    @patch("adminlte2_pdq.middleware.WEBSOCKET_ROUTE", "/demo-css/")  # Pretend the demo-css route is a websocket file.
+    def test__no_whitelists_and_misc_page_is_websocket_route(self):
+
+        with self.subTest("As anonymous user"):
+            # Process response.
+            response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
