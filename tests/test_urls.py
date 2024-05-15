@@ -42,16 +42,6 @@ urlpatterns = [
                     views.full_permissions_required_view,
                     name="function-full-permissions-required",
                 ),
-                path(
-                    "one_group/",
-                    views.one_group_required_view,
-                    name="function-one-group-required",
-                ),
-                path(
-                    "full_group/",
-                    views.full_groups_required_view,
-                    name="function-full-groups-required",
-                ),
             ]
         ),
     ),
@@ -85,16 +75,6 @@ urlpatterns = [
                     "full_permissions/",
                     views.FullPermissionsRequiredView.as_view(),
                     name="class-full-permissions-required",
-                ),
-                path(
-                    "one_group/",
-                    views.OneGroupRequiredView.as_view(),
-                    name="class-one-group-required",
-                ),
-                path(
-                    "full_groups/",
-                    views.FullGroupsRequiredView.as_view(),
-                    name="class-full-groups-required",
                 ),
             ]
         ),
