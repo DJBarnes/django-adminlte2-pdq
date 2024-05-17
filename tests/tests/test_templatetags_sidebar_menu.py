@@ -202,7 +202,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertEqual([], one_of_permissions)
             self.assertTrue(login_required)
 
-        with self.subTest("Node pulls login_required from view when both are set"):
+        with self.subTest("Node pulls login_required from node when both are set"):
             # Define node.
             node = {
                 "route": "adminlte2_pdq:sample_form",
@@ -217,7 +217,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             # Verify returned data.
             self.assertEqual([], permissions)
             self.assertEqual([], one_of_permissions)
-            self.assertTrue(login_required)
+            self.assertFalse(login_required)
 
         with self.subTest("Node pulls login_required from view with hash route and valid url"):
             # Define node.
@@ -323,13 +323,13 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("auth.add_permission", one_of_permissions)
             self.assertTrue(login_required)
 
-        with self.subTest("Node pulls permissions from view when both are set"):
+        with self.subTest("Node pulls permissions from node when both are set"):
             # Define node.
             node = {
                 "route": "adminlte2_pdq:sample2",
                 "text": "Sample2",
                 "icon": "fa fa-building",
-                "one_of_permissions": ["add_sample2", "update_sample2"],
+                "one_of_permissions": [],
             }
 
             # Call function to test.
@@ -444,13 +444,13 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertEqual([], one_of_permissions)
             self.assertTrue(login_required)
 
-        with self.subTest("Node pulls permissions from view when both are set"):
+        with self.subTest("Node pulls permissions from node when both are set"):
             # Define node.
             node = {
                 "route": "adminlte2_pdq:sample1",
                 "text": "Sample1",
                 "icon": "fa fa-group",
-                "permissions": ["add_sample1", "update_sample1"],
+                "permissions": [],
             }
 
             # Call function to test.
