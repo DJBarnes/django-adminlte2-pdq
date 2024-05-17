@@ -31,7 +31,7 @@ class TemplateTagAdminTestCase(TestCase):
         }
 
         context = Context({"app": app})
-        template_to_render = Template("{% load admin.admin_index %}" "{% index_app_display %}")
+        template_to_render = Template("{% load admin.admin_index %}{% index_app_display %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -50,7 +50,7 @@ class TemplateTagAdminTestCase(TestCase):
         }
 
         context = Context({"app": app})
-        template_to_render = Template("{% load admin.admin_index %}" "{% index_app_display %}")
+        template_to_render = Template("{% load admin.admin_index %}{% index_app_display %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -66,7 +66,7 @@ class TemplateTagAdminTestCase(TestCase):
         default tabs to show"""
 
         context = Context({})
-        template_to_render = Template("{% load admin.admin_header %}" "{% show_control_sidebar_button %}")
+        template_to_render = Template("{% load admin.admin_header %}{% show_control_sidebar_button %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -81,7 +81,7 @@ class TemplateTagAdminTestCase(TestCase):
         tabs to show"""
 
         context = Context({})
-        template_to_render = Template("{% load admin.admin_header %}" "{% show_control_sidebar_button %}")
+        template_to_render = Template("{% load admin.admin_header %}{% show_control_sidebar_button %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -94,7 +94,7 @@ class TemplateTagAdminTestCase(TestCase):
     def test_show_control_sidebar_button_is_missing_when_settings_hides_all_tabs_to_show(self):
         """Test show control sidebar button is missing when settings hides all tabs to show"""
         context = Context({})
-        template_to_render = Template("{% load admin.admin_header %}" "{% show_control_sidebar_button %}")
+        template_to_render = Template("{% load admin.admin_header %}{% show_control_sidebar_button %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -120,7 +120,7 @@ class TemplateTagAdminTestCase(TestCase):
             }
         )
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_recent_activity_tab_pane %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_recent_activity_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -141,7 +141,7 @@ class TemplateTagAdminTestCase(TestCase):
             }
         )
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_recent_activity_tab_pane %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_recent_activity_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -157,7 +157,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({"user": user})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_recent_activity_tab_pane %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_recent_activity_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -174,7 +174,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_settings_tab_pane %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_settings_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -188,7 +188,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_settings_tab_pane %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_settings_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -202,7 +202,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_settings_tab_pane %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_settings_tab_pane %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -219,7 +219,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_extra_tab_panes %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_extra_tab_panes %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -232,7 +232,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_extra_tab_panes %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_extra_tab_panes %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -245,7 +245,7 @@ class TemplateTagAdminTestCase(TestCase):
 
         context = Context({})
         template_to_render = Template(
-            "{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_extra_tab_panes %}"
+            "{% load admin.admin_control_sidebar %}{% show_control_sidebar_extra_tab_panes %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -262,7 +262,7 @@ class TemplateTagAdminTestCase(TestCase):
         there is more than one"""
 
         context = Context({})
-        template_to_render = Template("{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_tabs %}")
+        template_to_render = Template("{% load admin.admin_control_sidebar %}{% show_control_sidebar_tabs %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -273,7 +273,7 @@ class TemplateTagAdminTestCase(TestCase):
         not as a tab when there is only one"""
 
         context = Context({})
-        template_to_render = Template("{% load admin.admin_control_sidebar %}" "{% show_control_sidebar_tabs %}")
+        template_to_render = Template("{% load admin.admin_control_sidebar %}{% show_control_sidebar_tabs %}")
 
         rendered_template = template_to_render.render(context)
 

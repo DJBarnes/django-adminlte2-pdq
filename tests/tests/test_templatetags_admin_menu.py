@@ -43,7 +43,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "user": user,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -61,7 +61,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "user": user,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -99,7 +99,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "available_apps": available_apps,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -142,7 +142,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "available_apps": available_apps,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -185,7 +185,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "available_apps": available_apps,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -212,7 +212,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 "user": user,
             }
         )
-        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -233,7 +233,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 "user": user,
             }
         )
-        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -252,7 +252,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "request": request,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_tree_icon %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_tree_icon %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -270,7 +270,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "request": request,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_tree_icon %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_tree_icon %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -305,7 +305,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "app": app,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_app_icon %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_app_icon %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -339,7 +339,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "request": request,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_app_icon %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_app_icon %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -368,7 +368,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "model": model,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_model_icon %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_model_icon %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -396,7 +396,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "model": model,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_model_icon %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_model_icon %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -433,7 +433,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "user": user,
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -475,7 +475,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     ],
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -529,7 +529,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     ],
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -561,7 +561,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 "user": user,
             }
         )
-        template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -606,7 +606,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     ],
                 }
             )
-            template_to_render = Template("{% load admin.admin_menu %}" "{% render_admin_menu %}")
+            template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
             rendered_template = template_to_render.render(context)
 

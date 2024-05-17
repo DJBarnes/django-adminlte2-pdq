@@ -592,7 +592,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -621,7 +621,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -662,7 +662,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -691,7 +691,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -725,7 +725,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -746,7 +746,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -765,7 +765,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -784,7 +784,7 @@ class TemplateTagTestCase(TestCase):
             {"test_form": test_form, "test_form2": test_form_2, "adminlte2_form_list": [test_form, test_form_2]}
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -803,7 +803,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form_error_summary %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form_error_summary %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -823,7 +823,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_horizontal_form form %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_horizontal_form form %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -839,7 +839,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"form": form})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_horizontal_form form %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_horizontal_form form %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -863,7 +863,7 @@ class TemplateTagTestCase(TestCase):
             }
         )
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form form %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form form %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -879,7 +879,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"form": form})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% render_form form %}")
+        template_to_render = Template("{% load adminlte_tags %}{% render_form form %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -913,7 +913,7 @@ class TemplateTagTestCase(TestCase):
         )
 
         template_to_render = Template(
-            "{% load adminlte_tags %}" "{% render_horizontal_formset formset 'Test Formset Section' %}"
+            "{% load adminlte_tags %}{% render_horizontal_formset formset 'Test Formset Section' %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -937,7 +937,7 @@ class TemplateTagTestCase(TestCase):
         """Test get logout url returns correct url when there is an entry in settings"""
         context = Context({})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% get_logout_url %}")
+        template_to_render = Template("{% load adminlte_tags %}{% get_logout_url %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -949,7 +949,7 @@ class TemplateTagTestCase(TestCase):
         the settings and default is used"""
         context = Context({})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% get_logout_url %}")
+        template_to_render = Template("{% load adminlte_tags %}{% get_logout_url %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -969,7 +969,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": self.superuser, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% get_avatar_url user=user %}")
+        template_to_render = Template("{% load adminlte_tags %}{% get_avatar_url user=user %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -987,7 +987,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": user, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% get_avatar_url user=user %}")
+        template_to_render = Template("{% load adminlte_tags %}{% get_avatar_url user=user %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -1006,7 +1006,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": self.superuser, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials user=user %}")
+        template_to_render = Template("{% load adminlte_tags %}{% user_image_initials user=user %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -1052,7 +1052,7 @@ class TemplateTagTestCase(TestCase):
         context = Context({"user": self.superuser, "request": request})
 
         template_to_render = Template(
-            "{% load adminlte_tags %}" "{% user_image_initials first_name='John' last_name='Doe' %}"
+            "{% load adminlte_tags %}{% user_image_initials first_name='John' last_name='Doe' %}"
         )
 
         rendered_template = template_to_render.render(context)
@@ -1078,7 +1078,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": self.superuser, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials first_name='John' %}")
+        template_to_render = Template("{% load adminlte_tags %}{% user_image_initials first_name='John' %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -1103,7 +1103,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": self.superuser, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials last_name='Doe' %}")
+        template_to_render = Template("{% load adminlte_tags %}{% user_image_initials last_name='Doe' %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -1128,7 +1128,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": self.superuser, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials initials='J2D' %}")
+        template_to_render = Template("{% load adminlte_tags %}{% user_image_initials initials='J2D' %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -1153,7 +1153,7 @@ class TemplateTagTestCase(TestCase):
 
         context = Context({"user": self.superuser, "request": request})
 
-        template_to_render = Template("{% load adminlte_tags %}" "{% user_image_initials %}")
+        template_to_render = Template("{% load adminlte_tags %}{% user_image_initials %}")
 
         rendered_template = template_to_render.render(context)
 
