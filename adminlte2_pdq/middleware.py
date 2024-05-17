@@ -31,7 +31,7 @@ from .constants import (
     TEXT_RESET,
     TEXT_YELLOW,
 )
-from .utlis import debug_print
+from .utils import debug_print
 
 
 # Module Variables.

@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import (
 from django.core.exceptions import PermissionDenied
 
 # Internal Imports.
-from .utlis import debug_print
+from .utils import debug_print
 
 
 # region Utility Functions
