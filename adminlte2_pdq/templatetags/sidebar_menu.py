@@ -83,7 +83,7 @@ def get_permissions_from_view(view):
     """Get the permissions and login_required from a view"""
     view_data = {
         "decorator_name": "",
-        "login_required": False,
+        "login_required": None,
         "one_of_permissions": None,
         "full_permissions": None,
         "one_of_groups": None,
@@ -95,7 +95,7 @@ def get_permissions_from_view(view):
         pdq_data = getattr(view_class, "admin_pdq_data", {})
 
         view_data["decorator_name"] = pdq_data.get("decorator_name", "")
-        view_data["login_required"] = pdq_data.get("login_required", False)
+        view_data["login_required"] = pdq_data.get("login_required", None)
 
         view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
         view_data["full_permissions"] = pdq_data.get("full_permissions", [])
@@ -106,7 +106,7 @@ def get_permissions_from_view(view):
         pdq_data = getattr(view.func, "admin_pdq_data", {})
 
         view_data["decorator_name"] = pdq_data.get("decorator_name", "")
-        view_data["login_required"] = pdq_data.get("login_required", False)
+        view_data["login_required"] = pdq_data.get("login_required", None)
 
         view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
         view_data["full_permissions"] = pdq_data.get("full_permissions", [])
@@ -152,17 +152,16 @@ def get_permissions_from_node(node):
         view_one_of_permissions = view_data["one_of_permissions"]
         view_full_permissions = view_data["full_permissions"]
 
-    # Since this is a boolean, order doesn't really matter.
-    # All that matters is that one of the indicated values requires a login at all.
-    login_required = (
-        # Project settings values override everything.
-        STRICT_POLICY
-        or LOGIN_REQUIRED
+    # Order matters here. A node can override a view and the project settings.
+    # A view can override project settings.
+    # So, need to check node first, then view, and fall back to global if neither of those are set.
+    login_required = node_login_required
+    if login_required is None:
         # Or view decorator/mixin requires login.
-        or view_login_required
-        # Or menu "node" requires login.
-        or node_login_required
-    )
+        login_required = view_login_required
+    if login_required is None:
+        # Project settings values checked last.
+        login_required = STRICT_POLICY or LOGIN_REQUIRED
 
     # For these, take the property from the node first,
     # fallback to view, and fallback again to default.
