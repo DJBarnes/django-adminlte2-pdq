@@ -25,6 +25,21 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         return user
 
+    def normalize_html(self, html_string):
+        """Normalize HTML string to remove newlines and extra whitespace"""
+        return ' '.join(
+            html_string.replace("\n", "").split()
+        ).replace(
+            " >", ">"
+        # TODO: Consider also adding the following to remove whitespace between tags.
+        # ).replace(
+        #     "> ", ">"
+        # ).replace(
+        #     " <", "<"
+        ).replace(
+            "\" \"", "\"\""
+        )
+
     # region render_admin_menu() Function
 
     def test__render_admin_menu(self):
@@ -45,7 +60,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="header">', rendered_template)
 
@@ -63,7 +78,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="header">', rendered_template)
 
@@ -101,7 +116,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="header">', rendered_template)
             self.assertNotIn(
@@ -144,7 +159,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="header">', rendered_template)
             self.assertNotIn(
@@ -187,7 +202,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn(
@@ -214,7 +229,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         )
         template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-        rendered_template = template_to_render.render(context)
+        rendered_template = self.normalize_html(template_to_render.render(context))
 
         self.assertIn('<li class="header">', rendered_template)
 
@@ -235,7 +250,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         )
         template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-        rendered_template = template_to_render.render(context)
+        rendered_template = self.normalize_html(template_to_render.render(context))
 
         self.assertIn('<li class="header">', rendered_template)
 
@@ -254,7 +269,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_tree_icon %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn("fa fa-superpowers", rendered_template)
 
@@ -272,7 +287,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_tree_icon %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn("fa fa-foo", rendered_template)
 
@@ -307,7 +322,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_app_icon %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn("fa fa-circle", rendered_template)
 
@@ -341,7 +356,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_app_icon %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn("fa fa-foo", rendered_template)
 
@@ -370,7 +385,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_model_icon %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn("fa fa-circle-o", rendered_template)
 
@@ -398,7 +413,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_model_icon %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn("fa fa-foo", rendered_template)
 
@@ -435,7 +450,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="separator">', rendered_template)
 
@@ -477,7 +492,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="separator">', rendered_template)
 
@@ -531,7 +546,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertIn('<li class="separator">', rendered_template)
 
@@ -563,7 +578,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         )
         template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-        rendered_template = template_to_render.render(context)
+        rendered_template = self.normalize_html(template_to_render.render(context))
 
         self.assertNotIn('<li class="separator">', rendered_template)
 
@@ -608,7 +623,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             )
             template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
 
-            rendered_template = template_to_render.render(context)
+            rendered_template = self.normalize_html(template_to_render.render(context))
 
             self.assertNotIn('<li class="separator">', rendered_template)
 
