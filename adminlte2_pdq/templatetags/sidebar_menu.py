@@ -26,6 +26,22 @@ from adminlte2_pdq.templatetags.admin.admin_menu import AdminMenu
 register = template.Library()
 
 
+NODE_KEY_ERROR_MESSAGE = (
+    "The route key must be provided for the node."
+    " If you do not have a valid route yet you can use '#' as a placeholder."
+    " If you have Whitelisting turned on, be sure to"
+    " add an entry for '#' to the whitelist."
+    " Missing key was: {key_error}"
+)
+NODE_REVERSE_ERROR_MESSAGE = (
+    "The node with the route '{route}' is not a valid route."
+    " If you do not have a valid route yet you can use '#' as a placeholder."
+    " If you have Whitelisting turned on, be sure to"
+    " add an entry for '#' to the whitelist."
+    " Exception Message: {reverse_error}"
+)
+
+
 def strip_hash_bookmark_from_url(url):
     """Strip the hash bookmark from a string url"""
     return (url or "").split("#")[0]
@@ -51,19 +67,12 @@ def get_view_from_node(node):
             view = None
 
     except KeyError as key_error:
-        error_message = (
-            f"The route key must be provided for the node."
-            f" If you do not have a valid route yet you can use '#' as a placeholder."
-            f" If you have Whitelisting turned on, be sure to add an entry for"
-            f"'#' to the whitelist. Missing key was: {key_error}"
-        )
+        error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
         raise KeyError(error_message) from key_error
     except NoReverseMatch as reverse_error:
-        error_message = (
-            f"The node with the route '{route}' is not a valid route."
-            f" If you do not have a valid route yet you can use '#' as a placeholder."
-            f" If you have Whitelisting turned on, be sure to add an entry for"
-            f"'#' to the whitelist. Exception Message: {reverse_error}"
+        error_message = NODE_REVERSE_ERROR_MESSAGE.format(
+            route=route,
+            reverse_error=reverse_error,
         )
         raise NoReverseMatch(error_message) from reverse_error
 
@@ -181,21 +190,12 @@ def ensure_node_has_url_property(node):
             else:
                 url = "#"
         except KeyError as key_error:
-            error_message = (
-                f"The route key must be provided for the node."
-                f" If you do not have a valid route yet you can use '#' as a placeholder."
-                f" If you have Whitelisting turned on, be sure to"
-                f" add an entry for '#' to the whitelist."
-                f" Missing key was: {key_error}"
-            )
+            error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
             raise KeyError(error_message) from key_error
         except NoReverseMatch as reverse_error:
-            error_message = (
-                f"The node with the route '{route}' is not a valid route."
-                f" If you do not have a valid route yet you can use '#' as a placeholder."
-                f" If you have Whitelisting turned on, be sure to"
-                f" add an entry for '#' to the whitelist."
-                f" Exception Message: {reverse_error}"
+            error_message = NODE_REVERSE_ERROR_MESSAGE.format(
+                route=route,
+                reverse_error=reverse_error,
             )
             raise NoReverseMatch(error_message) from reverse_error
 
