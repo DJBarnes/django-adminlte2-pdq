@@ -1032,7 +1032,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_section section %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_section section %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1070,7 +1070,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_nodes nodes %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_nodes nodes %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1104,7 +1104,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_tree node %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1137,7 +1137,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_tree node %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1165,7 +1165,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1190,7 +1190,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1218,7 +1218,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1248,7 +1248,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_link node %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1298,7 +1298,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             }
         )
 
-        template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
+        template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
         rendered_template = template_to_render.render(context)
 
@@ -1355,7 +1355,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1424,7 +1424,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1494,7 +1494,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
             rendered_template = template_to_render.render(context)
 
@@ -1578,7 +1578,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             )
 
-            template_to_render = Template("{% load sidebar_menu %}" "{% render_menu %}")
+            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
             rendered_template = template_to_render.render(context)
 
