@@ -56,7 +56,7 @@ class MiddlewareBaseTestCase(TestCase):
 
 
 @override_settings(DEBUG=True)
-class MiddlewareTestCase__Standard(MiddlewareBaseTestCase):
+class StandardMiddlewareTestCase(MiddlewareBaseTestCase):
     """Test Middleware handling when in "LOOSE" authentication mode."""
 
     def test__no_whitelists(self):
@@ -86,7 +86,7 @@ class MiddlewareTestCase__Standard(MiddlewareBaseTestCase):
 
 @override_settings(DEBUG=True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-class MiddlewareTestCase__LoginRequired(MiddlewareBaseTestCase):
+class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
     """Test Middleware handling when in "LOGIN_REQUIRED" authentication mode."""
 
     def test__verify_patch_settings(self):
@@ -162,7 +162,7 @@ class MiddlewareTestCase__LoginRequired(MiddlewareBaseTestCase):
 @override_settings(DEBUG=True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class MiddlewareTestCase__Strict(MiddlewareBaseTestCase):
+class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
     """Test Middleware handling when in "STRICT" authentication mode."""
 
     def test__verify_patch_settings(self):

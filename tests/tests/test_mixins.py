@@ -361,7 +361,7 @@ class MixinTextCaseBase(IntegrationTestCase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class MixinTestCase__Standard(MixinTextCaseBase):
+class StandardMixinTestCase(MixinTextCaseBase):
     """
     Test project authentication mixins, under project "Loose" mode.
     """
@@ -1146,7 +1146,7 @@ class MixinTestCase__Standard(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class MixinTestCase__StandardBleeding(MixinTextCaseBase):
+class StandardBleedingMixinTestCase(MixinTextCaseBase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
     By "bleeding", we refer to instances when the user overlaps values for one
@@ -1861,7 +1861,7 @@ class MixinTestCase__StandardBleeding(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class MixinTestCase__Strict(MixinTextCaseBase):
+class StrictMixinTestCase(MixinTextCaseBase):
     """
     Test project authentication mixins, under project "Strict" mode.
     """
@@ -2753,7 +2753,7 @@ class MixinTestCase__Strict(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class MixinTestCase__StrictBleeding(MixinTextCaseBase):
+class StrictBleedingMixinTestCase(MixinTextCaseBase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
     By "bleeding", we refer to instances when the user overlaps values for one

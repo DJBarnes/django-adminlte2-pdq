@@ -386,7 +386,7 @@ class DecoratorTestCaseBase(IntegrationTestCase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class DecoratorTestCase__Standard(DecoratorTestCaseBase):
+class StandardDecoratorTestCase(DecoratorTestCaseBase):
     """
     Test project authentication decorators, under project "Loose" mode.
     """
@@ -1165,7 +1165,7 @@ class DecoratorTestCase__Standard(DecoratorTestCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class DecoratorTestCase__Strict(DecoratorTestCaseBase):
+class StrictDecoratorTestCase(DecoratorTestCaseBase):
     """
     Test project authentication decorators, under project "Strict" mode.
     """
