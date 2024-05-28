@@ -3,6 +3,7 @@ Tests for Decorators
 """
 
 # System Imports.
+import warnings
 from unittest.mock import patch
 
 # Third-Party Imports.
@@ -1430,16 +1431,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.anonymous_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.anonymous_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1451,16 +1458,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.inactive_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.inactive_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1470,16 +1483,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.none_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.none_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1489,16 +1508,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.partial_perm_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.partial_perm_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1508,16 +1533,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.full_perm_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.full_perm_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1527,16 +1558,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.incorrect_group_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.incorrect_group_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1546,16 +1583,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.partial_group_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.partial_group_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1565,16 +1608,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.full_group_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.full_group_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -1584,16 +1633,22 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                "adminlte2_pdq_tests:function-standard",
-                user=self.super_user,
-                expected_status=200,
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_messages=[
-                    self.pdq_strict__no_decorator_message,
-                ],
-            )
+            with warnings.catch_warnings(record=True) as warning:
+                response = self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-standard",
+                    user=self.super_user,
+                    expected_status=200,
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                    ],
+                )
+
+            # Verify we get the expected warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
