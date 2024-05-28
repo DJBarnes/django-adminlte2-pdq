@@ -61,24 +61,20 @@ class TemplateTagTestCase(TestCase):
     # region Setup
 
     def setUp(self):
-        self.superuser = None
-        self.staffuser = None
+        self.super_user = None
+        self.staff_user = None
 
-    def _setup_superuser(self):
-        """Setup Superuser"""
-        self.superuser = UserModel()
-        self.superuser.username = "testsuperuser"
-        self.superuser.first_name = "David"
-        self.superuser.last_name = "Barnes"
-        self.superuser.is_superuser = True
-        self.superuser.save()
-
-    def _setup_staffuser(self, permissions=None):
+    def _setup_staff_user(self, permissions=None):
         """Setup Staffuser"""
-        self.staffuser = UserModel()
-        self.staffuser.username = "teststaffuser"
-        self.staffuser.is_staff = True
-        self.staffuser.save()
+
+        # Remove user if already exists.
+        if self.staff_user:
+            self.staff_user.delete()
+
+        self.staff_user = UserModel()
+        self.staff_user.username = "teststaffuser"
+        self.staff_user.is_staff = True
+        self.staff_user.save()
 
         if permissions:
             if isinstance(permissions, str):
@@ -87,7 +83,21 @@ class TemplateTagTestCase(TestCase):
                 perm_object = Permission.objects.filter(
                     codename__exact=permission,
                 ).first()
-                self.staffuser.user_permissions.add(perm_object)
+                self.staff_user.user_permissions.add(perm_object)
+
+    def _setup_super_user(self):
+        """Setup Superuser"""
+
+        # Remove user if already exists.
+        if self.super_user:
+            self.super_user.delete()
+
+        self.super_user = UserModel()
+        self.super_user.username = "testsuperuser"
+        self.super_user.first_name = "David"
+        self.super_user.last_name = "Barnes"
+        self.super_user.is_superuser = True
+        self.super_user.save()
 
     # endregion Setup
 
@@ -684,13 +694,13 @@ class TemplateTagTestCase(TestCase):
     def test__get_avatar_url(self):
 
         with self.subTest("Verify returns actual gravatar url when the user has a gravatar"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% get_avatar_url user=user %}")
 
@@ -718,16 +728,14 @@ class TemplateTagTestCase(TestCase):
                 rendered_template,
             )
 
-        # TODO: As far as I can tell, calling this template tag multiple times causes the test fail.
-        #       Might not be able to subtest these? Unsure. Examine further at a later date.
         with self.subTest("Verify user image initials returns user div correctly, when passed user"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% user_image_initials user=user %}")
 
@@ -741,13 +749,13 @@ class TemplateTagTestCase(TestCase):
             self.assertIn('title="David Barnes"', rendered_template)
 
         with self.subTest("Verify user image initials returns user div correctly, when passed user and overrides"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template(
                 "{% load adminlte_tags %}"
@@ -764,13 +772,13 @@ class TemplateTagTestCase(TestCase):
             self.assertIn('title="John Doe"', rendered_template)
 
         with self.subTest("Verify user image initials returns user div correctly, when passed first and last names"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template(
                 "{% load adminlte_tags %}{% user_image_initials first_name='John' last_name='Doe' %}"
@@ -790,13 +798,13 @@ class TemplateTagTestCase(TestCase):
             self.assertIn('title="John Doe"', rendered_template)
 
         with self.subTest("Verify user image initials returns user div correctly, when passed first name only"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% user_image_initials first_name='John' %}")
 
@@ -814,13 +822,13 @@ class TemplateTagTestCase(TestCase):
             self.assertIn('title="John"', rendered_template)
 
         with self.subTest("Verify user image initials returns user div correctly, when passed last name only"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% user_image_initials first_name='John' %}")
 
@@ -836,13 +844,13 @@ class TemplateTagTestCase(TestCase):
             )
             self.assertIn("J", rendered_template)
             self.assertIn('title="John"', rendered_template)
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% user_image_initials last_name='Doe' %}")
 
@@ -860,13 +868,13 @@ class TemplateTagTestCase(TestCase):
             self.assertIn('title="Doe"', rendered_template)
 
         with self.subTest("Verify user image initials returns user div correctly, when passed initials only"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% user_image_initials initials='J2D' %}")
 
@@ -884,13 +892,13 @@ class TemplateTagTestCase(TestCase):
             self.assertNotIn("title=", rendered_template)
 
         with self.subTest("Verify user image initials returns user div correctly, when passed no arguments"):
-            self._setup_superuser()
-            self.superuser.email = "barnesdavidj@gmail.com"
+            self._setup_super_user()
+            self.super_user.email = "barnesdavidj@gmail.com"
 
             request = RequestFactory().get("/foo")
-            request.user = self.superuser
+            request.user = self.super_user
 
-            context = Context({"user": self.superuser, "request": request})
+            context = Context({"user": self.super_user, "request": request})
 
             template_to_render = Template("{% load adminlte_tags %}{% user_image_initials %}")
 
