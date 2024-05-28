@@ -353,6 +353,11 @@ class DecoratorTestCaseBase(IntegrationTestCase):
 
         # Define our actual users to test against.
 
+        # Add super user.
+        self.super_user = self.get_user("super_jessica")
+        self.super_user.is_superuser = True
+        self.super_user.save()
+
         # Add permissions auth.add_foo and auth.change_foo to full_perm_user.
         self.full_perm_user = self.get_user("john_full")
         self.add_user_permission("add_foo", user=self.full_perm_user)
@@ -377,6 +382,11 @@ class DecoratorTestCaseBase(IntegrationTestCase):
 
         # Add no permissions/groups to none_user.
         self.none_user = self.get_user("joe_none")
+
+        # Add inactive user.
+        self.inactive_user = self.get_user("inactive_jacob")
+        self.inactive_user.is_active = False
+        self.inactive_user.save()
 
         # Easy access to anonymous user.
         self.anonymous_user = AnonymousUser()
@@ -433,6 +443,24 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-standard",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
+            )
+
+            # Verify values associated with returned view.
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
@@ -529,6 +557,22 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-standard",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
+            )
+
+            # Verify values associated with returned view.
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
     def test__allow_anonymous_access_decorator(self):
         """Test for allow_anonymous_access decorator, in project "Loose" mode."""
 
@@ -539,6 +583,19 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
                     user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-allow-anonymous-access",
+                    user=self.inactive_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
@@ -605,6 +662,17 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
                     user=self.full_group_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
+
+        with self.subTest("As a superuser"):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-allow-anonymous-access",
+                    user=self.super_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_decorator_message, str(err.exception))
@@ -632,6 +700,28 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-login-required",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
@@ -764,6 +854,26 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-login-required",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual("login_required", data_dict["decorator_name"])
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Loose" mode."""
 
@@ -774,6 +884,19 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-allow-without-permissions",
+                    user=self.inactive_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
@@ -844,6 +967,17 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
 
+        with self.subTest("As a superuser"):
+            # Invalid decorator used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-allow-without-permissions",
+                    user=self.super_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_decorator_message, str(err.exception))
+
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Loose" mode."""
 
@@ -854,6 +988,28 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-one-permission-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_title="Login |",
                 expected_content=[
@@ -990,6 +1146,32 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                data_dict["one_of_permissions"],
+            )
+            self.assertIsNone(data_dict["full_permissions"])
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-one-permission-required",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
@@ -1019,6 +1201,27 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-full-permissions-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_content=[
                     "Sign in to start your session",
@@ -1140,6 +1343,32 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                data_dict["full_permissions"],
+            )
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-full-permissions-required",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
@@ -1216,6 +1445,27 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # View had no decorators so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # View configured incorrectly for strict mode. Should redirect to "home".
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-standard",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
+                expected_messages=[
+                    self.pdq_strict__no_decorator_message,
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
         with self.subTest("As user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
@@ -1318,6 +1568,25 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-standard",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
+                expected_messages=[
+                    self.pdq_strict__no_decorator_message,
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # View had no decorators so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As a superuser"):
+            # View configured incorrectly for strict mode. Should redirect to "home".
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-standard",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Dashboard",
                 expected_header="Dashboard <small>Version 2.0</small>",
@@ -1356,6 +1625,31 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-allow-anonymous-access",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
+            )
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
@@ -1494,6 +1788,29 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-allow-anonymous-access",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
+            )
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Strict" mode.
         In strict mode, this decorator should NOT work, and instead raise errors.
@@ -1506,6 +1823,19 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Invalid decorator used for strict mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-login-required",
+                    user=self.inactive_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
@@ -1580,6 +1910,19 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
                 )
             self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            # Invalid decorator used for strict mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:function-login-required",
+                    user=self.super_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
+
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Strict" mode."""
 
@@ -1590,6 +1933,27 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-allow-without-permissions",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-allow-without-permissions",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_title="Login |",
                 expected_content=[
@@ -1724,6 +2088,29 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-allow-without-permissions",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "allow_without_permissions",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-allow-without-permissions",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
@@ -1763,6 +2150,28 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-one-permission-required",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
@@ -1905,6 +2314,32 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             )
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-one-permission-required",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                data_dict["one_of_permissions"],
+            )
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__full_permission_required_decorator(self):
         """Test for permission_required decorator, in project "Strict" mode."""
 
@@ -1915,6 +2350,27 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Shouldn't really be possible.
+            # But testing anyway since package does a lot of background magic with auth logic.
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-full-permissions-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_content=[
                     "Sign in to start your session",
@@ -2036,6 +2492,32 @@ class StrictDecoratorTestCase(DecoratorTestCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                data_dict["full_permissions"],
+            )
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:function-full-permissions-required",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
