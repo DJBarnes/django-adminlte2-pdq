@@ -327,6 +327,11 @@ class MixinTextCaseBase(IntegrationTestCase):
 
         # Define our actual users to test against.
 
+        # Add super user.
+        self.super_user = self.get_user("super_jessica")
+        self.super_user.is_superuser = True
+        self.super_user.save()
+
         # Add permissions auth.add_foo and auth.change_foo to full_perm_user.
         self.full_perm_user = self.get_user("john_full")
         self.add_user_permission("add_foo", user=self.full_perm_user)
@@ -351,6 +356,11 @@ class MixinTextCaseBase(IntegrationTestCase):
 
         # Add no permissions/groups to none_user.
         self.none_user = self.get_user("joe_none")
+
+        # Add inactive user.
+        self.inactive_user = self.get_user("inactive_jacob")
+        self.inactive_user.is_active = False
+        self.inactive_user.save()
 
         # Easy access to anonymous user.
         self.anonymous_user = AnonymousUser()
@@ -399,6 +409,22 @@ class StandardMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-standard",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
+            )
+
+            # Verify values associated with returned view.
+            # View had no mixins so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
@@ -504,6 +530,22 @@ class StandardMixinTestCase(MixinTextCaseBase):
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="Standard View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Standard View Header",
+            )
+
+            # Verify values associated with returned view.
+            # View had no mixins so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
     def test__allow_anonymous_access_mixin(self):
         """Test for allow_anonymous_access mixin, in project "Loose" mode."""
 
@@ -514,6 +556,17 @@ class StandardMixinTestCase(MixinTextCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
                     user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
+
+        with self.subTest("As an inactive user"):
+            # Invalid mixin used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
+                    user=self.inactive_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
@@ -584,6 +637,17 @@ class StandardMixinTestCase(MixinTextCaseBase):
                 )
             self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
 
+        with self.subTest("As a superuser"):
+            # Invalid mixin used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:class-allow-anonymous-access",
+                    user=self.super_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_anonymous_access_mixin_message, str(err.exception))
+
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Loose" mode."""
 
@@ -594,6 +658,26 @@ class StandardMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-login-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-login-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_title="Login |",
                 expected_content=[
@@ -745,6 +829,29 @@ class StandardMixinTestCase(MixinTextCaseBase):
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-login-required",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="Login Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Login Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "login_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Loose" mode."""
 
@@ -755,6 +862,17 @@ class StandardMixinTestCase(MixinTextCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:class-allow-without-permissions",
                     user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
+
+        with self.subTest("As an inactive user"):
+            # Invalid mixin used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
+                    user=self.inactive_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
@@ -825,6 +943,17 @@ class StandardMixinTestCase(MixinTextCaseBase):
                 )
             self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
 
+        with self.subTest("As a superuser"):
+            # Invalid mixin used for loose mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:class-allow-without-permissions",
+                    user=self.super_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_loose__allow_without_permissions_mixin_message, str(err.exception))
+
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Loose" mode."""
 
@@ -835,6 +964,26 @@ class StandardMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-one-permission-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_title="Login |",
                 expected_content=[
@@ -990,6 +1139,32 @@ class StandardMixinTestCase(MixinTextCaseBase):
             )
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-one-permission-required",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
+            )
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Loose" mode."""
 
@@ -1000,6 +1175,25 @@ class StandardMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-full-permissions-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_content=[
                     "Sign in to start your session",
@@ -1121,6 +1315,32 @@ class StandardMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
+            )
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-full-permissions-required",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
@@ -1912,6 +2132,25 @@ class StrictMixinTestCase(MixinTextCaseBase):
             # View had no mixins so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As an inactive user"):
+            # View configured incorrectly for strict mode. Should redirect to "home".
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
+                expected_messages=[
+                    self.pdq_strict__no_mixin_message,
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # View had no mixins so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
         with self.subTest("As user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
 
@@ -2014,6 +2253,25 @@ class StrictMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-standard",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
+                expected_messages=[
+                    self.pdq_strict__no_mixin_message,
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # View had no mixins so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As a superuser"):
+            # View configured incorrectly for strict mode. Should redirect to "home".
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Dashboard",
                 expected_header="Dashboard <small>Version 2.0</small>",
@@ -2052,6 +2310,29 @@ class StrictMixinTestCase(MixinTextCaseBase):
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
+            )
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
 
@@ -2190,6 +2471,29 @@ class StrictMixinTestCase(MixinTextCaseBase):
             self.assertIsNone(data_dict["one_of_permissions"])
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-allow-anonymous-access",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "allow_anonymous_access",
+                data_dict["decorator_name"],
+            )
+            self.assertFalse(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Strict" mode.
         In strict mode, this mixin should NOT work, and instead raise errors.
@@ -2202,6 +2506,17 @@ class StrictMixinTestCase(MixinTextCaseBase):
                 self.assertGetResponse(
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.anonymous_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
+
+        with self.subTest("As an inactive user"):
+            # Invalid mixin used for strict mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:class-login-required",
+                    user=self.inactive_user,
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -2272,6 +2587,17 @@ class StrictMixinTestCase(MixinTextCaseBase):
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
 
+        with self.subTest("As a superuser"):
+            # Invalid mixin used for strict mode. Should raise error.
+
+            with self.assertRaises(PermissionError) as err:
+                self.assertGetResponse(
+                    "adminlte2_pdq_tests:class-login-required",
+                    user=self.super_user,
+                    expected_status=500,
+                )
+            self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
+
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Strict" mode."""
 
@@ -2282,6 +2608,25 @@ class StrictMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-allow-without-permissions",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_title="Login |",
                 expected_content=[
@@ -2416,6 +2761,29 @@ class StrictMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "allow_without_permissions",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertIsNone(data_dict["full_permissions"])
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-allow-without-permissions",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
@@ -2455,6 +2823,26 @@ class StrictMixinTestCase(MixinTextCaseBase):
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-one-permission-required",
+                user=self.inactive_user,
+                expected_status=200,
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
 
@@ -2597,6 +2985,32 @@ class StrictMixinTestCase(MixinTextCaseBase):
             )
             self.assertIsNone(data_dict["full_permissions"])
 
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-one-permission-required",
+                user=self.super_user,
+                expected_status=200,
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["one_of_permissions"]),
+            )
+            self.assertIsNone(data_dict["full_permissions"])
+
     def test__full_permission_required_mixin(self):
         """Test for permission_required mixin, in project "Strict" mode."""
 
@@ -2607,6 +3021,25 @@ class StrictMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.anonymous_user,
+                expected_status=200,
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-full-permissions-required",
+                user=self.inactive_user,
                 expected_status=200,
                 expected_content=[
                     "Sign in to start your session",
@@ -2728,6 +3161,32 @@ class StrictMixinTestCase(MixinTextCaseBase):
             response = self.assertGetResponse(
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_group_user,
+                expected_status=200,
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertIsNone(data_dict["one_of_permissions"])
+            self.assertEqual(
+                ("auth.add_foo", "auth.change_foo"),
+                tuple(data_dict["full_permissions"]),
+            )
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                "adminlte2_pdq_tests:class-full-permissions-required",
+                user=self.super_user,
                 expected_status=200,
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
