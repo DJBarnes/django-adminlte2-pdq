@@ -153,7 +153,7 @@ class AuthMiddleware:
                     view_name=view_data["view_name"],
                 )
                 # Create console warning message.
-                warnings.warn(warning_message)
+                warnings.warn(warning_message, RuntimeWarning)
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
             else:
@@ -407,7 +407,7 @@ class AuthMiddleware:
                     view_perm_type=view_data["view_perm_type"],
                 )
                 # Create console warning message.
-                warnings.warn(warning_message)
+                warnings.warn(warning_message, RuntimeWarning)
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
             else:
