@@ -8,7 +8,8 @@ from unittest.mock import patch
 # Third-party Imports.
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser, Permission
+from django.contrib.auth.models import AnonymousUser, Group, Permission
+from django.contrib.contenttypes.models import ContentType
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
@@ -43,32 +44,79 @@ class TemplateTagSidebarMenuBaseTestCase(TestCase):
     # endregion Expected Test Messages
 
     def setUp(self):
-        self.anonymoususer = None
-        self.superuser = None
-        self.staffuser = None
+        self.anonymous_user = None
+        self.user = None
+        self.staff_user = None
+        self.super_user = None
 
-    def _setup_anonymoususer(self):
-        """Set up Anonymoususer"""
-        self.anonymoususer = AnonymousUser()
+        # Generate test permissions.
+        self.permission_content_type = ContentType.objects.get_for_model(Permission)
 
-    def _setup_superuser(self):
-        """Set up Superuser"""
-        self.superuser = UserModel()
-        self.superuser.username = "testsuperuser"
-        self.superuser.is_superuser = True
-        self.superuser.save()
+        # First permission. Generally used anywhere at least one permission is required.
+        add_foo = Permission.objects.create(
+            name="add_foo",
+            codename="add_foo",
+            content_type=self.permission_content_type,
+        )
+        # Second permission. Generally used anywhere multiple permissions are required.
+        change_foo = Permission.objects.create(
+            name="change_foo",
+            codename="change_foo",
+            content_type=self.permission_content_type,
+        )
+        # Extra permissions used in some edge case tests.
+        view_foo = Permission.objects.create(
+            name="view_foo",
+            codename="view_foo",
+            content_type=self.permission_content_type,
+        )
+        delete_foo = Permission.objects.create(
+            name="delete_foo",
+            codename="delete_foo",
+            content_type=self.permission_content_type,
+        )
+        # Final extra permission that's not explicitly used anywhere.
+        # To verify permission logic still works with extra, unrelated permissions in the project.
+        unused_foo = Permission.objects.create(
+            name="unused_foo",
+            codename="unused_foo",
+            content_type=self.permission_content_type,
+        )
 
-    def _setup_staffuser(self, permissions=None):
-        """Set up Staff user"""
+        # Define various permission sets to test against.
+        self.full_perms = Permission.objects.filter(codename__in=("add_foo", "change_foo"))
+        self.partial_perms = Permission.objects.filter(codename="add_foo")
+
+        # Generate test groups. To ensure that as Group logic is handled as expected as well.
+        group_instance = Group.objects.create(name="add_bar")
+        group_instance.permissions.add(add_foo)
+        group_instance = Group.objects.create(name="change_bar")
+        group_instance.permissions.add(change_foo)
+        group_instance = Group.objects.create(name="view_foo")
+        group_instance.permissions.add(view_foo)
+        group_instance = Group.objects.create(name="delete_bar")
+        group_instance.permissions.add(delete_foo)
+        group_instance = Group.objects.create(name="unused_bar")
+        group_instance.permissions.add(unused_foo)
+
+        # Define various group sets to test against.
+        self.full_groups = Group.objects.filter(name__in=("add_bar", "change_bar"))
+        self.partial_groups = Group.objects.filter(name="add_bar")
+
+    def _setup_anonymous_user(self):
+        """Set up anonymous user"""
+        self.anonymous_user = AnonymousUser()
+
+    def _setup_user(self, permissions=None):
+        """Set up basic user"""
 
         # Remove user if already exists.
-        if self.staffuser:
-            self.staffuser.delete()
+        if self.user:
+            self.user.delete()
 
-        self.staffuser = UserModel()
-        self.staffuser.username = "teststaffuser"
-        self.staffuser.is_staff = True
-        self.staffuser.save()
+        self.user = UserModel()
+        self.user.username = "test_user"
+        self.user.save()
 
         if permissions:
             if isinstance(permissions, str):
@@ -77,7 +125,35 @@ class TemplateTagSidebarMenuBaseTestCase(TestCase):
                 perm_object = Permission.objects.filter(
                     codename__exact=permission,
                 ).first()
-                self.staffuser.user_permissions.add(perm_object)
+                self.user.user_permissions.add(perm_object)
+
+    def _setup_staff_user(self, permissions=None):
+        """Set up Staff user"""
+
+        # Remove user if already exists.
+        if self.staff_user:
+            self.staff_user.delete()
+
+        self.staff_user = UserModel()
+        self.staff_user.username = "test_staff_user"
+        self.staff_user.is_staff = True
+        self.staff_user.save()
+
+        if permissions:
+            if isinstance(permissions, str):
+                permissions = [permissions]
+            for permission in permissions:
+                perm_object = Permission.objects.filter(
+                    codename__exact=permission,
+                ).first()
+                self.staff_user.user_permissions.add(perm_object)
+
+    def _setup_super_user(self):
+        """Set up Superuser"""
+        self.super_user = UserModel()
+        self.super_user.username = "test_super_user"
+        self.super_user.is_superuser = True
+        self.super_user.save()
 
     # endregion Setup
 
@@ -639,76 +715,76 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     def test__check_for_one_permission(self):
 
         with self.subTest("As user with most permissions, except one required"):
-            self._setup_staffuser()
+            self._setup_staff_user()
 
             permissions = ["user_does_not_have_this_one"]
 
-            allowed = sidebar_menu.check_for_one_permission(self.staffuser, permissions)
+            allowed = sidebar_menu.check_for_one_permission(self.staff_user, permissions)
 
             self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             permissions = ["auth.add_group", "auth.update_group"]
 
-            allowed = sidebar_menu.check_for_one_permission(self.staffuser, permissions)
+            allowed = sidebar_menu.check_for_one_permission(self.staff_user, permissions)
 
             self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions, but none are passed"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             permissions = []
 
-            allowed = sidebar_menu.check_for_one_permission(self.staffuser, permissions)
+            allowed = sidebar_menu.check_for_one_permission(self.staff_user, permissions)
 
             self.assertFalse(allowed)
 
         with self.subTest("As superuser"):
-            self._setup_superuser()
+            self._setup_super_user()
 
             permissions = ["does_not_matter_since_superuser"]
 
-            allowed = sidebar_menu.check_for_one_permission(self.superuser, permissions)
+            allowed = sidebar_menu.check_for_one_permission(self.super_user, permissions)
 
             self.assertTrue(allowed)
 
     def test__check_for_all_permissions(self):
 
         with self.subTest("As user with most permissions, except the one required"):
-            self._setup_staffuser()
+            self._setup_staff_user()
 
             permissions = ["user_does_not_have_this_one"]
 
-            allowed = sidebar_menu.check_for_all_permissions(self.staffuser, permissions)
+            allowed = sidebar_menu.check_for_all_permissions(self.staff_user, permissions)
 
             self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             permissions = ["auth.add_group"]
 
-            allowed = sidebar_menu.check_for_all_permissions(self.staffuser, permissions)
+            allowed = sidebar_menu.check_for_all_permissions(self.staff_user, permissions)
 
             self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions, but none are passed"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             permissions = []
 
-            allowed = sidebar_menu.check_for_all_permissions(self.staffuser, permissions)
+            allowed = sidebar_menu.check_for_all_permissions(self.staff_user, permissions)
 
             self.assertFalse(allowed)
 
         with self.subTest("As superuser"):
-            self._setup_superuser()
+            self._setup_super_user()
 
             permissions = ["does_not_matter_since_superuser"]
 
-            allowed = sidebar_menu.check_for_all_permissions(self.superuser, permissions)
+            allowed = sidebar_menu.check_for_all_permissions(self.super_user, permissions)
 
             self.assertTrue(allowed)
 
@@ -717,7 +793,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     def test__check_for_one_permission_in_node_list(self):
 
         with self.subTest("Returns true for superuser regardless of tree size"):
-            self._setup_superuser()
+            self._setup_super_user()
 
             nodes = [
                 {
@@ -747,14 +823,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 },
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.superuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.super_user, nodes)
             self.assertTrue(allowed)
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.superuser, nodetree)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.super_user, nodetree)
             self.assertTrue(allowed)
 
         with self.subTest("Returns true for single node user can access"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             nodes = [
                 {
@@ -764,12 +840,12 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
 
             self.assertTrue(allowed)
 
         with self.subTest("Returns true for two nodes user can access"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             nodes = [
                 {
@@ -785,11 +861,11 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 },
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
             self.assertTrue(allowed)
 
         with self.subTest("Returns true for three nodes user can access"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             nodes = [
                 {
@@ -811,11 +887,11 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 },
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
             self.assertTrue(allowed)
 
         with self.subTest("Returns false for single node user cannot access"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             nodes = [
                 {
@@ -825,11 +901,11 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 }
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
             self.assertFalse(allowed)
 
         with self.subTest("Returns false for two nodes user cannot access"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             nodes = [
                 {
@@ -845,11 +921,11 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 },
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
             self.assertFalse(allowed)
 
         with self.subTest("Returns false for three nodes user cannot access"):
-            self._setup_staffuser("add_group")
+            self._setup_staff_user("add_group")
 
             nodes = [
                 {
@@ -871,7 +947,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
                 },
             ]
 
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staffuser, nodes)
+            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
             self.assertFalse(allowed)
 
     def test__check_for_node_that_matches_request_path(self):
@@ -1002,10 +1078,10 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
     def test__render_types(self):
         with self.subTest("Render section - standard"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             section = {
                 "text": "Samples",
@@ -1026,7 +1102,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "section": section,
                     "request": request,
                 }
@@ -1043,10 +1119,10 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("fa fa-building", rendered_template)
 
         with self.subTest("Render nodes - Standard"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             nodes = [
                 {
@@ -1064,7 +1140,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "nodes": nodes,
                     "request": request,
                 }
@@ -1079,10 +1155,10 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("fa fa-building", rendered_template)
 
         with self.subTest("Render tree - Standard"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             node = {
                 "text": "Sample Tree",
@@ -1098,7 +1174,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "node": node,
                     "request": request,
                 }
@@ -1113,10 +1189,10 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("fa fa-building", rendered_template)
 
         with self.subTest("Render tree - Node lacks icon"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             node = {
                 "text": "Sample Tree",
@@ -1131,7 +1207,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "node": node,
                     "request": request,
                 }
@@ -1147,7 +1223,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("not-found", rendered_template)
 
         with self.subTest("Render link - Standard"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             node = {
                 "route": "adminlte2_pdq:sample2",
@@ -1157,7 +1233,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "node": node,
                     "request": {
                         "path": "/some/path",
@@ -1173,7 +1249,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("fa fa-building", rendered_template)
 
         with self.subTest("Render link - No icon provided"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             node = {
                 "route": "adminlte2_pdq:sample2",
@@ -1182,7 +1258,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "node": node,
                     "request": {
                         "path": "/some/path",
@@ -1198,7 +1274,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertNotIn("fa fa-building", rendered_template)
 
         with self.subTest("Render link - Dynamic text via string"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             node = {
                 "route": "adminlte2_pdq:sample2",
@@ -1210,7 +1286,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "node": node,
                     "request": {
                         "path": "/some/path",
@@ -1228,7 +1304,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertNotIn("fa fa-building", rendered_template)
 
         with self.subTest("Render link - Dynamic text via tuple"):
-            self._setup_staffuser("add_permission")
+            self._setup_staff_user("add_permission")
 
             node = {
                 "route": "adminlte2_pdq:sample2",
@@ -1240,7 +1316,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "node": node,
                     "request": {
                         "path": "/some/path",
@@ -1257,7 +1333,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=False)
     def test__user_has_access_and_admin_include_is_off(self):
-        self._setup_staffuser(
+        self._setup_staff_user(
             [
                 "add_permission",
                 "change_permission",
@@ -1269,7 +1345,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
         )
 
         request = RequestFactory().get("/sample2/")
-        request.user = self.staffuser
+        request.user = self.staff_user
 
         menu = [
             {
@@ -1292,7 +1368,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
         context = Context(
             {
-                "user": self.staffuser,
+                "user": self.staff_user,
                 "ADMINLTE2_MENU": menu,
                 "request": request,
             }
@@ -1314,7 +1390,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
     def test__user_has_access_and_admin_include_is_on(self):
 
         with self.subTest("With menu not first"):
-            self._setup_staffuser(
+            self._setup_staff_user(
                 [
                     "add_permission",
                     "change_permission",
@@ -1326,7 +1402,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             )
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             menu = [
                 {
@@ -1349,7 +1425,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "ADMINLTE2_MENU": menu,
                     "request": request,
                 }
@@ -1369,7 +1445,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("fa fa-building", rendered_template)
 
         with self.subTest("With menu first"):
-            self._setup_staffuser(
+            self._setup_staff_user(
                 [
                     "add_permission",
                     "change_permission",
@@ -1381,7 +1457,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             )
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             menu = [
                 {
@@ -1417,7 +1493,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "ADMINLTE2_MENU": menu,
                     "ADMINLTE2_MENU_FIRST": menu_first,
                     "request": request,
@@ -1439,7 +1515,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn('<li class="separator">', rendered_template)
 
         with self.subTest("With menu last"):
-            self._setup_staffuser(
+            self._setup_staff_user(
                 [
                     "add_permission",
                     "change_permission",
@@ -1451,7 +1527,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             )
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             menu = [
                 {
@@ -1487,7 +1563,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "ADMINLTE2_MENU": menu,
                     "ADMINLTE2_MENU_LAST": menu_last,
                     "request": request,
@@ -1509,7 +1585,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn('<li class="separator">', rendered_template)
 
         with self.subTest("With menu first and last"):
-            self._setup_staffuser(
+            self._setup_staff_user(
                 [
                     "add_permission",
                     "change_permission",
@@ -1521,7 +1597,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             )
 
             request = RequestFactory().get("/sample2/")
-            request.user = self.staffuser
+            request.user = self.staff_user
 
             menu = [
                 {
@@ -1570,7 +1646,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             context = Context(
                 {
-                    "user": self.staffuser,
+                    "user": self.staff_user,
                     "ADMINLTE2_MENU": menu,
                     "ADMINLTE2_MENU_FIRST": menu_first,
                     "ADMINLTE2_MENU_LAST": menu_last,
@@ -1601,559 +1677,731 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__standard__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     def test__standard__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     def test__standard__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     def test__standard__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
-        with self.subTest("As superuser"):
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
             pass
+
+        with self.subTest("As user with full group"):
+            pass
+
+        with self.subTest("As superuser"):
+            # Get user to run subtest on.
+            self._setup_super_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
+            self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
-        with self.subTest("As superuser"):
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
             pass
+
+        with self.subTest("As user with full group"):
+            pass
+
+        with self.subTest("As superuser"):
+            # Get user to run subtest on.
+            self._setup_super_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
-        with self.subTest("As superuser"):
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
             pass
+
+        with self.subTest("As user with full group"):
+            pass
+
+        with self.subTest("As superuser"):
+            # Get user to run subtest on.
+            self._setup_super_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
+            self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
-        with self.subTest("As superuser"):
+        with self.subTest("As user with one group"):
             pass
+
+        with self.subTest("As user with full group"):
+            pass
+
+        with self.subTest("As superuser"):
+            # Get user to run subtest on.
+            self._setup_super_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
+            self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2161,68 +2409,80 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__login_required__with_login_whitelist__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2230,68 +2490,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__login_required__with_login_whitelist__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2299,68 +2573,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__login_required__with_login_whitelist__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2368,64 +2656,80 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__no_whitelists__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2433,68 +2737,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__no_whitelists__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2502,68 +2820,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__no_whitelists__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2571,68 +2903,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__no_whitelists__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2641,64 +2987,81 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_login_whitelist__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2707,68 +3070,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_login_whitelist__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2777,68 +3154,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_login_whitelist__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2847,68 +3238,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_login_whitelist__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2917,64 +3322,81 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_permission_whitelist__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -2983,68 +3405,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_permission_whitelist__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -3053,68 +3489,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_permission_whitelist__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -3123,68 +3573,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_permission_whitelist__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -3194,64 +3658,81 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_both_whitelists__node_minimal(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -3261,68 +3742,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_both_whitelists__node_login_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "login_required": True,
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -3332,68 +3827,82 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_both_whitelists__node_one_permission_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "one_of_permissions": ["auth.add_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
@@ -3403,66 +3912,80 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     def test__strict__with_both_whitelists__node_full_permissions_required(self):
         """"""
 
+        # Node used for all subtests.
+        node = {
+            "route": "adminlte2_pdq:demo-css",
+            "text": "Demo CSS",
+            "icon": "fa fa-file",
+            "permissions": ["auth.add_foo", "auth.change_foo"],
+        }
+
         with self.subTest("As anonymous user"):
-            self._setup_anonymoususer()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_anonymous_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.anonymoususer, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.anonymous_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As user with no permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user()
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertFalse(allowed)
 
         with self.subTest("As user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As user with full permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.user, node)
+            self.assertTrue(allowed)
 
         with self.subTest("As staff user with no permissions"):
-            self._setup_staffuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_staff_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertFalse(allowed)
 
         with self.subTest("As staff user with partial permissions"):
-            pass
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo"])
 
-        with self.subTest("As staff user with full permissions"):
-            self._setup_staffuser(["add_group"])
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
-
-            allowed = sidebar_menu.is_allowed_node(self.staffuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
             self.assertTrue(allowed)
 
+        with self.subTest("As staff user with full permissions"):
+            # Get user to run subtest on.
+            self._setup_staff_user(["add_foo", "change_foo"])
+
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
+            self.assertTrue(allowed)
+
+        with self.subTest("As user with one group"):
+            pass
+
+        with self.subTest("As user with full group"):
+            pass
+
         with self.subTest("As superuser"):
-            self._setup_superuser()
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["auth.add_group"],
-            }
+            # Get user to run subtest on.
+            self._setup_super_user()
 
-            allowed = sidebar_menu.is_allowed_node(self.superuser, node)
-
+            # Test sidebar logic.
+            allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
