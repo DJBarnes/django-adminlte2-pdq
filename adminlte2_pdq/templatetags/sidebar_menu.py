@@ -42,41 +42,187 @@ NODE_REVERSE_ERROR_MESSAGE = (
 )
 
 
-def strip_hash_bookmark_from_url(url):
-    """Strip the hash bookmark from a string url"""
-    return (url or "").split("#")[0]
+# region Render Functions
 
 
-def get_view_from_node(node):
-    """Get the view from the node"""
+@register.filter
+def url_starts_with(search_string, sub_string):
+    """Determine if a url starts with a sub string"""
+    stripped_search_string = strip_hash_bookmark_from_url(search_string)
+    stripped_sub_string = strip_hash_bookmark_from_url(sub_string)
+    return stripped_search_string.startswith(stripped_sub_string)
 
-    view = None
-    try:
-        route = node["route"]
-        route_args = node.get("route_args", [])
-        route_kwargs = node.get("route_kwargs", {})
-        url_with_hash = node.get("url", None)
-        url = url_with_hash.split("#")[0] if url_with_hash else None
 
+@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu.html", takes_context=True)
+def render_menu(context):
+    """Render out the sidebar menu.
+
+    A menu is the entire menu on the sidebar.
+    """
+
+    use_menu_group_separator = getattr(
+        settings,
+        "ADMINLTE2_USE_MENU_GROUP_SEPARATOR",
+        True,
+    )
+
+    include_admin_nav = getattr(
+        settings,
+        "ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES",
+        False,
+    )
+
+    separator = {
+        "text": "",
+        "nodes": [],
+        "separator": True,
+    }
+
+    default_menu = MENU if _default_routes_are_registered() else []
+
+    menu_first = context.get("ADMINLTE2_MENU_FIRST", [])
+    menu_main = context.get(
+        "ADMINLTE2_MENU",
+        getattr(
+            settings,
+            "ADMINLTE2_MENU",
+            default_menu,
+        ),
+    )
+    menu_admin = AdminMenu.create_menu(context) if include_admin_nav else []
+    menu_last = context.get("ADMINLTE2_MENU_LAST", [])
+
+    section_list = menu_first
+    if use_menu_group_separator and menu_first and (menu_main or menu_admin or menu_last):
+        section_list += [separator]
+
+    section_list += menu_main
+    if use_menu_group_separator and menu_main and (menu_admin or menu_last):
+        section_list += [separator]
+
+    section_list += menu_admin
+    if use_menu_group_separator and menu_admin and menu_last:
+        section_list += [separator]
+
+    section_list += menu_last
+
+    return {
+        "section_list": section_list,
+        "user": context["user"],  # render_section needs this
+        "request": context["request"],  # render_tree needs this
+    }
+
+
+@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_section.html", takes_context=True)
+def render_section(context, section):
+    """Render out an entire sidebar section.
+
+    A section is a grouping of items within the menu.
+    """
+    nodes = section.get("nodes")
+    allowed = check_for_one_permission_in_node_list(context["user"], nodes)
+
+    return {
+        "section": section,
+        "allowed": allowed,
+        "user": context["user"],  # render_tree needs this
+        "request": context["request"],  # render_tree needs this
+    }
+
+
+@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_tree.html", takes_context=True)
+def render_tree(context, node):
+    """Render out a menu tree.
+
+    A tree is an optional, expandable item with nodes within it.
+    """
+    nodes = node.get("nodes")
+    allowed = check_for_one_permission_in_node_list(context["user"], nodes)
+    add_display_block = check_for_node_that_matches_request_path(context["request"], nodes)
+
+    if not node.get("icon"):
+        node["icon"] = "not-found"
+
+    return {
+        "node": node,
+        "allowed": allowed,
+        "add_display_block": add_display_block,
+        "user": context["user"],
+        "request": context["request"],
+    }
+
+
+@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_nodes.html", takes_context=True)
+def render_nodes(context, nodes):
+    """Render out a list of nodes.
+
+    A node is an individual clickable item within the menu.
+    """
+    return {
+        "nodes": nodes,
+        "user": context["user"],  # render_tree needs this
+        "request": context["request"],  # render_tree needs this
+    }
+
+
+@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_link.html", takes_context=True)
+def render_link(context, node):
+    """Render out a menu link.
+
+    A menu link is the clickable link within a given node.
+    """
+    default = {
+        "class": "",
+        "attributes": {},
+    }
+
+    print("\n\n\n\n")
+    print("render_link():")
+    print("    context: {0}".format(context))
+    print("    node: {0}".format(node))
+    print("    default: {0}".format(default))
+
+    default.update(node)
+    node = default
+
+    print("")
+    print("    updated_node: {0}".format(node))
+
+    ensure_node_has_url_property(node)
+
+    allowed = is_allowed_node(context["user"], node)
+
+    text = node.get("text") or ""
+    title = text
+    hook = node.get("hook")  # 'path.to.function' that will return text
+    if hook:
+        # NOTE: hook should return 'text' or a tuple ('text', 'title text')
+        hook_args = node.get("hook_args", [])
+        hook_kwargs = node.get("hook_kwargs", {})
+        text_func = import_string(hook)
+        text = title = text_func(*hook_args, context=context, **hook_kwargs)
         try:
-            if route != "#":
-                view = resolve(reverse(route, args=route_args, kwargs=route_kwargs))
-            elif url and url != "":
-                view = resolve(url)
-        except Http404:
-            view = None
+            text, title = text
+        except ValueError:
+            pass  # A tuple wasn't returned, assume just text
 
-    except KeyError as key_error:
-        error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
-        raise KeyError(error_message) from key_error
-    except NoReverseMatch as reverse_error:
-        error_message = NODE_REVERSE_ERROR_MESSAGE.format(
-            route=route,
-            reverse_error=reverse_error,
-        )
-        raise NoReverseMatch(error_message) from reverse_error
+    node["text"] = text
+    node["title"] = title
 
-    return view
+    if not node.get("icon"):
+        node["icon"] = ""
+
+    return {
+        "node": node,
+        "allowed": allowed,
+        "request": context["request"],
+    }
+
+
+# endregion Render Functions
+
+
+# region Permission Handling Functions
 
 
 def get_permissions_from_view(view):
@@ -202,100 +348,6 @@ def get_permissions_from_node(node):
     }
 
 
-def ensure_node_has_url_property(node):
-    """Ensure that a node has a url property"""
-    if "url" not in node:
-        try:
-            route = node["route"]
-            route_args = node.get("route_args", [])
-            route_kwargs = node.get("route_kwargs", {})
-            if route != "#":
-                url = reverse(route, args=route_args, kwargs=route_kwargs)
-            else:
-                url = "#"
-        except KeyError as key_error:
-            error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
-            raise KeyError(error_message) from key_error
-        except NoReverseMatch as reverse_error:
-            error_message = NODE_REVERSE_ERROR_MESSAGE.format(
-                route=route,
-                reverse_error=reverse_error,
-            )
-            raise NoReverseMatch(error_message) from reverse_error
-
-        node["url"] = url
-
-
-def check_for_login_whitelisted_node(node):
-    """Check to see if the route property on the node is in the login whitelist"""
-    return node.get("route") in LOGIN_EXEMPT_WHITELIST
-
-
-def check_for_strict_whitelisted_node(node):
-    """Check to see if the route property on the node is in the whitelist"""
-    return node.get("route") in STRICT_POLICY_WHITELIST
-
-
-def check_for_all_permissions(user, permissions):
-    """
-    Check to see if the passed user has all of the permissions
-
-    that are listed in the passed permissions.
-    If the user does not have all of them, false is returned.
-    If the passed permission list is empty, the method returns false.
-    Even though empty permission lists return false here, they are checked
-    with the whitelist methods in the is_allowed_node method.
-    Unless you know what you are doing, consider using is_allowed_node
-    for true permission checking on a node.
-    """
-
-    # Superusers get all permissions
-    if user.is_superuser:
-        return True
-
-    allowed = True
-
-    # Compare the user's perms against the passed in permissions
-    # ensuring the user has all of them
-    if permissions:
-        if not user.has_perms(permissions):
-            allowed = False
-    else:
-        allowed = False
-
-    return allowed
-
-
-def check_for_one_permission(user, permissions):
-    """
-    Check to see if the passed user has at least one of the permissions
-
-    that are listed in the passed permissions.
-    If the user does not have one of them, false is returned.
-    If the passed permission list is empty, the method returns false.
-    Even though empty permission lists return false here, they are checked
-    with the whitelist methods in the is_allowed_node method.
-    Unless you know what you are doing, consider using is_allowed_node
-    for true permission checking on a node.
-    """
-
-    # Superusers get all permissions
-    if user.is_superuser:
-        return True
-
-    allowed = False
-
-    # Compare the user's perms against the passed in permissions
-    # ensuring the user has all of them
-    if permissions:
-        for permission in permissions:
-            if user.has_perm(permission):
-                allowed = True
-                break
-
-    return allowed
-
-
 def is_allowed_node(user, node):
     """
     Checks to ensure a node is valid for rendering.
@@ -335,8 +387,11 @@ def is_allowed_node(user, node):
 
         # Determine if the node is accessible by permissions alone.
         # This will include the need to be logged in even if they didn't specify that.
-        allowed = check_for_one_permission(user, one_of_permissions) or check_for_all_permissions(
-            user, full_permissions
+        allowed = (
+            # Check if one permission required.
+            check_for_one_permission(user, one_of_permissions)
+            # Check if all permissions required.
+            or check_for_all_permissions(user, full_permissions)
         )
 
     # Check whitelist when in strict mode assuming no properties have been set on the node.
@@ -346,8 +401,69 @@ def is_allowed_node(user, node):
     return allowed
 
 
+def check_for_one_permission(user, permissions):
+    """
+    Check to see if the passed user has at least one of the permissions
+
+    that are listed in the passed permissions.
+    If the user does not have one of them, false is returned.
+    If the passed permission list is empty, the method returns false.
+    Even though empty permission lists return false here, they are checked
+    with the whitelist methods in the is_allowed_node method.
+    Unless you know what you are doing, consider using is_allowed_node
+    for true permission checking on a node.
+    """
+
+    # Superusers get all permissions
+    if user.is_superuser:
+        return True
+
+    allowed = False
+
+    # Compare the user's perms against the passed in permissions
+    # ensuring the user has all of them
+    if permissions:
+        for permission in permissions:
+            if user.has_perm(permission):
+                allowed = True
+                break
+
+    return allowed
+
+
+def check_for_all_permissions(user, permissions):
+    """
+    Check to see if the passed user has all of the permissions
+
+    that are listed in the passed permissions.
+    If the user does not have all of them, false is returned.
+    If the passed permission list is empty, the method returns false.
+    Even though empty permission lists return false here, they are checked
+    with the whitelist methods in the is_allowed_node method.
+    Unless you know what you are doing, consider using is_allowed_node
+    for true permission checking on a node.
+    """
+
+    # Superusers get all permissions
+    if user.is_superuser:
+        return True
+
+    allowed = True
+
+    # Compare the user's perms against the passed in permissions
+    # ensuring the user has all of them
+    if permissions:
+        if not user.has_perms(permissions):
+            allowed = False
+    else:
+        allowed = False
+
+    return allowed
+
+
 def check_for_one_permission_in_node_list(user, nodes):
     """Check user has one permission in the entire node list"""
+
     # Superusers get all permissions
     if user.is_superuser:
         return True
@@ -369,6 +485,75 @@ def check_for_one_permission_in_node_list(user, nodes):
                     break
 
     return allowed
+
+
+def check_for_login_whitelisted_node(node):
+    """Check to see if the route property on the node is in the login whitelist"""
+    return node.get("route") in LOGIN_EXEMPT_WHITELIST
+
+
+def check_for_strict_whitelisted_node(node):
+    """Check to see if the route property on the node is in the whitelist"""
+    return node.get("route") in STRICT_POLICY_WHITELIST
+
+
+# endregion Permission Handling Functions
+
+
+def get_view_from_node(node):
+    """Get the view from the node"""
+
+    view = None
+    try:
+        route = node["route"]
+        route_args = node.get("route_args", [])
+        route_kwargs = node.get("route_kwargs", {})
+        url_with_hash = node.get("url", None)
+        url = url_with_hash.split("#")[0] if url_with_hash else None
+
+        try:
+            if route != "#":
+                view = resolve(reverse(route, args=route_args, kwargs=route_kwargs))
+            elif url and url != "":
+                view = resolve(url)
+        except Http404:
+            view = None
+
+    except KeyError as key_error:
+        error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
+        raise KeyError(error_message) from key_error
+    except NoReverseMatch as reverse_error:
+        error_message = NODE_REVERSE_ERROR_MESSAGE.format(
+            route=route,
+            reverse_error=reverse_error,
+        )
+        raise NoReverseMatch(error_message) from reverse_error
+
+    return view
+
+
+def ensure_node_has_url_property(node):
+    """Ensure that a node has a url property"""
+    if "url" not in node:
+        try:
+            route = node["route"]
+            route_args = node.get("route_args", [])
+            route_kwargs = node.get("route_kwargs", {})
+            if route != "#":
+                url = reverse(route, args=route_args, kwargs=route_kwargs)
+            else:
+                url = "#"
+        except KeyError as key_error:
+            error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
+            raise KeyError(error_message) from key_error
+        except NoReverseMatch as reverse_error:
+            error_message = NODE_REVERSE_ERROR_MESSAGE.format(
+                route=route,
+                reverse_error=reverse_error,
+            )
+            raise NoReverseMatch(error_message) from reverse_error
+
+        node["url"] = url
 
 
 def check_for_node_that_matches_request_path(request, nodes):
@@ -393,163 +578,9 @@ def check_for_node_that_matches_request_path(request, nodes):
     return match
 
 
-@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu.html", takes_context=True)
-def render_menu(context):
-    """Render out the sidebar menu"""
-
-    use_menu_group_separator = getattr(
-        settings,
-        "ADMINLTE2_USE_MENU_GROUP_SEPARATOR",
-        True,
-    )
-
-    include_admin_nav = getattr(
-        settings,
-        "ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES",
-        False,
-    )
-
-    separator = {
-        "text": "",
-        "nodes": [],
-        "separator": True,
-    }
-
-    default_menu = MENU if _default_routes_are_registered() else []
-
-    menu_first = context.get("ADMINLTE2_MENU_FIRST", [])
-    menu_main = context.get(
-        "ADMINLTE2_MENU",
-        getattr(
-            settings,
-            "ADMINLTE2_MENU",
-            default_menu,
-        ),
-    )
-    menu_admin = AdminMenu.create_menu(context) if include_admin_nav else []
-    menu_last = context.get("ADMINLTE2_MENU_LAST", [])
-
-    section_list = menu_first
-    if use_menu_group_separator and menu_first and (menu_main or menu_admin or menu_last):
-        section_list += [separator]
-
-    section_list += menu_main
-    if use_menu_group_separator and menu_main and (menu_admin or menu_last):
-        section_list += [separator]
-
-    section_list += menu_admin
-    if use_menu_group_separator and menu_admin and menu_last:
-        section_list += [separator]
-
-    section_list += menu_last
-
-    return {
-        "section_list": section_list,
-        "user": context["user"],  # render_section needs this
-        "request": context["request"],  # render_tree needs this
-    }
-
-
-@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_section.html", takes_context=True)
-def render_section(context, section):
-    """Render out an entire sidebar section"""
-    nodes = section.get("nodes")
-    allowed = check_for_one_permission_in_node_list(context["user"], nodes)
-
-    return {
-        "section": section,
-        "allowed": allowed,
-        "user": context["user"],  # render_tree needs this
-        "request": context["request"],  # render_tree needs this
-    }
-
-
-@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_nodes.html", takes_context=True)
-def render_nodes(context, nodes):
-    """Render out a list of nodes"""
-    return {
-        "nodes": nodes,
-        "user": context["user"],  # render_tree needs this
-        "request": context["request"],  # render_tree needs this
-    }
-
-
-@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_tree.html", takes_context=True)
-def render_tree(context, node):
-    """Render out a menu tree"""
-    nodes = node.get("nodes")
-    allowed = check_for_one_permission_in_node_list(context["user"], nodes)
-    add_display_block = check_for_node_that_matches_request_path(context["request"], nodes)
-
-    if not node.get("icon"):
-        node["icon"] = "not-found"
-
-    return {
-        "node": node,
-        "allowed": allowed,
-        "add_display_block": add_display_block,
-        "user": context["user"],
-        "request": context["request"],
-    }
-
-
-@register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu_link.html", takes_context=True)
-def render_link(context, node):
-    """Render out a menu link"""
-    default = {
-        "class": "",
-        "attributes": {},
-    }
-
-    print("\n\n\n\n")
-    print("render_link():")
-    print("    context: {0}".format(context))
-    print("    node: {0}".format(node))
-    print("    default: {0}".format(default))
-
-    default.update(node)
-    node = default
-
-    print("")
-    print("    updated_node: {0}".format(node))
-
-    ensure_node_has_url_property(node)
-
-    allowed = is_allowed_node(context["user"], node)
-
-    text = node.get("text") or ""
-    title = text
-    hook = node.get("hook")  # 'path.to.function' that will return text
-    if hook:
-        # NOTE: hook should return 'text' or a tuple ('text', 'title text')
-        hook_args = node.get("hook_args", [])
-        hook_kwargs = node.get("hook_kwargs", {})
-        text_func = import_string(hook)
-        text = title = text_func(*hook_args, context=context, **hook_kwargs)
-        try:
-            text, title = text
-        except ValueError:
-            pass  # A tuple wasn't returned, assume just text
-
-    node["text"] = text
-    node["title"] = title
-
-    if not node.get("icon"):
-        node["icon"] = ""
-
-    return {
-        "node": node,
-        "allowed": allowed,
-        "request": context["request"],
-    }
-
-
-@register.filter
-def url_starts_with(search_string, sub_string):
-    """Determine if a url starts with a sub string"""
-    stripped_search_string = strip_hash_bookmark_from_url(search_string)
-    stripped_sub_string = strip_hash_bookmark_from_url(sub_string)
-    return stripped_search_string.startswith(stripped_sub_string)
+def strip_hash_bookmark_from_url(url):
+    """Strip the hash bookmark from a string url"""
+    return (url or "").split("#")[0]
 
 
 def _default_routes_are_registered():
