@@ -68,13 +68,19 @@ class _AdminMenu:
                         model_name = model["object_name"]
                         model_icon = self.get_model_icon(model_name)
 
+                        # Since admin views are built-in Django views, we have to somewhat conform to expected
+                        # default behavior. At least for now, this should mimic default Django Admin behavior.
+                        # If any further magic permission handling is added to the package in the future,
+                        # This should be updated accordingly or else node logic will break.
                         model_node = {
                             "url": url,
                             "text": model_name,
                             "icon": model_icon,
-                            "permissions": [],
-                            "one_of_permissions": model_perms,
+                            "allow_anonymous": False,
                             "login_required": True,
+                            "allow_without_permissions": False,
+                            "one_of_permissions": model_perms,
+                            "permissions": [],
                         }
 
                         model_nodes.append(model_node)

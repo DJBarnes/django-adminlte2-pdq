@@ -90,9 +90,9 @@ def get_permissions_from_view(view):
         pdq_data = getattr(view.func, "admin_pdq_data", {})
 
     view_data["decorator_name"] = pdq_data.get("decorator_name", "")
-    # view_data["allow_anonymous"] = pdq_data.get("allow_anonymous", None)
+    view_data["allow_anonymous"] = pdq_data.get("allow_anonymous", None)
     view_data["login_required"] = pdq_data.get("login_required", None)
-    # view_data["allow_without_permissions"] = pdq_data.get("allow_without_permissions", None)
+    view_data["allow_without_permissions"] = pdq_data.get("allow_without_permissions", None)
     view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
     view_data["full_permissions"] = pdq_data.get("full_permissions", [])
 
@@ -115,22 +115,21 @@ def get_permissions_from_node(node):
     node_one_of_permissions = node.get("one_of_permissions", None)
     node_full_permissions = node.get("permissions", None)
 
-    # If all properties are set on the node, we do not need to check the view
-    # as node properties take precedence over view ones. Additionally, all
-    # admin links contain all 3 properties and any searching for properties on
-    # an admin view will raise a route missing exception since admin nodes do
-    # not contain a route key. This saves time and makes admin nodes work.
+    # Skip checking if all values are set.
+    # Required as a work-around for default Django behavior, when rendering
+    # an admin page link. If additional permission values are added, they MUST
+    # also be added here and then defined on the default node in admin_menu.py.
     if (
-        # node_allow_anonymous is not None
-        node_login_required is not None
-        # and node_allow_without_permissions is not None
+        node_allow_anonymous is not None
+        and node_login_required is not None
+        and node_allow_without_permissions is not None
         and node_one_of_permissions is not None
         and node_full_permissions is not None
     ):
         return (
-            # node_allow_anonymous,
+            node_allow_anonymous,
             node_login_required,
-            # node_allow_without_permissions,
+            node_allow_without_permissions,
             node_one_of_permissions,
             node_full_permissions,
         )
@@ -149,9 +148,9 @@ def get_permissions_from_node(node):
     if view:
         view_data = get_permissions_from_view(view)
 
-        # view_allow_anonymous = view_data["allow_anonymous"]
+        view_allow_anonymous = view_data["allow_anonymous"]
         view_login_required = view_data["login_required"]
-        # view_allow_without_permissions = view_data["allow_without_permissions"]
+        view_allow_without_permissions = view_data["allow_without_permissions"]
         view_one_of_permissions = view_data["one_of_permissions"]
         view_full_permissions = view_data["full_permissions"]
 
@@ -195,9 +194,9 @@ def get_permissions_from_node(node):
 
     # Return calculated values.
     return (
-        # allow_anonymous,
+        allow_anonymous,
         login_required,
-        # allow_without_permissions,
+        allow_without_permissions,
         one_of_permissions,
         full_permissions,
     )
@@ -309,11 +308,11 @@ def is_allowed_node(user, node):
 
     # Get the permissions, one_of_perms, and login_required from the node or node's view.
     return_data = get_permissions_from_node(node)
-    # allow_anonymous = return_data[0]
-    login_required = return_data[0]
-    # allow_without_permissions = return_data[2]
-    one_of_permissions = return_data[1]
-    full_permissions = return_data[2]
+    allow_anonymous = return_data[0]
+    login_required = return_data[1]
+    allow_without_permissions = return_data[2]
+    one_of_permissions = return_data[3]
+    full_permissions = return_data[4]
 
     # Get whether node has at least one property set
     has_property = login_required or bool(one_of_permissions) or bool(full_permissions)
