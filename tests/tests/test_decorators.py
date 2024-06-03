@@ -24,8 +24,11 @@ from adminlte2_pdq.decorators import login_required, permission_required, permis
 UserModel = get_user_model()
 
 
-class DaveDecoratorTestCase(TestCase):
-    """Original decorator tests by Dave."""
+class TestIsolatedDecorators(TestCase):
+    """Test logic that DOES NOT seem to touch/trigger middleware.
+
+    Thus, this  tests Decorator logic for projects that do not have the package middleware enabled.
+    """
 
     def setUp(self):
         self.permission_content_type = ContentType.objects.get_for_model(Permission)
@@ -262,7 +265,7 @@ class DaveDecoratorTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-class DecoratorTestCaseBase(IntegrationTestCase):
+class BaseDecoratorTestCase(IntegrationTestCase):
     """Base class for Decorator tests."""
 
     # region Expected Test Messages
@@ -409,7 +412,7 @@ class DecoratorTestCaseBase(IntegrationTestCase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class StandardDecoratorTestCase(DecoratorTestCaseBase):
+class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
     """
     Test project authentication decorators, under project "Loose" mode.
     """
@@ -1725,7 +1728,7 @@ class StandardDecoratorTestCase(DecoratorTestCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class StrictDecoratorTestCase(DecoratorTestCaseBase):
+class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
     """
     Test project authentication decorators, under project "Strict" mode.
     """

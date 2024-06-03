@@ -25,8 +25,11 @@ from adminlte2_pdq.mixins import LoginRequiredMixin, PermissionRequiredMixin
 UserModel = get_user_model()
 
 
-class DaveMixinTestCase(TestCase):
-    """Original mixin tests by Dave."""
+class TestIsolatedMixins(TestCase):
+    """Test logic that DOES NOT seem to touch/trigger middleware.
+
+    Thus, this  tests Mixin logic for projects that do not have the package middleware enabled.
+    """
 
     def setUp(self):
         self.permission_content_type = ContentType.objects.get_for_model(Permission)
@@ -209,7 +212,7 @@ class DaveMixinTestCase(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
-class MixinTextCaseBase(IntegrationTestCase):
+class BaseMixinTextCase(IntegrationTestCase):
     """Base class for Mixin tests."""
 
     # region Expected Test Messages
@@ -384,7 +387,7 @@ class MixinTextCaseBase(IntegrationTestCase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class StandardMixinTestCase(MixinTextCaseBase):
+class TestLooseAuthenticationMixins(BaseMixinTextCase):
     """
     Test project authentication mixins, under project "Loose" mode.
     """
@@ -1212,7 +1215,7 @@ class StandardMixinTestCase(MixinTextCaseBase):
             # Was redirected to login so should be no data.
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
-        with self.subTest('As user with one permission'):
+        with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
@@ -1723,7 +1726,7 @@ class StandardMixinTestCase(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=False)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-class StandardBleedingMixinTestCase(MixinTextCaseBase):
+class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
     By "bleeding", we refer to instances when the user overlaps values for one
@@ -2522,7 +2525,7 @@ class StandardBleedingMixinTestCase(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class StrictMixinTestCase(MixinTextCaseBase):
+class TestStrictAuthenticationMixin(BaseMixinTextCase):
     """
     Test project authentication mixins, under project "Strict" mode.
     """
@@ -4088,7 +4091,7 @@ class StrictMixinTestCase(MixinTextCaseBase):
 @override_settings(STRICT_POLICY=True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class StrictBleedingMixinTestCase(MixinTextCaseBase):
+class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
     By "bleeding", we refer to instances when the user overlaps values for one
