@@ -126,13 +126,13 @@ def get_permissions_from_node(node):
         and node_one_of_permissions is not None
         and node_full_permissions is not None
     ):
-        return (
-            node_allow_anonymous,
-            node_login_required,
-            node_allow_without_permissions,
-            node_one_of_permissions,
-            node_full_permissions,
-        )
+        return {
+            "allow_anonymous": node_allow_anonymous,
+            "login_required": node_login_required,
+            "allow_without_permissions": node_allow_without_permissions,
+            "one_of_permissions": node_one_of_permissions,
+            "full_permissions": node_full_permissions,
+        }
 
     # Default our values to None.
     view_allow_anonymous = None
@@ -193,13 +193,13 @@ def get_permissions_from_node(node):
         full_permissions = view_full_permissions or []
 
     # Return calculated values.
-    return (
-        allow_anonymous,
-        login_required,
-        allow_without_permissions,
-        one_of_permissions,
-        full_permissions,
-    )
+    return {
+        "allow_anonymous": allow_anonymous,
+        "login_required": login_required,
+        "allow_without_permissions": allow_without_permissions,
+        "one_of_permissions": one_of_permissions,
+        "full_permissions": full_permissions,
+    }
 
 
 def ensure_node_has_url_property(node):
@@ -308,11 +308,11 @@ def is_allowed_node(user, node):
 
     # Get the permissions, one_of_perms, and login_required from the node or node's view.
     return_data = get_permissions_from_node(node)
-    allow_anonymous = return_data[0]
-    login_required = return_data[1]
-    allow_without_permissions = return_data[2]
-    one_of_permissions = return_data[3]
-    full_permissions = return_data[4]
+    allow_anonymous = return_data["allow_anonymous"]
+    login_required = return_data["login_required"]
+    allow_without_permissions = return_data["allow_without_permissions"]
+    one_of_permissions = return_data["one_of_permissions"]
+    full_permissions = return_data["full_permissions"]
 
     # Get whether node has at least one property set
     has_property = login_required or bool(one_of_permissions) or bool(full_permissions)
