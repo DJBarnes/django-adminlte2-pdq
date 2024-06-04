@@ -104,27 +104,61 @@ class AuthMiddleware:
         # Calculate data for decorated view, in order to determine permission logic.
         view_data = self.parse_request_data(request)
 
-        # Handle if using login_required decorator within STRICT mode.
-        if STRICT_POLICY and view_data["decorator_name"] == "login_required":
+        # Handle if using login_required decorator within STRICT mode or Login Required mode.
+        if (STRICT_POLICY or LOGIN_REQUIRED) and view_data["decorator_name"] == "login_required":
+
+            # Determine some error message values based on mode.
+            if STRICT_POLICY:
+                mode_type = "STRICT"
+                mode_text = "login and permissions are"
+                similar_decorators = "allow_anonymous_access or allow_without_permissions"
+                pluralize = "s"
+            else:
+                mode_type = "LOGIN REQUIRED"
+                mode_text = "login is"
+                similar_decorators = "allow_anonymous_access"
+                pluralize = ""
+
+            # Display error message.
             error_message = (
-                "The login_required {view_perm_type} is not supported in AdminLtePdq STRICT mode. "
-                "Having STRICT mode on implicitly assumes login and permissions are required "
+                "The login_required {view_perm_type} is not supported in AdminLtePdq {mode_type} mode. "
+                "Having {mode_type} mode on implicitly assumes {mode_text} required "
                 "for all views that are not in a whitelist setting."
                 "\n\n"
-                "Also consider the allow_anonymous_access or allow_without_permissions {view_perm_type}s."
+                "Also consider the {similar_decorators} {view_perm_type}{pluralize}."
             ).format(
+                mode_type=mode_type,
+                mode_text=mode_text,
+                similar_decorators=similar_decorators,
                 view_perm_type=view_data["view_perm_type"],
+                pluralize=pluralize,
             )
             raise PermissionError(error_message)
 
-        # Handle if using allow_anonymous_access or allow_without_permissions decorator in LOOSE mode.
-        if not STRICT_POLICY and view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]:
+        # Handle if using allow_anonymous_access or allow_without_permissions decorator in mode that doesn't make sense.
+        if (
+            # Using allow_anonymous or allow_without_permissions in Loose mode.
+            (
+                (not STRICT_POLICY and not LOGIN_REQUIRED)
+                and view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]
+            )
+            # Or using allow_without_permissions outside of strict mode.
+            or (not STRICT_POLICY and view_data["decorator_name"] == "allow_without_permissions")
+        ):
+            # Determine some error message values based on mode.
+            if not STRICT_POLICY and not LOGIN_REQUIRED:
+                mode_type = "LOOSE"
+            else:
+                mode_type = "LOGIN REQUIRED"
+
+            # Display error message.
             error_message = (
-                "The {decorator_name} {view_perm_type} is not supported in AdminLtePdq LOOSE mode. "
+                "The {decorator_name} {view_perm_type} is not supported in AdminLtePdq {mode_type} mode. "
                 "This {view_perm_type} only exists for clarity of permission access in STRICT mode."
             ).format(
                 decorator_name=view_data["decorator_name"],
                 view_perm_type=view_data["view_perm_type"],
+                mode_type=mode_type,
             )
             raise PermissionError(error_message)
 
@@ -181,7 +215,7 @@ class AuthMiddleware:
             # Is STRICT mode.
             STRICT_POLICY
             # Is not a decorator allowing lesser permissions.
-            and not view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]
+            and view_data["decorator_name"] not in ["allow_anonymous_access", "allow_without_permissions"]
             # Fails general checks for everything else.
             and not self.verify_strict_mode_permission_set(request, view_data)
         ):
@@ -216,7 +250,9 @@ class AuthMiddleware:
         data_dict = {
             "path": request.path,
             "decorator_name": "",
+            "allow_anonymous_access": False,
             "login_required": False,
+            "allow_without_permissions": False,
             "one_of_permissions": None,
             "full_permissions": None,
         }
@@ -260,7 +296,9 @@ class AuthMiddleware:
                 # Handle for AdminLtePdq-specific attributes.
                 if pdq_data:
                     data_dict["decorator_name"] = pdq_data.get("decorator_name", "")
+                    data_dict["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", False)
                     data_dict["login_required"] = pdq_data.get("login_required", False)
+                    data_dict["allow_without_permissions"] = pdq_data.get("allow_without_permissions", False)
 
                     # Because we seem unable to get the "updated" class attributes,
                     # and only have access to the original literal class-level values,
@@ -281,7 +319,9 @@ class AuthMiddleware:
                 # Handle for AdminLtePdq-specific attributes.
                 if pdq_data:
                     data_dict["decorator_name"] = pdq_data.get("decorator_name", "")
+                    data_dict["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", False)
                     data_dict["login_required"] = pdq_data.get("login_required", False)
+                    data_dict["allow_without_permissions"] = pdq_data.get("allow_without_permissions", False)
                     data_dict["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
                     data_dict["full_permissions"] = pdq_data.get("full_permissions", [])
 
@@ -315,8 +355,10 @@ class AuthMiddleware:
 
         # User not logged in. Still allow request for the following:
         return (
+            # View has allow_anonymous decorator.
+            view_data["allow_anonymous_access"] is True
             # If url name exists in whitelist.
-            view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
+            or view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
             or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
             # If path exists in whitelist.
             or view_data["path"] in LOGIN_EXEMPT_WHITELIST

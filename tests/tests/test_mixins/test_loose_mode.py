@@ -33,7 +33,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
-        # Verify values imported from contants.py file.
+        # Verify values imported from constants.py file.
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -1381,7 +1381,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
-        # Verify values imported from contants.py file.
+        # Verify values imported from constants.py file.
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

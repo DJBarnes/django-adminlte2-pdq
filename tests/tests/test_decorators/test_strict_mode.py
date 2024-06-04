@@ -38,7 +38,7 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
         self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
-        # Verify values imported from contants.py file.
+        # Verify values imported from constants.py file.
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -362,7 +362,7 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
         """Test for allow_anonymous_access decorator, in project "Strict" mode."""
 
         with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
+            # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -387,7 +387,7 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
             # But testing anyway since package does a lot of background magic with auth logic.
-            # Should fail and redirect to login.
+            # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -691,8 +691,6 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest("As user with full permissions"):
-            # Should succeed and load as expected.
-
             # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
@@ -726,8 +724,6 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest("As staff user with full permissions"):
-            # Should succeed and load as expected.
-
             # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
@@ -761,8 +757,6 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
             # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
@@ -774,8 +768,6 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
         with self.subTest("As a superuser"):
-            # Should succeed and load as expected.
-
             # Invalid decorator used for strict mode. Should raise error.
 
             with self.assertRaises(PermissionError) as err:
