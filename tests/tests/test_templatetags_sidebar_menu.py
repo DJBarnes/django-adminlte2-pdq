@@ -2071,7 +2071,11 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             self.assertTrue(allowed)
 
     def test__standard__node_allow_without_permissions(self):
-        """"""
+        """
+        Note: Technically this state doesn't make sense, and would not be achievable under normal
+            middleware handling. Without login_required, this will always return True.
+        # Todo: Should at least raise a warning anytime logic occurs that has no effect, such as this.
+        """
 
         # Node used for all subtests.
         node = {
@@ -2082,11 +2086,6 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
         }
 
         with self.subTest("As anonymous user"):
-            # Note: Technically this state doesn't make sense, and would not be achievable under normal
-            #   middleware handling. Without login_required, this will always return True.
-            # TODO/Suggestion: Perhaps if allow_without_permissions is explicitly defined on the node,
-            #   then login_required should be implicitly assumed on the node as well?
-
             # Get user to run subtest on.
             self._setup_anonymous_user()
 
@@ -3818,11 +3817,14 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_login_whitelist__node_minimal(self):
-        """"""
-        # TODO: If a node is login whitelisted, then permissions can't apply. ...right?
-        #   So should logic be tweaked so that any login-whitelisted STRICT views
-        #   will automatically pass permission checks too? Unless node requires it?
-        #   Leaving commented-out until there is verification of logic.
+        """
+        Note: The LOGIN_EXEMPT_WHITELIST is only for login access.
+            If the view is not also put into the PERMISSION_EXEMPT_WHITELIST, then the login
+            whitelist effectively does nothing. This is because permissions are still required,
+            and to have permissions, a user needs to be logged in.
+
+        # TODO: In fact, this should probably provide a warning when put into this state.
+        """
 
         # # Node used for all subtests.
         # node = {
@@ -4665,11 +4667,6 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_one_permission_required(self):
         """"""
-
-        # TODO: How should this function?
-        #   The node says one_of_permissions required, but the whitelist says exempt for the view.
-        #   Below tests are formatted with the assumption that "node still always takes priority above all else".
-        #   But leaving this comment to verify it's correct.
 
         # Node used for all subtests.
         node = {
