@@ -7,6 +7,7 @@ Template tags and logic for rendering sidebar menu
 # Third-Party Imports.
 from django import template
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.http import Http404
 from django.urls import resolve, reverse, NoReverseMatch
 from django.utils.module_loading import import_string
@@ -226,7 +227,7 @@ def render_link(context, node):
 
 
 def get_permissions_from_view(view):
-    """Get the permissions and login_required from a view"""
+    """Get the permission/access data from a view."""
 
     view_data = {}
     view_class = getattr(view.func, "view_class", None)
@@ -246,13 +247,24 @@ def get_permissions_from_view(view):
 
 
 def get_permissions_from_node(node):
-    """
-    Gets the permissions required from the node
+    """Gets the permission/access data for provided node.
 
-    by using either the 'route' or 'url' key on the node to determine the
-    associated view for the route/url. Then checks the view to see if it
-    contains properties for the required permissions and returns them if found.
+    If values are defined on the node itself, then those values take priority over all else.
+
+    If node is missing one or more values, then logic falls back to the view, if the values are
+    defined there as per the associated decorators/mixins.
+
+    If the view also is missing one or more values, then logic falls back to expected default
+    behavior as per project settings. Mostly those defined by STRICT mode and LOGIN_REQUIRED mode.
     """
+
+    err_str__anonymous_and_login_required = "Cannot allow_anonymous_access and have login_required at the same time."
+    err_str__without_perms_and_perms_required = (
+        "Cannot allow_without_perms and have permissions required at the same time."
+    )
+    err_str__anonymous_permissions = (
+        "Cannot allow_anonymous_access while having permission requirements at the same time."
+    )
 
     # Get permissions and login_required defined directly on the node.
     node_allow_anonymous = node.get("allow_anonymous", None)
@@ -260,6 +272,35 @@ def get_permissions_from_node(node):
     node_allow_without_permissions = node.get("allow_without_permissions", None)
     node_one_of_permissions = node.get("one_of_permissions", None)
     node_full_permissions = node.get("permissions", None)
+
+    print("")
+    print("Node Data:")
+    print("    node_allow_anonymous: {0}".format(node_allow_anonymous))
+    print("    node_login_required: {0}".format(node_login_required))
+    print("    node_allow_without_permissions: {0}".format(node_allow_without_permissions))
+    print("    node_one_of_permissions: {0}".format(node_one_of_permissions))
+    print("    node_full_permissions: {0}".format(node_full_permissions))
+
+    # Raise errors for configurations that don't make sense for node level.
+    # Note: one_of_permission and full_permissions can be set at the same time.
+    #   In which case they overlap. So requires all of one permission set, plus at least one of a second set.
+    if node_allow_anonymous and node_login_required:
+        # Setting conflicting login_required states.
+        raise ImproperlyConfigured(err_str__anonymous_and_login_required)
+    if (
+        # So black doesn't one-line this.
+        node_allow_without_permissions
+        and (node_one_of_permissions or node_full_permissions)
+    ):
+        # Setting conflicting permission states.
+        raise ImproperlyConfigured(err_str__without_perms_and_perms_required)
+    if (
+        # So black doesn't one-line this.
+        node_allow_anonymous
+        and (node_one_of_permissions or node_full_permissions)
+    ):
+        # Can't have anonymous and permission requirements.
+        raise ImproperlyConfigured(err_str__anonymous_permissions)
 
     # Skip checking if all values are set.
     # Required as a work-around for default Django behavior, when rendering
@@ -278,6 +319,8 @@ def get_permissions_from_node(node):
             "allow_without_permissions": node_allow_without_permissions,
             "one_of_permissions": node_one_of_permissions,
             "full_permissions": node_full_permissions,
+            # Special case for handling a view in STRICT POLICY WHITELIST but the node says permission is required.
+            "node_requires_permissions": (bool(node_one_of_permissions) or bool(node_full_permissions)),
         }
 
     # Default our values to None.
@@ -293,50 +336,91 @@ def get_permissions_from_node(node):
     # If there is a view, use it to get the view permissions and login_required.
     if view:
         view_data = get_permissions_from_view(view)
-
         view_allow_anonymous = view_data["allow_anonymous"]
         view_login_required = view_data["login_required"]
         view_allow_without_permissions = view_data["allow_without_permissions"]
         view_one_of_permissions = view_data["one_of_permissions"]
         view_full_permissions = view_data["full_permissions"]
 
-    # NOTE: Order matters for below values.
-    # For all of them, a node value takes precedence, if provided.
-    # If no node value is provided, the view value is used.
-    # Fall back to global default/setting value, if neither of those are set.
+    print("")
+    print("View Data:")
+    print("    view_allow_anonymous: {0}".format(node_allow_anonymous))
+    print("    view_login_required: {0}".format(node_login_required))
+    print("    view_allow_without_permissions: {0}".format(node_allow_without_permissions))
+    print("    view_one_of_permissions: {0}".format(node_one_of_permissions))
+    print("    view_full_permissions: {0}".format(node_full_permissions))
+
+    # Raise errors for configurations that don't make sense for view level.
+    # Should handle effectively the same as above node error checks. Just at the view level.
+    if view_allow_anonymous and view_login_required:
+        # Setting conflicting login_required states.
+        raise ImproperlyConfigured(err_str__anonymous_and_login_required)
+    if (
+        # So black doesn't one-line this.
+        view_allow_without_permissions
+        and (view_one_of_permissions or view_full_permissions)
+    ):
+        # Setting conflicting permission states.
+        raise ImproperlyConfigured(err_str__without_perms_and_perms_required)
+    if (
+        # So black doesn't one-line this.
+        view_allow_anonymous
+        and (view_one_of_permissions or view_full_permissions)
+    ):
+        # Can't have anonymous and permission requirements.
+        raise ImproperlyConfigured(err_str__anonymous_permissions)
+
+    # NOTE 1: Order matters for below values.
+    #   For all of them, a node value takes precedence, if provided.
+    #   If no node value is provided, the view value is used.
+    #   Fall back to global default/setting value, if neither of those are set.
+    #
+    # Note 2: If we made it this far, then it should be impossible for node or
+    #   view values to overlap in ways that conflict.
+    #   Aka, below logic should be able to pretty comfortably make some
+    #   assumptions to help guide permission logic.
 
     # Check if node allows anonymous.
     allow_anonymous = node_allow_anonymous
-    if allow_anonymous is None:
-        # Fall back to view value.
+    if allow_anonymous is None and not bool(node_login_required):
+        # Fall back to view value, as long as node login_required is not also set.
         allow_anonymous = view_allow_anonymous
 
     # Check if node requires login.
     login_required = node_login_required
-    if login_required is None:
-        # Use decorator/mixin login_required.
+    if login_required is None and not bool(node_allow_anonymous):
+        # Fall back to view value, as long as node allow_anonymous is not also set.
         login_required = view_login_required
-    if login_required is None:
-        # Fall back to settings values.
+    if login_required is None and not bool(node_allow_anonymous):
+        # Fall back to settings values, as long as node allow_anonymous is not also set.
+        # If either of these are set, then login should be required.
         login_required = STRICT_POLICY or LOGIN_REQUIRED
 
     # Check if node allows without permissions.
     allow_without_permissions = node_allow_without_permissions
-    if allow_without_permissions is None:
-        # Fall back to view value.
+    if allow_without_permissions is None and not (bool(node_one_of_permissions) or bool(node_full_permissions)):
+        # Fall back to view value, as long as node permissions are not set.
         allow_without_permissions = view_allow_without_permissions
 
     # Check if node requires one of permissions.
     one_of_permissions = node_one_of_permissions
-    if one_of_permissions is None:
-        # Use view value or empty list.
+    if one_of_permissions is None and not bool(node_allow_without_permissions):
+        # Fall back to view value, as long as node allow_without_permissions is not set.
         one_of_permissions = view_one_of_permissions or []
 
     # Check if node requires full permissions.
     full_permissions = node_full_permissions
-    if full_permissions is None:
-        # Use view value or empty list.
+    if full_permissions is None and not bool(node_allow_without_permissions):
+        # Fall back to view value, as long as node allow_without_permissions is not set.
         full_permissions = view_full_permissions or []
+
+    print("")
+    print("Final Calculated Data:")
+    print("    allow_anonymous: {0}".format(allow_anonymous))
+    print("    login_required: {0}".format(login_required))
+    print("    allow_without_permissions: {0}".format(allow_without_permissions))
+    print("    one_of_permissions: {0}".format(one_of_permissions))
+    print("    full_permissions: {0}".format(full_permissions))
 
     # Return calculated values.
     return {
@@ -345,60 +429,117 @@ def get_permissions_from_node(node):
         "allow_without_permissions": allow_without_permissions,
         "one_of_permissions": one_of_permissions,
         "full_permissions": full_permissions,
+        # Special case for handling a view in STRICT POLICY WHITELIST but the node says permission is required.
+        "node_requires_permissions": (bool(node_one_of_permissions) or bool(node_full_permissions)),
     }
 
 
 def is_allowed_node(user, node):
-    """
-    Checks to ensure a node is valid for rendering.
+    """Checks if a node is valid for rendering to current user.
 
-    An all encompassing method that checks all permissions, one of permissions
-    and the whitelist settings to know whether or not a given node is valid
-    for rendering to the user.
-    Any new code that needs to check permissions should use this method.
+    A node is valid for rendering if the user has permissions needed as specified by the
+    node, view, or general project settings.
+
+    Values to check against are generally determined by the get_permissions_from_node function.
+    If conflicting values are provided, the most strict interpretation is used.
+
+    # TODO: To be honest, probably need the "bleeding"/"overlapping" decorator and mixin tests to be established first,
+    #   to really make sure this logic is correct.
     """
 
-    # Get the permissions, one_of_perms, and login_required from the node or node's view.
+    print("\n\n\n\n")
+    print("is_allowed_node():")
+    print("    user: {0}".format(user))
+    print("    node: {0}".format(node))
+
+    # Always allow superuser.
+    if user.is_superuser:
+        return True
+
+    # Start allowed as the opposite of the authentication policy.
+    # If we are in LOGIN REQUIRED, should start as failing login checks.
+    # If we are in STRICT, should start as failing permission checks.
+    passes_login_check = not LOGIN_REQUIRED
+    passes_permission_check = not STRICT_POLICY
+
+    print("")
+    print("Starting passes_login_check: {0}".format(passes_login_check))
+    print("Starting passes_permission_check: {0}".format(passes_permission_check))
+
+    # Get the permission/access values from the node or node's view.
     return_data = get_permissions_from_node(node)
     allow_anonymous = return_data["allow_anonymous"]
     login_required = return_data["login_required"]
     allow_without_permissions = return_data["allow_without_permissions"]
     one_of_permissions = return_data["one_of_permissions"]
     full_permissions = return_data["full_permissions"]
+    # Special case for handling a view in STRICT POLICY WHITELIST but the node says permission is required.
+    node_requires_permissions = return_data["node_requires_permissions"]
 
-    # Get whether node has at least one property set
-    has_property = login_required or bool(one_of_permissions) or bool(full_permissions)
-
-    # Start allowed as the opposite of the strict policy.
-    # If we are in strict mode, allowed should start as false.
-    # If we are NOT in strict mode, allowed should start as true.
-    allowed = not STRICT_POLICY
-
+    # If node allows anonymous, then anyone can access, regardless of any other settings.
+    if allow_anonymous:
+        passes_login_check = True
+        passes_permission_check = True
     # If the node requires being logged in, or the login required middleware is active.
-    if login_required or LOGIN_REQUIRED:
-        # If login_required, verify user is authenticated or the route for the
-        # node is whitelisted in the login exempt whitelist.
-        allowed = user.is_authenticated or check_for_login_whitelisted_node(node)
+    elif login_required or LOGIN_REQUIRED:
+        # Some iteration of login is required.
+        # Verify user is authenticated or the route for the node is whitelisted in the login exempt whitelist.
+        passes_login_check = user.is_authenticated or check_for_login_whitelisted_node(node)
 
-    # If the node requires permissions, it will also require being logged in
-    # without explicitly setting that. But, by checking after the login required
-    # check, we can catch both scenarios where they define both.
-    if one_of_permissions or full_permissions:
+    print("")
+    print("Running permission checks...")
+    print("    node_requires_permissions: {0}".format(node_requires_permissions))
+    print("    check_for_strict_whitelisted_node(): {0}".format(check_for_strict_whitelisted_node(node)))
+    print("    check_for_one_permission(): {0}".format(check_for_one_permission(user, one_of_permissions)))
+    print("    check_for_all_permissions(): {0}".format(check_for_all_permissions(user, full_permissions)))
 
-        # Determine if the node is accessible by permissions alone.
-        # This will include the need to be logged in even if they didn't specify that.
-        allowed = (
-            # Check if one permission required.
-            check_for_one_permission(user, one_of_permissions)
-            # Check if all permissions required.
-            or check_for_all_permissions(user, full_permissions)
-        )
+    # If node allows without permissions, then all users pass permission checks.
+    if allow_without_permissions:
+        passes_permission_check = True
+    # Check if view is in permission whitelist, so long as node doesn't specify permissions required.
+    elif not node_requires_permissions and check_for_strict_whitelisted_node(node):
+        passes_permission_check = True
+    # Otherwise if any permission values exist, user needs to pass a permission check.
+    elif one_of_permissions or full_permissions:
 
-    # Check whitelist when in strict mode assuming no properties have been set on the node.
-    if not has_property and STRICT_POLICY and (check_for_strict_whitelisted_node(node) or user.is_superuser):
-        allowed = True
+        # TODO: I'm so tired, I suspect I messed this logic up?
+        #   Verify permission-access node tests when more rested.
+        #   The goal of this is to allow views that either need one_permission or full_permissions.
+        #   In such a case, the user should be able to pass the single check without worrying about the other.
+        #   .
+        #   But also needs to allow stacking requirements so that a node/view can define and require both values.
+        #   In the case of using both, the user needs to have all of the perms in full_permissions AND at least one
+        #   perm in one_of_permissions.
+        #   .
+        #   Tests seemed fine when going through them, but now looking at this final logic I have here, I
+        #   suspect it's possibly too relaxed.
+        #   Specifically, in cases where one_permission or full_permissions are defined, but no values are passed in,
+        #   does this fail? I don't know if we have any tests for that on the node level.
 
-    return allowed
+        # Default to passing checks.
+        passes_one_check = True
+        passes_all_check = True
+
+        # Check if one permission required.
+        if one_of_permissions:
+            passes_one_check = check_for_one_permission(user, one_of_permissions)
+
+        # Check if all permissions required.
+        if full_permissions:
+            passes_all_check = check_for_all_permissions(user, full_permissions)
+
+        # Final result is the combination of these two.
+        passes_permission_check = passes_one_check and passes_all_check
+
+    print("")
+    print("Ending passes_login_check: {0}".format(passes_login_check))
+    print("Ending passes_permission_check: {0}".format(passes_permission_check))
+
+    print("")
+    print("Final combined check: {0}".format(passes_login_check and passes_permission_check))
+
+    # Return true if passes both types of checks. False otherwise.
+    return passes_login_check and passes_permission_check
 
 
 def check_for_one_permission(user, permissions):
@@ -420,8 +561,8 @@ def check_for_one_permission(user, permissions):
 
     allowed = False
 
-    # Compare the user's perms against the passed in permissions
-    # ensuring the user has all of them
+    # Compare the user's perms against the passed in permissions, ensuring the user at least one of them.
+    # We only run this check if any permissions were passed at all.
     if permissions:
         for permission in permissions:
             if user.has_perm(permission):
@@ -448,15 +589,14 @@ def check_for_all_permissions(user, permissions):
     if user.is_superuser:
         return True
 
-    allowed = True
+    allowed = False
 
-    # Compare the user's perms against the passed in permissions
-    # ensuring the user has all of them
+    # Compare the user's perms against the passed in permissions, ensuring the user has all of them.
+    # We only run this check if any permissions were passed at all.
     if permissions:
+        allowed = True
         if not user.has_perms(permissions):
             allowed = False
-    else:
-        allowed = False
 
     return allowed
 

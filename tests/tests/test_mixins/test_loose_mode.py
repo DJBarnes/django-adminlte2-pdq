@@ -1367,9 +1367,9 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
     as they are with the decorators, and so additional tests are required.
 
     NOTE: I'm not sure if it's possible to get updated values for response attributes?
-          Seems to only return the values defined at literal class value.
-          So sometimes the passed attributes seem "wrong" but as long as the actual view
-          directs as expected, then it's probably fine? Not sure if there's a better way...
+        Seems to only return the values defined at literal class value.
+        So sometimes the passed attributes seem "wrong" but as long as the actual view
+        directs as expected, then it's probably fine? Not sure if there's a better way...
     """
 
     def test__verify_patch_settings(self):
