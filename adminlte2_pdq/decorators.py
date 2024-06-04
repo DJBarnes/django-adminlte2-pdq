@@ -73,7 +73,9 @@ def allow_anonymous_access(function=None):
 
     pdq_data = {
         "decorator_name": "allow_anonymous_access",
+        "allow_anonymous_access": True,
         "login_required": False,
+        "allow_without_permissions": False,
         "one_of_permissions": None,
         "full_permissions": None,
     }
@@ -123,7 +125,9 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
 
     pdq_data = {
         "decorator_name": "login_required",
+        "allow_anonymous": False,
         "login_required": True,
+        "allow_without_permissions": False,
         "one_of_permissions": None,
         "full_permissions": None,
     }
@@ -160,7 +164,9 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
 
     pdq_data = {
         "decorator_name": "allow_without_permissions",
+        "allow_anonymous": False,
         "login_required": True,
+        "allow_without_permissions": True,
         "one_of_permissions": None,
         "full_permissions": None,
     }
@@ -202,7 +208,9 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
     pdq_data = {
         "decorator_name": "permission_required",
+        "allow_anonymous": False,
         "login_required": True,
+        "allow_without_permissions": False,
         "one_of_permissions": permissions,
         "full_permissions": None,
     }
@@ -243,7 +251,9 @@ def permission_required(permission, login_url=None, raise_exception=False):
 
     pdq_data = {
         "decorator_name": "permission_required",
+        "allow_anonymous": False,
         "login_required": True,
+        "allow_without_permissions": False,
         "one_of_permissions": None,
         "full_permissions": permissions,
     }

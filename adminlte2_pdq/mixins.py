@@ -21,7 +21,9 @@ class AllowAnonymousAccessMixin:
     # Pdq data processing dict.
     admin_pdq_data = {
         "decorator_name": "allow_anonymous_access",
+        "allow_anonymous_access": True,
         "login_required": False,
+        "allow_without_permissions": False,
         "one_of_permissions": None,
         "full_permissions": None,
     }
@@ -33,7 +35,9 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
     # Pdq data processing dict.
     admin_pdq_data = {
         "decorator_name": "login_required",
-        "login_required": True,  # Sets property that Sidebar Node can check.
+        "allow_anonymous_access": False,
+        "login_required": True,
+        "allow_without_permissions": False,
         "one_of_permissions": None,
         "full_permissions": None,
     }
@@ -48,7 +52,9 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
     # Pdq data processing dict.
     admin_pdq_data = {
         "decorator_name": "allow_without_permissions",
+        "allow_anonymous_access": False,
         "login_required": True,
+        "allow_without_permissions": True,
         "one_of_permissions": None,
         "full_permissions": None,
     }
@@ -64,7 +70,9 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
     # Pdq data processing dict.
     admin_pdq_data = {
         "decorator_name": "permission_required",
+        "allow_anonymous_access": False,
         "login_required": True,
+        "allow_without_permissions": False,
         "one_of_permissions": permission_required_one,
         "full_permissions": permission_required,
     }
