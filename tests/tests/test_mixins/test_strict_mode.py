@@ -38,7 +38,7 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
         self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
-        # Verify values imported from contants.py file.
+        # Verify values imported from constants.py file.
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -360,7 +360,7 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
         """Test for allow_anonymous_access mixin, in project "Strict" mode."""
 
         with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
+            # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -383,7 +383,7 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As an inactive user"):
-            # Should fail and redirect to login.
+            # Should succeed and load as expected.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1617,7 +1617,7 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
         self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
-        # Verify values imported from contants.py file.
+        # Verify values imported from constants.py file.
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

@@ -34,6 +34,17 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. "
         "This decorator only exists for clarity of permission access in STRICT mode."
     )
+    pdq_login__login_required_decorator_message = (
+        "The login_required decorator is not supported in AdminLtePdq LOGIN REQUIRED mode. "
+        "Having LOGIN REQUIRED mode on implicitly assumes login is required "
+        "for all views that are not in a whitelist setting."
+        "\n\n"
+        "Also consider the allow_anonymous_access decorator."
+    )
+    pdq_login__allow_without_permissions_decorator_message = (
+        "The allow_without_permissions decorator is not supported in AdminLtePdq LOGIN REQUIRED mode. "
+        "This decorator only exists for clarity of permission access in STRICT mode."
+    )
     pdq_strict__no_decorator_message = (
         "AdminLtePdq Warning: This project is set to run in strict mode, and "
         "the function-based view 'standard_view' does not have any decorators set. "

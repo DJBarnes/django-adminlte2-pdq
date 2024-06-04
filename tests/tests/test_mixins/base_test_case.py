@@ -45,21 +45,17 @@ class BaseMixinTextCase(IntegrationTestCase):
         "The allow_without_permissions mixin is not supported in AdminLtePdq LOOSE mode. "
         "This mixin only exists for clarity of permission access in STRICT mode."
     )
-    pdq__no_permissions_one__message = (
-        "AdminLtePdq Warning: The class-based view 'BleedingOnePermissionMissingPermissionsView' "
-        "has permission requirements, but does not have any permissions set. "
-        "This means that this view is inaccessible until permissions are set for the view."
+
+    pdq_login__login_required_mixin_message = (
+        "The login_required mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
+        "Having LOGIN REQUIRED mode on implicitly assumes login is required "
+        "for all views that are not in a whitelist setting."
         "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+        "Also consider the allow_anonymous_access mixin."
     )
-    pdq__no_permissions_full__message = (
-        "AdminLtePdq Warning: The class-based view 'BleedingFullPermissionMissingPermissionsView' "
-        "has permission requirements, but does not have any permissions set. "
-        "This means that this view is inaccessible until permissions are set for the view."
-        "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+    pdq_login__allow_without_permissions_mixin_message = (
+        "The allow_without_permissions mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
+        "This mixin only exists for clarity of permission access in STRICT mode."
     )
 
     pdq_strict__no_mixin_message = (
@@ -78,6 +74,23 @@ class BaseMixinTextCase(IntegrationTestCase):
         "for all views that are not in a whitelist setting."
         "\n\n"
         "Also consider the allow_anonymous_access or allow_without_permissions mixins."
+    )
+
+    pdq__no_permissions_one__message = (
+        "AdminLtePdq Warning: The class-based view 'BleedingOnePermissionMissingPermissionsView' "
+        "has permission requirements, but does not have any permissions set. "
+        "This means that this view is inaccessible until permissions are set for the view."
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+    )
+    pdq__no_permissions_full__message = (
+        "AdminLtePdq Warning: The class-based view 'BleedingFullPermissionMissingPermissionsView' "
+        "has permission requirements, but does not have any permissions set. "
+        "This means that this view is inaccessible until permissions are set for the view."
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
     )
 
     # endregion Expected Test Messages
