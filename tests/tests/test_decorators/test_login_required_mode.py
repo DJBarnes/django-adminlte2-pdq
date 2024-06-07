@@ -60,9 +60,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -82,9 +86,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -102,9 +110,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -118,9 +130,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -134,9 +150,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -150,9 +170,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -166,9 +190,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -182,9 +210,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -198,9 +230,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -214,9 +250,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -230,9 +270,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -246,9 +290,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-standard",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Standard View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Standard View Header",
             )
@@ -265,9 +313,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -290,9 +342,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -313,9 +369,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -336,9 +396,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -359,9 +423,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -382,9 +450,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -405,9 +477,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -428,9 +504,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -451,9 +531,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -474,9 +558,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -497,9 +585,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -520,9 +612,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-allow-anonymous-access",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -548,8 +644,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -561,8 +659,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.inactive_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -572,8 +672,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -583,8 +685,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -594,8 +698,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -605,8 +711,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.none_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -616,8 +724,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.partial_perm_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -627,8 +737,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.full_perm_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -638,8 +750,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -649,8 +763,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -660,8 +776,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -671,8 +789,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-login-required",
                     user=self.super_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__login_required_decorator_message, str(err.exception))
@@ -685,8 +805,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -696,8 +818,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.inactive_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -707,8 +831,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -718,8 +844,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -729,8 +857,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -740,8 +870,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.none_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -751,8 +883,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -762,8 +896,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.full_perm_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -773,8 +909,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -784,8 +922,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -795,8 +935,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -806,8 +948,10 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
                     user=self.super_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_login__allow_without_permissions_decorator_message, str(err.exception))
@@ -820,9 +964,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -842,9 +990,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -862,9 +1014,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -881,9 +1038,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -907,9 +1068,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -933,9 +1098,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -952,9 +1122,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -978,9 +1152,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1004,9 +1182,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1023,9 +1206,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1049,9 +1236,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1075,9 +1266,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-one-permission-required",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1104,9 +1299,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1125,9 +1325,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1144,9 +1349,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1163,9 +1373,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1182,9 +1397,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1208,9 +1427,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1227,9 +1451,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1246,9 +1475,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1272,9 +1505,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1291,9 +1529,14 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1310,9 +1553,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1336,9 +1583,13 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )

@@ -62,9 +62,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -87,9 +91,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.inactive_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -112,9 +120,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -137,9 +149,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -162,9 +178,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -187,9 +207,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.none_staff_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -212,9 +236,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.partial_perm_staff_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -237,9 +265,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.full_perm_staff_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -262,9 +294,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -287,9 +323,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -312,9 +352,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -337,9 +381,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-standard",
                     user=self.super_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Dashboard",
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
@@ -364,9 +412,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -387,9 +439,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -410,9 +466,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -433,9 +493,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -456,9 +520,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -479,9 +547,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -502,9 +574,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -525,9 +601,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -548,9 +628,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -571,9 +655,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -594,9 +682,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -617,9 +709,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-anonymous-access",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -645,8 +741,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -656,8 +754,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.inactive_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -667,8 +767,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -678,8 +780,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -689,8 +793,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -700,8 +806,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.none_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -711,8 +819,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.partial_perm_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -722,8 +832,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.full_perm_staff_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -733,8 +845,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -744,8 +858,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -755,8 +871,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -766,8 +884,10 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-login-required",
                     user=self.super_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -780,9 +900,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -799,9 +923,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -818,9 +946,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -841,9 +973,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -864,9 +1000,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -887,9 +1027,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -910,9 +1054,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -933,9 +1081,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -956,9 +1108,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -979,9 +1135,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -1002,9 +1162,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -1025,9 +1189,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-allow-without-permissions",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -1051,9 +1219,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -1071,9 +1243,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -1091,9 +1267,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1110,9 +1291,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1136,9 +1321,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1162,9 +1351,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1181,9 +1375,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1207,9 +1405,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1233,9 +1435,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1252,9 +1459,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1278,9 +1489,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1304,9 +1519,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | One Permission Required View Header",
             )
@@ -1333,9 +1552,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1352,9 +1576,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.inactive_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1371,9 +1600,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1390,9 +1624,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1409,9 +1648,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1435,9 +1678,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.none_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1454,9 +1702,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1473,9 +1726,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1499,9 +1756,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1518,9 +1780,14 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
                     "Remember Me",
@@ -1537,9 +1804,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1563,9 +1834,13 @@ class TestStrictAuthenticationMixin(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-full-permissions-required",
                 user=self.super_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
             )
@@ -1638,9 +1913,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1667,9 +1946,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1696,9 +1979,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1725,9 +2012,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1754,9 +2045,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1780,9 +2075,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1809,9 +2108,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
             )
@@ -1843,8 +2146,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1854,8 +2159,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1865,8 +2172,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1876,8 +2185,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1887,8 +2198,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1898,8 +2211,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1909,8 +2224,10 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             with self.assertRaises(PermissionError) as err:
                 self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=500,
                 )
             self.assertText(self.pdq_strict__login_required_mixin_message, str(err.exception))
@@ -1923,9 +2240,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.anonymous_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
                 expected_title="Login |",
                 expected_content=[
                     "Sign in to start your session",
@@ -1942,9 +2263,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.none_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -1971,9 +2296,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.partial_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -2000,9 +2329,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.full_perm_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -2029,9 +2362,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.incorrect_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -2058,9 +2395,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.partial_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -2087,9 +2428,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
+                # View setup.
                 "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
                 user=self.full_group_user,
+                # Expected view return data.
                 expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
                 expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                 expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
             )
@@ -2120,9 +2465,13 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
                     expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
@@ -2149,9 +2498,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             # Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2177,9 +2531,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2205,9 +2564,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2233,9 +2597,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             # Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2261,9 +2630,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2289,9 +2663,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2320,9 +2699,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.anonymous_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2348,9 +2732,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.none_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2376,9 +2765,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.partial_perm_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2404,9 +2798,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.full_perm_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2432,9 +2831,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.incorrect_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2460,9 +2864,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.partial_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
@@ -2488,9 +2897,14 @@ class TestStrictAutAuthenticationMixinOverlap(BaseMixinTextCase):
             #  Verify we get the expected page.
             with warnings.catch_warnings(record=True) as warning:
                 response = self.assertGetResponse(
+                    # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
                     user=self.full_group_user,
+                    # Expected view return data.
                     expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
                     expected_content=[
                         "Sign in to start your session",
                         "Remember Me",
