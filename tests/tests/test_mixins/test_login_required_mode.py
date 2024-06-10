@@ -1625,7 +1625,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
     and aren't allowed in this mode.
 
     Modified States are:
-    * "no_decorator" - The "anonymous" and "inactive" users can now access the page.
+    * "no_mixin" - The "anonymous" and "inactive" users can now access the page.
     * "allow_anonymous_access" - Raises a "whitelist overlap" warning.
     * "one_of_perms"/"full_perms" - Raises an "ineffective whitelist" warning.
     """
