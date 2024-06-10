@@ -9,6 +9,7 @@ from unittest.mock import patch
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 
 # Internal Imports.
@@ -618,7 +619,7 @@ class LoginModeMixin:
         with self.subTest("As anonymous user"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -633,7 +634,7 @@ class LoginModeMixin:
             # But testing anyway since package does a lot of background magic with auth logic.
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -646,7 +647,7 @@ class LoginModeMixin:
         with self.subTest("As user with no permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -659,7 +660,7 @@ class LoginModeMixin:
         with self.subTest("As user with one permission"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -672,7 +673,7 @@ class LoginModeMixin:
         with self.subTest("As user with full permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -685,7 +686,7 @@ class LoginModeMixin:
         with self.subTest("As staff user with no permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -698,7 +699,7 @@ class LoginModeMixin:
         with self.subTest("As staff user with one permission"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -711,7 +712,7 @@ class LoginModeMixin:
         with self.subTest("As staff user with full permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -724,7 +725,7 @@ class LoginModeMixin:
         with self.subTest("As user with incorrect groups"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -737,7 +738,7 @@ class LoginModeMixin:
         with self.subTest("As user with one group"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -750,7 +751,7 @@ class LoginModeMixin:
         with self.subTest("As user with full groups"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -763,7 +764,7 @@ class LoginModeMixin:
         with self.subTest("As a superuser"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -779,7 +780,7 @@ class LoginModeMixin:
         with self.subTest("As anonymous user"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -792,7 +793,7 @@ class LoginModeMixin:
         with self.subTest("As an inactive user"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -805,7 +806,7 @@ class LoginModeMixin:
         with self.subTest("As user with no permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -818,7 +819,7 @@ class LoginModeMixin:
         with self.subTest("As user with one permission"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -831,7 +832,7 @@ class LoginModeMixin:
         with self.subTest("As user with full permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -844,7 +845,7 @@ class LoginModeMixin:
         with self.subTest("As staff user with no permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -857,7 +858,7 @@ class LoginModeMixin:
         with self.subTest("As staff user with one permission"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -870,7 +871,7 @@ class LoginModeMixin:
         with self.subTest("As staff user with full permissions"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -883,7 +884,7 @@ class LoginModeMixin:
         with self.subTest("As user with incorrect groups"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -896,7 +897,7 @@ class LoginModeMixin:
         with self.subTest("As user with one group"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -909,7 +910,7 @@ class LoginModeMixin:
         with self.subTest("As user with full groups"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -922,7 +923,7 @@ class LoginModeMixin:
         with self.subTest("As a superuser"):
             # Invalid decorator used for Login Required mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -1928,12 +1929,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -1963,12 +1967,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -1996,12 +2003,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2029,12 +2039,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2062,12 +2075,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2095,12 +2111,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2128,12 +2147,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2161,12 +2183,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2194,12 +2219,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2227,12 +2255,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2260,12 +2291,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2293,12 +2327,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             self.assertTrue(hasattr(response, "admin_pdq_data"))
@@ -2336,13 +2373,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2371,13 +2411,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2404,13 +2447,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2433,13 +2479,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2472,13 +2521,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2515,13 +2567,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2544,13 +2599,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2583,13 +2641,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2626,13 +2687,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2655,13 +2719,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2694,13 +2761,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2733,13 +2803,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2782,13 +2855,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -2817,13 +2893,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -2850,13 +2929,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -2883,13 +2965,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -2912,13 +2997,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -2955,13 +3043,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -2988,13 +3079,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3017,13 +3111,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3060,13 +3157,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3093,13 +3193,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3122,13 +3225,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3161,13 +3267,16 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 

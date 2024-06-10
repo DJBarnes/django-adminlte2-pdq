@@ -105,10 +105,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -134,10 +134,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -163,10 +163,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -192,10 +192,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -221,10 +221,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -250,10 +250,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -279,10 +279,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -308,10 +308,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -337,10 +337,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -366,10 +366,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -710,7 +710,7 @@ class StrictModeMixin:
         with self.subTest("As anonymous user"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -723,7 +723,7 @@ class StrictModeMixin:
         with self.subTest("As an inactive user"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -736,7 +736,7 @@ class StrictModeMixin:
         with self.subTest("As user with no permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -749,7 +749,7 @@ class StrictModeMixin:
         with self.subTest("As user with one permission"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -762,7 +762,7 @@ class StrictModeMixin:
         with self.subTest("As user with full permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -775,7 +775,7 @@ class StrictModeMixin:
         with self.subTest("As staff user with no permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -788,7 +788,7 @@ class StrictModeMixin:
         with self.subTest("As staff user with one permission"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -801,7 +801,7 @@ class StrictModeMixin:
         with self.subTest("As staff user with full permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -814,7 +814,7 @@ class StrictModeMixin:
         with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -827,7 +827,7 @@ class StrictModeMixin:
         with self.subTest("As user with one group"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -840,7 +840,7 @@ class StrictModeMixin:
         with self.subTest("As user with full groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -853,7 +853,7 @@ class StrictModeMixin:
         with self.subTest("As a superuser"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -1938,13 +1938,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -1973,13 +1978,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2005,14 +2015,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2038,14 +2050,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2071,14 +2085,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2104,14 +2120,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2137,14 +2155,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2170,14 +2190,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2203,14 +2225,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2236,14 +2260,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2269,14 +2295,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2302,14 +2330,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_mixin_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
                 str(warning[-2].message),
             )
@@ -2339,13 +2369,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2376,13 +2411,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2413,13 +2453,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2450,13 +2495,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2487,13 +2537,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2524,13 +2579,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2561,13 +2621,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2598,13 +2663,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2635,13 +2705,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2672,13 +2747,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2709,13 +2789,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2746,13 +2831,18 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2793,13 +2883,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2826,13 +2919,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2859,13 +2955,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2888,13 +2987,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2927,13 +3029,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2970,13 +3075,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2999,13 +3107,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3038,13 +3149,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3081,13 +3195,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3110,13 +3227,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3149,13 +3269,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3188,13 +3311,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3237,13 +3363,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3270,13 +3399,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3303,13 +3435,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3336,13 +3471,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3365,13 +3503,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3408,13 +3549,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3441,13 +3585,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3470,13 +3617,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3513,13 +3663,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3546,13 +3699,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3575,13 +3731,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3614,13 +3773,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3963,12 +4125,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -3995,12 +4160,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4023,12 +4191,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4059,12 +4230,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4095,12 +4269,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4131,12 +4308,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4167,12 +4347,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4203,12 +4386,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4239,12 +4425,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4275,12 +4464,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4311,12 +4503,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4347,12 +4542,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     # Expected content on page.
                     expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    expected_messages=[
+                        self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4501,12 +4699,15 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
                         # Expected content on page.
                         expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                         expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                        expected_messages=[
+                            self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        ],
                     )
 
-                # Verify we get the expected warning message.
+                # Verify we get the expected console warning message.
                 self.assertEqual(1, len(warning))
                 self.assertEqual(RuntimeWarning, warning[-1].category)
-                self.assertEqual(
+                self.assertText(
                     self.pdq_login__allow_anonymous_whitelist_overlap_message,
                     str(warning[-1].message),
                 )
@@ -4531,7 +4732,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
         # All users are in both login and permission whitelist, so they should handle all the same.
         for user in self.user_list:
             with self.subTest(f"Running as {user.username} user"):
-                with self.assertRaises(PermissionError) as err:
+                with self.assertRaises(ImproperlyConfigured) as err:
                     # Verify we get the expected page.
                     self.assertGetResponse(
                         # View setup.
@@ -4931,7 +5132,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As anonymous user"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -4944,7 +5145,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As user with no permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -4957,7 +5158,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As user with one permission"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -4970,7 +5171,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As user with full permissions"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -4983,7 +5184,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -4996,7 +5197,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As user with one group"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -5009,7 +5210,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         with self.subTest("As user with full groups"):
             # Invalid mixin used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-login-with-permissions",
@@ -5270,10 +5471,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5303,10 +5504,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5336,10 +5537,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5369,10 +5570,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5402,10 +5603,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5435,10 +5636,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5468,10 +5669,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5504,10 +5705,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5537,10 +5738,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5570,10 +5771,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5603,10 +5804,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5636,10 +5837,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5669,10 +5870,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5702,10 +5903,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.

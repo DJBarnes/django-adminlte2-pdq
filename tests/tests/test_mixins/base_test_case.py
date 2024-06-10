@@ -41,20 +41,20 @@ class BaseMixinTextCase(IntegrationTestCase):
     # BUG: Some instances of accessing a Mixin reads as a decorator instead.
     #   Possibly resolved: Might have just been poorly organized testing urls. Double check later.
     pdq_loose__allow_anonymous_access_decorator_message = (
-        "The allow_anonymous_access decorator is not supported in AdminLtePdq LOOSE mode. "
-        "This decorator only exists for clarity of permission access in STRICT mode."
+        "AdminLtePdq Error: The 'allow_anonymous_access' decorator is not supported in AdminLtePdq "
+        "LOOSE mode. This decorator only exists for clarity of permission access in STRICT mode."
     )
     pdq_loose__allow_without_permissions_decorator_message = (
-        "The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. "
-        "This decorator only exists for clarity of permission access in STRICT mode."
+        "AdminLtePdq Error: The 'allow_without_permissions' decorator is not supported in AdminLtePdq "
+        "LOOSE mode. This decorator only exists for clarity of permission access in STRICT mode."
     )
     pdq_loose__allow_anonymous_access_mixin_message = (
-        "The allow_anonymous_access mixin is not supported in AdminLtePdq LOOSE mode. "
-        "This mixin only exists for clarity of permission access in STRICT mode."
+        "AdminLtePdq Error: The 'allow_anonymous_access' mixin is not supported in AdminLtePdq "
+        "LOOSE mode. This mixin only exists for clarity of permission access in STRICT mode."
     )
     pdq_loose__allow_without_permissions_mixin_message = (
-        "The allow_without_permissions mixin is not supported in AdminLtePdq LOOSE mode. "
-        "This mixin only exists for clarity of permission access in STRICT mode."
+        "AdminLtePdq Error: The 'allow_without_permissions' mixin is not supported in AdminLtePdq "
+        "LOOSE mode. This mixin only exists for clarity of permission access in STRICT mode."
     )
 
     pdq_login__allow_anonymous_whitelist_overlap_message = (
@@ -63,15 +63,15 @@ class BaseMixinTextCase(IntegrationTestCase):
         "achieve the same functionality."
     )
     pdq_login__login_required_mixin_message = (
-        "The login_required mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
+        "AdminLtePdq Error: The 'login_required' mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
         "Having LOGIN REQUIRED mode on implicitly assumes login is required "
         "for all views that are not in a whitelist setting."
         "\n\n"
-        "Also consider the allow_anonymous_access mixin."
+        "Also consider the 'allow_anonymous_access' mixin."
     )
     pdq_login__allow_without_permissions_mixin_message = (
-        "The allow_without_permissions mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
-        "This mixin only exists for clarity of permission access in STRICT mode."
+        "AdminLtePdq Error: The 'allow_without_permissions' mixin is not supported in AdminLtePdq "
+        "LOGIN REQUIRED mode. This mixin only exists for clarity of permission access in STRICT mode."
     )
 
     pdq_strict__no_mixin_message = (
@@ -85,11 +85,11 @@ class BaseMixinTextCase(IntegrationTestCase):
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
     )
     pdq_strict__login_required_mixin_message = (
-        "The login_required mixin is not supported in AdminLtePdq STRICT mode. "
+        "AdminLtePdq Error: The 'login_required' mixin is not supported in AdminLtePdq STRICT mode. "
         "Having STRICT mode on implicitly assumes login and permissions are required "
         "for all views that are not in a whitelist setting."
         "\n\n"
-        "Also consider the allow_anonymous_access or allow_without_permissions mixins."
+        "Also consider the 'allow_anonymous_access' or 'allow_without_permissions' mixins."
     )
     pdq_strict__allow_without_permissions_whitelist_overlap_message = (
         "AdminLtePdq Warning: The class-based view 'AllowWithoutPermissionsView' has an "
@@ -117,11 +117,11 @@ class BaseMixinTextCase(IntegrationTestCase):
     pdq_strict__ineffective_login_whitelist_message__anonymous_access = (
         pdq_strict__ineffective_login_whitelist_message.format("AllowAnonymousAccessView")
     )
-    pdq_strict__ineffective_login_whitelist_message__one_of_perms = (
-        pdq_strict__ineffective_login_whitelist_message.format("OnePermissionRequiredView")
+    pdq__ineffective_login_whitelist_message__one_of_perms = pdq_strict__ineffective_login_whitelist_message.format(
+        "OnePermissionRequiredView"
     )
-    pdq_strict__ineffective_login_whitelist_message__full_perms = (
-        pdq_strict__ineffective_login_whitelist_message.format("FullPermissionsRequiredView")
+    pdq__ineffective_login_whitelist_message__full_perms = pdq_strict__ineffective_login_whitelist_message.format(
+        "FullPermissionsRequiredView"
     )
 
     pdq__no_permissions_one__message = (
