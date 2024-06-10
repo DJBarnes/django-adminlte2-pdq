@@ -164,14 +164,15 @@ class BleedingFullPermissionMissingPermissionsView(PermissionRequiredMixin, Temp
 class StackedPermissionRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with both permission attributes set.
 
-    By nature of having one Mixin for both attribute options, it implicitly means
-    that they should be able to stack and do an either-or scenario.
+    Decorator/mixin logic should stack. So by nature of having one Mixin for
+    both attribute options, it means that the user should have
+    "all of one set" plus "at last one of the other set".
     """
 
     # To access view, user should require at least one of these.
-    permission_required_one = ["auth.add_foo", "auth.change_foo"]
-    # Or else ALL of these.
-    permission_required = ["auth.view_foo", "auth.delete_foo"]
+    permission_required_one = ["auth.view_foo", "auth.delete_foo"]
+    # AND ALSO all of these.
+    permission_required = ["auth.add_foo", "auth.change_foo"]
 
     template_name = "full_permissions_required_view.html"
 
