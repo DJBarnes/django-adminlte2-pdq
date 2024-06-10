@@ -8,6 +8,7 @@ import warnings
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 
 # Internal Imports.
@@ -296,7 +297,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -309,7 +310,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As an inactive user"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -322,7 +323,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -335,7 +336,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -348,7 +349,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -361,7 +362,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As staff user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -374,7 +375,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As staff user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -387,7 +388,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As staff user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -400,7 +401,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -413,7 +414,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -426,7 +427,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -439,7 +440,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As a superuser"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -776,7 +777,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -789,7 +790,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As an inactive user"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -802,7 +803,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -815,7 +816,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -828,7 +829,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -841,7 +842,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As staff user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -854,7 +855,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As staff user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -867,7 +868,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As staff user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -880,7 +881,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -893,7 +894,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -906,7 +907,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -919,7 +920,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         with self.subTest("As a superuser"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -1656,7 +1657,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1669,7 +1670,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1682,7 +1683,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1695,7 +1696,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1708,7 +1709,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1721,7 +1722,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1734,7 +1735,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-anonymous-with-permissions",
@@ -1971,7 +1972,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As anonymous user"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -1984,7 +1985,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with no permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -1997,7 +1998,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with one permission"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -2010,7 +2011,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with full permissions"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -2023,7 +2024,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -2036,7 +2037,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with one group"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -2049,7 +2050,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
         with self.subTest("As user with full groups"):
             # Invalid mixin used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -2086,7 +2087,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2119,7 +2120,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2152,7 +2153,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2185,7 +2186,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2218,7 +2219,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2251,7 +2252,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2284,7 +2285,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
@@ -2320,7 +2321,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
@@ -2353,7 +2354,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
@@ -2386,7 +2387,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
@@ -2419,7 +2420,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
@@ -2452,7 +2453,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
@@ -2485,7 +2486,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
@@ -2518,7 +2519,7 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
             self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))

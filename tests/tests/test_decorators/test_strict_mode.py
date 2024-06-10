@@ -107,10 +107,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -136,10 +136,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -165,10 +165,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -194,10 +194,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -223,10 +223,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -252,10 +252,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -281,10 +281,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -310,10 +310,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -339,10 +339,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -368,10 +368,10 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
@@ -714,7 +714,7 @@ class StrictModeMixin:
         with self.subTest("As anonymous user"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -729,7 +729,7 @@ class StrictModeMixin:
             # But testing anyway since package does a lot of background magic with auth logic.
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -742,7 +742,7 @@ class StrictModeMixin:
         with self.subTest("As user with no permissions"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -755,7 +755,7 @@ class StrictModeMixin:
         with self.subTest("As user with one permission"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -768,7 +768,7 @@ class StrictModeMixin:
         with self.subTest("As user with full permissions"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -781,7 +781,7 @@ class StrictModeMixin:
         with self.subTest("As staff user with no permissions"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -794,7 +794,7 @@ class StrictModeMixin:
         with self.subTest("As staff user with one permission"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -807,7 +807,7 @@ class StrictModeMixin:
         with self.subTest("As staff user with full permissions"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -820,7 +820,7 @@ class StrictModeMixin:
         with self.subTest("As user with incorrect groups"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -833,7 +833,7 @@ class StrictModeMixin:
         with self.subTest("As user with one group"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -846,7 +846,7 @@ class StrictModeMixin:
         with self.subTest("As user with full groups"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -859,7 +859,7 @@ class StrictModeMixin:
         with self.subTest("As a superuser"):
             # Invalid decorator used for strict mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -1953,13 +1953,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -1990,13 +1995,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2022,14 +2032,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2055,14 +2067,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2088,14 +2102,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2121,14 +2137,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2154,14 +2172,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2187,14 +2207,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2220,14 +2242,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2253,14 +2277,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2286,14 +2312,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2319,14 +2347,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     expected_header="Dashboard <small>Version 2.0</small>",
                     expected_messages=[
                         self.pdq_strict__no_decorator_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_strict__no_decorator_message, str(warning[-1].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_strict__no_decorator_message, str(warning[-1].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__no_decorator,
                 str(warning[-2].message),
             )
@@ -2356,13 +2386,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2395,13 +2430,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2432,13 +2472,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2469,13 +2514,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2506,13 +2556,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2543,13 +2598,17 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2580,13 +2639,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2617,13 +2681,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2654,13 +2723,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2691,13 +2765,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2728,13 +2807,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2765,13 +2849,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                    expected_messages=[
+                        self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(2, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertEqual(
+            self.assertEqual(RuntimeWarning, warning[-2].category)
+            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
+            self.assertText(
                 self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                 str(warning[-1].message),
             )
@@ -2812,13 +2901,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2847,13 +2939,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2880,7 +2975,18 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
+
+            # Verify we get the expected console warning message.
+            self.assertEqual(1, len(warning))
+            self.assertEqual(RuntimeWarning, warning[-1].category)
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                str(warning[-1].message),
+            )
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2901,13 +3007,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2940,13 +3049,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -2983,13 +3095,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3012,13 +3127,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3051,13 +3169,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3094,13 +3215,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3123,13 +3247,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3162,13 +3289,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3201,13 +3331,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="One Permission Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | One Permission Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__one_of_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__one_of_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__one_of_perms,
                 str(warning[-1].message),
             )
 
@@ -3250,13 +3383,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3285,13 +3421,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3318,13 +3457,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3351,13 +3493,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3380,13 +3525,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3423,13 +3571,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3456,13 +3607,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3485,13 +3639,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3528,13 +3685,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3561,13 +3721,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                         "Remember Me",
                         "I forgot my password",
                     ],
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3590,13 +3753,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3629,13 +3795,16 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                     # Expected content on page.
                     expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
                     expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                    expected_messages=[
+                        self.pdq__ineffective_login_whitelist_message__full_perms,
+                    ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
-                self.pdq_strict__ineffective_login_whitelist_message__full_perms,
+            self.assertText(
+                self.pdq__ineffective_login_whitelist_message__full_perms,
                 str(warning[-1].message),
             )
 
@@ -3985,10 +4154,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4022,10 +4191,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4053,10 +4222,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4092,10 +4261,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4131,10 +4300,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4170,10 +4339,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4209,10 +4378,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4248,10 +4417,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4287,10 +4456,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4326,10 +4495,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4365,10 +4534,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4404,10 +4573,10 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
                     ],
                 )
 
-            # Verify we get the expected warning message.
+            # Verify we get the expected console warning message.
             self.assertEqual(1, len(warning))
             self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(
+            self.assertText(
                 self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
                 str(warning[-1].message),
             )
@@ -4555,12 +4724,15 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
                         # Expected content on page.
                         expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                         expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
+                        expected_messages=[
+                            self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                        ],
                     )
 
-                # Verify we get the expected warning message.
+                # Verify we get the expected console warning message.
                 self.assertEqual(1, len(warning))
                 self.assertEqual(RuntimeWarning, warning[-1].category)
-                self.assertEqual(
+                self.assertText(
                     self.pdq_login__allow_anonymous_whitelist_overlap_message,
                     str(warning[-1].message),
                 )
@@ -4586,7 +4758,7 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         for user in self.user_list:
             with self.subTest(f"Running as {user.username} user"):
 
-                with self.assertRaises(PermissionError) as err:
+                with self.assertRaises(ImproperlyConfigured) as err:
                     # Verify we get the expected page.
                     self.assertGetResponse(
                         # View setup.

@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 # Third-Party Imports.
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 
 # Internal Imports.
@@ -297,7 +298,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As anonymous user"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -312,7 +313,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             # But testing anyway since package does a lot of background magic with auth logic.
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -325,7 +326,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with no permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -338,7 +339,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with one permission"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -351,7 +352,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with full permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -364,7 +365,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As staff user with no permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -377,7 +378,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As staff user with one permission"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -390,7 +391,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As staff user with full permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -403,7 +404,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -416,7 +417,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with one group"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -429,7 +430,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with full groups"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -442,7 +443,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As a superuser"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -772,7 +773,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As anonymous user"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -787,7 +788,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             # But testing anyway since package does a lot of background magic with auth logic.
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -800,7 +801,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with no permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -813,7 +814,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with one permission"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -826,7 +827,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with full permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -839,7 +840,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As staff user with no permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -852,7 +853,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As staff user with one permission"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -865,7 +866,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As staff user with full permissions"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -878,7 +879,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with incorrect groups"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -891,7 +892,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with one group"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -904,7 +905,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As user with full groups"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",
@@ -917,7 +918,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         with self.subTest("As a superuser"):
             # Invalid decorator used for loose mode. Should raise error.
 
-            with self.assertRaises(PermissionError) as err:
+            with self.assertRaises(ImproperlyConfigured) as err:
                 self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-without-permissions",

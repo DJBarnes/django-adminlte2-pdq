@@ -146,18 +146,18 @@ class AuthMiddleware:
             if STRICT_POLICY:
                 mode_type = "STRICT"
                 mode_text = "login and permissions are"
-                similar_decorators = "allow_anonymous_access or allow_without_permissions"
+                similar_decorators = "'allow_anonymous_access' or 'allow_without_permissions'"
                 pluralize = "s"
             else:
                 mode_type = "LOGIN REQUIRED"
                 mode_text = "login is"
-                similar_decorators = "allow_anonymous_access"
+                similar_decorators = "'allow_anonymous_access'"
                 pluralize = ""
 
             # Display error message.
             error_message = (
-                "The login_required {view_perm_type} is not supported in AdminLtePdq {mode_type} mode. "
-                "Having {mode_type} mode on implicitly assumes {mode_text} required "
+                "AdminLtePdq Error: The 'login_required' {view_perm_type} is not supported in AdminLtePdq {mode_type} "
+                "mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
                 "for all views that are not in a whitelist setting."
                 "\n\n"
                 "Also consider the {similar_decorators} {view_perm_type}{pluralize}."
@@ -168,7 +168,7 @@ class AuthMiddleware:
                 view_perm_type=view_data["view_perm_type"],
                 pluralize=pluralize,
             )
-            raise PermissionError(error_message)
+            raise ImproperlyConfigured(error_message)
 
         # Handle if using allow_anonymous_access or allow_without_permissions decorator in mode that doesn't make sense.
         if (
@@ -188,14 +188,14 @@ class AuthMiddleware:
 
             # Display error message.
             error_message = (
-                "The {decorator_name} {view_perm_type} is not supported in AdminLtePdq {mode_type} mode. "
-                "This {view_perm_type} only exists for clarity of permission access in STRICT mode."
+                "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
+                "{mode_type} mode. This {view_perm_type} only exists for clarity of permission access in STRICT mode."
             ).format(
                 decorator_name=view_data["decorator_name"],
                 view_perm_type=view_data["view_perm_type"],
                 mode_type=mode_type,
             )
-            raise PermissionError(error_message)
+            raise ImproperlyConfigured(error_message)
 
         # Handle if view is strict-mode whitelisted but using a decorator/mixin state that doesn't make sense.
         if is_perm_whitelisted:
