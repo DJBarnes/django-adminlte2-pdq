@@ -1,8 +1,5 @@
 """
 Tests for Decorator login in project "strict" authentication mode.
-
-# TODO: Most tests with both whitelists don't seem quite right.
-#   Hence being commented out. Fix.
 """
 
 # System Imports.
@@ -4773,6 +4770,13 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Strict" mode, with both whitelists."""
 
+        # TODO: This redirects to login for some reason.
+        #   I suspect it's something to do with the actual mixin/decorator logic.
+        #   Perhaps the middleware is doing too much work, and the mixins/decorators don't understand
+        #   whitelists enough to allow this case?
+        #   This is such a specific and stupid case though that I don't know if I care to
+        #   troubleshoot it at this time. Fix later.
+
         # # All users are in both login and permission whitelist, so they should handle all the same.
         # for user in self.user_list:
         #     with self.subTest(f"Running as {user.username} user"):
@@ -4781,7 +4785,7 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         #         response = self.assertGetResponse(
         #             # View setup.
         #             "adminlte2_pdq_tests:function-allow-without-permissions",
-        #             user=self.anonymous_user,
+        #             user=user,
         #             # Expected view return data.
         #             expected_status=200,
         #             view_should_redirect=False,
@@ -4802,69 +4806,39 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         #         self.assertIsNone(data_dict["full_permissions"])
 
     def test__one_permission_required_decorator(self):
-        """Test for permission_required_one decorator, in project "Strict" mode, with both whitelists."""
+        """Test for permission_required_one decorator, in project "Strict" mode, with both whitelists.
 
-    #     # All users are in both login and permission whitelist, so they should handle all the same.
-    #     for user in self.user_list:
-    #         with self.subTest(f"Running as {user.username} user"):
-    #
-    #             # Verify we get the expected page.
-    #             response = self.assertGetResponse(
-    #                 # View setup.
-    #                 "adminlte2_pdq_tests:function-one-permission-required",
-    #                 user=user,
-    #                 # Expected view return data.
-    #                 expected_status=200,
-    #                 view_should_redirect=False,
-    #                 # Expected content on page.
-    #                 expected_title="One Permission Required View | Django AdminLtePdq Testing",
-    #                 expected_header="Django AdminLtePdq | One Permission Required View Header",
-    #             )
-    #
-    #             # Verify values associated with returned view.
-    #             self.assertTrue(hasattr(response, "admin_pdq_data"))
-    #             data_dict = response.admin_pdq_data
-    #             self.assertEqual(
-    #                 "permission_required",
-    #                 data_dict["decorator_name"],
-    #             )
-    #             self.assertTrue(data_dict["login_required"])
-    #             self.assertEqual(
-    #                 ("auth.add_foo", "auth.change_foo"),
-    #                 data_dict["one_of_permissions"],
-    #             )
-    #             self.assertIsNone(data_dict["full_permissions"])
+        Should raise error since it's both permission whitelisted and requiring a permission.
+        """
+
+        # All users are in both login and permission whitelist, so they should handle all the same.
+        for user in self.user_list:
+            with self.subTest(f"Running as {user.username} user"):
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:function-one-permission-required",
+                        user=user,
+                        # Expected view return data.
+                        expected_status=500,
+                    )
+                self.assertText(self.pdq_strict__one_permission_required_whitelist_overlap_message, str(err.exception))
 
     def test__full_permission_required_decorator(self):
-        """Test for permission_required decorator, in project "Strict" mode, with both whitelists."""
+        """Test for permission_required decorator, in project "Strict" mode, with both whitelists.
 
-    #     # All users are in both login and permission whitelist, so they should handle all the same.
-    #     for user in self.user_list:
-    #         with self.subTest(f"Running as {user.username} user"):
-    #
-    #             # Verify we get the expected page.
-    #             response = self.assertGetResponse(
-    #                 # View setup.
-    #                 "adminlte2_pdq_tests:function-full-permissions-required",
-    #                 user=user,
-    #                 # Expected view return data.
-    #                 expected_status=200,
-    #                 view_should_redirect=False,
-    #                 # Expected content on page.
-    #                 expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
-    #                 expected_header="Django AdminLtePdq | Full Permissions Required View Header",
-    #             )
-    #
-    #             # Verify values associated with returned view.
-    #             self.assertTrue(hasattr(response, "admin_pdq_data"))
-    #             data_dict = response.admin_pdq_data
-    #             self.assertEqual(
-    #                 "permission_required",
-    #                 data_dict["decorator_name"],
-    #             )
-    #             self.assertTrue(data_dict["login_required"])
-    #             self.assertIsNone(data_dict["one_of_permissions"])
-    #             self.assertEqual(
-    #                 ("auth.add_foo", "auth.change_foo"),
-    #                 data_dict["full_permissions"],
-    #             )
+        Should raise error since it's both permission whitelisted and requiring a permission.
+        """
+
+        # All users are in both login and permission whitelist, so they should handle all the same.
+        for user in self.user_list:
+            with self.subTest(f"Running as {user.username} user"):
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:function-full-permissions-required",
+                        user=user,
+                        # Expected view return data.
+                        expected_status=500,
+                    )
+                self.assertText(self.pdq_strict__full_permission_required_whitelist_overlap_message, str(err.exception))

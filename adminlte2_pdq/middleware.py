@@ -121,6 +121,7 @@ class AuthMiddleware:
             and not self.verify_strict_mode_permission_set(request, view_data)
         ):
             # No permissions defined on view or user failed permission checks.
+
             # Redirect to home route.
             return redirect(HOME_ROUTE)
 

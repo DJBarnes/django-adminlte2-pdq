@@ -1617,10 +1617,10 @@ class TestLooseAuthenticationMixinOverlap(BaseMixinTextCase):
     Mixin with another. Or forgets expected values of a Mixin. Or combinations thereof.
 
     For example, a LoginRequired Mixin should always behave the same as the login_required
-    decorator, even if the user accidentally defines permissions on the view as well.
+    mixin, even if the user accidentally defines permissions on the view as well.
 
     Due to how Mixins and our project middleware works, these are not as cleanly separated
-    as they are with the decorators, and so additional tests are required.
+    as they are with the mixins, and so additional tests are required.
 
     NOTE: I'm not sure if it's possible to get updated values for response attributes?
         Seems to only return the values defined at literal class value.

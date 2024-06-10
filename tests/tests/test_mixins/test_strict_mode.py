@@ -1,8 +1,5 @@
 """
 Tests for Mixin login in project "strict" authentication mode.
-
-# TODO: Most tests with both whitelists don't seem quite right.
-#   Hence being commented out. Fix.
 """
 
 # System Imports.
@@ -24,7 +21,7 @@ UserModel = get_user_model()
 
 
 class StrictModeMixin:
-    """Test project authentication decorators, under project "Strict" mode.
+    """Test project authentication mixins, under project "Strict" mode.
 
     This class is a parent class that should not run by itself.
     It needs to be imported into other classes to execute.
@@ -1885,7 +1882,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
     Only tests that are expected to behave differently with the whitelists are redefined here.
 
     Modified States are:
-    * "no_decorator" - Raises "ineffective whitelist" warning and the default STRICT_MODE warning.
+    * "no_mixin" - Raises "ineffective whitelist" warning and the default STRICT_MODE warning.
     * "allow_anonymous_access" - Raises "ineffective whitelist" warning and "overlaps with whitelist" warning.
     * "one_of_perms"/"full_perms" - Raises only the "ineffective whitelist" warning.
     """
@@ -4570,7 +4567,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
         """Test for permission_required_one mixin, in project "Strict" mode, with perm whitelist.
 
         Raises error because it doesn't make sense to be in a permission whitelist
-        AND have a permission_required decorator.
+        AND have a permission_required mixin.
         """
 
         # All users should raise the same error.
@@ -4590,7 +4587,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
         """Test for permission_required mixin, in project "Strict" mode, with perm whitelist.
 
         Raises error because it doesn't make sense to be in a permission whitelist
-        AND have a permission_required decorator.
+        AND have a permission_required mixin.
         """
 
         # All users should raise the same error.
@@ -4630,7 +4627,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
     Only tests that are expected to behave differently with the whitelists are redefined here.
 
     In this case, pretty much everything should be visible to all user types, as long as it's
-    a decorator that can be used in strict mode at all.
+    a mixin that can be used in strict mode at all.
     """
 
     def test__verify_patch_settings(self):
@@ -4726,7 +4723,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
     def test__login_required_mixin(self):
         """Test for login_required mixin, in project "Strict" mode, with both whitelists.
 
-        In strict mode, this decorator should NOT work, and instead raise errors.
+        In strict mode, this mixin should NOT work, and instead raise errors.
         """
 
         # All users are in both login and permission whitelist, so they should handle all the same.
@@ -4746,6 +4743,13 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
 
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Strict" mode, with both whitelists."""
+
+        # TODO: This redirects to login for some reason.
+        #   I suspect it's something to do with the actual mixin/decorator logic.
+        #   Perhaps the middleware is doing too much work, and the mixins/decorators don't understand
+        #   whitelists enough to allow this case?
+        #   This is such a specific and stupid case though that I don't know if I care to
+        #   troubleshoot it at this time. Fix later.
 
         # # All users are in both login and permission whitelist, so they should handle all the same.
         # for user in self.user_list:
@@ -4776,72 +4780,42 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
         #         self.assertIsNone(data_dict["full_permissions"])
 
     def test__one_permission_required_mixin(self):
-        """Test for permission_required_one mixin, in project "Strict" mode, with both whitelists."""
+        """Test for permission_required_one mixin, in project "Strict" mode, with both whitelists.
 
-        # # All users are in both login and permission whitelist, so they should handle all the same.
-        # for user in self.user_list:
-        #     with self.subTest(f"Running as {user.username} user"):
-        #
-        #         # Verify we get the expected page.
-        #         response = self.assertGetResponse(
-        #             # View setup.
-        #             "adminlte2_pdq_tests:class-one-permission-required",
-        #             user=user,
-        #             # Expected view return data.
-        #             expected_status=200,
-        #             view_should_redirect=False,
-        #             # Expected content on page.
-        #             expected_title="One Permission Required View | Django AdminLtePdq Testing",
-        #             expected_header="Django AdminLtePdq | One Permission Required View Header",
-        #         )
-        #
-        #         # Verify values associated with returned view.
-        #         self.assertTrue(hasattr(response, "admin_pdq_data"))
-        #         data_dict = response.admin_pdq_data
-        #         self.assertEqual(
-        #             "permission_required",
-        #             data_dict["decorator_name"],
-        #         )
-        #         self.assertTrue(data_dict["login_required"])
-        #         self.assertEqual(
-        #             ("auth.add_foo", "auth.change_foo"),
-        #             data_dict["one_of_permissions"],
-        #         )
-        #         self.assertIsNone(data_dict["full_permissions"])
+        Should raise error since it's both permission whitelisted and requiring a permission.
+        """
+
+        # All users are in both login and permission whitelist, so they should handle all the same.
+        for user in self.user_list:
+            with self.subTest(f"Running as {user.username} user"):
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-one-permission-required",
+                        user=user,
+                        # Expected view return data.
+                        expected_status=500,
+                    )
+                self.assertText(self.pdq_strict__one_permission_required_whitelist_overlap_message, str(err.exception))
 
     def test__full_permission_required_mixin(self):
-        """Test for permission_required mixin, in project "Strict" mode, with both whitelists."""
+        """Test for permission_required mixin, in project "Strict" mode, with both whitelists.
 
-        # # All users are in both login and permission whitelist, so they should handle all the same.
-        # for user in self.user_list:
-        #     with self.subTest(f"Running as {user.username} user"):
-        #
-        #         # Verify we get the expected page.
-        #         response = self.assertGetResponse(
-        #             # View setup.
-        #             "adminlte2_pdq_tests:class-full-permissions-required",
-        #             user=user,
-        #             # Expected view return data.
-        #             expected_status=200,
-        #             view_should_redirect=False,
-        #             # Expected content on page.
-        #             expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
-        #             expected_header="Django AdminLtePdq | Full Permissions Required View Header",
-        #         )
-        #
-        #         # Verify values associated with returned view.
-        #         self.assertTrue(hasattr(response, "admin_pdq_data"))
-        #         data_dict = response.admin_pdq_data
-        #         self.assertEqual(
-        #             "permission_required",
-        #             data_dict["decorator_name"],
-        #         )
-        #         self.assertTrue(data_dict["login_required"])
-        #         self.assertIsNone(data_dict["one_of_permissions"])
-        #         self.assertEqual(
-        #             ("auth.add_foo", "auth.change_foo"),
-        #             data_dict["full_permissions"],
-        #         )
+        Should raise error since it's both permission whitelisted and requiring a permission.
+        """
+
+        # All users are in both login and permission whitelist, so they should handle all the same.
+        for user in self.user_list:
+            with self.subTest(f"Running as {user.username} user"):
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-full-permissions-required",
+                        user=user,
+                        # Expected view return data.
+                        expected_status=500,
+                    )
+                self.assertText(self.pdq_strict__full_permission_required_whitelist_overlap_message, str(err.exception))
 
 
 @override_settings(DEBUG=True)
@@ -4860,10 +4834,10 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
     Mixin with another. Or forgets expected values of a Mixin. Or combinations thereof.
 
     For example, a LoginRequired Mixin should always behave the same as the login_required
-    decorator, even if the user accidentally defines permissions on the view as well.
+    mixin, even if the user accidentally defines permissions on the view as well.
 
     Due to how Mixins and our project middleware works, these are not as cleanly separated
-    as they are with the decorators, and so additional tests are required.
+    as they are with the mixins, and so additional tests are required.
 
     NOTE: I'm not sure if it's possible to get updated values for response attributes?
         Seems to only return the values defined at literal class value.
