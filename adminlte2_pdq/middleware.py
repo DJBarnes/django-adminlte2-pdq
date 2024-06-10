@@ -32,7 +32,6 @@ from .constants import (
     TEXT_RESET,
     TEXT_YELLOW,
 )
-from .utils import debug_print
 
 
 # Module Variables.
@@ -79,8 +78,6 @@ class AuthMiddleware:
         Upon failure, user will be redirected accordingly.
         Redirects are determined by the LOGIN_REDIRECT_URL setting, and the ADMINLTE2_HOME_ROUTE setting.
         """
-        if debug:
-            debug_print.debug = True
 
         # Ensure user object is accessible for Authentication checks.
         if not hasattr(request, "user"):
@@ -99,9 +96,6 @@ class AuthMiddleware:
                 ' "django.core.context_processors.auth" as well.'
             )
 
-        debug_print(debug_var.format("    LOGIN_REQUIRED: ", LOGIN_REQUIRED))
-        debug_print(debug_var.format("    STRICT_POLICY: ", STRICT_POLICY))
-
         # Calculate data for decorated view, in order to determine permission logic.
         view_data = self.parse_request_data(request)
 
@@ -112,8 +106,6 @@ class AuthMiddleware:
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
         if (LOGIN_REQUIRED or view_data["login_required"]) and not self.verify_logged_in(request, view_data):
             # User not logged in and view requires login to access.
-
-            debug_print(debug_error.format("Failed LoginRequired checks. Redirecting."))
 
             # Redirect to login page.
             return redirect(LOGIN_URL + f"?next={request.path}")
@@ -129,24 +121,13 @@ class AuthMiddleware:
             and not self.verify_strict_mode_permission_set(request, view_data)
         ):
             # No permissions defined on view or user failed permission checks.
-
-            debug_print(debug_error.format("Failed PermissionRequired checks. Redirecting."))
-
             # Redirect to home route.
             return redirect(HOME_ROUTE)
 
-        print("Passed auth checks...")
-
         # User passed all tests, return requested response.
         response = self.get_response(request)
-        debug_print(debug_var.format("    decorator_name: ", view_data["decorator_name"]))
         if view_data["decorator_name"]:
             response.admin_pdq_data = view_data
-
-            debug_print(debug_var.format("    RESPONSE_DATA: ", response.admin_pdq_data))
-
-        if debug:
-            debug_print.debug = False
 
         return response
 
@@ -218,7 +199,6 @@ class AuthMiddleware:
 
         # Handle if view is strict-mode whitelisted but using a decorator/mixin state that doesn't make sense.
         if is_perm_whitelisted:
-            print("IS PERM WHITELISTED")
             # Whitelisted, yet using a decorator that requires permissions. Raise error.
             if view_data["decorator_name"] == "permission_required":
                 raise ImproperlyConfigured(
@@ -250,7 +230,6 @@ class AuthMiddleware:
 
         # Handle if view is login whitelisted but using a decorator/mixin state that doesn't make sense.
         if is_login_whitelisted:
-            print("IS LOGIN WHITELISTED")
             # Whitelisted, yet using a decorator that requires login. Raise error.
             if view_data["decorator_name"] == "login_required":
                 raise ImproperlyConfigured(
@@ -347,9 +326,6 @@ class AuthMiddleware:
     def parse_request_data(self, request, debug=True):
         """Parses request data and generates dict of calculated values."""
 
-        if debug:
-            debug_print.debug = True
-
         # Initialize default data structure.
         # This is our fallback if view is not using AdminLtePdq logic.
         data_dict = {
@@ -383,13 +359,9 @@ class AuthMiddleware:
             if view_class:
                 # Is class-based view. Get class data dict.
                 pdq_data = getattr(view_class, "admin_pdq_data", {})
-                debug_print(debug_var.format("    VIEW_DATA: ", view_class.__dict__))
             else:
                 # Is function-based view. Get function data dict.
                 pdq_data = getattr(resolver.func, "admin_pdq_data", {})
-                debug_print(debug_var.format("    VIEW_DATA: ", resolver.func.__dict__))
-
-            debug_print(debug_var.format("    ADMIN_PDQ_DATA: ", pdq_data))
 
             # Process data.
             if view_class:
@@ -433,29 +405,14 @@ class AuthMiddleware:
         except Http404:
             data_dict.update({"resolver": None})
 
-        debug_print(debug_var.format("    PULLED_DATA: ", data_dict))
-
-        # if debug:
-        #     debug_print.debug = False
-
         # Return parsed data.
         return data_dict
 
     def verify_logged_in(self, request, view_data, debug=False):
         """Checks to verify User is logged in, for views that require it."""
-        if debug:
-            debug_print.debug = True
-
-        debug_print("\n\n")
-        debug_print(debug_header.format("AdminLtePdq Middleware verify_logged_in():"))
-        debug_print(debug_var.format("    request: ", request))
-        debug_print(debug_var.format("    type(request): ", type(request)))
 
         # If user is already authenticated, just return true.
         if request.user.is_authenticated:
-            debug_print(debug_success.format("Is Authenticated. Proceeding..."))
-            debug_print("\n\n")
-
             return True
 
         # User not logged in. Still allow request for the following:
@@ -479,15 +436,6 @@ class AuthMiddleware:
 
         :return: False if user cannot access view as per Strict Mode policy | True otherwise.
         """
-
-        if debug:
-            debug_print.debug = True
-
-        debug_print("\n\n")
-        debug_print(debug_header.format("AdminLtePdq Middleware verify_permission_set():"))
-        debug_print(debug_var.format("    request: ", request))
-        debug_print(debug_var.format("    type(request): ", request))
-
         exempt = False
 
         # If view, determine if function based or class based
@@ -528,9 +476,6 @@ class AuthMiddleware:
                 or view_data["one_of_permissions"]
                 or view_data["full_permissions"]
             ):
-                debug_print(debug_success.format("Passed permission checks OR url was exempt. Proceeding..."))
-                debug_print("\n\n")
-
                 return True
 
             # Decorator/Mixin failed checks, or Login Required not set.
@@ -563,10 +508,6 @@ class AuthMiddleware:
                 )
                 # Create Django Messages warning.
                 messages.warning(request, error_message)
-
-        debug_print("")
-        debug_print(debug_error.format("Failed to pass auth checks."))
-        debug_print("\n\n")
 
         # If we made it this far, then failed all checks, return False.
         return False
