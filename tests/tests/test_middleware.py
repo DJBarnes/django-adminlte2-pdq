@@ -40,6 +40,14 @@ class MiddlewareBaseTestCase(TestCase):
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
     )
 
+    pdq_strict__ineffective_login_whitelist_message = (
+        "AdminLtePdq Warning: The function-based view 'demo_css' is login whitelisted, "
+        "but the view still requires permissions. A user must login to have permissions, so the login whitelist is "
+        "redundant and probably not achieving the desired effect. Correct this by adding the view to "
+        "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
+        "'allow_without_permissions' decorator."
+    )
+
     # endregion Expected Test Messages
 
     def setUp(self):
@@ -247,8 +255,12 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
                 # Verify values associated with returned view.
                 self.assertContains(response, "Login")
-                self.assertEqual(len(wa), 1)
+                self.assertEqual(len(wa), 2)
                 self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+                self.assertEqual(
+                    self.pdq_strict__ineffective_login_whitelist_message,
+                    str(wa[-2].message),
+                )
 
         with self.subTest("As user with full permissions"):
             # Should go to demo-css, fail the strict policy, then go to home.
@@ -259,8 +271,12 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
                 response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, "Home")
-                self.assertEqual(len(wa), 1)
+                self.assertEqual(len(wa), 2)
                 self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
+                self.assertEqual(
+                    self.pdq_strict__ineffective_login_whitelist_message,
+                    str(wa[-2].message),
+                )
 
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
     def test__with_permission_whitelist(self):

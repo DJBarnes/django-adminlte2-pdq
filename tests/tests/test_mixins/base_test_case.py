@@ -15,11 +15,22 @@ from django.views import View
 from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.
+from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 from adminlte2_pdq.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 # Module Variables.
 UserModel = get_user_model()
+WHITELIST_VIEWS = [
+    "adminlte2_pdq_tests:class-standard",
+    "adminlte2_pdq_tests:class-allow-anonymous-access",
+    "adminlte2_pdq_tests:class-login-required",
+    "adminlte2_pdq_tests:class-allow-without-permissions",
+    "adminlte2_pdq_tests:class-one-permission-required",
+    "adminlte2_pdq_tests:class-full-permissions-required",
+]
+LOGIN_WHITELIST_VIEWS = LOGIN_EXEMPT_WHITELIST + WHITELIST_VIEWS
+PERM_WHITELIST_VIEWS = STRICT_POLICY_WHITELIST + WHITELIST_VIEWS
 
 
 class BaseMixinTextCase(IntegrationTestCase):
@@ -46,6 +57,11 @@ class BaseMixinTextCase(IntegrationTestCase):
         "This mixin only exists for clarity of permission access in STRICT mode."
     )
 
+    pdq_login__allow_anonymous_whitelist_overlap_message = (
+        "AdminLtePdq Warning: The class-based view 'AllowAnonymousAccessView' has an 'allow_anonymous_access' "
+        "mixin, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
+        "achieve the same functionality."
+    )
     pdq_login__login_required_mixin_message = (
         "The login_required mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
         "Having LOGIN REQUIRED mode on implicitly assumes login is required "
@@ -74,6 +90,38 @@ class BaseMixinTextCase(IntegrationTestCase):
         "for all views that are not in a whitelist setting."
         "\n\n"
         "Also consider the allow_anonymous_access or allow_without_permissions mixins."
+    )
+    pdq_strict__allow_without_permissions_whitelist_overlap_message = (
+        "AdminLtePdq Warning: The class-based view 'AllowWithoutPermissionsView' has an "
+        "'allow_without_permissions' mixin, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. "
+        "These two effectively achieve the same functionality."
+    )
+    pdq_strict__one_permission_required_whitelist_overlap_message = (
+        "AdminLtePdq Error: The class-based view 'OnePermissionRequiredView' has a permission "
+        "mixin, but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
+    )
+    pdq_strict__full_permission_required_whitelist_overlap_message = (
+        "AdminLtePdq Error: The class-based view 'FullPermissionsRequiredView' has a permission "
+        "mixin, but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
+    )
+    pdq_strict__ineffective_login_whitelist_message = (
+        "AdminLtePdq Warning: The class-based view '{0}' is login whitelisted, "
+        "but the view still requires permissions. A user must login to have permissions, so the login whitelist is "
+        "redundant and probably not achieving the desired effect. Correct this by adding the view to "
+        "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
+        "'allow_without_permissions' mixin."
+    )
+    pdq_strict__ineffective_login_whitelist_message__no_mixin = pdq_strict__ineffective_login_whitelist_message.format(
+        "StandardView"
+    )
+    pdq_strict__ineffective_login_whitelist_message__anonymous_access = (
+        pdq_strict__ineffective_login_whitelist_message.format("AllowAnonymousAccessView")
+    )
+    pdq_strict__ineffective_login_whitelist_message__one_of_perms = (
+        pdq_strict__ineffective_login_whitelist_message.format("OnePermissionRequiredView")
+    )
+    pdq_strict__ineffective_login_whitelist_message__full_perms = (
+        pdq_strict__ineffective_login_whitelist_message.format("FullPermissionsRequiredView")
     )
 
     pdq__no_permissions_one__message = (
@@ -203,6 +251,22 @@ class BaseMixinTextCase(IntegrationTestCase):
         self.super_user = self.get_user("super_jessica")
         self.super_user.is_superuser = True
         self.super_user.save()
+
+        # Define user list for tests where all user types should behave the same.
+        self.user_list = [
+            self.anonymous_user,
+            self.inactive_user,
+            self.none_user,
+            self.partial_perm_user,
+            self.full_perm_user,
+            self.none_staff_user,
+            self.partial_perm_staff_user,
+            self.full_perm_staff_user,
+            self.incorrect_group_user,
+            self.partial_group_user,
+            self.full_group_user,
+            self.super_user,
+        ]
 
 
 class TestIsolatedMixins(TestCase):
