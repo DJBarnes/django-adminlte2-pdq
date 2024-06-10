@@ -14,11 +14,22 @@ from django.test import RequestFactory, TestCase
 from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.
+from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 from adminlte2_pdq.decorators import login_required, permission_required, permission_required_one
 
 
 # Module Variables.
 UserModel = get_user_model()
+WHITELIST_VIEWS = [
+    "adminlte2_pdq_tests:function-standard",
+    "adminlte2_pdq_tests:function-allow-anonymous-access",
+    "adminlte2_pdq_tests:function-login-required",
+    "adminlte2_pdq_tests:function-allow-without-permissions",
+    "adminlte2_pdq_tests:function-one-permission-required",
+    "adminlte2_pdq_tests:function-full-permissions-required",
+]
+LOGIN_WHITELIST_VIEWS = LOGIN_EXEMPT_WHITELIST + WHITELIST_VIEWS
+PERM_WHITELIST_VIEWS = STRICT_POLICY_WHITELIST + WHITELIST_VIEWS
 
 
 class BaseDecoratorTestCase(IntegrationTestCase):
@@ -34,6 +45,7 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "The allow_without_permissions decorator is not supported in AdminLtePdq LOOSE mode. "
         "This decorator only exists for clarity of permission access in STRICT mode."
     )
+
     pdq_login__login_required_decorator_message = (
         "The login_required decorator is not supported in AdminLtePdq LOGIN REQUIRED mode. "
         "Having LOGIN REQUIRED mode on implicitly assumes login is required "
@@ -45,6 +57,12 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "The allow_without_permissions decorator is not supported in AdminLtePdq LOGIN REQUIRED mode. "
         "This decorator only exists for clarity of permission access in STRICT mode."
     )
+    pdq_login__allow_anonymous_whitelist_overlap_message = (
+        "AdminLtePdq Warning: The function-based view 'allow_anonymous_access_view' has an 'allow_anonymous_access' "
+        "decorator, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
+        "achieve the same functionality."
+    )
+
     pdq_strict__no_decorator_message = (
         "AdminLtePdq Warning: This project is set to run in strict mode, and "
         "the function-based view 'standard_view' does not have any decorators set. "
@@ -61,6 +79,38 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "for all views that are not in a whitelist setting."
         "\n\n"
         "Also consider the allow_anonymous_access or allow_without_permissions decorators."
+    )
+    pdq_strict__allow_without_permissions_whitelist_overlap_message = (
+        "AdminLtePdq Warning: The function-based view 'allow_without_permissions_view' has an "
+        "'allow_without_permissions' decorator, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. "
+        "These two effectively achieve the same functionality."
+    )
+    pdq_strict__one_permission_required_whitelist_overlap_message = (
+        "AdminLtePdq Error: The function-based view 'one_permission_required_view' has a permission "
+        "decorator, but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
+    )
+    pdq_strict__full_permission_required_whitelist_overlap_message = (
+        "AdminLtePdq Error: The function-based view 'full_permissions_required_view' has a permission "
+        "decorator, but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
+    )
+    pdq_strict__ineffective_login_whitelist_message = (
+        "AdminLtePdq Warning: The function-based view '{0}' is login whitelisted, "
+        "but the view still requires permissions. A user must login to have permissions, so the login whitelist is "
+        "redundant and probably not achieving the desired effect. Correct this by adding the view to "
+        "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
+        "'allow_without_permissions' decorator."
+    )
+    pdq_strict__ineffective_login_whitelist_message__no_decorator = (
+        pdq_strict__ineffective_login_whitelist_message.format("standard_view")
+    )
+    pdq_strict__ineffective_login_whitelist_message__anonymous_access = (
+        pdq_strict__ineffective_login_whitelist_message.format("allow_anonymous_access_view")
+    )
+    pdq_strict__ineffective_login_whitelist_message__one_of_perms = (
+        pdq_strict__ineffective_login_whitelist_message.format("one_permission_required_view")
+    )
+    pdq_strict__ineffective_login_whitelist_message__full_perms = (
+        pdq_strict__ineffective_login_whitelist_message.format("full_permissions_required_view")
     )
 
     # endregion Expected Test Messages
@@ -173,6 +223,22 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         self.super_user = self.get_user("super_jessica")
         self.super_user.is_superuser = True
         self.super_user.save()
+
+        # Define user list for tests where all user types should behave the same.
+        self.user_list = [
+            self.anonymous_user,
+            self.inactive_user,
+            self.none_user,
+            self.partial_perm_user,
+            self.full_perm_user,
+            self.none_staff_user,
+            self.partial_perm_staff_user,
+            self.full_perm_staff_user,
+            self.incorrect_group_user,
+            self.partial_group_user,
+            self.full_group_user,
+            self.super_user,
+        ]
 
 
 class TestIsolatedDecorators(TestCase):

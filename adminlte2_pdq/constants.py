@@ -2,6 +2,7 @@
 
 # Third-Party Imports.
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 
 
 # Imports that may not be accessible, depending on local python environment setup.
@@ -61,6 +62,15 @@ if STRICT_POLICY:
     LOGIN_REQUIRED = True
 else:
     LOGIN_REQUIRED = getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False)
+
+
+# Verify state of whitelist values against chosen policy.
+if not STRICT_POLICY and getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", []) != []:
+    # Permission whitelisted, but outside of STRICT mode.
+    raise ImproperlyConfigured("Can't use ADMINLTE2_STRICT_POLICY_WHITELIST outside of STRICT_POLICY = True.")
+if not LOGIN_REQUIRED and getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", []) != []:
+    # Login whitelisted, but outside of LOGIN_REQUIRED mode.
+    raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True.")
 
 
 # Date Time Picker Widgets to use. Valid values are 'native', 'jquery', 'bootstrap'
