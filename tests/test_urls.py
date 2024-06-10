@@ -117,4 +117,18 @@ urlpatterns = [
             ]
         ),
     ),
+    # "Overlapping" Class Test Views.
+    path(
+        "class/overlap/",
+        include(
+            [
+                # View with both one_of_permissions and full_permissions defined.
+                path(
+                    "stacked-permissions-required/",
+                    views.StackedPermissionRequiredView.as_view(),
+                    name="class-stacked-permissions-required",
+                ),
+            ]
+        ),
+    ),
 ]
