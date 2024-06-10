@@ -177,17 +177,8 @@ def render_link(context, node):
         "attributes": {},
     }
 
-    print("\n\n\n\n")
-    print("render_link():")
-    print("    context: {0}".format(context))
-    print("    node: {0}".format(node))
-    print("    default: {0}".format(default))
-
     default.update(node)
     node = default
-
-    print("")
-    print("    updated_node: {0}".format(node))
 
     ensure_node_has_url_property(node)
 
@@ -273,14 +264,6 @@ def get_permissions_from_node(node):
     node_one_of_permissions = node.get("one_of_permissions", None)
     node_full_permissions = node.get("permissions", None)
 
-    print("")
-    print("Node Data:")
-    print("    node_allow_anonymous: {0}".format(node_allow_anonymous))
-    print("    node_login_required: {0}".format(node_login_required))
-    print("    node_allow_without_permissions: {0}".format(node_allow_without_permissions))
-    print("    node_one_of_permissions: {0}".format(node_one_of_permissions))
-    print("    node_full_permissions: {0}".format(node_full_permissions))
-
     # Raise errors for configurations that don't make sense for node level.
     # Note: one_of_permission and full_permissions can be set at the same time.
     #   In which case they overlap. So requires all of one permission set, plus at least one of a second set.
@@ -341,14 +324,6 @@ def get_permissions_from_node(node):
         view_allow_without_permissions = view_data["allow_without_permissions"]
         view_one_of_permissions = view_data["one_of_permissions"]
         view_full_permissions = view_data["full_permissions"]
-
-    print("")
-    print("View Data:")
-    print("    view_allow_anonymous: {0}".format(node_allow_anonymous))
-    print("    view_login_required: {0}".format(node_login_required))
-    print("    view_allow_without_permissions: {0}".format(node_allow_without_permissions))
-    print("    view_one_of_permissions: {0}".format(node_one_of_permissions))
-    print("    view_full_permissions: {0}".format(node_full_permissions))
 
     # Raise errors for configurations that don't make sense for view level.
     # Should handle effectively the same as above node error checks. Just at the view level.
@@ -414,14 +389,6 @@ def get_permissions_from_node(node):
         # Fall back to view value, as long as node allow_without_permissions is not set.
         full_permissions = view_full_permissions or []
 
-    print("")
-    print("Final Calculated Data:")
-    print("    allow_anonymous: {0}".format(allow_anonymous))
-    print("    login_required: {0}".format(login_required))
-    print("    allow_without_permissions: {0}".format(allow_without_permissions))
-    print("    one_of_permissions: {0}".format(one_of_permissions))
-    print("    full_permissions: {0}".format(full_permissions))
-
     # Return calculated values.
     return {
         "allow_anonymous": allow_anonymous,
@@ -447,11 +414,6 @@ def is_allowed_node(user, node):
     #   to really make sure this logic is correct.
     """
 
-    print("\n\n\n\n")
-    print("is_allowed_node():")
-    print("    user: {0}".format(user))
-    print("    node: {0}".format(node))
-
     # Always allow superuser.
     if user.is_superuser:
         return True
@@ -461,10 +423,6 @@ def is_allowed_node(user, node):
     # If we are in STRICT, should start as failing permission checks.
     passes_login_check = not LOGIN_REQUIRED
     passes_permission_check = not STRICT_POLICY
-
-    print("")
-    print("Starting passes_login_check: {0}".format(passes_login_check))
-    print("Starting passes_permission_check: {0}".format(passes_permission_check))
 
     # Get the permission/access values from the node or node's view.
     return_data = get_permissions_from_node(node)
@@ -485,13 +443,6 @@ def is_allowed_node(user, node):
         # Some iteration of login is required.
         # Verify user is authenticated or the route for the node is whitelisted in the login exempt whitelist.
         passes_login_check = user.is_authenticated or check_for_login_whitelisted_node(node)
-
-    print("")
-    print("Running permission checks...")
-    print("    node_requires_permissions: {0}".format(node_requires_permissions))
-    print("    check_for_strict_whitelisted_node(): {0}".format(check_for_strict_whitelisted_node(node)))
-    print("    check_for_one_permission(): {0}".format(check_for_one_permission(user, one_of_permissions)))
-    print("    check_for_all_permissions(): {0}".format(check_for_all_permissions(user, full_permissions)))
 
     # If node allows without permissions, then all users pass permission checks.
     if allow_without_permissions:
@@ -530,13 +481,6 @@ def is_allowed_node(user, node):
 
         # Final result is the combination of these two.
         passes_permission_check = passes_one_check and passes_all_check
-
-    print("")
-    print("Ending passes_login_check: {0}".format(passes_login_check))
-    print("Ending passes_permission_check: {0}".format(passes_permission_check))
-
-    print("")
-    print("Final combined check: {0}".format(passes_login_check and passes_permission_check))
 
     # Return true if passes both types of checks. False otherwise.
     return passes_login_check and passes_permission_check
