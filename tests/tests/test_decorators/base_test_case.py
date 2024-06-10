@@ -94,23 +94,23 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "decorator, but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
     )
     pdq_strict__ineffective_login_whitelist_message = (
-        "AdminLtePdq Warning: The function-based view '{0}' is login whitelisted, "
+        "AdminLtePdq Warning: The function-based view '{view_name}' is login whitelisted, "
         "but the view still requires permissions. A user must login to have permissions, so the login whitelist is "
         "redundant and probably not achieving the desired effect. Correct this by adding the view to "
         "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
         "'allow_without_permissions' decorator."
     )
     pdq_strict__ineffective_login_whitelist_message__no_decorator = (
-        pdq_strict__ineffective_login_whitelist_message.format("standard_view")
+        pdq_strict__ineffective_login_whitelist_message.format(view_name="standard_view")
     )
     pdq_strict__ineffective_login_whitelist_message__anonymous_access = (
-        pdq_strict__ineffective_login_whitelist_message.format("allow_anonymous_access_view")
+        pdq_strict__ineffective_login_whitelist_message.format(view_name="allow_anonymous_access_view")
     )
     pdq__ineffective_login_whitelist_message__one_of_perms = pdq_strict__ineffective_login_whitelist_message.format(
-        "one_permission_required_view"
+        view_name="one_permission_required_view"
     )
     pdq__ineffective_login_whitelist_message__full_perms = pdq_strict__ineffective_login_whitelist_message.format(
-        "full_permissions_required_view"
+        view_name="full_permissions_required_view"
     )
 
     # endregion Expected Test Messages

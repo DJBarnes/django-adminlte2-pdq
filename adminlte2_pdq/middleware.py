@@ -147,22 +147,33 @@ class AuthMiddleware:
             if STRICT_POLICY:
                 mode_type = "STRICT"
                 mode_text = "login and permissions are"
-                similar_decorators = "'allow_anonymous_access' or 'allow_without_permissions'"
+                if view_data["view_perm_type"] == "decorator":
+                    decorator_name = "login_required"
+                    similar_decorators = "'allow_anonymous_access' or 'allow_without_permissions'"
+                else:
+                    decorator_name = "LoginRequired"
+                    similar_decorators = "'AllowAnonymousAccess' or 'AllowWithoutPermissions'"
                 pluralize = "s"
             else:
                 mode_type = "LOGIN REQUIRED"
                 mode_text = "login is"
-                similar_decorators = "'allow_anonymous_access'"
+                if view_data["view_perm_type"] == "decorator":
+                    decorator_name = "login_required"
+                    similar_decorators = "'allow_anonymous_access'"
+                else:
+                    decorator_name = "LoginRequired"
+                    similar_decorators = "'AllowAnonymousAccess'"
                 pluralize = ""
 
             # Display error message.
             error_message = (
-                "AdminLtePdq Error: The 'login_required' {view_perm_type} is not supported in AdminLtePdq {mode_type} "
+                "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq {mode_type} "
                 "mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
                 "for all views that are not in a whitelist setting."
                 "\n\n"
                 "Also consider the {similar_decorators} {view_perm_type}{pluralize}."
             ).format(
+                decorator_name=decorator_name,
                 mode_type=mode_type,
                 mode_text=mode_text,
                 similar_decorators=similar_decorators,
@@ -187,12 +198,17 @@ class AuthMiddleware:
             else:
                 mode_type = "LOGIN REQUIRED"
 
+            if view_data["view_perm_type"] == "decorator":
+                decorator_name = view_data["decorator_name"]
+            else:
+                decorator_name = view_data["decorator_name"].replace("_", " ").title().replace(" ", "")
+
             # Display error message.
             error_message = (
                 "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
                 "{mode_type} mode. This {view_perm_type} only exists for clarity of permission access in STRICT mode."
             ).format(
-                decorator_name=view_data["decorator_name"],
+                decorator_name=decorator_name,
                 view_perm_type=view_data["view_perm_type"],
                 mode_type=mode_type,
             )
@@ -215,14 +231,21 @@ class AuthMiddleware:
 
             # Whitelisted, and using a decorator that also removes permissions. Raise warning.
             if view_data["decorator_name"] == "allow_without_permissions":
+
+                if view_data["view_perm_type"] == "decorator":
+                    decorator_name = "allow_without_permissions"
+                else:
+                    decorator_name = "AllowWithoutPermissions"
+
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has an 'allow_without_permissions' "
+                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
                     "{view_perm_type}, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. These two effectively "
                     "achieve the same functionality."
                 ).format(
                     view_type=view_data["view_type"],
                     view_name=view_data["view_name"],
                     view_perm_type=view_data["view_perm_type"],
+                    decorator_name=decorator_name,
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -233,27 +256,41 @@ class AuthMiddleware:
         if is_login_whitelisted:
             # Whitelisted, yet using a decorator that requires login. Raise error.
             if view_data["decorator_name"] == "login_required":
+
+                if view_data["view_perm_type"] == "decorator":
+                    decorator_name = "login_required"
+                else:
+                    decorator_name = "LoginRequired"
+
                 raise ImproperlyConfigured(
                     (
-                        "AdminLtePdq Error: The {view_type} view '{view_name}' has a 'login_required' "
+                        "AdminLtePdq Error: The {view_type} view '{view_name}' has a '{decorator_name}' "
                         "{view_perm_type}, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
                     ).format(
                         view_type=view_data["view_type"],
                         view_name=view_data["view_name"],
                         view_perm_type=view_data["view_perm_type"],
+                        decorator_name=decorator_name,
                     )
                 )
 
             # Whitelisted, and using a decorator that also removes permissions. Raise warning.
             if view_data["decorator_name"] == "allow_anonymous_access":
+
+                if view_data["view_perm_type"] == "decorator":
+                    decorator_name = "allow_anonymous_access"
+                else:
+                    decorator_name = "AllowAnonymousAccess"
+
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has an 'allow_anonymous_access' "
+                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
                     "{view_perm_type}, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
                     "achieve the same functionality."
                 ).format(
                     view_type=view_data["view_type"],
                     view_name=view_data["view_name"],
                     view_perm_type=view_data["view_perm_type"],
+                    decorator_name=decorator_name,
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -274,16 +311,22 @@ class AuthMiddleware:
                     or view_data["decorator_name"] == "permission_required"
                 )
             ):
+                if view_data["view_perm_type"] == "decorator":
+                    decorator_name = "allow_without_permissions"
+                else:
+                    decorator_name = "AllowWithoutPermissions"
+
                 warning_message = (
                     "AdminLtePdq Warning: The {view_type} view '{view_name}' is login whitelisted, but the view "
                     "still requires permissions. A user must login to have permissions, so the login whitelist is "
                     "redundant and probably not achieving the desired effect. Correct this by adding the view to "
                     "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
-                    "'allow_without_permissions' {view_perm_type}."
+                    "'{decorator_name}' {view_perm_type}."
                 ).format(
                     view_type=view_data["view_type"],
                     view_name=view_data["view_name"],
                     view_perm_type=view_data["view_perm_type"],
+                    decorator_name=decorator_name,
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
