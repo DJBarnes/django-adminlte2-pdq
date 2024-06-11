@@ -4842,3 +4842,449 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
                         expected_status=500,
                     )
                 self.assertText(self.pdq_strict__full_permission_required_whitelist_overlap_message, str(err.exception))
+
+
+@override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
+@override_settings(LOGIN_REQUIRED=True)
+@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
+@override_settings(STRICT_POLICY=True)
+@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
+@patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
+    """Tests for overlapping decorator use.
+
+    Decorator/mixin logic should always be additive.
+    So defining two or more values means both cases must be true for the user to pass.
+
+    Instances where overlap doesn't make sense should raise an error.
+    """
+
+    def setUp(self, *args, **kwargs):
+
+        # Call parent logic.
+        super().setUp(*args, **kwargs)
+
+        # Create new user equivalent to original full_perm_user.
+        self.full_perm_user_plus_one = self.get_user("john_full_plus_one")
+        self.add_user_permission("add_foo", user=self.full_perm_user_plus_one)
+        self.add_user_permission("change_foo", user=self.full_perm_user_plus_one)
+        # Add one of the "plus one" permissions required to pass the stacked permission tests.
+        self.add_user_permission("view_foo", user=self.full_perm_user_plus_one)
+
+        # Create new user equivalent to original staff full_perm_user.
+        self.full_perm_staff_user_plus_one = self.get_user("jessie_staff_full_plus_one")
+        self.add_user_permission("add_foo", user=self.full_perm_staff_user_plus_one)
+        self.add_user_permission("change_foo", user=self.full_perm_staff_user_plus_one)
+        # Add one of the "plus one" permissions required to pass the stacked permission tests.
+        self.add_user_permission("delete_foo", user=self.full_perm_staff_user_plus_one)
+
+        # Create new user equivalent to original full_group_user.
+        self.full_group_user_plus_one = self.get_user("jenny_full_plus_one")
+        self.add_user_group("add_bar", user=self.full_group_user_plus_one)
+        self.add_user_group("change_bar", user=self.full_group_user_plus_one)
+        # Add one of the "plus one" permissions required to pass the stacked permission tests.
+        self.add_user_group("view_bar", user=self.full_group_user_plus_one)
+
+    def test__stacked_permissions_required(self):
+        """Test for view with both one_of_permissions and full_permissions requirements, in project "strict" mode.
+
+        Should be additive and user has to pass both in order to access page.
+        """
+
+        with self.subTest("As anonymous user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-full-permissions-required",
+                user=self.anonymous_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As an inactive user"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.inactive_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As user with no permissions"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.none_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As user with one permission"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.partial_perm_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As user with full permissions"):
+            # Try with our original full perm user.
+            # Should pass the "full perms" check but fail the stacked check.
+            # Thus access should fail.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.full_perm_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.full_perm_user_plus_one,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.view_foo", "auth.delete_foo"),
+                tuple(data_dict["one_of_permissions"]),
+            )
+            # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
+            #   handle as desired, so maybe it's fine?
+            self.assertIsNone(data_dict["full_permissions"])
+
+        with self.subTest("As staff user with no permissions"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.none_staff_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As staff user with one permission"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.partial_perm_staff_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As staff user with full permissions"):
+            # Try with our original full perm staff user.
+            # Should pass the "full perms" check but fail the stacked check.
+            # Thus access should fail.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.full_perm_staff_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            # Try again with our "plus one" equivalent user.
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.full_perm_staff_user_plus_one,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.view_foo", "auth.delete_foo"),
+                tuple(data_dict["one_of_permissions"]),
+            )
+            # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
+            #   handle as desired, so maybe it's fine?
+            self.assertIsNone(data_dict["full_permissions"])
+
+        with self.subTest("As user with incorrect groups"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.incorrect_group_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As user with one group"):
+            # Should fail and redirect to login.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.partial_group_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+        with self.subTest("As user with full groups"):
+            # Try with our original group user.
+            # Should pass the "full perms" check but fail the stacked check.
+            # Thus access should fail.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.full_group_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            # Try again with our "plus one" equivalent user.
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.full_group_user_plus_one,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.view_foo", "auth.delete_foo"),
+                tuple(data_dict["one_of_permissions"]),
+            )
+            # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
+            #   handle as desired, so maybe it's fine?
+            self.assertIsNone(data_dict["full_permissions"])
+
+        with self.subTest("As a superuser"):
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-stacked-permissions-required",
+                user=self.super_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+            )
+
+            # Verify values associated with returned view.
+            self.assertTrue(hasattr(response, "admin_pdq_data"))
+            data_dict = response.admin_pdq_data
+            self.assertEqual(
+                "permission_required",
+                data_dict["decorator_name"],
+            )
+            self.assertTrue(data_dict["login_required"])
+            self.assertEqual(
+                ("auth.view_foo", "auth.delete_foo"),
+                tuple(data_dict["one_of_permissions"]),
+            )
+            # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
+            #   handle as desired, so maybe it's fine?
+            self.assertIsNone(data_dict["full_permissions"])

@@ -5905,11 +5905,36 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
     Instances where overlap doesn't make sense should raise an error.
     """
 
+    def setUp(self, *args, **kwargs):
+
+        # Call parent logic.
+        super().setUp(*args, **kwargs)
+
+        # Create new user equivalent to original full_perm_user.
+        self.full_perm_user_plus_one = self.get_user("john_full_plus_one")
+        self.add_user_permission("add_foo", user=self.full_perm_user_plus_one)
+        self.add_user_permission("change_foo", user=self.full_perm_user_plus_one)
+        # Add one of the "plus one" permissions required to pass the stacked permission tests.
+        self.add_user_permission("view_foo", user=self.full_perm_user_plus_one)
+
+        # Create new user equivalent to original staff full_perm_user.
+        self.full_perm_staff_user_plus_one = self.get_user("jessie_staff_full_plus_one")
+        self.add_user_permission("add_foo", user=self.full_perm_staff_user_plus_one)
+        self.add_user_permission("change_foo", user=self.full_perm_staff_user_plus_one)
+        # Add one of the "plus one" permissions required to pass the stacked permission tests.
+        self.add_user_permission("delete_foo", user=self.full_perm_staff_user_plus_one)
+
+        # Create new user equivalent to original full_group_user.
+        self.full_group_user_plus_one = self.get_user("jenny_full_plus_one")
+        self.add_user_group("add_bar", user=self.full_group_user_plus_one)
+        self.add_user_group("change_bar", user=self.full_group_user_plus_one)
+        # Add one of the "plus one" permissions required to pass the stacked permission tests.
+        self.add_user_group("view_bar", user=self.full_group_user_plus_one)
+
     def test__stacked_permissions_required(self):
         """Test for view with both one_of_permissions and full_permissions requirements, in project "strict" mode.
 
         Should be additive and user has to pass both in order to access page.
-        # TODO: Currently works as an either/or, not additive.
         """
 
         with self.subTest("As anonymous user"):
@@ -6009,13 +6034,36 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
         with self.subTest("As user with full permissions"):
-            # Should succeed and load as expected.
+            # Try with our original full perm user.
+            # Should pass the "full perms" check but fail the stacked check.
+            # Thus access should fail.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
                 "adminlte2_pdq_tests:class-stacked-permissions-required",
                 user=self.full_perm_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:class-stacked-permissions-required",
+                user=self.full_perm_user_plus_one,
                 # Expected view return data.
                 expected_status=200,
                 view_should_redirect=False,
@@ -6090,13 +6138,39 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
         with self.subTest("As staff user with full permissions"):
-            # Should succeed and load as expected.
+            # Try with our original full perm staff user.
+            # Should pass the "full perms" check but fail the stacked check.
+            # Thus access should fail.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
                 "adminlte2_pdq_tests:class-stacked-permissions-required",
                 user=self.full_perm_staff_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            # Try again with our "plus one" equivalent user.
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:class-stacked-permissions-required",
+                user=self.full_perm_staff_user_plus_one,
                 # Expected view return data.
                 expected_status=200,
                 view_should_redirect=False,
@@ -6171,13 +6245,39 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
             self.assertFalse(hasattr(response, "admin_pdq_data"))
 
         with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
+            # Try with our original group user.
+            # Should pass the "full perms" check but fail the stacked check.
+            # Thus access should fail.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
                 "adminlte2_pdq_tests:class-stacked-permissions-required",
                 user=self.full_group_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Login |",
+                expected_content=[
+                    "Sign in to start your session",
+                    "Remember Me",
+                    "I forgot my password",
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            # Try again with our "plus one" equivalent user.
+            # Should succeed and load as expected.
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:class-stacked-permissions-required",
+                user=self.full_group_user_plus_one,
                 # Expected view return data.
                 expected_status=200,
                 view_should_redirect=False,

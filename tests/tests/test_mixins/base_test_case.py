@@ -189,7 +189,7 @@ class BaseMixinTextCase(IntegrationTestCase):
         group_instance.permissions.add(add_foo)
         group_instance = Group.objects.create(name="change_bar")
         group_instance.permissions.add(change_foo)
-        group_instance = Group.objects.create(name="view_foo")
+        group_instance = Group.objects.create(name="view_bar")
         group_instance.permissions.add(view_foo)
         group_instance = Group.objects.create(name="delete_bar")
         group_instance.permissions.add(delete_foo)
