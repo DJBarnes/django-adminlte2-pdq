@@ -92,19 +92,30 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize permission data and update class values.
         perms_all, perms_one = self.get_permission_required()
 
-        # Actually process permissions.
-        if perms_all and self.request.user.has_perms(perms_all):
-            # User has all permissions and view is "all permissions" format.
-            return True
+        # Instantly fail if not at least one defined.
+        if not (perms_all or perms_one):
+            return False
+
+        # Otherwise, at least one is defined.
+        # Default to the opposite of starting point.
+        # That way if either is None, it's automatically passing.
+        # Otherwise it needs to pass checks.
+        passes_perms_one = not bool(perms_one)
+        passes_perms_all = not bool(perms_all)
 
         if perms_one:
             # View is "one of permissions" format. Return on first found one.
             for perm in perms_one:
                 if self.request.user.has_perm(perm):
-                    return True
+                    passes_perms_one = True
 
-        # If we made it this far, then all permission checks failed.
-        return False
+        # Actually process permissions.
+        if perms_all and self.request.user.has_perms(perms_all):
+            # User has all permissions and view is "all permissions" format.
+            passes_perms_all = True
+
+        # Return combination of both checks. Must pass both to pass.
+        return passes_perms_one and passes_perms_all
 
     def get_permission_required(self):
         """Override this method to override permission attributes.

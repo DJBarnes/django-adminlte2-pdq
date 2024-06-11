@@ -45,6 +45,20 @@ urlpatterns = [
             ]
         ),
     ),
+    # "Overlapping" Function Test Views.
+    path(
+        "function-overlap/",
+        include(
+            [
+                # View with both one_of_permissions and full_permissions defined.
+                path(
+                    "stacked-permissions-required/",
+                    views.stacked_permissions_required_view,
+                    name="function-stacked-permissions-required",
+                ),
+            ]
+        ),
+    ),
     # General Class Test Views.
     path(
         "class/",
@@ -81,7 +95,7 @@ urlpatterns = [
     ),
     # "Bleeding" Edge-Case Class Test Views.
     path(
-        "class/bleeding/",
+        "class-bleeding/",
         include(
             [
                 # Equivalent to "allow_anonymous_access".
@@ -119,13 +133,13 @@ urlpatterns = [
     ),
     # "Overlapping" Class Test Views.
     path(
-        "class/overlap/",
+        "class-overlap/",
         include(
             [
                 # View with both one_of_permissions and full_permissions defined.
                 path(
                     "stacked-permissions-required/",
-                    views.StackedPermissionRequiredView.as_view(),
+                    views.StackedPermissionsRequiredView.as_view(),
                     name="class-stacked-permissions-required",
                 ),
             ]

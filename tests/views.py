@@ -63,6 +63,25 @@ def full_permissions_required_view(request):
 # endregion Function Views
 
 
+# region Function Class Views
+
+
+@permission_required_one(["auth.view_foo", "auth.delete_foo"])
+@permission_required(["auth.add_foo", "auth.change_foo"])
+def stacked_permissions_required_view(request):
+    """Testing view with both permission attributes set.
+
+    Decorator/mixin logic should stack. So by nature of having one Mixin for
+    both attribute options, it means that the user should have
+    "all of one set" plus "at last one of the other set".
+    """
+
+    return render(request, "full_permissions_required_view.html")
+
+
+# endregion Function Class Views
+
+
 # region Class Views
 
 
@@ -161,7 +180,7 @@ class BleedingFullPermissionMissingPermissionsView(PermissionRequiredMixin, Temp
 # region Stacked Class Views
 
 
-class StackedPermissionRequiredView(PermissionRequiredMixin, TemplateView):
+class StackedPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with both permission attributes set.
 
     Decorator/mixin logic should stack. So by nature of having one Mixin for
