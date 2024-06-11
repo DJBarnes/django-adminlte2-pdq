@@ -240,6 +240,89 @@ class BaseDecoratorTestCase(IntegrationTestCase):
             self.super_user,
         ]
 
+    def assertAdminPdqData(
+        self,
+        response,
+        is_empty=False,
+        decorator_name=None,
+        allow_anonymous_access=False,
+        login_required=False,
+        allow_without_permissions=False,
+        one_of_permissions=None,
+        full_permissions=None,
+    ):
+        """Custom assertion to verify the state of the data after AdminLtePdq processing.
+
+        :param response: Page response to parse data from for testing.
+        :param is_empty: Bool indicating if AdminLteData in response should be empty. If so, no further tests are run.
+        :param decorator_name: Expected decorator name value in AdminLteData response data.
+        :param allow_anonymous_access: Expected allow_anonymous_access value in AdminLteData response data.
+        :param login_required: Expected login_required value in AdminLteData response data.
+        :param allow_without_permissions: Expected allow_without_permissions value in AdminLteData response data.
+        :param one_of_permissions: Expected one_of_permissions value in AdminLteData response data.
+        :param full_permissions: Expected full_permissions value in AdminLteData response data.
+        """
+
+        # Check if data is empty.
+        # Should be the case in views without decorators/mixins, or such as for login redirects.
+        if is_empty:
+            self.assertFalse(hasattr(response, "admin_pdq_data"))
+
+            # No AdminLteData so no further checks needed. Exit here.
+            return
+
+        # If we made it this far, then AdminLteData is expected. Do full checks.
+
+        # First verify data is, in fact, present.
+        self.assertTrue(hasattr(response, "admin_pdq_data"))
+        data_dict = response.admin_pdq_data
+
+        # Data acquired. Verify each expected item within.
+
+        # Verify decorator name.
+        self.assertEqual(decorator_name, data_dict["decorator_name"])
+
+        # Verify allow_anonymous_access state.
+        self.assertIn("allow_anonymous_access", data_dict)
+        if bool(allow_anonymous_access):
+            self.assertTrue(data_dict["allow_anonymous_access"])
+        else:
+            self.assertFalse(data_dict["allow_anonymous_access"])
+
+        # Verify login_required state.
+        self.assertIn("login_required", data_dict)
+        if bool(login_required):
+            self.assertTrue(data_dict["login_required"])
+        else:
+            self.assertFalse(data_dict["login_required"])
+
+        # Verify allow_anonymous_access state.
+        self.assertIn("allow_without_permissions", data_dict)
+        if bool(allow_without_permissions):
+            self.assertTrue(data_dict["allow_without_permissions"])
+        else:
+            self.assertFalse(data_dict["allow_without_permissions"])
+
+        # Verify one_of_permissions state.
+        self.assertIn("one_of_permissions", data_dict)
+        if bool(one_of_permissions):
+            self.assertEqual(
+                one_of_permissions,
+                tuple(data_dict["one_of_permissions"]),
+            )
+        else:
+            self.assertIsNone(data_dict["one_of_permissions"])
+
+        # Verify permissions_required (aka full_permissions) state.
+        self.assertIn("full_permissions", data_dict)
+        if bool(full_permissions):
+            self.assertEqual(
+                full_permissions,
+                tuple(data_dict["full_permissions"]),
+            )
+        else:
+            self.assertIsNone(data_dict["full_permissions"])
+
 
 class TestIsolatedDecorators(TestCase):
     """Test logic that DOES NOT seem to touch/trigger middleware.

@@ -55,7 +55,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -82,7 +82,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -111,7 +111,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -140,7 +140,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -169,7 +169,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -198,7 +198,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -227,7 +227,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with full permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -256,7 +256,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with incorrect groups"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -285,7 +285,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -314,7 +314,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -343,7 +343,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As a superuser"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -372,7 +372,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
     def test__allow_anonymous_access_decorator(self):
         """Test for allow_anonymous_access decorator, in project "Strict" mode."""
@@ -394,15 +394,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -423,15 +415,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
@@ -450,15 +434,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -477,15 +453,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -504,15 +472,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As staff user with no permissions"):
             # Should succeed and load as expected.
@@ -531,15 +491,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -558,15 +510,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -585,15 +529,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -612,15 +548,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -639,15 +567,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -666,15 +586,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -693,178 +605,25 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Strict" mode.
         In strict mode, this decorator should NOT work, and instead raise errors.
         """
 
-        with self.subTest("As anonymous user"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.anonymous_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As an inactive user"):
-            # Shouldn't really be possible.
-            # But testing anyway since package does a lot of background magic with auth logic.
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.inactive_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As user with no permissions"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.none_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As user with one permission"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.partial_perm_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As user with full permissions"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.full_perm_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As staff user with no permissions"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.none_staff_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As staff user with one permission"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.partial_perm_staff_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As staff user with full permissions"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.full_perm_staff_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As user with incorrect groups"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.incorrect_group_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As user with one group"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.partial_group_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As user with full groups"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.full_group_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
-
-        with self.subTest("As a superuser"):
-            # Invalid decorator used for strict mode. Should raise error.
-
-            with self.assertRaises(ImproperlyConfigured) as err:
-                self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:function-login-required",
-                    user=self.super_user,
-                    # Expected view return data.
-                    expected_status=500,
-                )
-            self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
+        # Invalid decorator used for Strict mode. Should raise error for all user types.
+        for user in self.user_list:
+            with self.subTest(f"Running as {user.username} user"):
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:function-login-required",
+                        user=user,
+                        # Expected view return data.
+                        expected_status=500,
+                    )
+                self.assertText(self.pdq_strict__login_required_decorator_message, str(err.exception))
 
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Strict" mode."""
@@ -890,7 +649,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -915,7 +674,7 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
@@ -934,15 +693,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -961,15 +717,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -988,15 +741,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with no permissions"):
             # Should succeed and load as expected.
@@ -1015,15 +765,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -1042,15 +789,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -1069,15 +813,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -1096,15 +837,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -1123,15 +861,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -1150,15 +885,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -1177,15 +909,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Strict" mode."""
@@ -1212,7 +941,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -1238,7 +967,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
@@ -1262,7 +991,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -1281,18 +1010,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -1311,18 +1034,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with no permissions"):
             # Should fail and redirect to login.
@@ -1346,7 +1063,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -1365,18 +1082,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -1395,18 +1106,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -1430,7 +1135,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -1449,18 +1154,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -1479,18 +1178,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -1509,18 +1202,12 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
     def test__full_permission_required_decorator(self):
         """Test for permission_required decorator, in project "Strict" mode."""
@@ -1547,7 +1234,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -1573,7 +1260,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
@@ -1597,7 +1284,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
@@ -1621,7 +1308,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -1640,17 +1327,11 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
         with self.subTest("As staff user with no permissions"):
@@ -1675,7 +1356,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # Should fail and redirect to login.
@@ -1699,7 +1380,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -1718,17 +1399,11 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
         with self.subTest("As user with incorrect groups"):
@@ -1753,7 +1428,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # Should fail and redirect to login.
@@ -1777,7 +1452,7 @@ class StrictModeMixin:
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -1796,17 +1471,11 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
         with self.subTest("As a superuser"):
@@ -1826,17 +1495,11 @@ class StrictModeMixin:
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
 
@@ -1968,7 +1631,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -2010,7 +1673,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2045,7 +1708,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2080,7 +1743,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2115,7 +1778,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with no permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2150,7 +1813,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2185,7 +1848,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with full permissions"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2220,7 +1883,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with incorrect groups"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2255,7 +1918,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2290,7 +1953,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2325,7 +1988,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As a superuser"):
             # View configured incorrectly for strict mode. Should redirect to "home".
@@ -2360,7 +2023,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
     def test__allow_anonymous_access_decorator(self):
         """Test for allow_anonymous_access decorator, in project "Strict" mode, with login whitelist.
@@ -2400,15 +2063,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -2444,15 +2099,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
@@ -2486,15 +2133,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -2528,15 +2167,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -2570,15 +2201,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As staff user with no permissions"):
             # Should succeed and load as expected.
@@ -2611,15 +2234,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -2653,15 +2268,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -2695,15 +2302,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -2737,15 +2336,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -2779,15 +2370,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -2821,15 +2404,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -2863,15 +2438,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_anonymous_access",
-                data_dict["decorator_name"],
-            )
-            self.assertFalse(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
+            self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "login required" mode, with login whitelist.
@@ -2913,7 +2480,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -2951,7 +2518,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
@@ -2987,7 +2554,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -3018,18 +2585,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -3060,18 +2621,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with no permissions"):
             # Should fail and redirect to login.
@@ -3107,7 +2662,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -3138,18 +2693,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -3180,18 +2729,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -3227,7 +2770,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -3258,18 +2801,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -3300,18 +2837,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -3342,18 +2873,12 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo", "auth.change_foo"),
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["one_of_permissions"],
-            )
-            self.assertIsNone(data_dict["full_permissions"])
 
     def test__full_permission_required_decorator(self):
         """Test for permission_required decorator, in project "login required" mode, with login whitelist.
@@ -3395,7 +2920,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -3433,7 +2958,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
@@ -3469,7 +2994,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
@@ -3505,7 +3030,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -3536,17 +3061,11 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
         with self.subTest("As staff user with no permissions"):
@@ -3583,7 +3102,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # Should fail and redirect to login.
@@ -3619,7 +3138,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -3650,17 +3169,11 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
         with self.subTest("As user with incorrect groups"):
@@ -3697,7 +3210,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # Should fail and redirect to login.
@@ -3733,7 +3246,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -3764,17 +3277,11 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
         with self.subTest("As a superuser"):
@@ -3806,17 +3313,11 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertEqual(
-                ("auth.add_foo", "auth.change_foo"),
-                data_dict["full_permissions"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo", "auth.change_foo"),
             )
 
 
@@ -3893,7 +3394,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -3919,7 +3420,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
@@ -3939,7 +3440,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -3959,7 +3460,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -3979,7 +3480,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with no permissions"):
             # Should succeed and load as expected.
@@ -3999,7 +3500,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -4019,7 +3520,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -4039,7 +3540,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -4059,7 +3560,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -4079,7 +3580,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -4099,7 +3600,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -4119,7 +3620,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
 
             # Verify values associated with returned view.
             # View had no decorators so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Strict" mode, with perm whitelist.
@@ -4160,7 +3661,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Shouldn't really be possible.
@@ -4197,7 +3698,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should succeed and load as expected.
@@ -4228,15 +3729,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with one permission"):
             # Should succeed and load as expected.
@@ -4267,15 +3765,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -4306,15 +3801,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with no permissions"):
             # Should succeed and load as expected.
@@ -4345,15 +3837,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with one permission"):
             # Should succeed and load as expected.
@@ -4384,15 +3873,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As staff user with full permissions"):
             # Should succeed and load as expected.
@@ -4423,15 +3909,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with incorrect groups"):
             # Should succeed and load as expected.
@@ -4462,15 +3945,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with one group"):
             # Should succeed and load as expected.
@@ -4501,15 +3981,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As user with full groups"):
             # Should succeed and load as expected.
@@ -4540,15 +4017,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -4579,15 +4053,12 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "allow_without_permissions",
-                data_dict["decorator_name"],
+            self.assertAdminPdqData(
+                response,
+                decorator_name="allow_without_permissions",
+                login_required=True,
+                allow_without_permissions=True,
             )
-            self.assertTrue(data_dict["login_required"])
-            self.assertIsNone(data_dict["one_of_permissions"])
-            self.assertIsNone(data_dict["full_permissions"])
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Strict" mode, with perm whitelist.
@@ -4700,7 +4171,7 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
 
                 # Verify values associated with returned view.
                 # View had no decorators so should be no data.
-                self.assertFalse(hasattr(response, "admin_pdq_data"))
+                self.assertAdminPdqData(response, is_empty=True)
 
     def test__allow_anonymous_access_decorator(self):
         """Test for allow_anonymous_access decorator, in project "Strict" mode, with both whitelists."""
@@ -4735,15 +4206,7 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
                 )
 
                 # Verify values associated with returned view.
-                self.assertTrue(hasattr(response, "admin_pdq_data"))
-                data_dict = response.admin_pdq_data
-                self.assertEqual(
-                    "allow_anonymous_access",
-                    data_dict["decorator_name"],
-                )
-                self.assertFalse(data_dict["login_required"])
-                self.assertIsNone(data_dict["one_of_permissions"])
-                self.assertIsNone(data_dict["full_permissions"])
+                self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
 
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Strict" mode, with both whitelists.
@@ -4795,15 +4258,12 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         #         )
         #
         #         # Verify values associated with returned view.
-        #         self.assertTrue(hasattr(response, "admin_pdq_data"))
-        #         data_dict = response.admin_pdq_data
-        #         self.assertEqual(
-        #             "allow_without_permissions",
-        #             data_dict["decorator_name"],
+        #         self.assertAdminPdqData(
+        #             response,
+        #             decorator_name="allow_without_permissions",
+        #             login_required=True,
+        #             allow_without_permissions=True,
         #         )
-        #         self.assertTrue(data_dict["login_required"])
-        #         self.assertIsNone(data_dict["one_of_permissions"])
-        #         self.assertIsNone(data_dict["full_permissions"])
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Strict" mode, with both whitelists.
@@ -4916,7 +4376,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As an inactive user"):
             # Should fail and redirect to login.
@@ -4940,7 +4400,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
             # Should fail and redirect to login.
@@ -4964,7 +4424,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
             # Should fail and redirect to login.
@@ -4988,7 +4448,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
             # Try with our original full perm user.
@@ -5014,7 +4474,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -5030,20 +4490,16 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.view_foo", "auth.delete_foo"),
-                tuple(data_dict["one_of_permissions"]),
-            )
             # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
             #   handle as desired, so maybe it's fine?
-            self.assertIsNone(data_dict["full_permissions"])
+            #   Should have both one_of_permissions and full_permissions defined, due to stacking.
+            #   Same as how the equivalent mixin tests work.
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.view_foo", "auth.delete_foo"),
+            )
 
         with self.subTest("As staff user with no permissions"):
             # Should fail and redirect to login.
@@ -5067,7 +4523,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
             # Should fail and redirect to login.
@@ -5091,7 +4547,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with full permissions"):
             # Try with our original full perm staff user.
@@ -5117,7 +4573,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
             # Try again with our "plus one" equivalent user.
             # Should succeed and load as expected.
@@ -5136,20 +4592,16 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.view_foo", "auth.delete_foo"),
-                tuple(data_dict["one_of_permissions"]),
-            )
             # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
             #   handle as desired, so maybe it's fine?
-            self.assertIsNone(data_dict["full_permissions"])
+            #   Should have both one_of_permissions and full_permissions defined, due to stacking.
+            #   Same as how the equivalent mixin tests work.
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.view_foo", "auth.delete_foo"),
+            )
 
         with self.subTest("As user with incorrect groups"):
             # Should fail and redirect to login.
@@ -5173,7 +4625,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
             # Should fail and redirect to login.
@@ -5197,7 +4649,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
             # Try with our original group user.
@@ -5223,7 +4675,7 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
-            self.assertFalse(hasattr(response, "admin_pdq_data"))
+            self.assertAdminPdqData(response, is_empty=True)
 
             # Try again with our "plus one" equivalent user.
             # Should succeed and load as expected.
@@ -5242,20 +4694,16 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.view_foo", "auth.delete_foo"),
-                tuple(data_dict["one_of_permissions"]),
-            )
             # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
             #   handle as desired, so maybe it's fine?
-            self.assertIsNone(data_dict["full_permissions"])
+            #   Should have both one_of_permissions and full_permissions defined, due to stacking.
+            #   Same as how the equivalent mixin tests work.
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.view_foo", "auth.delete_foo"),
+            )
 
         with self.subTest("As a superuser"):
             # Should succeed and load as expected.
@@ -5274,17 +4722,13 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
             )
 
             # Verify values associated with returned view.
-            self.assertTrue(hasattr(response, "admin_pdq_data"))
-            data_dict = response.admin_pdq_data
-            self.assertEqual(
-                "permission_required",
-                data_dict["decorator_name"],
-            )
-            self.assertTrue(data_dict["login_required"])
-            self.assertEqual(
-                ("auth.view_foo", "auth.delete_foo"),
-                tuple(data_dict["one_of_permissions"]),
-            )
             # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
             #   handle as desired, so maybe it's fine?
-            self.assertIsNone(data_dict["full_permissions"])
+            #   Should have both one_of_permissions and full_permissions defined, due to stacking.
+            #   Same as how the equivalent mixin tests work.
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.view_foo", "auth.delete_foo"),
+            )
