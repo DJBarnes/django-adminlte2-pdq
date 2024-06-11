@@ -12,28 +12,72 @@ application pretty darn quickly (PDQ) using the
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_
 theme.
 
-Additionally, the app provides decorators, mixins, template filters, and
-template tags to aid in the rapid development of a site.
 
-Features include:
+**This app has two main parts**:
 
-* Styled with `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_.
-* Easy sidebar menu creation.
-* Automatic
-  `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
-  styling that matches AdminLTE2.
-* Automatic inclusion of Admin links in the sidebar.
-* Automatic menu link hiding based on user permissions to views.
-* Template filters to aid in manual styling.
-* Template tags for form rendering that matches AdminLTE2.
-* Automatic form error and message styling.
-* `Font Awesome 4 <https://fontawesome.com/v4/icons/>`_
-  & `Font Awesome 5 <https://fontawesome.com/v5/search>`_ integration.
-* Highly configurable functionality, via project
-  `Django settings variables <https://docs.djangoproject.com/en/dev/topics/settings/>`_.
+* `AdminLTE2 Styled <https://adminlte.io/themes/AdminLTE/index2.html>`_
+  Django templates, for a reliable front-end styling out of the box.
+
+* Expanded decorator/mixin auth logic, for quick and easy handling of all
+  your permission needs.
+
+Additionally, this app provides additional template filters, template tags,
+and more, to aid in the rapid development of a site.
+
 
 .. image:: ../img/menu/django-adminlte2-pdq-static-menu.png
     :alt: Site with static menu using settings
+
+
+**Features include**:
+
+* Styled with `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_.
+
+* Automatic
+  `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
+  styling that matches AdminLTE2.
+
+* Three permission/authentication modes:
+
+  * "**Loose**" Mode - The default Django handling, and thus the project default.
+    All views are accessible to all users, until decorators/mixins are added
+    to enforce more strict handling.
+
+  * "**Login Required**" Mode - Defaults all views to be slightly more secure as
+    their default behavior. Unless decorators/mixins specify otherwise, all
+    views will require user login in order to access.
+
+  * "**Strict**" Mode - Defaults all views to be the most strict possible. Unless
+    decorators/mixins specify otherwise, all views require permissions in order
+    to access.
+
+* Customizable web page templates:
+
+    * Built-in templates split into reasonable block sections, to help
+      facilitate any content your site needs.
+
+    * Template filters to aid in manual styling.
+
+    * Template tags for form rendering that matches AdminLTE2.
+
+    * Automatic form error and message styling.
+
+* Easy sidebar menu creation and customization:
+
+  * Views can easily be added to the sidebar with just a few lines of code.
+
+  * Automatic menu link hiding based on user permissions to views.
+
+    * Aka, sidebar links can be customized to only be visible upon meeting
+      login or permission criteria.
+
+  * Automatic inclusion of Admin links in the sidebar.
+
+* `Font Awesome 4 <https://fontawesome.com/v4/icons/>`_
+  & `Font Awesome 5 <https://fontawesome.com/v5/search>`_ integration.
+
+* Highly configurable functionality, via project
+  `Django settings variables <https://docs.djangoproject.com/en/dev/topics/settings/>`_.
 
 
 .. toctree::
