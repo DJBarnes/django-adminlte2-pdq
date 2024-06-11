@@ -14,7 +14,6 @@ from django.views.generic.base import RedirectView
 
 # Internal Imports.
 from .constants import (
-    # General settings.
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     STRICT_POLICY,
@@ -23,24 +22,7 @@ from .constants import (
     HOME_ROUTE,
     MEDIA_ROUTE,
     WEBSOCKET_ROUTE,
-    # Debugging settings.
-    TEXT_BLUE,
-    TEXT_CYAN,
-    TEXT_GREEN,
-    TEXT_PURPLE,
-    TEXT_RED,
-    TEXT_RESET,
-    TEXT_YELLOW,
 )
-
-
-# Module Variables.
-debug_header = "{0}{1}{2}".format(TEXT_CYAN, "{0}", TEXT_RESET)
-debug_var = "{0}{1}{2}{3}".format(TEXT_PURPLE, "{0}", TEXT_RESET, "{1}")
-debug_info = "{0}{1}{2}".format(TEXT_BLUE, "{0}", TEXT_RESET)
-debug_success = "{0}{1}{2}".format(TEXT_GREEN, "{0}", TEXT_RESET)
-debug_warn = "{0}{1}{2}".format(TEXT_YELLOW, "{0}", TEXT_RESET)
-debug_error = "{0}{1}{2}".format(TEXT_RED, "{0}", TEXT_RESET)
 
 
 class AuthMiddleware:
@@ -72,7 +54,7 @@ class AuthMiddleware:
     def __call__(self, request):
         return self.run_auth_checks(request)
 
-    def run_auth_checks(self, request, debug=True):
+    def run_auth_checks(self, request):
         """Various AdminLTE authentication checks upon User trying to access a view.
 
         Upon failure, user will be redirected accordingly.
@@ -367,7 +349,7 @@ class AuthMiddleware:
                 # Create Django Messages warning.
                 raise ImproperlyConfigured(error_message)
 
-    def parse_request_data(self, request, debug=True):
+    def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""
 
         # Initialize default data structure.
@@ -452,7 +434,7 @@ class AuthMiddleware:
         # Return parsed data.
         return data_dict
 
-    def verify_logged_in(self, request, view_data, debug=False):
+    def verify_logged_in(self, request, view_data):
         """Checks to verify User is logged in, for views that require it."""
 
         # If user is already authenticated, just return true.
@@ -475,7 +457,7 @@ class AuthMiddleware:
             or self.verify_websocket_route(view_data["path"])
         )
 
-    def verify_strict_mode_permission_set(self, request, view_data, debug=False):
+    def verify_strict_mode_permission_set(self, request, view_data):
         """Verify view access based on permission/login requirements on the view object.
 
         :return: False if user cannot access view as per Strict Mode policy | True otherwise.
