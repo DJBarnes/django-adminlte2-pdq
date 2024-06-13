@@ -136,6 +136,8 @@ and more, to aid in the rapid development of a site.
    demo_css
    api_reference
 
+   version_history
+
 
 Indices and tables
 ******************
