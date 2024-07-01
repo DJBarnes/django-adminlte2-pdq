@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-"""Run Django Tests"""
+"""Run Package Tests"""
+
 import os
 import subprocess
 import sys
@@ -21,7 +22,8 @@ def run_tests_with_pytest():
 
     # Run tests.
     argv = ["pytest"] + sys.argv[1:]
-    subprocess.run(argv, check=False)
+    proc = subprocess.run(argv, check=False)
+    return proc.returncode
 
 
 def run_tests():
@@ -34,13 +36,13 @@ def run_tests():
 
     # Run tests.
     argv = sys.argv[:1] + ["test"] + sys.argv[1:] + ["--buffer"]
-    execute_from_command_line(argv)
+    return execute_from_command_line(argv)
 
 
 # Determine which testing format to run, based on environment.
 # Pytest is preferred.
 if __name__ == "__main__":
     if which("pytest") is not None:
-        run_tests_with_pytest()
+        sys.exit(run_tests_with_pytest())
     else:
-        run_tests()
+        sys.exit(run_tests())
