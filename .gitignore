@@ -155,3 +155,7 @@ DEBUG
 # Ignore local environment files.
 env.py
 SECRET_KEY
+
+
+# Ignore Pipfile.lock. We don't want to lock develolpment to specific packages.
+Pipfile.lock
