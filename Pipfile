@@ -9,13 +9,6 @@ name = "pypi"
 
 
 ###
- # Python version declaration.
- ##
-[requires]
-python_version = "3.11"
-
-
-###
  # General packages, installed via `pipenv sync`.
  ##
 [packages]
@@ -34,6 +27,7 @@ pylint-django = "*"             # Improves code analysis for Django projects.
 # Testing/Pytest dependencies.
 colorama = "*"                  # Console coloring package. Used for additional functionality in below ETC package.
 coverage = "*"                  # Outputs testing coverage data.
+coverage_enable_subprocess = "*"    # Required to run coverage in pytest while muti-threaded.
 django-expanded-test-cases = "*"    # Utilities for easier testing.
 pytest = "*"                    # Base Pytest package. Current preferred testing method.
 pytest-cov = "*"                # Additional Pytest logic for multithreaded coverage support.
@@ -42,7 +36,6 @@ pytest-subtests = "*"           # Additional Pytest logic for SubTest support.
 pytest-xdist = "*"              # Additional Pytest features, such as multithreading and looping.
 
 # Docs build dependencies.
-esbonio="*"                     # A "Language Server" to help build docs.
 sphinx = "*"                    # Core package to build project docs.
 sphinx-autobuild = "*"          # Additional Sphinx logic to autobuild from project code documentation.
 sphinx-rtd-theme = "*"          # Additional Sphinx logic for building with standard ReadTheDocs theme.
@@ -52,6 +45,5 @@ doc8="*"                        # Checks reStructuredText (aka Sphinx) syntax.
 rstcheck = "~=3.5.0"            # Checks reStructuredText (aka Sphinx) syntax.
 
 # Project pypi dependencies.
-build = "*"                     # For building packages according to PEP 517 standards (for PyPi deployment).
-pip-tools = "*"                 # Management of Package dependencies and building.
-twine = "*"                     # For pushing/publishing packages.
+flit = "*"                        # Simple way to build and put Python packages on PyPI.
+twine = "*"                       # For pushing/publishing packages.
