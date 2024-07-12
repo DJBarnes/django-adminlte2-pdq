@@ -66,10 +66,12 @@ def show_control_sidebar_recent_activity_tab_pane(context):
 
     show_tab_pane = control_sidebar_tabs.get('SHOW_RECENT_ACTIVITY_TAB', True)
 
-    return {
+    new_context = context.flatten()
+    new_context.update({
         'show_csb_recent_activity_tab_pane': show_tab_pane,
-        'user': context['user'],
-    }
+    })
+
+    return new_context
 
 
 @register.inclusion_tag('admin/partials/_control_sidebar/_settings_tab_pane.html')
