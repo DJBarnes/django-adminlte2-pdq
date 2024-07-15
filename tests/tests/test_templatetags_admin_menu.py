@@ -27,17 +27,18 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
     def normalize_html(self, html_string):
         """Normalize HTML string to remove newlines and extra whitespace"""
-        return ' '.join(
-            html_string.replace("\n", "").split()
-        ).replace(
-            " >", ">"
-        # TODO: Consider also adding the following to remove whitespace between tags.
-        # ).replace(
-        #     "> ", ">"
-        # ).replace(
-        #     " <", "<"
-        ).replace(
-            "\" \"", "\"\""
+        return (
+            " ".join(html_string.replace("\n", "").split())
+            .replace(
+                " >",
+                ">",
+                # TODO: Consider also adding the following to remove whitespace between tags.
+                # ).replace(
+                #     "> ", ">"
+                # ).replace(
+                #     " <", "<"
+            )
+            .replace('" "', '""')
         )
 
     # region render_admin_menu() Function
