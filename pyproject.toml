@@ -49,10 +49,11 @@ keywords = [
     "style",
     "theme",
 ]
+requires-python = ">=3.8"
 dependencies = [
     "django >= 3.2.0",
 ]
-requires-python = ">=3.8"
+dynamic = ["version"]
 
 
 [project.optional-dependencies]
