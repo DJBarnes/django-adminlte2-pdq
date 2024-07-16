@@ -1,6 +1,7 @@
 """
 Tests for Admin Template Tags
 """
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth.models import User
 from django.template import Template, Context
 from django.test import TestCase, override_settings
@@ -142,7 +143,10 @@ class TemplateTagAdminTestCase(TestCase):
 
         user = User()
 
-        context = Context({'user': user})
+        context = Context({
+            'user': user,
+            'log_entries': LogEntry.objects.none(),
+        })
         template_to_render = Template(
             "{% load admin.admin_control_sidebar %}"
             "{% show_control_sidebar_recent_activity_tab_pane %}"
@@ -162,7 +166,10 @@ class TemplateTagAdminTestCase(TestCase):
 
         user = User()
 
-        context = Context({'user': user})
+        context = Context({
+            'user': user,
+            'log_entries': LogEntry.objects.none(),
+        })
         template_to_render = Template(
             "{% load admin.admin_control_sidebar %}"
             "{% show_control_sidebar_recent_activity_tab_pane %}"
