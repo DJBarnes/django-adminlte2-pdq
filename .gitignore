@@ -72,7 +72,10 @@ htmlcov/
 .cache
 nosetests.xml
 coverage.xml
+coverage.lcov
+coverage.json
 .pytest_cache
+.django_adminlte2_pdq_coverage_html_report/
 
 # Translations
 *.mo
