@@ -1,7 +1,10 @@
+# Build properties for deployment.
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta:__legacy__"
 
+
+# region Core Project Settings and Metadata
 
 [project]
 name = "django-adminlte2-pdq"
@@ -73,6 +76,7 @@ doc = [
 ]
 test = [
     "coverage",
+    "django-expanded-test-cases",
     "pytest",
     "pytest-cov",
     "pytest-django",
@@ -84,5 +88,61 @@ test = [
 Homepage = "https://github.com/djbarnes/django-adminlte2-pdq"
 
 
+# endregion Core Project Settings and Metadata
+
+
+# region Third-Party Package Settings
+
+# "Black" formatter settings.
 [tool.black]
 line-length = 120
+
+# endregion Third-Party Package Settings
+
+
+# region Testing Settings
+
+[tool.pytest.ini_options]
+python_files = ["tests.py", "tests/test_*.py"]
+
+DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = "."
+# Constructed as
+#   {action}:{message}:{category}:{module}:{lineno}
+#
+# For more details, see:
+#   https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+#   https://docs.python.org/3/library/warnings.html#warning-filter
+#   https://stackoverflow.com/questions/57925071/how-do-i-avoid-getting-deprecationwarning-from-inside-dependencies-with-pytest
+filterwarnings = [
+    "ignore:.*The default scheme will be changed from 'http' to 'https' in Django 6.0.*:",
+]
+
+
+[tool.coverage.run]
+branch = true
+omit = [
+    # Omit the virtual environment.
+    "./.venv/*",
+    # Omit the test folders.
+    "*/tests/*",
+    "*/tests.py",
+    # Omit the migration folders.
+    "*/migrations/*",
+    # Omit django files.
+    "*/manage.py",
+    "*/wsgi.py",
+    "*/settings.py",
+    "*/asgi.py",
+    # Omit management commands.
+    "*/management/commands/*.py",
+    # Omit init files.
+    "*/__init__.py",
+    # Omit setup files.
+    "./setup.py",
+    # Omit Testing Scripts.
+    "./runpytests.py",
+    "./runtests.py",
+]
+
+# endregion Testing Settings
