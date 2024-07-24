@@ -33,7 +33,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install pipenv tox tox-gh-actions
-          pipenv run pip install -r ./.github/dependency_versions/3.8/requirements.txt
+          pipenv run pip install .
+          pipenv run pip install ".[test]"
+          pipenv run pip install ".[test-extra]"
+          pipenv run pip install ".[doc]"
 
       - name: Display installed dependencies
         run: |
