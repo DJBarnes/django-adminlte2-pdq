@@ -3,16 +3,15 @@ Tests for Middleware
 """
 
 # System Imports.
-import warnings
 from unittest.mock import patch
 
 # Third-Party Imports.
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
 from django.test import override_settings, TestCase
 from django.urls import reverse
+from pytest import warns
 
 # Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
@@ -177,7 +176,7 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
         # Verify values imported from middleware file.
-        # We don't use constants.py values because the above settings techncially don't override such.
+        # We don't use constants.py values because the above settings technically don't override such.
         # Plus this test is a middleware test so it's probably fine.
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
@@ -203,7 +202,7 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
             self.assertContains(response, "Login")
 
         with self.subTest("As user with full permissions"):
-            with warnings.catch_warnings(record=True) as wa:
+            with warns(RuntimeWarning, match=self.pdq_strict__no_decorator_message):
                 # Process response.
                 self.client.force_login(self.test_user_w_perms)
                 response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
@@ -211,8 +210,6 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
                 # Verify values associated with returned view.
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, "Home")
-                self.assertEqual(len(wa), 1)
-                self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
 
     def test__no_whitelists__admin_page(self):
         """Test when "STRICT" mode and accessing the admin page."""
@@ -248,35 +245,41 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
         with self.subTest("As anonymous user"):
             # Should go to demo-css, fails the strict policy, then go to home.
             # Home is a new request that fails the login required being on and thus redirect to login page.
-            with warnings.catch_warnings(record=True) as wa:
+            with warns(Warning) as warning_info:
                 # Process response.
                 response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
                 self.assertEqual(response.status_code, 200)
 
                 # Verify values associated with returned view.
                 self.assertContains(response, "Login")
-                self.assertEqual(len(wa), 2)
-                self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
-                self.assertEqual(
-                    self.pdq_strict__ineffective_login_whitelist_message,
-                    str(wa[-2].message),
-                )
+                # Collect actual warns that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warns that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__no_decorator_message),
+                    (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message),
+                }
+                # Assert warns match.
+                self.assertEqual(expected_warns, actual_warns)
 
         with self.subTest("As user with full permissions"):
             # Should go to demo-css, fail the strict policy, then go to home.
             # Home is a new request that succeeds.
-            with warnings.catch_warnings(record=True) as wa:
+            with warns(Warning) as warning_info:
                 self.client.force_login(self.test_user_w_perms)
 
                 response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
                 self.assertEqual(response.status_code, 200)
                 self.assertContains(response, "Home")
-                self.assertEqual(len(wa), 2)
-                self.assertIn(self.pdq_strict__no_decorator_message, str(wa[-1].message))
-                self.assertEqual(
-                    self.pdq_strict__ineffective_login_whitelist_message,
-                    str(wa[-2].message),
-                )
+                # Collect actual warns that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warns that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__no_decorator_message),
+                    (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message),
+                }
+                # Assert warns match.
+                self.assertEqual(expected_warns, actual_warns)
 
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
     def test__with_permission_whitelist(self):
