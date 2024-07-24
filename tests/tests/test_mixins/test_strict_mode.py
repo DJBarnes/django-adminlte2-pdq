@@ -3,7 +3,6 @@ Tests for Mixin login in project "strict" authentication mode.
 """
 
 # System Imports.
-import warnings
 from unittest.mock import patch
 
 # Third-Party Imports.
@@ -11,6 +10,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
+from pytest import warns
 
 # Internal Imports.
 from .base_test_case import BaseMixinTextCase, LOGIN_WHITELIST_VIEWS, PERM_WHITELIST_VIEWS
@@ -86,7 +86,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -102,10 +102,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -115,7 +119,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -131,10 +135,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -144,7 +152,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -160,10 +168,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -173,7 +185,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -189,10 +201,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -202,7 +218,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -218,10 +234,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -231,7 +251,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -247,10 +267,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -260,7 +284,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -276,10 +300,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -289,7 +317,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -305,10 +333,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -318,7 +350,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -334,10 +366,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -347,7 +383,7 @@ class StrictModeMixin:
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -363,10 +399,14 @@ class StrictModeMixin:
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1586,7 +1626,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # But then since we're also not logged in, it redirects to login required page.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1607,15 +1647,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1626,7 +1666,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # But then since we're also not logged in, it redirects to login required page.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1647,15 +1687,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1665,7 +1705,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1682,15 +1722,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1700,7 +1740,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1717,15 +1757,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1735,7 +1775,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1752,15 +1792,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1770,7 +1810,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1787,15 +1827,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1805,7 +1845,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1822,15 +1862,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1840,7 +1880,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1857,15 +1897,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1875,7 +1915,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1892,15 +1932,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1910,7 +1950,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1927,15 +1967,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1945,7 +1985,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1962,15 +2002,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -1980,7 +2020,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # View configured incorrectly for strict mode. Should redirect to "home".
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -1997,15 +2037,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_strict__no_mixin_message, str(warning[-1].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__no_mixin,
-                str(warning[-2].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__no_mixin),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # View had no mixins so should be no data.
@@ -2021,7 +2061,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2038,15 +2078,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2055,7 +2095,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2072,15 +2112,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2089,7 +2129,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2106,15 +2146,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2123,7 +2163,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2140,15 +2180,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2157,7 +2197,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2174,15 +2214,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2191,7 +2231,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2208,15 +2248,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2225,7 +2265,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2242,15 +2282,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2259,7 +2299,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2276,15 +2316,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2293,7 +2333,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2310,15 +2350,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2327,7 +2367,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2344,15 +2384,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2361,7 +2401,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2378,15 +2418,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2395,7 +2435,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -2412,15 +2452,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(2, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(RuntimeWarning, warning[-2].category)
-            self.assertText(self.pdq_login__allow_anonymous_whitelist_overlap_message, str(warning[-2].message))
-            self.assertText(
-                self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -2435,7 +2475,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2455,13 +2495,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2471,7 +2512,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2491,13 +2532,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2507,7 +2549,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2527,13 +2569,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2543,7 +2586,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2559,13 +2602,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2579,7 +2623,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2595,13 +2639,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2615,7 +2660,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2635,13 +2680,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2651,7 +2697,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2667,13 +2713,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2687,7 +2734,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2703,13 +2750,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2723,7 +2771,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2743,13 +2791,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2759,7 +2808,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2775,13 +2824,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2795,7 +2845,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2811,13 +2861,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2831,7 +2882,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -2847,13 +2898,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__one_of_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__one_of_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -2873,7 +2925,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -2893,13 +2945,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2909,7 +2962,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -2929,13 +2982,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2945,7 +2999,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -2965,13 +3019,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -2981,7 +3036,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3001,13 +3056,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -3017,7 +3073,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3033,13 +3089,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3053,7 +3110,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3073,13 +3130,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -3089,7 +3147,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3109,13 +3167,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -3125,7 +3184,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3141,13 +3200,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3161,7 +3221,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3181,13 +3241,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -3197,7 +3258,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3217,13 +3278,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -3233,7 +3295,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3249,13 +3311,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3269,7 +3332,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -3285,13 +3348,14 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq__ineffective_login_whitelist_message__full_perms,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__ineffective_login_whitelist_message__full_perms),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3611,7 +3675,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3631,13 +3695,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, is_empty=True)
@@ -3646,7 +3711,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3666,13 +3731,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(response, is_empty=True)
@@ -3681,7 +3747,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3697,13 +3763,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3717,7 +3784,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3733,13 +3800,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3753,7 +3821,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3769,13 +3837,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3789,7 +3858,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3805,13 +3874,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3825,7 +3895,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3841,13 +3911,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3861,7 +3932,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3877,13 +3948,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3897,7 +3969,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3913,13 +3985,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3933,7 +4006,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3949,13 +4022,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -3969,7 +4043,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -3985,13 +4059,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -4005,7 +4080,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
@@ -4021,13 +4096,14 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(
-                self.pdq_strict__allow_without_permissions_whitelist_overlap_message,
-                str(warning[-1].message),
-            )
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             self.assertAdminPdqData(
@@ -4159,7 +4235,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
             with self.subTest(f"Running as {user.username} user"):
 
                 # Verify we get the expected page.
-                with warnings.catch_warnings(record=True) as warning:
+                with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -4175,13 +4251,14 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
                         ],
                     )
 
-                # Verify we get the expected console warning message.
-                self.assertEqual(1, len(warning))
-                self.assertEqual(RuntimeWarning, warning[-1].category)
-                self.assertText(
-                    self.pdq_login__allow_anonymous_whitelist_overlap_message,
-                    str(warning[-1].message),
-                )
+                # Collect actual warnings that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warnings that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                }
+                # Assert warnings match.
+                self.assertEqual(expected_warns, actual_warns)
 
                 # Verify values associated with returned view.
                 self.assertAdminPdqData(response, decorator_name="allow_anonymous_access", allow_anonymous_access=True)
@@ -4715,7 +4792,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4735,10 +4812,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4748,7 +4829,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4768,10 +4849,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4781,7 +4866,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4801,10 +4886,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4814,7 +4903,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4834,10 +4923,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4847,7 +4940,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4867,10 +4960,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4880,7 +4977,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4900,10 +4997,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4913,7 +5014,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -4933,10 +5034,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4949,7 +5054,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -4969,10 +5074,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -4982,7 +5091,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -5002,10 +5111,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5015,7 +5128,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -5035,10 +5148,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5048,7 +5165,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -5068,10 +5185,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5081,7 +5202,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -5101,10 +5222,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5114,7 +5239,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -5134,10 +5259,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -5147,7 +5276,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should succeed and load as expected.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -5167,10 +5296,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertText(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.

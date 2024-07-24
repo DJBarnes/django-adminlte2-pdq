@@ -202,14 +202,23 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
             self.assertContains(response, "Login")
 
         with self.subTest("As user with full permissions"):
-            with warns(RuntimeWarning, match=self.pdq_strict__no_decorator_message):
+            with warns(Warning) as warning_info:
                 # Process response.
                 self.client.force_login(self.test_user_w_perms)
                 response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
 
-                # Verify values associated with returned view.
-                self.assertEqual(response.status_code, 200)
-                self.assertContains(response, "Home")
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Home")
+
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_decorator_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
     def test__no_whitelists__admin_page(self):
         """Test when "STRICT" mode and accessing the admin page."""
@@ -252,15 +261,16 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
                 # Verify values associated with returned view.
                 self.assertContains(response, "Login")
-                # Collect actual warns that occurred.
-                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
-                # Define expected warns that should have occurred.
-                expected_warns = {
-                    (RuntimeWarning, self.pdq_strict__no_decorator_message),
-                    (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message),
-                }
-                # Assert warns match.
-                self.assertEqual(expected_warns, actual_warns)
+
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_decorator_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
         with self.subTest("As user with full permissions"):
             # Should go to demo-css, fail the strict policy, then go to home.
@@ -268,18 +278,22 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
             with warns(Warning) as warning_info:
                 self.client.force_login(self.test_user_w_perms)
 
+                # Process response.
                 response = self.client.get(reverse("adminlte2_pdq:demo-css"), follow=True)
                 self.assertEqual(response.status_code, 200)
-                self.assertContains(response, "Home")
-                # Collect actual warns that occurred.
-                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
-                # Define expected warns that should have occurred.
-                expected_warns = {
-                    (RuntimeWarning, self.pdq_strict__no_decorator_message),
-                    (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message),
-                }
-                # Assert warns match.
-                self.assertEqual(expected_warns, actual_warns)
+
+            # Verify values associated with returned view.
+            self.assertContains(response, "Home")
+
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq_strict__no_decorator_message),
+                (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
     def test__with_permission_whitelist(self):

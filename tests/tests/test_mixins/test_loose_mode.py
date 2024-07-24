@@ -3,13 +3,13 @@ Tests for Mixin login in project "loose" authentication mode.
 """
 
 # System Imports.
-import warnings
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
+from pytest import warns
 
 # Internal Imports.
 from .base_test_case import BaseMixinTextCase
@@ -1425,7 +1425,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1445,10 +1445,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1458,7 +1462,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1478,10 +1482,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1491,7 +1499,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1511,10 +1519,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1524,7 +1536,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1544,10 +1556,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1557,7 +1573,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1577,10 +1593,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1590,7 +1610,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1610,10 +1630,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1623,7 +1647,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             # Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -1643,10 +1667,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_one__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_one__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1659,7 +1687,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1679,10 +1707,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1692,7 +1724,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1712,10 +1744,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1725,7 +1761,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1745,10 +1781,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1758,7 +1798,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1778,10 +1818,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1791,7 +1835,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1811,10 +1855,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1824,7 +1872,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page..
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1844,10 +1892,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
@@ -1857,7 +1909,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             # Should fail and redirect to login.
 
             #  Verify we get the expected page.
-            with warnings.catch_warnings(record=True) as warning:
+            with warns(Warning) as warning_info:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -1877,10 +1929,14 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     ],
                 )
 
-            # Verify we get the expected console warning message.
-            self.assertEqual(1, len(warning))
-            self.assertEqual(RuntimeWarning, warning[-1].category)
-            self.assertEqual(self.pdq__no_permissions_full__message, str(warning[-1].message))
+            # Collect actual warnings that occurred.
+            actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+            # Define expected warnings that should have occurred.
+            expected_warns = {
+                (RuntimeWarning, self.pdq__no_permissions_full__message),
+            }
+            # Assert warnings match.
+            self.assertEqual(expected_warns, actual_warns)
 
             # Verify values associated with returned view.
             # Was redirected to login so should be no data.
