@@ -60,27 +60,36 @@ dynamic = ["version"]
 
 
 [project.optional-dependencies]
+build = [
+    "flit",                        # Simple way to build and put Python packages on PyPI.
+    "twine",                       # For pushing/publishing packages.
+]
 dev = [
-    "black",
-    "coverage",
-    "pylint",
-    "pylint-django",
+    # Formatting and code inspection dependencies.
+    "black",                       # "Uncompromising" Python code formatter.
+    "pylint",                      # Linter for Python syntax. Must be run in console via "pylint" command.
+    "pylint-django",               # Improves code analysis for Django projects.
+    # Documentation syntax-checking dependencies.
+    "doc8",                        # Checks reStructuredText (aka Sphinx) syntax.
+    "rstcheck",                    # Checks reStructuredText (aka Sphinx) syntax.
 ]
 doc = [
-    "doc8",
-    "pip-tools",
-    "rstcheck",
-    "sphinx",
-    "sphinx-autobuild",
-    "sphinx-rtd-theme",
+    "sphinx",                      # Core package to build project docs.
+    "sphinx-autobuild",            # Additional Sphinx logic to autobuild from project code documentation.
+    "sphinx-rtd-theme",            # Additional Sphinx logic for building with standard ReadTheDocs theme.
 ]
 test = [
     "coverage",
-    "django-expanded-test-cases",
-    "pytest",
-    "pytest-cov",
-    "pytest-django",
-    "pytest-xdist",
+    "coverage[toml]",              # Outputs testing coverage data.
+    "coverage_enable_subprocess",  # Required to run coverage in pytest while muti-threaded.
+    "django-expanded-test-cases",  # Utilities for easier testing.
+    "pytest",                      # Base Pytest package. Current preferred testing method.
+    "pytest-cov",                  # Additional Pytest logic for multithreaded coverage support.
+    "pytest-django",               # Additional Pytest logic for Django support.
+    "pytest-xdist",                # Additional Pytest features, such as multithreading and looping.
+]
+test-extra = [
+    "pytest-subtests"              # Additional Pytest logic for SubTest support.
 ]
 
 
