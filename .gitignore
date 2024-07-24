@@ -159,6 +159,7 @@ DEBUG
 env.py
 SECRET_KEY
 
-
+# Ignore Pipfile. Can be generated from requirements.txt file.
+Pipfile
 # Ignore Pipfile.lock. We don't want to lock develolpment to specific packages.
 Pipfile.lock
