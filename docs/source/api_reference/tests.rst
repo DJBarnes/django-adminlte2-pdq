@@ -7,7 +7,7 @@ Submodules
 tests.test\_decorators module
 =============================
 
-.. automodule:: tests.test_decorators
+.. automodule:: tests.tests.test_decorators
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,7 +15,7 @@ tests.test\_decorators module
 tests.test\_mixins module
 =========================
 
-.. automodule:: tests.test_mixins
+.. automodule:: tests.tests.test_mixins
    :members:
    :undoc-members:
    :show-inheritance:
@@ -23,7 +23,7 @@ tests.test\_mixins module
 tests.test\_templatetags module
 ===============================
 
-.. automodule:: tests.test_templatetags
+.. automodule:: tests.tests.test_templatetags
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ tests.test\_templatetags module
 tests.test\_templatetags\_admin module
 ======================================
 
-.. automodule:: tests.test_templatetags_admin
+.. automodule:: tests.tests.test_templatetags_admin
    :members:
    :undoc-members:
    :show-inheritance:
@@ -39,7 +39,7 @@ tests.test\_templatetags\_admin module
 tests.test\_templatetags\_admin\_menu module
 ============================================
 
-.. automodule:: tests.test_templatetags_admin_menu
+.. automodule:: tests.tests.test_templatetags_admin_menu
    :members:
    :undoc-members:
    :show-inheritance:
@@ -47,7 +47,7 @@ tests.test\_templatetags\_admin\_menu module
 tests.test\_templatetags\_sidebar\_menu module
 ==============================================
 
-.. automodule:: tests.test_templatetags_sidebar_menu
+.. automodule:: tests.tests.test_templatetags_sidebar_menu
    :members:
    :undoc-members:
    :show-inheritance:
@@ -55,7 +55,7 @@ tests.test\_templatetags\_sidebar\_menu module
 tests.test\_views module
 ========================
 
-.. automodule:: tests.test_views
+.. automodule:: tests.tests.test_views
    :members:
    :undoc-members:
    :show-inheritance:
