@@ -1,6 +1,0 @@
-# Minimal requirements file to build docs.
-
-django
-sphinx
-sphinx-autobuild
-sphinx-rtd-theme
