@@ -58,8 +58,16 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[project.urls]
+Homepage = "https://github.com/djbarnes/django-adminlte2-pdq"
 
-[project.optional-dependencies]
+
+# endregion Core Project Settings and Metadata
+
+
+# region Dependency Groups
+
+[tool.django-adminlte2-pdq.dependency-groups]
 build = [
     "flit",                        # Simple way to build and put Python packages on PyPI.
     "twine",                       # For pushing/publishing packages.
@@ -92,13 +100,7 @@ test-extra = [
     "pytest-subtests"              # Additional Pytest logic for SubTest support.
 ]
 
-
-[project.urls]
-Homepage = "https://github.com/djbarnes/django-adminlte2-pdq"
-
-
-# endregion Core Project Settings and Metadata
-
+# endregion Dependency Groups
 
 # region Third-Party Package Settings
 
