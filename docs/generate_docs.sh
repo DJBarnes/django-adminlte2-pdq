@@ -20,9 +20,15 @@ then
 fi
 mkdir "./build/"
 
+if [[ -d "./source/api_reference/" ]]
+then
+    rm -r "./source/api_reference/"
+fi
+mkdir "./source/api_reference"
+
 
 # Auto-generate docs source files, from actual Python code in project.
-sphinx-apidoc -f -o ./source/api/ ../adminlte2_pdq/
+sphinx-apidoc -f -o ./source/api_reference/ ../adminlte2_pdq/
 
 
 # Remove modules .rst file, because we don't actually care about it.
