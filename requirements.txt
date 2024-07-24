@@ -1,0 +1,20 @@
+###
+ # Python Package Declarations for running, developing, testing, documenting, and building the project.
+ #
+ # Constructed using smaller dependency files that are more specific located in dependencies folder.
+ ##
+
+# Load main required dependencies
+-r dependencies/requirements.txt
+
+# Load build dependencies
+-r dependencies/builds/requirements.txt
+
+# Load development dependencies
+-r dependencies/dev/requirements.txt
+
+# Load documentation dependencies
+-r dependencies/docs/requirements.txt
+
+# Load testing dependencies
+-r dependencies/tests/requirements.txt

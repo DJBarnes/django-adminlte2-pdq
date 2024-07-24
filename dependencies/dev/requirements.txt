@@ -1,0 +1,14 @@
+###
+ # Python Package Declarations for Development.
+ ##
+
+# Ensure main dependencies exist
+-r ../requirements.txt
+
+# Formatting and code inspection dependencies.
+black                       # "Uncompromising" Python code formatter.
+pylint                      # Linter for Python syntax. Must be run in console via "pylint" command.
+pylint-django               # Improves code analysis for Django projects.
+# Docs syntax-checking dependencies.
+doc8                        # Checks reStructuredText (aka Sphinx) syntax.
+rstcheck                    # Checks reStructuredText (aka Sphinx) syntax.

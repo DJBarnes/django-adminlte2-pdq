@@ -1,0 +1,10 @@
+###
+ # Python Package Declarations.
+ ##
+
+
+###
+ # Core packages.
+ # These are used/required for package to run at all.
+ ##
+django                      # Core Django package.

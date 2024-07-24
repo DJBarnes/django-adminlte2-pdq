@@ -1,0 +1,9 @@
+###
+ # Python Package Declarations for Building Project.
+ ##
+
+# Ensure main dependencies exist
+-r ../requirements.txt
+
+flit                        # Simple way to build and put Python packages on PyPI.
+twine                       # For pushing/publishing packages.

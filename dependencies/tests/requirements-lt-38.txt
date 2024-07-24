@@ -1,0 +1,17 @@
+###
+ # Python Package Declarations for Testing.
+ #
+ # Use only for testing on python versions less than 3.8.
+ # If 3.8 or greater, use `dependencies/tests/requirements.txt`
+ ##
+
+# Ensure main dependencies exist
+-r ../requirements.txt
+
+coverage[toml]              # Outputs testing coverage data.
+coverage_enable_subprocess  # Required to run coverage in pytest while muti-threaded.
+django-expanded-test-cases  # Utilities for easier testing.
+pytest                      # Base Pytest package. Current preferred testing method.
+pytest-cov                  # Additional Pytest logic for multithreaded coverage support.
+pytest-django               # Additional Pytest logic for Django support.
+pytest-xdist                # Additional Pytest features, such as multithreading and looping.
