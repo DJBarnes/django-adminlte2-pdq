@@ -23,10 +23,10 @@ from adminlte2_pdq import __version__
 
 
 # -- Project information -----------------------------------------------------
-
-project = "Django-AdminLTE2-PDQ"
-copyright = f"{datetime.date.today().year}, David Barnes"
-author = "David Barnes"
+AUTHORS = "David Barnes, Brandon Rodriguez"
+project = "Django-AdminLTE2-PDQ"  # pylint:disable=invalid-name
+copyright = f"{datetime.date.today().year}, {AUTHORS}"  # pylint:disable=invalid-name
+author = AUTHORS  # pylint:disable=invalid-name
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

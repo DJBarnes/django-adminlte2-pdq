@@ -8,4 +8,3 @@ API Reference
    api_reference/adminlte2_pdq
    api_reference/adminlte2_pdq.templatetags.admin
    api_reference/adminlte2_pdq.templatetags
-   api_reference/tests
