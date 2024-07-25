@@ -94,7 +94,7 @@ class Command(BaseCommand):
 
         # Import project urls.
         # Done this way to force urls to populate fully.
-        urlconf = __import__(settings.ROOT_URLCONF, {}, {}, [""])
+        urlconf = __import__(settings.ROOT_URLCONF, globals={}, locals={}, fromlist=[""])
 
         app_name = ""
 
@@ -114,7 +114,7 @@ class Command(BaseCommand):
             # Get first pattern in set.
             url = urlpatterns[0]
 
-            # Attempt to determine app name.
+            # Attempt to determine app name
             new_app_name = getattr(url, "app_name", None)
             if new_app_name:
                 app_name = new_app_name

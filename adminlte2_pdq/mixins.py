@@ -28,6 +28,16 @@ class AllowAnonymousAccessMixin:
         "full_permissions": None,
     }
 
+    subclasses = []
+
+    def __init_subclass__(cls, **kwargs):
+        """Hook to record all classes that inherit this mixin.
+
+        Solution from: https://stackoverflow.com/a/50099920
+        """
+        super().__init_subclass__(**kwargs)
+        cls.subclasses.append(cls.__name__)
+
 
 class LoginRequiredMixin(DjangoLoginRequiredMixin):
     """Mixin for views that defines login is required."""
@@ -41,6 +51,16 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
         "one_of_permissions": None,
         "full_permissions": None,
     }
+
+    subclasses = []
+
+    def __init_subclass__(cls, **kwargs):
+        """Hook to record all classes that inherit this mixin.
+
+        Solution from: https://stackoverflow.com/a/50099920
+        """
+        super().__init_subclass__(**kwargs)
+        cls.subclasses.append(cls.__name__)
 
 
 class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
@@ -59,6 +79,16 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
         "full_permissions": None,
     }
 
+    subclasses = []
+
+    def __init_subclass__(cls, **kwargs):
+        """Hook to record all classes that inherit this mixin.
+
+        Solution from: https://stackoverflow.com/a/50099920
+        """
+        super().__init_subclass__(**kwargs)
+        cls.subclasses.append(cls.__name__)
+
 
 class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
     """Mixin for views that defines permissions are required."""
@@ -76,6 +106,16 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         "one_of_permissions": permission_required_one,
         "full_permissions": permission_required,
     }
+
+    subclasses = []
+
+    def __init_subclass__(cls, **kwargs):
+        """Hook to record all classes that inherit this mixin.
+
+        Solution from: https://stackoverflow.com/a/50099920
+        """
+        super().__init_subclass__(**kwargs)
+        cls.subclasses.append(cls.__name__)
 
     def dispatch(self, request, *args, **kwargs):
         # Override to always redirect to login in event of permission failure.
