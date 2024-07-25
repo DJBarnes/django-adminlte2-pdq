@@ -159,28 +159,42 @@ class Command(BaseCommand):
                     import_str = ".".join(import_str[:-1])
                     module_data = __import__(import_str, globals={}, locals={}, fromlist=[""])
                     view_data = getattr(module_data, view_name, None)
+                    is_handled = False
 
-                    # Handle if is class has expected mixins.
-                    is_mixin = False
+                    # Handle if class is in project "ADMINLTE2_LOGIN_EXEMPT_WHITELIST" setting.
+                    if hasattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST") and (
+                        url.name in settings.ADMINLTE2_LOGIN_EXEMPT_WHITELIST
+                        or f"{url.app_name}:{url.name}" in settings.ADMINLTE2_STRICT_POLICY_WHITELIST
+                    ):
+                        decorated_views["login_required"].append(url)
+
+                    # Handle if class is in project "ADMINLTE2_STRICT_POLICY_WHITELIST" setting.
+                    if hasattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST") and (
+                        url.name in settings.ADMINLTE2_STRICT_POLICY_WHITELIST
+                        or f"{url.app_name}:{url.name}" in settings.ADMINLTE2_STRICT_POLICY_WHITELIST
+                    ):
+                        decorated_views["allow_without_permissions"].append(url)
+
+                    # Handle if is class has package mixins.
                     if view_name in AllowAnonymousAccessMixin.subclasses:
                         decorated_views["allow_anonymous_access"].append(url)
-                        is_mixin = True
+                        is_handled = True
                     elif view_name in LoginRequiredMixin.subclasses:
                         decorated_views["login_required"].append(url)
-                        is_mixin = True
+                        is_handled = True
                     elif view_name in AllowWithoutPermissionsMixin.subclasses:
                         decorated_views["allow_without_permissions"].append(url)
-                        is_mixin = True
+                        is_handled = True
                     elif view_name in PermissionRequiredMixin.subclasses:
                         decorated_views["permission_required"].append(url)
-                        is_mixin = True
+                        is_handled = True
 
                     # Otherwise might be a method decorator.
-                    if not is_mixin:
+                    if not is_handled:
                         # Attempt to parse decorator data out of view.
                         parsed_decorators = self.get_decorators(view_data)[view_name]
 
-                        # Check if parsed data matches expected decorators.
+                        # Check if parsed data matches package decorators.
                         if "allow_anonymous_access" in parsed_decorators:
                             decorated_views["allow_anonymous_access"].append(url)
                         elif "login_required" in parsed_decorators:
@@ -231,7 +245,7 @@ class Command(BaseCommand):
                     pattern += "/"
 
                 # Process url "name" as defined in the Django url definition.
-                name = str(url.app_name).strip()
+                name = str(url.name).strip()
                 if name == "" or name == "None":
                     name = "None"
                 elif url.app_name:
@@ -250,7 +264,7 @@ class Command(BaseCommand):
 
                 # Update calculated max lengths.
                 if include_app_names:
-                    max_lengths["app_name_len"] = max(max_lengths["app_name_len"], len(app_name))
+                    max_lengths["app_name_len"] = max(max_lengths["app_name_len"], len(url.app_name))
                 max_lengths["pattern_len"] = max(max_lengths["pattern_len"], len(pattern))
                 if include_url_names:
                     max_lengths["name_len"] = max(max_lengths["name_len"], len(name))
