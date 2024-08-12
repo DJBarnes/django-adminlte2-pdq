@@ -264,6 +264,12 @@ def get_permissions_from_node(node):
     node_one_of_permissions = node.get("one_of_permissions", None)
     node_full_permissions = node.get("permissions", None)
 
+    # If any of these are strings, set as iterables.
+    if isinstance(node_one_of_permissions, str):
+        node_one_of_permissions = (node_one_of_permissions,)
+    if isinstance(node_full_permissions, str):
+        node_full_permissions = (node_full_permissions,)
+
     # Raise errors for configurations that don't make sense for node level.
     # Note: one_of_permission and full_permissions can be set at the same time.
     #   In which case they overlap. So requires all of one permission set, plus at least one of a second set.
@@ -324,6 +330,12 @@ def get_permissions_from_node(node):
         view_allow_without_permissions = view_data["allow_without_permissions"]
         view_one_of_permissions = view_data["one_of_permissions"]
         view_full_permissions = view_data["full_permissions"]
+
+        # If any of these are strings, set as iterables.
+        if isinstance(view_one_of_permissions, str):
+            view_one_of_permissions = (view_one_of_permissions,)
+        if isinstance(view_full_permissions, str):
+            view_full_permissions = (view_full_permissions,)
 
     # Raise errors for configurations that don't make sense for view level.
     # Should handle effectively the same as above node error checks. Just at the view level.
