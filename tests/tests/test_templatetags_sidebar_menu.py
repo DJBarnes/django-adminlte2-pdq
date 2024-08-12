@@ -573,6 +573,32 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertEqual([], one_of_permissions)
             self.assertEqual([], full_permissions)
 
+        with self.subTest("Node permissions set as string"):
+            # Should succeed, and permission is converted to iterable of size 1.
+
+            # Define node.
+            node = {
+                "route": "adminlte2_pdq:demo-css",
+                "text": "Demo CSS",
+                "icon": "fa fa-file",
+                "one_of_permissions": "add_sample2",
+            }
+
+            # Call function to test.
+            return_data = sidebar_menu.get_permissions_from_node(node)
+            allow_anonymous = return_data["allow_anonymous"]
+            login_required = return_data["login_required"]
+            allow_without_permissions = return_data["allow_without_permissions"]
+            one_of_permissions = return_data["one_of_permissions"]
+            full_permissions = return_data["full_permissions"]
+
+            # Verify returned data.
+            self.assertFalse(allow_anonymous)
+            self.assertFalse(login_required)
+            self.assertFalse(allow_without_permissions)
+            self.assertEqual((node["one_of_permissions"],), one_of_permissions)
+            self.assertEqual([], full_permissions)
+
     def test__get_permissions_from_node__full_permissions(self):
         """Tests various node full_permissions attributes for get_permissions_from_node() function."""
 
@@ -742,6 +768,32 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
             self.assertEqual([], full_permissions)
+
+        with self.subTest("Node permissions set as string"):
+            # Should succeed, and permission is converted to iterable of size 1.
+
+            # Define node.
+            node = {
+                "route": "adminlte2_pdq:demo-css",
+                "text": "Demo CSS",
+                "icon": "fa fa-file",
+                "permissions": "add_sample1",
+            }
+
+            # Call function to test.
+            return_data = sidebar_menu.get_permissions_from_node(node)
+            allow_anonymous = return_data["allow_anonymous"]
+            login_required = return_data["login_required"]
+            allow_without_permissions = return_data["allow_without_permissions"]
+            one_of_permissions = return_data["one_of_permissions"]
+            full_permissions = return_data["full_permissions"]
+
+            # Verify returned data.
+            self.assertFalse(allow_anonymous)
+            self.assertFalse(login_required)
+            self.assertFalse(allow_without_permissions)
+            self.assertEqual([], one_of_permissions)
+            self.assertEqual((node["permissions"],), full_permissions)
 
     # endregion get_permissions_from_node() Function
 
