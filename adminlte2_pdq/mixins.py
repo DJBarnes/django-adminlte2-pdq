@@ -7,9 +7,10 @@ from django.contrib.auth.mixins import (
 )
 from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 
 # Internal Imports.
-from .constants import LOGIN_URL
+from .constants import HOME_ROUTE
 
 
 class AllowAnonymousAccessMixin:
@@ -122,8 +123,9 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         # Default behavior is to redirect to login if unauthenticated, and
         # raise forbidden view otherwise.
         if not self.has_permission():
-            # Failed permission checks. Redirect to login page.
-            return redirect(LOGIN_URL + f"?next={request.path}")
+            # Failed permission checks. Redirect user.
+            # Defaults to project "home" page for security.
+            return redirect(reverse_lazy(HOME_ROUTE))
         return super().dispatch(request, *args, **kwargs)
 
     def has_permission(self):

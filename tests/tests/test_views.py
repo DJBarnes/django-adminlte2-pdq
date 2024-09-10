@@ -156,8 +156,8 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample1 page!")
-        self.assertContains(response, "Username")
-        self.assertContains(response, "Login")
+        self.assertContains(response, "Dashboard")
+        self.assertContains(response, "Visitors Report")
 
     def test_sample2_view_redirects_to_login_when_authenticated_with_incorrect_permissions(self):
         """Test sample2 view redirects to login when authenticated with incorrect permissions"""
@@ -165,8 +165,8 @@ class ViewsTestCase(TestCase):
         response = self.client.get(reverse("adminlte2_pdq:sample2"), follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, "This is the sample2 page!")
-        self.assertContains(response, "Username")
-        self.assertContains(response, "Login")
+        self.assertContains(response, "Dashboard")
+        self.assertContains(response, "Visitors Report")
 
     def test_sample_form_view_works_when_authenticated_with_no_permissions(self):
         """Test sample_form view works when authenticated with no permissions"""

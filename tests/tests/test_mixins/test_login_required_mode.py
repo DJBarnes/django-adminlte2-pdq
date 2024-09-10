@@ -601,7 +601,7 @@ class LoginModeMixin:
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -612,11 +612,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -673,7 +675,7 @@ class LoginModeMixin:
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -684,11 +686,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -745,7 +749,7 @@ class LoginModeMixin:
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -756,11 +760,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -892,7 +898,7 @@ class LoginModeMixin:
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -903,11 +909,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -916,7 +924,7 @@ class LoginModeMixin:
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -927,11 +935,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -964,7 +974,7 @@ class LoginModeMixin:
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -975,11 +985,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -988,7 +1000,7 @@ class LoginModeMixin:
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -999,11 +1011,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1036,7 +1050,7 @@ class LoginModeMixin:
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1047,11 +1061,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1060,7 +1076,7 @@ class LoginModeMixin:
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1071,11 +1087,13 @@ class LoginModeMixin:
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1927,7 +1945,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1939,11 +1957,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__one_of_perms,
@@ -2038,7 +2058,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2050,11 +2070,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__one_of_perms,
@@ -2149,7 +2171,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2161,11 +2183,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__one_of_perms,
@@ -2377,7 +2401,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2389,11 +2413,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__full_perms,
@@ -2414,7 +2440,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2426,11 +2452,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__full_perms,
@@ -2488,7 +2516,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2500,11 +2528,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__full_perms,
@@ -2525,7 +2555,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2537,11 +2567,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__full_perms,
@@ -2599,7 +2631,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2611,11 +2643,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__full_perms,
@@ -2636,7 +2670,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -2648,11 +2682,13 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__ineffective_login_whitelist_message__full_perms,

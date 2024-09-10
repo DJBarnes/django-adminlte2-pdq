@@ -616,7 +616,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -627,11 +627,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -688,7 +690,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -699,11 +701,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -784,7 +788,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -795,11 +799,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -931,7 +937,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -942,11 +948,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -955,7 +963,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -966,11 +974,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1003,7 +1013,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1014,11 +1024,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1027,7 +1039,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1038,11 +1050,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1075,7 +1089,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1086,11 +1100,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1099,7 +1115,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1110,11 +1126,13 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1459,7 +1477,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1471,11 +1489,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_one__message,
@@ -1496,7 +1516,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1508,11 +1528,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_one__message,
@@ -1533,7 +1555,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1545,11 +1567,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_one__message,
@@ -1570,7 +1594,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1582,11 +1606,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_one__message,
@@ -1607,7 +1633,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1619,11 +1645,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_one__message,
@@ -1644,7 +1672,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1656,11 +1684,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_one__message,
@@ -1721,7 +1751,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1733,11 +1763,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_full__message,
@@ -1758,7 +1790,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1770,11 +1802,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_full__message,
@@ -1795,7 +1829,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1807,11 +1841,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_full__message,
@@ -1832,7 +1868,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1844,11 +1880,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_full__message,
@@ -1869,7 +1907,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page..
             with warns(Warning) as warning_info:
@@ -1881,11 +1919,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_full__message,
@@ -1906,7 +1946,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with full groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             with warns(Warning) as warning_info:
@@ -1918,11 +1958,13 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                     expected_status=200,
                     view_should_redirect=True,
                     # Expected content on page.
-                    expected_title="Login |",
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
                     expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
                     ],
                     expected_messages=[
                         self.pdq__no_permissions_full__message,
