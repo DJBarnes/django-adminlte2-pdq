@@ -10,6 +10,10 @@ from django.contrib.auth.decorators import (
     user_passes_test,
 )
 from django.core.exceptions import PermissionDenied
+from django.urls import reverse_lazy
+
+# Internal Imports.
+from .constants import HOME_ROUTE
 
 
 # region Utility Functions
@@ -200,6 +204,11 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     view function.
     """
 
+    # Set url if none is provided.
+    # Defaults to project "home" page for security.
+    if login_url is None:
+        login_url = reverse_lazy(HOME_ROUTE)
+
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
 
@@ -242,6 +251,11 @@ def permission_required(permission, login_url=None, raise_exception=False):
     template to know whether to render the sidebar menu item that links to that
     view function.
     """
+
+    # Set url if none is provided.
+    # Defaults to project "home" page for security.
+    if login_url is None:
+        login_url = reverse_lazy(HOME_ROUTE)
 
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)

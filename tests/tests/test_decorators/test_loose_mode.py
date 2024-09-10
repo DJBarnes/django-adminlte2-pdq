@@ -621,7 +621,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -632,11 +632,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -693,7 +695,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -704,11 +706,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -765,7 +769,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             # Verify we get the expected page.
             response = self.assertGetResponse(
@@ -776,11 +780,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -914,7 +920,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -925,11 +931,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -938,7 +946,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -949,11 +957,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -986,7 +996,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             )
 
         with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -997,11 +1007,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1010,7 +1022,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As staff user with one permission"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1021,11 +1033,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1058,7 +1072,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             )
 
         with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1069,11 +1083,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
@@ -1082,7 +1098,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with one group"):
-            # Should fail and redirect to login.
+            # Should fail and redirect to "home" page.
 
             #  Verify we get the expected page.
             response = self.assertGetResponse(
@@ -1093,11 +1109,13 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 expected_status=200,
                 view_should_redirect=True,
                 # Expected content on page.
-                expected_title="Login |",
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
                 expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
                 ],
             )
 
