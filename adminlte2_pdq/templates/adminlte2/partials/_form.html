@@ -9,13 +9,13 @@
 {% for field in visible_fields %}
   <div class="col-sm-12">
     {% if field|fieldtype == "CheckboxInput" %}
-      
+
       {% include "adminlte2/partials/_form/_checkbox.html" %}
-      
+
     {% else %}
-      
+
       <div class="form-group {% if field.errors %}has-error{% endif %}">
-      
+
         {% if field|fieldtype == "Select" or field|fieldtype == "NullBooleanSelect" or field|fieldtype == "SelectMultiple" %}
           {% if labels %}
             <label
@@ -26,9 +26,9 @@
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_select.html" %}
-          
+
         {% elif field|fieldtype == "RadioSelect" %}
-          
+
           {% if labels %}
             <label
               for="{{ field.id_for_label }}"
@@ -38,9 +38,9 @@
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_radio.html" %}
-          
+
         {% elif field|fieldtype == "CheckboxSelectMultiple" %}
-          
+
           {% if labels %}
             <label
               for="{{ field.id_for_label }}"
@@ -50,9 +50,9 @@
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_checkbox_select.html" %}
-          
+
         {% elif field|fieldtype == "ClearableFileInput" %}
-          
+
             {% if labels %}
               <label
                 for="{{ field.id_for_label }}"
@@ -62,9 +62,9 @@
               </label>
             {% endif %}
             {% include "adminlte2/partials/_form/_file.html" %}
-          
+
         {% else %}
-          
+
           {% if labels %}
             <label
               for="{{ field.id_for_label }}"
@@ -74,7 +74,7 @@
             </label>
           {% endif %}
           {% include "adminlte2/partials/_form/_text.html" %}
-          
+
         {% endif %}
 
       </div>
