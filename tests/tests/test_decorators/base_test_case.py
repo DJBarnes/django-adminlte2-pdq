@@ -224,20 +224,41 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         self.super_user.is_superuser = True
         self.super_user.save()
 
-        # Define user list for tests where all user types should behave the same.
-        self.user_list = [
-            self.anonymous_user,
-            self.inactive_user,
-            self.none_user,
-            self.partial_perm_user,
-            self.full_perm_user,
-            self.none_staff_user,
-            self.partial_perm_staff_user,
-            self.full_perm_staff_user,
-            self.incorrect_group_user,
-            self.partial_group_user,
-            self.full_group_user,
-            self.super_user,
+        # Define user lists for tests where all user types should behave the same.
+        # List of all anonymous/unauthenticated users.
+        self.user_list__unauthenticated = (
+            [self.anonymous_user, "anonymous user"],
+            [self.inactive_user, "inactive user"],
+        )
+        # List of all authenticated users without any permissions.
+        self.user_list__no_permissions = (
+            [self.none_user, "user with no permissions"],
+            [self.none_staff_user, "staff user with no permissions"],
+            [self.incorrect_group_user, "user with incorrect groups"],
+        )
+        # List of all authenticated users with some (but not all) permissions.
+        self.user_list__partial_permissions = (
+            [self.partial_perm_user, "user with one permission"],
+            [self.partial_perm_staff_user, "staff user with one permission"],
+            [self.partial_group_user, "user with one group"],
+        )
+        # List of all authenticated users will all permissions.
+        self.user_list__full_permissions = (
+            [self.full_perm_user, "user with full permissions"],
+            [self.full_perm_staff_user, "staff user with full permissions"],
+            [self.full_group_user, "user with full groups"],
+            [self.super_user, "superuser"],
+        )
+        # List of all logged in/authenticated users.
+        self.user_list__authenticated = (
+            *self.user_list__no_permissions,
+            *self.user_list__partial_permissions,
+            *self.user_list__full_permissions,
+        )
+        # List of all possible user types.
+        self.user_list__full = [
+            *self.user_list__unauthenticated,
+            *self.user_list__authenticated,
         ]
 
     def assertAdminPdqData(
