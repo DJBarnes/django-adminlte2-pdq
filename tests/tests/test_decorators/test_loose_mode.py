@@ -50,259 +50,39 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
     def test__no_decorators(self):
         """Test for view with no decorators, in project "Loose" mode. For sanity checking."""
 
-        with self.subTest("As anonymous user"):
-            # Should succeed and load as expected.
+        # Should succeed and load as expected for all users.
+        for user_instance, user_str in self.user_list__full:
+            with self.subTest(f"As {user_str}"):
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.anonymous_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-standard",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="Standard View | Django AdminLtePdq Testing",
+                    expected_header="Django AdminLtePdq | Standard View Header",
+                )
 
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As an inactive user"):
-            # Shouldn't really be possible.
-            # But testing anyway since package does a lot of background magic with auth logic.
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.inactive_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with no permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.none_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with one permission"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.partial_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.full_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As staff user with no permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.none_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As staff user with one permission"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.partial_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As staff user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.full_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with incorrect groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.incorrect_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with one group"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.partial_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.full_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As a superuser"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-standard",
-                user=self.super_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Standard View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Standard View Header",
-            )
-
-            # Verify values associated with returned view.
-            # View had no decorators so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
+                # Verify values associated with returned view.
+                # View had no decorators so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
 
     def test__allow_anonymous_access_decorator(self):
         """Test for allow_anonymous_access decorator, in project "Loose" mode."""
 
         # Invalid decorator used for loose mode. Should raise error for all user types.
-        for user in self.user_list:
-            with self.subTest(f"Running as {user.username} user"):
+        for user_instance, user_str in self.user_list__full:
+            with self.subTest(f"As {user_str}"):
+
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:function-allow-anonymous-access",
-                        user=user,
+                        user=user_instance,
                         # Expected view return data.
                         expected_status=500,
                     )
@@ -311,257 +91,65 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
     def test__login_required_decorator(self):
         """Test for login_required decorator, in project "Loose" mode."""
 
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
+        # Should fail and redirect to login for anyone un-authenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+                # Should fail and redirect to login.
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.anonymous_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-login-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
+                    expected_content=[
+                        "Sign in to start your session",
+                        "Remember Me",
+                        "I forgot my password",
+                    ],
+                )
 
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
+                # Verify values associated with returned view.
+                # Was redirected to login so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
 
-        with self.subTest("As an inactive user"):
-            # Shouldn't really be possible.
-            # But testing anyway since package does a lot of background magic with auth logic.
-            # Should fail and redirect to login.
+        # Should succeed and load as expected for anyone that is properly authenticated.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
+                # Should succeed and load as expected.
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.inactive_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-login-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="Login Required View | Django AdminLtePdq Testing",
+                    expected_header="Django AdminLtePdq | Login Required View Header",
+                )
 
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with no permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.none_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As user with one permission"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.partial_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.full_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As staff user with no permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.none_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As staff user with one permission"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.partial_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As staff user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.full_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As user with incorrect groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.incorrect_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As user with one group"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.partial_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.full_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
-
-        with self.subTest("As a superuser"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-login-required",
-                user=self.super_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Login Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Login Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
 
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Loose" mode."""
 
         # Invalid decorator used for loose mode. Should raise error for all user types.
-        for user in self.user_list:
-            with self.subTest(f"Running as {user.username} user"):
+        for user_instance, user_str in self.user_list__full:
+            with self.subTest(f"Running as {user_str} user"):
+
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:function-allow-without-permissions",
-                        user=user,
+                        user=user_instance,
                         # Expected view return data.
                         expected_status=500,
                     )
@@ -570,603 +158,164 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Loose" mode."""
 
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
+        # Should fail and redirect to login for anyone unauthenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+                # Should fail and redirect to login.
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.anonymous_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-one-permission-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
+                    expected_content=[
+                        "Sign in to start your session",
+                        "Remember Me",
+                        "I forgot my password",
+                    ],
+                )
 
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
+                # Verify values associated with returned view.
+                # Was redirected to login so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
 
-        with self.subTest("As an inactive user"):
-            # Shouldn't really be possible.
-            # But testing anyway since package does a lot of background magic with auth logic.
-            # Should fail and redirect to login.
+        # Should fail and redirect to "home" page for anyone missing perms.
+        for user_instance, user_str in self.user_list__no_permissions:
+            with self.subTest(f"As {user_str}"):
+                # Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-one-permission-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_content=[
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
+                    ],
+                )
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.inactive_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
+                # Verify values associated with returned view.
+                # Was redirected to login so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
 
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
+        # Should succeed and load as expected for anyone with at least one expected perm.
+        for user_instance, user_str in (
+            *self.user_list__partial_permissions,
+            *self.user_list__full_permissions,
+        ):
+            with self.subTest(f"As {user_str}"):
 
-        with self.subTest("As user with no permissions"):
-            # Should fail and redirect to "home" page.
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-one-permission-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                    expected_header="Django AdminLtePdq | One Permission Required View Header",
+                )
 
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.none_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with one permission"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.partial_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.full_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to "home" page.
-
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.none_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As staff user with one permission"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.partial_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As staff user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.full_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to "home" page.
-
-            # Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.incorrect_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with one group"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.partial_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.full_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As a superuser"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-one-permission-required",
-                user=self.super_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="One Permission Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | One Permission Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                one_of_permissions=("auth.add_foo", "auth.change_foo"),
-            )
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(
+                    response,
+                    decorator_name="permission_required",
+                    login_required=True,
+                    one_of_permissions=("auth.add_foo", "auth.change_foo"),
+                )
 
     def test__full_permission_required_decorator(self):
         """Test for permission_required decorator, in project "Loose" mode."""
 
-        with self.subTest("As anonymous user"):
-            # Should fail and redirect to login.
+        # Should fail and redirect to login for anyone unauthenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-full-permissions-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
+                    expected_content=[
+                        "Sign in to start your session",
+                        "Remember Me",
+                        "I forgot my password",
+                    ],
+                )
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.anonymous_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
+                # Verify values associated with returned view.
+                # Was redirected to login so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
 
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
+        # Should fail and redirect to "home" page for anyone missing perms.
+        for user_instance, user_str in (
+            *self.user_list__no_permissions,
+            *self.user_list__partial_permissions,
+        ):
+            with self.subTest(f"As {user_str}"):
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-full-permissions-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Dashboard",
+                    expected_header="Dashboard <small>Version 2.0</small>",
+                    expected_content=[
+                        "Monthly Recap Report",
+                        "Visitors Report",
+                        "Inventory",
+                        "Downloads",
+                    ],
+                )
 
-        with self.subTest("As an inactive user"):
-            # Shouldn't really be possible.
-            # But testing anyway since package does a lot of background magic with auth logic.
-            # Should fail and redirect to login.
+                # Verify values associated with returned view.
+                # Was redirected to login so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
 
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.inactive_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Login |",
-                expected_content=[
-                    "Sign in to start your session",
-                    "Remember Me",
-                    "I forgot my password",
-                ],
-            )
+        # Should succeed and load as expected for anyone with at least all expected perms.
+        for user_instance, user_str in self.user_list__full_permissions:
+            with self.subTest(f"As {user_str}"):
+                # Should succeed and load as expected.
 
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:function-full-permissions-required",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                    expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                )
 
-        with self.subTest("As user with no permissions"):
-            # Should fail and redirect to "home" page.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.none_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with one permission"):
-            # Should fail and redirect to "home" page.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.partial_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.full_perm_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                full_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As staff user with no permissions"):
-            # Should fail and redirect to "home" page.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.none_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As staff user with one permission"):
-            # Should fail and redirect to "home" page.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.partial_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As staff user with full permissions"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.full_perm_staff_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                full_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As user with incorrect groups"):
-            # Should fail and redirect to "home" page.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.incorrect_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with one group"):
-            # Should fail and redirect to "home" page.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.partial_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=True,
-                # Expected content on page.
-                expected_title="Dashboard",
-                expected_header="Dashboard <small>Version 2.0</small>",
-                expected_content=[
-                    "Monthly Recap Report",
-                    "Visitors Report",
-                    "Inventory",
-                    "Downloads",
-                ],
-            )
-
-            # Verify values associated with returned view.
-            # Was redirected to login so should be no data.
-            self.assertAdminPdqData(response, is_empty=True)
-
-        with self.subTest("As user with full groups"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.full_group_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                full_permissions=("auth.add_foo", "auth.change_foo"),
-            )
-
-        with self.subTest("As a superuser"):
-            # Should succeed and load as expected.
-
-            #  Verify we get the expected page.
-            response = self.assertGetResponse(
-                # View setup.
-                "adminlte2_pdq_tests:function-full-permissions-required",
-                user=self.super_user,
-                # Expected view return data.
-                expected_status=200,
-                view_should_redirect=False,
-                # Expected content on page.
-                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
-                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
-            )
-
-            # Verify values associated with returned view.
-            self.assertAdminPdqData(
-                response,
-                decorator_name="permission_required",
-                login_required=True,
-                full_permissions=("auth.add_foo", "auth.change_foo"),
-            )
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(
+                    response,
+                    decorator_name="permission_required",
+                    login_required=True,
+                    full_permissions=("auth.add_foo", "auth.change_foo"),
+                )
