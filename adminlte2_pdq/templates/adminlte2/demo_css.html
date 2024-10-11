@@ -26,7 +26,7 @@
           <h4><i class="fa fa-list"></i> Dropdown Menus</h4>
         </div>
       </div>
-    
+
       <div class="row">
           {% for bootstrap_type in bootstrap_types %}
             <div class="col-sm-2" style="margin-bottom:10px;">
@@ -43,7 +43,7 @@
                   <span class="caret"></span>
                   <span class="sr-only">Toggle Dropdown</span>
                 </button>
-                
+
                 <ul class="dropdown-menu dropdown-menu-{{ bootstrap_type }}">
                   <li><a href="#">Default Anchor 1</a></li>
                   <li><a href="#">Default Anchor 2</a></li>
@@ -69,7 +69,7 @@
             </div>
           {% endfor %}
       </div>
-    
+
     </div>
   </div>
 
@@ -78,14 +78,14 @@
     <div class="box-header with-border">
       <h3 class="box-title">Anchor Buttons</h3>
     </div>
-  
+
     <div class="box-body">
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-hand-o-up"></i> Buttons</h4>
         </div>
       </div>
-    
+
       <div class="row">
         {% for bootstrap_type in bootstrap_types %}
           <div class="col-sm-2" style="margin-bottom:10px;">
@@ -95,9 +95,9 @@
           </div>
         {% endfor %}
       </div>
-    
+
     </div>
-  
+
   </div>
 
   {# Buttons #}
@@ -128,14 +128,14 @@
     <div class="box-header with-border">
       <h3 class="box-title">Labels</h3>
     </div>
-  
+
     <div class="box-body">
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-tag"></i> Labels</h4>
         </div>
       </div>
-    
+
       <div class="row">
         {% for bootstrap_type in bootstrap_types %}
           <div class="col-sm-2" style="margin-bottom:10px;">
@@ -151,15 +151,15 @@
           </div>
         {% endfor %}
       </div>
-    
+
       <hr>
-    
+
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-lg fa-tag"></i> Large Labels</h4>
         </div>
       </div>
-    
+
       <div class="row">
         {% for bootstrap_type in bootstrap_types %}
           <div class="col-sm-2" style="margin-bottom:10px;">
@@ -175,9 +175,9 @@
           </div>
         {% endfor %}
       </div>
-    
+
     </div>
-  
+
   </div>
 
   <div class="box box-solid box-default">
@@ -190,14 +190,14 @@
           <h4><i class="fa fa-cube"></i> Box</h4>
         </div>
       </div>
-    
+
       {% for bootstrap_type in bootstrap_types %}
         <div class="row">
           <div class="col-sm-12">
             <div class="box box-{{ bootstrap_type }}">
               <div class="box-header">
                 <h3 class="box-title">{{ bootstrap_type }}</h3>
-              
+
                 <div class="box-tools">
                   {% comment %}
                     Doing of of each type of button vs all of them.
@@ -205,7 +205,7 @@
                     This also has one Extra black text and one white text.
                     These are repeated for both buttons and a tags.
                   {% endcomment %}
-                
+
                   <button class="btn btn-default">Default</button>
                   <button class="btn btn-primary">Primary</button>
                   <button class="btn btn-orange">Orange</button>
@@ -218,7 +218,7 @@
                     <i class="fa fa-minus"></i>
                   </button>
                 </div>
-              
+
               </div>
               <div class="box-body">
                 <p>This is some filler text for the body of the box</p>
@@ -227,20 +227,20 @@
           </div>
         </div>
       {% endfor %}
-    
+
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-cube"></i> Box Solid</h4>
         </div>
       </div>
-    
+
       {% for bootstrap_type in bootstrap_types %}
         <div class="row">
           <div class="col-sm-12">
             <div class="box box-{{ bootstrap_type }} box-solid">
               <div class="box-header">
                 <h3 class="box-title">{{ bootstrap_type }}</h3>
-              
+
                 <div class="box-tools">
                   {% comment %}
                     Doing of of each type of button vs all of them.
@@ -248,7 +248,7 @@
                     This also has one Extra black text and one white text.
                     These are repeated for both buttons and a tags.
                   {% endcomment %}
-                
+
                   <button class="btn btn-default">Default</button>
                   <button class="btn btn-primary">Primary</button>
                   <button class="btn btn-orange">Orange</button>
@@ -257,12 +257,12 @@
                   <a class="btn btn-primary">Primary</a>
                   <a class="btn btn-orange">Orange</a>
                   <a class="btn btn-lime">Lime</a>
-                
+
                   <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Toggle visibility">
                     <i class="fa fa-minus"></i>
                   </button>
                 </div>
-              
+
               </div>
               <div class="box-body">
                 <p>This is some filler text for the body of the box</p>
@@ -279,7 +279,7 @@
     <div class="box-header with-border">
       <h3 class="box-title">Alerts and Callouts</h3>
     </div>
-  
+
     <div class="box-body">
       <div class="row">
         <div class="col-sm-6">
@@ -289,7 +289,7 @@
           <h4><i class="fa fa-bullhorn"></i> Callouts</h4>
         </div>
       </div>
-    
+
       {% for bootstrap_type in bootstrap_types %}
         <div class="row">
           <div class="col-sm-6">
@@ -299,7 +299,7 @@
               Info alert preview. This alert is dismissible.
             </div>
           </div>
-          
+
           <div class="col-sm-6">
             <div class="callout callout-{{ bootstrap_type }}">
               <h4>I am a {{ bootstrap_type }} callout</h4>
@@ -308,7 +308,7 @@
           </div>
         </div>
       {% endfor %}
-    
+
     </div>
   </div>
 
@@ -317,14 +317,14 @@
     <div class="box-header with-border">
       <h3 class="box-title">Modals</h3>
     </div>
-  
+
     <div class="box-body">
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-question-circle"></i> AdminLTE Modals</h4>
         </div>
       </div>
-    
+
       <div class="row">
         {% for bootstrap_type in bootstrap_types %}
           <div class="col-sm-2" style="margin-bottom:10px;">
@@ -334,13 +334,13 @@
           </div>
         {% endfor %}
       </div>
-    
+
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-question"></i> Solid Header Only Modals</h4>
         </div>
       </div>
-    
+
       <div class="row">
         {% for bootstrap_type in bootstrap_types %}
           <div class="col-sm-2" style="margin-bottom:10px;">
@@ -362,14 +362,14 @@
     <div class="box-header with-border">
       <h3 class="box-title">Tables</h3>
     </div>
-    
+
     <div class="box-body">
       <div class="row">
         <div class="col-sm-12">
           <h4><i class="fa fa-table"></i> AdminLTE Tables</h4>
         </div>
       </div>
-      
+
       <div class="row">
         <div class="col-md-12">
           <table class="table table-hover">
@@ -387,7 +387,7 @@
             </tr>
           </table>
         </div>
-        
+
         <div class="col-md-12">
           <table class="table table-hover">
             <tr class="orange">
@@ -404,7 +404,7 @@
             </tr>
           </table>
         </div>
-        
+
       </div>
     </div>
   </div>
@@ -416,43 +416,43 @@
     <div class="modal modal-{{ bootstrap_type }} fade" id="modal-{{ bootstrap_type }}" style="display: none;">
       <div class="modal-dialog">
         <div class="modal-content">
-          
+
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span></button>
             <h4 class="modal-title">{{ bootstrap_type }} Modal</h4>
           </div>
-          
+
           <div class="modal-body">
             <p>One fine body…</p>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-{{ bootstrap_type }}">Save changes</button>
           </div>
-          
+
         </div><!-- /.modal-content -->
-        
+
       </div><!-- /.modal-dialog -->
     </div>
   {% endfor %}
-  
+
   {% for bootstrap_type in bootstrap_types %}
     <div class="modal fade" id="modal-solid-{{ bootstrap_type }}" style="display: none;">
       <div class="modal-dialog">
         <div class="modal-content">
-          
+
           <div class="modal-header alert-{{ bootstrap_type }}">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span></button>
             <h4 class="modal-title">{{ bootstrap_type }} Modal</h4>
           </div>
-          
+
           <div class="modal-body">
             <p>One fine body…</p>
           </div>
-          
+
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
               Close
@@ -461,10 +461,10 @@
               Save changes
             </button>
           </div>
-          
+
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div>
   {% endfor %}
-  
+
 {% endblock modals %}

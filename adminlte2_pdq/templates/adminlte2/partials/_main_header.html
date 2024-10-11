@@ -6,14 +6,14 @@
     <!-- Logo -->
     {% block logo %}
       <a href="{% block logo_href %}/{% endblock logo_href %}" class="logo">
-      
+
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">
           {% block logo_text_small %}
             {% get_logo_text_small %}
           {% endblock logo_text_small %}
         </span>
-      
+
         <!-- logo for regular state and mobile devices -->
         <span class="logo-lg">
           {% block logo_text %}
@@ -27,7 +27,7 @@
     {% block nav_bar %}
       <nav class="navbar navbar-static-top">
         {% block nav_bar_toggle_button %}
-          
+
           <!-- Sidebar toggle button-->
           <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
@@ -47,58 +47,58 @@
                 {% block custom_menu_nav %}
                   {% block header_dropdowns %}
                     {% if request.user.is_authenticated %}
-                      
+
                       {# Full click-able user menu on top-right of page. #}
                       <li class="dropdown user user-menu">
                         {% block user_menu %}
-                          
+
                           {# The click-able button to call the dropdown. #}
                           {% block user_dropdown %}
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            
+
                               {% block user_image %}
                                 <img src="{% get_avatar_url user=request.user size=50 %}" class="user-image" alt="User Image">
                               {% endblock user_image%}
-                            
+
                               {% block user_name %}
                                 <span class="hidden-xs">{% firstof request.user.get_short_name request.user.get_username %}</span>
                               {% endblock user_name %}
-                            
+
                             </a>
                           {% endblock user_dropdown %}
-                          
+
                           {# The actual "user dropdown" section. #}
                           {% block user_dropdown_wrapper %}
                             <ul class="dropdown-menu">
                               {% block user_dropdown_menu %}
-                                
+
                                 {# The top-section of the dropdown. Displays image, name, and membership info. #}
                                 <li class="user-header">
                                   {% block user_header %}
-                                    
+
                                     {% block user_dropdown_image %}
                                       <img src="{% get_avatar_url user=request.user size=180 %}" class="img-circle" alt="User Image">
                                     {% endblock user_dropdown_image %}
-                                    
+
                                     {% block user_dropdown_member_since_wrapper %}
                                       <p>
                                         {% block user_dropdown_name %}
                                           {% firstof request.user.get_short_name request.user.get_username %}
                                         {% endblock user_dropdown_name %}
-                                      
+
                                         {% block user_dropdown_member_since_text %}
                                           <small>Member since {{ request.user.date_joined }}</small>
                                         {% endblock user_dropdown_member_since_text %}
                                       </p>
                                     {% endblock user_dropdown_member_since_wrapper %}
-                                    
+
                                   {% endblock user_header %}
                                 </li>
 
                                 {# The bottom-section of the dropdown. Has password and signout buttons. #}
                                 <li class="user-footer">
                                   {% block user_footer %}
-                                    
+
                                     {% block user_footer_left_button %}
                                       <div class="pull-left">
                                         {% url 'password_change' as pw_change_url %}
@@ -110,19 +110,19 @@
                                         </a>
                                       </div>
                                     {% endblock user_footer_left_button %}
-                                    
+
                                     {% block user_footer_right_button %}
                                       <div class="pull-right">
                                         <a href="{% block logout_url %}{% get_logout_url %}{% endblock logout_url %}" class="btn btn-default btn-flat">
-                                        
+
                                           {% block logout_text %}
                                             Sign out
                                           {% endblock logout_text %}
-                                        
+
                                         </a>
                                       </div>
                                     {% endblock user_footer_right_button %}
-                                    
+
                                   {% endblock user_footer %}
                                 </li>
                               {% endblock user_dropdown_menu %}
@@ -131,7 +131,7 @@
                         {% endblock user_menu %}
                       </li>
                       {# End of click-able user menu on top-right of page. #}
-                      
+
                     {% endif %}
                   {% endblock header_dropdowns %}
                 {% endblock custom_menu_nav %}

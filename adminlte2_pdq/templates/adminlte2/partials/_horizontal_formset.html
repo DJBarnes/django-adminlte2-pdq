@@ -3,14 +3,14 @@
 
 <div class="form-inline col-sm-12">
   <div class="panel panel-default">
-  
+
     <div class="panel-heading">
       {{ section_heading }}
     </div>
-  
+
     <div class="panel-body">
     {{ formset.management_form }}
-    
+
     {% for form in formset %}
       <div class="col-sm-12">
         {% for field in form %}
@@ -46,7 +46,7 @@
         {% endfor %}
       </div>
     {% endfor %}
-    
+
     </div>
   </div>
 </div>
