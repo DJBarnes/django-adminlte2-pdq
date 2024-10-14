@@ -54,6 +54,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -93,6 +94,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
 
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -117,6 +119,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -160,6 +163,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -184,6 +188,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -201,11 +206,14 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messages=[
+                        self.pdq__user_failed_perm_check.format(view_name="OnePermissionRequiredView"),
+                    ],
                 )
 
-                # Verify values associated with returned view.
-                # Was redirected to login so should be no data.
-                self.assertAdminPdqData(response, is_empty=True)
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertAdminPdqData(response, is_empty=True)
 
         # Should succeed and load as expected for anyone with at least one expected perm.
         for user_instance, user_str in (
@@ -213,6 +221,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -240,6 +249,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -267,6 +277,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -284,6 +295,9 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messages=[
+                        self.pdq__user_failed_perm_check.format(view_name="FullPermissionsRequiredView"),
+                    ],
                 )
 
                 # Verify values associated with returned view.
@@ -293,6 +307,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should succeed and load as expected for anyone with expected perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.

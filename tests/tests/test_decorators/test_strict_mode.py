@@ -35,8 +35,6 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-                # View configured incorrectly for strict mode. Should initially redirect to "home".
-                # But then since we're also not logged in, it redirects to login required page.
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -62,7 +60,6 @@ class StrictModeMixin:
         # Should fail and redirect to home with a warning message, for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-                # View configured incorrectly for strict mode. Should redirect to "home".
 
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -106,6 +103,7 @@ class StrictModeMixin:
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -151,6 +149,7 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -174,6 +173,7 @@ class StrictModeMixin:
         # Should succeed and load as expected for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -201,6 +201,7 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -225,6 +226,7 @@ class StrictModeMixin:
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -242,6 +244,9 @@ class StrictModeMixin:
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messges=[
+                        self.pdq__user_failed_perm_check.format(view_name="one_permission_required_view"),
+                    ],
                 )
 
                 # Verify values associated with returned view.
@@ -254,6 +259,7 @@ class StrictModeMixin:
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -281,6 +287,7 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -308,6 +315,7 @@ class StrictModeMixin:
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -325,6 +333,9 @@ class StrictModeMixin:
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messges=[
+                        self.pdq__user_failed_perm_check.format(view_name="full_permissions_required_view"),
+                    ],
                 )
 
                 # Verify values associated with returned view.
@@ -334,6 +345,7 @@ class StrictModeMixin:
         # Should succeed and load as expected for anyone with full perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -450,6 +462,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # But then since we're also not logged in, it redirects to login required page.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -490,6 +503,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to home with a warning message, for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -538,6 +552,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # However, should raise a "ineffective whitelist" warning.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -578,6 +593,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -615,6 +631,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -634,6 +651,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                             "Downloads",
                         ],
                         expected_messages=[
+                            self.pdq__user_failed_perm_check.format(view_name="one_permission_required_view"),
                             self.pdq__ineffective_login_whitelist_message__one_of_perms,
                         ],
                     )
@@ -658,6 +676,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -701,7 +720,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-                # Should fail and redirect to login.
 
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -743,6 +761,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -762,6 +781,7 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
                             "Downloads",
                         ],
                         expected_messages=[
+                            self.pdq__user_failed_perm_check.format(view_name="full_permissions_required_view"),
                             self.pdq__ineffective_login_whitelist_message__full_perms,
                         ],
                     )
@@ -783,7 +803,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # However, should raise a "ineffective whitelist" warning.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-                # Should succeed and load as expected.
 
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -874,7 +893,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-                # Should redirect to login.
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -900,7 +918,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # Should succeed and load as expected for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-                # Should succeed and load as expected.
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -928,6 +945,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -965,6 +983,7 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # However, should raise a "redundant whitelist" warning.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(

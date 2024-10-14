@@ -37,6 +37,16 @@ class BaseDecoratorTestCase(IntegrationTestCase):
 
     # region Expected Test Messages
 
+    pdq__user_failed_perm_check = (
+        "AdminLtePdq Warning: Attempted to access function-based view '{view_name}' which "
+        "requires permissions, and user permission requirements were not met. "
+        "Redirected to project home instead. \n"
+        "(This message only shows in project DEBUG mode)"
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/"
+    )
+
     pdq_loose__allow_anonymous_access_decorator_message = (
         "AdminLtePdq Error: The 'allow_anonymous_access' decorator is not supported in AdminLtePdq "
         "LOOSE mode. This decorator only exists for clarity of permission access in STRICT mode."
