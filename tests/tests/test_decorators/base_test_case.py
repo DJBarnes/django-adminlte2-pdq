@@ -41,7 +41,6 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "AdminLtePdq Warning: Attempted to access function-based view '{view_name}' which "
         "requires permissions, and user permission requirements were not met. "
         "Redirected to project home instead. \n"
-        "(This message only shows in project DEBUG mode)"
         "\n\n"
         "For further information, please see the docs: "
         "https://django-adminlte2-pdq.readthedocs.io/"
