@@ -38,6 +38,16 @@ class BaseMixinTextCase(IntegrationTestCase):
 
     # region Expected Test Messages
 
+    pdq__user_failed_perm_check = (
+        "AdminLtePdq Warning: Attempted to access class-based view '{view_name}' which "
+        "requires permissions, and user permission requirements were not met. "
+        "Redirected to project home instead. \n"
+        "(This message only shows in project DEBUG mode)"
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/"
+    )
+
     # BUG: Some instances of accessing a Mixin reads as a decorator instead.
     #   Possibly resolved: Might have just been poorly organized testing urls. Double check later.
     pdq_loose__allow_anonymous_access_decorator_message = (
@@ -124,10 +134,20 @@ class BaseMixinTextCase(IntegrationTestCase):
         view_name="FullPermissionsRequiredView"
     )
 
+    pdq__allow_without_permissions__conflicting_message = (
+        "AdminLtePdq Warning: The class-based view 'BleedingConflictingPermissionsView' is permission exempt, "
+        "but has some permission requirements set. "
+        "This means that this view is accessible to anyone authenticated, and the "
+        "permissions are ineffective.\n"
+        "(This message only shows in project DEBUG mode)"
+        "\n\n"
+        "For further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+    )
     pdq__no_permissions_one__message = (
         "AdminLtePdq Warning: The class-based view 'BleedingOnePermissionMissingPermissionsView' "
         "has permission requirements, but does not have any permissions set. "
-        "This means that this view is inaccessible until permissions are set for the view."
+        "This means that this view is inaccessible until permissions are set for the view.\n"
         "\n\n"
         "For further information, please see the docs: "
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
@@ -135,7 +155,7 @@ class BaseMixinTextCase(IntegrationTestCase):
     pdq__no_permissions_full__message = (
         "AdminLtePdq Warning: The class-based view 'BleedingFullPermissionMissingPermissionsView' "
         "has permission requirements, but does not have any permissions set. "
-        "This means that this view is inaccessible until permissions are set for the view."
+        "This means that this view is inaccessible until permissions are set for the view.\n"
         "\n\n"
         "For further information, please see the docs: "
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"

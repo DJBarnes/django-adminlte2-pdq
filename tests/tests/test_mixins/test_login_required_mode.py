@@ -35,6 +35,7 @@ class LoginModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -59,6 +60,7 @@ class LoginModeMixin:
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -82,6 +84,7 @@ class LoginModeMixin:
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -148,6 +151,7 @@ class LoginModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -172,6 +176,7 @@ class LoginModeMixin:
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -189,6 +194,9 @@ class LoginModeMixin:
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messages=[
+                        self.pdq__user_failed_perm_check.format(view_name="OnePermissionRequiredView"),
+                    ],
                 )
 
                 # Verify values associated with returned view.
@@ -201,6 +209,7 @@ class LoginModeMixin:
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -228,6 +237,7 @@ class LoginModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -255,6 +265,7 @@ class LoginModeMixin:
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -272,6 +283,9 @@ class LoginModeMixin:
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messages=[
+                        self.pdq__user_failed_perm_check.format(view_name="FullPermissionsRequiredView"),
+                    ],
                 )
 
                 # Verify values associated with returned view.
@@ -281,6 +295,7 @@ class LoginModeMixin:
         # Should succeed and load as expected for anyone with expected perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -388,6 +403,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -415,6 +431,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # However, should raise a "redundant whitelist" warning.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -457,6 +474,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -494,6 +512,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -513,6 +532,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                             "Downloads",
                         ],
                         expected_messages=[
+                            self.pdq__user_failed_perm_check.format(view_name="OnePermissionRequiredView"),
                             self.pdq__ineffective_login_whitelist_message__one_of_perms,
                         ],
                     )
@@ -537,6 +557,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -580,6 +601,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -620,6 +642,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -639,6 +662,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
                             "Downloads",
                         ],
                         expected_messages=[
+                            self.pdq__user_failed_perm_check.format(view_name="FullPermissionsRequiredView"),
                             self.pdq__ineffective_login_whitelist_message__full_perms,
                         ],
                     )
@@ -660,6 +684,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # However, should raise a "ineffective whitelist" warning.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(

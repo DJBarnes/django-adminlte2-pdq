@@ -161,7 +161,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-                # Should fail and redirect to login.
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -187,6 +186,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
+
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -203,6 +203,9 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                         "Visitors Report",
                         "Inventory",
                         "Downloads",
+                    ],
+                    expected_messages=[
+                        self.pdq__user_failed_perm_check.format(view_name="one_permission_required_view"),
                     ],
                 )
 
@@ -244,6 +247,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -271,6 +275,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
+
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -288,6 +293,9 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                         "Inventory",
                         "Downloads",
                     ],
+                    expected_messages=[
+                        self.pdq__user_failed_perm_check.format(view_name="full_permissions_required_view"),
+                    ],
                 )
 
                 # Verify values associated with returned view.
@@ -297,7 +305,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should succeed and load as expected for anyone with at least all expected perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-                # Should succeed and load as expected.
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(

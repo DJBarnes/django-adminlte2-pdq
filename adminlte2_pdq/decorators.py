@@ -286,9 +286,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
 
             return function_view
 
-        wrapped_function = wrap
-        wrapped_function.permissions = permissions
-        return wrapped_function
+        return wrap
 
     return decorator
 
