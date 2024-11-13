@@ -26,7 +26,7 @@ MEDIA_ROUTE = getattr(settings, "MEDIA_URL", "/media/")
 WEBSOCKET_ROUTE = getattr(settings, "WEBSOCKET_URL", "/ws/")
 
 
-# Known routes that should never have a permission check done.
+# Known routes that should never require a permission check.
 HOME_ROUTE = getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home")
 PWD_CHANGE = getattr(settings, "PWD_CHANGE", "password_change")
 PWD_CHANGE_DONE = getattr(settings, "PWD_CHANGE_DONE", "password_change_done")
@@ -42,7 +42,7 @@ LOGIN_EXEMPT_WHITELIST = [
     PWD_RESET_COMPLETE_ROUTE,
     REGISTER_ROUTE,
 ]
-# List of known routes that should never require permissions to access.
+# List of known routes that should never require a permission check.
 STRICT_POLICY_WHITELIST = [
     HOME_ROUTE,
     PWD_CHANGE,
@@ -73,14 +73,15 @@ if not LOGIN_REQUIRED and getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", 
     raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True.")
 
 
-# Date Time Picker Widgets to use. Valid values are 'native', 'jquery', 'bootstrap'
+# Date/Time picker widgets to use. Valid values are "native", "jquery", "bootstrap".
 DATETIME_WIDGET = getattr(settings, "ADMINLTE2_DATETIME_WIDGET", "native")
 DATE_WIDGET = getattr(settings, "ADMINLTE2_DATE_WIDGET", "native")
 TIME_WIDGET = getattr(settings, "ADMINLTE2_TIME_WIDGET", "native")
 
 
-# What required field indicators should be used on a rendered form
+# Boolean indicating if fields marked as "required" should be rendered in templates as bold.
 BOLD_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_BOLD_REQUIRED_FIELDS", True)
+# Boolean indicating if fields marked as "required" should be rendered in templates with an asterisk.
 ASTERISK_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_ASTERISK_REQUIRED_FIELDS", True)
 
 
