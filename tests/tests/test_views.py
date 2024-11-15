@@ -2,12 +2,15 @@
 Tests for Views
 """
 
+# System Imports.
+from unittest.mock import patch
+
 # Third-Party Imports.
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
 from django.contrib import messages
-from django.test import TestCase, RequestFactory
+from django.test import override_settings, RequestFactory, TestCase
 from django.urls import reverse
 
 # Internal Imports.
@@ -198,9 +201,32 @@ class ViewsTestCase(TestCase):
         response = self.client.get("unknown/route/")
         self.assertEqual(response.status_code, 302)
 
-    def test_404_view_works_when_triggered_and_followed(self):
+    @override_settings(ADMINLTE2_DEBUG=True)
+    @patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+    @patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
+    def test_404_view_works_when_triggered_and_followed_in_dev(self):
         """Test 404 view works when triggered"""
+
         self.client.force_login(self.test_user_no_perms)
+
         response = self.client.get("unknown/route/", follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "The page you were looking for does not exist")
+        self.assertContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
+
+    @override_settings(ADMINLTE2_DEBUG=False)
+    @patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", False)
+    @patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", False)
+    def test_404_view_works_when_triggered_and_followed_in_prod(self):
+        """Test 404 view works when triggered"""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            (
+                "Could not access the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
