@@ -370,10 +370,13 @@ class StrictModeMixin:
 
 
 @override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
+@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
@@ -405,12 +408,15 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
 
 
 @override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
 @override_settings(ADMINLTE2_LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
 @override_settings(LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
+@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
@@ -833,12 +839,16 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
 
 
 @override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
 @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
 @override_settings(STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
+@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
@@ -1054,6 +1064,7 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
 
 
 @override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
@@ -1062,6 +1073,8 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
 @override_settings(LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
 @override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
 @override_settings(STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
+@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
@@ -1260,10 +1273,13 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
 
 
 @override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
+@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
@@ -1602,10 +1618,14 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
 
 @override_settings(DEBUG=True)
+@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
 @override_settings(STRICT_POLICY=True)
+@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
+@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", True)
