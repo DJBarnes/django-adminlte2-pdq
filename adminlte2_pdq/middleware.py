@@ -1,6 +1,7 @@
 """Django-AdminLTE2-PDQ Middleware"""
 
 # System Imports.
+import logging
 import warnings
 
 # Third-Party Imports.
@@ -16,6 +17,8 @@ from django.views.generic.base import RedirectView
 from .constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
+    RESPONSE_404_DEBUG_MESSAGE,
+    RESPONSE_404_PRODUCTION_MESSAGE,
     STRICT_POLICY,
     STRICT_POLICY_WHITELIST,
     LOGIN_URL,
@@ -23,6 +26,9 @@ from .constants import (
     MEDIA_ROUTE,
     WEBSOCKET_ROUTE,
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 class AuthMiddleware:
@@ -80,6 +86,22 @@ class AuthMiddleware:
 
         # Calculate data for decorated view, in order to determine permission logic.
         view_data = self.parse_request_data(request)
+
+        # Handle if an invalid url was entered.
+        if view_data["resolver"] is None:
+            # Entered url does not correspond to any view. Redirect to home route.
+            if settings.DEBUG:
+                # Handle output when DEBUG = True.
+                if len(RESPONSE_404_DEBUG_MESSAGE) > 0:
+                    messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)
+                    logger.warning(RESPONSE_404_DEBUG_MESSAGE)
+            else:
+                # Handle output when DEBUG = False.
+                if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                    messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+
+            # Redirect to home route.
+            return redirect(HOME_ROUTE)
 
         # Raise errors on conflicting decorator/mixin states.
         self.check_error_states(request, view_data)
@@ -151,8 +173,8 @@ class AuthMiddleware:
 
             # Display error message.
             error_message = (
-                "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq {mode_type} "
-                "mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
+                "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
+                "{mode_type} mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
                 "for all views that are not in a whitelist setting."
                 "\n\n"
                 "Also consider the {similar_decorators} {view_perm_type}{pluralize}."
@@ -344,12 +366,7 @@ class AuthMiddleware:
                 messages.warning(request, warning_message)
             else:
                 # Error if in production mode.
-                error_message = (
-                    "Could not access requested page. The site is configured incorrectly. "
-                    "Please contact the site administrator."
-                )
-                # Create Django Messages warning.
-                raise ImproperlyConfigured(error_message)
+                raise ImproperlyConfigured(RESPONSE_404_PRODUCTION_MESSAGE)
 
         # Handle if view is permission exempt view, but has permission requirements defined.
         if (
@@ -582,12 +599,8 @@ class AuthMiddleware:
                 messages.warning(request, warning_message)
             else:
                 # Error if in production mode.
-                error_message = (
-                    "Could not access requested page. The site is configured incorrectly. "
-                    "Please contact the site administrator."
-                )
                 # Create Django Messages warning.
-                messages.warning(request, error_message)
+                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
         # If we made it this far, then failed all checks, return False.
         return False

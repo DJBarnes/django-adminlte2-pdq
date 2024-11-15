@@ -85,6 +85,25 @@ BOLD_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_BOLD_REQUIRED_FIELDS", True)
 ASTERISK_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_ASTERISK_REQUIRED_FIELDS", True)
 
 
+# The message to show upon a standard 404 "page not found" redirect.
+# To skip showing messages, change this to a blank string.
+# The `debug` message only shows if the setting DEBUG = True. Otherwise the `production` message shows.
+RESPONSE_404_DEBUG_MESSAGE = str(
+    getattr(
+        settings,
+        "ADMINLTE2_RESPONSE_404_MESSAGE",
+        "AdminLtePdq Warning: The page you were looking for does not exist.",
+    )
+).strip()
+RESPONSE_404_PRODUCTION_MESSAGE = str(
+    getattr(
+        settings,
+        "ADMINLTE2_RESPONSE_404_MESSAGE",
+        "Could not access the requested page. If you believe this was an error, please contact the site administrator.",
+    )
+).strip()
+
+
 # Debug output values. Use for internal project debugging.
 TEXT_BLUE = "{0}{1}{2}".format(Fore.BLUE, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
 TEXT_CYAN = "{0}{1}{2}".format(Fore.CYAN, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
