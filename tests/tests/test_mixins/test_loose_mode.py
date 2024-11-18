@@ -59,7 +59,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -99,7 +99,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -124,7 +124,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-login-required",
@@ -168,7 +168,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -226,7 +226,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -254,7 +254,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -282,7 +282,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -312,7 +312,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -340,7 +340,7 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
 
         with self.subTest("As user with failing perm check"):
 
-            #  Verify we get the expected page.
+            # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
                 "adminlte2_pdq_tests:class-one-permission-required-as-string",

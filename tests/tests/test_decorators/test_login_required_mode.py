@@ -36,7 +36,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-standard",
@@ -61,7 +61,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-standard",
@@ -85,7 +85,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-allow-anonymous-access",
@@ -152,7 +152,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-one-permission-required",
@@ -210,7 +210,7 @@ class LoginModeMixin:
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-one-permission-required",
@@ -238,7 +238,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-full-permissions-required",
@@ -266,7 +266,7 @@ class LoginModeMixin:
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-full-permissions-required",
