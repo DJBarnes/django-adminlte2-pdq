@@ -36,7 +36,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -61,7 +61,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -85,7 +85,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-anonymous-access",
@@ -152,7 +152,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -210,7 +210,7 @@ class LoginModeMixin:
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-one-permission-required",
@@ -238,7 +238,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -266,7 +266,7 @@ class LoginModeMixin:
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -296,7 +296,7 @@ class LoginModeMixin:
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-full-permissions-required",
@@ -410,7 +410,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-standard",
@@ -438,7 +438,7 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
                         # View setup.

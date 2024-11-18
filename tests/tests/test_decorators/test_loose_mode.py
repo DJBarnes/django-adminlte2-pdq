@@ -58,7 +58,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-standard",
@@ -100,7 +100,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             with self.subTest(f"As {user_str}"):
                 # Should fail and redirect to login.
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -126,7 +126,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             with self.subTest(f"As {user_str}"):
                 # Should succeed and load as expected.
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-login-required",
@@ -166,7 +166,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-one-permission-required",
@@ -224,7 +224,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-one-permission-required",
@@ -252,7 +252,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-full-permissions-required",
@@ -280,7 +280,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         ):
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-full-permissions-required",
@@ -310,7 +310,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
 
-                #  Verify we get the expected page.
+                # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-full-permissions-required",
@@ -413,7 +413,7 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
 
         with self.subTest("As user with failing perm check"):
 
-            #  Verify we get the expected page.
+            # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
                 "adminlte2_pdq_tests:function-full-permissions-required-as-string",
