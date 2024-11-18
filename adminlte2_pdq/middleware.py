@@ -451,8 +451,36 @@ class AuthMiddleware:
                     # Because we seem unable to get the "updated" class attributes,
                     # and only have access to the original literal class-level values,
                     # we seem unable to rely on the data dict for this.
-                    data_dict["one_of_permissions"] = getattr(view_class, "permission_required_one", None)
-                    data_dict["full_permissions"] = getattr(view_class, "permission_required", None)
+                    permission_required_one_value = getattr(view_class, "permission_required_one", None)
+                    permission_required_value = getattr(view_class, "permission_required", None)
+
+                    # Sanitize values.
+                    if permission_required_one_value is not None:
+                        # Is populated. Make sure it's the correct format.
+                        if isinstance(permission_required_one_value, tuple):
+                            # Correct format, pass.
+                            pass
+                        elif isinstance(permission_required_one_value, list):
+                            # Is an iterable type, but not the expected one. Reformat.
+                            permission_required_one_value = tuple(permission_required_one_value)
+                        else:
+                            # Is some other type. Put into a tuple and hope it works out.
+                            permission_required_one_value = (permission_required_one_value,)
+                    if permission_required_value is not None:
+                        # Is populated. Make sure it's the correct format.
+                        if isinstance(permission_required_value, tuple):
+                            # Correct format, pass.
+                            pass
+                        elif isinstance(permission_required_value, list):
+                            # Is an iterable type, but not the expected one. Reformat.
+                            permission_required_value = tuple(permission_required_value)
+                        else:
+                            # Is some other type. Put into a tuple and hope it works out.
+                            permission_required_value = (permission_required_value,)
+
+                    # Save to data dict.
+                    data_dict["one_of_permissions"] = permission_required_one_value
+                    data_dict["full_permissions"] = permission_required_value
 
                     # Update data on the class itself.
                     view_class.admin_pdq_data["one_of_permissions"] = data_dict["one_of_permissions"]
