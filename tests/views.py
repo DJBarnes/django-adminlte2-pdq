@@ -54,9 +54,21 @@ def one_permission_required_view(request):
     return render(request, "one_permission_required_view.html")
 
 
+@permission_required_one("auth.add_foo")
+def one_permission_required_view_as_string(request):
+    """Testing view with "one of permissions" requirement, but defined as a string instead of a list/tuple."""
+    return render(request, "one_permission_required_view.html")
+
+
 @permission_required(["auth.add_foo", "auth.change_foo"])
 def full_permissions_required_view(request):
     """Testing view with permission requirement."""
+    return render(request, "full_permissions_required_view.html")
+
+
+@permission_required("auth.add_foo")
+def full_permissions_required_view_as_string(request):
+    """Testing view with permission requirement, but defined as a string instead of a list/tuple."""
     return render(request, "full_permissions_required_view.html")
 
 
@@ -117,10 +129,26 @@ class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
     template_name = "one_permission_required_view.html"
 
 
+class OnePermissionRequiredViewAsString(PermissionRequiredMixin, TemplateView):
+    """Testing view with permission requirement, but defined as a string instead of a list/tuple."""
+
+    permission_required_one = "auth.add_foo"
+
+    template_name = "one_permission_required_view.html"
+
+
 class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     """Testing view with permission requirement."""
 
     permission_required = ["auth.add_foo", "auth.change_foo"]
+
+    template_name = "full_permissions_required_view.html"
+
+
+class FullPermissionsRequiredViewAsString(PermissionRequiredMixin, TemplateView):
+    """Testing view with permission requirement, but defined as a string instead of a list/tuple."""
+
+    permission_required = "auth.add_foo"
 
     template_name = "full_permissions_required_view.html"
 

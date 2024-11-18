@@ -330,3 +330,153 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                     login_required=True,
                     full_permissions=("auth.add_foo", "auth.change_foo"),
                 )
+
+    def test_one_permission_decorator_works_with_strings(self):
+        """Tests that a function view using the OnePermissions decorator works
+        when a string is provided instead of a list or tuple.
+        """
+
+        with self.subTest("As user with failing perm check"):
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-one-permission-required-as-string",
+                user=self.none_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
+                expected_content=[
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
+                ],
+                expected_messages=[
+                    (
+                        "AdminLtePdq Warning: Attempted to access function-based view "
+                        "'one_permission_required_view_as_string' which "
+                        "requires permissions, and user permission requirements were not met. "
+                        "Redirected to project home instead. \n"
+                        "\n\n"
+                        "For further information, please see the docs: "
+                        "https://django-adminlte2-pdq.readthedocs.io/"
+                    ),
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertAdminPdqData(response, is_empty=True)
+
+        with self.subTest("As user with passing perm check"):
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-one-permission-required-as-string",
+                user=self.full_perm_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
+                expected_title="One Permission Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | One Permission Required View Header",
+                expected_not_messages=[
+                    (
+                        "AdminLtePdq Warning: Attempted to access function-based view "
+                        "'one_permission_required_view_as_string' which "
+                        "requires permissions, and user permission requirements were not met. "
+                        "Redirected to project home instead. \n"
+                        "\n\n"
+                        "For further information, please see the docs: "
+                        "https://django-adminlte2-pdq.readthedocs.io/"
+                    ),
+                ],
+            )
+
+            # Verify values associated with returned view.
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                one_of_permissions=("auth.add_foo",),
+            )
+
+    def test_full_permission_decorator_works_with_strings(self):
+        """Tests that a function view using the FullPermissions decorator works
+        when a string is provided instead of a list or tuple.
+        """
+
+        with self.subTest("As user with failing perm check"):
+
+            #  Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-full-permissions-required-as-string",
+                user=self.none_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=True,
+                # Expected content on page.
+                expected_title="Dashboard",
+                expected_header="Dashboard <small>Version 2.0</small>",
+                expected_content=[
+                    "Monthly Recap Report",
+                    "Visitors Report",
+                    "Inventory",
+                    "Downloads",
+                ],
+                expected_messages=[
+                    (
+                        "AdminLtePdq Warning: Attempted to access function-based view "
+                        "'full_permissions_required_view_as_string' which "
+                        "requires permissions, and user permission requirements were not met. "
+                        "Redirected to project home instead. \n"
+                        "\n\n"
+                        "For further information, please see the docs: "
+                        "https://django-adminlte2-pdq.readthedocs.io/"
+                    ),
+                ],
+            )
+
+            # Verify values associated with returned view.
+            # Was redirected to login so should be no data.
+            self.assertAdminPdqData(response, is_empty=True)
+
+        with self.subTest("As user with passing perm check"):
+
+            # Verify we get the expected page.
+            response = self.assertGetResponse(
+                # View setup.
+                "adminlte2_pdq_tests:function-full-permissions-required-as-string",
+                user=self.full_perm_user,
+                # Expected view return data.
+                expected_status=200,
+                view_should_redirect=False,
+                # Expected content on page.
+                expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                expected_header="Django AdminLtePdq | Full Permissions Required View Header",
+                expected_not_messages=[
+                    (
+                        "AdminLtePdq Warning: Attempted to access function-based view "
+                        "'full_permissions_required_view_as_string' which "
+                        "requires permissions, and user permission requirements were not met. "
+                        "Redirected to project home instead. \n"
+                        "\n\n"
+                        "For further information, please see the docs: "
+                        "https://django-adminlte2-pdq.readthedocs.io/"
+                    ),
+                ],
+            )
+
+            # Verify values associated with returned view.
+            self.assertAdminPdqData(
+                response,
+                decorator_name="permission_required",
+                login_required=True,
+                full_permissions=("auth.add_foo",),
+            )

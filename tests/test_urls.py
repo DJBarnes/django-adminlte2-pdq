@@ -38,9 +38,19 @@ urlpatterns = [
                     name="function-one-permission-required",
                 ),
                 path(
+                    "one_permission_as_string/",
+                    views.one_permission_required_view_as_string,
+                    name="function-one-permission-required-as-string",
+                ),
+                path(
                     "full_permissions/",
                     views.full_permissions_required_view,
                     name="function-full-permissions-required",
+                ),
+                path(
+                    "full_permissions_as_string/",
+                    views.full_permissions_required_view_as_string,
+                    name="function-full-permissions-required-as-string",
                 ),
             ]
         ),
@@ -86,9 +96,19 @@ urlpatterns = [
                     name="class-one-permission-required",
                 ),
                 path(
+                    "one_permission_as_string/",
+                    views.OnePermissionRequiredViewAsString.as_view(),
+                    name="class-one-permission-required-as-string",
+                ),
+                path(
                     "full_permissions/",
                     views.FullPermissionsRequiredView.as_view(),
                     name="class-full-permissions-required",
+                ),
+                path(
+                    "full_permissions_as_string/",
+                    views.FullPermissionsRequiredViewAsString.as_view(),
+                    name="class-full-permissions-required-as-string",
                 ),
             ]
         ),
