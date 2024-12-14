@@ -201,9 +201,7 @@ class ViewsTestCase(TestCase):
         response = self.client.get("unknown/route/")
         self.assertEqual(response.status_code, 302)
 
-    @override_settings(ADMINLTE2_DEBUG=True)
-    @patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-    @patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
+    @override_settings(DEBUG=True)
     def test_404_view_works_when_triggered_and_followed_in_dev(self):
         """Test 404 view works when triggered"""
 
@@ -213,9 +211,7 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
 
-    @override_settings(ADMINLTE2_DEBUG=False)
-    @patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", False)
-    @patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", False)
+    @override_settings(DEBUG=False)
     def test_404_view_works_when_triggered_and_followed_in_prod(self):
         """Test 404 view works when triggered"""
 

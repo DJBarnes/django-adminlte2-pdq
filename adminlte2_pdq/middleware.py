@@ -6,6 +6,7 @@ import warnings
 
 # Third-Party Imports.
 from django.http import Http404
+from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import redirect
@@ -14,7 +15,6 @@ from django.views.generic.base import RedirectView
 
 # Internal Imports.
 from .constants import (
-    ADMINLTE2_DEBUG,
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     RESPONSE_403_DEBUG_MESSAGE,
@@ -96,7 +96,7 @@ class AuthMiddleware:
         # Handle if an invalid url was entered.
         if view_data["resolver"] is None:
             # Entered url does not correspond to any view. Redirect to home route.
-            if ADMINLTE2_DEBUG:
+            if settings.DEBUG:
                 # Handle output when DEBUG = True.
                 if len(RESPONSE_404_DEBUG_MESSAGE) > 0:
                     messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)
@@ -351,7 +351,7 @@ class AuthMiddleware:
             # And no permission values defined.
             and not view_requires_permissions
         ):
-            if ADMINLTE2_DEBUG:
+            if settings.DEBUG:
                 # Warning if in development mode.
                 warning_message = (
                     "AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
@@ -380,7 +380,7 @@ class AuthMiddleware:
             # But permission values are defined.
             and view_requires_permissions
         ):
-            if ADMINLTE2_DEBUG:
+            if settings.DEBUG:
                 # Warning if in development mode.
                 warning_message = (
                     "AdminLtePdq Warning: The {view_type} view '{view_name}' is permission exempt, "
@@ -620,7 +620,7 @@ class AuthMiddleware:
             #
             #   Long-term, this should probably be moved to the `check_error_states()` function,
             #   but for now tests somehow seem to pass and time is limited, so leaving here for now.
-            if ADMINLTE2_DEBUG:
+            if settings.DEBUG:
                 # Warning if in development mode.
                 warning_message = (
                     "AdminLtePdq Warning: This project is set to run in strict mode, and "
@@ -665,7 +665,7 @@ class AuthMiddleware:
             and not self.verify_has_perms(request, view_data)
         ):
 
-            if ADMINLTE2_DEBUG:
+            if settings.DEBUG:
                 # Warning if in development mode.
                 warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
                     view_type=view_data["view_type"],

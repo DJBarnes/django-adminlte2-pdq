@@ -21,9 +21,6 @@ UserModel = get_user_model()
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 class TestLooseAuthenticationMixins(BaseMixinTextCase):
     """
     Test project authentication mixins, under project "Loose" mode.
@@ -485,9 +482,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
     """Tests to make sure mixin logic doesn't bleed into each other.
 
