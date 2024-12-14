@@ -17,6 +17,8 @@ from .constants import (
     ADMINLTE2_DEBUG,
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
+    RESPONSE_403_DEBUG_MESSAGE,
+    RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
     STRICT_POLICY,
@@ -65,6 +67,10 @@ class AuthMiddleware:
 
         Upon failure, user will be redirected accordingly.
         Redirects are determined by the LOGIN_REDIRECT_URL setting, and the ADMINLTE2_HOME_ROUTE setting.
+
+        # TODO: I really don't like how much heavy lifting this middleware is doing.
+            Consider trying to offload logic to decorators/mixins in the future, if possible.
+            Some of this has to be in the middleware, due to
         """
 
         # Ensure user object is accessible for Authentication checks.
@@ -121,12 +127,11 @@ class AuthMiddleware:
         if (
             # Is STRICT mode.
             STRICT_POLICY
-            # Is not a decorator allowing lesser permissions.
+            # Is not a decorator allowing lowered permission checks.
             and view_data["decorator_name"] not in ["allow_anonymous_access", "allow_without_permissions"]
             # Fails general checks for everything else.
             and not self.verify_strict_mode_permission_set(request, view_data)
         ):
-            # No permissions defined on view or user failed permission checks.
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
@@ -498,8 +503,8 @@ class AuthMiddleware:
                     data_dict["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", False)
                     data_dict["login_required"] = pdq_data.get("login_required", False)
                     data_dict["allow_without_permissions"] = pdq_data.get("allow_without_permissions", False)
-                    data_dict["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
-                    data_dict["full_permissions"] = pdq_data.get("full_permissions", [])
+                    data_dict["one_of_permissions"] = pdq_data.get("one_of_permissions", None)
+                    data_dict["full_permissions"] = pdq_data.get("full_permissions", None)
 
         except Http404:
             data_dict.update({"resolver": None})
@@ -563,7 +568,7 @@ class AuthMiddleware:
         """
         exempt = False
 
-        # If view, determine if function based or class based
+        # Proceed if is a proper view (not a "404 not found").
         if view_data["resolver"]:
 
             # Determine if request url is exempt. Is the case for the following:
@@ -605,6 +610,16 @@ class AuthMiddleware:
 
             # Decorator/Mixin failed checks, or Login Required not set.
             # Add messages, warnings, and return False.
+            # TODO: Upon closer examination, this looks like older logic (likely from before any major reworks)
+            #   which was never moved. This section effectively provides warning messages/redirects, if in
+            #   strict mode and the view doesn't have proper permissions set.
+            #
+            #   This logic no longer really makes sense here, as this function looks to be more about
+            #   validating the user permissions in strict mode, rather than checking that the view itself
+            #   is correctly defined.
+            #
+            #   Long-term, this should probably be moved to the `check_error_states()` function,
+            #   but for now tests somehow seem to pass and time is limited, so leaving here for now.
             if ADMINLTE2_DEBUG:
                 # Warning if in development mode.
                 warning_message = (
@@ -640,30 +655,27 @@ class AuthMiddleware:
         Note that STRICT MODE is handled elsewhere, so this does not have to handle for that.
         """
 
-        # First check if in debug. No point in continuing otherwise.
-        if ADMINLTE2_DEBUG:
+        # Check if state where user failed permissions check.
+        if (
+            # If url name does not exist in whitelist.
+            not self.is_permission_whitelisted(view_data)
+            # If path does not exist in whitelist.
+            and not view_data["path"] in STRICT_POLICY_WHITELIST
+            # If user fails perm checks.
+            and not self.verify_has_perms(request, view_data)
+        ):
 
-            # Check if state where user failed permissions check.
-            if (
-                # If url name does not exist in whitelist.
-                not self.is_permission_whitelisted(view_data)
-                # If path does not exist in whitelist.
-                and not view_data["path"] in STRICT_POLICY_WHITELIST
-                # If user fails perm checks.
-                and not self.verify_has_perms(request, view_data)
-            ):
+            if ADMINLTE2_DEBUG:
                 # Warning if in development mode.
-                warning_message = (
-                    "AdminLtePdq Warning: Attempted to access {view_type} view '{view_name}' which "
-                    "requires permissions, and user permission requirements were not met. "
-                    "Redirected to project home instead. \n"
-                    "\n\n"
-                    "For further information, please see the docs: "
-                    "https://django-adminlte2-pdq.readthedocs.io/"
-                ).format(
+                warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
                     view_type=view_data["view_type"],
                     view_name=view_data["view_name"],
                 )
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+
+            else:
+                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
 
