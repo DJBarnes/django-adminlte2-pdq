@@ -10,7 +10,6 @@ from django.shortcuts import redirect, render
 
 # Internal Imports.
 from .constants import (
-    ADMINLTE2_DEBUG,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
 )
@@ -130,7 +129,7 @@ def view_404(request, exception):
     """On failure to locate a route, redirect to home page."""
 
     # Display warning.
-    if ADMINLTE2_DEBUG:
+    if settings.DEBUG:
         # Handle output when DEBUG = True.
         if len(RESPONSE_404_DEBUG_MESSAGE) > 0:
             messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)

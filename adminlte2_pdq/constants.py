@@ -85,16 +85,6 @@ BOLD_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_BOLD_REQUIRED_FIELDS", True)
 ASTERISK_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_ASTERISK_REQUIRED_FIELDS", True)
 
 
-# Configures if debug/production message output should be used.
-# If True, uses DEBUG/DEVELOPMENT environment messages, which tend to be more informative for developer use.
-# If False, uses PRODUCTION environment messages, which tend to be less informative for security.
-# By default, uses the default Django DEBUG settings value.
-#
-# NOTE: For reasons, the default Django DEBUG value always sets to False when running UnitTests.
-#   Thus, this setting is mostly for test usage, in order to configure what message output is expected to show.
-ADMINLTE2_DEBUG = bool(getattr(settings, "ADMINLTE2_DEBUG", settings.DEBUG))
-
-
 # The message to show upon a standard 403 "missing permissions" redirect.
 # To skip showing messages, change either setting to a blank string.
 # The `debug` message only shows if the above ADMINLTE_DEBUG = True. Otherwise the `production` message shows.

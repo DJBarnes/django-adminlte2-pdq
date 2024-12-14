@@ -15,12 +15,8 @@ from .base_test_case import BaseDecoratorTestCase
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_STRICT_POLICY=False)
 @override_settings(STRICT_POLICY=False)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
 class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):

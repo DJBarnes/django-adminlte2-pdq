@@ -319,11 +319,8 @@ class LoginModeMixin:
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 class TestLoginRequiredAuthenticationMixins(BaseMixinTextCase, LoginModeMixin):
@@ -353,13 +350,10 @@ class TestLoginRequiredAuthenticationMixins(BaseMixinTextCase, LoginModeMixin):
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
 @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
 @override_settings(LOGIN_REQUIRED=True)
 @override_settings(ADMINLTE2_LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
 @override_settings(LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.constants.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)

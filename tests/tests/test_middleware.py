@@ -63,9 +63,6 @@ class MiddlewareBaseTestCase(TestCase):
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 class StandardMiddlewareTestCase(MiddlewareBaseTestCase):
     """Test Middleware handling when in "LOOSE" authentication mode."""
 
@@ -95,9 +92,6 @@ class StandardMiddlewareTestCase(MiddlewareBaseTestCase):
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
     """Test Middleware handling when in "LOGIN_REQUIRED" authentication mode."""
@@ -173,9 +167,6 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
 # TODO: Even though the value in constants should always set LOGIN_REQUIRED = True when in STRICT mode,
 #       this patch doesn't seem to. Not sure if there's a better way to handle overriding the settings.
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_DEBUG=True)
-@patch("adminlte2_pdq.constants.ADMINLTE2_DEBUG", True)
-@patch("adminlte2_pdq.middleware.ADMINLTE2_DEBUG", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
 class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
