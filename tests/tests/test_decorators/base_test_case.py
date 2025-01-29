@@ -124,7 +124,11 @@ class BaseDecoratorTestCase(IntegrationTestCase):
 
     # endregion Expected Test Messages
 
-    def setUp(self):
+    def setUp(self, *args, **kwargs):
+
+        # Call parent logic.
+        super().setUp(*args, **kwargs)
+
         self.permission_content_type = ContentType.objects.get_for_model(Permission)
         self.factory = RequestFactory()
 
