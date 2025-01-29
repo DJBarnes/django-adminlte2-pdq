@@ -27,6 +27,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Testing views.
     path("tests/", include("tests.django_adminlte2_pdq.testing.test_urls")),
+    path("tests-2/", include("tests.django_adminlte2_pdq.testing.test_urls_2")),
     # Adminlte2 views.
     path("accounts/", include("django.contrib.auth.urls")),
     path("", include("adminlte2_pdq.urls")),
