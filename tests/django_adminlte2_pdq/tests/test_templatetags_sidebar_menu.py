@@ -169,7 +169,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
         """Test default routes are registered function works when routes are registered"""
         self.assertTrue(sidebar_menu._default_routes_are_registered())
 
-    @override_settings(ROOT_URLCONF="tests.urls_empty")
+    @override_settings(ROOT_URLCONF="tests.django_adminlte2_pdq.testing.urls_empty")
     def test__default_routes_are_registered_function__fails_when_routes_are_not_registered(self):
         """Test default routes are registered function fails when routes are not registered"""
         self.assertFalse(sidebar_menu._default_routes_are_registered())
@@ -1485,7 +1485,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             node = {
                 "route": "adminlte2_pdq:sample2",
                 "text": "Sample2",
-                "hook": "tests.utils.valid_string_hook_function",
+                "hook": "tests.django_adminlte2_pdq.testing.utils.valid_string_hook_function",
                 "hook_args": ["foo"],
                 "hook_kwargs": {"kwarg1": "bar"},
             }
@@ -1515,7 +1515,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             node = {
                 "route": "adminlte2_pdq:sample2",
                 "text": "Sample2",
-                "hook": "tests.utils.valid_tuple_hook_function",
+                "hook": "tests.django_adminlte2_pdq.testing.utils.valid_tuple_hook_function",
                 "hook_args": ["foo"],
                 "hook_kwargs": {"kwarg1": "bar"},
             }

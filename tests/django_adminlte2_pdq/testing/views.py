@@ -27,49 +27,49 @@ from adminlte2_pdq.mixins import (
 
 def standard_view(request):
     """Standard testing view. No decorators."""
-    return render(request, "standard_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/standard_view.html")
 
 
 @allow_anonymous_access
 def allow_anonymous_access_view(request):
     """Testing view for STRICT mode, allowing full access."""
-    return render(request, "allow_anonymous_access_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/allow_anonymous_access_view.html")
 
 
 @login_required
 def login_required_view(request):
     """Testing view with login requirement."""
-    return render(request, "login_required_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/login_required_view.html")
 
 
 @allow_without_permissions
 def allow_without_permissions_view(request):
     """Testing view for STRICT mode, allowing login only requirement."""
-    return render(request, "allow_without_permissions_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/allow_without_permissions_view.html")
 
 
 @permission_required_one(["auth.add_foo", "auth.change_foo"])
 def one_permission_required_view(request):
     """Testing view with "one of permissions" requirement."""
-    return render(request, "one_permission_required_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/one_permission_required_view.html")
 
 
 @permission_required_one("auth.add_foo")
 def one_permission_required_view_as_string(request):
     """Testing view with "one of permissions" requirement, but defined as a string instead of a list/tuple."""
-    return render(request, "one_permission_required_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/one_permission_required_view.html")
 
 
 @permission_required(["auth.add_foo", "auth.change_foo"])
 def full_permissions_required_view(request):
     """Testing view with permission requirement."""
-    return render(request, "full_permissions_required_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html")
 
 
 @permission_required("auth.add_foo")
 def full_permissions_required_view_as_string(request):
     """Testing view with permission requirement, but defined as a string instead of a list/tuple."""
-    return render(request, "full_permissions_required_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html")
 
 
 # endregion Function Views
@@ -88,7 +88,7 @@ def stacked_permissions_required_view(request):
     "all of one set" plus "at last one of the other set".
     """
 
-    return render(request, "full_permissions_required_view.html")
+    return render(request, "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html")
 
 
 # endregion Function Class Views
@@ -100,25 +100,25 @@ def stacked_permissions_required_view(request):
 class StandardView(TemplateView):
     """Standard testing view. No mixins."""
 
-    template_name = "standard_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/standard_view.html"
 
 
 class AllowAnonymousAccessView(AllowAnonymousAccessMixin, TemplateView):
     """Testing view for STRICT mode, allowing full access."""
 
-    template_name = "allow_anonymous_access_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/allow_anonymous_access_view.html"
 
 
 class LoginRequiredView(LoginRequiredMixin, TemplateView):
     """Testing view for LOOSE mode, with login requirement."""
 
-    template_name = "login_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/login_required_view.html"
 
 
 class AllowWithoutPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
     """Testing view for STRICT mode, allowing login only requirement."""
 
-    template_name = "allow_without_permissions_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/allow_without_permissions_view.html"
 
 
 class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
@@ -126,7 +126,7 @@ class OnePermissionRequiredView(PermissionRequiredMixin, TemplateView):
 
     permission_required_one = ["auth.add_foo", "auth.change_foo"]
 
-    template_name = "one_permission_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/one_permission_required_view.html"
 
 
 class OnePermissionRequiredViewAsString(PermissionRequiredMixin, TemplateView):
@@ -134,7 +134,7 @@ class OnePermissionRequiredViewAsString(PermissionRequiredMixin, TemplateView):
 
     permission_required_one = "auth.add_foo"
 
-    template_name = "one_permission_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/one_permission_required_view.html"
 
 
 class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
@@ -142,7 +142,7 @@ class FullPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
 
     permission_required = ["auth.add_foo", "auth.change_foo"]
 
-    template_name = "full_permissions_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
 
 
 class FullPermissionsRequiredViewAsString(PermissionRequiredMixin, TemplateView):
@@ -150,7 +150,7 @@ class FullPermissionsRequiredViewAsString(PermissionRequiredMixin, TemplateView)
 
     permission_required = "auth.add_foo"
 
-    template_name = "full_permissions_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
 
 
 # endregion Class Views
@@ -165,7 +165,7 @@ class BleedingAnonymousWithPermissionsView(AllowAnonymousAccessMixin, TemplateVi
     permission_required_one = ["auth.add_foo", "auth.change_foo"]
     permission_required = ["auth.add_foo", "auth.change_foo"]
 
-    template_name = "allow_anonymous_access_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/allow_anonymous_access_view.html"
 
 
 class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
@@ -174,7 +174,7 @@ class BleedingLoginWithPermissionsView(LoginRequiredMixin, TemplateView):
     permission_required_one = ["auth.add_foo", "auth.change_foo"]
     permission_required = ["auth.add_foo", "auth.change_foo"]
 
-    template_name = "login_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/login_required_view.html"
 
 
 class BleedingConflictingPermissionsView(AllowWithoutPermissionsMixin, TemplateView):
@@ -183,7 +183,7 @@ class BleedingConflictingPermissionsView(AllowWithoutPermissionsMixin, TemplateV
     permission_required_one = ["auth.add_foo", "auth.change_foo"]
     permission_required = ["auth.add_foo", "auth.change_foo"]
 
-    template_name = "allow_without_permissions_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/allow_without_permissions_view.html"
 
 
 class BleedingOnePermissionMissingPermissionsView(PermissionRequiredMixin, TemplateView):
@@ -191,7 +191,7 @@ class BleedingOnePermissionMissingPermissionsView(PermissionRequiredMixin, Templ
 
     permission_required_one = tuple()
 
-    template_name = "one_permission_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/one_permission_required_view.html"
 
 
 class BleedingFullPermissionMissingPermissionsView(PermissionRequiredMixin, TemplateView):
@@ -199,7 +199,7 @@ class BleedingFullPermissionMissingPermissionsView(PermissionRequiredMixin, Temp
 
     permission_required = tuple()
 
-    template_name = "full_permissions_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
 
 
 # endregion Bleeding Class Views
@@ -221,7 +221,7 @@ class StackedPermissionsRequiredView(PermissionRequiredMixin, TemplateView):
     # AND ALSO all of these.
     permission_required = ["auth.add_foo", "auth.change_foo"]
 
-    template_name = "full_permissions_required_view.html"
+    template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
 
 
 # endregion Stacked Class Views
