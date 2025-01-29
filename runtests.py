@@ -171,7 +171,7 @@ def run_tests_with_manage(args, extra_args, script_dir):
     """
 
     # Set environment values.
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tests.django_adminlte2_pdq.testing.settings")
 
     if args.with_coverage:
         # Run manage.py test with coverage.
