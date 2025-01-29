@@ -46,6 +46,8 @@ from .route_and_policy_constants import (
 from .route_and_policy_constants import (
     LOGIN_EXEMPT_WHITELIST,
     STRICT_POLICY_WHITELIST,
+    APP_WIDE_LOGIN_EXEMPT_WHITELIST,
+    APP_WIDE_STRICT_POLICY_WHITELIST,
     LOGIN_REQUIRED,
     STRICT_POLICY,
 )

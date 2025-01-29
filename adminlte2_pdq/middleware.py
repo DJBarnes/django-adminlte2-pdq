@@ -17,12 +17,14 @@ from django.views.generic.base import RedirectView
 from .constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
+    APP_WIDE_LOGIN_EXEMPT_WHITELIST,
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
     STRICT_POLICY,
     STRICT_POLICY_WHITELIST,
+    APP_WIDE_STRICT_POLICY_WHITELIST,
     LOGIN_URL,
     HOME_ROUTE,
     MEDIA_ROUTE,
@@ -681,9 +683,13 @@ class AuthMiddleware:
 
     def is_login_whitelisted(self, view_data):
         """Determines if view is login-whitelisted. Used for login_required mode or strict mode."""
+
         try:
             return bool(
-                view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
+                # In "app-wide" exemption list.
+                view_data["path"].startswith(APP_WIDE_LOGIN_EXEMPT_WHITELIST)
+                # In "standard" exemption list.
+                or view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
                 or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
             )
         except KeyError:
@@ -691,9 +697,13 @@ class AuthMiddleware:
 
     def is_permission_whitelisted(self, view_data):
         """Determines if view is permission-whitelisted. Used for strict mode."""
+
         try:
             return bool(
-                view_data["current_url_name"] in STRICT_POLICY_WHITELIST
+                # In "app-wide" exemption list.
+                view_data["path"].startswith(APP_WIDE_STRICT_POLICY_WHITELIST)
+                # In "standard" exemption list.
+                or view_data["current_url_name"] in STRICT_POLICY_WHITELIST
                 or view_data["fully_qualified_url_name"] in STRICT_POLICY_WHITELIST
             )
         except KeyError:
