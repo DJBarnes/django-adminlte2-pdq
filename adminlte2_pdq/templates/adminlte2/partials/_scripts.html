@@ -2,79 +2,94 @@
 
 
 {% block scripts %}
-  {% get_datetime_widget as DATETIME_WIDGET %}
-  {% get_date_widget as DATE_WIDGET %}
-  {% get_time_widget as TIME_WIDGET %}
 
-  {% if debug %}
+  {% block scripts_widget_loading %}
+    {% get_datetime_widget as DATETIME_WIDGET %}
+    {% get_date_widget as DATE_WIDGET %}
+    {% get_time_widget as TIME_WIDGET %}
+  {% endblock scripts_widget_loading %}
 
-    {% block scripts_debug_jquery %}
-      <!-- jQuery and jQuery UI -->
-      <script src="{% static 'third-party/jquery/2.2.4/jquery.min.js' %}"></script>
-      <script src="{% static 'third-party/jqueryui/1.11.4/jquery-ui.min.js' %}"></script>
-    {% endblock scripts_debug_jquery %}
+  {% block scripts_main %}
 
-    {% block scripts_debug_bootstrap %}
-      <!-- Bootstrap -->
-      <script src="{% static 'third-party/bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
-    {% endblock scripts_debug_bootstrap %}
+    {# if in debug mode, load resources from localhost. Else, load from CDNs #}
+    {% if debug %}
 
-    {% block scripts_debug_adminlte %}
-      <!-- AdminLTE -->
-      <script src="{% static 'third-party/admin-lte/2.3.7/js/app.min.js' %}"></script>
-    {% endblock scripts_debug_adminlte %}
+      {% block scripts_debug %}
+        {% block scripts_debug_jquery %}
+          <!-- jQuery and jQuery UI -->
+          <script src="{% static 'third-party/jquery/2.2.4/jquery.min.js' %}"></script>
+          <script src="{% static 'third-party/jqueryui/1.11.4/jquery-ui.min.js' %}"></script>
+        {% endblock scripts_debug_jquery %}
 
-    {% block scripts_debug_inputmask %}
-      <!-- Inputmask for Phone numbers -->
-      <script src="{% static 'third-party/inputmask/4.0.7/min/jquery.inputmask.bundle.min.js' %}"></script>
-      <script src="{% static 'third-party/inputmask/4.0.7/min/inputmask/bindings/inputmask.binding.min.js' %}"></script>
-    {% endblock scripts_debug_inputmask %}
+        {% block scripts_debug_bootstrap %}
+          <!-- Bootstrap -->
+          <script src="{% static 'third-party/bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
+        {% endblock scripts_debug_bootstrap %}
 
-    {% block scripts_debug_datetime_picker %}
-      <!-- Datetime Widgets -->
-      {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
-        <script src="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.js' %}"></script>
-      {% elif DATE_WIDGET == 'bootstrap' %}
-        <script src="{% static 'third-party/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
-      {% endif %}
-    {% endblock scripts_debug_datetime_picker %}
+        {% block scripts_debug_adminlte %}
+          <!-- AdminLTE -->
+          <script src="{% static 'third-party/admin-lte/2.3.7/js/app.min.js' %}"></script>
+        {% endblock scripts_debug_adminlte %}
 
-  {% else %}
+        {% block scripts_debug_inputmask %}
+          <!-- Inputmask for Phone numbers -->
+          <script src="{% static 'third-party/inputmask/4.0.7/min/jquery.inputmask.bundle.min.js' %}"></script>
+          <script src="{% static 'third-party/inputmask/4.0.7/min/inputmask/bindings/inputmask.binding.min.js' %}"></script>
+        {% endblock scripts_debug_inputmask %}
 
-    {% block scripts_prod_jquery %}
-      <!-- jQuery and jQuery UI -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
-    {% endblock scripts_prod_jquery %}
+        {% block scripts_debug_datetime_picker %}
+          <!-- Datetime Widgets -->
+          {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+            <script src="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.js' %}"></script>
+          {% elif DATE_WIDGET == 'bootstrap' %}
+            <script src="{% static 'third-party/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+          {% endif %}
+        {% endblock scripts_debug_datetime_picker %}
+      {% endblock scripts_debug %}
 
-    {% block scripts_prod_bootstrap %}
-      <!-- Bootstrap -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {% endblock scripts_prod_bootstrap %}
+    {% else %}
 
-    {% block scripts_prod_adminlte %}
-      <!-- AdminLTE -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/js/app.min.js" integrity="sha256-twY1ayIs7adXt9vBEYizRfJ39b731Ar1CnUr7OjzD5o=" crossorigin="anonymous"></script>
-    {% endblock scripts_prod_adminlte %}
+      {% block scripts_prod %}
+        {% block scripts_prod_jquery %}
+          <!-- jQuery and jQuery UI -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
+        {% endblock scripts_prod_jquery %}
 
-    {% block scripts_prod_inputmask %}
-      <!-- Inputmask for Phone numbers -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.7/inputmask/inputmask.min.js" integrity="sha256-cYCBSjEEjcJs7VWMxaqYR/lyi6NflWhI1PWEOKEmU4o=" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.7/inputmask/bindings/inputmask.binding.min.js" integrity="sha256-bAERPQJaJku+Uh8XMM6VsIDxPU5ZgvNQ7L5YxGwuddA=" crossorigin="anonymous"></script>
-    {% endblock scripts_prod_inputmask %}
+        {% block scripts_prod_bootstrap %}
+          <!-- Bootstrap -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        {% endblock scripts_prod_bootstrap %}
 
-    {% block scripts_prod_datetime_picker %}
-      <!-- Datetime Widgets -->
-      {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-      {% elif DATE_WIDGET == 'bootstrap' %}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-      {% endif %}
-    {% endblock scripts_prod_datetime_picker %}
+        {% block scripts_prod_adminlte %}
+          <!-- AdminLTE -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/js/app.min.js" integrity="sha256-twY1ayIs7adXt9vBEYizRfJ39b731Ar1CnUr7OjzD5o=" crossorigin="anonymous"></script>
+        {% endblock scripts_prod_adminlte %}
 
-  {% endif %}
+        {% block scripts_prod_inputmask %}
+          <!-- Inputmask for Phone numbers -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.7/inputmask/inputmask.min.js" integrity="sha256-cYCBSjEEjcJs7VWMxaqYR/lyi6NflWhI1PWEOKEmU4o=" crossorigin="anonymous"></script>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.7/inputmask/bindings/inputmask.binding.min.js" integrity="sha256-bAERPQJaJku+Uh8XMM6VsIDxPU5ZgvNQ7L5YxGwuddA=" crossorigin="anonymous"></script>
+        {% endblock scripts_prod_inputmask %}
 
-  <!-- Package Fixes -->
-  <script src="{% static 'adminlte2_pdq/extra-features/extra-features.js' %}"></script>
-  <script src="{% static 'adminlte2_pdq/extra-features/header-breadcrumb-overlap-fix.js' %}"></script>
+        {% block scripts_prod_datetime_picker %}
+          <!-- Datetime Widgets -->
+          {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          {% elif DATE_WIDGET == 'bootstrap' %}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+          {% endif %}
+        {% endblock scripts_prod_datetime_picker %}
+      {% endblock scripts_prod %}
+
+    {% endif %}
+
+  {% endblock scripts_main %}
+
+  {% block scripts_main_fixes %}
+    {# Package Fixes #}
+    <script src="{% static 'adminlte2_pdq/extra-features/extra-features.js' %}"></script>
+    <script src="{% static 'adminlte2_pdq/extra-features/header-breadcrumb-overlap-fix.js' %}"></script>
+  {% endblock scripts_main_fixes %}
+
 {% endblock scripts %}
