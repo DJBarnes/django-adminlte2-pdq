@@ -17,14 +17,14 @@ from django.views.generic.base import RedirectView
 from .constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
-    APP_WIDE_LOGIN_EXEMPT_WHITELIST,
+    LOGIN_EXEMPT_FUZZY_WHITELIST,
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
     STRICT_POLICY,
     STRICT_POLICY_WHITELIST,
-    APP_WIDE_STRICT_POLICY_WHITELIST,
+    STRICT_POLICY_FUZZY_WHITELIST,
     LOGIN_URL,
     HOME_ROUTE,
     MEDIA_ROUTE,
@@ -687,7 +687,7 @@ class AuthMiddleware:
         try:
             return bool(
                 # In "app-wide" exemption list.
-                view_data["path"].startswith(APP_WIDE_LOGIN_EXEMPT_WHITELIST)
+                view_data["path"].startswith(LOGIN_EXEMPT_FUZZY_WHITELIST)
                 # In "standard" exemption list.
                 or view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
                 or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
@@ -701,7 +701,7 @@ class AuthMiddleware:
         try:
             return bool(
                 # In "app-wide" exemption list.
-                view_data["path"].startswith(APP_WIDE_STRICT_POLICY_WHITELIST)
+                view_data["path"].startswith(STRICT_POLICY_FUZZY_WHITELIST)
                 # In "standard" exemption list.
                 or view_data["current_url_name"] in STRICT_POLICY_WHITELIST
                 or view_data["fully_qualified_url_name"] in STRICT_POLICY_WHITELIST

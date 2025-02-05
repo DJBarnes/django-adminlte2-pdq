@@ -1,8 +1,8 @@
 """
 Project testing views.
 These urls exist to reliably test the two settings:
- * ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST
- * ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST
+ * ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST
+ * ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST
 without having potential side-effects on other existing tests.
 """
 
