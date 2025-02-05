@@ -1,7 +1,7 @@
 """
 Tests for the "app-wide" whitelist settings. Aka:
- * ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST
- * ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST
+ * ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST
+ * ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST
 """
 
 # System Imports.
@@ -32,8 +32,8 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):
     All the work should be done by the whitelists.
     """
 
-    APP_WIDE_LOGIN_WHITELIST_VIEWS = ("/tests-2/",)
-    APP_WIDE_PERM_WHITELIST_VIEWS = ("/tests-2/",)
+    LOGIN_EXEMPT_FUZZY_WHITELIST = ("/tests-2/",)
+    STRICT_POLICY_FUZZY_WHITELIST_VIEWS = ("/tests-2/",)
 
     def test__ensure_views_cannot_be_accessed_without_settings(self):
         """Sanity check tests, to ensure these specific views cannot be accessed by default."""
@@ -77,10 +77,10 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):
                 ],
             )
 
-    @override_settings(ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @override_settings(APP_WIDE_LOGIN_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @override_settings(LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @patch("adminlte2_pdq.constants.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST)
     def test__verify_login_whitelist(self):
         """Tests to verify handling of "app-wide" login whitelist."""
 
@@ -123,10 +123,10 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):
                 ],
             )
 
-    @override_settings(ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @override_settings(APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @override_settings(STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.constants.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
     def test__verify_perm_whitelist(self):
         """Tests to verify handling of "app-wide" perm whitelist.
         In this case, should handle identical to no settings provided.
@@ -172,14 +172,14 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):
                 ],
             )
 
-    @override_settings(ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @override_settings(LOGIN_APP_WIDE_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @override_settings(ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @override_settings(APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @override_settings(LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @override_settings(ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @override_settings(STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.constants.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST)
+    @patch("adminlte2_pdq.constants.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
     def test__verify_both_whitelists(self):
         """Tests to verify handling of combined "app-wide" login and permission whitelists."""
 
@@ -239,8 +239,8 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):
     All the work should be done by the whitelists.
     """
 
-    APP_WIDE_LOGIN_WHITELIST_VIEWS = ("/tests-2/",)
-    APP_WIDE_PERM_WHITELIST_VIEWS = ("/tests-2/",)
+    LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS = ("/tests-2/",)
+    STRICT_POLICY_FUZZY_WHITELIST_VIEWS = ("/tests-2/",)
 
     def test__ensure_views_cannot_be_accessed_without_settings(self):
         """Sanity check tests, to ensure these specific views cannot be accessed by default."""
@@ -287,10 +287,10 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):
                 ],
             )
 
-    @override_settings(ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @override_settings(APP_WIDE_LOGIN_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @override_settings(LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.constants.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
     def test__verify_login_whitelist(self):
         """Tests to verify handling of "app-wide" login whitelist."""
 
@@ -338,10 +338,10 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):
                     ],
                 )
 
-    @override_settings(ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @override_settings(APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @override_settings(STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.constants.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
     def test__verify_perm_whitelist(self):
         """Tests to verify handling of "app-wide" perm whitelist."""
 
@@ -385,14 +385,14 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):
                 ],
             )
 
-    @override_settings(ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @override_settings(LOGIN_APP_WIDE_EXEMPT_WHITELIST=APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @override_settings(ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @override_settings(APP_WIDE_STRICT_POLICY_WHITELIST=APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_LOGIN_EXEMPT_WHITELIST", APP_WIDE_LOGIN_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.constants.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
-    @patch("adminlte2_pdq.middleware.APP_WIDE_STRICT_POLICY_WHITELIST", APP_WIDE_PERM_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @override_settings(LOGIN_EXEMPT_FUZZY_WHITELIST=LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @override_settings(ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @override_settings(STRICT_POLICY_FUZZY_WHITELIST=STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.constants.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.constants.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY_FUZZY_WHITELIST", STRICT_POLICY_FUZZY_WHITELIST_VIEWS)
     def test__verify_both_whitelists(self):
         """Tests to verify handling of combined "app-wide" login and permission whitelists."""
 

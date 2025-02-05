@@ -51,17 +51,17 @@ STRICT_POLICY_WHITELIST += getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST"
 # App-wide whitelists.
 # These take a url base, and whitelist any urls that stem from said base.
 # For example, this is required to make the Django Debug Toolbar function.
-APP_WIDE_LOGIN_EXEMPT_WHITELIST = tuple(
+LOGIN_EXEMPT_FUZZY_WHITELIST = tuple(
     getattr(
         settings,
-        "ADMINLTE2_APP_WIDE_LOGIN_EXEMPT_WHITELIST",
+        "ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST",
         [],
     )
 )
-APP_WIDE_STRICT_POLICY_WHITELIST = tuple(
+STRICT_POLICY_FUZZY_WHITELIST = tuple(
     getattr(
         settings,
-        "ADMINLTE2_APP_WIDE_STRICT_POLICY_WHITELIST",
+        "ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST",
         [],
     )
 )
