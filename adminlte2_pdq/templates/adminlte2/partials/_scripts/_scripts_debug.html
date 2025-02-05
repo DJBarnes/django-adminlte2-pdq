@@ -1,0 +1,36 @@
+{% load adminlte_tags static %}
+
+{% get_datetime_widget as DATETIME_WIDGET %}
+{% get_date_widget as DATE_WIDGET %}
+{% get_time_widget as TIME_WIDGET %}
+
+{% block scripts_debug_jquery %}
+  <!-- jQuery and jQuery UI -->
+  <script src="{% static 'third-party/jquery/2.2.4/jquery.min.js' %}"></script>
+  <script src="{% static 'third-party/jqueryui/1.11.4/jquery-ui.min.js' %}"></script>
+{% endblock scripts_debug_jquery %}
+
+{% block scripts_debug_bootstrap %}
+  <!-- Bootstrap -->
+  <script src="{% static 'third-party/bootstrap/3.3.7/js/bootstrap.min.js' %}"></script>
+{% endblock scripts_debug_bootstrap %}
+
+{% block scripts_debug_adminlte %}
+  <!-- AdminLTE -->
+  <script src="{% static 'third-party/admin-lte/2.3.7/js/app.min.js' %}"></script>
+{% endblock scripts_debug_adminlte %}
+
+{% block scripts_debug_inputmask %}
+  <!-- Inputmask for Phone numbers -->
+  <script src="{% static 'third-party/inputmask/4.0.7/min/jquery.inputmask.bundle.min.js' %}"></script>
+  <script src="{% static 'third-party/inputmask/4.0.7/min/inputmask/bindings/inputmask.binding.min.js' %}"></script>
+{% endblock scripts_debug_inputmask %}
+
+{% block scripts_debug_datetime_picker %}
+  <!-- Datetime Widgets -->
+  {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
+    <script src="{% static 'third-party/jquery-datetime-picker/jquery.datetimepicker.min.js' %}"></script>
+  {% elif DATE_WIDGET == 'bootstrap' %}
+    <script src="{% static 'third-party/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+  {% endif %}
+{% endblock scripts_debug_datetime_picker %}
