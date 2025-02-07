@@ -436,10 +436,10 @@ class AuthMiddleware:
             # Get extra AdminLtePdq data, if available.
             if view_class:
                 # Is class-based view. Get class data dict.
-                pdq_data = getattr(view_class, "admin_pdq_data", {})
+                admin_pdq_data = getattr(view_class, "admin_pdq_data", {})
             else:
                 # Is function-based view. Get function data dict.
-                pdq_data = getattr(resolver.func, "admin_pdq_data", {})
+                admin_pdq_data = getattr(resolver.func, "admin_pdq_data", {})
 
             # Process data.
             if view_class:
@@ -449,11 +449,11 @@ class AuthMiddleware:
                 data_dict["view_perm_type"] = "mixin"
 
                 # Handle for AdminLtePdq-specific attributes.
-                if pdq_data:
-                    data_dict["decorator_name"] = pdq_data.get("decorator_name", "")
-                    data_dict["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", False)
-                    data_dict["login_required"] = pdq_data.get("login_required", False)
-                    data_dict["allow_without_permissions"] = pdq_data.get("allow_without_permissions", False)
+                if admin_pdq_data:
+                    data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
+                    data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
+                    data_dict["login_required"] = admin_pdq_data.get("login_required", False)
+                    data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
 
                     # Because we seem unable to get the "updated" class attributes,
                     # and only have access to the original literal class-level values,
@@ -500,13 +500,13 @@ class AuthMiddleware:
                 data_dict["view_perm_type"] = "decorator"
 
                 # Handle for AdminLtePdq-specific attributes.
-                if pdq_data:
-                    data_dict["decorator_name"] = pdq_data.get("decorator_name", "")
-                    data_dict["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", False)
-                    data_dict["login_required"] = pdq_data.get("login_required", False)
-                    data_dict["allow_without_permissions"] = pdq_data.get("allow_without_permissions", False)
-                    data_dict["one_of_permissions"] = pdq_data.get("one_of_permissions", None)
-                    data_dict["full_permissions"] = pdq_data.get("full_permissions", None)
+                if admin_pdq_data:
+                    data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
+                    data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
+                    data_dict["login_required"] = admin_pdq_data.get("login_required", False)
+                    data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
+                    data_dict["one_of_permissions"] = admin_pdq_data.get("one_of_permissions", None)
+                    data_dict["full_permissions"] = admin_pdq_data.get("full_permissions", None)
 
         except Http404:
             data_dict.update({"resolver": None})

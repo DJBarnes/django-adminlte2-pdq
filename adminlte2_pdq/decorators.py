@@ -72,7 +72,7 @@ def allow_anonymous_access(function=None):
     Also adds the required logic to render the view on the sidebar template.
     """
 
-    pdq_data = {
+    admin_pdq_data = {
         "decorator_name": "allow_anonymous_access",
         "allow_anonymous_access": True,
         "login_required": False,
@@ -83,7 +83,7 @@ def allow_anonymous_access(function=None):
 
     def decorator(function):
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.admin_pdq_data = pdq_data
+        function.admin_pdq_data = admin_pdq_data
 
         @wraps(function)
         def wrap(request, *args, **kwargs):
@@ -92,7 +92,7 @@ def allow_anonymous_access(function=None):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = pdq_data
+            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -124,7 +124,7 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
     * allow_without_permissions
     """
 
-    pdq_data = {
+    admin_pdq_data = {
         "decorator_name": "login_required",
         "allow_anonymous_access": False,
         "login_required": True,
@@ -136,7 +136,7 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
     def decorator(function):
 
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.admin_pdq_data = pdq_data
+        function.admin_pdq_data = admin_pdq_data
 
         @wraps(function)
         @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
@@ -146,7 +146,7 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = pdq_data
+            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -163,7 +163,7 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
     Also adds the required logic to render the view on the sidebar template.
     """
 
-    pdq_data = {
+    admin_pdq_data = {
         "decorator_name": "allow_without_permissions",
         "allow_anonymous_access": False,
         "login_required": True,
@@ -174,7 +174,7 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
 
     def decorator(function):
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.admin_pdq_data = pdq_data
+        function.admin_pdq_data = admin_pdq_data
 
         @wraps(function)
         @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
@@ -184,7 +184,7 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = pdq_data
+            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -212,7 +212,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
 
-    pdq_data = {
+    admin_pdq_data = {
         "decorator_name": "permission_required",
         "allow_anonymous_access": False,
         "login_required": True,
@@ -224,7 +224,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
     def decorator(function):
 
         # Save values to view fetch function for middleware handling +  potential debugging.
-        function.admin_pdq_data = pdq_data
+        function.admin_pdq_data = admin_pdq_data
 
         @wraps(function)
         @_one_of_permission_required(permission, login_url, raise_exception)
@@ -234,7 +234,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = pdq_data
+            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -260,7 +260,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
 
-    pdq_data = {
+    admin_pdq_data = {
         "decorator_name": "permission_required",
         "allow_anonymous_access": False,
         "login_required": True,
@@ -272,7 +272,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
     def decorator(function):
 
         # Save values to view fetch function for middleware handling + potential debugging.
-        function.admin_pdq_data = pdq_data
+        function.admin_pdq_data = admin_pdq_data
 
         @wraps(function)
         @django_permission_required(permission, login_url, raise_exception)
@@ -282,7 +282,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
             function_view = function(request, *args, **kwargs)
 
             # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = pdq_data
+            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 

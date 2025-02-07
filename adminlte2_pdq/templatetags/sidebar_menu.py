@@ -223,16 +223,16 @@ def get_permissions_from_view(view):
     view_data = {}
     view_class = getattr(view.func, "view_class", None)
     if view_class:
-        pdq_data = getattr(view_class, "admin_pdq_data", {})
+        admin_pdq_data = getattr(view_class, "admin_pdq_data", {})
     else:
-        pdq_data = getattr(view.func, "admin_pdq_data", {})
+        admin_pdq_data = getattr(view.func, "admin_pdq_data", {})
 
-    view_data["decorator_name"] = pdq_data.get("decorator_name", "")
-    view_data["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", None)
-    view_data["login_required"] = pdq_data.get("login_required", None)
-    view_data["allow_without_permissions"] = pdq_data.get("allow_without_permissions", None)
-    view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
-    view_data["full_permissions"] = pdq_data.get("full_permissions", [])
+    view_data["decorator_name"] = admin_pdq_data.get("decorator_name", "")
+    view_data["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", None)
+    view_data["login_required"] = admin_pdq_data.get("login_required", None)
+    view_data["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", None)
+    view_data["one_of_permissions"] = admin_pdq_data.get("one_of_permissions", [])
+    view_data["full_permissions"] = admin_pdq_data.get("full_permissions", [])
 
     return view_data
 
