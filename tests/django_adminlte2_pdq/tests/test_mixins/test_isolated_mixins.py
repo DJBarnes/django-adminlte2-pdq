@@ -76,7 +76,7 @@ class TestIsolatedMixins(TestCase):
 
     # region Allow Anonymous Tests
 
-    def test__allow_anonymous_mixin__allows_authenticated_access(self):
+    def test__allow_anonymous_access_mixin__allows_authenticated_access(self):
         """Without middleware, this is effectively identical to no authentication mixins."""
 
         class TestView(AllowAnonymousAccessMixin, View):

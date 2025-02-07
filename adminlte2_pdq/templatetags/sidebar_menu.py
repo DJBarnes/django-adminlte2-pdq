@@ -228,7 +228,7 @@ def get_permissions_from_view(view):
         pdq_data = getattr(view.func, "admin_pdq_data", {})
 
     view_data["decorator_name"] = pdq_data.get("decorator_name", "")
-    view_data["allow_anonymous"] = pdq_data.get("allow_anonymous", None)
+    view_data["allow_anonymous_access"] = pdq_data.get("allow_anonymous_access", None)
     view_data["login_required"] = pdq_data.get("login_required", None)
     view_data["allow_without_permissions"] = pdq_data.get("allow_without_permissions", None)
     view_data["one_of_permissions"] = pdq_data.get("one_of_permissions", [])
@@ -258,7 +258,7 @@ def get_permissions_from_node(node):
     )
 
     # Get permissions and login_required defined directly on the node.
-    node_allow_anonymous = node.get("allow_anonymous", None)
+    node_allow_anonymous_access = node.get("allow_anonymous_access", None)
     node_login_required = node.get("login_required", None)
     node_allow_without_permissions = node.get("allow_without_permissions", None)
     node_one_of_permissions = node.get("one_of_permissions", None)
@@ -273,7 +273,7 @@ def get_permissions_from_node(node):
     # Raise errors for configurations that don't make sense for node level.
     # Note: one_of_permission and full_permissions can be set at the same time.
     #   In which case they overlap. So requires all of one permission set, plus at least one of a second set.
-    if node_allow_anonymous and node_login_required:
+    if node_allow_anonymous_access and node_login_required:
         # Setting conflicting login_required states.
         raise ImproperlyConfigured(err_str__anonymous_and_login_required)
     if (
@@ -285,7 +285,7 @@ def get_permissions_from_node(node):
         raise ImproperlyConfigured(err_str__without_perms_and_perms_required)
     if (
         # So black doesn't one-line this.
-        node_allow_anonymous
+        node_allow_anonymous_access
         and (node_one_of_permissions or node_full_permissions)
     ):
         # Can't have anonymous and permission requirements.
@@ -296,14 +296,14 @@ def get_permissions_from_node(node):
     # an admin page link. If additional permission values are added, they MUST
     # also be added here and then defined on the default node in admin_menu.py.
     if (
-        node_allow_anonymous is not None
+        node_allow_anonymous_access is not None
         and node_login_required is not None
         and node_allow_without_permissions is not None
         and node_one_of_permissions is not None
         and node_full_permissions is not None
     ):
         return {
-            "allow_anonymous": node_allow_anonymous,
+            "allow_anonymous_access": node_allow_anonymous_access,
             "login_required": node_login_required,
             "allow_without_permissions": node_allow_without_permissions,
             "one_of_permissions": node_one_of_permissions,
@@ -313,7 +313,7 @@ def get_permissions_from_node(node):
         }
 
     # Default our values to None.
-    view_allow_anonymous = None
+    view_allow_anonymous_access = None
     view_login_required = None
     view_allow_without_permissions = None
     view_one_of_permissions = None
@@ -325,7 +325,7 @@ def get_permissions_from_node(node):
     # If there is a view, use it to get the view permissions and login_required.
     if view:
         view_data = get_permissions_from_view(view)
-        view_allow_anonymous = view_data["allow_anonymous"]
+        view_allow_anonymous_access = view_data["allow_anonymous_access"]
         view_login_required = view_data["login_required"]
         view_allow_without_permissions = view_data["allow_without_permissions"]
         view_one_of_permissions = view_data["one_of_permissions"]
@@ -339,7 +339,7 @@ def get_permissions_from_node(node):
 
     # Raise errors for configurations that don't make sense for view level.
     # Should handle effectively the same as above node error checks. Just at the view level.
-    if view_allow_anonymous and view_login_required:
+    if view_allow_anonymous_access and view_login_required:
         # Setting conflicting login_required states.
         raise ImproperlyConfigured(err_str__anonymous_and_login_required)
     if (
@@ -351,7 +351,7 @@ def get_permissions_from_node(node):
         raise ImproperlyConfigured(err_str__without_perms_and_perms_required)
     if (
         # So black doesn't one-line this.
-        view_allow_anonymous
+        view_allow_anonymous_access
         and (view_one_of_permissions or view_full_permissions)
     ):
         # Can't have anonymous and permission requirements.
@@ -368,18 +368,18 @@ def get_permissions_from_node(node):
     #   assumptions to help guide permission logic.
 
     # Check if node allows anonymous.
-    allow_anonymous = node_allow_anonymous
-    if allow_anonymous is None and not bool(node_login_required):
+    allow_anonymous_access = node_allow_anonymous_access
+    if allow_anonymous_access is None and not bool(node_login_required):
         # Fall back to view value, as long as node login_required is not also set.
-        allow_anonymous = view_allow_anonymous
+        allow_anonymous_access = view_allow_anonymous_access
 
     # Check if node requires login.
     login_required = node_login_required
-    if login_required is None and not bool(node_allow_anonymous):
-        # Fall back to view value, as long as node allow_anonymous is not also set.
+    if login_required is None and not bool(node_allow_anonymous_access):
+        # Fall back to view value, as long as node allow_anonymous_access is not also set.
         login_required = view_login_required
-    if login_required is None and not bool(node_allow_anonymous):
-        # Fall back to settings values, as long as node allow_anonymous is not also set.
+    if login_required is None and not bool(node_allow_anonymous_access):
+        # Fall back to settings values, as long as node allow_anonymous_access is not also set.
         # If either of these are set, then login should be required.
         login_required = STRICT_POLICY or LOGIN_REQUIRED
 
@@ -403,7 +403,7 @@ def get_permissions_from_node(node):
 
     # Return calculated values.
     return {
-        "allow_anonymous": allow_anonymous,
+        "allow_anonymous_access": allow_anonymous_access,
         "login_required": login_required,
         "allow_without_permissions": allow_without_permissions,
         "one_of_permissions": one_of_permissions,
@@ -438,7 +438,7 @@ def is_allowed_node(user, node):
 
     # Get the permission/access values from the node or node's view.
     return_data = get_permissions_from_node(node)
-    allow_anonymous = return_data["allow_anonymous"]
+    allow_anonymous_access = return_data["allow_anonymous_access"]
     login_required = return_data["login_required"]
     allow_without_permissions = return_data["allow_without_permissions"]
     one_of_permissions = return_data["one_of_permissions"]
@@ -447,7 +447,7 @@ def is_allowed_node(user, node):
     node_requires_permissions = return_data["node_requires_permissions"]
 
     # If node allows anonymous, then anyone can access, regardless of any other settings.
-    if allow_anonymous:
+    if allow_anonymous_access:
         passes_login_check = True
         passes_permission_check = True
     # If the node requires being logged in, or the login required middleware is active.

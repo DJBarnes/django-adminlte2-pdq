@@ -562,7 +562,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                         expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                         expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
                         expected_messages=[
-                            self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                            self.pdq_login__allow_anonymous_access_whitelist_overlap_message,
                             self.pdq_strict__ineffective_login_whitelist_message__anonymous_access,
                         ],
                     )
@@ -571,7 +571,7 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
                 actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
                 # Define expected warnings that should have occurred.
                 expected_warns = {
-                    (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                    (RuntimeWarning, self.pdq_login__allow_anonymous_access_whitelist_overlap_message),
                     (RuntimeWarning, self.pdq_strict__ineffective_login_whitelist_message__anonymous_access),
                 }
                 # Assert warnings match.
@@ -1145,7 +1145,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
                         expected_title="Allow Anonymous Access View | Django AdminLtePdq Testing",
                         expected_header="Django AdminLtePdq | Allow Anonymous Access View Header",
                         expected_messages=[
-                            self.pdq_login__allow_anonymous_whitelist_overlap_message,
+                            self.pdq_login__allow_anonymous_access_whitelist_overlap_message,
                         ],
                     )
 
@@ -1153,7 +1153,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
                 actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
                 # Define expected warnings that should have occurred.
                 expected_warns = {
-                    (RuntimeWarning, self.pdq_login__allow_anonymous_whitelist_overlap_message),
+                    (RuntimeWarning, self.pdq_login__allow_anonymous_access_whitelist_overlap_message),
                 }
                 # Assert warnings match.
                 self.assertEqual(expected_warns, actual_warns)
