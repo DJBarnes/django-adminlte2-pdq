@@ -244,7 +244,7 @@ class StrictModeMixin:
                         "Inventory",
                         "Downloads",
                     ],
-                    expected_messges=[
+                    expected_messages=[
                         self.pdq__user_failed_perm_check.format(view_name="one_permission_required_view"),
                     ],
                 )
@@ -333,7 +333,7 @@ class StrictModeMixin:
                         "Inventory",
                         "Downloads",
                     ],
-                    expected_messges=[
+                    expected_messages=[
                         self.pdq__user_failed_perm_check.format(view_name="full_permissions_required_view"),
                     ],
                 )
