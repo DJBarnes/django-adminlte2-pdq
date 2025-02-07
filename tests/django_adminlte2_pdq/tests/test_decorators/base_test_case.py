@@ -66,7 +66,7 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "AdminLtePdq Error: The 'allow_without_permissions' decorator is not supported in AdminLtePdq "
         "LOGIN REQUIRED mode. This decorator only exists for clarity of permission access in STRICT mode."
     )
-    pdq_login__allow_anonymous_whitelist_overlap_message = (
+    pdq_login__allow_anonymous_access_whitelist_overlap_message = (
         "AdminLtePdq Warning: The function-based view 'allow_anonymous_access_view' has an 'allow_anonymous_access' "
         "decorator, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
         "achieve the same functionality."

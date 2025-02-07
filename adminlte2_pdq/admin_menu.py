@@ -76,7 +76,7 @@ class _AdminMenu:
                             "url": url,
                             "text": model_name,
                             "icon": model_icon,
-                            "allow_anonymous": False,
+                            "allow_anonymous_access": False,
                             "login_required": True,
                             "allow_without_permissions": False,
                             "one_of_permissions": model_perms,

@@ -220,14 +220,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Route was hash so should get empty lists.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -246,14 +246,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -270,14 +270,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -293,14 +293,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -317,14 +317,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -341,14 +341,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -366,14 +366,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -390,14 +390,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -416,14 +416,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -440,14 +440,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual(node["one_of_permissions"], one_of_permissions)
@@ -463,14 +463,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertIn("auth.add_permission", one_of_permissions)
@@ -487,14 +487,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -511,14 +511,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertIn("auth.add_permission", one_of_permissions)
@@ -536,14 +536,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual(node["one_of_permissions"], one_of_permissions)
@@ -560,14 +560,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -586,14 +586,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual((node["one_of_permissions"],), one_of_permissions)
@@ -612,14 +612,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -636,14 +636,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -659,14 +659,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -683,14 +683,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -707,14 +707,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertTrue(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -732,14 +732,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -756,14 +756,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -782,14 +782,14 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
             # Call function to test.
             return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous = return_data["allow_anonymous"]
+            allow_anonymous_access = return_data["allow_anonymous_access"]
             login_required = return_data["login_required"]
             allow_without_permissions = return_data["allow_without_permissions"]
             one_of_permissions = return_data["one_of_permissions"]
             full_permissions = return_data["full_permissions"]
 
             # Verify returned data.
-            self.assertFalse(allow_anonymous)
+            self.assertFalse(allow_anonymous_access)
             self.assertFalse(login_required)
             self.assertFalse(allow_without_permissions)
             self.assertEqual([], one_of_permissions)
@@ -1962,7 +1962,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             allowed = sidebar_menu.is_allowed_node(self.super_user, node)
             self.assertTrue(allowed)
 
-    def test__standard__node_allow_anonymous(self):
+    def test__standard__node_allow_anonymous_access(self):
         """"""
 
         # Node used for all subtests.
@@ -2454,7 +2454,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             self.assertTrue(allowed)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
-    def test__login_required__no_whitelists__node_allow_anonymous(self):
+    def test__login_required__no_whitelists__node_allow_anonymous_access(self):
         """"""
 
         # Node used for all subtests.
@@ -2462,11 +2462,11 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             "route": "adminlte2_pdq:demo-css",
             "text": "Demo CSS",
             "icon": "fa fa-file",
-            "allow_anonymous": True,
+            "allow_anonymous_access": True,
         }
 
         with self.subTest("As anonymous user"):
-            # Note: See above note for allow_anonymous test with anonymous user.
+            # Note: See above note for allow_anonymous_access test with anonymous user.
 
             # Get user to run subtest on.
             self._setup_anonymous_user()
@@ -2952,7 +2952,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
-    def test__login_required__with_login_whitelist__node_allow_anonymous(self):
+    def test__login_required__with_login_whitelist__node_allow_anonymous_access(self):
         """"""
 
         # Node used for all subtests.
@@ -2960,11 +2960,11 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             "route": "adminlte2_pdq:demo-css",
             "text": "Demo CSS",
             "icon": "fa fa-file",
-            "allow_anonymous": True,
+            "allow_anonymous_access": True,
         }
 
         with self.subTest("As anonymous user"):
-            # Note: See above note for allow_anonymous test with anonymous user.
+            # Note: See above note for allow_anonymous_access test with anonymous user.
 
             # Get user to run subtest on.
             self._setup_anonymous_user()
@@ -3449,7 +3449,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    def test__strict__no_whitelists__node_allow_anonymous(self):
+    def test__strict__no_whitelists__node_allow_anonymous_access(self):
         """"""
 
         # Node used for all subtests.
@@ -3457,7 +3457,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             "route": "adminlte2_pdq:demo-css",
             "text": "Demo CSS",
             "icon": "fa fa-file",
-            "allow_anonymous": True,
+            "allow_anonymous_access": True,
         }
 
         with self.subTest("As anonymous user"):
@@ -3958,7 +3958,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     # @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     # @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     # @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
-    # def test__strict__with_login_whitelist__node_allow_anonymous(self):
+    # def test__strict__with_login_whitelist__node_allow_anonymous_access(self):
     #     """"""
     #
     #     # Node used for all subtests.
@@ -3966,7 +3966,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #         "route": "adminlte2_pdq:demo-css",
     #         "text": "Demo CSS",
     #         "icon": "fa fa-file",
-    #         "allow_anonymous": True,
+    #         "allow_anonymous_access": True,
     #     }
     #
     #     with self.subTest("As anonymous user"):
@@ -4465,7 +4465,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
-    def test__strict__with_permission_whitelist__node_allow_anonymous(self):
+    def test__strict__with_permission_whitelist__node_allow_anonymous_access(self):
         """"""
 
         # Node used for all subtests.
@@ -4473,7 +4473,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             "route": "adminlte2_pdq:demo-css",
             "text": "Demo CSS",
             "icon": "fa fa-file",
-            "allow_anonymous": True,
+            "allow_anonymous_access": True,
         }
 
         with self.subTest("As anonymous user"):
@@ -4974,7 +4974,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
-    def test__strict__with_both_whitelists__node_allow_anonymous(self):
+    def test__strict__with_both_whitelists__node_allow_anonymous_access(self):
         """"""
 
         # Node used for all subtests.
@@ -4982,7 +4982,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             "route": "adminlte2_pdq:demo-css",
             "text": "Demo CSS",
             "icon": "fa fa-file",
-            "allow_anonymous": True,
+            "allow_anonymous_access": True,
         }
 
         with self.subTest("As anonymous user"):

@@ -66,7 +66,7 @@ class BaseMixinTextCase(IntegrationTestCase):
         "LOOSE mode. This mixin only exists for clarity of permission access in STRICT mode."
     )
 
-    pdq_login__allow_anonymous_whitelist_overlap_message = (
+    pdq_login__allow_anonymous_access_whitelist_overlap_message = (
         "AdminLtePdq Warning: The class-based view 'AllowAnonymousAccessView' has an 'AllowAnonymousAccess' "
         "mixin, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
         "achieve the same functionality."
