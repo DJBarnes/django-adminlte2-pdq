@@ -222,17 +222,30 @@ def get_permissions_from_view(view):
 
     view_data = {}
     view_class = getattr(view.func, "view_class", None)
+
+    # Get extra AdminLtePdq data, if available.
     if view_class:
+        # Is class-based view.
+
+        # Get AdminLte class data dict.
         admin_pdq_data = getattr(view_class, "admin_pdq_data", {})
+
+        permission_required_one_value = getattr(view_class, "permission_required_one", None)
+        permission_required_value = getattr(view_class, "permission_required", None)
+
     else:
+        # Is function-based view. Get AdminLte function data dict.
         admin_pdq_data = getattr(view.func, "admin_pdq_data", {})
+
+        permission_required_one_value = getattr(view.func, "permission_required_one", None)
+        permission_required_value = getattr(view.func, "permission_required", None)
 
     view_data["decorator_name"] = admin_pdq_data.get("decorator_name", "")
     view_data["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", None)
     view_data["login_required"] = admin_pdq_data.get("login_required", None)
     view_data["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", None)
-    view_data["one_of_permissions"] = admin_pdq_data.get("one_of_permissions", [])
-    view_data["full_permissions"] = admin_pdq_data.get("full_permissions", [])
+    view_data["one_of_permissions"] = permission_required_one_value
+    view_data["full_permissions"] = permission_required_value
 
     return view_data
 
@@ -421,9 +434,6 @@ def is_allowed_node(user, node):
 
     Values to check against are generally determined by the get_permissions_from_node function.
     If conflicting values are provided, the most strict interpretation is used.
-
-    # TODO: To be honest, probably need the "bleeding"/"overlapping" decorator and mixin tests to be established first,
-    #   to really make sure this logic is correct.
     """
 
     # Always allow superuser.
@@ -438,6 +448,7 @@ def is_allowed_node(user, node):
 
     # Get the permission/access values from the node or node's view.
     return_data = get_permissions_from_node(node)
+
     allow_anonymous_access = return_data["allow_anonymous_access"]
     login_required = return_data["login_required"]
     allow_without_permissions = return_data["allow_without_permissions"]
@@ -450,6 +461,7 @@ def is_allowed_node(user, node):
     if allow_anonymous_access:
         passes_login_check = True
         passes_permission_check = True
+
     # If the node requires being logged in, or the login required middleware is active.
     elif login_required or LOGIN_REQUIRED:
         # Some iteration of login is required.
@@ -459,9 +471,11 @@ def is_allowed_node(user, node):
     # If node allows without permissions, then all users pass permission checks.
     if allow_without_permissions:
         passes_permission_check = True
+
     # Check if view is in permission whitelist, so long as node doesn't specify permissions required.
     elif not node_requires_permissions and check_for_strict_whitelisted_node(node):
         passes_permission_check = True
+
     # Otherwise if any permission values exist, user needs to pass a permission check.
     elif one_of_permissions or full_permissions:
 

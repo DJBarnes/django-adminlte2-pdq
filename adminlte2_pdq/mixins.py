@@ -25,8 +25,6 @@ class AllowAnonymousAccessMixin:
         "allow_anonymous_access": True,
         "login_required": False,
         "allow_without_permissions": False,
-        "one_of_permissions": None,
-        "full_permissions": None,
     }
 
     subclasses = []
@@ -49,8 +47,6 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": False,
-        "one_of_permissions": None,
-        "full_permissions": None,
     }
 
     subclasses = []
@@ -76,8 +72,6 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": True,
-        "one_of_permissions": None,
-        "full_permissions": None,
     }
 
     subclasses = []
@@ -104,8 +98,6 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": False,
-        "one_of_permissions": permission_required_one,
-        "full_permissions": permission_required,
     }
 
     subclasses = []

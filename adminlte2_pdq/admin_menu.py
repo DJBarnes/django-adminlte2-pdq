@@ -21,25 +21,21 @@ class _AdminMenu:
         self.app_icons = {}
 
     def create_menu(self, context):
-        """Create Menu"""
+        """Create menu"""
 
         app_list = []
-
         all_admin_perms = []
 
         request = context["request"]
-
         if not context.get("available_apps"):
             context["available_apps"] = site.get_app_list(request)
 
         for app in context["available_apps"]:
 
             model_nodes = []
-
             for model in app["models"]:
 
                 if context["user"].is_staff or context["user"].is_superuser:
-
                     # Initialize to none. If the user has a valid url endpoint they
                     # can access from permissions, the url will get a value.
                     url = None
@@ -86,9 +82,7 @@ class _AdminMenu:
                         model_nodes.append(model_node)
 
             if model_nodes:
-
                 app_name = app["name"]
-
                 app_icon = self.get_app_icon(app_name)
 
                 tree = {
