@@ -107,17 +107,20 @@ class TemplateTagSidebarMenuBaseTestCase(TestCase):
         """Set up anonymous user"""
         self.anonymous_user = AnonymousUser()
 
-    def _setup_user(self, permissions=None):
+    def _setup_user(self, permissions=None, groups=None):
         """Set up basic user"""
 
         # Remove user if already exists.
+        # Ensures no potential overlap between subtests.
         if self.user:
             self.user.delete()
 
+        # Create basic user.
         self.user = UserModel()
         self.user.username = "test_user"
         self.user.save()
 
+        # Handle if perms provided.
         if permissions:
             if isinstance(permissions, str):
                 permissions = [permissions]
@@ -126,19 +129,34 @@ class TemplateTagSidebarMenuBaseTestCase(TestCase):
                     codename__exact=permission,
                 ).first()
                 self.user.user_permissions.add(perm_object)
+                self.user.save()
 
-    def _setup_staff_user(self, permissions=None):
+        # Handle if groups provided.
+        if groups:
+            if isinstance(groups, str):
+                groups = [groups]
+            for group in groups:
+                group_object = Group.objects.filter(
+                    name=group,
+                ).first()
+                self.user.groups.add(group_object)
+                self.user.save()
+
+    def _setup_staff_user(self, permissions=None, groups=None):
         """Set up Staff user"""
 
         # Remove user if already exists.
+        # Ensures no potential overlap between subtests.
         if self.staff_user:
             self.staff_user.delete()
 
+        # Create basic staff user.
         self.staff_user = UserModel()
         self.staff_user.username = "test_staff_user"
         self.staff_user.is_staff = True
         self.staff_user.save()
 
+        # Handle if perms provided.
         if permissions:
             if isinstance(permissions, str):
                 permissions = [permissions]
@@ -147,9 +165,23 @@ class TemplateTagSidebarMenuBaseTestCase(TestCase):
                     codename__exact=permission,
                 ).first()
                 self.staff_user.user_permissions.add(perm_object)
+                self.staff_user.save()
+
+        # Handle if groups provided.
+        if groups:
+            if isinstance(groups, str):
+                groups = [groups]
+            for group in groups:
+                group_object = Group.objects.filter(
+                    name=group,
+                ).first()
+                self.staff_user.groups.add(group_object)
+                self.staff_user.save()
 
     def _setup_super_user(self):
         """Set up Superuser"""
+
+        # Create basic superuser.
         self.super_user = UserModel()
         self.super_user.username = "test_super_user"
         self.super_user.is_superuser = True
@@ -1883,7 +1915,9 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     # region Loose Mode, Standard Settings
 
     def test__standard__node_minimal(self):
-        """"""
+        """Tests for node with no auth requirements defined on a basic no-auth view.
+        Aka, the "standard" case.
+        """
 
         # Node used for all subtests.
         node = {
@@ -1910,7 +1944,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -1918,7 +1952,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -1934,7 +1968,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -1942,7 +1976,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -1991,7 +2025,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -1999,7 +2033,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2015,7 +2049,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2023,7 +2057,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2071,7 +2105,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2079,7 +2113,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2095,7 +2129,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2103,7 +2137,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2155,7 +2189,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2163,7 +2197,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2179,7 +2213,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2187,7 +2221,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2235,7 +2269,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2243,7 +2277,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2259,7 +2293,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2267,7 +2301,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2316,7 +2350,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2324,7 +2358,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2340,7 +2374,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2348,7 +2382,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2401,7 +2435,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2409,7 +2443,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2425,7 +2459,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2433,7 +2467,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2485,7 +2519,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2493,7 +2527,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2509,7 +2543,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2517,7 +2551,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2567,7 +2601,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2575,7 +2609,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2591,7 +2625,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2599,7 +2633,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2649,7 +2683,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2657,7 +2691,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2673,7 +2707,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2681,7 +2715,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2731,7 +2765,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2739,7 +2773,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2755,7 +2789,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2763,7 +2797,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2813,7 +2847,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2821,7 +2855,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2837,7 +2871,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2845,7 +2879,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2899,7 +2933,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2907,7 +2941,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2923,7 +2957,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2931,7 +2965,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -2983,7 +3017,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -2991,7 +3025,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3007,7 +3041,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3015,7 +3049,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3065,7 +3099,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3073,7 +3107,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3089,7 +3123,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3097,7 +3131,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3146,7 +3180,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3154,7 +3188,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3170,7 +3204,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3178,7 +3212,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3227,7 +3261,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3235,7 +3269,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3251,7 +3285,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3259,7 +3293,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3310,7 +3344,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3318,7 +3352,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3334,7 +3368,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3342,7 +3376,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3396,7 +3430,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3404,7 +3438,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3420,7 +3454,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3428,7 +3462,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3478,7 +3512,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3486,7 +3520,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3502,7 +3536,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3510,7 +3544,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3560,7 +3594,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3568,7 +3602,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3584,7 +3618,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3592,7 +3626,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3643,7 +3677,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3651,7 +3685,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3667,7 +3701,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3675,7 +3709,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3726,7 +3760,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3734,7 +3768,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3750,7 +3784,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3758,7 +3792,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3809,7 +3843,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3817,7 +3851,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3833,7 +3867,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3841,7 +3875,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3903,7 +3937,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo"])
+    #         self._setup_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3911,7 +3945,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo", "change_foo"])
+    #         self._setup_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3927,7 +3961,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo"])
+    #         self._setup_staff_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3935,7 +3969,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo", "change_foo"])
+    #         self._setup_staff_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -3987,7 +4021,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo"])
+    #         self._setup_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -3995,7 +4029,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo", "change_foo"])
+    #         self._setup_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4011,7 +4045,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo"])
+    #         self._setup_staff_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4019,7 +4053,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo", "change_foo"])
+    #         self._setup_staff_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4071,7 +4105,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo"])
+    #         self._setup_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4079,7 +4113,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo", "change_foo"])
+    #         self._setup_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4095,7 +4129,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo"])
+    #         self._setup_staff_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4103,7 +4137,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo", "change_foo"])
+    #         self._setup_staff_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4155,7 +4189,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo"])
+    #         self._setup_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4163,7 +4197,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo", "change_foo"])
+    #         self._setup_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4179,7 +4213,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo"])
+    #         self._setup_staff_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4187,7 +4221,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo", "change_foo"])
+    #         self._setup_staff_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4239,7 +4273,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo"])
+    #         self._setup_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4247,7 +4281,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo", "change_foo"])
+    #         self._setup_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4263,7 +4297,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo"])
+    #         self._setup_staff_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4271,7 +4305,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo", "change_foo"])
+    #         self._setup_staff_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4323,7 +4357,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo"])
+    #         self._setup_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4331,7 +4365,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_user(["add_foo", "change_foo"])
+    #         self._setup_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4347,7 +4381,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with partial permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo"])
+    #         self._setup_staff_user(permissions=["add_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4355,7 +4389,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     #
     #     with self.subTest("As staff user with full permissions"):
     #         # Get user to run subtest on.
-    #         self._setup_staff_user(["add_foo", "change_foo"])
+    #         self._setup_staff_user(permissions=["add_foo", "change_foo"])
     #
     #         # Test sidebar logic.
     #         allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4410,7 +4444,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4418,7 +4452,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4434,7 +4468,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4442,7 +4476,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4494,7 +4528,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4502,7 +4536,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4518,7 +4552,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4526,7 +4560,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4578,7 +4612,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4586,7 +4620,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4602,7 +4636,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4610,7 +4644,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4662,7 +4696,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4670,7 +4704,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4686,7 +4720,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4694,7 +4728,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4746,7 +4780,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4754,7 +4788,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4770,7 +4804,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4778,7 +4812,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4830,7 +4864,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4838,7 +4872,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4854,7 +4888,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4862,7 +4896,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4910,7 +4944,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with no permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4918,7 +4952,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4926,7 +4960,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -4942,7 +4976,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4950,7 +4984,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -4995,7 +5029,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with no permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5003,7 +5037,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5011,7 +5045,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5027,7 +5061,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5035,7 +5069,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5088,7 +5122,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5096,7 +5130,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5112,7 +5146,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5120,7 +5154,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5173,7 +5207,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5181,7 +5215,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5197,7 +5231,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5205,7 +5239,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5258,7 +5292,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5266,7 +5300,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5282,7 +5316,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5290,7 +5324,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5343,7 +5377,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo"])
+            self._setup_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5351,7 +5385,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As user with full permissions"):
             # Get user to run subtest on.
-            self._setup_user(["add_foo", "change_foo"])
+            self._setup_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.user, node)
@@ -5367,7 +5401,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with partial permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo"])
+            self._setup_staff_user(permissions=["add_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)
@@ -5375,7 +5409,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
         with self.subTest("As staff user with full permissions"):
             # Get user to run subtest on.
-            self._setup_staff_user(["add_foo", "change_foo"])
+            self._setup_staff_user(permissions=["add_foo", "change_foo"])
 
             # Test sidebar logic.
             allowed = sidebar_menu.is_allowed_node(self.staff_user, node)

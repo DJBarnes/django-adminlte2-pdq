@@ -435,10 +435,12 @@ class AuthMiddleware:
 
             # Get extra AdminLtePdq data, if available.
             if view_class:
-                # Is class-based view. Get class data dict.
+                # Is class-based view.
+
+                # Get AdminLte class data dict.
                 admin_pdq_data = getattr(view_class, "admin_pdq_data", {})
             else:
-                # Is function-based view. Get function data dict.
+                # Is function-based view. Get AdminLte function data dict.
                 admin_pdq_data = getattr(resolver.func, "admin_pdq_data", {})
 
             # Process data.
@@ -505,10 +507,15 @@ class AuthMiddleware:
                     data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
                     data_dict["login_required"] = admin_pdq_data.get("login_required", False)
                     data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
-                    data_dict["one_of_permissions"] = admin_pdq_data.get("one_of_permissions", None)
-                    data_dict["full_permissions"] = admin_pdq_data.get("full_permissions", None)
+
+                    permission_required_one_value = getattr(resolver.func, "permission_required_one", None)
+                    permission_required_value = getattr(resolver.func, "permission_required", None)
+
+                    data_dict["one_of_permissions"] = permission_required_one_value
+                    data_dict["full_permissions"] = permission_required_value
 
         except Http404:
+            # Request was 404, not valid page.
             data_dict.update({"resolver": None})
 
         # Return parsed data.

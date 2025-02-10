@@ -77,8 +77,6 @@ def allow_anonymous_access(function=None):
         "allow_anonymous_access": True,
         "login_required": False,
         "allow_without_permissions": False,
-        "one_of_permissions": None,
-        "full_permissions": None,
     }
 
     def decorator(function):
@@ -90,9 +88,6 @@ def allow_anonymous_access(function=None):
 
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
-
-            # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -129,8 +124,6 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": False,
-        "one_of_permissions": None,
-        "full_permissions": None,
     }
 
     def decorator(function):
@@ -144,9 +137,6 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
 
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
-
-            # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -168,8 +158,6 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": True,
-        "one_of_permissions": None,
-        "full_permissions": None,
     }
 
     def decorator(function):
@@ -182,9 +170,6 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
 
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
-
-            # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -217,14 +202,14 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": False,
-        "one_of_permissions": permissions,
-        "full_permissions": None,
     }
 
     def decorator(function):
 
         # Save values to view fetch function for middleware handling +  potential debugging.
         function.admin_pdq_data = admin_pdq_data
+        function.permission_required_one = permissions  # Must have one, if any.
+        function.permission_required = None  # Must have all, if any. Same as Django.
 
         @wraps(function)
         @_one_of_permission_required(permission, login_url, raise_exception)
@@ -232,9 +217,6 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
-
-            # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 
@@ -265,14 +247,14 @@ def permission_required(permission, login_url=None, raise_exception=False):
         "allow_anonymous_access": False,
         "login_required": True,
         "allow_without_permissions": False,
-        "one_of_permissions": None,
-        "full_permissions": permissions,
     }
 
     def decorator(function):
 
         # Save values to view fetch function for middleware handling + potential debugging.
         function.admin_pdq_data = admin_pdq_data
+        function.permission_required_one = None  # Must have one, if any.
+        function.permission_required = permissions  # Must have all, if any. Same as Django.
 
         @wraps(function)
         @django_permission_required(permission, login_url, raise_exception)
@@ -280,9 +262,6 @@ def permission_required(permission, login_url=None, raise_exception=False):
 
             # Get our view response object.
             function_view = function(request, *args, **kwargs)
-
-            # Save values to fully qualified view for middleware handling +  potential debugging.
-            function_view.admin_pdq_data = admin_pdq_data
 
             return function_view
 

@@ -180,7 +180,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            a_view.admin_pdq_data["one_of_permissions"],
+            a_view.permission_required_one,
             ("auth.add_foo",),
         )
 
@@ -197,7 +197,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            a_view.admin_pdq_data["one_of_permissions"],
+            a_view.permission_required_one,
             ("auth.add_foo", "auth.change_foo"),
         )
 
@@ -214,7 +214,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            a_view.admin_pdq_data["one_of_permissions"],
+            a_view.permission_required_one,
             ("auth.add_foo", "auth.change_foo"),
         )
 
@@ -231,7 +231,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            a_view.admin_pdq_data["one_of_permissions"],
+            a_view.permission_required_one,
             ("auth.add_foo", "auth.change_foo"),
         )
 
@@ -250,7 +250,7 @@ class TestIsolatedDecorators(TestCase):
 
             self.assertEqual(response.status_code, 302)
             self.assertEqual(
-                a_view.admin_pdq_data["one_of_permissions"],
+                a_view.permission_required_one,
                 ("auth.add_foo", "auth.change_foo"),
             )
 
@@ -271,7 +271,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            a_view.admin_pdq_data["full_permissions"],
+            a_view.permission_required,
             ("auth.add_foo",),
         )
 
@@ -288,7 +288,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            a_view.admin_pdq_data["full_permissions"],
+            a_view.permission_required,
             ("auth.add_foo", "auth.change_foo"),
         )
 
@@ -305,7 +305,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            a_view.admin_pdq_data["full_permissions"],
+            a_view.permission_required,
             ("auth.add_foo", "auth.change_foo"),
         )
 
@@ -322,7 +322,7 @@ class TestIsolatedDecorators(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(
-            a_view.admin_pdq_data["full_permissions"],
+            a_view.permission_required,
             ("auth.add_foo", "auth.change_foo"),
         )
 
@@ -341,7 +341,7 @@ class TestIsolatedDecorators(TestCase):
 
             self.assertEqual(response.status_code, 302)
             self.assertEqual(
-                a_view.admin_pdq_data["full_permissions"],
+                a_view.permission_required,
                 ("auth.add_foo", "auth.change_foo"),
             )
 
