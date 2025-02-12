@@ -30,35 +30,24 @@ class Command(BaseCommand):
 
         parser.add_argument(
             "--hide-app-names",
-            "--hide-app-name",
             default=False,
             action="store_true",
             help="Skip displaying app name at far left side.",
         )
         parser.add_argument(
             "--hide-url-names",
-            "--hide-name",
-            "--hide-names",
-            "--hide-url-name",
-            "--hide-endpoint-name",
-            "--hide-endpoint-names",
             default=False,
             action="store_true",
             help='Skip displaying url "endpoint name" values for each route.',
         )
         parser.add_argument(
             "--show-lookup-strings",
-            "--lookup-str",
-            "--show-lookup-str",
-            "--show-lookup-string",
             default=False,
             action="store_true",
             help='Display "lookup strings" values for each route.',
         )
         parser.add_argument(
             "--show-default-args",
-            "--default-args",
-            "--show-default-arg",
             default=False,
             action="store_true",
             help='Display "default route" args for each route.',
