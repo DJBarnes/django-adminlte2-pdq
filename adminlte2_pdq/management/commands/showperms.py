@@ -18,20 +18,17 @@ class Command(BaseCommand):
 
         parser.add_argument(
             "--hide-names",
-            "--hide-name",
             default=False,
             action="store_true",
             help='Skip displaying permission "name" value for each permission.',
         )
         parser.add_argument(
             "--hide-codenames",
-            "--hide-codename",
             default=False,
             action="store_true",
             help='Skip displaying permission "codename" value for each permission.',
         )
         parser.add_argument(
-            "--hide-content-type",
             "--hide-content-types",
             default=False,
             action="store_true",
