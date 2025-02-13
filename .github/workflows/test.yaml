@@ -2,6 +2,10 @@ name: Run Tests
 run-name: Tests run on ${{ github.event.repository.updated_at }}
 on:
   push:
+    branches:
+      - master
+      - main
+      - coverage
   pull_request:
 
 
