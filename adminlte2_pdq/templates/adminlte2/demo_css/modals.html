@@ -1,0 +1,18 @@
+{% extends "adminlte2/demo_css/main.html" %}
+
+
+{% block content %}
+  <h1>Demo CSS <small>Example Modal Elements</small></h1>
+
+  {# Modals #}
+  {% include 'adminlte2/partials/demo_css/modal_launch_buttons.html' with bootstrap_types=bootstrap_types %}
+
+{% endblock content %}
+
+
+{% block modals %}
+
+  {# Modal Popups #}
+  {% include 'adminlte2/partials/demo_css/modal_popups.html' with bootstrap_types=bootstrap_types %}
+
+{% endblock modals %}

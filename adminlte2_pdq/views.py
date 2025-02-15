@@ -19,10 +19,33 @@ from .decorators import (
     permission_required_one,
 )
 from .forms import SampleForm, SampleFormset
+from .menu import CSS_MENU
 
 
 # Initialize logger.
 logger = logging.getLogger(__name__)
+
+
+# Module level variables.
+BOOTSTRAP_TYPES = [
+    "default",
+    "primary",
+    "info",
+    "success",
+    "warning",
+    "danger",
+    "navy",
+    "teal",
+    "olive",
+    "lime",
+    "orange",
+    "fuchsia",
+    "indigo",
+    "purple",
+    "maroon",
+    "gray",
+    "black",
+]
 
 
 def home(request):
@@ -84,45 +107,119 @@ def sample2(request):
     return render(request, "adminlte2/sample2.html", {})
 
 
+# region Demo CSS
+
+
 def demo_css(request):
     """Show examples of extra-features.css"""
 
     # Add messages to demo them.
     messages.set_level(request, messages.DEBUG)
-    messages.debug(request, "This is a debug message via the messages framework")
-    messages.info(request, "This is a info message via the messages framework")
-    messages.success(request, "This is a success message via the messages framework")
-    messages.warning(request, "This is a warning message via the messages framework")
-    messages.error(request, "This is a error message via the messages framework")
-    messages.add_message(request, 50, "This is an unknown level message via the messages framework")
+    messages.debug(request, "This is a debug message via the messages framework.")
+    messages.info(request, "This is a info message via the messages framework.")
+    messages.success(request, "This is a success message via the messages framework.")
+    messages.warning(request, "This is a warning message via the messages framework.")
+    messages.error(request, "This is a error message via the messages framework.")
+    messages.add_message(request, 50, "This is an unknown level message via the messages framework.")
 
-    # Define the bootstrap "colors" to demo.
-    bootstrap_types = [
-        "default",
-        "primary",
-        "info",
-        "success",
-        "warning",
-        "danger",
-        "navy",
-        "teal",
-        "olive",
-        "lime",
-        "orange",
-        "fuchsia",
-        "indigo",
-        "purple",
-        "maroon",
-        "gray",
-        "black",
-    ]
     return render(
         request,
-        "adminlte2/demo_css.html",
+        "adminlte2/demo_css/home.html",
         {
-            "bootstrap_types": bootstrap_types,
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
         },
     )
+
+
+def demo_css_alerts(request):
+    """Show example alert elements."""
+
+    # Add messages to demo them.
+    messages.set_level(request, messages.DEBUG)
+    messages.debug(request, "This is a debug message via the messages framework.")
+    messages.info(request, "This is a info message via the messages framework.")
+    messages.success(request, "This is a success message via the messages framework.")
+    messages.warning(request, "This is a warning message via the messages framework.")
+    messages.error(request, "This is a error message via the messages framework.")
+    messages.add_message(request, 50, "This is an unknown level message via the messages framework.")
+
+    return render(
+        request,
+        "adminlte2/demo_css/alerts.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_boxes(request):
+    """Show example box elements."""
+
+    return render(
+        request,
+        "adminlte2/demo_css/boxes.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_buttons(request):
+    """Show example button elements."""
+
+    return render(
+        request,
+        "adminlte2/demo_css/buttons.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_labels(request):
+    """Show example label elements."""
+
+    return render(
+        request,
+        "adminlte2/demo_css/labels.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_modals(request):
+    """Show example modal elements."""
+
+    return render(
+        request,
+        "adminlte2/demo_css/modals.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_tables(request):
+    """Show example table elements."""
+
+    return render(
+        request,
+        "adminlte2/demo_css/tables.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+# endregion Demo CSS
 
 
 def view_404(request, exception):
