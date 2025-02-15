@@ -1,0 +1,46 @@
+{# Modals #}
+
+<div class="box box-solid box-default">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">Modals</h3>
+  </div>
+
+  <div class="box-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-question-circle"></i> AdminLTE Modals</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for bootstrap_type in bootstrap_types %}
+        <div class="col-sm-2" style="margin-bottom:10px;">
+          <button class="btn btn-{{ bootstrap_type }}" data-toggle="modal" data-target="#modal-{{ bootstrap_type }}">
+            {{ bootstrap_type }} Modal
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-question"></i> Solid Header Only Modals</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      {% for bootstrap_type in bootstrap_types %}
+        <div class="col-sm-2" style="margin-bottom:10px;">
+          <button
+            class="btn btn-{{ bootstrap_type }}"
+            data-toggle="modal"
+            data-target="#modal-solid-{{ bootstrap_type }}"
+          >
+            {{ bootstrap_type }} Modal
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
