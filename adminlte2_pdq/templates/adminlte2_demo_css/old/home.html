@@ -1,0 +1,44 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content %}
+  <h1>Demo CSS <small>Home</small></h1>
+
+  {# Dropdown Menus #}
+  {% include 'adminlte2_demo_css/partials/dropdown_menus.html' with bootstrap_types=bootstrap_types %}
+
+  {# Anchor Buttons #}
+  {% include 'adminlte2_demo_css/partials/anchor_buttons.html' with bootstrap_types=bootstrap_types %}
+
+  {# Buttons #}
+  {% include 'adminlte2_demo_css/partials/buttons.html' with bootstrap_types=bootstrap_types %}
+
+  {# Labels #}
+  {% include 'adminlte2_demo_css/partials/labels.html' with bootstrap_types=bootstrap_types %}
+
+  {# Tooltips #}
+
+  {# Boxes #}
+  {% include 'adminlte2_demo_css/partials/boxes.html' with bootstrap_types=bootstrap_types %}
+
+  {# Solid Boxes #}
+  {% include 'adminlte2_demo_css/partials/solid_boxes.html' with bootstrap_types=bootstrap_types %}
+
+  {# Alerts and Callouts #}
+  {% include 'adminlte2_demo_css/partials/alerts_and_callouts.html' with bootstrap_types=bootstrap_types %}
+
+  {# Modal Launch Buttons #}
+  {% include 'adminlte2_demo_css/partials/modal_launch_buttons.html' with bootstrap_types=bootstrap_types %}
+
+  {# Tables #}
+  {% include 'adminlte2_demo_css/partials/tables.html' with bootstrap_types=bootstrap_types %}
+
+{% endblock content %}
+
+
+{% block modals %}
+
+  {# Modal Popups #}
+  {% include 'adminlte2_demo_css/partials/modal_popups.html' with bootstrap_types=bootstrap_types %}
+
+{% endblock modals %}
