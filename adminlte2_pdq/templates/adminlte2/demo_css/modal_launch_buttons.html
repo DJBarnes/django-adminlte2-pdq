@@ -14,13 +14,19 @@
     </div>
 
     <div class="row">
+
       {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
         <div class="col-sm-2" style="margin-bottom:10px;">
           <button class="btn btn-{{ bootstrap_type }}" data-toggle="modal" data-target="#modal-{{ bootstrap_type }}">
             {{ bootstrap_type }} Modal
           </button>
         </div>
+        {# Example Elements End Here #}
+
       {% endfor %}
+
     </div>
 
     <div class="row">
@@ -30,7 +36,10 @@
     </div>
 
     <div class="row">
+
       {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
         <div class="col-sm-2" style="margin-bottom:10px;">
           <button
             class="btn btn-{{ bootstrap_type }}"
@@ -40,7 +49,10 @@
             {{ bootstrap_type }} Modal
           </button>
         </div>
+        {# Example Elements End Here #}
+
       {% endfor %}
+
     </div>
   </div>
 </div>
