@@ -1,60 +1,10 @@
-{# Tables #}
+{% extends "adminlte2/demo_css/main.html" %}
 
-<div class="box box-solid box-default">
 
-  <div class="box-header with-border">
-    <h3 class="box-title">Tables</h3>
-  </div>
+{% block content %}
+  <h1>Demo CSS <small>Example Table Elements</small></h1>
 
-  <div class="box-body">
+  {# Tabels #}
+  {% include 'adminlte2/partials/demo_css/tables.html' with bootstrap_types=bootstrap_types %}
 
-    <div class="row">
-      <div class="col-sm-12">
-        <h4><i class="fa fa-table"></i> AdminLTE Tables</h4>
-      </div>
-    </div>
-
-    <div class="row">
-
-      <div class="col-md-12">
-
-        {# Example Elements Start Here #}
-        <table class="table table-hover">
-          <tr class="purple">
-            <td>Entire</td>
-            <td>Row</td>
-            <td>Is</td>
-            <td>Colored</td>
-          </tr>
-            <td>Single</td>
-            <td class="purple">TD</td>
-            <td>Is</td>
-            <td>Colored</td>
-          <tr>
-          </tr>
-        </table>
-      </div>
-
-      <div class="col-md-12">
-        <table class="table table-hover">
-          <tr class="orange">
-            <td>Entire</td>
-            <td>Row</td>
-            <td>Is</td>
-            <td>Colored</td>
-          </tr>
-            <td>Single</td>
-            <td class="orange">TD</td>
-            <td>Is</td>
-            <td>Colored</td>
-          <tr>
-          </tr>
-        </table>
-        {# Example Elements End Here #}
-
-      </div>
-
-    </div>
-
-  </div>
-</div>
+{% endblock content %}
