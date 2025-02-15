@@ -1,0 +1,41 @@
+{# Alerts and Callouts #}
+
+<div class="box box-solid box-default">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">Alerts and Callouts</h3>
+  </div>
+
+  <div class="box-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <h4><i class="fa fa-warning"></i> Alerts</h4>
+      </div>
+      <div class="col-sm-6">
+        <h4><i class="fa fa-bullhorn"></i> Callouts</h4>
+      </div>
+    </div>
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="alert alert-{{ bootstrap_type }} alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+            <h4><i class="icon fa fa-info"></i> {{ bootstrap_type }}</h4>
+            Info alert preview. This alert is dismissible.
+          </div>
+        </div>
+
+        <div class="col-sm-6">
+          <div class="callout callout-{{ bootstrap_type }}">
+            <h4>I am a {{ bootstrap_type }} callout</h4>
+            <p>Follow the steps to continue to payment</p>
+          </div>
+        </div>
+      </div>
+
+    {% endfor %}
+
+  </div>
+</div>

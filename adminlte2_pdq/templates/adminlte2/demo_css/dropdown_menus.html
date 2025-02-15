@@ -1,0 +1,63 @@
+{# Dropdown Menus #}
+
+<div class="box box-solid box-default">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">Dropdown Menus</h3>
+  </div>
+
+  <div class="box-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-list"></i> Dropdown Menus</h4>
+      </div>
+    </div>
+
+    <div class="row">
+        {% for bootstrap_type in bootstrap_types %}
+
+          <div class="col-sm-2" style="margin-bottom:10px;">
+            <div class="btn-group">
+              <button type="submit" class="btn btn-{{ bootstrap_type }}" name="action" value="finalize">
+                {{ bootstrap_type }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-{{ bootstrap_type }} dropdown-toggle"
+                data-toggle="dropdown" aria-haspop="true"
+                aria-expanded="false"
+              >
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-{{ bootstrap_type }}">
+                <li><a href="#">Default Anchor 1</a></li>
+                <li><a href="#">Default Anchor 2</a></li>
+                <li><a href="#">Default Anchor 3</a></li>
+                <li><a href="#"><i class="fa fa-plus fa-fw"></i> Default Anchor w/ Icon</a></li>
+                <li><a href="#"><i class="fa fa-minus fa-fw"></i> Default Anchor w/ Icon</a></li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  <input
+                    type="submit" class="btn btn-{{ bootstrap_type }}"
+                    value="input-submit .btn.btn-link.btn-{{ bootstrap_type }}"
+                  >
+                </li>
+                <li><input type="submit" class="btn" value="input-submit .btn"></li>
+                <li><input type="submit" class="" value="input-submit"></li>
+                <li>
+                  <button class="btn btn-{{ bootstrap_type }}">button .btn.btn-{{ bootstrap_type }}</button>
+                </li>
+                <li><button class="btn">button .btn</button></li>
+                <li><button class="">button</button></li>
+              </ul>
+            </div>
+          </div>
+
+        {% endfor %}
+    </div>
+
+  </div>
+</div>
