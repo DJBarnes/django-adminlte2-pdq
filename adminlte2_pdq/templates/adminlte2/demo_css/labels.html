@@ -1,75 +1,10 @@
-{# Labels #}
-
-<div class="box box-solid box-default">
-
-  <div class="box-header with-border">
-    <h3 class="box-title">Labels</h3>
-  </div>
-
-  <div class="box-body">
-    <div class="row">
-      <div class="col-sm-12">
-        <h4><i class="fa fa-tag"></i> Labels</h4>
-      </div>
-    </div>
-
-    <div class="row">
-
-      {% for bootstrap_type in bootstrap_types %}
-
-        <div class="col-sm-2" style="margin-bottom:10px;">
-
-          {# Example Elements Start Here #}
-          <label
-            data-toggle="tooltip"
-            data-placement="top"
-            data-html="true"
-            class="label label-{{ bootstrap_type }} tooltip-{{ bootstrap_type }}"
-            title="<p>Sample test message for the tool tip</p>"
-          >
-            {{ bootstrap_type }}
-          </label>
-          {# Example Elements End Here #}
-
-        </div>
-
-      {% endfor %}
-
-    </div>
-
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-12">
-        <h4><i class="fa fa-lg fa-tag"></i> Large Labels</h4>
-      </div>
-    </div>
-
-    <div class="row">
-
-      {% for bootstrap_type in bootstrap_types %}
-
-        <div class="col-sm-2" style="margin-bottom:10px;">
-
-          {# Example Elements Start Here #}
-          <label
-            data-toggle="tooltip"
-            data-placement="top"
-            data-html="true"
-            class="label label-large label-{{ bootstrap_type }} tooltip-{{ bootstrap_type }}"
-            title="<p>Sample test message for the tool tip</p>"
-          >
-            {{ bootstrap_type }}
-          </label>
-          {# Example Elements End Here #}
-
-        </div>
-
-      {% endfor %}
+{% extends "adminlte2/demo_css/main.html" %}
 
 
-    </div>
+{% block content %}
+  <h1>Demo CSS <small>Example Label Elements</small></h1>
 
-  </div>
+  {# Labels #}
+  {% include 'adminlte2/partials/demo_css/labels.html' with bootstrap_types=bootstrap_types %}
 
-</div>
+{% endblock content %}

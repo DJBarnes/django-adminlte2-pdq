@@ -1,0 +1,34 @@
+{# Buttons #}
+
+<div class="box box-solid box-default">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">Buttons</h3>
+  </div>
+
+  <div class="box-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-hand-o-up"></i> Buttons</h4>
+      </div>
+    </div>
+
+    <div class="row">
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <div class="col-sm-2" style="margin-bottom:10px;">
+          <button class="btn btn-{{ bootstrap_type }}">
+            {{ bootstrap_type }}
+          </button>
+        </div>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+    </div>
+  </div>
+
+</div>

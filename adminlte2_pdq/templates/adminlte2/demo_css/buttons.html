@@ -1,34 +1,16 @@
-{# Buttons #}
+{% extends "adminlte2/demo_css/main.html" %}
 
-<div class="box box-solid box-default">
 
-  <div class="box-header with-border">
-    <h3 class="box-title">Buttons</h3>
-  </div>
+{% block content %}
+  <h1>Demo CSS <small>Example Button Elements</small></h1>
 
-  <div class="box-body">
+  {# Dropdown Menus #}
+  {% include 'adminlte2/partials/demo_css/dropdown_menus.html' with bootstrap_types=bootstrap_types %}
 
-    <div class="row">
-      <div class="col-sm-12">
-        <h4><i class="fa fa-hand-o-up"></i> Buttons</h4>
-      </div>
-    </div>
+  {# Anchor Buttons #}
+  {% include 'adminlte2/partials/demo_css/anchor_buttons.html' with bootstrap_types=bootstrap_types %}
 
-    <div class="row">
+  {# Buttons #}
+  {% include 'adminlte2/partials/demo_css/buttons.html' with bootstrap_types=bootstrap_types %}
 
-      {% for bootstrap_type in bootstrap_types %}
-
-        {# Example Elements Start Here #}
-        <div class="col-sm-2" style="margin-bottom:10px;">
-          <button class="btn btn-{{ bootstrap_type }}">
-            {{ bootstrap_type }}
-          </button>
-        </div>
-        {# Example Elements End Here #}
-
-      {% endfor %}
-
-    </div>
-  </div>
-
-</div>
+{% endblock content %}
