@@ -23,6 +23,11 @@
   <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/skins/_all-skins.min.css' %}">
 {% endblock styles_debug_adminlte %}
 
+{% block styles_debug_datatables %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{% static 'third-party/bootstrap-datatables/dataTables.bootstrap.css' %}">
+{% endblock styles_debug_datatables %}
+
 {% block styles_debug_datetime_picker %}
   <!-- Datetime Widgets -->
   {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}

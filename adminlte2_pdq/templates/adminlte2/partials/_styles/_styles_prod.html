@@ -22,6 +22,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/skins/_all-skins.css" integrity="sha256-mgkhNy4GDprfEqwRBmDzqzlhJFBS9K0yB9TSw7UoH5E=" crossorigin="anonymous" />
 {% endblock styles_prod_adminlte %}
 
+{% block styles_prod_datatables %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap.css">
+{% endblock styles_prod_datatables %}
+
 {% block styles_prod_datetime_picker %}
   <!-- Datetime Widgets -->
   {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
