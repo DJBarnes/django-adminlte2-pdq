@@ -26,6 +26,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.7/inputmask/bindings/inputmask.binding.min.js" integrity="sha256-bAERPQJaJku+Uh8XMM6VsIDxPU5ZgvNQ7L5YxGwuddA=" crossorigin="anonymous"></script>
 {% endblock scripts_prod_inputmask %}
 
+{% block scripts_debug_datatables %}
+  <!-- DataTables -->
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap.js"></script>
+{% endblock scripts_debug_datatables %}
+
 {% block scripts_prod_datetime_picker %}
   <!-- Datetime Widgets -->
   {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
