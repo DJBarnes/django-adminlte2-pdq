@@ -13,7 +13,7 @@ MENU = [
         "nodes": [
             {
                 "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Home",
+                "text": "Dashboard",
                 "icon": "fa fa-dashboard",
             },
             {
@@ -69,45 +69,71 @@ CSS_MENU = [
         "nodes": [
             {
                 "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Home",
+                "text": "Dashboard",
                 "icon": "fa fa-dashboard",
             },
             {
                 "text": "Demo CSS",
                 "nodes": [
                     {
-                        "route": "adminlte2_pdq:demo-css",
-                        "text": "Demo CSS | Home",
-                        "icon": "fa fa-home",
+                        "text": "Original / Old",
+                        "nodes": [
+                            {
+                                "route": "adminlte2_pdq:demo-css",
+                                "text": "Demo CSS | Home",
+                                "icon": "fa fa-home",
+                            },
+                            {
+                                "route": "adminlte2_pdq:demo-css-boxes",
+                                "text": "Demo CSS | Boxes",
+                                "icon": "fa fa-square",
+                            },
+                        ],
                     },
                     {
-                        "route": "adminlte2_pdq:demo-css-alerts",
-                        "text": "Demo CSS | Alerts",
-                        "icon": "fa fa-exclamation",
+                        "route": "adminlte2_pdq:demo-css-widgets",
+                        "text": "Widgets",
+                        "icon": "fa fa-th",
                     },
                     {
-                        "route": "adminlte2_pdq:demo-css-boxes",
-                        "text": "Demo CSS | Boxes",
-                        "icon": "fa fa-square",
-                    },
-                    {
-                        "route": "adminlte2_pdq:demo-css-buttons",
-                        "text": "Demo CSS | Buttons",
-                        "icon": "fa fa-square-o",
-                    },
-                    {
-                        "route": "adminlte2_pdq:demo-css-labels",
-                        "text": "Demo CSS | Labels",
-                        "icon": "fa fa-tags",
-                    },
-                    {
-                        "route": "adminlte2_pdq:demo-css-modals",
-                        "text": "Demo CSS | Modals",
-                        "icon": "fa fa-comment",
+                        "text": "UI Elements",
+                        "nodes": [
+                            {
+                                "route": "adminlte2_pdq:demo-css-ui-general",
+                                "text": "General",
+                                "icon": "fa fa-circle-o",
+                            },
+                            {
+                                "route": "adminlte2_pdq:demo-css-alerts",
+                                "text": "Alerts",
+                                "icon": "fa fa-circle-o",
+                            },
+                            {
+                                "route": "adminlte2_pdq:demo-css-buttons-basic",
+                                "text": "Buttons | Basic",
+                                "icon": "fa fa-circle-o",
+                            },
+                            {
+                                "route": "adminlte2_pdq:demo-css-buttons-specialized",
+                                "text": "Buttons | Specialized",
+                                "icon": "fa fa-circle-o",
+                            },
+                            {
+                                "route": "adminlte2_pdq:demo-css-labels",
+                                "text": "Labels & Tooltips",
+                                "icon": "fa fa-circle-o",
+                            },
+                            {
+                                "route": "adminlte2_pdq:demo-css-modals",
+                                "text": "Modals",
+                                "icon": "fa fa-circle-o",
+                            },
+                        ],
+                        "icon": "fa fa-laptop",
                     },
                     {
                         "route": "adminlte2_pdq:demo-css-tables",
-                        "text": "Demo CSS | Tables",
+                        "text": "Tables",
                         "icon": "fa fa-table",
                     },
                 ],

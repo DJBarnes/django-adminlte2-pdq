@@ -1,0 +1,102 @@
+{# Buttons #}
+
+<div class="box box-primary">
+
+  {# Start Box Head #}
+  <div class="box-header">
+
+    <i class="fa fa-edit"></i>
+    &nbsp;
+    <h3 class="box-title">Buttons</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body pad table-responsive">
+
+    <p>Various types of buttons, using the base class <code>.btn</code></p>
+
+    <table class="table table-bordered text-center">
+        <tbody>
+
+            {# Table Header #}
+            <tr>
+              <th>
+                Normal
+              </th>
+              <th>
+                Large
+                &nbsp;
+                <code>.btn-lg</code>
+              </th>
+              <th>
+                Small
+                &nbsp;
+                <code>.btn-sm</code>
+              </th>
+              <th>
+                X-Small
+                &nbsp;
+                <code>.btn-xs</code>
+              </th>
+              <th>
+                Flat
+                &nbsp;
+                <code>.btn-flat</code>
+              </th>
+              <th>
+                Disabled
+                &nbsp;
+                <code>.disabled</code>
+              </th>
+            </tr>
+
+            {# Table Body #}
+            {% for bootstrap_type in bootstrap_types %}
+
+              {# Example Elements Start Here #}
+              <tr>
+                <td>
+                  <button class="btn btn-block btn-{{ bootstrap_type }}" type="button">
+                    {{ bootstrap_type }}
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-block btn-lg btn-{{ bootstrap_type }}" type="button">
+                    {{ bootstrap_type }}
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-block bt-sm btn-{{ bootstrap_type }}" type="button">
+                    {{ bootstrap_type }}
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-block bt-xs btn-{{ bootstrap_type }}" type="button">
+                    {{ bootstrap_type }}
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-block btn-flat btn-{{ bootstrap_type }}" type="button">
+                    {{ bootstrap_type }}
+                  </button>
+                </td>
+                <td>
+                  <button class="btn btn-block disabled btn-{{ bootstrap_type }}" type="button">
+                    {{ bootstrap_type }}
+                  </button>
+                </td>
+              </tr>
+              {# Example Elements End Here #}
+
+            {% endfor %}
+
+        </tbody>
+    </table>
+  </div>
+  {# End Box Body #}
+
+</div>

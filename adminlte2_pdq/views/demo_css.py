@@ -25,6 +25,7 @@ BOOTSTRAP_TYPES = [
     "warning",
     "danger",
     "navy",
+    "blue",
     "teal",
     "olive",
     "lime",
@@ -36,6 +37,26 @@ BOOTSTRAP_TYPES = [
     "gray",
     "black",
 ]
+CSS_COLOR_HEX_KEYS = {
+    "default": "#f4f4f4",
+    "primary": "#3c8dbc",
+    "info": "#00c0ef",
+    "success": "#00a65a",
+    "warning": "#f39c12",
+    "danger": "#dd4b39",
+    "navy": "#001f3f",
+    "blue": "#0073b7",
+    "teal": "#39cccc",
+    "olive": "#3d9970",
+    "lime": "#01ff70",
+    "orange": "#ff851b",
+    "fuchsia": "#f012be",
+    "indigo": "#a35cd8",
+    "purple": "#605ca8",
+    "maroon": "#d81b60",
+    "gray": "#d2d6de",
+    "black": "#111111",
+}
 
 
 def demo_css(request):
@@ -74,7 +95,7 @@ def demo_css_alerts(request):
 
     return render(
         request,
-        "adminlte2_demo_css/old/alerts.html",
+        "adminlte2_demo_css/alerts.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,
@@ -95,12 +116,38 @@ def demo_css_boxes(request):
     )
 
 
-def demo_css_buttons(request):
-    """Show example button elements."""
+def demo_css_buttons_basic(request):
+    """Show example basic button elements."""
 
     return render(
         request,
-        "adminlte2_demo_css/old/buttons.html",
+        "adminlte2_demo_css/buttons_basic.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_buttons_specialized(request):
+    """Show example specialized button elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/buttons_specialized.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_buttons_boxes(request):
+    """Show example box elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/boxes.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,
@@ -113,7 +160,7 @@ def demo_css_labels(request):
 
     return render(
         request,
-        "adminlte2_demo_css/old/labels.html",
+        "adminlte2_demo_css/labels.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,
@@ -139,7 +186,34 @@ def demo_css_tables(request):
 
     return render(
         request,
-        "adminlte2_demo_css/old/tables.html",
+        "adminlte2_demo_css/tables.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_ui_general(request):
+    """Show example general ui elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/ui_general.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "css_color_hex_keys": CSS_COLOR_HEX_KEYS,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_widgets(request):
+    """Show example widget elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/widgets.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,

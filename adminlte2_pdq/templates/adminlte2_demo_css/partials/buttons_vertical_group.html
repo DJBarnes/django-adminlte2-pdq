@@ -1,0 +1,118 @@
+{# Vertical Button Groups #}
+
+<div class="box box-primary">
+
+  {# Start Box Head #}
+  <div class="box-header">
+
+    <i class="fa fa-edit"></i>
+    &nbsp;
+    <h3 class="box-title">Vertical Button Groups</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body table-responsive-pad">
+
+    <p>
+      Vertical button groups are easy to create with bootstrap.
+      Just add your buttons inside <code>&lt;div class="btn-group-vertical"&gt;&lt;/div&gt;</code>
+    </p>
+
+    <table class="table table-bordered">
+      <tbody>
+
+        {# Table Header #}
+        <tr>
+          <th>Color</th>
+          <th>Button</th>
+          <th>Icons</th>
+          <th>Flat</th>
+          <th>Dropdown</th>
+        </tr>
+
+        {# Table Body #}
+        {% for bootstrap_type in bootstrap_types %}
+
+          {# Example Elements Start Here #}
+          <tr>
+
+            <td>
+              {{ bootstrap_type|capfirst }}
+            </td>
+
+            <td>
+              <div class="btn-group-vertical">
+                <button class="btn btn-{{ bootstrap_type }}" type="button">Top</button>
+                <button class="btn btn-{{ bootstrap_type }}" type="button">Middle</button>
+                <button class="btn btn-{{ bootstrap_type }}" type="button">Bottom</button>
+              </div>
+            </td>
+
+            <td>
+              <div class="btn-group-vertical">
+                <button class="btn btn-{{ bootstrap_type }}" type="button">
+                  <i class="fa fa-align-left"></i>
+                </button>
+                <button class="btn btn-{{ bootstrap_type }}" type="button">
+                  <i class="fa fa-align-center"></i>
+                </button>
+                <button class="btn btn-{{ bootstrap_type }}" type="button">
+                  <i class="fa fa-align-right"></i>
+                </button>
+              </div>
+            </td>
+
+            <td>
+              <div class="btn-group-vertical">
+                <button class="btn btn-flat btn-{{ bootstrap_type }}" type="button">
+                  <i class="fa fa-align-left"></i>
+                </button>
+                <button class="btn btn-flat btn-{{ bootstrap_type }}" type="button">
+                  <i class="fa fa-align-center"></i>
+                </button>
+                <button class="btn btn-flat btn-{{ bootstrap_type }}" type="button">
+                  <i class="fa fa-align-right"></i>
+                </button>
+              </div>
+            </td>
+
+            <td>
+              <div class="btn-group-vertical">
+                <button class="btn btn-{{ bootstrap_type }}" type="button">1</button>
+                <button class="btn btn-{{ bootstrap_type }}" type="button">2</button>
+                <div class="btn-group">
+                  <button
+                    class="btn btn-{{ bootstrap_type }} dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                  >
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="#">Dropdown Link 1</a>
+                    </li>
+                    <li>
+                      <a href="#">Dropdown Link 2</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </td>
+
+          </tr>
+          {# Example Elements End Here #}
+
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+  </div>
+  {# End Box Body #}
+
+</div>

@@ -1,0 +1,27 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Buttons (Specialized)
+    <small>Preview of Specialized Button Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  {# Specialized Buttons #}
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/buttons_specialized.html' with bootstrap_types=bootstrap_types %}
+  </div>
+
+{% endblock content %}
