@@ -1,0 +1,45 @@
+{# Small Boxes #}
+
+
+<div class="box box-default">
+
+  {# Start Box Head #}
+  <div class="box-header with-border">
+
+    <i class="fa fa-warning"></i>
+    <h3 class="box-title">
+      Small Boxes
+    </h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      {# Example Elements Start Here #}
+      <div class="small-box bg-{{ bootstrap_type }}">
+        <div class="inner">
+          <h3>150</h3>
+          <p>{{ bootstrap_type|capfirst }} Small Box</p>
+        </div>
+        <div class="icon">
+          <i class="fa fa-bar-chart"></i>
+        </div>
+        <a class="small-box-footer" href="#">
+          More Info
+          <i class="fa fa-arrow-circle-right"></i>
+        </a>
+      </div>
+      {# Example Elements End Here #}
+
+    {% endfor %}
+
+  </div>
+  {# End Box Body #}
+
+</div>

@@ -1,0 +1,67 @@
+{# Color Palette #}
+{% load adminlte_tags %}
+
+<div class="box box-default color-palette-box">
+
+  {# Start Box Head #}
+  <div class="box-header with-border">
+
+    <i class="fa fa-tag"></i>
+    <h3 class="box-title">
+      Color Palette
+    </h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    <p>
+      Note that the following values are equivalent in CSS:
+    </p>
+    <ul>
+      <ul>
+        <li><code>primary</code> &nbsp; &#124; &nbsp; <code>light-blue</code></li>
+        <li><code>info</code> &nbsp; &#124; &nbsp; <code>aqua</code></li>
+        <li><code>success</code> &nbsp; &#124; &nbsp; <code>green</code></li>
+        <li><code>warning</code> &nbsp; &#124; &nbsp; <code>yellow</code></li>
+        <li><code>danger</code> &nbsp; &#124; &nbsp; <code>red</code></li>
+      </ul>
+    </ul>
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      {% if forloop.counter0|divisibleby:6 %}
+        <div class="row">
+      {% endif %}
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-4 col-md-2">
+        <h4 class="text-center bg-text-{{ bootstrap_type }}">{{ bootstrap_type }}</h4>
+        <div class="color-palette-set">
+          <div class="bg-{{ bootstrap_type }} disabled color-palette">
+            <span>Disabled</span>
+          </div>
+          <div class="bg-{{ bootstrap_type }} color-palette">
+            <span>{{ css_color_hex_keys|dict_key:bootstrap_type }}</span>
+          </div>
+          <div class="bg-{{ bootstrap_type }}-active color-palette">
+            <span>Active</span>
+          </div>
+        </div>
+      </div>
+      {# Example Elements End Here #}
+
+      {% if forloop.counter|divisibleby:6 %}
+        </div>
+      {% endif %}
+
+    {% endfor %}
+
+  </div>
+  {# End Box Body #}
+
+</div>

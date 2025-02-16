@@ -1,0 +1,91 @@
+{# Split Buttons #}
+
+<div class="box box-primary">
+
+  {# Start Box Head #}
+  <div class="box-header">
+
+    <i class="fa fa-edit"></i>
+    &nbsp;
+    <h3 class="box-title">Split (Dropdown) Buttons</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    <p>Normal "Split button" Examples:</p>
+    <div class="margin">
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <div class="btn-group" style="margin: 5px;">
+          <button class="btn btn-{{ bootstrap_type }}" type="button">{{ bootstrap_type|capfirst }}</button>
+          <button class="btn btn-{{ bootstrap_type }} dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <a href="#">Action</a>
+            </li>
+            <li>
+              <a href="#">Another Action</a>
+            </li>
+            <li>
+              <a href="#">Something else here</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="#">Separated link</a>
+            </li>
+          </ul>
+        </div>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+    </div>
+
+    <p>Flat "Split Button" Examples:</p>
+    <div class="margin">
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <div class="btn-group" style="margin: 5px;">
+          <button class="btn btn-{{ bootstrap_type }} btn-flat" type="button">{{ bootstrap_type|capfirst }}</button>
+          <button class="btn btn-{{ bootstrap_type }} btn-flat dropdown-toggle" type="button" data-toggle="dropdown">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li>
+              <a href="#">Action</a>
+            </li>
+            <li>
+              <a href="#">Another Action</a>
+            </li>
+            <li>
+              <a href="#">Something else here</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="#">Separated link</a>
+            </li>
+          </ul>
+        </div>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+    </div>
+
+  </div>
+  {# End Box Body #}
+
+</div>

@@ -1,0 +1,43 @@
+{# Alerts #}
+
+
+<div class="col-md-6">
+  <div class="box box-default">
+
+    {# Start Box Head #}
+    <div class="box-header with-border">
+
+      <i class="fa fa-warning"></i>
+      <h3 class="box-title">
+        Alerts
+      </h3>
+
+      {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+    </div>
+    {# End Box Head #}
+
+    {# Start Box Body #}
+    <div class="box-body">
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <div class="alert alert-{{ bootstrap_type }} alert-dismissible">
+          <button class="close" type="button" data-dismiss="alert" aria-hidden="true">x</button>
+          <h4>
+            <i class="fa fa-warning"></i>
+            &nbsp;
+            {{ bootstrap_type|capfirst }} Alert!
+          </h4>
+          {{ bootstrap_type|capfirst }} alert preview. This alert is dismissable.
+        </div>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+    </div>
+    {# End Box Body #}
+
+  </div>
+</div>

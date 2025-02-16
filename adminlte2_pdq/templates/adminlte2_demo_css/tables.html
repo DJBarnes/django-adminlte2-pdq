@@ -1,0 +1,55 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Tables
+    <small>Preview of Table Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  {# Basic Data Tables #}
+  <div class="row">
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/tables_basic.html' with bootstrap_types=bootstrap_types %}
+    </div>
+  </div>
+
+  {# Hover Data Tables #}
+  <div class="row">
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/tables_hover_data.html' with bootstrap_types=bootstrap_types %}
+    </div>
+  </div>
+
+{% endblock content %}
+
+
+{% block page_javascript_body %}
+  {{ block.super }}
+
+  <script>
+    $(function () {
+      $('#data-hover-table-example').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false
+      });
+    });
+  </script>
+
+{% endblock page_javascript_body %}

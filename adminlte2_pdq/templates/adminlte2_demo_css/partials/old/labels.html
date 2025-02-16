@@ -1,17 +1,17 @@
 {# Labels #}
 
-<div class="box box-default">
+<div class="box box-solid box-default">
 
-  {# Start Box Head #}
   <div class="box-header with-border">
     <h3 class="box-title">Labels</h3>
-
-    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
   </div>
-  {# End Box Head #}
 
-  {# Start Box Body #}
   <div class="box-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-tag"></i> Labels</h4>
+      </div>
+    </div>
 
     <div class="row">
 
@@ -25,7 +25,7 @@
             data-placement="top"
             data-html="true"
             class="label label-{{ bootstrap_type }} tooltip-{{ bootstrap_type }}"
-            title="<p>Sample test message. This is a tooltip test message.</p>"
+            title="<p>Sample test message for the tool tip</p>"
           >
             {{ bootstrap_type }}
           </label>
@@ -37,23 +37,13 @@
 
     </div>
 
-  </div>
-  {# End Box Body #}
-</div>
+    <hr>
 
-
-<div class="box box-default">
-
-  {# Start Box Head #}
-  <div class="box-header with-border">
-    <h3 class="box-title">Large Labels</h3>
-
-    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
-  </div>
-  {# End Box Head #}
-
-  {# Start Box Body #}
-  <div class="box-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-lg fa-tag"></i> Large Labels</h4>
+      </div>
+    </div>
 
     <div class="row">
 
@@ -67,7 +57,7 @@
             data-placement="top"
             data-html="true"
             class="label label-large label-{{ bootstrap_type }} tooltip-{{ bootstrap_type }}"
-            title="<p>Sample test message. This is a tooltip test message.</p>"
+            title="<p>Sample test message for the tool tip</p>"
           >
             {{ bootstrap_type }}
           </label>
@@ -81,6 +71,5 @@
     </div>
 
   </div>
-  {# End Box Body #}
 
 </div>
