@@ -1,0 +1,61 @@
+{# Application Buttons #}
+
+<div class="box box-primary">
+
+  {# Start Box Head #}
+  <div class="box-header">
+
+    <i class="fa fa-edit"></i>
+    &nbsp;
+    <h3 class="box-title">Application Buttons</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+    <p>
+      Add the classes <code>.btn.btn-app</code> to an <code>&lt;a&gt;</code> tag to achieve the following.
+    </p>
+
+    <div class="margin">
+
+      <p>Application buttons with a clear background.</p>
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <a class="btn btn-app">
+          <span class="badge bg-{{ bootstrap_type }}">67</span>
+          <i class="fa fa-inbox"></i>
+          {{ bootstrap_type|capfirst }} Orders
+        </a>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+    </div>
+
+    <div class="margin">
+
+      <p>Application buttons with a colored background.</p>
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <a class="btn btn-app bg-{{ bootstrap_type }}">
+          <span class="badge bg-{{ bootstrap_type }}">67</span>
+          <i class="fa fa-inbox"></i>
+          {{ bootstrap_type|capfirst }} Orders
+        </a>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+    </div>
+
+  </div>
+  {# End Box Body #}
+
+</div>

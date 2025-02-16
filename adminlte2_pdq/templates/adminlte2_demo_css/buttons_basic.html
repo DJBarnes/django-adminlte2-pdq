@@ -1,0 +1,29 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Buttons (Basic)
+    <small>Preview of Button Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  {# Basic Buttons #}
+  <div class="row">
+    <div class="col-md-12">
+      {% include 'adminlte2_demo_css/partials/buttons_basic.html' with bootstrap_types=bootstrap_types %}
+    </div>
+  </div>
+
+{% endblock content %}
