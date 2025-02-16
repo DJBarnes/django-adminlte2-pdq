@@ -1,0 +1,41 @@
+{# Info Boxes #}
+
+
+<div class="box box-default">
+
+  {# Start Box Head #}
+  <div class="box-header with-border">
+
+    <i class="fa fa-warning"></i>
+    <h3 class="box-title">
+      Info Boxes (Clear)
+    </h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      {# Example Elements Start Here #}
+      <div class="info-box">
+        <span class="info-box-icon bg-{{ bootstrap_type }}">
+          <i class="fa fa-envelope-o"></i>
+        </span>
+        <div class="info-box-content">
+          <span class="info-box-text">{{ bootstrap_type|capfirst }} Info Box</span>
+          <span class="info-box-number">1,410</span>
+        </div>
+      </div>
+      {# Example Elements End Here #}
+
+    {% endfor %}
+
+  </div>
+  {# End Box Body #}
+
+</div>

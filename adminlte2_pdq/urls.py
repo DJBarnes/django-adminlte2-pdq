@@ -21,15 +21,30 @@ urlpatterns = [
     path("sample2/", views.sample2, name="sample2"),
     # Demo CSS pages.
     path(
-        "demo-css",
+        "demo-css/",
         include(
             [
                 path("alerts/", views.demo_css_alerts, name="demo-css-alerts"),
                 path("boxes/", views.demo_css_boxes, name="demo-css-boxes"),
-                path("buttons/", views.demo_css_buttons, name="demo-css-buttons"),
                 path("labels/", views.demo_css_labels, name="demo-css-labels"),
-                path("modals/", views.demo_css_modals, name="demo-css-modals"),
                 path("tables/", views.demo_css_tables, name="demo-css-tables"),
+                path(
+                    "ui/",
+                    include(
+                        [
+                            path("general/", views.demo_css_ui_general, name="demo-css-ui-general"),
+                            path("buttons/basic/", views.demo_css_buttons_basic, name="demo-css-buttons-basic"),
+                            path(
+                                "buttons/specialized/",
+                                views.demo_css_buttons_specialized,
+                                name="demo-css-buttons-specialized",
+                            ),
+                            path("boxes/", views.demo_css_boxes, name="demo-css-boxes"),
+                            path("modals/", views.demo_css_modals, name="demo-css-modals"),
+                        ]
+                    ),
+                ),
+                path("widgets/", views.demo_css_widgets, name="demo-css-widgets"),
                 path("", views.demo_css, name="demo-css"),
             ]
         ),

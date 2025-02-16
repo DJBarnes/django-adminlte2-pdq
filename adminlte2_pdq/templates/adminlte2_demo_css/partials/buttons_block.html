@@ -1,0 +1,44 @@
+{# Block Buttons #}
+
+<div class="box box-primary">
+
+  {# Start Box Head #}
+  <div class="box-header">
+
+    <i class="fa fa-edit"></i>
+    &nbsp;
+    <h3 class="box-title">Block Buttons</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      {# Example Elements Start Here #}
+        <div class="margin" style="margin-top: 15px; margin-bottom: 15px">
+          <button class="btn btn-{{ bootstrap_type }} btn-block">
+            {{ bootstrap_type|capfirst }}
+            .btn-block
+          </button>
+          <button class="btn btn-{{ bootstrap_type }} btn-block btn-flat" type="button">
+            {{ bootstrap_type|capfirst }}
+            .btn-block .btn-flat
+          </button>
+          <button class="btn btn-{{ bootstrap_type }} btn-block btn-sm" type="button">
+            {{ bootstrap_type|capfirst }}
+            .btn-block .btn-sm
+          </button>
+        </div>
+      {# Example Elements end Here #}
+
+    {% endfor %}
+
+  </div>
+  {# End Box Body #}
+
+</div>

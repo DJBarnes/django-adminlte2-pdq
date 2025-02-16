@@ -1,0 +1,65 @@
+{# Boxes #}
+
+<div class="box box-solid box-default">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">Boxes</h3>
+  </div>
+
+  <div class="box-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+        <h4><i class="fa fa-cube"></i> Box</h4>
+      </div>
+    </div>
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      <div class="row">
+
+        {# Example Elements Start Here #}
+        <div class="col-sm-12">
+          <div class="box box-{{ bootstrap_type }}">
+
+            <div class="box-header">
+              <h3 class="box-title">{{ bootstrap_type }}</h3>
+
+              <div class="box-tools">
+                {% comment %}
+                  Doing one of each type of button vs all of them.
+                  This has one AdminLTE black text and one white text.
+                  This also has one Extra black text and one white text.
+                  These are repeated for both buttons and a tags.
+                {% endcomment %}
+
+                <button class="btn btn-default">Default</button>
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-orange">Orange</button>
+                <button class="btn btn-lime">Lime</button>
+                <a class="btn btn-default">Default</a>
+                <a class="btn btn-primary">Primary</a>
+                <a class="btn btn-orange">Orange</a>
+                <a class="btn btn-lime">Lime</a>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse" title="Toggle visibility">
+                  <i class="fa fa-minus"></i>
+                </button>
+              </div>
+
+            </div>
+
+            <div class="box-body">
+              <p>This is some filler text for the body of the box</p>
+            </div>
+
+          </div>
+
+        </div>
+        {# Example Elements End Here #}
+
+      </div>
+
+    {% endfor %}
+
+  </div>
+</div>

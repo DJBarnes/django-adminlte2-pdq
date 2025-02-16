@@ -18,8 +18,12 @@ from .demo_css import (
     demo_css,
     demo_css_alerts,
     demo_css_boxes,
-    demo_css_buttons,
+    demo_css_buttons_basic,
+    demo_css_buttons_specialized,
+    demo_css_boxes,
     demo_css_labels,
     demo_css_modals,
     demo_css_tables,
+    demo_css_ui_general,
+    demo_css_widgets,
 )

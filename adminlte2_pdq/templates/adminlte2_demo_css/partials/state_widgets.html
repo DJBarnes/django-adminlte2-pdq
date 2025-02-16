@@ -1,0 +1,223 @@
+{# State Widgets #}
+
+
+{% for bootstrap_type in bootstrap_types %}
+
+  <div class="row" style="margin-right: 15px; margin-left: 15px;">
+
+    <div class="box box-{{ bootstrap_type }} box-solid">
+
+      {# Start Box Head #}
+      <div class="box-header with-border">
+
+        <i class="fa fa-warning"></i>
+        <h3 class="box-title">
+          State Widgets ({{ bootstrap_type|capfirst }})
+        </h3>
+
+        {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+      </div>
+      {# End Box Head #}
+
+      {# Start Box Body #}
+      <div class="box-body" style="padding-top: 20px; padding-right: 20px; padding-left: 20px;">
+
+        {# Start State Widgets (Clear) #}
+        <div class="row">
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }} collapsed-box">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Expandable {{ bootstrap_type|capfirst }}</h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-box-tool" type="button" data-widget="collapse">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-body">The body of the box.</div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }}">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Removable {{ bootstrap_type|capfirst }}</h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-box-tool" type="button" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-body">
+                The body of the box.
+              </div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }}">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Collapsable {{ bootstrap_type|capfirst }}</h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-box-tool" type="button" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-body">
+                The body of the box.
+              </div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }}">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Loading State {{ bootstrap_type|capfirst }}</h3>
+              </div>
+
+              <div class="box-body">
+                The body of the box.
+              </div>
+
+              <div class="overlay">
+                <i class="fa fa-refresh fa-spin"></i>
+              </div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+        </div>
+        {# End State Widgets (Clear) #}
+
+        {# Start State Widgets (Solid) #}
+        <div class="row">
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }} collapsed-box box-solid">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Expandable {{ bootstrap_type|capfirst }}</h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-box-tool" type="button" data-widget="collapse">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-body">The body of the box.</div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }} box-solid">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Removable {{ bootstrap_type|capfirst }}</h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-box-tool" type="button" data-widget="remove">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-body">
+                The body of the box.
+              </div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }} box-solid">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Collapsable {{ bootstrap_type|capfirst }}</h3>
+                <div class="box-tools pull-right">
+                  <button class="btn btn-box-tool" type="button" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="box-body">
+                The body of the box.
+              </div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+          <div class="col-md-3">
+
+            {# Example Elements Start Here #}
+            <div class="box box-{{ bootstrap_type }} box-solid">
+
+              <div class="box-header with-border">
+                <h3 class="box-title">Loading State {{ bootstrap_type|capfirst }}</h3>
+              </div>
+
+              <div class="box-body">
+                The body of the box.
+              </div>
+
+              <div class="overlay">
+                <i class="fa fa-refresh fa-spin"></i>
+              </div>
+
+            </div>
+            {# Example Elements End Here #}
+
+          </div>
+
+        </div>
+        {# End State Widgets (Solid) #}
+
+      </div>
+      {# End Box Body #}
+
+    </div>
+
+  </div>
+
+{% endfor %}

@@ -1,5 +1,10 @@
 {% extends "adminlte2/base.html" %}
-{% load i18n %}
+{% load static i18n %}
+
+
+{% block page_stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.7/css/AdminLTE_html_styles.css' %}">
+{% endblock page_stylesheets %}
 
 
 {% block breadcrumbs %}
