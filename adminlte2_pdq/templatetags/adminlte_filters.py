@@ -357,6 +357,7 @@ def with_input_type(field, new_type):
     Change widget input_type to passed value.
 
     :param field: Form field to change type on.
+    :param new_type: New HTML type that the field should have.
     :return: Field that was passed in with input_type changed to passed value.
 
     Example::
@@ -418,7 +419,55 @@ def unslugify(field):
     Return a string that converts dash to spaces and capitalizes first letter.
 
     :param field: Form field to unslugify.
-    :return: dir of the field passed in.
+    :return: unslugified string of the field passed in.
     """
 
     return str(field).replace("-", " ").capitalize()
+
+
+@register.filter(name="dict_get")
+def dict_get(dict_instance, key):
+    """
+    Return value for a dict key or None if key does not exist.
+
+    :param dict_instance: Dictionary to retrieve the value from with `get`.
+    :param key: Key to use when attempting to `get` the value.
+    :return: Value for the dict key or None if key does not exist.
+    """
+    return dict_instance.get(key, None)
+
+
+@register.filter(name="multiply")
+def multiply(a, b):
+    """
+    Return result of multiplying two values. Same as python's `*` operator.
+
+    :param a: First value in multiplication operation.
+    :param b: Second value in multiplication operation.
+    :return: Result of the multiplication operation.
+    """
+    return a * b
+
+
+@register.filter(name="divide")
+def divide(a, b):
+    """
+    Return result of dividing the first value by the second. Same as python's `/` operator.
+
+    :param a: Dividend in the division operation.
+    :param b: Divisor in the division operation.
+    :return: Result of the division operation.
+    """
+    return a / b
+
+
+@register.filter(name="modulo")
+def modulo(a, b):
+    """
+    Return remainder after dividing the first value by the second. Same as python's `%` operator.
+
+    :param a: Dividend in the modulo operation.
+    :param b: Division in the modulo operation.
+    :return: Result of the modulo operation.
+    """
+    return a % b
