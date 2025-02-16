@@ -1,0 +1,59 @@
+{# Basic Tables #}
+{% load adminlte_tags %}
+
+
+<div class="box">
+
+  {# Start Box Head #}
+  <div class="box-header">
+    <h3 class="box-title">Basic Table</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    <div
+      id="data-hover-table-example_wrapper"
+      class="dataTables_wrapper form-inline dt-bootstrap"
+    >
+
+      <div class="row">
+
+        <div class="col-md-12">
+
+          <table class="table table-hover">
+
+            {% for bootstrap_type in bootstrap_types %}
+
+              {# Example Elements Start Here #}
+              <tr class="{{ bootstrap_type }}">
+                <td>Entire</td>
+                <td>Row</td>
+                <td>Is Colored</td>
+                <td>{{ bootstrap_type|capfirst }}</td>
+              </tr>
+              <tr>
+                <td>Single</td>
+                <td class="{{ bootstrap_type }}">TD</td>
+                <td>Is Colored</td>
+                <td>{{ bootstrap_type|capfirst }}</td>
+              </tr>
+              {# Example Elements End Here #}
+
+            {% endfor %}
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  {# End Box Body #}
+
+</div>

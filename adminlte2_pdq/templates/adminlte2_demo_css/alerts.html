@@ -1,0 +1,33 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Alerts and Callouts
+    <small>Preview of Alert & Callout Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  <p>
+    Above are examples of messages created via the built-in
+    <a href="https://docs.djangoproject.com/en/dev/ref/contrib/messages/">Django Messages framework</a>.
+  </p>
+
+  {# Alerts and Callouts #}
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/alerts.html' with bootstrap_types=bootstrap_types %}
+    {% include 'adminlte2_demo_css/partials/callouts.html' with bootstrap_types=bootstrap_types %}
+  </div>
+
+{% endblock content %}

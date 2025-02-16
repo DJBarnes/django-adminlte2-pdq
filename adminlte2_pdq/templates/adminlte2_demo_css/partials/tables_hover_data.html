@@ -1,0 +1,168 @@
+{# Hover Data Tables #}
+{% load adminlte_tags %}
+
+
+<div class="box">
+
+  {# Start Box Head #}
+  <div class="box-header">
+    <h3 class="box-title">Hover Data Table</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    <div
+      id="data-hover-table-example_wrapper"
+      class="dataTables_wrapper form-inline dt-bootstrap"
+    >
+
+      <div class="row">
+        <div class="col-sm-12">
+
+          <table
+            id="data-hover-table-example"
+            class="table table-bordered table-hover dataTable"
+            role="grid"
+            aria-describedby="data-hover-table-example_info"
+          >
+
+            {# Table Header #}
+            <thead>
+              <tr>
+
+                <th rowspan="1" colspan="1">
+                  <i class="fa fa-sort-numeric-asc"></i>
+                </th>
+                <th rowspan="1" colspan="1">Example</th>
+                <th rowspan="1" colspan="1">Head</th>
+                <th rowspan="1" colspan="1">Elements</th>
+                <th rowspan="1" colspan="1">Color</th>
+                <th rowspan="1" colspan="1">Icon</th>
+
+              </tr>
+            </thead>
+
+            {# Table Body #}
+            <tbody>
+
+              {% for bootstrap_type in bootstrap_types %}
+
+                {# Example Elements Start Here #}
+
+                <tr class="{{ bootstrap_type }}">
+
+                  <td>{{ forloop.counter0|mult:2|add:1 }}</td>
+                  <td>Entire</td>
+                  <td>Row</td>
+                  <td>Is Colored</td>
+                  <td>{{ bootstrap_type|capfirst }}</td>
+
+                  {% if forloop.counter|modulo:6 == 0 %}
+                    <td data-order="1" data-search="car">
+                      <i class="fa fa-car"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 1 %}
+                    <td data-order="2" data-search="bicycle">
+                      <i class="fa fa-bicycle"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 2 %}
+                    <td data-order="3" data-search="train">
+                      <i class="fa fa-train"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 3 %}
+                    <td data-order="4" data-search="subway">
+                      <i class="fa fa-subway"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 4 %}
+                    <td data-order="5" data-search="ship">
+                      <i class="fa fa-ship"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 5 %}
+                    <td data-order="6" data-search="plane">
+                      <i class="fa fa-plane"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 6 %}
+                    <td data-order="7" data-search="rocket">
+                      <i class="fa fa-rocket"></i>
+                    </td>
+                  {% endif %}
+
+                </tr>
+
+                <tr>
+
+                  <td>{{ forloop.counter0|mult:2|add:2 }}</td>
+                  <td>Single</td>
+                  <td class="{{ bootstrap_type }}">TD</td>
+                  <td>Is Colored</td>
+                  <td>{{ bootstrap_type|capfirst }}</td>
+
+                  {% if forloop.counter|modulo:6 == 0 %}
+                    <td data-order="1" data-search="car">
+                      <i class="fa fa-car"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 1 %}
+                    <td data-order="2" data-search="bicycle">
+                      <i class="fa fa-bicycle"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 2 %}
+                    <td data-order="3" data-search="train">
+                      <i class="fa fa-train"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 3 %}
+                    <td data-order="4" data-search="subway">
+                      <i class="fa fa-subway"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 4 %}
+                    <td data-order="5" data-search="ship">
+                      <i class="fa fa-ship"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 5 %}
+                    <td data-order="6" data-search="plane">
+                      <i class="fa fa-plane"></i>
+                    </td>
+                  {% elif forloop.counter|modulo:6 == 6 %}
+                    <td data-order="7" data-search="rocket">
+                      <i class="fa fa-rocket"></i>
+                    </td>
+                  {% endif %}
+
+
+                </tr>
+
+                {# Example Elements End Here #}
+
+              {% endfor %}
+
+            </tbody>
+
+            {# Table Footer #}
+            <tfoot>
+              <tr>
+
+                <th rowspan="1" colspan="1">
+                  <i class="fa fa-sort-numeric-asc"></i>
+                </th>
+                <th rowspan="1" colspan="1">Example</th>
+                <th rowspan="1" colspan="1">Foot</th>
+                <th rowspan="1" colspan="1">Elements</th>
+                <th rowspan="1" colspan="1">Color</th>
+                <th rowspan="1" colspan="1">Icon</th>
+
+              </tr>
+            </tfoot>
+
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,31 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Labels & Tooltips
+    <small>Preview of Label & Tooltip Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  <p>Hover over the labels to see tooltips.</p>
+
+  {# Labels #}
+  <div class="row">
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/labels.html' with bootstrap_types=bootstrap_types %}
+    </div>
+  </div>
+
+{% endblock content %}
