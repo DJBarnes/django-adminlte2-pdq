@@ -26,6 +26,12 @@
   <script src="{% static 'third-party/inputmask/4.0.7/min/inputmask/bindings/inputmask.binding.min.js' %}"></script>
 {% endblock scripts_debug_inputmask %}
 
+{% block scripts_debug_datatables %}
+  <!-- DataTables -->
+  <script src="{% static 'third-party/bootstrap-datatables/dataTables.js' %}"></script>
+  <script src="{% static 'third-party/bootstrap-datatables/dataTables.bootstrap.js' %}"></script>
+{% endblock scripts_debug_datatables %}
+
 {% block scripts_debug_datetime_picker %}
   <!-- Datetime Widgets -->
   {% if DATETIME_WIDGET == 'jquery' or DATE_WIDGET == 'jquery' or TIME_WIDGET == 'jquery' %}
