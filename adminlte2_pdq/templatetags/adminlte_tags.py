@@ -329,6 +329,24 @@ def get_time_widget():
 
 
 # pylint:disable=unused-argument
+@register.filter(name="dict_key")
+def dict_key(dict, key):
+    """Basic tag to get a dict value from a key."""
+    return dict.get(key, None)
+
+
+@register.filter(name="mult")
+def mult(a, b):
+    """Basic tag to multiply two values and return the result."""
+    return a * b
+
+
+@register.filter(name="modulo")
+def modulo(a, b):
+    """Basic tag to modulo two values and return the result."""
+    return a & b
+
+
 @register.simple_tag(takes_context=True)
 def get_avatar_url(context, user=None, email=None, size=None, default="mp"):
     """
