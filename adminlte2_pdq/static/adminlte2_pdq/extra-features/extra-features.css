@@ -1340,17 +1340,20 @@ Prevent tooltip opacity
 
 /* Add coloring for table elements. */
 .table > thead > tr > td.default,
-.table > tbody > tr > td.default,
 .table > tfoot > tr > td.default,
 .table > thead > tr > th.default,
-.table > tbody > tr > th.default,
 .table > tfoot > tr > th.default,
 .table > thead > tr.default > td,
-.table > tbody > tr.default > td,
 .table > tfoot > tr.default > td,
 .table > thead > tr.default > th,
-.table > tbody > tr.default > th,
 .table > tfoot > tr.default > th {
+  color: #333;
+  background-color: #f4f4f4;
+}
+.table > tbody > tr > td.default,
+.table > tbody > tr > th.default,
+.table > tbody > tr.default > td,
+.table > tbody > tr.default > th {
   color: #333;
   background-color: #f4f4f4;
 }
@@ -1367,29 +1370,32 @@ Prevent tooltip opacity
   background-color: #f4f4f4;
 }
 .table > thead > tr > td.primary,
-.table > tbody > tr > td.primary,
 .table > tfoot > tr > td.primary,
 .table > thead > tr > th.primary,
-.table > tbody > tr > th.primary,
 .table > tfoot > tr > th.primary,
 .table > thead > tr.primary > td,
-.table > tbody > tr.primary > td,
 .table > tfoot > tr.primary > td,
 .table > thead > tr.primary > th,
-.table > tbody > tr.primary > th,
 .table > tfoot > tr.primary > th,
 .table > thead > tr > td.light-blue,
-.table > tbody > tr > td.light-blue,
 .table > tfoot > tr > td.light-blue,
 .table > thead > tr > th.light-blue,
-.table > tbody > tr > th.light-blue,
 .table > tfoot > tr > th.light-blue,
 .table > thead > tr.light-blue > td,
-.table > tbody > tr.light-blue > td,
 .table > tfoot > tr.light-blue > td,
 .table > thead > tr.light-blue > th,
-.table > tbody > tr.light-blue > th,
 .table > tfoot > tr.light-blue > th {
+  color: #fff;
+  background-color: #3c8dbc;
+}
+.table > tbody > tr > td.primary,
+.table > tbody > tr > th.primary,
+.table > tbody > tr.primary > td,
+.table > tbody > tr.primary > th,
+.table > tbody > tr > td.light-blue,
+.table > tbody > tr > th.light-blue,
+.table > tbody > tr.light-blue > td,
+.table > tbody > tr.light-blue > th {
   color: #fff;
   background-color: #6a9ebd;
 }
@@ -1406,29 +1412,32 @@ Prevent tooltip opacity
   background-color: #7da5bd;
 }
 .table > thead > tr > td.info,
-.table > tbody > tr > td.info,
 .table > tfoot > tr > td.info,
 .table > thead > tr > th.info,
-.table > tbody > tr > th.info,
 .table > tfoot > tr > th.info,
 .table > thead > tr.info > td,
-.table > tbody > tr.info > td,
 .table > tfoot > tr.info > td,
 .table > thead > tr.info > th,
-.table > tbody > tr.info > th,
 .table > tfoot > tr.info > th,
 .table > thead > tr > td.aqua,
-.table > tbody > tr > td.aqua,
 .table > tfoot > tr > td.aqua,
 .table > thead > tr > th.aqua,
-.table > tbody > tr > th.aqua,
 .table > tfoot > tr > th.aqua,
 .table > thead > tr.aqua > td,
-.table > tbody > tr.aqua > td,
 .table > tfoot > tr.aqua > td,
 .table > thead > tr.aqua > th,
-.table > tbody > tr.aqua > th,
 .table > tfoot > tr.aqua > th {
+  color: #333;
+  background-color: #00c0ef;
+}
+.table > tbody > tr > td.info,
+.table > tbody > tr > th.info,
+.table > tbody > tr.info > td,
+.table > tbody > tr.info > th,
+.table > tbody > tr > td.aqua,
+.table > tbody > tr > th.aqua,
+.table > tbody > tr.aqua > td,
+.table > tbody > tr.aqua > th {
   color: #333;
   background-color: #60d3f0;
 }
@@ -1445,29 +1454,32 @@ Prevent tooltip opacity
   background-color: #78d8f0;
 }
 .table > thead > tr > td.success,
-.table > tbody > tr > td.success,
 .table > tfoot > tr > td.success,
 .table > thead > tr > th.success,
-.table > tbody > tr > th.success,
 .table > tfoot > tr > th.success,
 .table > thead > tr.success > td,
-.table > tbody > tr.success > td,
 .table > tfoot > tr.success > td,
 .table > thead > tr.success > th,
-.table > tbody > tr.success > th,
 .table > tfoot > tr.success > th,
 .table > thead > tr > td.green,
-.table > tbody > tr > td.green,
 .table > tfoot > tr > td.green,
 .table > thead > tr > th.green,
-.table > tbody > tr > th.green,
 .table > tfoot > tr > th.green,
 .table > thead > tr.green > td,
-.table > tbody > tr.green > td,
 .table > tfoot > tr.green > td,
 .table > thead > tr.green > th,
-.table > tbody > tr.green > th,
 .table > tfoot > tr.green > th {
+  color: #fff;
+  background-color: #00a65a;
+}
+.table > tbody > tr > td.success,
+.table > tbody > tr > th.success,
+.table > tbody > tr.success > td,
+.table > tbody > tr.success > th,
+.table > tbody > tr > td.green,
+.table > tbody > tr > th.green,
+.table > tbody > tr.green > td,
+.table > tbody > tr.green > th {
   color: #fff;
   background-color: #42a679;
 }
@@ -1484,29 +1496,32 @@ Prevent tooltip opacity
   background-color: #53a680;
 }
 .table > thead > tr > td.warning,
-.table > tbody > tr > td.warning,
 .table > tfoot > tr > td.warning,
 .table > thead > tr > th.warning,
-.table > tbody > tr > th.warning,
 .table > tfoot > tr > th.warning,
 .table > thead > tr.warning > td,
-.table > tbody > tr.warning > td,
 .table > tfoot > tr.warning > td,
 .table > thead > tr.warning > th,
-.table > tbody > tr.warning > th,
 .table > tfoot > tr.warning > th,
 .table > thead > tr > td.yellow,
-.table > tbody > tr > td.yellow,
 .table > tfoot > tr > td.yellow,
 .table > thead > tr > th.yellow,
-.table > tbody > tr > th.yellow,
 .table > tfoot > tr > th.yellow,
 .table > thead > tr.yellow > td,
-.table > tbody > tr.yellow > td,
 .table > tfoot > tr.yellow > td,
 .table > thead > tr.yellow > th,
-.table > tbody > tr.yellow > th,
 .table > tfoot > tr.yellow > th {
+  color: #fff;
+  background-color: #f39c12;
+}
+.table > tbody > tr > td.warning,
+.table > tbody > tr > th.warning,
+.table > tbody > tr.warning > td,
+.table > tbody > tr.warning > th,
+.table > tbody > tr > td.yellow,
+.table > tbody > tr > th.yellow,
+.table > tbody > tr.yellow > td,
+.table > tbody > tr.yellow > th {
   color: #fff;
   background-color: #f2be6b;
 }
@@ -1523,29 +1538,32 @@ Prevent tooltip opacity
   background-color: #f2c883;
 }
 .table > thead > tr > td.danger,
-.table > tbody > tr > td.danger,
 .table > tfoot > tr > td.danger,
 .table > thead > tr > th.danger,
-.table > tbody > tr > th.danger,
 .table > tfoot > tr > th.danger,
 .table > thead > tr.danger > td,
-.table > tbody > tr.danger > td,
 .table > tfoot > tr.danger > td,
 .table > thead > tr.danger > th,
-.table > tbody > tr.danger > th,
 .table > tfoot > tr.danger > th,
 .table > thead > tr > td.red,
-.table > tbody > tr > td.red,
 .table > tfoot > tr > td.red,
 .table > thead > tr > th.red,
-.table > tbody > tr > th.red,
 .table > tfoot > tr > th.red,
 .table > thead > tr.red > td,
-.table > tbody > tr.red > td,
 .table > tfoot > tr.red > td,
 .table > thead > tr.red > th,
-.table > tbody > tr.red > th,
 .table > tfoot > tr.red > th {
+  color: #fff;
+  background-color: #dd4b39;
+}
+.table > tbody > tr > td.danger,
+.table > tbody > tr > th.danger,
+.table > tbody > tr.danger > td,
+.table > tbody > tr.danger > th,
+.table > tbody > tr > td.red,
+.table > tbody > tr > th.red,
+.table > tbody > tr.red > td,
+.table > tbody > tr.red > th {
   color: #fff;
   background-color: #de8276;
 }
@@ -1562,17 +1580,21 @@ Prevent tooltip opacity
   background-color: #de958c;
 }
 .table > thead > tr > td.navy,
-.table > tbody > tr > td.navy,
 .table > tfoot > tr > td.navy,
 .table > thead > tr > th.navy,
-.table > tbody > tr > th.navy,
 .table > tfoot > tr > th.navy,
 .table > thead > tr.navy > td,
-.table > tbody > tr.navy > td,
 .table > tfoot > tr.navy > td,
 .table > thead > tr.navy > th,
-.table > tbody > tr.navy > th,
 .table > tfoot > tr.navy > th {
+  color: #fff;
+  background-color: #001f3f;
+}
+
+.table > tbody > tr > td.navy,
+.table > tbody > tr > th.navy,
+.table > tbody > tr.navy > td,
+.table > tbody > tr.navy > th {
   color: #fff;
   background-color: #2d5173;
 }
@@ -1584,17 +1606,20 @@ Prevent tooltip opacity
   background-color: #2d4359;
 }
 .table > thead > tr > td.blue,
-.table > tbody > tr > td.blue,
 .table > tfoot > tr > td.blue,
 .table > thead > tr > th.blue,
-.table > tbody > tr > th.blue,
 .table > tfoot > tr > th.blue,
 .table > thead > tr.blue > td,
-.table > tbody > tr.blue > td,
 .table > tfoot > tr.blue > td,
 .table > thead > tr.blue > th,
-.table > tbody > tr.blue > th,
 .table > tfoot > tr.blue > th {
+  color: #fff;
+  background-color: #0073b7;
+}
+.table > tbody > tr > td.blue,
+.table > tbody > tr > th.blue,
+.table > tbody > tr.blue > td,
+.table > tbody > tr.blue > th {
   color: #fff;
   background-color: #498fb8;
 }
@@ -1606,17 +1631,20 @@ Prevent tooltip opacity
   background-color: #5c96b8;
 }
 .table > thead > tr > td.teal,
-.table > tbody > tr > td.teal,
 .table > tfoot > tr > td.teal,
 .table > thead > tr > th.teal,
-.table > tbody > tr > th.teal,
 .table > tfoot > tr > th.teal,
 .table > thead > tr.teal > td,
-.table > tbody > tr.teal > td,
 .table > tfoot > tr.teal > td,
 .table > thead > tr.teal > th,
-.table > tbody > tr.teal > th,
 .table > tfoot > tr.teal > th {
+  color: #333;
+  background-color: #39cccc;
+}
+.table > tbody > tr > td.teal,
+.table > tbody > tr > th.teal,
+.table > tbody > tr.teal > td,
+.table > tbody > tr.teal > th {
   color: #333;
   background-color: #6ecccc;
 }
@@ -1628,17 +1656,20 @@ Prevent tooltip opacity
   background-color: #83cccc;
 }
 .table > thead > tr > td.olive,
-.table > tbody > tr > td.olive,
 .table > tfoot > tr > td.olive,
 .table > thead > tr > th.olive,
-.table > tbody > tr > th.olive,
 .table > tfoot > tr > th.olive,
 .table > thead > tr.olive > td,
-.table > tbody > tr.olive > td,
 .table > tfoot > tr.olive > td,
 .table > thead > tr.olive > th,
-.table > tbody > tr.olive > th,
 .table > tfoot > tr.olive > th {
+  color: #fff;
+  background-color: #3d9970;
+}
+.table > tbody > tr > td.olive,
+.table > tbody > tr > th.olive,
+.table > tbody > tr.olive > td,
+.table > tbody > tr.olive > th {
   color: #fff;
   background-color: #5c997d;
 }
@@ -1650,17 +1681,20 @@ Prevent tooltip opacity
   background-color: #6b9984;
 }
 .table > thead > tr > td.lime,
-.table > tbody > tr > td.lime,
 .table > tfoot > tr > td.lime,
 .table > thead > tr > th.lime,
-.table > tbody > tr > th.lime,
 .table > tfoot > tr > th.lime,
 .table > thead > tr.lime > td,
-.table > tbody > tr.lime > td,
 .table > tfoot > tr.lime > td,
 .table > thead > tr.lime > th,
-.table > tbody > tr.lime > th,
 .table > tfoot > tr.lime > th {
+  color: #333;
+  background-color: #01ff70;
+}
+.table > tbody > tr > td.lime,
+.table > tbody > tr > th.lime,
+.table > tbody > tr.lime > td,
+.table > tbody > tr.lime > th {
   color: #333;
   background-color: #66ffa8;
 }
@@ -1672,17 +1706,20 @@ Prevent tooltip opacity
   background-color: #80ffb7;
 }
 .table > thead > tr > td.orange,
-.table > tbody > tr > td.orange,
 .table > tfoot > tr > td.orange,
 .table > thead > tr > th.orange,
-.table > tbody > tr > th.orange,
 .table > tfoot > tr > th.orange,
 .table > thead > tr.orange > td,
-.table > tbody > tr.orange > td,
 .table > tfoot > tr.orange > td,
 .table > thead > tr.orange > th,
-.table > tbody > tr.orange > th,
 .table > tfoot > tr.orange > th {
+  color: #fff;
+  background-color: #ff851b;
+}
+.table > tbody > tr > td.orange,
+.table > tbody > tr > th.orange,
+.table > tbody > tr.orange > td,
+.table > tbody > tr.orange > th {
   color: #fff;
   background-color: #ffb16c;
 }
@@ -1694,17 +1731,20 @@ Prevent tooltip opacity
   background-color: #f7bd8a;
 }
 .table > thead > tr > td.fuchsia,
-.table > tbody > tr > td.fuchsia,
 .table > tfoot > tr > td.fuchsia,
 .table > thead > tr > th.fuchsia,
-.table > tbody > tr > th.fuchsia,
 .table > tfoot > tr > th.fuchsia,
 .table > thead > tr.fuchsia > td,
-.table > tbody > tr.fuchsia > td,
 .table > tfoot > tr.fuchsia > td,
 .table > thead > tr.fuchsia > th,
-.table > tbody > tr.fuchsia > th,
 .table > tfoot > tr.fuchsia > th {
+  color: #fff;
+  background-color: #f012be;
+}
+.table > tbody > tr > td.fuchsia,
+.table > tbody > tr > th.fuchsia,
+.table > tbody > tr.fuchsia > td,
+.table > tbody > tr.fuchsia > th {
   color: #fff;
   background-color: #f069d0;
 }
@@ -1716,17 +1756,20 @@ Prevent tooltip opacity
   background-color: #f081d6;
 }
 .table > thead > tr > td.indigo,
-.table > tbody > tr > td.indigo,
 .table > tfoot > tr > td.indigo,
 .table > thead > tr > th.indigo,
-.table > tbody > tr > th.indigo,
 .table > tfoot > tr > th.indigo,
 .table > thead > tr.indigo > td,
-.table > tbody > tr.indigo > td,
 .table > tfoot > tr.indigo > td,
 .table > thead > tr.indigo > th,
-.table > tbody > tr.indigo > th,
 .table > tfoot > tr.indigo > th {
+  color: #fff;
+  background-color: #a35cd8;
+}
+.table > tbody > tr > td.indigo,
+.table > tbody > tr > th.indigo,
+.table > tbody > tr.indigo > td,
+.table > tbody > tr.indigo > th {
   color: #fff;
   background-color: #b586d9;
 }
@@ -1738,17 +1781,20 @@ Prevent tooltip opacity
   background-color: #be9cd9;
 }
 .table > thead > tr > td.purple,
-.table > tbody > tr > td.purple,
 .table > tfoot > tr > td.purple,
 .table > thead > tr > th.purple,
-.table > tbody > tr > th.purple,
 .table > tfoot > tr > th.purple,
 .table > thead > tr.purple > td,
-.table > tbody > tr.purple > td,
 .table > tfoot > tr.purple > td,
 .table > thead > tr.purple > th,
-.table > tbody > tr.purple > th,
 .table > tfoot > tr.purple > th {
+  color: #fff;
+  background-color: #605ca8;
+}
+.table > tbody > tr > td.purple,
+.table > tbody > tr > th.purple,
+.table > tbody > tr.purple > td,
+.table > tbody > tr.purple > th {
   color: #fff;
   background-color: #a09afc;
 }
@@ -1760,17 +1806,20 @@ Prevent tooltip opacity
   background-color: #b9b6f7;
 }
 .table > thead > tr > td.maroon,
-.table > tbody > tr > td.maroon,
 .table > tfoot > tr > td.maroon,
 .table > thead > tr > th.maroon,
-.table > tbody > tr > th.maroon,
 .table > tfoot > tr > th.maroon,
 .table > thead > tr.maroon > td,
-.table > tbody > tr.maroon > td,
 .table > tfoot > tr.maroon > td,
 .table > thead > tr.maroon > th,
-.table > tbody > tr.maroon > th,
 .table > tfoot > tr.maroon > th {
+  color: #fff;
+  background-color: #d81b60;
+}
+.table > tbody > tr > td.maroon,
+.table > tbody > tr > th.maroon,
+.table > tbody > tr.maroon > td,
+.table > tbody > tr.maroon > th {
   color: #fff;
   background-color: #d9648f;
 }
@@ -1782,17 +1831,20 @@ Prevent tooltip opacity
   background-color: #d9799c;
 }
 .table > thead > tr > td.gray,
-.table > tbody > tr > td.gray,
 .table > tfoot > tr > td.gray,
 .table > thead > tr > th.gray,
-.table > tbody > tr > th.gray,
 .table > tfoot > tr > th.gray,
 .table > thead > tr.gray > td,
-.table > tbody > tr.gray > td,
 .table > tfoot > tr.gray > td,
 .table > thead > tr.gray > th,
-.table > tbody > tr.gray > th,
 .table > tfoot > tr.gray > th {
+  color: #333;
+  background-color: #d2d6de;
+}
+.table > tbody > tr > td.gray,
+.table > tbody > tr > th.gray,
+.table > tbody > tr.gray > td,
+.table > tbody > tr.gray > th {
   color: #333;
   background-color: #d2d6de;
 }
@@ -1804,17 +1856,20 @@ Prevent tooltip opacity
   background-color: #d2d6de;
 }
 .table > thead > tr > td.black,
-.table > tbody > tr > td.black,
 .table > tfoot > tr > td.black,
 .table > thead > tr > th.black,
-.table > tbody > tr > th.black,
 .table > tfoot > tr > th.black,
 .table > thead > tr.black > td,
-.table > tbody > tr.black > td,
 .table > tfoot > tr.black > td,
 .table > thead > tr.black > th,
-.table > tbody > tr.black > th,
 .table > tfoot > tr.black > th {
+  color: #fff;
+  background-color: #111111;
+}
+.table > tbody > tr > td.black,
+.table > tbody > tr > th.black,
+.table > tbody > tr.black > td,
+.table > tbody > tr.black > th {
   color: #fff;
   background-color: #454545;
 }
