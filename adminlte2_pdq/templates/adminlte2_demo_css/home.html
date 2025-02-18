@@ -1,0 +1,89 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content %}
+  <h1>Demo CSS <small>Home</small></h1>
+
+  <div class="box box-primary">
+
+    {# Start Box Head #}
+    <div class="box-header">
+
+      <i class="fa fa-home"></i>
+      &nbsp;
+      <h3 class="box-title">Welcome!</h3>
+
+      {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+    </div>
+    {# End Box Head #}
+
+    {# Start Box Body #}
+    <div class="box-body">
+
+      <p>
+        This is the landing page for the
+        <a href="https://django-adminlte2-pdq.readthedocs.io/en/latest/">Django AdminLTE PDQ</a>
+        package CSS.
+      </p>
+
+      <p>
+        The provided stylings should match
+        <a href="https://adminlte.io/themes/AdminLTE/index2.html">AdminLTE2</a>,
+        an open-source front-end framework, designed to provide an easy
+        dashboard and control panel theme for any website.
+        All of this runs off of
+        <a href="https://getbootstrap.com/docs/3.3/">Bootstrap 3.3.7</a>.
+      </p>
+
+      <p>
+        Click any of the links in the navbar to the left to see some of the provided package stylings.
+        Or compare to the
+        <a href="https://adminlte.io/themes/AdminLTE/index2.html">original AdmninLTE</a>
+        docs to see the full stylings this package is based on.
+      </p>
+
+      <p>
+        For examples of using these package styles in Django templates, see the
+        <a href="https://github.com/DJBarnes/django-adminlte2-pdq/tree/main/adminlte2_pdq/templates/adminlte2_demo_css/partials">
+          Django AdminLTE PDQ CSS Demo template files.
+        </a>.
+      </p>
+
+      <br>
+
+      <p>
+        <b>Note</b>: The
+        <a href="https://django-adminlte2-pdq.readthedocs.io/en/latest/">Django AdminLTE PDQ</a>
+        package also slightly expands the AdminLTE framework,
+        to have coloring support for all of bootstrap's built-in colors.
+      </p>
+
+    </div>
+    {# End Box Body #}
+
+  </div>
+
+  <br>
+  <hr>
+  <br>
+  <hr>
+  <br>
+  <hr>
+  <br>
+
+  <p>
+    TODO: Below are stylings that were in the original AdminLTE PDQ CSS example
+    pages, but do not currently have a page in the newer, reworked demo pages.
+  </p>
+
+  {# Anchor Buttons #}
+  {% include 'adminlte2_demo_css/partials/old/anchor_buttons.html' with bootstrap_types=bootstrap_types %}
+
+  {# Boxes #}
+  {% include 'adminlte2_demo_css/partials/old/boxes.html' with bootstrap_types=bootstrap_types %}
+
+  {# Solid Boxes #}
+  {% include 'adminlte2_demo_css/partials/old/solid_boxes.html' with bootstrap_types=bootstrap_types %}
+
+{% endblock content %}
