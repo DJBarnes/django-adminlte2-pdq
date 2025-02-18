@@ -60,20 +60,13 @@ CSS_COLOR_HEX_KEYS = {
 
 
 def demo_css(request):
-    """Show examples of extra-features.css"""
-
-    # Add messages to demo them.
-    messages.set_level(request, messages.DEBUG)
-    messages.debug(request, "This is a debug message via the messages framework.")
-    messages.info(request, "This is a info message via the messages framework.")
-    messages.success(request, "This is a success message via the messages framework.")
-    messages.warning(request, "This is a warning message via the messages framework.")
-    messages.error(request, "This is a error message via the messages framework.")
-    messages.add_message(request, 50, "This is an unknown level message via the messages framework.")
+    """Home page for CSS demo. Primarily links to various pages that show how to use package CSS stylings.
+    Can also be used as verification to make sure package HTML/CSS functions as expected.
+    """
 
     return render(
         request,
-        "adminlte2_demo_css/old/home.html",
+        "adminlte2_demo_css/home.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,
