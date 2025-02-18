@@ -92,6 +92,11 @@ CSS_MENU = [
                         ],
                     },
                     {
+                        "route": "adminlte2_pdq:demo-css",
+                        "text": "Demo CSS Home",
+                        "icon": "fa fa-home",
+                    },
+                    {
                         "route": "adminlte2_pdq:demo-css-widgets",
                         "text": "Widgets",
                         "icon": "fa fa-th",
