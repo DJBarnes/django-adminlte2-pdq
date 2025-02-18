@@ -19,6 +19,13 @@
 
 {% block content %}
 
+  {# Table Headers #}
+  <div class="row">
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/tables_headers.html' with bootstrap_types=bootstrap_types %}
+    </div>
+  </div>
+
   {# Basic Data Tables #}
   <div class="row">
     <div class="col-xs-12">
