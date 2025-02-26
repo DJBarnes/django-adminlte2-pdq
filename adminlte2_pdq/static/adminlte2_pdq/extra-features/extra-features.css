@@ -2315,3 +2315,33 @@ Works well with bell icon: fa fa-bell
 .wiggle:hover {
     animation: none;
 }
+
+
+/* Add ability to have an a-element that spans some element types.*/
+a.full-span-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    opacity: 10%;
+
+    transition: background-color 0.2s linear;
+}
+.info-box {
+    position: relative;
+}
+.info-box:hover a.full-span-link {
+    background-color: #fff;
+
+}
+.small-box:hover a.full-span-link {
+    background-color: #fff;
+}
+table tr, table th, table td {
+    position: relative;
+}
+table:hover a.full-span-link {
+    background-color: #fff;
+}
