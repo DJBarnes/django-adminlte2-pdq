@@ -1,3 +1,9 @@
+/**
+ * TODO: Split these up into separate files if they're separate features.
+ *  Otherwise, at least document them better.
+ */
+
+
 $(function () {
     // Click the first child found
     // This makes it easier to click checkboxes by clicking the parent element

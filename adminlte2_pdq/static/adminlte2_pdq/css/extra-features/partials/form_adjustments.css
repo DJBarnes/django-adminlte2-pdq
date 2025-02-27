@@ -1,0 +1,13 @@
+/**
+ * Extra CSS for form elements.
+ */
+
+
+/**
+ * Show form errors for checkboxes too.
+ * (Based on '.form-group.has-error .help-block')
+ */
+.checkbox.has-error .help-block,
+.checkbox.has-error label {
+    color: #dd4b39;
+}

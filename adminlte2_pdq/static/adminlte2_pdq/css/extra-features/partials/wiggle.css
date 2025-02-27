@@ -1,0 +1,20 @@
+/**
+ * Extra CSS for a `wiggle` element style.
+ *
+ * Add 'wiggle' to an element to have it rotate left and right quickly.
+ * Works well with bell icon: fa fa-bell
+ */
+
+
+@keyframes wiggle {
+    10%, 90% { transform: rotate(-2deg); }
+    20%, 80% { transform: rotate(4deg); }
+    30%, 50%, 70% { transform: rotate(-8deg); }
+    40%, 60% { transform: rotate(8deg); }
+  }
+.wiggle {
+    animation: wiggle 2.5s infinite;
+}
+.wiggle:hover {
+    animation: none;
+}

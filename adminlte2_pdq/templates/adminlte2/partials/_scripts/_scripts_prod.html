@@ -1,8 +1,10 @@
 {% load adminlte_tags %}
 
+
 {% get_datetime_widget as DATETIME_WIDGET %}
 {% get_date_widget as DATE_WIDGET %}
 {% get_time_widget as TIME_WIDGET %}
+
 
 {% block scripts_prod_jquery %}
   <!-- jQuery and jQuery UI -->
@@ -10,15 +12,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
 {% endblock scripts_prod_jquery %}
 
+
 {% block scripts_prod_bootstrap %}
   <!-- Bootstrap -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {% endblock scripts_prod_bootstrap %}
 
+
 {% block scripts_prod_adminlte %}
   <!-- AdminLTE -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/js/app.min.js" integrity="sha256-twY1ayIs7adXt9vBEYizRfJ39b731Ar1CnUr7OjzD5o=" crossorigin="anonymous"></script>
 {% endblock scripts_prod_adminlte %}
+
 
 {% block scripts_prod_inputmask %}
   <!-- Inputmask for Phone numbers -->
@@ -26,11 +31,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/4.0.7/inputmask/bindings/inputmask.binding.min.js" integrity="sha256-bAERPQJaJku+Uh8XMM6VsIDxPU5ZgvNQ7L5YxGwuddA=" crossorigin="anonymous"></script>
 {% endblock scripts_prod_inputmask %}
 
+
 {% block scripts_debug_datatables %}
   <!-- DataTables -->
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
   <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap.js"></script>
 {% endblock scripts_debug_datatables %}
+
 
 {% block scripts_prod_datetime_picker %}
   <!-- Datetime Widgets -->

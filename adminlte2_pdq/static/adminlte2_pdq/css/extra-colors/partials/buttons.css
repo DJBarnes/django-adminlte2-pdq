@@ -1,0 +1,321 @@
+/**
+ * Extra coloring CSS for AdminLte `btn` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+/* Fix adminlte buttons in box-header on hover. */
+.box.box-solid > .box-header .btn.btn-primary:hover,
+.box.box-solid > .box-header a.btn.btn-primary:hover {
+    background-color: #367fa9;
+}
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+/* Fix adminlte buttons in box-header on hover. */
+.box.box-solid > .box-header .btn.btn-info:hover,
+.box.box-solid > .box-header a.btn.btn-info:hover {
+    background-color: #00acd6;
+}
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+/* Fix adminlte buttons in box-header on hover. */
+.box.box-solid > .box-header .btn.btn-success:hover,
+.box.box-solid > .box-header a.btn.btn-success:hover {
+    background-color: #008d4c;
+}
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+/* Fix adminlte buttons in box-header on hover */
+.box.box-solid > .box-header .btn.btn-warning:hover,
+.box.box-solid > .box-header a.btn.btn-warning:hover {
+    background-color: #e08e0b;
+}
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+/* Fix adminlte buttons in box-header on hover */
+.box.box-solid > .box-header .btn.btn-danger:hover,
+.box.box-solid > .box-header a.btn.btn-danger:hover {
+    background-color: #d73925;
+}
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte. */
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+/* Already implemented by AdminLte. */
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte. */
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte. */
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte. */
+
+
+/* Navy coloring. */
+.btn-navy {
+    background-color: #001f3f;
+    border-color: #001a35;
+}
+.box.box-solid > .box-header .btn.btn-navy:hover,
+.box.box-solid > .box-header a.btn-navy:hover,
+.btn-navy:hover,
+.btn-navy:active,
+.btn-navy.hover {
+    background-color: #001a35;
+}
+
+
+/* Blue coloring. */
+.btn-blue {
+    border-color:#01578a;
+    background-color: #0073b7;
+}
+.box.box-solid > .box-header .btn.btn-blue:hover,
+.box.box-solid > .box-header a.btn-blue:hover,
+.btn-blue:hover,
+.btn-blue:active,
+.btn-blue.hover {
+    background-color: #01578a;
+}
+
+
+/* Teal coloring. */
+.btn-teal {
+    background-color: #39cccc;
+    border-color: #30bbbb;
+}
+.box.box-solid > .box-header .btn.btn-teal:hover,
+.box.box-solid > .box-header a.btn-teal:hover,
+.btn-teal:hover,
+.btn-teal:active,
+.btn-teal.hover {
+    background-color: #30bbbb;
+}
+
+
+/* Olive coloring. */
+.btn-olive {
+    background-color: #3d9970;
+    border-color: #368763;
+}
+.box.box-solid > .box-header .btn.btn-olive:hover,
+.box.box-solid > .box-header a.btn-olive:hover,
+.btn-olive:hover,
+.btn-olive:active,
+.btn-olive.hover {
+    background-color: #368763;
+}
+
+
+/* Lime coloring. */
+.btn-lime {
+    background-color: #01ff70;
+    border-color: #00e765;
+}
+.box.box-solid > .box-header .btn.btn-lime:hover,
+.box.box-solid > .box-header a.btn-lime:hover,
+.btn-lime:hover,
+.btn-lime:active,
+.btn-lime.hover {
+    background-color: #00e765;
+}
+
+
+/* Orange coloring. */
+.btn-orange {
+    background-color: #ff851b;
+    border-color: #ff7701;
+}
+.box.box-solid > .box-header .btn.btn-orange:hover,
+.box.box-solid > .box-header a.btn-orange:hover,
+.btn-orange:hover,
+.btn-orange:active,
+.btn-orange.hover {
+    background-color: #ff7701;
+}
+
+
+/* Fuchsia coloring. */
+.btn-fuchsia {
+    background-color: #f012be;
+    border-color: #db0ead;
+}
+.box.box-solid > .box-header .btn.btn-fuchsia:hover,
+.box.box-solid > .box-header a.btn-fuchsia:hover,
+.btn-fuchsia:hover,
+.btn-fuchsia:active,
+.btn-fuchsia.hover {
+    background-color: #db0ead;
+}
+
+
+/* Indigo coloring. */
+.btn-indigo {
+    background-color: #a35cd8;
+    border-color: #9a52d2;
+}
+.box.box-solid > .box-header .btn.btn-indigo:hover,
+.box.box-solid > .box-header a.btn-indigo:hover,
+.btn-indigo:hover,
+.btn-indigo:active,
+.btn-indigo.hover {
+    background-color: #9a52d2;
+}
+
+
+/* Purple coloring. */
+.btn-purple {
+    background-color: #605ca8;
+    border-color: #555299;
+}
+.box.box-solid > .box-header .btn.btn-purple:hover,
+.box.box-solid > .box-header a.btn-purple:hover,
+.btn-purple:hover,
+.btn-purple:active,
+.btn-purple.hover {
+    background-color: #555299;
+}
+
+
+/* Maroon coloring. */
+.btn-maroon {
+    background-color: #d81b60;
+    border-color: #ca195a;
+}
+.box.box-solid > .box-header .btn.btn-maroon:hover,
+.box.box-solid > .box-header a.btn-maroon:hover,
+.btn-maroon:hover,
+.btn-maroon:active,
+.btn-maroon.hover {
+    background-color: #ca195a;
+}
+
+
+/* Gray coloring. */
+.btn-gray {
+    background-color: #b5bbc8;
+    border-color: #9ca2ae;
+}
+.box.box-solid > .box-header .btn.btn-gray:hover,
+.box.box-solid > .box-header a.btn-gray:hover,
+.btn-gray:hover,
+.btn-gray:active,
+.btn-gray.hover {
+    background-color: #9ca2ae;
+}
+
+
+/* Black coloring. */
+.btn-black {
+    background-color: #2b2b2b;
+    border-color: #000000;
+}
+.box.box-solid > .box-header .btn.btn-black:hover,
+.box.box-solid > .box-header a.btn-black:hover,
+.btn-black:hover,
+.btn-black:active,
+.btn-black.hover {
+    background-color: #000000;
+}
+
+
+.btn-navy,
+.btn-navy:hover,
+.btn-navy:active,
+.btn-navy:focus,
+.btn-navy.hover,
+.btn-blue,
+.btn-blue:hover,
+.btn-blue:active,
+.btn-blue:focus,
+.btn-blue.hover,
+.btn-olive,
+.btn-olive:hover,
+.btn-olive:active,
+.btn-olive:focus,
+.btn-olive.hover,
+.btn-orange,
+.btn-orange:hover,
+.btn-orange:active,
+.btn-orange:focus,
+.btn-orange.hover,
+.btn-fuchsia,
+.btn-fuchsia:hover,
+.btn-fuchsia:active,
+.btn-fuchsia:focus,
+.btn-fuchsia.hover,
+.btn-indigo,
+.btn-indigo:hover,
+.btn-indigo:active,
+.btn-indigo:focus,
+.btn-indigo.hover,
+.btn-purple,
+.btn-purple:hover,
+.btn-purple:active,
+.btn-purple:focus,
+.btn-purple.hover,
+.btn-maroon,
+.btn-maroon:hover,
+.btn-maroon:active,
+.btn-maroon:focus,
+.btn-maroon.hover,
+.btn-black,
+.btn-black:hover,
+.btn-black:active,
+.btn-black:focus,
+.btn-black.hover {
+    color: #fff;
+}
+
+.btn-teal,
+.btn-teal:hover,
+.btn-teal:active,
+.btn-teal:focus,
+.btn-teal.hover,
+.btn-lime,
+.btn-lime:hover,
+.btn-lime:active,
+.btn-lime:focus,
+.btn-lime.hover,
+.btn-gray,
+.btn-gray:hover,
+.btn-gray:active,
+.btn-gray:focus,
+.btn-gray.hover {
+    color: #333;
+}
