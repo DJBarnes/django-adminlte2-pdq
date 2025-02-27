@@ -1,0 +1,155 @@
+/**
+ * Extra coloring CSS for AdminLte `label` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte. */
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+/* Already implemented by AdminLte. */
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte. */
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte. */
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte. */
+
+
+/* Navy coloring. */
+.label-navy {
+  background-color: #001f3f !important;
+}
+
+
+/* Blue coloring. */
+.label-blue {
+  background-color: #1a94db !important;
+}
+
+
+/* Teal coloring. */
+.label-teal {
+  background-color: #39cccc !important;
+}
+
+
+/* Olive coloring. */
+.label-olive {
+  background-color: #3d9970 !important;
+}
+
+
+/* Lime coloring. */
+.label-lime {
+  background-color: #01ff70 !important;
+}
+
+
+/* Orange coloring. */
+.label-orange {
+  background-color: #ff851b !important;
+}
+
+
+/* Fuchsia coloring. */
+.label-fuchsia {
+  background-color: #f012be !important;
+}
+
+
+/* Indigo coloring. */
+.label-indigo {
+  background-color: #a35cd8 !important;
+}
+
+
+/* Purple coloring. */
+.label-purple {
+  background-color: #605ca8 !important;
+}
+
+
+/* Maroon coloring. */
+.label-maroon {
+  background-color: #d81b60 !important;
+}
+
+
+/* Gray coloring. */
+.label-gray {
+  color: #333;
+  background-color: #b5bbc8 !important;
+}
+
+
+/* Black coloring. */
+.label-black {
+  background-color: #2b2b2b !important;
+}
+
+
+
+
+.label-teal,
+.label-lime,
+.label-gray {
+  color: #333;
+}
+
+.label-navy,
+.label-blue,
+.label-olive,
+.label-orange,
+.label-fuchsia,
+.label-indigo,
+.label-purple,
+.label-maroon,
+.label-black {
+    color: #fff !important;
+}

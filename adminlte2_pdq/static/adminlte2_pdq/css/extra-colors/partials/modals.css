@@ -1,0 +1,239 @@
+/**
+ * Extra coloring CSS for AdminLte `modal` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte. */
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+/* Already implemented by AdminLte. */
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte. */
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte. */
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte. */
+
+
+/* Navy coloring. */
+.modal-navy .modal-header,
+.modal-navy .modal-footer {
+    border-color:#001226;
+    background-color: #001a35 !important;
+}
+.modal-navy .modal-body {
+  background-color: #001f3f !important;
+}
+
+
+/* Blue coloring. */
+.modal-blue .modal-header,
+.modal-blue .modal-footer {
+    border-color:#01578a;
+    background-color: #0c80c4 !important;
+}
+.modal-blue .modal-body {
+  background-color: #1a94db !important;
+}
+
+
+/* Teal coloring. */
+.modal-teal .modal-header,
+.modal-teal .modal-footer {
+    border-color: #2aa2a2;
+    background-color: #30bbbb !important;
+}
+.modal-teal .modal-body {
+  background-color: #39cccc !important;
+}
+
+
+/* Olive coloring. */
+.modal-olive .modal-header,
+.modal-olive .modal-footer {
+    border-color: #2c6d50;
+    background-color: #368763 !important;
+}
+.modal-olive .modal-body {
+  background-color: #3d9970 !important;
+}
+
+
+/* Lime coloring. */
+.modal-lime .modal-header,
+.modal-lime .modal-footer {
+    border-color: #00ce59;
+    background-color: #00e765 !important;
+}
+.modal-lime .modal-body {
+  background-color: #01ff70 !important;
+}
+
+
+/* Orange coloring. */
+.modal-orange .modal-header,
+.modal-orange .modal-footer {
+    border-color: #df6901;
+    background-color: #ff7701 !important;
+}
+.modal-orange .modal-body {
+  background-color: #ff851b !important;
+}
+
+
+/* Fuchsia coloring. */
+.modal-fuchsia .modal-header,
+.modal-fuchsia .modal-footer {
+    border-color: #bb0c95;
+    background-color: #db0ead !important;
+}
+.modal-fuchsia .modal-body {
+  background-color: #f012be !important;
+}
+
+
+/* Indigo coloring. */
+.modal-indigo .modal-header,
+.modal-indigo .modal-footer {
+    border-color: #9a52d2;
+    background-color: #a35cd8 !important;
+}
+.modal-indigo .modal-body {
+  background-color: #a35cd8 !important;
+}
+
+
+/* Purple coloring. */
+.modal-purple .modal-header,
+.modal-purple .modal-footer {
+    border-color: #47447e;
+    background-color: #555299 !important;
+}
+.modal-purple .modal-body {
+  background-color: #605ca8 !important;
+}
+
+
+/* Maroon coloring. */
+.modal-maroon .modal-header,
+.modal-maroon .modal-footer {
+    border-color: #a7154a;
+    background-color: #ca195a !important;
+}
+.modal-maroon .modal-body {
+  background-color: #d81b60 !important;
+}
+
+
+/* Gray coloring. */
+.modal-gray .modal-header,
+.modal-gray .modal-footer {
+    border-color: #878d98;
+    background-color: #9ca2ae;
+}
+.modal-gray .modal-body {
+  color: #333;
+  background-color: #b5bbc8 !important;
+}
+
+
+/* Black coloring. */
+.modal-black .modal-header,
+.modal-black .modal-footer {
+    border-color: #000000;
+    background-color: #000000;
+}
+.modal-black .modal-body {
+  background-color: #2b2b2b !important;
+}
+
+
+
+
+.modal-teal .modal-body,
+.modal-teal .modal-header,
+.modal-teal .modal-footer,
+.modal-lime .modal-body,
+.modal-lime .modal-header,
+.modal-lime .modal-footer,
+.modal-gray .modal-body,
+.modal-gray .modal-header,
+.modal-gray .modal-footer {
+  color: #333;
+}
+
+.modal-navy .modal-body,
+.modal-navy .modal-header,
+.modal-navy .modal-footer,
+.modal-blue .modal-body,
+.modal-blue .modal-header,
+.modal-blue .modal-footer,
+.modal-olive .modal-body,
+.modal-olive .modal-header,
+.modal-olive .modal-footer,
+.modal-orange .modal-body,
+.modal-orange .modal-header,
+.modal-orange .modal-footer,
+.modal-fuchsia .modal-body,
+.modal-fuchsia .modal-header,
+.modal-fuchsia .modal-footer,
+.modal-indigo .modal-body,
+.modal-indigo .modal-header,
+.modal-indigo .modal-footer,
+.modal-purple .modal-body,
+.modal-purple .modal-header,
+.modal-purple .modal-footer,
+.modal-maroon .modal-body,
+.modal-maroon .modal-header,
+.modal-maroon .modal-footer,
+.modal-black .modal-body,
+.modal-black .modal-header,
+.modal-black .modal-footer {
+    color: #fff !important;
+}

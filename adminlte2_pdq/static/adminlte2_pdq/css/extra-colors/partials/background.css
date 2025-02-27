@@ -1,0 +1,217 @@
+/**
+ * Extra coloring CSS for AdminLte `bg` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+.bg-default {
+    background-color: #f4f4f4 !important;
+}
+.bg-default-active {
+    background-color: #e7e7e7 !important;
+}
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+.bg-primary {
+  background-color: #3c8dbc !important;
+}
+.bg-primary-active {
+  background-color: #357ca5 !important;
+}
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+.bg-info {
+  background-color: #00c0ef !important;
+}
+.bg-info-active {
+  background-color: #00a7d0 !important;
+}
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+.bg-success {
+  background-color: #00a65a !important;
+}
+.bg-success-active {
+  background-color: #008d4c !important;
+}
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+.bg-warning {
+  background-color: #f39c12 !important;
+}
+.bg-warning-active {
+  background-color: #db8b0b !important;
+}
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+.bg-danger {
+  background-color: #dd4b39 !important;
+}
+.bg-danger-active {
+  background-color: #d33724 !important;
+}
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte. */
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+/* Already implemented by AdminLte. */
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte. */
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte. */
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte. */
+
+
+/* Navy coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Blue coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Teal coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Olive coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Lime coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Orange coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Fuchsia coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Indigo coloring. */
+.bg-indigo {
+  background-color: #a35cd8 !important;
+}
+.bg-indigo-active {
+  background-color: #9a52d2 !important;
+}
+
+
+/* Purple coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Maroon coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Gray coloring. */
+/* Already implemented by AdminLte. */
+
+
+/* Black coloring. */
+/* Already implemented by AdminLte. */
+
+
+
+
+
+/* Set text elements. */
+.bg-danger,
+.bg-warning,
+.bg-success,
+.bg-info,
+.bg-primary,
+.bg-danger-active,
+.bg-warning-active,
+.bg-success-active,
+.bg-info-active,
+.bg-primary-active {
+  color: #fff !important;
+}
+
+
+/* Correct some element text to be visible. */
+.bg-text-red,
+.bg-text-danger,
+.bg-text-yellow,
+.bg-text-warning,
+.bg-text-aqua,
+.bg-text-info,
+.bg-text-light-blue,
+.bg-text-primary,
+.bg-text-green,
+.bg-text-success,
+.bg-text-navy,
+.bg-text-blue,
+.bg-text-teal,
+.bg-text-olive,
+.bg-text-lime,
+.bg-text-orange,
+.bg-text-fuchsia,
+.bg-text-purple,
+.bg-text-maroon,
+.bg-text-black,
+.bg-text-indigo,
+.bg-text-indigo-active,
+.bg-indigo,
+.bg-indigo-active {
+  color: #fff !important;
+}
+
+
+.bg-text-default,
+.bg-text-default-active,
+.bg-text-gray,
+.bg-text-gray-active,
+.bg-text-teal,
+.bg-text-teal-active,
+.bg-text-lime,
+.bg-text-lime-active,
+.bg-default,
+.bg-default-active,
+.bg-gray,
+.bg-gray-active,
+.bg-teal,
+.bg-teal-active,
+.bg-lime,
+.bg-lime-active {
+  color: #333 !important;
+}

@@ -10,6 +10,7 @@
   <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap/3.3.7/css/bootstrap.min.css' %}">
 {% endblock styles_debug_bootstrap %}
 
+
 {% block styles_debug_font_awesome %}
   <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
   <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome-5/5.8.2/css/all.min.css' %}">
@@ -17,16 +18,19 @@
   <link rel="stylesheet" type="text/css" href="{% static 'third-party/font-awesome/4.7.0/css/font-awesome.min.css' %}">
 {% endblock styles_debug_font_awesome %}
 
+
 {% block styles_debug_adminlte %}
   <!-- AdminLTE -->
   <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.11/css/AdminLTE.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'third-party/admin-lte/2.3.11/css/skins/_all-skins.min.css' %}">
 {% endblock styles_debug_adminlte %}
 
+
 {% block styles_debug_datatables %}
   <!-- DataTables -->
-  <link rel="stylesheet" href="{% static 'third-party/bootstrap-datatables/dataTables.bootstrap.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'third-party/bootstrap-datatables/dataTables.bootstrap.css' %}">
 {% endblock styles_debug_datatables %}
+
 
 {% block styles_debug_datetime_picker %}
   <!-- Datetime Widgets -->

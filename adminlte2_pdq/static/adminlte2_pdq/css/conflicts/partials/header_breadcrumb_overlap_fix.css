@@ -2,7 +2,8 @@
  * When the Page Header (block "page_name") value is long, it can sometimes overlap with the page breadcrumbs.
  * This appears to be an issue with original AdminLTE2, but is still probably undesired behavior.
  *
- * Some element styles are defined via :before tags, which aren't directly part of the DOM and thus cannot be
+ * The main logic for this fix is in `adminlte_pdq/js/conflicts/partials/header_breadcrumb_overlap_fix.js`.
+ * However, some element styles are defined via :before tags, which aren't directly part of the DOM and thus cannot be
  * changed with JS. See things like https://stackoverflow.com/a/17789110 for more info.
  *
  * Thus, this file gets around it by adding CSS classes.

@@ -1,0 +1,14 @@
+/**
+ * Handling for CSS extra package features, above and beyond
+ * what Django or AdminLte provide by themselves.
+ *
+ * For package clarity and organization, this file only imports other files.
+ * All logic should be split into the `partials` subfolder.
+ */
+
+
+@import "./partials/font_awesome_5.css";
+@import "./partials/form_adjustments.css";
+@import "./partials/full_span_link.css";
+@import "./partials/wiggle.css";
+@import "./partials/extra_features_misc.css";

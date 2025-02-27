@@ -1,0 +1,161 @@
+/**
+ * TODO: Split these up into separate files if they're separate features.
+ *  Otherwise, at least document them better.
+ */
+
+
+label {
+    font-weight: 400;
+}
+label.required {
+    font-weight: 700;
+}
+.checkbox label.required {
+    font-weight: 700;
+}
+
+.separator {
+    padding: 0;
+    color: #848484;
+    background: #f9fafc;
+    line-height: 1px;
+}
+.separator > hr {
+    margin: 0;
+    color: #848484;
+    background: #f9fafc;
+    border-style: inset;
+    border-width: 1px;
+    height: initial;
+}
+
+.user-image-replacement-div {
+    display: inline-block;
+    background: #d2d6de;
+    width: 25px;
+    height: 25px;
+    color: #444;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 2;
+    text-align: center;
+    position: relative;
+    vertical-align: middle;
+}
+
+.user-image-replacement-div > img {
+    position: absolute;
+    top: 2px;
+    left: 0;
+}
+
+.user-chat-image-replacement-div {
+    display: inline-block;
+    background: #d2d6de;
+    width: 40px;
+    height: 40px;
+    color: #444;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 2.3;
+    text-align: center;
+    position: relative;
+}
+
+.user-chat-image-replacement-div > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Keep initials inside user image on mobile */
+@media (max-width: 767px) {
+    .navbar-nav > .user-menu .user-image {
+        float: left;
+        margin-top: -2px;
+        line-height: 2;
+        top: 0;
+    }
+    .navbar-nav > .user-menu .user-image > img {
+        margin-top:0;
+    }
+}
+
+ul.no-bullets {
+    list-style-type:none;
+    padding:0;
+    padding-left:20px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+/*
+Prevent tooltip opacity
+*/
+.tooltip.in {
+    opacity: 1;
+}
+
+
+/* Allow buttons in dropdown-menus and allow coloring with info,primary, etc. */
+.dropdown-menu > li > a, .dropdown-menu > li > input, .dropdown-menu > li > button {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #777;
+    white-space: nowrap;
+    width: 100%;
+    height: 26px;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > input:hover, .dropdown-menu > li > button:hover {
+    background-color: #e1e3e9;
+    color: #333;
+}
+
+.dropdown-menu > li > a:focus, .dropdown-menu > li > input:focus, .dropdown-menu > li > button:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+    outline: none;
+}
+
+.label-large {
+    font-size:inherit;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+.remove-top-bottom-padding {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
