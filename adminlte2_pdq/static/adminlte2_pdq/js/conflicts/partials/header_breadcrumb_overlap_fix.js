@@ -5,6 +5,7 @@
  * This JS checks the size of each, plus the size of the parent, and sets them to have their own lines if they overlap.
  */
 
+
 // Limit scope of visibility.
 // Don't want this affecting outside JS logic from projects that import this package.
 $(function () {

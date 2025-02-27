@@ -1,0 +1,177 @@
+/**
+ * Extra coloring CSS for AdminLte `callout` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+.callout.callout-default {
+    background-color: #f4f4f4 !important;
+    border-color: #8c8c8c;
+    color: #666666;
+}
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+.callout.callout-primary {
+    background-color: #337ab7 !important;
+    border-color: #2e6da4;
+}
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte. */
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+/* Already implemented by AdminLte. */
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte. */
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte. */
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte. */
+
+
+/* Navy coloring. */
+.callout.callout-navy {
+    background-color: #001f3f !important;
+    border-color: #001a35;
+}
+
+
+/* Blue coloring. */
+.callout.callout-blue {
+    background-color: #1a94db !important;
+    border-color: #0073b7;
+}
+
+
+/* Teal coloring. */
+.callout.callout-teal {
+    background-color: #39cccc !important;
+    border-color: #30bbbb;
+}
+
+
+/* Olive coloring. */
+.callout.callout-olive {
+    background-color: #3d9970 !important;
+    border-color: #368763;
+}
+
+
+/* Lime coloring. */
+.callout.callout-lime {
+    background-color: #01ff70 !important;
+    border-color: #00e765;
+}
+
+
+/* Orange coloring. */
+.callout.callout-orange {
+    background-color: #ff851b !important;
+    border-color: #ff7701;
+}
+
+
+/* Fuchsia coloring. */
+.callout.callout-fuchsia {
+    background-color: #f012be !important;
+    border-color: #db0ead;
+}
+
+
+/* Indigo coloring. */
+.callout.callout-indigo {
+    background-color: #a35cd8 !important;
+    border-color: #9a52d2;
+}
+
+
+/* Purple coloring. */
+.callout.callout-purple {
+    background-color: #605ca8 !important;
+    border-color: #555299;
+}
+
+
+/* Maroon coloring. */
+.callout.callout-maroon {
+    background-color: #d81b60 !important;
+    border-color: #ca195a;
+}
+
+
+/* Gray coloring. */
+.callout.callout-gray {
+    background-color: #b5bbc8 !important;
+    border-color: #9ca2ae;
+    color: #333;
+}
+
+
+/* Black coloring. */
+.callout.callout-black {
+    background-color: #2b2b2b !important;
+    border-color: #000000;
+}
+
+
+
+
+.callout.callout-teal,
+.callout.callout-lime,
+.callout.callout-gray {
+  color: #333;
+}
+
+.callout.callout-primary,
+.callout.callout-navy,
+.callout.callout-blue,
+.callout.callout-olive,
+.callout.callout-orange,
+.callout.callout-fuchsia,
+.callout.callout-indigo,
+.callout.callout-purple,
+.callout.callout-maroon,
+.callout.callout-black {
+    color: #fff !important;
+}
