@@ -1,0 +1,11 @@
+/**
+ * Handling for CSS conflicts within existing/required libraries.
+ *
+ * For package clarity and organization, this file only imports other files.
+ * All logic should be split into the `partials` subfolder.
+ */
+
+
+@import "./partials/django_admin_conflicts.css";
+@import "./partials/gravitar_sidebar_text_fix.css";
+@import "./partials/header_breadcrumb_overlap_fix.css";

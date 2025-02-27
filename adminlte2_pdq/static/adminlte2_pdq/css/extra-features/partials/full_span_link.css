@@ -1,0 +1,51 @@
+/**
+ * Extra CSS for `full-span-link` elements.
+ *
+ * Basically, add a `.full-span-link` to an <a> tag, to make it stretch
+ * across most parent elements, effectively making any element click-able.
+ */
+
+
+/**
+ * Base element styles.
+ */
+a.full-span-link {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    opacity: 10%;
+
+    transition: background-color 0.2s linear;
+}
+
+
+/**
+ * Modified "parent elements" to work with the full-span-link element.
+ */
+
+
+/* Info-box element. */
+.info-box {
+    position: relative;
+}
+.info-box:hover a.full-span-link {
+    background-color: #fff;
+}
+
+
+/* Small-box element. */
+.small-box:hover a.full-span-link {
+    background-color: #fff;
+}
+
+
+/* Table elements. */
+table tr, table th, table td {
+    position: relative;
+}
+table:hover a.full-span-link {
+    background-color: #fff;
+}

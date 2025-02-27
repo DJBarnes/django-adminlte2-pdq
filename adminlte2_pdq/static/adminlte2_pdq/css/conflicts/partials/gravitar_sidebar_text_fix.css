@@ -1,0 +1,8 @@
+/**
+ * Correct sidebar name text to handle better, if Gravatar is removed.
+ */
+
+
+.user-panel > .info {
+    position: static;
+}
