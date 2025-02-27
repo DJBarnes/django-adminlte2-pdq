@@ -17,10 +17,10 @@ from .general import (
 from .demo_css import (
     demo_css,
     demo_css_alerts,
-    demo_css_boxes,
+    demo_css_boxes_solid,
+    demo_css_boxes_standard,
     demo_css_buttons_basic,
     demo_css_buttons_specialized,
-    demo_css_boxes,
     demo_css_labels,
     demo_css_modals,
     demo_css_tables,

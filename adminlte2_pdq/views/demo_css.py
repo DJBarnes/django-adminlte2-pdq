@@ -96,12 +96,25 @@ def demo_css_alerts(request):
     )
 
 
-def demo_css_boxes(request):
-    """Show example box elements."""
+def demo_css_boxes_solid(request):
+    """Show example solid box elements."""
 
     return render(
         request,
-        "adminlte2_demo_css/old/boxes.html",
+        "adminlte2_demo_css/boxes_solid.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_boxes_standard(request):
+    """Show example standard box elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/boxes_standard.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,
