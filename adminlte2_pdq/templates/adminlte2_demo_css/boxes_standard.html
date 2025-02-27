@@ -19,16 +19,18 @@
 
 {% block content %}
 
-  {# Color Palette #}
+  {# Standard Boxes #}
   <div class="row">
     <div class="col-md-12">
-      {% include 'adminlte2_demo_css/partials/boxes.html' %}
+      {% include 'adminlte2_demo_css/partials/boxes_standard.html' %}
     </div>
   </div>
 
-  {# Alerts and Callouts #}
+  {# Button Examples within Standard Boxes #}
   <div class="row">
-    {% include 'adminlte2_demo_css/partials/boxes_solid.html' %}
+    <div class="col-md-12">
+      {% include 'adminlte2_demo_css/partials/boxes_standard_buttons.html' %}
+    </div>
   </div>
 
 {% endblock content %}

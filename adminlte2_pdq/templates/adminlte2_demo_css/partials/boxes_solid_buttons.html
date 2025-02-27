@@ -1,0 +1,268 @@
+{# Buttons within Solid Boxes #}
+
+
+<div class="box">
+
+  <div class="box-header">
+    <h3><i class="fa fa-cube"></i> Buttons within Boxes (Solid)</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+  </div>
+
+  <div class="box-body">
+
+    <div class="row">
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-12">
+        <div class="box box-solid box-default">
+
+          <div class="box-header">
+            <h3 class="box-title">Buttons in Box Header</h3>
+
+            <div class="box-tools">
+
+              {% for bootstrap_type in bootstrap_types %}
+                {% if forloop.counter0 < 6 %}
+                  <button class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</button>
+                {% endif %}
+              {% endfor %}
+
+              {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+            </div>
+
+          </div>
+
+          <div class="box-body">
+            <p>Above are examples of button elements within a box header.</p>
+            <p>Below are examples of button elements in a box body.</p>
+
+            {% for bootstrap_type in bootstrap_types %}
+              {% if forloop.counter0 < 6 %}
+                <button class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</button>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      {# Example Elements End Here #}
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-12">
+        <div class="box box-solid box-default">
+
+          <div class="box-header">
+            <h3 class="box-title">Buttons in Box Header</h3>
+
+            <div class="box-tools">
+
+              {% for bootstrap_type in bootstrap_types %}
+                {% if forloop.counter0 >= 6 and forloop.counter0 < 12 %}
+                  <button class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</button>
+                {% endif %}
+              {% endfor %}
+
+              {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+            </div>
+
+          </div>
+
+          <div class="box-body">
+            <p>Above are examples of all button elements within a box header.</p>
+            <p>Below are examples of all button elements in a box body.</p>
+
+            {% for bootstrap_type in bootstrap_types %}
+              {% if forloop.counter0 >= 6 and forloop.counter0 < 12 %}
+                <button class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</button>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      {# Example Elements End Here #}
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-12">
+        <div class="box box-solid box-default">
+
+          <div class="box-header">
+            <h3 class="box-title">Buttons in Box Header</h3>
+
+            <div class="box-tools">
+
+              {% for bootstrap_type in bootstrap_types %}
+                {% if forloop.counter0 >= 12 and forloop.counter0 < 18 %}
+                  <button class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</button>
+                {% endif %}
+              {% endfor %}
+
+              {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+            </div>
+
+          </div>
+
+          <div class="box-body">
+            <p>Above are examples of all button elements within a box header.</p>
+            <p>Below are examples of all button elements in a box body.</p>
+
+            {% for bootstrap_type in bootstrap_types %}
+              {% if forloop.counter0 >= 12 and forloop.counter0 < 18 %}
+                <button class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</button>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      {# Example Elements End Here #}
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="box">
+
+  <div class="box-header">
+    <h3><i class="fa fa-cube"></i> Anchor Buttons within Boxes (Solid)</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+  </div>
+
+  <div class="box-body">
+
+    <div class="row">
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-12">
+        <div class="box box-solid box-default">
+
+          <div class="box-header">
+            <h3 class="box-title">Anchor (&lt;a&gt;) Buttons in Box Header</h3>
+
+            <div class="box-tools">
+
+              {% for bootstrap_type in bootstrap_types %}
+                {% if forloop.counter0 < 6 %}
+                  <a class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+            </div>
+
+          </div>
+
+          <div class="box-body">
+            <p>Above are examples of anchor (&lt;a&gt;) button elements within a box header.</p>
+            <p>Below are examples of anchor (&lt;a&gt;) button elements in a box body.</p>
+
+            {% for bootstrap_type in bootstrap_types %}
+              {% if forloop.counter0 < 6 %}
+                <a class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</a>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      {# Example Elements End Here #}
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-12">
+        <div class="box box-solid box-default">
+
+          <div class="box-header">
+            <h3 class="box-title"> Anchor (&lt;a&gt;) Buttons in Box Header</h3>
+
+            <div class="box-tools">
+
+              {% for bootstrap_type in bootstrap_types %}
+                {% if forloop.counter0 >= 6 and forloop.counter0 < 12 %}
+                  <a class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+            </div>
+
+          </div>
+
+          <div class="box-body">
+            <p>Above are examples of all anchor (&lt;a&gt;) button elements within a box header.</p>
+            <p>Below are examples of all anchor (&lt;a&gt;) button elements in a box body.</p>
+
+            {% for bootstrap_type in bootstrap_types %}
+              {% if forloop.counter0 >= 6 and forloop.counter0 < 12 %}
+                <a class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</a>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      {# Example Elements End Here #}
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-12">
+        <div class="box box-solid box-default">
+
+          <div class="box-header">
+            <h3 class="box-title"> Anchor (&lt;a&gt;) Buttons in Box Header</h3>
+
+            <div class="box-tools">
+
+              {% for bootstrap_type in bootstrap_types %}
+                {% if forloop.counter0 >= 12 and forloop.counter0 < 18 %}
+                  <a class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</a>
+                {% endif %}
+              {% endfor %}
+
+              {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+            </div>
+
+          </div>
+
+          <div class="box-body">
+            <p>Above are examples of all anchor (&lt;a&gt;) button elements within a box header.</p>
+            <p>Below are examples of all anchor (&lt;a&gt;) button elements in a box body.</p>
+
+            {% for bootstrap_type in bootstrap_types %}
+              {% if forloop.counter0 >= 12 and forloop.counter0 < 18 %}
+                <a class="btn btn-{{ bootstrap_type }}">{{ bootstrap_type|capfirst }}</a>
+              {% endif %}
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+      {# Example Elements End Here #}
+
+    </div>
+
+  </div>
+
+</div>
