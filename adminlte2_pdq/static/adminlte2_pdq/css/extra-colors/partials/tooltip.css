@@ -1,0 +1,403 @@
+/**
+ * Extra coloring CSS for AdminLte `tooltip` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+
+/* Default coloring. */
+.tooltip-default + .tooltip.top .tooltip-arrow, .tooltip-default.tooltip.top .tooltip-arrow {
+    border-top-color: #d2d6de;
+}
+.tooltip-default + .tooltip.bottom .tooltip-arrow, .tooltip-default.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #d2d6de;
+}
+.tooltip-default + .tooltip.left .tooltip-arrow, .tooltip-default.tooltip.left .tooltip-arrow {
+    border-left-color: #d2d6de;
+}
+.tooltip-default + .tooltip.right .tooltip-arrow, .tooltip-default.tooltip.right .tooltip-arrow {
+    border-right-color: #d2d6de;
+}
+.tooltip-default + .tooltip > .tooltip-inner, .tooltip-default.tooltip > .tooltip-inner {
+    color: #333;
+    background-color: #d2d6de;
+    border-color: #d2d6de;
+}
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+.tooltip-primary + .tooltip.top .tooltip-arrow, .tooltip-primary.tooltip.top .tooltip-arrow {
+    border-top-color:#2e6da4;
+}
+.tooltip-primary + .tooltip.bottom .tooltip-arrow, .tooltip-primary.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #2e6da4;
+}
+.tooltip-primary + .tooltip.left .tooltip-arrow, .tooltip-primary.tooltip.left .tooltip-arrow {
+    border-left-color:#2e6da4;
+}
+.tooltip-primary + .tooltip.right .tooltip-arrow, .tooltip-primary.tooltip.right .tooltip-arrow {
+    border-right-color:#2e6da4;
+}
+.tooltip-primary + .tooltip > .tooltip-inner, .tooltip-primary.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+.tooltip-info + .tooltip.top .tooltip-arrow, .tooltip-info.tooltip.top .tooltip-arrow {
+    border-top-color: #00c0ef;
+}
+.tooltip-info + .tooltip.bottom .tooltip-arrow, .tooltip-info.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #00c0ef;
+}
+.tooltip-info + .tooltip.left .tooltip-arrow, .tooltip-info.tooltip.left .tooltip-arrow {
+    border-left-color: #00c0ef;
+}
+.tooltip-info + .tooltip.right .tooltip-arrow, .tooltip-info.tooltip.right .tooltip-arrow {
+    border-right-color: #00c0ef;
+}
+.tooltip-info + .tooltip > .tooltip-inner, .tooltip-info.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #00c0ef;
+    border-color: #00c0ef;
+}
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+.tooltip-success + .tooltip.top .tooltip-arrow, .tooltip-success.tooltip.top .tooltip-arrow {
+    border-top-color: #00a65a;
+}
+.tooltip-success + .tooltip.bottom .tooltip-arrow, .tooltip-success.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #00a65a;
+}
+.tooltip-success + .tooltip.left .tooltip-arrow, .tooltip-success.tooltip.left .tooltip-arrow {
+    border-left-color: #00a65a;
+}
+.tooltip-success + .tooltip.right .tooltip-arrow, .tooltip-success.tooltip.right .tooltip-arrow {
+    border-right-color: #00a65a;
+}
+.tooltip-success + .tooltip > .tooltip-inner, .tooltip-success.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #00a65a;
+    border-color: #00a65a;
+}
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+.tooltip-warning + .tooltip.top .tooltip-arrow, .tooltip-warning.tooltip.top .tooltip-arrow {
+    border-top-color: #f39c12;
+}
+.tooltip-warning + .tooltip.bottom .tooltip-arrow, .tooltip-warning.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #f39c12;
+}
+.tooltip-warning + .tooltip.left .tooltip-arrow, .tooltip-warning.tooltip.left .tooltip-arrow {
+    border-left-color: #f39c12;
+}
+.tooltip-warning + .tooltip.right .tooltip-arrow, .tooltip-warning.tooltip.right .tooltip-arrow {
+    border-right-color: #f39c12;
+}
+.tooltip-warning + .tooltip > .tooltip-inner, .tooltip-warning.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #f39c12;
+    border-color: #f39c12;
+}
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+.tooltip-danger + .tooltip.top .tooltip-arrow, .tooltip-danger.tooltip.top .tooltip-arrow {
+    border-top-color: #dd4b39;
+}
+.tooltip-danger + .tooltip.bottom .tooltip-arrow, .tooltip-danger.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #dd4b39;
+}
+.tooltip-danger + .tooltip.left .tooltip-arrow, .tooltip-danger.tooltip.left .tooltip-arrow {
+    border-left-color: #dd4b39;
+}
+.tooltip-danger + .tooltip.right .tooltip-arrow, .tooltip-danger.tooltip.right .tooltip-arrow {
+    border-right-color: #dd4b39;
+}
+.tooltip-danger + .tooltip > .tooltip-inner, .tooltip-danger.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #dd4b39;
+    border-color: #dd4b39;
+}
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte. */
+
+
+/* Blue coloring. */
+/* Equivalent to `info`. */
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte. */
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte. */
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte. */
+
+
+/* Navy coloring. */
+.tooltip-navy + .tooltip.top .tooltip-arrow, .tooltip-navy.tooltip.top .tooltip-arrow {
+    border-top-color: #001f3f;
+}
+.tooltip-navy + .tooltip.bottom .tooltip-arrow, .tooltip-navy.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #001f3f;
+}
+.tooltip-navy + .tooltip.left .tooltip-arrow, .tooltip-navy.tooltip.left .tooltip-arrow {
+    border-left-color: #001f3f;
+}
+.tooltip-navy + .tooltip.right .tooltip-arrow, .tooltip-navy.tooltip.right .tooltip-arrow {
+    border-right-color: #001f3f;
+}
+.tooltip-navy + .tooltip > .tooltip-inner, .tooltip-navy.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #001f3f;
+    border-color: #001f3f;
+}
+
+
+/* Blue coloring. */
+.tooltip-blue + .tooltip.top .tooltip-arrow, .tooltip-navy.tooltip.top .tooltip-arrow {
+    border-top-color: #0073b7;
+}
+.tooltip-blue + .tooltip.bottom .tooltip-arrow, .tooltip-navy.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #0073b7;
+}
+.tooltip-blue + .tooltip.left .tooltip-arrow, .tooltip-navy.tooltip.left .tooltip-arrow {
+    border-left-color: #0073b7;
+}
+.tooltip-blue + .tooltip.right .tooltip-arrow, .tooltip-navy.tooltip.right .tooltip-arrow {
+    border-right-color: #0073b7;
+}
+.tooltip-blue + .tooltip > .tooltip-inner, .tooltip-navy.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #0073b7;
+    border-color: #01578a;
+}
+
+
+/* Teal coloring. */
+.tooltip-teal + .tooltip.top .tooltip-arrow, .tooltip-teal.tooltip.top .tooltip-arrow {
+    border-top-color: #39cccc;
+}
+.tooltip-teal + .tooltip.bottom .tooltip-arrow, .tooltip-teal.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #39cccc;
+}
+.tooltip-teal + .tooltip.left .tooltip-arrow, .tooltip-teal.tooltip.left .tooltip-arrow {
+    border-left-color: #39cccc;
+}
+.tooltip-teal + .tooltip.right .tooltip-arrow, .tooltip-teal.tooltip.right .tooltip-arrow {
+    border-right-color: #39cccc;
+}
+.tooltip-teal + .tooltip > .tooltip-inner, .tooltip-teal.tooltip > .tooltip-inner {
+    color: #333;
+    background-color: #39cccc;
+    border-color: #39cccc;
+}
+
+
+/* Olive coloring. */
+.tooltip-olive + .tooltip.top .tooltip-arrow, .tooltip-olive.tooltip.top .tooltip-arrow {
+    border-top-color: #3d9970;
+}
+.tooltip-olive + .tooltip.bottom .tooltip-arrow, .tooltip-olive.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #3d9970;
+}
+.tooltip-olive + .tooltip.left .tooltip-arrow, .tooltip-olive.tooltip.left .tooltip-arrow {
+    border-left-color: #3d9970;
+}
+.tooltip-olive + .tooltip.right .tooltip-arrow, .tooltip-olive.tooltip.right .tooltip-arrow {
+    border-right-color: #3d9970;
+}
+.tooltip-olive + .tooltip > .tooltip-inner, .tooltip-olive.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #3d9970;
+    border-color: #3d9970;
+}
+
+
+/* Lime coloring. */
+.tooltip-lime + .tooltip.top .tooltip-arrow, .tooltip-lime.tooltip.top .tooltip-arrow {
+    border-top-color: #01ff70;
+}
+.tooltip-lime + .tooltip.bottom .tooltip-arrow, .tooltip-lime.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #01ff70;
+}
+.tooltip-lime + .tooltip.left .tooltip-arrow, .tooltip-lime.tooltip.left .tooltip-arrow {
+    border-left-color: #01ff70;
+}
+.tooltip-lime + .tooltip.right .tooltip-arrow, .tooltip-lime.tooltip.right .tooltip-arrow {
+    border-right-color: #01ff70;
+}
+.tooltip-lime + .tooltip > .tooltip-inner, .tooltip-lime.tooltip > .tooltip-inner {
+    color: #333;
+    background-color: #01ff70;
+    border-color: #01ff70;
+}
+
+
+/* Orange coloring. */
+.tooltip-orange + .tooltip.top .tooltip-arrow, .tooltip-orange.tooltip.top .tooltip-arrow {
+    border-top-color: #ff851b;
+}
+.tooltip-orange + .tooltip.bottom .tooltip-arrow, .tooltip-orange.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #ff851b;
+}
+.tooltip-orange + .tooltip.left .tooltip-arrow, .tooltip-orange.tooltip.left .tooltip-arrow {
+    border-left-color: #ff851b;
+}
+.tooltip-orange + .tooltip.right .tooltip-arrow, .tooltip-orange.tooltip.right .tooltip-arrow {
+    border-right-color: #ff851b;
+}
+.tooltip-orange + .tooltip > .tooltip-inner, .tooltip-orange.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #ff851b;
+    border-color: #ff851b;
+}
+
+
+/* Fuchsia coloring. */
+.tooltip-fuchsia + .tooltip.top .tooltip-arrow, .tooltip-fuchsia.tooltip.top .tooltip-arrow {
+    border-top-color: #f012be;
+}
+.tooltip-fuchsia + .tooltip.bottom .tooltip-arrow, .tooltip-fuchsia.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #f012be;
+}
+.tooltip-fuchsia + .tooltip.left .tooltip-arrow, .tooltip-fuchsia.tooltip.left .tooltip-arrow {
+    border-left-color: #f012be;
+}
+.tooltip-fuchsia + .tooltip.right .tooltip-arrow, .tooltip-fuchsia.tooltip.right .tooltip-arrow {
+    border-right-color: #f012be;
+}
+.tooltip-fuchsia + .tooltip > .tooltip-inner, .tooltip-fuchsia.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #f012be;
+    border-color: #f012be;
+}
+
+
+/* Indigo coloring. */
+.tooltip-indigo + .tooltip.top .tooltip-arrow, .tooltip-indigo.tooltip.top .tooltip-arrow {
+    border-top-color: #a35cd8;
+}
+.tooltip-indigo + .tooltip.bottom .tooltip-arrow, .tooltip-indigo.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #a35cd8;
+}
+.tooltip-indigo + .tooltip.left .tooltip-arrow, .tooltip-indigo.tooltip.left .tooltip-arrow {
+    border-left-color: #a35cd8;
+}
+.tooltip-indigo + .tooltip.right .tooltip-arrow, .tooltip-indigo.tooltip.right .tooltip-arrow {
+    border-right-color: #a35cd8;
+}
+.tooltip-indigo + .tooltip > .tooltip-inner, .tooltip-indigo.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #a35cd8;
+    border-color: #a35cd8;
+}
+
+
+/* Purple coloring. */
+.tooltip-purple + .tooltip.top .tooltip-arrow, .tooltip-purple.tooltip.top .tooltip-arrow {
+    border-top-color: #605ca8;
+}
+.tooltip-purple + .tooltip.bottom .tooltip-arrow, .tooltip-purple.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #605ca8;
+}
+.tooltip-purple + .tooltip.left .tooltip-arrow, .tooltip-purple.tooltip.left .tooltip-arrow {
+    border-left-color: #605ca8;
+}
+.tooltip-purple + .tooltip.right .tooltip-arrow, .tooltip-purple.tooltip.right .tooltip-arrow {
+    border-right-color: #605ca8;
+}
+.tooltip-purple + .tooltip > .tooltip-inner, .tooltip-purple.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #605ca8;
+    border-color: #605ca8;
+}
+
+
+/* Maroon coloring. */
+.tooltip-maroon + .tooltip.top .tooltip-arrow, .tooltip-maroon.tooltip.top .tooltip-arrow {
+    border-top-color: #d81b60;
+}
+.tooltip-maroon + .tooltip.bottom .tooltip-arrow, .tooltip-maroon.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #d81b60;
+}
+.tooltip-maroon + .tooltip.left .tooltip-arrow, .tooltip-maroon.tooltip.left .tooltip-arrow {
+    border-left-color: #d81b60;
+}
+.tooltip-maroon + .tooltip.right .tooltip-arrow, .tooltip-maroon.tooltip.right .tooltip-arrow {
+    border-right-color: #d81b60;
+}
+.tooltip-maroon + .tooltip > .tooltip-inner, .tooltip-maroon.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #d81b60;
+    border-color: #d81b60;
+}
+
+
+/* Gray coloring. */
+.tooltip-gray + .tooltip.top .tooltip-arrow, .tooltip-gray.tooltip.top .tooltip-arrow {
+    border-top-color: #b5bbc8;
+}
+.tooltip-gray + .tooltip.bottom .tooltip-arrow, .tooltip-gray.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #b5bbc8;
+}
+.tooltip-gray + .tooltip.left .tooltip-arrow, .tooltip-gray.tooltip.left .tooltip-arrow {
+    border-left-color: #b5bbc8;
+}
+.tooltip-gray + .tooltip.right .tooltip-arrow, .tooltip-gray.tooltip.right .tooltip-arrow {
+    border-right-color: #b5bbc8;
+}
+.tooltip-gray + .tooltip > .tooltip-inner, .tooltip-gray.tooltip > .tooltip-inner {
+    color: #333;
+    background-color: #b5bbc8;
+    border-color: #b5bbc8;
+}
+
+
+/* Black coloring. */
+.tooltip-black + .tooltip.top .tooltip-arrow, .tooltip-black.tooltip.top .tooltip-arrow {
+    border-top-color: #2b2b2b;
+}
+.tooltip-black + .tooltip.bottom .tooltip-arrow, .tooltip-black.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: #2b2b2b;
+}
+.tooltip-black + .tooltip.left .tooltip-arrow, .tooltip-black.tooltip.left .tooltip-arrow {
+    border-left-color: #2b2b2b;
+}
+.tooltip-black + .tooltip.right .tooltip-arrow, .tooltip-black.tooltip.right .tooltip-arrow {
+    border-right-color: #2b2b2b;
+}
+.tooltip-black + .tooltip > .tooltip-inner, .tooltip-black.tooltip > .tooltip-inner {
+    color: #fff;
+    background-color: #2b2b2b;
+    border-color: #2b2b2b;
+}

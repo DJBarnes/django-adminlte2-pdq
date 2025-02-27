@@ -1,13 +1,16 @@
 {% load adminlte_tags %}
 
+
 {% get_datetime_widget as DATETIME_WIDGET %}
 {% get_date_widget as DATE_WIDGET %}
 {% get_time_widget as TIME_WIDGET %}
+
 
 {% block styles_prod_bootstrap %}
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
 {% endblock styles_prod_bootstrap %}
+
 
 {% block styles_prod_font_awesome %}
   <!-- Font Awesome 5 NOTE: Must load 5 before 4 to avoid conflicts -->
@@ -16,16 +19,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 {% endblock styles_prod_font_awesome %}
 
+
 {% block styles_prod_adminlte %}
   <!-- AdminLTE -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/AdminLTE.min.css" integrity="sha256-flo1BhZxHloxiG+WVTNYRMy6Nn3V+CyV1jLHZ2DoUxY=" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.7/css/skins/_all-skins.css" integrity="sha256-mgkhNy4GDprfEqwRBmDzqzlhJFBS9K0yB9TSw7UoH5E=" crossorigin="anonymous" />
 {% endblock styles_prod_adminlte %}
 
+
 {% block styles_prod_datatables %}
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap.css">
 {% endblock styles_prod_datatables %}
+
 
 {% block styles_prod_datetime_picker %}
   <!-- Datetime Widgets -->
