@@ -76,21 +76,6 @@ CSS_MENU = [
                 "text": "Demo CSS",
                 "nodes": [
                     {
-                        "text": "Original / Old",
-                        "nodes": [
-                            {
-                                "route": "adminlte2_pdq:demo-css",
-                                "text": "Demo CSS | Home",
-                                "icon": "fa fa-home",
-                            },
-                            {
-                                "route": "adminlte2_pdq:demo-css-boxes",
-                                "text": "Demo CSS | Boxes",
-                                "icon": "fa fa-square",
-                            },
-                        ],
-                    },
-                    {
                         "route": "adminlte2_pdq:demo-css",
                         "text": "Demo CSS Home",
                         "icon": "fa fa-home",
@@ -135,6 +120,16 @@ CSS_MENU = [
                             },
                         ],
                         "icon": "fa fa-laptop",
+                    },
+                    {
+                        "route": "adminlte2_pdq:demo-css-boxes-standard",
+                        "text": "Boxes | Standard",
+                        "icon": "fa fa-square-o",
+                    },
+                    {
+                        "route": "adminlte2_pdq:demo-css-boxes-solid",
+                        "text": "Boxes | Solid",
+                        "icon": "fa fa-square",
                     },
                     {
                         "route": "adminlte2_pdq:demo-css-tables",
