@@ -12,6 +12,8 @@ from .general_constants import (
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
+    # Demo CSS settings.
+    CSS_COLORS_DICT,
 )
 
 
