@@ -11,17 +11,18 @@
 
 /* Default coloring. */
 .callout.callout-default {
-    background-color: #f4f4f4 !important;
-    border-color: #8c8c8c;
-    color: #666666;
+    color: var(--default-text-color);
+    background-color: var(--default-base-color);
+    border-color: var(--default-border-color);
 }
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
 .callout.callout-primary {
-    background-color: #337ab7 !important;
-    border-color: #2e6da4;
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color);
+    border-color: var(--primary-border-color);
 }
 
 
@@ -47,131 +48,120 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */
 .callout.callout-navy {
-    background-color: #001f3f !important;
-    border-color: #001a35;
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color);
+    border-color: var(--navy-border-color);
 }
 
 
 /* Blue coloring. */
 .callout.callout-blue {
-    background-color: #1a94db !important;
-    border-color: #0073b7;
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color);
+    border-color: var(--blue-border-color);
 }
 
 
 /* Teal coloring. */
 .callout.callout-teal {
-    background-color: #39cccc !important;
-    border-color: #30bbbb;
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color);
+    border-color: var(--teal-border-color);
 }
 
 
 /* Olive coloring. */
 .callout.callout-olive {
-    background-color: #3d9970 !important;
-    border-color: #368763;
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
 }
 
 
 /* Lime coloring. */
 .callout.callout-lime {
-    background-color: #01ff70 !important;
-    border-color: #00e765;
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
 }
 
 
 /* Orange coloring. */
 .callout.callout-orange {
-    background-color: #ff851b !important;
-    border-color: #ff7701;
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color);
+    border-color: var(--orange-border-color);
 }
 
 
 /* Fuchsia coloring. */
 .callout.callout-fuchsia {
-    background-color: #f012be !important;
-    border-color: #db0ead;
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color);
+    border-color: var(--fuchsia-border-color);
 }
 
 
 /* Indigo coloring. */
 .callout.callout-indigo {
-    background-color: #a35cd8 !important;
-    border-color: #9a52d2;
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
 }
 
 
 /* Purple coloring. */
 .callout.callout-purple {
-    background-color: #605ca8 !important;
-    border-color: #555299;
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color);
+    border-color: var(--purple-border-color);
 }
 
 
 /* Maroon coloring. */
 .callout.callout-maroon {
-    background-color: #d81b60 !important;
-    border-color: #ca195a;
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color);
+    border-color: var(--maroon-border-color);
 }
 
 
 /* Gray coloring. */
 .callout.callout-gray {
-    background-color: #b5bbc8 !important;
-    border-color: #9ca2ae;
-    color: #333;
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color);
+    border-color: var(--gray-border-color);
 }
 
 
 /* Black coloring. */
 .callout.callout-black {
-    background-color: #2b2b2b !important;
-    border-color: #000000;
-}
-
-
-
-
-.callout.callout-teal,
-.callout.callout-lime,
-.callout.callout-gray {
-  color: #333;
-}
-
-.callout.callout-primary,
-.callout.callout-navy,
-.callout.callout-blue,
-.callout.callout-olive,
-.callout.callout-orange,
-.callout.callout-fuchsia,
-.callout.callout-indigo,
-.callout.callout-purple,
-.callout.callout-maroon,
-.callout.callout-black {
-    color: #fff !important;
+    color: var(--black-text-color);
+    background-color: var(--black-base-color);
+    border-color: var(--black-border-color);
 }
