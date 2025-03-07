@@ -16,7 +16,9 @@
 /* Equivalent to `light-blue`. */
 /* Fix adminlte buttons in box-header on hover. */
 .box.box-solid > .box-header .btn.btn-primary:hover,
-.box.box-solid > .box-header a.btn.btn-primary:hover {
+.box.box-solid > .box-header a.btn.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:hover {
     background-color: #367fa9;
 }
 
@@ -25,7 +27,9 @@
 /* Equivalent to `aqua`. */
 /* Fix adminlte buttons in box-header on hover. */
 .box.box-solid > .box-header .btn.btn-info:hover,
-.box.box-solid > .box-header a.btn.btn-info:hover {
+.box.box-solid > .box-header a.btn.btn-info:hover,
+.btn-info:active,
+.btn-info:hover {
     background-color: #00acd6;
 }
 
@@ -34,7 +38,9 @@
 /* Equivalent to `green`. */
 /* Fix adminlte buttons in box-header on hover. */
 .box.box-solid > .box-header .btn.btn-success:hover,
-.box.box-solid > .box-header a.btn.btn-success:hover {
+.box.box-solid > .box-header a.btn.btn-success:hover,
+.btn-success:active,
+.btn-success:hover {
     background-color: #008d4c;
 }
 
@@ -43,7 +49,9 @@
 /* Equivalent to `yellow`. */
 /* Fix adminlte buttons in box-header on hover */
 .box.box-solid > .box-header .btn.btn-warning:hover,
-.box.box-solid > .box-header a.btn.btn-warning:hover {
+.box.box-solid > .box-header a.btn.btn-warning:hover,
+.btn-warning:active,
+.btn-warning:hover {
     background-color: #e08e0b;
 }
 
@@ -52,7 +60,9 @@
 /* Equivalent to `red`. */
 /* Fix adminlte buttons in box-header on hover */
 .box.box-solid > .box-header .btn.btn-danger:hover,
-.box.box-solid > .box-header a.btn.btn-danger:hover {
+.box.box-solid > .box-header a.btn.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:hover {
     background-color: #d73925;
 }
 
@@ -63,259 +73,252 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */
-.btn-navy {
-    background-color: #001f3f;
-    border-color: #001a35;
+.btn-navy,
+.box .btn-navy,
+.box.box-solid > .box-header .btn.btn-navy {
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color);
+    border-color: var(--navy-border-color);
 }
-.box.box-solid > .box-header .btn.btn-navy:hover,
-.box.box-solid > .box-header a.btn-navy:hover,
-.btn-navy:hover,
 .btn-navy:active,
-.btn-navy.hover {
-    background-color: #001a35;
+.btn-navy:focus,
+.btn-navy:hover,
+.box.box-solid > .box-header .btn.btn-navy:active,
+.box.box-solid > .box-header .btn.btn-navy:focus,
+.box.box-solid > .box-header .btn.btn-navy:hover {
+    color: var(--navy-text-color);
+    background-color: var(--navy-active-color);
 }
 
 
 /* Blue coloring. */
-.btn-blue {
-    border-color:#01578a;
-    background-color: #0073b7;
+.btn-blue,
+.box .btn-blue,
+.box.box-solid > .box-header .btn.btn-blue {
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color);
+    border-color: var(--blue-border-color);
 }
-.box.box-solid > .box-header .btn.btn-blue:hover,
-.box.box-solid > .box-header a.btn-blue:hover,
-.btn-blue:hover,
 .btn-blue:active,
-.btn-blue.hover {
-    background-color: #01578a;
+.btn-blue:focus,
+.btn-blue:hover,
+.box.box-solid > .box-header .btn.btn-blue:active,
+.box.box-solid > .box-header .btn.btn-blue:focus,
+.box.box-solid > .box-header .btn.btn-blue:hover {
+    color: var(--blue-text-color);
+    background-color: var(--blue-active-color);
 }
 
 
 /* Teal coloring. */
-.btn-teal {
-    background-color: #39cccc;
-    border-color: #30bbbb;
+.btn-teal,
+.box .btn-teal,
+.box.box-solid > .box-header .btn.btn-teal {
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color);
+    border-color: var(--teal-border-color);
 }
-.box.box-solid > .box-header .btn.btn-teal:hover,
-.box.box-solid > .box-header a.btn-teal:hover,
-.btn-teal:hover,
 .btn-teal:active,
-.btn-teal.hover {
-    background-color: #30bbbb;
+.btn-teal:focus,
+.btn-teal:hover,
+.box.box-solid > .box-header .btn.btn-teal:active,
+.box.box-solid > .box-header .btn.btn-teal:focus,
+.box.box-solid > .box-header .btn.btn-teal:hover {
+    color: var(--teal-text-color);
+    background-color: var(--teal-active-color);
 }
 
 
 /* Olive coloring. */
-.btn-olive {
-    background-color: #3d9970;
-    border-color: #368763;
+.btn-olive,
+.box .btn-olive,
+.box.box-solid > .box-header .btn.btn-olive {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
 }
-.box.box-solid > .box-header .btn.btn-olive:hover,
-.box.box-solid > .box-header a.btn-olive:hover,
-.btn-olive:hover,
 .btn-olive:active,
-.btn-olive.hover {
-    background-color: #368763;
+.btn-olive:focus,
+.btn-olive:hover,
+.box.box-solid > .box-header .btn.btn-olive:active,
+.box.box-solid > .box-header .btn.btn-olive:focus,
+.box.box-solid > .box-header .btn.btn-olive:hover {
+    color: var(--olive-text-color);
+    background-color: var(--olive-active-color);
 }
 
 
 /* Lime coloring. */
-.btn-lime {
-    background-color: #01ff70;
-    border-color: #00e765;
+.btn-lime,
+.box .btn-lime,
+.box.box-solid > .box-header .btn.btn-lime {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
 }
-.box.box-solid > .box-header .btn.btn-lime:hover,
-.box.box-solid > .box-header a.btn-lime:hover,
-.btn-lime:hover,
 .btn-lime:active,
-.btn-lime.hover {
-    background-color: #00e765;
+.btn-lime:focus,
+.btn-lime:hover,
+.box.box-solid > .box-header .btn.btn-lime:active,
+.box.box-solid > .box-header .btn.btn-lime:focus,
+.box.box-solid > .box-header .btn.btn-lime:hover {
+    color: var(--lime-text-color);
+    background-color: var(--lime-active-color);
 }
 
 
 /* Orange coloring. */
-.btn-orange {
-    background-color: #ff851b;
-    border-color: #ff7701;
+.btn-orange,
+.box .btn-orange,
+.box.box-solid > .box-header .btn.btn-orange {
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color);
+    border-color: var(--orange-border-color);
 }
-.box.box-solid > .box-header .btn.btn-orange:hover,
-.box.box-solid > .box-header a.btn-orange:hover,
-.btn-orange:hover,
 .btn-orange:active,
-.btn-orange.hover {
-    background-color: #ff7701;
+.btn-orange:focus,
+.btn-orange:hover,
+.box.box-solid > .box-header .btn.btn-orange:active,
+.box.box-solid > .box-header .btn.btn-orange:focus,
+.box.box-solid > .box-header .btn.btn-orange:hover {
+    color: var(--orange-text-color);
+    background-color: var(--orange-active-color);
 }
 
 
 /* Fuchsia coloring. */
-.btn-fuchsia {
-    background-color: #f012be;
-    border-color: #db0ead;
+.btn-fuchsia,
+.box .btn-fuchsia,
+.box.box-solid > .box-header .btn.btn-fuchsia {
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color);
+    border-color: var(--fuchsia-border-color);
 }
-.box.box-solid > .box-header .btn.btn-fuchsia:hover,
-.box.box-solid > .box-header a.btn-fuchsia:hover,
-.btn-fuchsia:hover,
 .btn-fuchsia:active,
-.btn-fuchsia.hover {
-    background-color: #db0ead;
+.btn-fuchsia:focus,
+.btn-fuchsia:hover,
+.box.box-solid > .box-header .btn.btn-fuchsia:active,
+.box.box-solid > .box-header .btn.btn-fuchsia:focus,
+.box.box-solid > .box-header .btn.btn-fuchsia:hover {
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-active-color);
 }
 
 
 /* Indigo coloring. */
-.btn-indigo {
-    background-color: #a35cd8;
-    border-color: #9a52d2;
+.btn-indigo,
+.box .btn-indigo,
+.box.box-solid > .box-header .btn.btn-indigo {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
 }
-.box.box-solid > .box-header .btn.btn-indigo:hover,
-.box.box-solid > .box-header a.btn-indigo:hover,
-.btn-indigo:hover,
 .btn-indigo:active,
-.btn-indigo.hover {
-    background-color: #9a52d2;
+.btn-indigo:focus,
+.btn-indigo:hover,
+.box.box-solid > .box-header .btn.btn-indigo:active,
+.box.box-solid > .box-header .btn.btn-indigo:focus,
+.box.box-solid > .box-header .btn.btn-indigo:hover {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-active-color);
 }
 
 
 /* Purple coloring. */
-.btn-purple {
-    background-color: #605ca8;
-    border-color: #555299;
+.btn-purple,
+.box .btn-purple,
+.box.box-solid > .box-header .btn.btn-purple {
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color);
+    border-color: var(--purple-border-color);
 }
-.box.box-solid > .box-header .btn.btn-purple:hover,
-.box.box-solid > .box-header a.btn-purple:hover,
-.btn-purple:hover,
 .btn-purple:active,
-.btn-purple.hover {
-    background-color: #555299;
+.btn-purple:focus,
+.btn-purple:hover,
+.box.box-solid > .box-header .btn.btn-purple:active,
+.box.box-solid > .box-header .btn.btn-purple:focus,
+.box.box-solid > .box-header .btn.btn-purple:hover {
+    color: var(--purple-text-color);
+    background-color: var(--purple-active-color);
 }
 
 
 /* Maroon coloring. */
-.btn-maroon {
-    background-color: #d81b60;
-    border-color: #ca195a;
+.btn-maroon,
+.box .btn-maroon,
+.box.box-solid > .box-header .btn.btn-maroon {
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color);
+    border-color: var(--maroon-border-color);
 }
-.box.box-solid > .box-header .btn.btn-maroon:hover,
-.box.box-solid > .box-header a.btn-maroon:hover,
-.btn-maroon:hover,
 .btn-maroon:active,
-.btn-maroon.hover {
-    background-color: #ca195a;
+.btn-maroon:focus,
+.btn-maroon:hover,
+.box.box-solid > .box-header .btn.btn-maroon:active,
+.box.box-solid > .box-header .btn.btn-maroon:focus,
+.box.box-solid > .box-header .btn.btn-maroon:hover {
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-active-color);
 }
 
 
 /* Gray coloring. */
-.btn-gray {
-    background-color: #b5bbc8;
-    border-color: #9ca2ae;
+.btn-gray,
+.box .btn-gray,
+.box.box-solid > .box-header .btn.btn-gray {
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color);
+    border-color: var(--gray-border-color);
 }
-.box.box-solid > .box-header .btn.btn-gray:hover,
-.box.box-solid > .box-header a.btn-gray:hover,
-.btn-gray:hover,
 .btn-gray:active,
-.btn-gray.hover {
-    background-color: #9ca2ae;
+.btn-gray:focus,
+.btn-gray:hover,
+.box.box-solid > .box-header .btn.btn-gray:active,
+.box.box-solid > .box-header .btn.btn-gray:focus,
+.box.box-solid > .box-header .btn.btn-gray:hover {
+    color: var(--gray-text-color);
+    background-color: var(--gray-active-color);
 }
 
 
 /* Black coloring. */
-.btn-black {
-    background-color: #2b2b2b;
-    border-color: #000000;
-}
-.box.box-solid > .box-header .btn.btn-black:hover,
-.box.box-solid > .box-header a.btn-black:hover,
-.btn-black:hover,
-.btn-black:active,
-.btn-black.hover {
-    background-color: #000000;
-}
-
-
-.btn-navy,
-.btn-navy:hover,
-.btn-navy:active,
-.btn-navy:focus,
-.btn-navy.hover,
-.btn-blue,
-.btn-blue:hover,
-.btn-blue:active,
-.btn-blue:focus,
-.btn-blue.hover,
-.btn-olive,
-.btn-olive:hover,
-.btn-olive:active,
-.btn-olive:focus,
-.btn-olive.hover,
-.btn-orange,
-.btn-orange:hover,
-.btn-orange:active,
-.btn-orange:focus,
-.btn-orange.hover,
-.btn-fuchsia,
-.btn-fuchsia:hover,
-.btn-fuchsia:active,
-.btn-fuchsia:focus,
-.btn-fuchsia.hover,
-.btn-indigo,
-.btn-indigo:hover,
-.btn-indigo:active,
-.btn-indigo:focus,
-.btn-indigo.hover,
-.btn-purple,
-.btn-purple:hover,
-.btn-purple:active,
-.btn-purple:focus,
-.btn-purple.hover,
-.btn-maroon,
-.btn-maroon:hover,
-.btn-maroon:active,
-.btn-maroon:focus,
-.btn-maroon.hover,
 .btn-black,
-.btn-black:hover,
+.box .btn-black,
+.box.box-solid > .box-header .btn.btn-black {
+    color: var(--black-text-color);
+    background-color: var(--black-base-color);
+    border-color: var(--black-border-color);
+}
 .btn-black:active,
 .btn-black:focus,
-.btn-black.hover {
-    color: #fff;
-}
-
-.btn-teal,
-.btn-teal:hover,
-.btn-teal:active,
-.btn-teal:focus,
-.btn-teal.hover,
-.btn-lime,
-.btn-lime:hover,
-.btn-lime:active,
-.btn-lime:focus,
-.btn-lime.hover,
-.btn-gray,
-.btn-gray:hover,
-.btn-gray:active,
-.btn-gray:focus,
-.btn-gray.hover {
-    color: #333;
+.btn-black:hover,
+.box.box-solid > .box-header .btn.btn-black:active,
+.box.box-solid > .box-header .btn.btn-black:focus,
+.box.box-solid > .box-header .btn.btn-black:hover {
+    color: var(--black-text-color);
+    background-color: var(--black-active-color);
 }
