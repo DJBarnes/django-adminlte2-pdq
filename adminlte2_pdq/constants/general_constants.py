@@ -85,7 +85,7 @@ CSS_COLORS_DICT = dict(
             "warning": "#f39c12",
             "danger": "#dd4b39",
             "navy": "#001f3f",
-            "blue": "#0073b7",
+            "blue": "#1a94db",
             "teal": "#39cccc",
             "olive": "#3d9970",
             "lime": "#01ff70",
@@ -95,7 +95,7 @@ CSS_COLORS_DICT = dict(
             "purple": "#605ca8",
             "maroon": "#d81b60",
             "gray": "#d2d6de",
-            "black": "#111111",
+            "black": "#2b2b2b",
         },
     )
 )

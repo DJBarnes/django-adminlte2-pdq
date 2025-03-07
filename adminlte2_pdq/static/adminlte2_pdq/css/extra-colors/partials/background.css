@@ -11,60 +11,72 @@
 
 /* Default coloring. */
 .bg-default {
-    background-color: #f4f4f4 !important;
+    color: var(--default-text-color);
+    background-color: var(--default-base-color);
+    border-color: var(--default-border-color);
 }
 .bg-default-active {
-    background-color: #e7e7e7 !important;
+    background-color: var(--default-active-color);
 }
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
 .bg-primary {
-  background-color: #3c8dbc !important;
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color);
+    border-color: var(--primary-border-color);
 }
 .bg-primary-active {
-  background-color: #357ca5 !important;
+    background-color: var(--primary-active-color);
 }
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
 .bg-info {
-  background-color: #00c0ef !important;
+    color: var(--info-text-color);
+    background-color: var(--info-base-color);
+    border-color: var(--info-border-color);
 }
 .bg-info-active {
-  background-color: #00a7d0 !important;
+    background-color: var(--info-active-color);
 }
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
 .bg-success {
-  background-color: #00a65a !important;
+    color: var(--success-text-color);
+    background-color: var(--success-base-color);
+    border-color: var(--success-border-color);
 }
 .bg-success-active {
-  background-color: #008d4c !important;
+    background-color: var(--success-active-color);
 }
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
 .bg-warning {
-  background-color: #f39c12 !important;
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color);
+    border-color: var(--warning-border-color);
 }
 .bg-warning-active {
-  background-color: #db8b0b !important;
+    background-color: var(--warning-active-color);
 }
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
 .bg-danger {
-  background-color: #dd4b39 !important;
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color);
+    border-color: var(--danger-border-color);
 }
 .bg-danger-active {
-  background-color: #d33724 !important;
+    background-color: var(--danger-active-color);
 }
 
 
@@ -74,80 +86,81 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Blue coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Teal coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Olive coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Lime coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Orange coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Fuchsia coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Indigo coloring. */
 .bg-indigo {
-  background-color: #a35cd8 !important;
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
 }
 .bg-indigo-active {
-  background-color: #9a52d2 !important;
-}
+    background-color: var(--indigo-active-color);}
 
 
 /* Purple coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Maroon coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Gray coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Black coloring. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 
