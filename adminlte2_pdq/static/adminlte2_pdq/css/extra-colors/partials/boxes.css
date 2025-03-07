@@ -38,264 +38,192 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */
 .box.box-navy {
-  border-top-color: #001f3f;
+    border-top-color: var(--navy-base-color);
  }
  .box.box-solid.box-navy {
-  border: 1px solid #001f3f;
+    color: var(--navy-text-color);
+    border: 1px solid var(--navy-border-color);
  }
  .box.box-solid.box-navy > .box-header {
-  background: #001f3f;
-  background-color: #001f3f;
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color);
 }
 
 
 /* Blue coloring. */
 .box.box-blue {
-  border-top-color: #001f3f;
+    border-top-color: var(--blue-base-color);
 }
 .box.box-solid.box-blue {
-  border: 1px solid #0073b7;
+    color: var(--blue-text-color);
+    border: 1px solid var(--blue-border-color);
 }
 .box.box-solid.box-blue > .box-header {
-  background: #0073b7;
-  background-color: #0073b7;
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color);
 }
 
 
 /* Teal coloring. */
 .box.box-teal {
-  border-top-color: #39cccc;
+    border-top-color: var(--teal-base-color);
 }
 .box.box-solid.box-teal {
-  border: 1px solid #39cccc;
+    color: var(--teal-text-color);
+    border: 1px solid var(--teal-border-color);
 }
 .box.box-solid.box-teal > .box-header {
-  background: #39cccc;
-  background-color: #39cccc;
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color);
 }
 
 
 /* Olive coloring. */
 .box.box-olive {
-  border-top-color: #3d9970;
+    border-top-color: var(--olive-base-color);
 }
 .box.box-solid.box-olive {
-  border: 1px solid #3d9970;
+    color: var(--olive-text-color);
+    border: 1px solid var(--olive-border-color);
 }
 .box.box-solid.box-olive > .box-header {
-  background: #3d9970;
-  background-color: #3d9970;
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
 }
 
 
 /* Lime coloring. */
 .box.box-lime {
-  border-top-color: #01ff70;
+    border-top-color: var(--lime-base-color);
 }
 .box.box-solid.box-lime {
-  border: 1px solid #01ff70;
+    color: var(--lime-text-color);
+    border: 1px solid var(--lime-border-color);
 }
 .box.box-solid.box-lime > .box-header {
-  background: #01ff70;
-  background-color: #01ff70;
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
 }
 
 
 /* Orange coloring. */
 .box.box-orange {
-  border-top-color: #ff851b;
+    border-top-color: var(--orange-base-color);
 }
 .box.box-solid.box-orange {
-  border: 1px solid #ff851b;
+    color: var(--orange-text-color);
+    border: 1px solid var(--orange-border-color);
 }
 .box.box-solid.box-orange > .box-header {
-  background: #ff851b;
-  background-color: #ff851b;
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color);
 }
 
 
 /* Fuchsia coloring. */
 .box.box-fuchsia {
-  border-top-color: #f012be;
+    border-top-color: var(--fuchsia-base-color);
 }
 .box.box-solid.box-fuchsia {
-  border: 1px solid #f012be;
+    color: var(--fuchsia-text-color);
+    border: 1px solid var(--fuchsia-border-color);
 }
 .box.box-solid.box-fuchsia > .box-header {
-  background: #f012be;
-  background-color: #f012be;
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color);
 }
 
 
 /* Indigo coloring. */
 .box.box-indigo {
-  border-top-color: #a35cd8;
+    border-top-color: var(--indigo-base-color);
 }
 .box.box-solid.box-indigo {
-  border: 1px solid #a35cd8;
+    color: var(--indigo-text-color);
+    border: 1px solid var(--indigo-border-color);
 }
 .box.box-solid.box-indigo > .box-header {
-  background: #a35cd8;
-  background-color: #a35cd8;
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
 }
 
 
 /* Purple coloring. */
 .box.box-purple {
-  border-top-color: #605ca8;
+    border-top-color: var(--purple-base-color);
 }
 .box.box-solid.box-purple {
-  border: 1px solid #605ca8;
+    color: var(--purple-text-color);
+    border: 1px solid var(--purple-border-color);
 }
 .box.box-solid.box-purple > .box-header {
-  background: #605ca8;
-  background-color: #605ca8;
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color);
 }
 
 
 /* Maroon coloring. */
 .box.box-maroon {
-  border-top-color: #d81b60;
+    border-top-color: var(--maroon-base-color);
 }
 .box.box-solid.box-maroon {
-  border: 1px solid #d81b60;
+    color: var(--maroon-text-color);
+    border: 1px solid var(--maroon-border-color);
 }
 .box.box-solid.box-maroon > .box-header {
-  background: #d81b60;
-  background-color: #d81b60;
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color);
 }
 
 
 /* Gray coloring. */
 .box.box-gray {
-  border-top-color: #b5bbc8;
+    border-top-color: var(--gray-base-color);
 }
 .box.box-solid.box-gray {
-  border: 1px solid #b5bbc8;
+    color: var(--gray-text-color);
+    border: 1px solid var(--gray-border-color);
 }
 .box.box-solid.box-gray > .box-header {
-  background: #b5bbc8;
-  background-color: #b5bbc8;
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color);
 }
 
 
 /* Black coloring. */
 .box.box-black {
-  border-top-color: #2b2b2b;
+    border-top-color: var(--black-base-color);
 }
 .box.box-solid.box-black {
-  border: 1px solid #2b2b2b;
+    color: var(--black-text-color);
+    border: 1px solid var(--black-border-color);
 }
 .box.box-solid.box-black > .box-header {
-  background: #2b2b2b;
-  background-color: #2b2b2b;
-}
-
-
-
-
-.box.box-solid.box-navy > .box-header,
-.box.box-solid.box-blue > .box-header,
-.box.box-solid.box-teal > .box-header,
-.box.box-solid.box-olive > .box-header,
-.box.box-solid.box-orange > .box-header,
-.box.box-solid.box-fuchsia > .box-header,
-.box.box-solid.box-indigo > .box-header,
-.box.box-solid.box-purple > .box-header,
-.box.box-solid.box-maroon > .box-header,
-.box.box-solid.box-black > .box-header,
-.box.box-solid.box-navy > .box-header a,
-.box.box-solid.box-navy > .box-header .btn,
-.box.box-solid.box-blue > .box-header a,
-.box.box-solid.box-blue > .box-header .btn,
-.box.box-solid.box-teal > .box-header a,
-.box.box-solid.box-teal > .box-header .btn,
-.box.box-solid.box-olive > .box-header a,
-.box.box-solid.box-olive > .box-header .btn,
-.box.box-solid.box-orange > .box-header a,
-.box.box-solid.box-orange > .box-header .btn,
-.box.box-solid.box-fuchsia > .box-header a,
-.box.box-solid.box-fuchsia > .box-header .btn,
-.box.box-solid.box-indigo > .box-header a,
-.box.box-solid.box-indigo > .box-header .btn,
-.box.box-solid.box-purple > .box-header a,
-.box.box-solid.box-purple > .box-header .btn,
-.box.box-solid.box-maroon > .box-header a,
-.box.box-solid.box-maroon > .box-header .btn,
-.box.box-solid.box-black > .box-header a,
-.box.box-solid.box-black > .box-header .btn {
-    color: #ffffff;
-}
-
-.box.box-solid.box-lime > .box-header a,
-.box.box-solid.box-lime > .box-header .btn,
-.box.box-solid.box-gray > .box-header a,
-.box.box-solid.box-gray > .box-header .btn {
-    color: #444444;
-}
-
-.box.box-solid > .box-header .btn.btn-primary,
-.box.box-solid > .box-header a.btn-primary,
-.box.box-solid > .box-header .btn.btn-info,
-.box.box-solid > .box-header a.btn-info,
-.box.box-solid > .box-header .btn.btn-success,
-.box.box-solid > .box-header a.btn-success,
-.box.box-solid > .box-header .btn.btn-warning,
-.box.box-solid > .box-header a.btn-warning,
-.box.box-solid > .box-header .btn.btn-danger,
-.box.box-solid > .box-header a.btn-danger,
-
-.box.box-solid > .box-header .btn.btn-navy,
-.box.box-solid > .box-header a.btn-navy,
-.box.box-solid > .box-header .btn.btn-blue,
-.box.box-solid > .box-header a.btn-blue,
-.box.box-solid > .box-header .btn.btn-teal,
-.box.box-solid > .box-header a.btn-teal,
-.box.box-solid > .box-header .btn.btn-olive,
-.box.box-solid > .box-header a.btn-olive,
-.box.box-solid > .box-header .btn.btn-orange,
-.box.box-solid > .box-header a.btn-orange,
-.box.box-solid > .box-header .btn.btn-fuchsia,
-.box.box-solid > .box-header a.btn-fuchsia,
-.box.box-solid > .box-header .btn.btn-indigo,
-.box.box-solid > .box-header a.btn-indigo,
-.box.box-solid > .box-header .btn.btn-purple,
-.box.box-solid > .box-header a.btn-purple,
-.box.box-solid > .box-header .btn.btn-maroon,
-.box.box-solid > .box-header a.btn-maroon,
-.box.box-solid > .box-header .btn.btn-black,
-.box.box-solid > .box-header a.btn-black {
-    color: #ffffff;
-}
-
-.box.box-solid > .box-header .btn.btn-lime,
-.box.box-solid > .box-header a.btn-lime,
-.box.box-solid > .box-header .btn.btn-gray,
-.box.box-solid > .box-header a.btn-gray {
-    color: #000000;
+    color: var(--black-text-color);
+    background-color: var(--black-base-color);
 }
