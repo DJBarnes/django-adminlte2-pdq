@@ -38,202 +38,180 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */
 .modal-navy .modal-header,
 .modal-navy .modal-footer {
-    border-color:#001226;
-    background-color: #001a35 !important;
+    color: var(--navy-text-color);
+    background-color: var(--navy-active-color) !important;
+    border-color: var(--navy-border-color);
 }
 .modal-navy .modal-body {
-  background-color: #001f3f !important;
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color) !important;
 }
 
 
 /* Blue coloring. */
 .modal-blue .modal-header,
 .modal-blue .modal-footer {
-    border-color:#01578a;
-    background-color: #0c80c4 !important;
+    color: var(--blue-text-color);
+    background-color: var(--blue-active-color) !important;
+    border-color: var(--blue-border-color);
 }
 .modal-blue .modal-body {
-  background-color: #1a94db !important;
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color) !important;
 }
 
 
 /* Teal coloring. */
 .modal-teal .modal-header,
 .modal-teal .modal-footer {
-    border-color: #2aa2a2;
-    background-color: #30bbbb !important;
+    color: var(--teal-text-color);
+    background-color: var(--teal-active-color) !important;
+    border-color: var(--teal-border-color);
 }
 .modal-teal .modal-body {
-  background-color: #39cccc !important;
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color) !important;
 }
 
 
 /* Olive coloring. */
 .modal-olive .modal-header,
 .modal-olive .modal-footer {
-    border-color: #2c6d50;
-    background-color: #368763 !important;
+    color: var(--olive-text-color);
+    background-color: var(--olive-active-color) !important;
+    border-color: var(--olive-border-color);
 }
 .modal-olive .modal-body {
-  background-color: #3d9970 !important;
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color) !important;
 }
 
 
 /* Lime coloring. */
 .modal-lime .modal-header,
 .modal-lime .modal-footer {
-    border-color: #00ce59;
-    background-color: #00e765 !important;
+    color: var(--lime-text-color);
+    background-color: var(--lime-active-color) !important;
+    border-color: var(--lime-border-color);
 }
 .modal-lime .modal-body {
-  background-color: #01ff70 !important;
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color) !important;
 }
 
 
 /* Orange coloring. */
 .modal-orange .modal-header,
 .modal-orange .modal-footer {
-    border-color: #df6901;
-    background-color: #ff7701 !important;
+    color: var(--orange-text-color);
+    background-color: var(--orange-active-color) !important;
+    border-color: var(--orange-border-color);
 }
 .modal-orange .modal-body {
-  background-color: #ff851b !important;
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color) !important;
 }
 
 
 /* Fuchsia coloring. */
 .modal-fuchsia .modal-header,
 .modal-fuchsia .modal-footer {
-    border-color: #bb0c95;
-    background-color: #db0ead !important;
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-active-color) !important;
+    border-color: var(--fuchsia-border-color);
 }
 .modal-fuchsia .modal-body {
-  background-color: #f012be !important;
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color) !important;
 }
 
 
 /* Indigo coloring. */
 .modal-indigo .modal-header,
 .modal-indigo .modal-footer {
-    border-color: #9a52d2;
-    background-color: #a35cd8 !important;
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-active-color) !important;
+    border-color: var(--indigo-border-color);
 }
 .modal-indigo .modal-body {
-  background-color: #a35cd8 !important;
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color) !important;
 }
 
 
 /* Purple coloring. */
 .modal-purple .modal-header,
 .modal-purple .modal-footer {
-    border-color: #47447e;
-    background-color: #555299 !important;
+    color: var(--purple-text-color);
+    background-color: var(--purple-active-color) !important;
+    border-color: var(--purple-border-color);
 }
 .modal-purple .modal-body {
-  background-color: #605ca8 !important;
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color) !important;
 }
 
 
 /* Maroon coloring. */
 .modal-maroon .modal-header,
 .modal-maroon .modal-footer {
-    border-color: #a7154a;
-    background-color: #ca195a !important;
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-active-color) !important;
+    border-color: var(--maroon-border-color);
 }
 .modal-maroon .modal-body {
-  background-color: #d81b60 !important;
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color) !important;
 }
 
 
 /* Gray coloring. */
 .modal-gray .modal-header,
 .modal-gray .modal-footer {
-    border-color: #878d98;
-    background-color: #9ca2ae;
+    color: var(--gray-text-color);
+    background-color: var(--gray-active-color) !important;
+    border-color: var(--gray-border-color);
 }
 .modal-gray .modal-body {
-  color: #333;
-  background-color: #b5bbc8 !important;
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color) !important;
 }
 
 
 /* Black coloring. */
 .modal-black .modal-header,
 .modal-black .modal-footer {
-    border-color: #000000;
-    background-color: #000000;
+    color: var(--black-text-color);
+    background-color: var(--black-active-color) !important;
+    border-color: var(--black-border-color);
 }
 .modal-black .modal-body {
-  background-color: #2b2b2b !important;
-}
-
-
-
-
-.modal-teal .modal-body,
-.modal-teal .modal-header,
-.modal-teal .modal-footer,
-.modal-lime .modal-body,
-.modal-lime .modal-header,
-.modal-lime .modal-footer,
-.modal-gray .modal-body,
-.modal-gray .modal-header,
-.modal-gray .modal-footer {
-  color: #333;
-}
-
-.modal-navy .modal-body,
-.modal-navy .modal-header,
-.modal-navy .modal-footer,
-.modal-blue .modal-body,
-.modal-blue .modal-header,
-.modal-blue .modal-footer,
-.modal-olive .modal-body,
-.modal-olive .modal-header,
-.modal-olive .modal-footer,
-.modal-orange .modal-body,
-.modal-orange .modal-header,
-.modal-orange .modal-footer,
-.modal-fuchsia .modal-body,
-.modal-fuchsia .modal-header,
-.modal-fuchsia .modal-footer,
-.modal-indigo .modal-body,
-.modal-indigo .modal-header,
-.modal-indigo .modal-footer,
-.modal-purple .modal-body,
-.modal-purple .modal-header,
-.modal-purple .modal-footer,
-.modal-maroon .modal-body,
-.modal-maroon .modal-header,
-.modal-maroon .modal-footer,
-.modal-black .modal-body,
-.modal-black .modal-header,
-.modal-black .modal-footer {
-    color: #fff !important;
+    color: var(--black-text-color);
+    background-color: var(--black-base-color) !important;
 }

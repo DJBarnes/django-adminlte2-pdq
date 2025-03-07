@@ -14,7 +14,7 @@
 /* Default coloring. */
 .btn.btn-app.bg-default,
 .btn.btn-app .badge.bg-default {
-  border: 1px solid #ddd;
+    border: 1px solid var(--default-border-color);
 }
 
 
@@ -22,7 +22,7 @@
 /* Equivalent to `light-blue`. */
 .btn.btn-app.bg-primary,
 .btn.btn-app .badge.bg-primary {
-  border: 1px solid #367fa9;
+    border: 1px solid var(--primary-border-color);
 }
 
 
@@ -30,7 +30,7 @@
 /* Equivalent to `aqua`. */
 .btn.btn-app.bg-info,
 .btn.btn-app .badge.bg-info {
-  border: 1px solid #00acd6;
+    border: 1px solid var(--info-border-color);
 }
 
 
@@ -38,7 +38,7 @@
 /* Equivalent to `green`. */
 .btn.btn-app.bg-success,
 .btn.btn-app .badge.bg-success {
-  border: 1px solid #008d4c;
+    border: 1px solid var(--success-border-color);
 }
 
 
@@ -46,7 +46,7 @@
 /* Equivalent to `yellow`. */
 .btn.btn-app.bg-warning,
 .btn.btn-app .badge.bg-warning {
-  border: 1px solid #e08e0b;
+    border: 1px solid var(--warning-border-color);
 }
 
 
@@ -54,7 +54,7 @@
 /* Equivalent to `red`. */
 .btn.btn-app.bg-danger,
 .btn.btn-app .badge.bg-danger {
-  border: 1px solid #d73925;
+    border: 1px solid var(--danger-border-color);
 }
 
 
@@ -66,7 +66,7 @@
 /* Equivalent to `primary`. */
 .btn.btn-app.bg-light-blue,
 .btn.btn-app .badge.bg-light-blue {
-  border: 1px solid #367fa9;
+    border: 1px solid var(--primary-border-color);
 }
 
 
@@ -74,7 +74,7 @@
 /* Equivalent to `info`. */
 .btn.btn-app.bg-aqua,
 .btn.btn-app .badge.bg-aqua {
-  border: 1px solid #00acd6;
+    border: 1px solid var(--info-border-color);
 }
 
 
@@ -82,7 +82,7 @@
 /* Equivalent to `success`. */
 .btn.btn-app.bg-green,
 .btn.btn-app .badge.bg-green {
-  border: 1px solid #008d4c;
+    border: 1px solid var(--success-border-color);
 }
 
 
@@ -90,7 +90,7 @@
 /* Equivalent to `warning`. */
 .btn.btn-app.bg-yellow,
 .btn.btn-app .badge.bg-yellow {
-  border: 1px solid #e08e0b;
+    border: 1px solid var(--warning-border-color);
 }
 
 
@@ -98,89 +98,89 @@
 /* Equivalent to `danger`. */
 .btn.btn-app.bg-red,
 .btn.btn-app .badge.bg-red {
-  border: 1px solid #d73925;
+    border: 1px solid var(--danger-border-color);
 }
 
 
 /* Navy coloring. */
 .btn.btn-app.bg-navy,
 .btn.btn-app .badge.bg-navy {
-  border: 1px solid #001226;
+    border: 1px solid var(--navy-border-color);
 }
 
 
 /* Blue coloring. */
 .btn.btn-app.bg-blue,
 .btn.btn-app .badge.bg-blue {
-  border: 1px solid #01578a;
+    border: 1px solid var(--blue-border-color);
 }
 
 
 /* Teal coloring. */
 .btn.btn-app.bg-teal,
 .btn.btn-app .badge.bg-teal {
-  border: 1px solid #2aa2a2;
+    border: 1px solid var(--teal-border-color);
 }
 
 
 /* Olive coloring. */
 .btn.btn-app.bg-olive,
 .btn.btn-app .badge.bg-olive {
-  border: 1px solid #2c6d50;
+    border: 1px solid var(--olive-border-color);
 }
 
 
 /* Lime coloring. */
 .btn.btn-app.bg-lime,
 .btn.btn-app .badge.bg-lime {
-  border: 1px solid #00ce59;
+    border: 1px solid var(--lime-border-color);
 }
 
 
 /* Orange coloring. */
 .btn.btn-app.bg-orange,
 .btn.btn-app .badge.bg-orange {
-  border: 1px solid #df6901;
+    border: 1px solid var(--orange-border-color);
 }
 
 
 /* Fuchsia coloring. */
 .btn.btn-app.bg-fuchsia,
 .btn.btn-app .badge.bg-fuchsia {
-  border: 1px solid #bb0c95;
+    border: 1px solid var(--fuchsia-border-color);
 }
 
 
 /* Indigo coloring. */
 .btn.btn-app.bg-indigo,
 .btn.btn-app .badge.bg-indigo {
-  border: 1px solid #9a52d2;
+    border: 1px solid var(--indigo-border-color);
 }
 
 
 /* Purple coloring. */
 .btn.btn-app.bg-purple,
 .btn.btn-app .badge.bg-purple {
-  border: 1px solid #47447e;
+    border: 1px solid var(--purple-border-color);
 }
 
 
 /* Maroon coloring. */
 .btn.btn-app.bg-maroon,
 .btn.btn-app .badge.bg-maroon {
-  border: 1px solid #a7154a;
+    border: 1px solid var(--maroon-border-color);
 }
 
 
 /* Gray coloring. */
 .btn.btn-app.bg-gray,
 .btn.btn-app .badge.bg-gray {
-  border: 1px solid #878d98
+    border: 1px solid var(--gray-border-color);
 }
 
 
 /* Black coloring. */
 .btn.btn-app.bg-black,
 .btn.btn-app .badge.bg-black {
-  border: 1px solid #000000;
+    border: 1px solid var(--black-border-color);
 }

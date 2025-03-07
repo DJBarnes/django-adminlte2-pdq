@@ -141,7 +141,7 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Blue coloring. */
@@ -150,17 +150,17 @@
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */

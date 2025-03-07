@@ -38,118 +38,108 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
-/* Already implemented by AdminLte. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 
 
 /* Navy coloring. */
 .label-navy {
-  background-color: #001f3f !important;
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color);
 }
 
 
 /* Blue coloring. */
 .label-blue {
-  background-color: #1a94db !important;
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color);
 }
 
 
 /* Teal coloring. */
 .label-teal {
-  background-color: #39cccc !important;
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color);
 }
 
 
 /* Olive coloring. */
 .label-olive {
-  background-color: #3d9970 !important;
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
 }
 
 
 /* Lime coloring. */
 .label-lime {
-  background-color: #01ff70 !important;
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
 }
 
 
 /* Orange coloring. */
 .label-orange {
-  background-color: #ff851b !important;
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color);
 }
 
 
 /* Fuchsia coloring. */
 .label-fuchsia {
-  background-color: #f012be !important;
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color);
 }
 
 
 /* Indigo coloring. */
 .label-indigo {
-  background-color: #a35cd8 !important;
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
 }
 
 
 /* Purple coloring. */
 .label-purple {
-  background-color: #605ca8 !important;
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color);
 }
 
 
 /* Maroon coloring. */
 .label-maroon {
-  background-color: #d81b60 !important;
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color);
 }
 
 
 /* Gray coloring. */
 .label-gray {
-  color: #333;
-  background-color: #b5bbc8 !important;
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color);
 }
 
 
 /* Black coloring. */
 .label-black {
-  background-color: #2b2b2b !important;
-}
-
-
-
-
-.label-teal,
-.label-lime,
-.label-gray {
-  color: #333;
-}
-
-.label-navy,
-.label-blue,
-.label-olive,
-.label-orange,
-.label-fuchsia,
-.label-indigo,
-.label-purple,
-.label-maroon,
-.label-black {
-    color: #fff !important;
+    color: var(--black-text-color);
+    background-color: var(--black-base-color);
 }
