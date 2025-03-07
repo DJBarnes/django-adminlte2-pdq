@@ -7,6 +7,8 @@ import logging
 from django.contrib import messages
 from django.shortcuts import render
 
+# Internal Imports.
+from adminlte2_pdq.constants import CSS_COLORS_DICT
 from adminlte2_pdq.menu import CSS_MENU
 
 
@@ -14,47 +16,7 @@ from adminlte2_pdq.menu import CSS_MENU
 logger = logging.getLogger(__name__)
 
 
-# Module level variables.
-BOOTSTRAP_TYPES = [
-    "default",
-    "primary",
-    "info",
-    "success",
-    "warning",
-    "danger",
-    "navy",
-    "blue",
-    "teal",
-    "olive",
-    "lime",
-    "orange",
-    "fuchsia",
-    "indigo",
-    "purple",
-    "maroon",
-    "gray",
-    "black",
-]
-CSS_COLOR_HEX_KEYS = {
-    "default": "#f4f4f4",
-    "primary": "#3c8dbc",
-    "info": "#00c0ef",
-    "success": "#00a65a",
-    "warning": "#f39c12",
-    "danger": "#dd4b39",
-    "navy": "#001f3f",
-    "blue": "#0073b7",
-    "teal": "#39cccc",
-    "olive": "#3d9970",
-    "lime": "#01ff70",
-    "orange": "#ff851b",
-    "fuchsia": "#f012be",
-    "indigo": "#a35cd8",
-    "purple": "#605ca8",
-    "maroon": "#d81b60",
-    "gray": "#d2d6de",
-    "black": "#111111",
-}
+BOOTSTRAP_TYPES = list(CSS_COLORS_DICT.keys())
 
 
 def demo_css(request):
@@ -206,7 +168,7 @@ def demo_css_ui_general(request):
         "adminlte2_demo_css/ui_general.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
-            "css_color_hex_keys": CSS_COLOR_HEX_KEYS,
+            "css_color_hex_keys": CSS_COLORS_DICT,
             "ADMINLTE2_MENU": CSS_MENU,
         },
     )
