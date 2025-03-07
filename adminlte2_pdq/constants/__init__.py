@@ -22,6 +22,8 @@ from .general_constants import (
     TEXT_RED,
     TEXT_RESET,
     TEXT_YELLOW,
+    # Demo CSS settings.
+    CSS_COLORS_DICT,
 )
 
 

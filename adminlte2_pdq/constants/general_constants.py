@@ -83,3 +83,34 @@ TEXT_YELLOW = "{0}{1}{2}".format(Fore.YELLOW, Back.RESET, Style.NORMAL) if COLOR
 
 # Optionally display package-wide debug printing.
 SHOW_DEBUG_PRINT = getattr(settings, "ADMINLTE2_SHOW_DEBUG_PRINT", False)
+
+
+# Demo CSS Constant
+# Override this to change what color values appear in all the demo css pages.
+# Can be used to remove any unwanted colors, or add new custom colors if desired.
+CSS_COLORS_DICT = dict(
+    getattr(
+        settings,
+        "ADMINLTE2_CSS_COLORS_DICT",
+        {
+            "default": "#f4f4f4",
+            "primary": "#3c8dbc",
+            "info": "#00c0ef",
+            "success": "#00a65a",
+            "warning": "#f39c12",
+            "danger": "#dd4b39",
+            "navy": "#001f3f",
+            "blue": "#0073b7",
+            "teal": "#39cccc",
+            "olive": "#3d9970",
+            "lime": "#01ff70",
+            "orange": "#ff851b",
+            "fuchsia": "#f012be",
+            "indigo": "#a35cd8",
+            "purple": "#605ca8",
+            "maroon": "#d81b60",
+            "gray": "#d2d6de",
+            "black": "#111111",
+        },
+    )
+)
