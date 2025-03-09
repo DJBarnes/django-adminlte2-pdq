@@ -19,24 +19,41 @@
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
 .alert-primary {
-    background-color: #337ab7;
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color);
 }
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+.alert-info {
+    color: var(--info-text-color);
+    background-color: var(--info-base-color);
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+.alert-success {
+    color: var(--success-text-color);
+    background-color: var(--success-base-color);
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+.alert-warning {
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color);
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.alert-danger {
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color);
+}
 
 
 /**
@@ -46,26 +63,46 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.alert-light-blue {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color);
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.alert-aqua {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color);
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.alert-green {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color);
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.alert-yellow {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color);
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.alert-red {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color);
+}
 
 
 /* Navy coloring. */
