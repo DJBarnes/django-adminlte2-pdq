@@ -41,6 +41,7 @@ Features include:
    :caption: Getting Started
 
    quickstart
+   longstart
 
 
 .. toctree::
