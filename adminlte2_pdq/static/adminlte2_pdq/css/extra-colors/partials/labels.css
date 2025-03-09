@@ -10,26 +10,50 @@
  */
 
 /* Default coloring. */
+.label-default {
+    color: var(--default-text-color);
+    background-color: var(--default-base-color);
+}
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
+.label-primary {
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color);
+}
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+.label-info {
+    color: var(--info-text-color);
+    background-color: var(--info-base-color);
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+.label-success {
+    color: var(--success-text-color);
+    background-color: var(--success-base-color);
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+.label-warning {
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color);
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.label-danger {
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color);
+}
 
 
 /**
@@ -39,26 +63,46 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.label-light-blue {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color);
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.label-aqua {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color);
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.label-green {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color);
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.label-yellow {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color);
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.label-red {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color);
+}
 
 
 /* Navy coloring. */

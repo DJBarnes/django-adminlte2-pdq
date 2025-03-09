@@ -9,73 +9,153 @@
  * but this allows using these terms to do the same as well.
  */
 
-/* Default coloring. */
 
+/* Default coloring. */
+.dropdown-menu.dropdown-menu-default,
+.dropdown-menu.dropdown-menu-default li > a,
+.dropdown-menu.dropdown-menu-default li > input,
+.dropdown-menu.dropdown-menu-default li > button {
+    color: var(--default-text-color);
+    background-color: var(--default-base-color);
+    border-color: var(--default-border-color);
+}
+.dropdown-menu.dropdown-menu-default li > a:hover,
+.dropdown-menu.dropdown-menu-default li > input:hover,
+.dropdown-menu.dropdown-menu-default li > button:hover,
+.dropdown-menu.dropdown-menu-default li > a:focus,
+.dropdown-menu.dropdown-menu-default li > input:focus,
+.dropdown-menu.dropdown-menu-default li > button:focus {
+    color: var(--default-text-color);
+    background-color: var(--default-active-color);
+}
+.dropdown-menu.dropdown-menu-default li.divider {
+    background-color: var(--default-border-color);
+    border-color: var(--default-border-color);
+}
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
-.dropdown-menu-primary, .dropdown-menu-primary li > a, .dropdown-menu-primary li > input, .dropdown-menu-primary li > button {
-    background-color: #3c8dbc;
-    color: white;
+.dropdown-menu.dropdown-menu-primary,
+.dropdown-menu.dropdown-menu-primary li > a,
+.dropdown-menu.dropdown-menu-primary li > input,
+.dropdown-menu.dropdown-menu-primary li > button {
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color);
+    border-color: var(--primary-border-color);
 }
-.dropdown-menu-primary li > a:hover, .dropdown-menu-primary li > input:hover, .dropdown-menu-primary li > button:hover,
-.dropdown-menu-primary li > a:focus, .dropdown-menu-primary li > input:focus, .dropdown-menu-primary li > button:focus {
-    background-color: #367fa9;
-    color: white;
+.dropdown-menu.dropdown-menu-primary li > a:hover,
+.dropdown-menu.dropdown-menu-primary li > input:hover,
+.dropdown-menu.dropdown-menu-primary li > button:hover,
+.dropdown-menu.dropdown-menu-primary li > a:focus,
+.dropdown-menu.dropdown-menu-primary li > input:focus,
+.dropdown-menu.dropdown-menu-primary li > button:focus {
+    color: var(--primary-text-color);
+    background-color: var(--primary-active-color);
+}
+.dropdown-menu.dropdown-menu-primary li.divider {
+    background-color: var(--primary-border-color);
+    border-color: var(--primary-border-color);
 }
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
-.dropdown-menu-info, .dropdown-menu-info li > a, .dropdown-menu-info li > input, .dropdown-menu-info li > button {
-    background-color: #00c0ef;
-    color: white;
+.dropdown-menu.dropdown-menu-info,
+.dropdown-menu.dropdown-menu-info li > a,
+.dropdown-menu.dropdown-menu-info li > input,
+.dropdown-menu.dropdown-menu-info li > button {
+    color: var(--info-text-color);
+    background-color: var(--info-base-color);
+    border-color: var(--info-border-color);
 }
-.dropdown-menu-info li > a:hover, .dropdown-menu-info li > input:hover, .dropdown-menu-info li > button:hover,
-.dropdown-menu-info li > a:focus, .dropdown-menu-info li > input:focus, .dropdown-menu-info li > button:focus {
-    background-color: #00acd6;
-    color: white;
+.dropdown-menu.dropdown-menu-info li > a:hover,
+.dropdown-menu.dropdown-menu-info li > input:hover,
+.dropdown-menu.dropdown-menu-info li > button:hover,
+.dropdown-menu.dropdown-menu-info li > a:focus,
+.dropdown-menu.dropdown-menu-info li > input:focus,
+.dropdown-menu.dropdown-menu-info li > button:focus {
+    color: var(--info-text-color);
+    background-color: var(--info-active-color);
+}
+.dropdown-menu.dropdown-menu-info li.divider {
+    background-color: var(--info-border-color);
+    border-color: var(--info-border-color);
 }
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
-.dropdown-menu-success, .dropdown-menu-success li > a, .dropdown-menu-success li > input, .dropdown-menu-success li > button {
-    background-color: #00a65a;
-    color: white;
+.dropdown-menu.dropdown-menu-success,
+.dropdown-menu.dropdown-menu-success li > a,
+.dropdown-menu.dropdown-menu-success li > input,
+.dropdown-menu.dropdown-menu-success li > button {
+    color: var(--success-text-color);
+    background-color: var(--success-base-color);
+    border-color: var(--success-border-color);
 }
-.dropdown-menu-success li > a:hover, .dropdown-menu-success li > input:hover, .dropdown-menu-success li > button:hover,
-.dropdown-menu-success li > a:focus, .dropdown-menu-success li > input:focus, .dropdown-menu-success li > button:focus {
-    background-color: #008d4c;
-    color: white;
+.dropdown-menu.dropdown-menu-success li > a:hover,
+.dropdown-menu.dropdown-menu-success li > input:hover,
+.dropdown-menu.dropdown-menu-success li > button:hover,
+.dropdown-menu.dropdown-menu-success li > a:focus,
+.dropdown-menu.dropdown-menu-success li > input:focus,
+.dropdown-menu.dropdown-menu-success li > button:focus {
+    color: var(--success-text-color);
+    background-color: var(--success-active-color);
+}
+.dropdown-menu.dropdown-menu-success li.divider {
+    background-color: var(--success-border-color);
+    border-color: var(--success-border-color);
 }
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
-.dropdown-menu-warning, .dropdown-menu-warning li > a, .dropdown-menu-warning li > input, .dropdown-menu-warning li > button {
-    background-color: #f39c12;
-    color: white;
+.dropdown-menu.dropdown-menu-warning,
+.dropdown-menu.dropdown-menu-warning li > a,
+.dropdown-menu.dropdown-menu-warning li > input,
+.dropdown-menu.dropdown-menu-warning li > button {
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color);
+    border-color: var(--warning-border-color);
 }
-.dropdown-menu-warning li > a:hover, .dropdown-menu-warning li > input:hover, .dropdown-menu-warning li > button:hover,
-.dropdown-menu-warning li > a:focus, .dropdown-menu-warning li > input:focus, .dropdown-menu-warning li > button:focus {
-    background-color: #e08e0b;
-    color: white;
+.dropdown-menu.dropdown-menu-warning li > a:hover,
+.dropdown-menu.dropdown-menu-warning li > input:hover,
+.dropdown-menu.dropdown-menu-warning li > button:hover,
+.dropdown-menu.dropdown-menu-warning li > a:focus,
+.dropdown-menu.dropdown-menu-warning li > input:focus,
+.dropdown-menu.dropdown-menu-warning li > button:focus {
+    color: var(--warning-text-color);
+    background-color: var(--warning-active-color);
 }
-
-.dropdown-menu-danger, .dropdown-menu-danger li > a, .dropdown-menu-danger li > input, .dropdown-menu-danger li > button {
-    background-color: #dd4b39;
-    color: white;
-}
-.dropdown-menu-danger li > a:hover, .dropdown-menu-danger li > input:hover, .dropdown-menu-danger li > button:hover,
-.dropdown-menu-danger li > a:focus, .dropdown-menu-danger li > input:focus, .dropdown-menu-danger li > button:focus {
-    background-color: #d73925;
-    color: white;
+.dropdown-menu.dropdown-menu-warning li.divider {
+    background-color: var(--warning-border-color);
+    border-color: var(--warning-border-color);
 }
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.dropdown-menu.dropdown-menu-danger,
+.dropdown-menu.dropdown-menu-danger li > a,
+.dropdown-menu.dropdown-menu-danger li > input,
+.dropdown-menu.dropdown-menu-danger li > button {
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color);
+    border-color: var(--danger-border-color);
+}
+.dropdown-menu.dropdown-menu-danger li > a:hover,
+.dropdown-menu.dropdown-menu-danger li > input:hover,
+.dropdown-menu.dropdown-menu-danger li > button:hover,
+.dropdown-menu.dropdown-menu-danger li > a:focus,
+.dropdown-menu.dropdown-menu-danger li > input:focus,
+.dropdown-menu.dropdown-menu-danger li > button:focus {
+    color: var(--danger-text-color);
+    background-color: var(--danger-active-color);
+}
+.dropdown-menu.dropdown-menu-danger li.divider {
+    background-color: var(--danger-border-color);
+    border-color: var(--danger-border-color);
+}
 
 
 /**
@@ -85,158 +165,416 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.dropdown-menu.dropdown-menu-light-blue,
+.dropdown-menu.dropdown-menu-light-blue li > a,
+.dropdown-menu.dropdown-menu-light-blue li > input,
+.dropdown-menu.dropdown-menu-light-blue li > button {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color);
+    border-color: var(--light-blue-border-color);
+}
+.dropdown-menu.dropdown-menu-light-blue li > a:hover,
+.dropdown-menu.dropdown-menu-light-blue li > input:hover,
+.dropdown-menu.dropdown-menu-light-blue li > button:hover,
+.dropdown-menu.dropdown-menu-light-blue li > a:focus,
+.dropdown-menu.dropdown-menu-light-blue li > input:focus,
+.dropdown-menu.dropdown-menu-light-blue li > button:focus {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-active-color);
+}
+.dropdown-menu.dropdown-menu-light-blue li.divider {
+    background-color: var(--light-blue-border-color);
+    border-color: var(--light-blue-border-color);
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.dropdown-menu.dropdown-menu-aqua,
+.dropdown-menu.dropdown-menu-aqua li > a,
+.dropdown-menu.dropdown-menu-aqua li > input,
+.dropdown-menu.dropdown-menu-aqua li > button {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color);
+    border-color: var(--aqua-border-color);
+}
+.dropdown-menu.dropdown-menu-aqua li > a:hover,
+.dropdown-menu.dropdown-menu-aqua li > input:hover,
+.dropdown-menu.dropdown-menu-aqua li > button:hover,
+.dropdown-menu.dropdown-menu-aqua li > a:focus,
+.dropdown-menu.dropdown-menu-aqua li > input:focus,
+.dropdown-menu.dropdown-menu-aqua li > button:focus {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-active-color);
+}
+.dropdown-menu.dropdown-menu-aqua li.divider {
+    background-color: var(--aqua-border-color);
+    border-color: var(--aqua-border-color);
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.dropdown-menu.dropdown-menu-green,
+.dropdown-menu.dropdown-menu-green li > a,
+.dropdown-menu.dropdown-menu-green li > input,
+.dropdown-menu.dropdown-menu-green li > button {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color);
+    border-color: var(--green-border-color);
+}
+.dropdown-menu.dropdown-menu-green li > a:hover,
+.dropdown-menu.dropdown-menu-green li > input:hover,
+.dropdown-menu.dropdown-menu-green li > button:hover,
+.dropdown-menu.dropdown-menu-green li > a:focus,
+.dropdown-menu.dropdown-menu-green li > input:focus,
+.dropdown-menu.dropdown-menu-green li > button:focus {
+    color: var(--green-text-color);
+    background-color: var(--green-active-color);
+}
+.dropdown-menu.dropdown-menu-green li.divider {
+    background-color: var(--green-border-color);
+    border-color: var(--green-border-color);
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.dropdown-menu.dropdown-menu-yellow,
+.dropdown-menu.dropdown-menu-yellow li > a,
+.dropdown-menu.dropdown-menu-yellow li > input,
+.dropdown-menu.dropdown-menu-yellow li > button {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color);
+    border-color: var(--yellow-border-color);
+}
+.dropdown-menu.dropdown-menu-yellow li > a:hover,
+.dropdown-menu.dropdown-menu-yellow li > input:hover,
+.dropdown-menu.dropdown-menu-yellow li > button:hover,
+.dropdown-menu.dropdown-menu-yellow li > a:focus,
+.dropdown-menu.dropdown-menu-yellow li > input:focus,
+.dropdown-menu.dropdown-menu-yellow li > button:focus {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-active-color);
+}
+.dropdown-menu.dropdown-menu-yellow li.divider {
+    background-color: var(--yellow-border-color);
+    border-color: var(--yellow-border-color);
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.dropdown-menu.dropdown-menu-red,
+.dropdown-menu.dropdown-menu-red li > a,
+.dropdown-menu.dropdown-menu-red li > input,
+.dropdown-menu.dropdown-menu-red li > button {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color);
+    border-color: var(--red-border-color);
+}
+.dropdown-menu.dropdown-menu-red li > a:hover,
+.dropdown-menu.dropdown-menu-red li > input:hover,
+.dropdown-menu.dropdown-menu-red li > button:hover,
+.dropdown-menu.dropdown-menu-red li > a:focus,
+.dropdown-menu.dropdown-menu-red li > input:focus,
+.dropdown-menu.dropdown-menu-red li > button:focus {
+    color: var(--red-text-color);
+    background-color: var(--red-active-color);
+}
+.dropdown-menu.dropdown-menu-red li.divider {
+    background-color: var(--red-border-color);
+    border-color: var(--red-border-color);
+}
 
 
 /* Navy coloring. */
-.dropdown-menu-navy, .dropdown-menu-navy li > a, .dropdown-menu-navy li > input, .dropdown-menu-navy li > button {
-    background-color: #001f3f;
-    color: white;
+.dropdown-menu.dropdown-menu-navy,
+.dropdown-menu.dropdown-menu-navy li > a,
+.dropdown-menu.dropdown-menu-navy li > input,
+.dropdown-menu.dropdown-menu-navy li > button {
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color);
+    border-color: var(--navy-border-color);
 }
-.dropdown-menu-navy li > a:hover, .dropdown-menu-navy li > input:hover, .dropdown-menu-navy li > button:hover,
-.dropdown-menu-navy li > a:focus, .dropdown-menu-navy li > input:focus, .dropdown-menu-navy li > button:focus {
-    background-color: #001a35;
-    color: white;
+.dropdown-menu.dropdown-menu-navy li > a:hover,
+.dropdown-menu.dropdown-menu-navy li > input:hover,
+.dropdown-menu.dropdown-menu-navy li > button:hover,
+.dropdown-menu.dropdown-menu-navy li > a:focus,
+.dropdown-menu.dropdown-menu-navy li > input:focus,
+.dropdown-menu.dropdown-menu-navy li > button:focus {
+    color: var(--navy-text-color);
+    background-color: var(--navy-active-color);
+}
+.dropdown-menu.dropdown-menu-navy li.divider {
+    background-color: var(--navy-border-color);
+    border-color: var(--navy-border-color);
 }
 
 
 /* Blue coloring. */
+.dropdown-menu.dropdown-menu-blue,
+.dropdown-menu.dropdown-menu-blue li > a,
+.dropdown-menu.dropdown-menu-blue li > input,
+.dropdown-menu.dropdown-menu-blue li > button {
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color);
+    border-color: var(--blue-border-color);
+}
+.dropdown-menu.dropdown-menu-blue li > a:hover,
+.dropdown-menu.dropdown-menu-blue li > input:hover,
+.dropdown-menu.dropdown-menu-blue li > button:hover,
+.dropdown-menu.dropdown-menu-blue li > a:focus,
+.dropdown-menu.dropdown-menu-blue li > input:focus,
+.dropdown-menu.dropdown-menu-blue li > button:focus {
+    color: var(--blue-text-color);
+    background-color: var(--blue-active-color);
+}
+.dropdown-menu.dropdown-menu-blue li.divider {
+    background-color: var(--blue-border-color);
+    border-color: var(--blue-border-color);
+}
 
 
 /* Teal coloring. */
-.dropdown-menu-teal, .dropdown-menu-teal li > a, .dropdown-menu-teal li > input, .dropdown-menu-teal li > button {
-    background-color: #39cccc;
-    color: white;
+.dropdown-menu.dropdown-menu-teal,
+.dropdown-menu.dropdown-menu-teal li > a,
+.dropdown-menu.dropdown-menu-teal li > input,
+.dropdown-menu.dropdown-menu-teal li > button {
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color);
+    border-color: var(--teal-border-color);
 }
-.dropdown-menu-teal li > a:hover, .dropdown-menu-teal li > input:hover, .dropdown-menu-teal li > button:hover,
-.dropdown-menu-teal li > a:focus, .dropdown-menu-teal li > input:focus, .dropdown-menu-teal li > button:focus {
-    background-color: #30bbbb;
-    color: white;
+.dropdown-menu.dropdown-menu-teal li > a:hover,
+.dropdown-menu.dropdown-menu-teal li > input:hover,
+.dropdown-menu.dropdown-menu-teal li > button:hover,
+.dropdown-menu.dropdown-menu-teal li > a:focus,
+.dropdown-menu.dropdown-menu-teal li > input:focus,
+.dropdown-menu.dropdown-menu-teal li > button:focus {
+    color: var(--teal-text-color);
+    background-color: var(--teal-active-color);
+}
+.dropdown-menu.dropdown-menu-teal li.divider {
+    background-color: var(--teal-border-color);
+    border-color: var(--teal-border-color);
 }
 
 
 /* Olive coloring. */
-.dropdown-menu-olive, .dropdown-menu-olive li > a, .dropdown-menu-olive li > input, .dropdown-menu-olive li > button {
-    background-color: #3d9970;
-    color: white;
+.dropdown-menu.dropdown-menu-olive,
+.dropdown-menu.dropdown-menu-olive li > a,
+.dropdown-menu.dropdown-menu-olive li > input,
+.dropdown-menu.dropdown-menu-olive li > button {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
 }
-.dropdown-menu-olive li > a:hover, .dropdown-menu-olive li > input:hover, .dropdown-menu-olive li > button:hover,
-.dropdown-menu-olive li > a:focus, .dropdown-menu-olive li > input:focus, .dropdown-menu-olive li > button:focus {
-    background-color: #368763;
-    color: white;
+.dropdown-menu.dropdown-menu-olive li > a:hover,
+.dropdown-menu.dropdown-menu-olive li > input:hover,
+.dropdown-menu.dropdown-menu-olive li > button:hover,
+.dropdown-menu.dropdown-menu-olive li > a:focus,
+.dropdown-menu.dropdown-menu-olive li > input:focus,
+.dropdown-menu.dropdown-menu-olive li > button:focus {
+    color: var(--olive-text-color);
+    background-color: var(--olive-active-color);
+}
+.dropdown-menu.dropdown-menu-olive li.divider {
+    background-color: var(--olive-border-color);
+    border-color: var(--olive-border-color);
 }
 
 
 /* Lime coloring. */
-.dropdown-menu-lime, .dropdown-menu-lime li > a, .dropdown-menu-lime li > input, .dropdown-menu-lime li > button {
-    background-color: #01ff70;
-    color: #333;
+.dropdown-menu.dropdown-menu-lime,
+.dropdown-menu.dropdown-menu-lime li > a,
+.dropdown-menu.dropdown-menu-lime li > input,
+.dropdown-menu.dropdown-menu-lime li > button {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
 }
-.dropdown-menu-lime li > a:hover, .dropdown-menu-lime li > input:hover, .dropdown-menu-lime li > button:hover,
-.dropdown-menu-lime li > a:focus, .dropdown-menu-lime li > input:focus, .dropdown-menu-lime li > button:focus {
-    background-color: #00e765;
-    color: #262626;
+.dropdown-menu.dropdown-menu-lime li > a:hover,
+.dropdown-menu.dropdown-menu-lime li > input:hover,
+.dropdown-menu.dropdown-menu-lime li > button:hover,
+.dropdown-menu.dropdown-menu-lime li > a:focus,
+.dropdown-menu.dropdown-menu-lime li > input:focus,
+.dropdown-menu.dropdown-menu-lime li > button:focus {
+    color: var(--lime-text-color);
+    background-color: var(--lime-active-color);
+}
+.dropdown-menu.dropdown-menu- li.divider {
+    background-color: var(--lime-border-color);
+    border-color: var(--lime-border-color);
 }
 
 
 /* Orange coloring. */
-.dropdown-menu-orange, .dropdown-menu-orange li > a, .dropdown-menu-orange li > input, .dropdown-menu-orange li > button {
-    background-color: #ff851b;
-    color: white;
+.dropdown-menu.dropdown-menu-orange,
+.dropdown-menu.dropdown-menu-orange li > a,
+.dropdown-menu.dropdown-menu-orange li > input,
+.dropdown-menu.dropdown-menu-orange li > button {
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color);
+    border-color: var(--orange-border-color);
 }
-.dropdown-menu-orange li > a:hover, .dropdown-menu-orange li > input:hover, .dropdown-menu-orange li > button:hover,
-.dropdown-menu-orange li > a:focus, .dropdown-menu-orange li > input:focus, .dropdown-menu-orange li > button:focus {
-    background-color: #ff7701;
-    color: white;
+.dropdown-menu.dropdown-menu-orange li > a:hover,
+.dropdown-menu.dropdown-menu-orange li > input:hover,
+.dropdown-menu.dropdown-menu-orange li > button:hover,
+.dropdown-menu.dropdown-menu-orange li > a:focus,
+.dropdown-menu.dropdown-menu-orange li > input:focus,
+.dropdown-menu.dropdown-menu-orange li > button:focus {
+    color: var(--orange-text-color);
+    background-color: var(--orange-active-color);
+}
+.dropdown-menu.dropdown-menu-orange li.divider {
+    background-color: var(--orange-border-color);
+    border-color: var(--orange-border-color);
 }
 
 
 /* Fuchsia coloring. */
-.dropdown-menu-fuchsia, .dropdown-menu-fuchsia li > a, .dropdown-menu-fuchsia li > input, .dropdown-menu-fuchsia li > button {
-    background-color: #f012be;
-    color: white;
+.dropdown-menu.dropdown-menu-fuchsia,
+.dropdown-menu.dropdown-menu-fuchsia li > a,
+.dropdown-menu.dropdown-menu-fuchsia li > input,
+.dropdown-menu.dropdown-menu-fuchsia li > button {
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color);
+    border-color: var(--fuchsia-border-color);
 }
-.dropdown-menu-fuchsia li > a:hover, .dropdown-menu-fuchsia li > input:hover, .dropdown-menu-fuchsia li > button:hover,
-.dropdown-menu-fuchsia li > a:focus, .dropdown-menu-fuchsia li > input:focus, .dropdown-menu-fuchsia li > button:focus {
-    background-color: #db0ead;
-    color: white;
+.dropdown-menu.dropdown-menu-fuchsia li > a:hover,
+.dropdown-menu.dropdown-menu-fuchsia li > input:hover,
+.dropdown-menu.dropdown-menu-fuchsia li > button:hover,
+.dropdown-menu.dropdown-menu-fuchsia li > a:focus,
+.dropdown-menu.dropdown-menu-fuchsia li > input:focus,
+.dropdown-menu.dropdown-menu-fuchsia li > button:focus {
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-active-color);
+}
+.dropdown-menu.dropdown-menu-fuchsia li.divider {
+    background-color: var(--fuchsia-border-color);
+    border-color: var(--fuchsia-border-color);
 }
 
 
 /* Indigo coloring. */
-.dropdown-menu-indigo, .dropdown-menu-indigo li > a, .dropdown-menu-indigo li > input, .dropdown-menu-indigo li > button {
-    background-color: #a35cd8;
-    color: white;
+.dropdown-menu.dropdown-menu-indigo,
+.dropdown-menu.dropdown-menu-indigo li > a,
+.dropdown-menu.dropdown-menu-indigo li > input,
+.dropdown-menu.dropdown-menu-indigo li > button {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
 }
-.dropdown-menu-indigo li > a:hover, .dropdown-menu-indigo li > input:hover, .dropdown-menu-indigo li > button:hover,
-.dropdown-menu-indigo li > a:focus, .dropdown-menu-indigo li > input:focus, .dropdown-menu-indigo li > button:focus {
-    background-color: #9a52d2;
-    color: white;
+.dropdown-menu.dropdown-menu-indigo li > a:hover,
+.dropdown-menu.dropdown-menu-indigo li > input:hover,
+.dropdown-menu.dropdown-menu-indigo li > button:hover,
+.dropdown-menu.dropdown-menu-indigo li > a:focus,
+.dropdown-menu.dropdown-menu-indigo li > input:focus,
+.dropdown-menu.dropdown-menu-indigo li > button:focus {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-active-color);
+}
+.dropdown-menu.dropdown-menu-indigo li.divider {
+    background-color: var(--indigo-border-color);
+    border-color: var(--indigo-border-color);
 }
 
 
 /* Purple coloring. */
-.dropdown-menu-purple, .dropdown-menu-purple li > a, .dropdown-menu-purple li > input, .dropdown-menu-purple li > button {
-    background-color: #605ca8;
-    color: white;
+.dropdown-menu.dropdown-menu-purple,
+.dropdown-menu.dropdown-menu-purple li > a,
+.dropdown-menu.dropdown-menu-purple li > input,
+.dropdown-menu.dropdown-menu-purple li > button {
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color);
+    border-color: var(--purple-border-color);
 }
-.dropdown-menu-purple li > a:hover, .dropdown-menu-purple li > input:hover, .dropdown-menu-purple li > button:hover,
-.dropdown-menu-purple li > a:focus, .dropdown-menu-purple li > input:focus, .dropdown-menu-purple li > button:focus {
-    background-color: #555299;
-    color: white;
+.dropdown-menu.dropdown-menu-purple li > a:hover,
+.dropdown-menu.dropdown-menu-purple li > input:hover,
+.dropdown-menu.dropdown-menu-purple li > button:hover,
+.dropdown-menu.dropdown-menu-purple li > a:focus,
+.dropdown-menu.dropdown-menu-purple li > input:focus,
+.dropdown-menu.dropdown-menu-purple li > button:focus {
+    color: var(--purple-text-color);
+    background-color: var(--purple-active-color);
+}
+.dropdown-menu.dropdown-menu-purple li.divider {
+    background-color: var(--purple-border-color);
+    border-color: var(--purple-border-color);
 }
 
 
 /* Maroon coloring. */
-.dropdown-menu-maroon, .dropdown-menu-maroon li > a, .dropdown-menu-maroon li > input, .dropdown-menu-maroon li > button {
-    background-color: #d81b60;
-    color: white;
+.dropdown-menu.dropdown-menu-maroon,
+.dropdown-menu.dropdown-menu-maroon li > a,
+.dropdown-menu.dropdown-menu-maroon li > input,
+.dropdown-menu.dropdown-menu-maroon li > button {
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color);
+    border-color: var(--maroon-border-color);
 }
-.dropdown-menu-maroon li > a:hover, .dropdown-menu-maroon li > input:hover, .dropdown-menu-maroon li > button:hover,
-.dropdown-menu-maroon li > a:focus, .dropdown-menu-maroon li > input:focus, .dropdown-menu-maroon li > button:focus {
-    background-color: #ca195a;
-    color: white;
+.dropdown-menu.dropdown-menu-maroon li > a:hover,
+.dropdown-menu.dropdown-menu-maroon li > input:hover,
+.dropdown-menu.dropdown-menu-maroon li > button:hover,
+.dropdown-menu.dropdown-menu-maroon li > a:focus,
+.dropdown-menu.dropdown-menu-maroon li > input:focus,
+.dropdown-menu.dropdown-menu-maroon li > button:focus {
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-active-color);
+}
+.dropdown-menu.dropdown-menu-maroon li.divider {
+    background-color: var(--maroon-border-color);
+    border-color: var(--maroon-border-color);
 }
 
 
 /* Gray coloring. */
-.dropdown-menu-gray, .dropdown-menu-gray li > a, .dropdown-menu-gray li > input, .dropdown-menu-gray li > button {
-    background-color: #b5bbc8;
-    color: #333;
+.dropdown-menu.dropdown-menu-gray,
+.dropdown-menu.dropdown-menu-gray li > a,
+.dropdown-menu.dropdown-menu-gray li > input,
+.dropdown-menu.dropdown-menu-gray li > button {
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color);
+    border-color: var(--gray-border-color);
 }
-.dropdown-menu-gray li > a:hover, .dropdown-menu-gray li > input:hover, .dropdown-menu-gray li > button:hover,
-.dropdown-menu-gray li > a:focus, .dropdown-menu-gray li > input:focus, .dropdown-menu-gray li > button:focus {
-    background-color: #9ca2ae;
-    color: #262626;
+.dropdown-menu.dropdown-menu-gray li > a:hover,
+.dropdown-menu.dropdown-menu-gray li > input:hover,
+.dropdown-menu.dropdown-menu-gray li > button:hover,
+.dropdown-menu.dropdown-menu-gray li > a:focus,
+.dropdown-menu.dropdown-menu-gray li > input:focus,
+.dropdown-menu.dropdown-menu-gray li > button:focus {
+    color: var(--gray-text-color);
+    background-color: var(--gray-active-color);
+}
+.dropdown-menu.dropdown-menu-gray li.divider {
+    background-color: var(--gray-border-color);
+    border-color: var(--gray-border-color);
 }
 
 
 /* Black coloring. */
-.dropdown-menu-black, .dropdown-menu-black li > a, .dropdown-menu-black li > input, .dropdown-menu-black li > button {
-    background-color: #2b2b2b;
-    color: white;
+.dropdown-menu.dropdown-menu-black,
+.dropdown-menu.dropdown-menu-black li > a,
+.dropdown-menu.dropdown-menu-black li > input,
+.dropdown-menu.dropdown-menu-black li > button {
+    color: var(--black-text-color);
+    background-color: var(--black-base-color);
+    border-color: var(--black-border-color);
 }
-.dropdown-menu-black li > a:hover, .dropdown-menu-black li > input:hover, .dropdown-menu-black li > button:hover,
-.dropdown-menu-black li > a:focus, .dropdown-menu-black li > input:focus, .dropdown-menu-black li > button:focus {
-    background-color: #000000;
-    color: white;
+.dropdown-menu.dropdown-menu-black li > a:hover,
+.dropdown-menu.dropdown-menu-black li > input:hover,
+.dropdown-menu.dropdown-menu-black li > button:hover,
+.dropdown-menu.dropdown-menu-black li > a:focus,
+.dropdown-menu.dropdown-menu-black li > input:focus,
+.dropdown-menu.dropdown-menu-black li > button:focus {
+    color: var(--black-text-color);
+    background-color: var(--black-active-color);
+}
+.dropdown-menu.dropdown-menu-black li.divider {
+    background-color: var(--black-border-color);
+    border-color: var(--black-border-color);
 }
