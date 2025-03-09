@@ -18,6 +18,11 @@
 .bg-default-active {
     background-color: var(--default-active-color);
 }
+.bg-default .color-palette-box h4,
+.bg-text-default,
+.color-palette-box h4.bg-text-default {
+    color: var(--default-text-color);
+}
 
 
 /* Primary coloring. */
@@ -29,6 +34,11 @@
 }
 .bg-primary-active {
     background-color: var(--primary-active-color);
+}
+.bg-primary .color-palette-box h4,
+.bg-text-primary,
+.color-palette-box h4.bg-text-primary {
+    color: var(--primary-text-color);
 }
 
 
@@ -42,6 +52,11 @@
 .bg-info-active {
     background-color: var(--info-active-color);
 }
+.bg-info .color-palette-box h4,
+.bg-text-info,
+.color-palette-box h4.bg-text-info {
+    color: var(--info-text-color);
+}
 
 
 /* Success coloring. */
@@ -53,6 +68,11 @@
 }
 .bg-success-active {
     background-color: var(--success-active-color);
+}
+.bg-success .color-palette-box h4,
+.bg-text-success,
+.color-palette-box h4.bg-text-success {
+    color: var(--success-text-color);
 }
 
 
@@ -66,6 +86,11 @@
 .bg-warning-active {
     background-color: var(--warning-active-color);
 }
+.bg-warning .color-palette-box h4,
+.bg-text-warning,
+.color-palette-box h4.bg-text-warning {
+    color: var(--warning-text-color);
+}
 
 
 /* Danger coloring. */
@@ -78,6 +103,11 @@
 .bg-danger-active {
     background-color: var(--danger-active-color);
 }
+.bg-danger .color-palette-box h4,
+.bg-text-danger,
+.color-palette-box h4.bg-text-danger {
+    color: var(--danger-text-color);
+}
 
 
 /**
@@ -87,54 +117,210 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-light-blue {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color);
+    border-color: var(--light-blue-border-color);
+}
+.bg-light-blue-active {
+    background-color: var(--light-blue-active-color);
+}
+.bg-light-blue .color-palette-box h4,
+.bg-text-light-blue,
+.color-palette-box h4.bg-text-light-blue {
+    color: var(--light-blue-text-color);
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-aqua {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color);
+    border-color: var(--aqua-border-color);
+}
+.bg-aqua-active {
+    background-color: var(--aqua-active-color);
+}
+.bg-aqua .color-palette-box h4,
+.bg-text-aqua,
+.color-palette-box h4.bg-text-aqua {
+    color: var(--aqua-text-color);
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-green {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color);
+    border-color: var(--green-border-color);
+}
+.bg-green-active {
+    background-color: var(--green-active-color);
+}
+.bg-green .color-palette-box h4,
+.bg-text-green,
+.color-palette-box h4.bg-text-green {
+    color: var(--green-text-color);
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-yellow {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color);
+    border-color: var(--yellow-border-color);
+}
+.bg-yellow-active {
+    background-color: var(--yellow-active-color);
+}
+.bg-yellow .color-palette-box h4,
+.bg-text-yellow,
+.color-palette-box h4.bg-text-yellow {
+    color: var(--yellow-text-color);
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-red {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color);
+    border-color: var(--red-border-color);
+}
+.bg-red-active {
+    background-color: var(--red-active-color);
+}
+.bg-red .color-palette-box h4,
+.bg-text-red,
+.color-palette-box h4.bg-text-red {
+    color: var(--red-text-color);
+}
 
 
 /* Navy coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-navy {
+    color: var(--navy-text-color);
+    background-color: var(--navy-base-color);
+    border-color: var(--navy-border-color);
+}
+.bg-navy-active {
+    background-color: var(--navy-active-color);
+}
+.bg-navy .color-palette-box h4,
+.bg-text-navy,
+.color-palette-box h4.bg-text-navy {
+    color: var(--navy-text-color);
+}
 
 
 /* Blue coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-blue {
+    color: var(--blue-text-color);
+    background-color: var(--blue-base-color);
+    border-color: var(--blue-border-color);
+}
+.bg-blue-active {
+    background-color: var(--blue-active-color);
+}
+.bg-blue .color-palette-box h4,
+.bg-text-blue,
+.color-palette-box h4.bg-text-blue {
+    color: var(--blue-text-color);
+}
 
 
 /* Teal coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-teal {
+    color: var(--teal-text-color);
+    background-color: var(--teal-base-color);
+    border-color: var(--teal-border-color);
+}
+.bg-teal-active {
+    background-color: var(--teal-active-color);
+}
+.bg-teal .color-palette-box h4,
+.bg-text-teal,
+.color-palette-box h4.bg-text-teal {
+    color: var(--teal-text-color);
+}
 
 
 /* Olive coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-olive {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
+}
+.bg-olive-active {
+    background-color: var(--olive-active-color);
+}
+.bg-olive .color-palette-box h4,
+.bg-text-olive,
+.color-palette-box h4.bg-text-olive {
+    color: var(--olive-text-color);
+}
 
 
 /* Lime coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-lime {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
+}
+.bg-lime-active {
+    background-color: var(--lime-active-color);
+}
+.bg-lime .color-palette-box h4,
+.bg-text-lime,
+.color-palette-box h4.bg-text-lime {
+    color: var(--lime-text-color);
+}
 
 
 /* Orange coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-orange {
+    color: var(--orange-text-color);
+    background-color: var(--orange-base-color);
+    border-color: var(--orange-border-color);
+}
+.bg-orange-active {
+    background-color: var(--orange-active-color);
+}
+.bg-orange .color-palette-box h4,
+.bg-text-orange,
+.color-palette-box h4.bg-text-orange {
+    color: var(--orange-text-color);
+}
 
 
 /* Fuchsia coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-fuchsia {
+    color: var(--fuchsia-text-color);
+    background-color: var(--fuchsia-base-color);
+    border-color: var(--fuchsia-border-color);
+}
+.bg-fuchsia-active {
+    background-color: var(--fuchsia-active-color);
+}
+.bg-fuchsia .color-palette-box h4,
+.bg-text-fuchsia,
+.color-palette-box h4.bg-text-fuchsia {
+    color: var(--fuchsia-text-color);
+}
 
 
 /* Indigo coloring. */
@@ -144,87 +330,78 @@
     border-color: var(--indigo-border-color);
 }
 .bg-indigo-active {
-    background-color: var(--indigo-active-color);}
+    background-color: var(--indigo-active-color);
+}
+.bg-indigo .color-palette-box h4,
+.bg-text-indigo,
+.color-palette-box h4.bg-text-indigo {
+    color: var(--indigo-text-color);
+}
 
 
 /* Purple coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-purple {
+    color: var(--purple-text-color);
+    background-color: var(--purple-base-color);
+    border-color: var(--purple-border-color);
+}
+.bg-purple-active {
+    background-color: var(--purple-active-color);
+}
+.bg-purple .color-palette-box h4,
+.bg-text-purple,
+.color-palette-box h4.bg-text-purple {
+    color: var(--purple-text-color);
+}
 
 
 /* Maroon coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-maroon {
+    color: var(--maroon-text-color);
+    background-color: var(--maroon-base-color);
+    border-color: var(--maroon-border-color);
+}
+.bg-maroon-active {
+    background-color: var(--maroon-active-color);
+}
+.bg-maroon .color-palette-box h4,
+.bg-text-maroon,
+.color-palette-box h4.bg-text-maroon {
+    color: var(--maroon-text-color);
+}
 
 
 /* Gray coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.bg-gray {
+    color: var(--gray-text-color);
+    background-color: var(--gray-base-color);
+    border-color: var(--gray-border-color);
+}
+.bg-gray-active {
+    background-color: var(--gray-active-color);
+}
+.bg-gray .color-palette-box h4,
+.bg-text-gray,
+.color-palette-box h4.bg-text-gray {
+    color: var(--gray-text-color);
+}
 
 
 /* Black coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-
-
-
-
-
-/* Set text elements. */
-.bg-danger,
-.bg-warning,
-.bg-success,
-.bg-info,
-.bg-primary,
-.bg-danger-active,
-.bg-warning-active,
-.bg-success-active,
-.bg-info-active,
-.bg-primary-active {
-  color: #fff !important;
+.bg-black {
+    color: var(--black-text-color);
+    background-color: var(--black-base-color);
+    border-color: var(--black-border-color);
 }
-
-
-/* Correct some element text to be visible. */
-.bg-text-red,
-.bg-text-danger,
-.bg-text-yellow,
-.bg-text-warning,
-.bg-text-aqua,
-.bg-text-info,
-.bg-text-light-blue,
-.bg-text-primary,
-.bg-text-green,
-.bg-text-success,
-.bg-text-navy,
-.bg-text-blue,
-.bg-text-teal,
-.bg-text-olive,
-.bg-text-lime,
-.bg-text-orange,
-.bg-text-fuchsia,
-.bg-text-purple,
-.bg-text-maroon,
+.bg-black-active {
+    background-color: var(--black-active-color);
+}
+.bg-black .color-palette-box h4,
 .bg-text-black,
-.bg-text-indigo,
-.bg-text-indigo-active,
-.bg-indigo,
-.bg-indigo-active {
-  color: #fff !important;
-}
-
-
-.bg-text-default,
-.bg-text-default-active,
-.bg-text-gray,
-.bg-text-gray-active,
-.bg-text-teal,
-.bg-text-teal-active,
-.bg-text-lime,
-.bg-text-lime-active,
-.bg-default,
-.bg-default-active,
-.bg-gray,
-.bg-gray-active,
-.bg-teal,
-.bg-teal-active,
-.bg-lime,
-.bg-lime-active {
-  color: #333 !important;
+.color-palette-box h4.bg-text-black {
+    color: var(--black-text-color);
 }

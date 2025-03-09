@@ -10,26 +10,92 @@
  */
 
 /* Default coloring. */
+.box.box-default {
+    border-top-color: var(--default-base-color);
+ }
+ .box.box-solid.box-default {
+    color: var(--default-text-color);
+    border: 1px solid var(--default-border-color);
+ }
+ .box.box-solid.box-default > .box-header {
+    color: var(--default-text-color);
+    background-color: var(--default-base-color);
+}
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
+.box.box-primary {
+    border-top-color: var(--primary-base-color);
+ }
+ .box.box-solid.box-primary {
+    color: var(--primary-text-color);
+    border: 1px solid var(--primary-border-color);
+ }
+ .box.box-solid.box-primary > .box-header {
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color);
+}
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+.box.box-info {
+    border-top-color: var(--info-base-color);
+ }
+ .box.box-solid.box-info {
+    color: var(--info-text-color);
+    border: 1px solid var(--info-border-color);
+ }
+ .box.box-solid.box-info > .box-header {
+    color: var(--info-text-color);
+    background-color: var(--info-base-color);
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+.box.box-success {
+    border-top-color: var(--success-base-color);
+ }
+ .box.box-solid.box-success {
+    color: var(--success-text-color);
+    border: 1px solid var(--success-border-color);
+ }
+ .box.box-solid.box-success > .box-header {
+    color: var(--success-text-color);
+    background-color: var(--success-base-color);
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+.box.box-warning {
+    border-top-color: var(--warning-base-color);
+ }
+ .box.box-solid.box-warning {
+    color: var(--warning-text-color);
+    border: 1px solid var(--warning-border-color);
+ }
+ .box.box-solid.box-warning > .box-header {
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color);
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.box.box-danger {
+    border-top-color: var(--danger-base-color);
+ }
+ .box.box-solid.box-danger {
+    color: var(--danger-text-color);
+    border: 1px solid var(--danger-border-color);
+ }
+ .box.box-solid.box-danger > .box-header {
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color);
+}
 
 
 /**
@@ -39,26 +105,81 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.box.box-light-blue {
+    border-top-color: var(--light-blue-base-color);
+ }
+ .box.box-solid.box-light-blue {
+    color: var(--light-blue-text-color);
+    border: 1px solid var(--light-blue-border-color);
+ }
+ .box.box-solid.box-light-blue > .box-header {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color);
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.box.box-aqua {
+    border-top-color: var(--aqua-base-color);
+ }
+ .box.box-solid.box-aqua {
+    color: var(--aqua-text-color);
+    border: 1px solid var(--aqua-border-color);
+ }
+ .box.box-solid.box-aqua > .box-header {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color);
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.box.box-green {
+    border-top-color: var(--green-base-color);
+ }
+ .box.box-solid.box-green {
+    color: var(--green-text-color);
+    border: 1px solid var(--green-border-color);
+ }
+ .box.box-solid.box-green > .box-header {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color);
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.box.box-yellow {
+    border-top-color: var(--yellow-base-color);
+ }
+ .box.box-solid.box-yellow {
+    color: var(--yellow-text-color);
+    border: 1px solid var(--yellow-border-color);
+ }
+ .box.box-solid.box-yellow > .box-header {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color);
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.box.box-red {
+    border-top-color: var(--red-base-color);
+ }
+ .box.box-solid.box-red {
+    color: var(--red-text-color);
+    border: 1px solid var(--red-border-color);
+ }
+ .box.box-solid.box-red > .box-header {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color);
+}
 
 
 /* Navy coloring. */

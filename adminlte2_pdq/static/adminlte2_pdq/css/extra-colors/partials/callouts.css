@@ -28,18 +28,38 @@
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+.callout.callout-info {
+    color: var(--info-text-color);
+    background-color: var(--info-base-color);
+    border-color: var(--info-border-color);
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+.callout.callout-success {
+    color: var(--success-text-color);
+    background-color: var(--success-base-color);
+    border-color: var(--success-border-color);
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+.callout.callout-warning {
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color);
+    border-color: var(--warning-border-color);
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.callout.callout-danger {
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color);
+    border-color: var(--danger-border-color);
+}
 
 
 /**
@@ -49,26 +69,51 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.callout.callout-light-blue {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color);
+    border-color: var(--light-blue-border-color);
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.callout.callout-aqua {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color);
+    border-color: var(--aqua-border-color);
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.callout.callout-green {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color);
+    border-color: var(--green-border-color);
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.callout.callout-yellow {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color);
+    border-color: var(--yellow-border-color);
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.callout.callout-red {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color);
+    border-color: var(--red-border-color);
+}
 
 
 /* Navy coloring. */

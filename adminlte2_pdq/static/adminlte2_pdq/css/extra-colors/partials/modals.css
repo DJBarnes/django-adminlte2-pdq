@@ -10,26 +10,86 @@
  */
 
 /* Default coloring. */
+.modal-default .modal-header,
+.modal-default .modal-footer {
+    color: var(--default-text-color);
+    background-color: var(--default-active-color) !important;
+    border-color: var(--default-border-color);
+}
+.modal-default .modal-body {
+    color: var(--default-text-color);
+    background-color: var(--default-base-color) !important;
+}
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
+.modal-primary .modal-header,
+.modal-primary .modal-footer {
+    color: var(--primary-text-color);
+    background-color: var(--primary-active-color) !important;
+    border-color: var(--primary-border-color);
+}
+.modal-primary .modal-body {
+    color: var(--primary-text-color);
+    background-color: var(--primary-base-color) !important;
+}
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+.modal-info .modal-header,
+.modal-info .modal-footer {
+    color: var(--info-text-color);
+    background-color: var(--info-active-color) !important;
+    border-color: var(--info-border-color);
+}
+.modal-info .modal-body {
+    color: var(--info-text-color);
+    background-color: var(--info-base-color) !important;
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+.modal-success .modal-header,
+.modal-success .modal-footer {
+    color: var(--success-text-color);
+    background-color: var(--success-active-color) !important;
+    border-color: var(--success-border-color);
+}
+.modal-success .modal-body {
+    color: var(--success-text-color);
+    background-color: var(--success-base-color) !important;
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+.modal-warning .modal-header,
+.modal-warning .modal-footer {
+    color: var(--warning-text-color);
+    background-color: var(--warning-active-color) !important;
+    border-color: var(--warning-border-color);
+}
+.modal-warning .modal-body {
+    color: var(--warning-text-color);
+    background-color: var(--warning-base-color) !important;
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.modal-danger .modal-header,
+.modal-danger .modal-footer {
+    color: var(--danger-text-color);
+    background-color: var(--danger-active-color) !important;
+    border-color: var(--danger-border-color);
+}
+.modal-danger .modal-body {
+    color: var(--danger-text-color);
+    background-color: var(--danger-base-color) !important;
+}
 
 
 /**
@@ -39,26 +99,76 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.modal-light-blue .modal-header,
+.modal-light-blue .modal-footer {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-active-color) !important;
+    border-color: var(--light-blue-border-color);
+}
+.modal-light-blue .modal-body {
+    color: var(--light-blue-text-color);
+    background-color: var(--light-blue-base-color) !important;
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.modal-aqua .modal-header,
+.modal-aqua .modal-footer {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-active-color) !important;
+    border-color: var(--aqua-border-color);
+}
+.modal-aqua .modal-body {
+    color: var(--aqua-text-color);
+    background-color: var(--aqua-base-color) !important;
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.modal-green .modal-header,
+.modal-green .modal-footer {
+    color: var(--green-text-color);
+    background-color: var(--green-active-color) !important;
+    border-color: var(--green-border-color);
+}
+.modal-green .modal-body {
+    color: var(--green-text-color);
+    background-color: var(--green-base-color) !important;
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.modal-yellow .modal-header,
+.modal-yellow .modal-footer {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-active-color) !important;
+    border-color: var(--yellow-border-color);
+}
+.modal-yellow .modal-body {
+    color: var(--yellow-text-color);
+    background-color: var(--yellow-base-color) !important;
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.modal-red .modal-header,
+.modal-red .modal-footer {
+    color: var(--red-text-color);
+    background-color: var(--red-active-color) !important;
+    border-color: var(--red-border-color);
+}
+.modal-red .modal-body {
+    color: var(--red-text-color);
+    background-color: var(--red-base-color) !important;
+}
 
 
 /* Navy coloring. */
