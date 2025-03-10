@@ -1,0 +1,229 @@
+{# Hover Data Tables #}
+{% load adminlte_filters %}
+
+
+{# See also: JavaScript in parent tables.html file. #}
+{# That JavaScript is what enables the sorting by columns and #}
+{# pagination at table bottom. #}
+
+<div class="box">
+
+  {# Start Box Head #}
+  <div class="box-header">
+    <h3 class="box-title">Full Colored Tables</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body">
+
+    <div class="row">
+      <div class="col-sm-12">
+
+        <div id="carousel-full-table" class="carousel slide" data-ride="carousel">
+
+          <ol class="carousel-indicators">
+            {% for bootstrap_type in bootstrap_types %}
+              <li
+                data-target="#carousel-full-table"
+                data-slide-to="{{ forloop.counter0 }}"
+                class="{% if forloop.counter0 == 0 %}active{% else %}{% endif %}"
+              ></li>
+            {% endfor %}
+          </ol>
+
+          <div class="carousel-inner padding-right-05 padding-left-05">
+            {% for bootstrap_type in bootstrap_types %}
+              <div class="item {% if forloop.counter0 == 0 %}active{% else %}{% endif %}">
+
+                <h4>"{{ bootstrap_type|capfirst }}" Colored Table</h4>
+
+                {# Example Elements Start Here #}
+                <table
+                  id="datatable-full-table-{{ bootstrap_type }}"
+                  class="table table-bordered table-hover"
+                  role="grid"
+                >
+
+                {# Table Header #}
+                <thead>
+                  <tr class="{{ bootstrap_type }}">
+
+                    <th rowspan="1" colspan="1">
+                      <i class="fa fa-sort-numeric-asc"></i>
+                    </th>
+                    <th rowspan="1" colspan="1">Example</th>
+                    <th rowspan="1" colspan="1">Head</th>
+                    <th rowspan="1" colspan="1">Elements</th>
+                    <th rowspan="1" colspan="1">Color</th>
+                    <th rowspan="1" colspan="1">Icon</th>
+
+                  </tr>
+                </thead>
+
+                {# Table Body #}
+                <tbody>
+
+                  {% for index in '12345'|make_list %}
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:1 }}</td>
+                      <td>Header / Footer</td>
+                      <td>is</td>
+                      <td>color</td>
+                      <td>{{ bootstrap_type|capfirst }}</td>
+                      <td data-order="1" data-search="car">
+                        <i class="fa fa-car"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:2 }}</td>
+                      <td>This row</td>
+                      <td>is</td>
+                      <td>no</td>
+                      <td>color</td>
+                      <td data-order="2" data-search="bicycle">
+                        <i class="fa fa-bicycle"></i>
+                      </td>
+                    </tr>
+
+                    <tr class="{{ bootstrap_type }}">
+                      <td>{{ forloop.counter0|multiply:9|add:3 }}</td>
+                      <td>Entire</td>
+                      <td>Row</td>
+                      <td>Is Colored</td>
+                      <td>{{ bootstrap_type|capfirst }}</td>
+                      <td data-order="3" data-search="train">
+                        <i class="fa fa-train"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:4 }}</td>
+                      <td>This row</td>
+                      <td>is</td>
+                      <td>no</td>
+                      <td>color</td>
+                      <td data-order="2" data-search="bicycle">
+                        <i class="fa fa-bicycle"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:5 }}</td>
+                      <td>Single</td>
+                      <td class="{{ bootstrap_type }}">TD</td>
+                      <td>Is Colored</td>
+                      <td>{{ bootstrap_type|capfirst }}</td>
+                      <td data-order="4" data-search="subway">
+                        <i class="fa fa-subway"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:6 }}</td>
+                      <td>This row</td>
+                      <td>is</td>
+                      <td>no</td>
+                      <td>color</td>
+                      <td data-order="2" data-search="bicycle">
+                        <i class="fa fa-bicycle"></i>
+                      </td>
+                    </tr>
+
+                    <tr class="{{ bootstrap_type }}">
+                      <td>{{ forloop.counter0|multiply:9|add:7 }}</td>
+                      <td>Entire</td>
+                      <td>Row</td>
+                      <td>Is Colored</td>
+                      <td>{{ bootstrap_type|capfirst }}</td>
+                      <td data-order="5" data-search="ship">
+                        <i class="fa fa-ship"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:8 }}</td>
+                      <td>This row</td>
+                      <td>is</td>
+                      <td>no</td>
+                      <td>color</td>
+                      <td data-order="6" data-search="plane">
+                        <i class="fa fa-plane"></i>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td>{{ forloop.counter0|multiply:9|add:9 }}</td>
+                      <td>Header / Footer</td>
+                      <td>is</td>
+                      <td>color</td>
+                      <td>{{ bootstrap_type|capfirst }}</td>
+                      <td data-order="7" data-search="rocket">
+                        <i class="fa fa-rocket"></i>
+                      </td>
+                    </tr>
+
+                  {% endfor %}
+
+                </tbody>
+
+                {# Table Footer #}
+                <tfoot>
+                  <tr class="{{ bootstrap_type }}">
+
+                    <th rowspan="1" colspan="1">
+                      <i class="fa fa-sort-numeric-asc"></i>
+                    </th>
+                    <th rowspan="1" colspan="1">Example</th>
+                    <th rowspan="1" colspan="1">Foot</th>
+                    <th rowspan="1" colspan="1">Elements</th>
+                    <th rowspan="1" colspan="1">Color</th>
+                    <th rowspan="1" colspan="1">Icon</th>
+
+                  </tr>
+                </tfoot>
+
+              </table>
+                {# Example Elements End Here #}
+
+                <div class="carousel-caption">
+                  "{{ bootstrap_type|capfirst }}" Colored Table
+                </div>
+
+                <br>
+                <br>
+                <br>
+
+              </div>
+
+            {% endfor %}
+          </div>
+
+          <a
+            class="left carousel-control max-width-25px"
+            href="#carousel-full-table"
+            data-slide="prev"
+          >
+            <span class="fa fa-angle-left"></span>
+          </a>
+
+          <a
+            class="right carousel-control max-width-25px"
+            href="#carousel-full-table"
+            data-slide="next"
+          >
+            <span class="fa fa-angle-right"></span>
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
