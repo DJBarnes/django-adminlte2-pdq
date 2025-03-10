@@ -19,24 +19,17 @@
 
 {% block content %}
 
-  {# Table Headers #}
-  <div class="row">
-    <div class="col-xs-12">
-      {% include 'adminlte2_demo_css/partials/tables_headers.html' %}
-    </div>
-  </div>
-
-  {# Basic Data Tables #}
+  {# Basic Table #}
   <div class="row">
     <div class="col-xs-12">
       {% include 'adminlte2_demo_css/partials/tables_basic.html' %}
     </div>
   </div>
 
-  {# Hover Data Tables #}
+  {# Full Tables #}
   <div class="row">
     <div class="col-xs-12">
-      {% include 'adminlte2_demo_css/partials/tables_hover_data.html' %}
+      {% include 'adminlte2_demo_css/partials/tables_full.html' %}
     </div>
   </div>
 
@@ -46,15 +39,31 @@
 {% block page_javascript_body %}
   {{ block.super }}
 
+  {# Create data tables for our "full table" examples. #}
   <script>
     $(function () {
-      $('#data-hover-table-example').DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": false
+      {% for bootstrap_type in bootstrap_types %}
+        $('#datatable-full-table-{{ bootstrap_type }}').DataTable({
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "ordering": true,
+          "order": [],  // Disable initial ordering. Still allows ordering on user click.
+          "info": true,
+          "autoWidth": false
+        });
+      {% endfor %}
+    });
+  </script>
+
+  {# Prevent our table carousel examples from changing if being hovered on. #}
+  <script>
+    $(function () {
+      $('#carousel-basic-table').carousel({
+          pause: "hover"
+      });
+      $('#carousel-full-table').carousel({
+          pause: "hover"
       });
     });
   </script>
