@@ -25,8 +25,8 @@
 .table > tbody > tr > th.default,
 .table > tbody > tr.default > td,
 .table > tbody > tr.default > th {
-    color: var(--default-text-color);
-    background-color: #f4f4f4;
+    color: var(--default-text-dark);
+    background-color: var(--default-light-accent-color);
 }
 .table-hover > tbody > tr > td.default:hover,
 .table-hover > tbody > tr > th.default:hover,
@@ -54,8 +54,8 @@
 .table > tbody > tr > th.primary,
 .table > tbody > tr.primary > td,
 .table > tbody > tr.primary > th {
-    color: var(--primary-text-color);
-    background-color: #6a9ebd;
+    color: var(--default-text-dark);
+    background-color: var(--primary-light-accent-color);
 }
 .table-hover > tbody > tr > td.primary:hover,
 .table-hover > tbody > tr > th.primary:hover,
@@ -83,8 +83,8 @@
 .table > tbody > tr > th.info,
 .table > tbody > tr.info > td,
 .table > tbody > tr.info > th {
-    color: var(--info-text-color);
-    background-color: #60d3f0;
+    color: var(--default-text-dark);
+    background-color: var(--info-light-accent-color);
 }
 .table-hover > tbody > tr > td.info:hover,
 .table-hover > tbody > tr > th.info:hover,
@@ -112,8 +112,8 @@
 .table > tbody > tr > th.success,
 .table > tbody > tr.success > td,
 .table > tbody > tr.success > th {
-    color: var(--success-text-color);
-    background-color: #42a679;
+    color: var(--default-text-dark);
+    background-color: var(--success-light-accent-color);
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
@@ -141,8 +141,8 @@
 .table > tbody > tr > th.warning,
 .table > tbody > tr.warning > td,
 .table > tbody > tr.warning > th {
-    color: var(--warning-text-color);
-    background-color: #f2be6b;
+    color: var(--default-text-dark);
+    background-color: var(--warning-light-accent-color);
 }
 .table-hover > tbody > tr > td.warning:hover,
 .table-hover > tbody > tr > th.warning:hover,
@@ -170,8 +170,8 @@
 .table > tbody > tr > th.danger,
 .table > tbody > tr.danger > td,
 .table > tbody > tr.danger > th {
-    color: var(--danger-text-color);
-    background-color: #de8276;
+    color: var(--default-text-dark);
+    background-color: var(--danger-light-accent-color);
 }
 .table-hover > tbody > tr > td.danger:hover,
 .table-hover > tbody > tr > th.danger:hover,
@@ -203,8 +203,8 @@
 .table > tbody > tr > th.light-blue,
 .table > tbody > tr.light-blue > td,
 .table > tbody > tr.light-blue > th {
-    color: var(--light-blue-text-color);
-    background-color: #6a9ebd;
+    color: var(--default-text-dark);
+    background-color: var(--blue-light-accent-color);
 }
 .table-hover > tbody > tr > td.light-blue:hover,
 .table-hover > tbody > tr > th.light-blue:hover,
@@ -232,8 +232,8 @@
 .table > tbody > tr > th.aqua,
 .table > tbody > tr.aqua > td,
 .table > tbody > tr.aqua > th {
-    color: var(--aqua-text-color);
-    background-color: #60d3f0;
+    color: var(--default-text-dark);
+    background-color: var(--aqua-light-accent-color);
 }
 .table-hover > tbody > tr > td.aqua:hover,
 .table-hover > tbody > tr > th.aqua:hover,
@@ -261,8 +261,8 @@
 .table > tbody > tr > th.green,
 .table > tbody > tr.green > td,
 .table > tbody > tr.green > th {
-    color: var(--green-text-color);
-    background-color: #42a679;
+    color: var(--default-text-dark);
+    background-color: var(--green-light-accent-color);
 }
 .table-hover > tbody > tr > td.green:hover,
 .table-hover > tbody > tr > th.green:hover,
@@ -290,8 +290,8 @@
 .table > tbody > tr > th.yellow,
 .table > tbody > tr.yellow > td,
 .table > tbody > tr.yellow > th {
-    color: var(--yellow-text-color);
-    background-color: #f2be6b;
+    color: var(--default-text-dark);
+    background-color: var(--yellow-light-accent-color);
 }
 .table-hover > tbody > tr > td.yellow:hover,
 .table-hover > tbody > tr > th.yellow:hover,
@@ -319,8 +319,8 @@
 .table > tbody > tr > th.red,
 .table > tbody > tr.red > td,
 .table > tbody > tr.red > th {
-    color: var(--red-text-color);
-    background-color: #de8276;
+    color: var(--default-text-dark);
+    background-color: var(--red-light-accent-color);
 }
 .table-hover > tbody > tr > td.red:hover,
 .table-hover > tbody > tr > th.red:hover,
@@ -343,13 +343,12 @@
     color: var(--navy-text-color);
     background-color: var(--navy-base-color);
 }
-
 .table > tbody > tr > td.navy,
 .table > tbody > tr > th.navy,
 .table > tbody > tr.navy > td,
 .table > tbody > tr.navy > th {
-    color: var(--navy-text-color);
-    background-color: #2d5173;
+    color: var(--default-text-dark);
+    background-color: var(--navy-light-accent-color);
 }
 .table-hover > tbody > tr > td.navy:hover,
 .table-hover > tbody > tr > th.navy:hover,
@@ -376,8 +375,8 @@
 .table > tbody > tr > th.blue,
 .table > tbody > tr.blue > td,
 .table > tbody > tr.blue > th {
-    color: var(--blue-text-color);
-    background-color: #498fb8;
+    color: var(--default-text-dark);
+    background-color: var(--blue-light-accent-color);
 }
 .table-hover > tbody > tr > td.blue:hover,
 .table-hover > tbody > tr > th.blue:hover,
@@ -404,8 +403,8 @@
 .table > tbody > tr > th.teal,
 .table > tbody > tr.teal > td,
 .table > tbody > tr.teal > th {
-    color: var(--teal-text-color);
-    background-color: #6ecccc;
+    color: var(--default-text-dark);
+    background-color: var(--teal-light-accent-color);
 }
 .table-hover > tbody > tr > td.teal:hover,
 .table-hover > tbody > tr > th.teal:hover,
@@ -432,8 +431,8 @@
 .table > tbody > tr > th.olive,
 .table > tbody > tr.olive > td,
 .table > tbody > tr.olive > th {
-    color: var(--olive-text-color);
-    background-color: #5c997d;
+    color: var(--default-text-dark);
+    background-color: var(--olive-light-accent-color);
 }
 .table-hover > tbody > tr > td.olive:hover,
 .table-hover > tbody > tr > th.olive:hover,
@@ -459,8 +458,8 @@
 .table > tbody > tr > th.lime,
 .table > tbody > tr.lime > td,
 .table > tbody > tr.lime > th {
-    color: var(--lime-text-color);
-    background-color: #66ffa8;
+    color: var(--default-text-dark);
+    background-color: var(--lime-light-accent-color);
 }
 .table-hover > tbody > tr > td.lime:hover,
 .table-hover > tbody > tr > th.lime:hover,
@@ -486,8 +485,8 @@
 .table > tbody > tr > th.orange,
 .table > tbody > tr.orange > td,
 .table > tbody > tr.orange > th {
-    color: var(--orange-text-color);
-    background-color: #ffb16c;
+    color: var(--default-text-dark);
+    background-color: var(--orange-light-accent-color);
 }
 .table-hover > tbody > tr > td.orange:hover,
 .table-hover > tbody > tr > th.orange:hover,
@@ -514,8 +513,8 @@
 .table > tbody > tr > th.fuchsia,
 .table > tbody > tr.fuchsia > td,
 .table > tbody > tr.fuchsia > th {
-    color: var(--fuchsia-text-color);
-    background-color: #f069d0;
+    color: var(--default-text-dark);
+    background-color: var(--fuchsia-light-accent-color);
 }
 .table-hover > tbody > tr > td.fuchsia:hover,
 .table-hover > tbody > tr > th.fuchsia:hover,
@@ -542,8 +541,8 @@
 .table > tbody > tr > th.indigo,
 .table > tbody > tr.indigo > td,
 .table > tbody > tr.indigo > th {
-    color: var(--indigo-text-color);
-    background-color: #b586d9;
+    color: var(--default-text-dark);
+    background-color: var(--indigo-light-accent-color);
 }
 .table-hover > tbody > tr > td.indigo:hover,
 .table-hover > tbody > tr > th.indigo:hover,
@@ -570,8 +569,8 @@
 .table > tbody > tr > th.purple,
 .table > tbody > tr.purple > td,
 .table > tbody > tr.purple > th {
-    color: var(--purple-text-color);
-    background-color: #a09afc;
+    color: var(--default-text-dark);
+    background-color: var(--purple-light-accent-color);
 }
 .table-hover > tbody > tr > td.purple:hover,
 .table-hover > tbody > tr > th.purple:hover,
@@ -598,8 +597,8 @@
 .table > tbody > tr > th.maroon,
 .table > tbody > tr.maroon > td,
 .table > tbody > tr.maroon > th {
-    color: var(--maroon-text-color);
-    background-color: #d9648f;
+    color: var(--default-text-dark);
+    background-color: var(--maroon-light-accent-color);
 }
 .table-hover > tbody > tr > td.maroon:hover,
 .table-hover > tbody > tr > th.maroon:hover,
@@ -626,8 +625,8 @@
 .table > tbody > tr > th.gray,
 .table > tbody > tr.gray > td,
 .table > tbody > tr.gray > th {
-    color: var(--gray-text-color);
-    background-color: #d2d6de;
+    color: var(--default-text-dark);
+    background-color: var(--gray-light-accent-color);
 }
 .table-hover > tbody > tr > td.gray:hover,
 .table-hover > tbody > tr > th.gray:hover,
@@ -654,8 +653,8 @@
 .table > tbody > tr > th.black,
 .table > tbody > tr.black > td,
 .table > tbody > tr.black > th {
-    color: var(--black-text-color);
-    background-color: #454545;
+    color: var(--default-text-dark);
+    background-color: var(--black-light-accent-color);
 }
 .table-hover > tbody > tr > td.black:hover,
 .table-hover > tbody > tr > th.black:hover,
