@@ -159,3 +159,13 @@ Prevent tooltip opacity
     padding-top: 0 !important;
     padding-bottom: 0 !important;
 }
+
+.padding-right-05 {
+    padding-right: 5%;
+}
+.padding-left-05 {
+    padding-left: 5%;
+}
+.max-width-25px {
+    max-width: 25px;
+}
