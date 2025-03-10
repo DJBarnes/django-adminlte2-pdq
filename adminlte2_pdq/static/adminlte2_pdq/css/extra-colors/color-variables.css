@@ -18,109 +18,132 @@
     --default-base-color: #f4f4f4;
     --default-border-color: #e7e7e7;
     --default-active-color: #dddddd;
+    --default-light-accent-color: #f5f5f5;
     /* "Primary"/"Light-Blue" colors. */
     --primary-text-color: var(--default-text-light);
     --primary-base-color: #3c8dbc;
     --primary-border-color: #2d698c;
     --primary-active-color: #357ca5;
+    --primary-light-accent-color: #cfdde6;
     --light-blue-text-color: var(--light-blue-text-color);
     --light-blue-base-color: var(--light-blue-base-color);
     --light-blue-border-color: var(--light-blue-border-color);
     --light-blue-active-color: var(--light-blue-active-color);
+    --light-blue-light-accent-color: var(--light-blue-light-accent-color);
     /* "Info"/"Aqua" colors. */
     --info-text-color: var(--default-text-light);
     --info-base-color: #00c0ef;
     --info-border-color: #0097bc;
     --info-active-color: #00a7d0;
+    --info-light-accent-color: #d9edf7;
     --aqua-text-color: var(--info-text-color);
     --aqua-base-color: var(--info-base-color);
     --aqua-border-color: var(--info-border-color);
     --aqua-active-color: var(--info-active-color);
+    --aqua-light-accent-color: var(--info-light-accent-color);
     /* "Success"/"Green" colors. */
     --success-text-color: var(--default-text-light);
     --success-base-color: #00a65a;
     --success-border-color: #00733e;
     --success-active-color: #008d4c;
+    --success-light-accent-color: #dff0d8;
     --green-text-color: var(--success-text-color);
     --green-base-color: var(--success-base-color);
     --green-border-color: var(--success-border-color);
     --green-active-color: var(--success-active-color);
+    --green-light-accent-color: var(--success-light-accent-color);
     /* "Warning"/Yellow" colors. */
     --warning-text-color: var(--default-text-light);
     --warning-base-color: #f39c12;
     --warning-border-color: #c87f0a;
     --warning-active-color: #db8b0b;
+    --warning-light-accent-color: #fcf8e3;
     --yellow-text-color: var(--warning-text-color);
     --yellow-base-color: var(--warning-base-color);
     --yellow-border-color: var(--warning-border-color);
     --yellow-active-color: var(--warning-active-color);
+    --yellow-light-accent-color: var(--warning-light-accent-color);
     /* "Danger"/"Red" colors. */
     --danger-text-color: var(--default-text-light);
     --danger-base-color: #dd4b39;
     --danger-border-color: #b3301e;
     --danger-active-color: #d33724;
+    --danger-light-accent-color: #f2dede;
     --red-text-color: var(--danger-text-color);
     --red-base-color: var(--danger-base-color);
     --red-border-color: var(--danger-border-color);
     --red-active-color: var(--danger-active-color);
+    --red-light-accent-color: var(--danger-light-accent-color);
     /* "Navy" colors. */
     --navy-text-color: var(--default-text-light);
     --navy-base-color: #001f3f;
     --navy-border-color: #000c1a;
     --navy-active-color: #001226;
+    --navy-light-accent-color: #cfd9e6;
     /* "Blue" colors. */
     --blue-text-color: var(--default-text-light);
     --blue-base-color: #1a94db;
     --blue-border-color: #0a72ad;
     --blue-active-color: #0c80c4;
+    --blue-light-accent-color: #cfdde6;
     /* "Teal" colors. */
     --teal-text-color: var(--default-text-dark);
     --teal-base-color: #39cccc;
     --teal-border-color: #2aa2a2;
     --teal-active-color: #30bbbb;
+    --teal-light-accent-color: #cfe6e6;
     /* "Olive" colors. */
     --olive-text-color: var(--default-text-light);
     --olive-base-color: #3d9970;
     --olive-border-color: #2e7354;
     --olive-active-color: #368763;
+    --olive-light-accent-color: #cfe6db;
     /* "Lime" colors. */
     --lime-text-color: var(--default-text-dark);
     --lime-base-color: #01ff70;
     --lime-border-color: #00ce59;
     --lime-active-color: #00e765;
+    --lime-light-accent-color: #cfe6da;
     /* "Orange" colors. */
     --orange-text-color: var(--default-text-light);
     --orange-base-color: #ff851b;
     --orange-border-color: #e66b00;
     --orange-active-color: #ff7701;
+    --orange-light-accent-color: #e6d8cf;
     /* "Fuchsia" colors. */
     --fuchsia-text-color: var(--default-text-light);
     --fuchsia-base-color: #f012be;
     --fuchsia-border-color: #cc0ca2;
     --fuchsia-active-color: #db0ead;
+    --fuchsia-light-accent-color: #e6cfe1;
     /* "Indigo" colors. */
     --indigo-text-color: var(--default-text-light);
     --indigo-base-color: #a35cd8;
     --indigo-border-color: #8d4bbf;
     --indigo-active-color: #9a52d2;
+    --indigo-light-accent-color: #dccfe6;
     /* "Purple" colors. */
     --purple-text-color: var(--default-text-light);
     --purple-base-color: #605ca8;
     --purple-border-color: #484580;
     --purple-active-color: #555299;
+    --purple-light-accent-color: #cfcfe6;
     /* "Maroon" colors. */
     --maroon-text-color: var(--default-text-light);
     --maroon-base-color: #d81b60;
     --maroon-border-color: #a61449;
     --maroon-active-color: #ca195a;
+    --maroon-light-accent-color: #e6cfd8;
     /* "Gray" colors. */
     --gray-text-color: var(--default-text-dark);
     --gray-base-color: #d2d6de;
     --gray-border-color: #b5bbc8;
     --gray-active-color: #9fa9b3;
+    --gray-light-accent-color: #b6c0cc;
     /* "Black" colors. */
     --black-text-color: var(--default-text-light);
     --black-base-color: #2b2b2b;
     --black-border-color: #111111;
     --black-active-color: #050505;
+    --black-light-accent-color: #cccccc;
 }
