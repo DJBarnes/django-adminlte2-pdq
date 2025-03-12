@@ -1,0 +1,626 @@
+/**
+ * Extra coloring CSS for AdminLte `carousel` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-default .carousel-indicators li:active,
+.carousel.bg-default .carousel-indicators li:focus,
+.carousel.bg-default .carousel-indicators li:hover {
+    background-color: var(--default-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-default .carousel-control,
+.carousel.carousel-default .carousel-caption,
+.carousel.carousel-default .carousel-indicators li {
+    color: var(--default-base-color);
+    border-color: var(--default-base-color);
+}
+.carousel.carousel-default .carousel-indicators li.active,
+.carousel.carousel-default .carousel-indicators li:active {
+    background-color: var(--default-base-color);
+    border-color: var(--default-border-color);
+}
+.carousel.carousel-default .carousel-indicators li:focus,
+.carousel.carousel-default .carousel-indicators li:hover {
+    background-color: var(--default-border-color);
+    border-color: var(--default-border-color);
+}
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+/* Handling for carousel background coloring. */
+.carousel.bg-primary .carousel-indicators li:active,
+.carousel.bg-primary .carousel-indicators li:focus,
+.carousel.bg-primary .carousel-indicators li:hover {
+    background-color: var(---border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-primary .carousel-control,
+.carousel.carousel-primary .carousel-caption,
+.carousel.carousel-primary .carousel-indicators li {
+    color: var(--primary-base-color);
+    border-color: var(--primary-base-color);
+}
+.carousel.carousel-primary .carousel-indicators li.active,
+.carousel.carousel-primary .carousel-indicators li:active {
+    background-color: var(--primary-base-color);
+    border-color: var(--primary-border-color);
+}
+.carousel.carousel-primary .carousel-indicators li:focus,
+.carousel.carousel-primary .carousel-indicators li:hover {
+    background-color: var(--primary-border-color);
+    border-color: var(--primary-border-color);
+}
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+/* Handling for carousel background coloring. */
+.carousel.bg-info .carousel-indicators li:active,
+.carousel.bg-info .carousel-indicators li:focus,
+.carousel.bg-info .carousel-indicators li:hover {
+    background-color: var(--info-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-info .carousel-control,
+.carousel.carousel-info .carousel-caption,
+.carousel.carousel-info .carousel-indicators li {
+    color: var(--info-base-color);
+    border-color: var(--info-base-color);
+}
+.carousel.carousel-info .carousel-indicators li.active,
+.carousel.carousel-info .carousel-indicators li:active {
+    background-color: var(--info-base-color);
+    border-color: var(--info-border-color);
+}
+.carousel.carousel-info .carousel-indicators li:focus,
+.carousel.carousel-info .carousel-indicators li:hover {
+    background-color: var(--info-border-color);
+    border-color: var(--info-border-color);
+}
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+/* Handling for carousel background coloring. */
+.carousel.bg-success .carousel-indicators li:active,
+.carousel.bg-success .carousel-indicators li:focus,
+.carousel.bg-success .carousel-indicators li:hover {
+    background-color: var(--success-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-success .carousel-control,
+.carousel.carousel-success .carousel-caption,
+.carousel.carousel-success .carousel-indicators li {
+    color: var(--success-base-color);
+    border-color: var(--success-base-color);
+}
+.carousel.carousel-success .carousel-indicators li.active,
+.carousel.carousel-success .carousel-indicators li:active {
+    background-color: var(--success-base-color);
+    border-color: var(--success-border-color);
+}
+.carousel.carousel-success .carousel-indicators li:focus,
+.carousel.carousel-success .carousel-indicators li:hover {
+    background-color: var(--success-border-color);
+    border-color: var(--success-border-color);
+}
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+/* Handling for carousel background coloring. */
+.carousel.bg-warning .carousel-indicators li:active,
+.carousel.bg-warning .carousel-indicators li:focus,
+.carousel.bg-warning .carousel-indicators li:hover {
+    background-color: var(--warning-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-warning .carousel-control,
+.carousel.carousel-warning .carousel-caption,
+.carousel.carousel-warning .carousel-indicators li {
+    color: var(--warning-base-color);
+    border-color: var(--warning-base-color);
+}
+.carousel.carousel-warning .carousel-indicators li.active,
+.carousel.carousel-warning .carousel-indicators li:active {
+    background-color: var(--warning-base-color);
+    border-color: var(--warning-border-color);
+}
+.carousel.carousel-warning .carousel-indicators li:focus,
+.carousel.carousel-warning .carousel-indicators li:hover {
+    background-color: var(--warning-border-color);
+    border-color: var(--warning-border-color);
+}
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+/* Handling for carousel background coloring. */
+.carousel.bg-danger .carousel-indicators li:active,
+.carousel.bg-danger .carousel-indicators li:focus,
+.carousel.bg-danger .carousel-indicators li:hover {
+    background-color: var(--danger-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-danger .carousel-control,
+.carousel.carousel-danger .carousel-caption,
+.carousel.carousel-danger .carousel-indicators li {
+    color: var(--danger-base-color);
+    border-color: var(--danger-base-color);
+}
+.carousel.carousel-danger .carousel-indicators li.active,
+.carousel.carousel-danger .carousel-indicators li:active {
+    background-color: var(--danger-base-color);
+    border-color: var(--danger-border-color);
+}
+.carousel.carousel-danger .carousel-indicators li:focus,
+.carousel.carousel-danger .carousel-indicators li:hover {
+    background-color: var(--danger-border-color);
+    border-color: var(--danger-border-color);
+}
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+/* Handling for carousel background coloring. */
+.carousel.bg-light-blue .carousel-indicators li:active,
+.carousel.bg-light-blue .carousel-indicators li:focus,
+.carousel.bg-light-blue .carousel-indicators li:hover {
+    background-color: var(--light-blue-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-light-blue .carousel-control,
+.carousel.carousel-light-blue .carousel-caption,
+.carousel.carousel-light-blue .carousel-indicators li {
+    color: var(--light-blue-base-color);
+    border-color: var(--light-blue-base-color);
+}
+.carousel.carousel-light-blue .carousel-indicators li.active,
+.carousel.carousel-light-blue .carousel-indicators li:active {
+    background-color: var(--light-blue-base-color);
+    border-color: var(--light-blue-border-color);
+}
+.carousel.carousel-light-blue .carousel-indicators li:focus,
+.carousel.carousel-light-blue .carousel-indicators li:hover {
+    background-color: var(--light-blue-border-color);
+    border-color: var(--light-blue-border-color);
+}
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+/* Handling for carousel background coloring. */
+.carousel.bg-aqua .carousel-indicators li:active,
+.carousel.bg-aqua .carousel-indicators li:focus,
+.carousel.bg-aqua .carousel-indicators li:hover {
+    background-color: var(--aqua-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-aqua .carousel-control,
+.carousel.carousel-aqua .carousel-caption,
+.carousel.carousel-aqua .carousel-indicators li {
+    color: var(--aqua-base-color);
+    border-color: var(--aqua-base-color);
+}
+.carousel.carousel-aqua .carousel-indicators li.active,
+.carousel.carousel-aqua .carousel-indicators li:active {
+    background-color: var(--aqua-base-color);
+    border-color: var(--aqua-border-color);
+}
+.carousel.carousel-aqua .carousel-indicators li:focus,
+.carousel.carousel-aqua .carousel-indicators li:hover {
+    background-color: var(--aqua-border-color);
+    border-color: var(--aqua-border-color);
+}
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+/* Handling for carousel background coloring. */
+.carousel.bg-green .carousel-indicators li:active,
+.carousel.bg-green .carousel-indicators li:focus,
+.carousel.bg-green .carousel-indicators li:hover {
+    background-color: var(--green-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-green .carousel-control,
+.carousel.carousel-green .carousel-caption,
+.carousel.carousel-green .carousel-indicators li {
+    color: var(--green-base-color);
+    border-color: var(--green-base-color);
+}
+.carousel.carousel-green .carousel-indicators li.active,
+.carousel.carousel-green .carousel-indicators li:active {
+    background-color: var(--green-base-color);
+    border-color: var(--green-border-color);
+}
+.carousel.carousel-green .carousel-indicators li:focus,
+.carousel.carousel-green .carousel-indicators li:hover {
+    background-color: var(--green-border-color);
+    border-color: var(--green-border-color);
+}
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+/* Handling for carousel background coloring. */
+.carousel.bg-yellow .carousel-indicators li:active,
+.carousel.bg-yellow .carousel-indicators li:focus,
+.carousel.bg-yellow .carousel-indicators li:hover {
+    background-color: var(--yellow-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-yellow .carousel-control,
+.carousel.carousel-yellow .carousel-caption,
+.carousel.carousel-yellow .carousel-indicators li {
+    color: var(--yellow-base-color);
+    border-color: var(--yellow-base-color);
+}
+.carousel.carousel-yellow .carousel-indicators li.active,
+.carousel.carousel-yellow .carousel-indicators li:active {
+    background-color: var(--yellow-base-color);
+    border-color: var(--yellow-border-color);
+}
+.carousel.carousel-yellow .carousel-indicators li:focus,
+.carousel.carousel-yellow .carousel-indicators li:hover {
+    background-color: var(--yellow-border-color);
+    border-color: var(--yellow-border-color);
+}
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+/* Handling for carousel background coloring. */
+.carousel.bg-red .carousel-indicators li:active,
+.carousel.bg-red .carousel-indicators li:focus,
+.carousel.bg-red .carousel-indicators li:hover {
+    background-color: var(--red-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-red .carousel-control,
+.carousel.carousel-red .carousel-caption,
+.carousel.carousel-red .carousel-indicators li {
+    color: var(--red-base-color);
+    border-color: var(--red-base-color);
+}
+.carousel.carousel-red .carousel-indicators li.active,
+.carousel.carousel-red .carousel-indicators li:active {
+    background-color: var(--red-base-color);
+    border-color: var(--red-border-color);
+}
+.carousel.carousel-red .carousel-indicators li:focus,
+.carousel.carousel-red .carousel-indicators li:hover {
+    background-color: var(--red-border-color);
+    border-color: var(--red-border-color);
+}
+
+
+/* Navy coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-navy .carousel-indicators li:active,
+.carousel.bg-navy .carousel-indicators li:focus,
+.carousel.bg-navy .carousel-indicators li:hover {
+    background-color: var(--navy-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-navy .carousel-control,
+.carousel.carousel-navy .carousel-caption,
+.carousel.carousel-navy .carousel-indicators li {
+    color: var(--navy-base-color);
+    border-color: var(--navy-base-color);
+}
+.carousel.carousel-navy .carousel-indicators li.active,
+.carousel.carousel-navy .carousel-indicators li:active {
+    background-color: var(--navy-base-color);
+    border-color: var(--navy-border-color);
+}
+.carousel.carousel-navy .carousel-indicators li:focus,
+.carousel.carousel-navy .carousel-indicators li:hover {
+    background-color: var(--navy-border-color);
+    border-color: var(--navy-border-color);
+}
+
+
+/* Blue coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-blue .carousel-indicators li:active,
+.carousel.bg-blue .carousel-indicators li:focus,
+.carousel.bg-blue .carousel-indicators li:hover {
+    background-color: var(--blue-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-blue .carousel-control,
+.carousel.carousel-blue .carousel-caption,
+.carousel.carousel-blue .carousel-indicators li {
+    color: var(--blue-base-color);
+    border-color: var(--blue-base-color);
+}
+.carousel.carousel-blue .carousel-indicators li.active,
+.carousel.carousel-blue .carousel-indicators li:active {
+    background-color: var(--blue-base-color);
+    border-color: var(--blue-border-color);
+}
+.carousel.carousel-blue .carousel-indicators li:focus,
+.carousel.carousel-blue .carousel-indicators li:hover {
+    background-color: var(--blue-border-color);
+    border-color: var(--blue-border-color);
+}
+
+
+/* Teal coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-teal .carousel-indicators li:active,
+.carousel.bg-teal .carousel-indicators li:focus,
+.carousel.bg-teal .carousel-indicators li:hover {
+    background-color: var(--teal-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-teal .carousel-control,
+.carousel.carousel-teal .carousel-caption,
+.carousel.carousel-teal .carousel-indicators li {
+    color: var(--teal-base-color);
+    border-color: var(--teal-base-color);
+}
+.carousel.carousel-teal .carousel-indicators li.active,
+.carousel.carousel-teal .carousel-indicators li:active {
+    background-color: var(--teal-base-color);
+    border-color: var(--teal-border-color);
+}
+.carousel.carousel-teal .carousel-indicators li:focus,
+.carousel.carousel-teal .carousel-indicators li:hover {
+    background-color: var(--teal-border-color);
+    border-color: var(--teal-border-color);
+}
+
+
+/* Olive coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-olive .carousel-indicators li:active,
+.carousel.bg-olive .carousel-indicators li:focus,
+.carousel.bg-olive .carousel-indicators li:hover {
+    background-color: var(--olive-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-olive .carousel-control,
+.carousel.carousel-olive .carousel-caption,
+.carousel.carousel-olive .carousel-indicators li {
+    color: var(--olive-base-color);
+    border-color: var(--olive-base-color);
+}
+.carousel.carousel-olive .carousel-indicators li.active,
+.carousel.carousel-olive .carousel-indicators li:active {
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
+}
+.carousel.carousel-olive .carousel-indicators li:focus,
+.carousel.carousel-olive .carousel-indicators li:hover {
+    background-color: var(--olive-border-color);
+    border-color: var(--olive-border-color);
+}
+
+
+/* Lime coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-lime .carousel-indicators li:active,
+.carousel.bg-lime .carousel-indicators li:focus,
+.carousel.bg-lime .carousel-indicators li:hover {
+    background-color: var(--lime-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-lime .carousel-control,
+.carousel.carousel-lime .carousel-caption,
+.carousel.carousel-lime .carousel-indicators li {
+    color: var(--lime-base-color);
+    border-color: var(--lime-base-color);
+}
+.carousel.carousel-lime .carousel-indicators li.active,
+.carousel.carousel-lime .carousel-indicators li:active {
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
+}
+.carousel.carousel-lime .carousel-indicators li:focus,
+.carousel.carousel-lime .carousel-indicators li:hover {
+    background-color: var(--lime-border-color);
+    border-color: var(--lime-border-color);
+}
+
+
+/* Orange coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-orange .carousel-indicators li:active,
+.carousel.bg-orange .carousel-indicators li:focus,
+.carousel.bg-orange .carousel-indicators li:hover {
+    background-color: var(--orange-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-orange .carousel-control,
+.carousel.carousel-orange .carousel-caption,
+.carousel.carousel-orange .carousel-indicators li {
+    color: var(--orange-base-color);
+    border-color: var(--orange-base-color);
+}
+.carousel.carousel-orange .carousel-indicators li.active,
+.carousel.carousel-orange .carousel-indicators li:active {
+    background-color: var(--orange-base-color);
+    border-color: var(--orange-border-color);
+}
+.carousel.carousel-orange .carousel-indicators li:focus,
+.carousel.carousel-orange .carousel-indicators li:hover {
+    background-color: var(--orange-border-color);
+    border-color: var(--orange-border-color);
+}
+
+
+/* Fuchsia coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-fuchsia .carousel-indicators li:active,
+.carousel.bg-fuchsia .carousel-indicators li:focus,
+.carousel.bg-fuchsia .carousel-indicators li:hover {
+    background-color: var(--fuchsia-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-fuchsia .carousel-control,
+.carousel.carousel-fuchsia .carousel-caption,
+.carousel.carousel-fuchsia .carousel-indicators li {
+    color: var(--fuchsia-base-color);
+    border-color: var(--fuchsia-base-color);
+}
+.carousel.carousel-fuchsia .carousel-indicators li.active,
+.carousel.carousel-fuchsia .carousel-indicators li:active {
+    background-color: var(--fuchsia-base-color);
+    border-color: var(--fuchsia-border-color);
+}
+.carousel.carousel-fuchsia .carousel-indicators li:focus,
+.carousel.carousel-fuchsia .carousel-indicators li:hover {
+    background-color: var(--fuchsia-border-color);
+    border-color: var(--fuchsia-border-color);
+}
+
+
+/* Indigo coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-indigo .carousel-indicators li:active,
+.carousel.bg-indigo .carousel-indicators li:focus,
+.carousel.bg-indigo .carousel-indicators li:hover {
+    background-color: var(--indigo-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-indigo .carousel-control,
+.carousel.carousel-indigo .carousel-caption,
+.carousel.carousel-indigo .carousel-indicators li {
+    color: var(--indigo-base-color);
+    border-color: var(--indigo-base-color);
+}
+.carousel.carousel-indigo .carousel-indicators li.active,
+.carousel.carousel-indigo .carousel-indicators li:active {
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
+}
+.carousel.carousel-indigo .carousel-indicators li:focus,
+.carousel.carousel-indigo .carousel-indicators li:hover {
+    background-color: var(--indigo-border-color);
+    border-color: var(--indigo-border-color);
+}
+
+
+/* Purple coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-purple .carousel-indicators li:active,
+.carousel.bg-purple .carousel-indicators li:focus,
+.carousel.bg-purple .carousel-indicators li:hover {
+    background-color: var(--purple-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-purple .carousel-control,
+.carousel.carousel-purple .carousel-caption,
+.carousel.carousel-purple .carousel-indicators li {
+    color: var(--purple-base-color);
+    border-color: var(--purple-base-color);
+}
+.carousel.carousel-purple .carousel-indicators li.active,
+.carousel.carousel-purple .carousel-indicators li:active {
+    background-color: var(--purple-base-color);
+    border-color: var(--purple-border-color);
+}
+.carousel.carousel-purple .carousel-indicators li:focus,
+.carousel.carousel-purple .carousel-indicators li:hover {
+    background-color: var(--purple-border-color);
+    border-color: var(--purple-border-color);
+}
+
+
+/* Maroon coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-maroon .carousel-indicators li:active,
+.carousel.bg-maroon .carousel-indicators li:focus,
+.carousel.bg-maroon .carousel-indicators li:hover {
+    background-color: var(--maroon-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-maroon .carousel-control,
+.carousel.carousel-maroon .carousel-caption,
+.carousel.carousel-maroon .carousel-indicators li {
+    color: var(--maroon-base-color);
+    border-color: var(--maroon-base-color);
+}
+.carousel.carousel-maroon .carousel-indicators li.active,
+.carousel.carousel-maroon .carousel-indicators li:active {
+    background-color: var(--maroon-base-color);
+    border-color: var(--maroon-border-color);
+}
+.carousel.carousel-maroon .carousel-indicators li:focus,
+.carousel.carousel-maroon .carousel-indicators li:hover {
+    background-color: var(--maroon-border-color);
+    border-color: var(--maroon-border-color);
+}
+
+
+/* Gray coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-gray .carousel-indicators li:active,
+.carousel.bg-gray .carousel-indicators li:focus,
+.carousel.bg-gray .carousel-indicators li:hover {
+    background-color: var(--gray-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-gray .carousel-control,
+.carousel.carousel-gray .carousel-caption,
+.carousel.carousel-gray .carousel-indicators li {
+    color: var(--gray-base-color);
+    border-color: var(--gray-base-color);
+}
+.carousel.carousel-gray .carousel-indicators li.active,
+.carousel.carousel-gray .carousel-indicators li:active {
+    background-color: var(--gray-base-color);
+    border-color: var(--gray-border-color);
+}
+.carousel.carousel-gray .carousel-indicators li:focus,
+.carousel.carousel-gray .carousel-indicators li:hover {
+    background-color: var(--gray-border-color);
+    border-color: var(--gray-border-color);
+}
+
+
+/* Black coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-black .carousel-indicators li:active,
+.carousel.bg-black .carousel-indicators li:focus,
+.carousel.bg-black .carousel-indicators li:hover {
+    background-color: var(--black-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-black .carousel-control,
+.carousel.carousel-black .carousel-caption,
+.carousel.carousel-black .carousel-indicators li {
+    color: var(--black-base-color);
+    border-color: var(--black-base-color);
+}
+.carousel.carousel-black .carousel-indicators li.active,
+.carousel.carousel-black .carousel-indicators li:active {
+    background-color: var(--black-base-color);
+    border-color: var(--black-border-color);
+}
+.carousel.carousel-black .carousel-indicators li:focus,
+.carousel.carousel-black .carousel-indicators li:hover {
+    background-color: var(--black-border-color);
+    border-color: var(--black-border-color);
+}
