@@ -30,6 +30,7 @@ are imported earlier, in hopes of skipping style conflicts (if any exist).
 @import "./partials/alerts.css";
 @import "./partials/buttons.css";
 @import "./partials/callouts.css";
+@import "./partials/carousels.css";
 @import "./partials/dropdown_menu.css";
 @import "./partials/info_boxes.css";
 @import "./partials/labels.css";
