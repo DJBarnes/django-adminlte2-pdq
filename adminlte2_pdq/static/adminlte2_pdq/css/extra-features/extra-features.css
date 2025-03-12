@@ -7,6 +7,7 @@
  */
 
 
+@import "./partials/general_classes.css";
 @import "./partials/font_awesome_5.css";
 @import "./partials/form_adjustments.css";
 @import "./partials/full_span_link.css";
