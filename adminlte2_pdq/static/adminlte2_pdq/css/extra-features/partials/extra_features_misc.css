@@ -160,6 +160,9 @@ Prevent tooltip opacity
     padding-bottom: 0 !important;
 }
 
+.margin-05 {
+    margin: 5%;
+}
 .padding-right-05 {
     padding-right: 5%;
 }
