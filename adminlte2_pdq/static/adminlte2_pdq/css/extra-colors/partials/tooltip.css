@@ -11,24 +11,24 @@
 
 
 /* Default coloring. */
-.tooltip-default + .tooltip.top .tooltip-arrow,
-.tooltip-default.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-default + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-default.tooltip.top .tooltip-arrow {
     border-top-color: var(--default-base-color);
 }
-.tooltip-default + .tooltip.bottom .tooltip-arrow,
-.tooltip-default.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-default + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-default.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--default-base-color);
 }
-.tooltip-default + .tooltip.left .tooltip-arrow,
-.tooltip-default.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-default + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-default.tooltip.left .tooltip-arrow {
     border-left-color: var(--default-base-color);
 }
-.tooltip-default + .tooltip.right .tooltip-arrow,
-.tooltip-default.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-default + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-default.tooltip.right .tooltip-arrow {
     border-right-color: var(--default-base-color);
 }
-.tooltip-default + .tooltip > .tooltip-inner,
-.tooltip-default.tooltip > .tooltip-inner {
+.tooltip.tooltip-default + .tooltip > .tooltip-inner,
+.tooltip.tooltip-default.tooltip > .tooltip-inner {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
     border-color: var(--default-base-color);
@@ -37,24 +37,24 @@
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
-.tooltip-primary + .tooltip.top .tooltip-arrow,
-.tooltip-primary.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-primary + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-primary.tooltip.top .tooltip-arrow {
     border-top-color: var(--primary-base-color);
 }
-.tooltip-primary + .tooltip.bottom .tooltip-arrow,
-.tooltip-primary.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-primary + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-primary.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--primary-base-color);
 }
-.tooltip-primary + .tooltip.left .tooltip-arrow,
-.tooltip-primary.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-primary + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-primary.tooltip.left .tooltip-arrow {
     border-left-color: var(--primary-base-color);
 }
-.tooltip-primary + .tooltip.right .tooltip-arrow,
-.tooltip-primary.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-primary + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-primary.tooltip.right .tooltip-arrow {
     border-right-color: var(--primary-base-color);
 }
-.tooltip-primary + .tooltip > .tooltip-inner,
-.tooltip-primary.tooltip > .tooltip-inner {
+.tooltip.tooltip-primary + .tooltip > .tooltip-inner,
+.tooltip.tooltip-primary.tooltip > .tooltip-inner {
     color: var(--primary-text-color);
     background-color: var(--primary-base-color);
     border-color: var(--primary-base-color);
@@ -63,24 +63,24 @@
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
-.tooltip-info + .tooltip.top .tooltip-arrow,
-.tooltip-info.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-info + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-info.tooltip.top .tooltip-arrow {
     border-top-color: var(--info-base-color);
 }
-.tooltip-info + .tooltip.bottom .tooltip-arrow,
-.tooltip-info.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-info + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-info.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--info-base-color);
 }
-.tooltip-info + .tooltip.left .tooltip-arrow,
-.tooltip-info.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-info + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-info.tooltip.left .tooltip-arrow {
     border-left-color: var(--info-base-color);
 }
-.tooltip-info + .tooltip.right .tooltip-arrow,
-.tooltip-info.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-info + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-info.tooltip.right .tooltip-arrow {
     border-right-color: var(--info-base-color);
 }
-.tooltip-info + .tooltip > .tooltip-inner,
-.tooltip-info.tooltip > .tooltip-inner {
+.tooltip.tooltip-info + .tooltip > .tooltip-inner,
+.tooltip.tooltip-info.tooltip > .tooltip-inner {
     color: var(--info-text-color);
     background-color: var(--info-base-color);
     border-color: var(--info-base-color);
@@ -89,24 +89,24 @@
 
 /* Success coloring. */
 /* Equivalent to `green`. */
-.tooltip-success + .tooltip.top .tooltip-arrow,
-.tooltip-success.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-success + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-success.tooltip.top .tooltip-arrow {
     border-top-color: var(--success-base-color);
 }
-.tooltip-success + .tooltip.bottom .tooltip-arrow,
-.tooltip-success.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-success + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-success.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--success-base-color);
 }
-.tooltip-success + .tooltip.left .tooltip-arrow,
-.tooltip-success.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-success + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-success.tooltip.left .tooltip-arrow {
     border-left-color: var(--success-base-color);
 }
-.tooltip-success + .tooltip.right .tooltip-arrow,
-.tooltip-success.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-success + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-success.tooltip.right .tooltip-arrow {
     border-right-color: var(--success-base-color);
 }
-.tooltip-success + .tooltip > .tooltip-inner,
-.tooltip-success.tooltip > .tooltip-inner {
+.tooltip.tooltip-success + .tooltip > .tooltip-inner,
+.tooltip.tooltip-success.tooltip > .tooltip-inner {
     color: var(--success-text-color);
     background-color: var(--success-base-color);
     border-color: var(--success-base-color);
@@ -115,24 +115,24 @@
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
-.tooltip-warning + .tooltip.top .tooltip-arrow,
-.tooltip-warning.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-warning + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-warning.tooltip.top .tooltip-arrow {
     border-top-color: var(--warning-base-color);
 }
-.tooltip-warning + .tooltip.bottom .tooltip-arrow,
-.tooltip-warning.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-warning + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-warning.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--warning-base-color);
 }
-.tooltip-warning + .tooltip.left .tooltip-arrow,
-.tooltip-warning.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-warning + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-warning.tooltip.left .tooltip-arrow {
     border-left-color: var(--warning-base-color);
 }
-.tooltip-warning + .tooltip.right .tooltip-arrow,
-.tooltip-warning.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-warning + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-warning.tooltip.right .tooltip-arrow {
     border-right-color: var(--warning-base-color);
 }
-.tooltip-warning + .tooltip > .tooltip-inner,
-.tooltip-warning.tooltip > .tooltip-inner {
+.tooltip.tooltip-warning + .tooltip > .tooltip-inner,
+.tooltip.tooltip-warning.tooltip > .tooltip-inner {
     color: var(--warning-text-color);
     background-color: var(--warning-base-color);
     border-color: var(--warning-base-color);
@@ -141,24 +141,24 @@
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
-.tooltip-danger + .tooltip.top .tooltip-arrow,
-.tooltip-danger.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-danger + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-danger.tooltip.top .tooltip-arrow {
     border-top-color: var(--danger-base-color);
 }
-.tooltip-danger + .tooltip.bottom .tooltip-arrow,
-.tooltip-danger.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-danger + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-danger.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--danger-base-color);
 }
-.tooltip-danger + .tooltip.left .tooltip-arrow,
-.tooltip-danger.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-danger + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-danger.tooltip.left .tooltip-arrow {
     border-left-color: var(--danger-base-color);
 }
-.tooltip-danger + .tooltip.right .tooltip-arrow,
-.tooltip-danger.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-danger + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-danger.tooltip.right .tooltip-arrow {
     border-right-color: var(--danger-base-color);
 }
-.tooltip-danger + .tooltip > .tooltip-inner,
-.tooltip-danger.tooltip > .tooltip-inner {
+.tooltip.tooltip-danger + .tooltip > .tooltip-inner,
+.tooltip.tooltip-danger.tooltip > .tooltip-inner {
     color: var(--danger-text-color);
     background-color: var(--danger-base-color);
     border-color: var(--danger-base-color);
@@ -172,24 +172,24 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.tooltip-light-blue + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-light-blue + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-light-blue.tooltip.top .tooltip-arrow {
     border-top-color: var(--light-blue-base-color);
 }
-.tooltip-light-blue + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-light-blue + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-light-blue.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--light-blue-base-color);
 }
-.tooltip-light-blue + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-light-blue + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-light-blue.tooltip.left .tooltip-arrow {
     border-left-color: var(--light-blue-base-color);
 }
-.tooltip-light-blue + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-light-blue + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-light-blue.tooltip.right .tooltip-arrow {
     border-right-color: var(--light-blue-base-color);
 }
-.tooltip-light-blue + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-light-blue + .tooltip > .tooltip-inner,
+.tooltip.tooltip-light-blue.tooltip > .tooltip-inner {
     color: var(--light-blue-text-color);
     background-color: var(--light-blue-base-color);
     border-color: var(--light-blue-base-color);
@@ -199,24 +199,24 @@
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.tooltip-aqua + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-aqua + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-aqua.tooltip.top .tooltip-arrow {
     border-top-color: var(--aqua-base-color);
 }
-.tooltip-aqua + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-aqua + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-aqua.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--aqua-base-color);
 }
-.tooltip-aqua + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-aqua + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-aqua.tooltip.left .tooltip-arrow {
     border-left-color: var(--aqua-base-color);
 }
-.tooltip-aqua + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-aqua + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-aqua.tooltip.right .tooltip-arrow {
     border-right-color: var(--aqua-base-color);
 }
-.tooltip-aqua + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-aqua + .tooltip > .tooltip-inner,
+.tooltip.tooltip-aqua.tooltip > .tooltip-inner {
     color: var(--aqua-text-color);
     background-color: var(--aqua-base-color);
     border-color: var(--aqua-base-color);
@@ -226,24 +226,24 @@
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.tooltip-green + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-green + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-green.tooltip.top .tooltip-arrow {
     border-top-color: var(--green-base-color);
 }
-.tooltip-green + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-green + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-green.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--green-base-color);
 }
-.tooltip-green + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-green + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-green.tooltip.left .tooltip-arrow {
     border-left-color: var(--green-base-color);
 }
-.tooltip-green + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-green + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-green.tooltip.right .tooltip-arrow {
     border-right-color: var(--green-base-color);
 }
-.tooltip-green + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-green + .tooltip > .tooltip-inner,
+.tooltip.tooltip-green.tooltip > .tooltip-inner {
     color: var(--green-text-color);
     background-color: var(--green-base-color);
     border-color: var(--green-base-color);
@@ -253,24 +253,24 @@
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.tooltip-yellow + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-yellow + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-yellow.tooltip.top .tooltip-arrow {
     border-top-color: var(--yellow-base-color);
 }
-.tooltip-yellow + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-yellow + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-yellow.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--yellow-base-color);
 }
-.tooltip-navy + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-yellow + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-yellow.tooltip.left .tooltip-arrow {
     border-left-color: var(--yellow-base-color);
 }
-.tooltip-yellow + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-yellow + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-yellow.tooltip.right .tooltip-arrow {
     border-right-color: var(--yellow-base-color);
 }
-.tooltip-yellow + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-yellow + .tooltip > .tooltip-inner,
+.tooltip.tooltip-yellow.tooltip > .tooltip-inner {
     color: var(--yellow-text-color);
     background-color: var(--yellow-base-color);
     border-color: var(--yellow-base-color);
@@ -280,24 +280,24 @@
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.tooltip-red + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-red + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-red.tooltip.top .tooltip-arrow {
     border-top-color: var(--red-base-color);
 }
-.tooltip-red + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-red + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-red.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--red-base-color);
 }
-.tooltip-red + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-red + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-red.tooltip.left .tooltip-arrow {
     border-left-color: var(--red-base-color);
 }
-.tooltip-red + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-red + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-red.tooltip.right .tooltip-arrow {
     border-right-color: var(--red-base-color);
 }
-.tooltip-red + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-red + .tooltip > .tooltip-inner,
+.tooltip.tooltip-red.tooltip > .tooltip-inner {
     color: var(--red-text-color);
     background-color: var(--red-base-color);
     border-color: var(--red-base-color);
@@ -305,24 +305,24 @@
 
 
 /* Navy coloring. */
-.tooltip-navy + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-navy + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-navy.tooltip.top .tooltip-arrow {
     border-top-color: var(--navy-base-color);
 }
-.tooltip-navy + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-navy + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-navy.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--navy-base-color);
 }
-.tooltip-navy + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-navy + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-navy.tooltip.left .tooltip-arrow {
     border-left-color: var(--navy-base-color);
 }
-.tooltip-navy + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-navy + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-navy.tooltip.right .tooltip-arrow {
     border-right-color: var(--navy-base-color);
 }
-.tooltip-navy + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-navy + .tooltip > .tooltip-inner,
+.tooltip.tooltip-navy.tooltip > .tooltip-inner {
     color: var(--navy-text-color);
     background-color: var(--navy-base-color);
     border-color: var(--navy-base-color);
@@ -330,24 +330,24 @@
 
 
 /* Blue coloring. */
-.tooltip-blue + .tooltip.top .tooltip-arrow,
-.tooltip-navy.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-blue + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-blue.tooltip.top .tooltip-arrow {
     border-top-color: var(--blue-base-color);
 }
-.tooltip-blue + .tooltip.bottom .tooltip-arrow,
-.tooltip-navy.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-blue + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-blue.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--blue-base-color);
 }
-.tooltip-blue + .tooltip.left .tooltip-arrow,
-.tooltip-navy.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-blue + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-blue.tooltip.left .tooltip-arrow {
     border-left-color: var(--blue-base-color);
 }
-.tooltip-blue + .tooltip.right .tooltip-arrow,
-.tooltip-navy.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-blue + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-blue.tooltip.right .tooltip-arrow {
     border-right-color: var(--blue-base-color);
 }
-.tooltip-blue + .tooltip > .tooltip-inner,
-.tooltip-navy.tooltip > .tooltip-inner {
+.tooltip.tooltip-blue + .tooltip > .tooltip-inner,
+.tooltip.tooltip-blue.tooltip > .tooltip-inner {
     color: var(--blue-text-color);
     background-color: var(--blue-base-color);
     border-color: var(--blue-base-color);
@@ -355,24 +355,24 @@
 
 
 /* Teal coloring. */
-.tooltip-teal + .tooltip.top .tooltip-arrow,
-.tooltip-teal.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-teal + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-teal.tooltip.top .tooltip-arrow {
     border-top-color: var(--teal-base-color);
 }
-.tooltip-teal + .tooltip.bottom .tooltip-arrow,
-.tooltip-teal.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-teal + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-teal.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--teal-base-color);
 }
-.tooltip-teal + .tooltip.left .tooltip-arrow,
-.tooltip-teal.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-teal + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-teal.tooltip.left .tooltip-arrow {
     border-left-color: var(--teal-base-color);
 }
-.tooltip-teal + .tooltip.right .tooltip-arrow,
-.tooltip-teal.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-teal + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-teal.tooltip.right .tooltip-arrow {
     border-right-color: var(--teal-base-color);
 }
-.tooltip-teal + .tooltip > .tooltip-inner,
-.tooltip-teal.tooltip > .tooltip-inner {
+.tooltip.tooltip-teal + .tooltip > .tooltip-inner,
+.tooltip.tooltip-teal.tooltip > .tooltip-inner {
     color: var(--teal-text-color);
     background-color: var(--teal-base-color);
     border-color: var(--teal-base-color);
@@ -380,24 +380,24 @@
 
 
 /* Olive coloring. */
-.tooltip-olive + .tooltip.top .tooltip-arrow,
-.tooltip-olive.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-olive + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-olive.tooltip.top .tooltip-arrow {
     border-top-color: var(--olive-base-color);
 }
-.tooltip-olive + .tooltip.bottom .tooltip-arrow,
-.tooltip-olive.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-olive + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-olive.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--olive-base-color);
 }
-.tooltip-olive + .tooltip.left .tooltip-arrow,
-.tooltip-olive.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-olive + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-olive.tooltip.left .tooltip-arrow {
     border-left-color: var(--olive-base-color);
 }
-.tooltip-olive + .tooltip.right .tooltip-arrow,
-.tooltip-olive.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-olive + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-olive.tooltip.right .tooltip-arrow {
     border-right-color: var(--olive-base-color);
 }
-.tooltip-olive + .tooltip > .tooltip-inner,
-.tooltip-olive.tooltip > .tooltip-inner {
+.tooltip.tooltip-olive + .tooltip > .tooltip-inner,
+.tooltip.tooltip-olive.tooltip > .tooltip-inner {
     color: var(--olive-text-color);
     background-color: var(--olive-base-color);
     border-color: var(--olive-base-color);
@@ -405,24 +405,24 @@
 
 
 /* Lime coloring. */
-.tooltip-lime + .tooltip.top .tooltip-arrow,
-.tooltip-lime.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-lime + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-lime.tooltip.top .tooltip-arrow {
     border-top-color: var(--lime-base-color);
 }
-.tooltip-lime + .tooltip.bottom .tooltip-arrow,
-.tooltip-lime.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-lime + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-lime.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--lime-base-color);
 }
-.tooltip-lime + .tooltip.left .tooltip-arrow,
-.tooltip-lime.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-lime + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-lime.tooltip.left .tooltip-arrow {
     border-left-color: var(--lime-base-color);
 }
-.tooltip-lime + .tooltip.right .tooltip-arrow,
-.tooltip-lime.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-lime + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-lime.tooltip.right .tooltip-arrow {
     border-right-color: var(--lime-base-color);
 }
-.tooltip-lime + .tooltip > .tooltip-inner,
-.tooltip-lime.tooltip > .tooltip-inner {
+.tooltip.tooltip-lime + .tooltip > .tooltip-inner,
+.tooltip.tooltip-lime.tooltip > .tooltip-inner {
     color: var(--lime-text-color);
     background-color: var(--lime-base-color);
     border-color: var(--lime-base-color);
@@ -430,24 +430,24 @@
 
 
 /* Orange coloring. */
-.tooltip-orange + .tooltip.top .tooltip-arrow,
-.tooltip-orange.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-orange + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-orange.tooltip.top .tooltip-arrow {
     border-top-color: var(--orange-base-color);
 }
-.tooltip-orange + .tooltip.bottom .tooltip-arrow,
-.tooltip-orange.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-orange + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-orange.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--orange-base-color);
 }
-.tooltip-orange + .tooltip.left .tooltip-arrow,
-.tooltip-orange.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-orange + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-orange.tooltip.left .tooltip-arrow {
     border-left-color: var(--orange-base-color);
 }
-.tooltip-orange + .tooltip.right .tooltip-arrow,
-.tooltip-orange.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-orange + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-orange.tooltip.right .tooltip-arrow {
     border-right-color: var(--orange-base-color);
 }
-.tooltip-orange + .tooltip > .tooltip-inner,
-.tooltip-orange.tooltip > .tooltip-inner {
+.tooltip.tooltip-orange + .tooltip > .tooltip-inner,
+.tooltip.tooltip-orange.tooltip > .tooltip-inner {
     color: var(--orange-text-color);
     background-color: var(--orange-base-color);
     border-color: var(--orange-base-color);
@@ -455,24 +455,24 @@
 
 
 /* Fuchsia coloring. */
-.tooltip-fuchsia + .tooltip.top .tooltip-arrow,
-.tooltip-fuchsia.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-fuchsia + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-fuchsia.tooltip.top .tooltip-arrow {
     border-top-color: var(--fuchsia-base-color);
 }
-.tooltip-fuchsia + .tooltip.bottom .tooltip-arrow,
-.tooltip-fuchsia.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-fuchsia + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-fuchsia.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--fuchsia-base-color);
 }
-.tooltip-fuchsia + .tooltip.left .tooltip-arrow,
-.tooltip-fuchsia.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-fuchsia + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-fuchsia.tooltip.left .tooltip-arrow {
     border-left-color: var(--fuchsia-base-color);
 }
-.tooltip-fuchsia + .tooltip.right .tooltip-arrow,
-.tooltip-fuchsia.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-fuchsia + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-fuchsia.tooltip.right .tooltip-arrow {
     border-right-color: var(--fuchsia-base-color);
 }
-.tooltip-fuchsia + .tooltip > .tooltip-inner,
-.tooltip-fuchsia.tooltip > .tooltip-inner {
+.tooltip.tooltip-fuchsia + .tooltip > .tooltip-inner,
+.tooltip-fuchsia.tooltip > .tooltip.tooltip-inner {
     color: var(--fuchsia-text-color);
     background-color: var(--fuchsia-base-color);
     border-color: var(--fuchsia-base-color);
@@ -480,24 +480,24 @@
 
 
 /* Indigo coloring. */
-.tooltip-indigo + .tooltip.top .tooltip-arrow,
-.tooltip-indigo.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-indigo + .tooltip.top .tooltip-arrow,
+.tooltip-indigo.tooltip.top .tooltip.tooltip-arrow {
     border-top-color: var(--indigo-base-color);
 }
-.tooltip-indigo + .tooltip.bottom .tooltip-arrow,
-.tooltip-indigo.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-indigo + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-indigo.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--indigo-base-color);
 }
-.tooltip-indigo + .tooltip.left .tooltip-arrow,
-.tooltip-indigo.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-indigo + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-indigo.tooltip.left .tooltip-arrow {
     border-left-color: var(--indigo-base-color);
 }
-.tooltip-indigo + .tooltip.right .tooltip-arrow,
-.tooltip-indigo.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-indigo + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-indigo.tooltip.right .tooltip-arrow {
     border-right-color: var(--indigo-base-color);
 }
-.tooltip-indigo + .tooltip > .tooltip-inner,
-.tooltip-indigo.tooltip > .tooltip-inner {
+.tooltip.tooltip-indigo + .tooltip > .tooltip-inner,
+.tooltip.tooltip-indigo.tooltip > .tooltip-inner {
     color: var(--indigo-text-color);
     background-color: var(--indigo-base-color);
     border-color: var(--indigo-base-color);
@@ -505,24 +505,24 @@
 
 
 /* Purple coloring. */
-.tooltip-purple + .tooltip.top .tooltip-arrow,
-.tooltip-purple.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-purple + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-purple.tooltip.top .tooltip-arrow {
     border-top-color: var(--purple-base-color);
 }
-.tooltip-purple + .tooltip.bottom .tooltip-arrow,
-.tooltip-purple.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-purple + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-purple.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--purple-base-color);
 }
-.tooltip-purple + .tooltip.left .tooltip-arrow,
-.tooltip-purple.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-purple + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-purple.tooltip.left .tooltip-arrow {
     border-left-color: var(--purple-base-color);
 }
-.tooltip-purple + .tooltip.right .tooltip-arrow,
-.tooltip-purple.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-purple + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-purple.tooltip.right .tooltip-arrow {
     border-right-color: var(--purple-base-color);
 }
-.tooltip-purple + .tooltip > .tooltip-inner,
-.tooltip-purple.tooltip > .tooltip-inner {
+.tooltip.tooltip-purple + .tooltip > .tooltip-inner,
+.tooltip.tooltip-purple.tooltip > .tooltip-inner {
     color: var(--purple-text-color);
     background-color: var(--purple-base-color);
     border-color: var(--purple-base-color);
@@ -530,24 +530,24 @@
 
 
 /* Maroon coloring. */
-.tooltip-maroon + .tooltip.top .tooltip-arrow,
-.tooltip-maroon.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-maroon + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-maroon.tooltip.top .tooltip-arrow {
     border-top-color: var(--maroon-base-color);
 }
-.tooltip-maroon + .tooltip.bottom .tooltip-arrow,
-.tooltip-maroon.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-maroon + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-maroon.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--maroon-base-color);
 }
-.tooltip-maroon + .tooltip.left .tooltip-arrow,
-.tooltip-maroon.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-maroon + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-maroon.tooltip.left .tooltip-arrow {
     border-left-color: var(--maroon-base-color);
 }
-.tooltip-maroon + .tooltip.right .tooltip-arrow,
-.tooltip-maroon.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-maroon + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-maroon.tooltip.right .tooltip-arrow {
     border-right-color: var(--maroon-base-color);
 }
-.tooltip-maroon + .tooltip > .tooltip-inner,
-.tooltip-maroon.tooltip > .tooltip-inner {
+.tooltip.tooltip-maroon + .tooltip > .tooltip-inner,
+.tooltip.tooltip-maroon.tooltip > .tooltip-inner {
     color: var(--maroon-text-color);
     background-color: var(--maroon-base-color);
     border-color: var(--maroon-base-color);
@@ -555,24 +555,24 @@
 
 
 /* Gray coloring. */
-.tooltip-gray + .tooltip.top .tooltip-arrow,
-.tooltip-gray.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-gray + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-gray.tooltip.top .tooltip-arrow {
     border-top-color: var(--gray-base-color);
 }
-.tooltip-gray + .tooltip.bottom .tooltip-arrow,
-.tooltip-gray.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-gray + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-gray.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--gray-base-color);
 }
-.tooltip-gray + .tooltip.left .tooltip-arrow,
-.tooltip-gray.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-gray + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-gray.tooltip.left .tooltip-arrow {
     border-left-color: var(--gray-base-color);
 }
-.tooltip-gray + .tooltip.right .tooltip-arrow,
-.tooltip-gray.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-gray + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-gray.tooltip.right .tooltip-arrow {
     border-right-color: var(--gray-base-color);
 }
-.tooltip-gray + .tooltip > .tooltip-inner,
-.tooltip-gray.tooltip > .tooltip-inner {
+.tooltip.tooltip-gray + .tooltip > .tooltip-inner,
+.tooltip.tooltip-gray.tooltip > .tooltip-inner {
     color: var(--gray-text-color);
     background-color: var(--gray-base-color);
     border-color: var(--gray-base-color);
@@ -580,24 +580,24 @@
 
 
 /* Black coloring. */
-.tooltip-black + .tooltip.top .tooltip-arrow,
-.tooltip-black.tooltip.top .tooltip-arrow {
+.tooltip.tooltip-black + .tooltip.top .tooltip-arrow,
+.tooltip.tooltip-black.tooltip.top .tooltip-arrow {
     border-top-color: var(--black-base-color);
 }
-.tooltip-black + .tooltip.bottom .tooltip-arrow,
-.tooltip-black.tooltip.bottom .tooltip-arrow {
+.tooltip.tooltip-black + .tooltip.bottom .tooltip-arrow,
+.tooltip.tooltip-black.tooltip.bottom .tooltip-arrow {
     border-bottom-color: var(--black-base-color);
 }
-.tooltip-black + .tooltip.left .tooltip-arrow,
-.tooltip-black.tooltip.left .tooltip-arrow {
+.tooltip.tooltip-black + .tooltip.left .tooltip-arrow,
+.tooltip.tooltip-black.tooltip.left .tooltip-arrow {
     border-left-color: var(--black-base-color);
 }
-.tooltip-black + .tooltip.right .tooltip-arrow,
-.tooltip-black.tooltip.right .tooltip-arrow {
+.tooltip.tooltip-black + .tooltip.right .tooltip-arrow,
+.tooltip.tooltip-black.tooltip.right .tooltip-arrow {
     border-right-color: var(--black-base-color);
 }
-.tooltip-black + .tooltip > .tooltip-inner,
-.tooltip-black.tooltip > .tooltip-inner {
+.tooltip.tooltip-black + .tooltip > .tooltip-inner,
+.tooltip.tooltip-black.tooltip > .tooltip-inner {
     color: var(--black-text-color);
     background-color: var(--black-base-color);
     border-color: var(--black-base-color);
