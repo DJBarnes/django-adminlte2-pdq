@@ -24,6 +24,7 @@ from .demo_css import (
     demo_css_labels,
     demo_css_modals,
     demo_css_tables,
+    demo_css_typography,
     demo_css_ui_general,
     demo_css_widgets,
 )
