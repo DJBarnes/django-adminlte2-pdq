@@ -25,12 +25,12 @@
     --primary-active-color: #357ca5;
     --primary-light-accent-text-color: var(--default-text-semi-dark);
     --primary-light-accent-color: #cfdde6;
-    --light-blue-text-color: var(--light-blue-text-color);
-    --light-blue-base-color: var(--light-blue-base-color);
-    --light-blue-border-color: var(--light-blue-border-color);
-    --light-blue-active-color: var(--light-blue-active-color);
+    --light-blue-text-color: var(--primary-text-color);
+    --light-blue-base-color: var(--primary-base-color);
+    --light-blue-border-color: var(--primary-border-color);
+    --light-blue-active-color: var(--primary-active-color);
     --light-blue-light-accent-text-color: var(--default-text-semi-dark);
-    --light-blue-light-accent-color: var(--light-blue-light-accent-color);
+    --light-blue-light-accent-color: var(--primary-light-accent-color);
     /* "Info"/"Aqua" colors. */
     --info-text-color: var(--default-text-light);
     --info-base-color: #00c0ef;

@@ -16,6 +16,7 @@
     border-color: var(--default-border-color);
 }
 .bg-default-active {
+    color: var(--default-text-color) !important;
     background-color: var(--default-active-color);
 }
 .bg-default .color-palette-box h4,
@@ -37,6 +38,7 @@ code.bg-default {
     border-color: var(--primary-border-color);
 }
 .bg-primary-active {
+    color: var(--primary-text-color) !important;
     background-color: var(--primary-active-color);
 }
 .bg-primary .color-palette-box h4,
@@ -58,6 +60,7 @@ code.bg-primary {
     border-color: var(--info-border-color);
 }
 .bg-info-active {
+    color: var(--info-text-color) !important;
     background-color: var(--info-active-color);
 }
 .bg-info .color-palette-box h4,
@@ -79,6 +82,7 @@ code.bg-info {
     border-color: var(--success-border-color);
 }
 .bg-success-active {
+    color: var(--success-text-color) !important;
     background-color: var(--success-active-color);
 }
 .bg-success .color-palette-box h4,
@@ -100,6 +104,7 @@ code.bg-success {
     border-color: var(--warning-border-color);
 }
 .bg-warning-active {
+    color: var(--warning-text-color) !important;
     background-color: var(--warning-active-color);
 }
 .bg-warning .color-palette-box h4,
@@ -121,6 +126,7 @@ code.bg-warning {
     border-color: var(--danger-border-color);
 }
 .bg-danger-active {
+    color: var(--danger-text-color) !important;
     background-color: var(--danger-active-color);
 }
 .bg-danger .color-palette-box h4,
@@ -147,6 +153,7 @@ code.bg-danger {
     border-color: var(--light-blue-border-color);
 }
 .bg-light-blue-active {
+    color: var(--light-blue-text-color) !important;
     background-color: var(--light-blue-active-color);
 }
 .bg-light-blue .color-palette-box h4,
@@ -169,6 +176,7 @@ code.bg-light-blue {
     border-color: var(--aqua-border-color);
 }
 .bg-aqua-active {
+    color: var(--aqua-text-color) !important;
     background-color: var(--aqua-active-color);
 }
 .bg-aqua .color-palette-box h4,
@@ -191,6 +199,7 @@ code.bg-aqua {
     border-color: var(--green-border-color);
 }
 .bg-green-active {
+    color: var(--green-text-color) !important;
     background-color: var(--green-active-color);
 }
 .bg-green .color-palette-box h4,
@@ -213,6 +222,7 @@ code.bg-green {
     border-color: var(--yellow-border-color);
 }
 .bg-yellow-active {
+    color: var(--yellow-text-color) !important;
     background-color: var(--yellow-active-color);
 }
 .bg-yellow .color-palette-box h4,
@@ -235,6 +245,7 @@ code.bg-yellow {
     border-color: var(--red-border-color);
 }
 .bg-red-active {
+    color: var(--red-text-color) !important;
     background-color: var(--red-active-color);
 }
 .bg-red .color-palette-box h4,
@@ -256,6 +267,7 @@ code.bg-red {
     border-color: var(--navy-border-color);
 }
 .bg-navy-active {
+    color: var(--navy-text-color) !important;
     background-color: var(--navy-active-color);
 }
 .bg-navy .color-palette-box h4,
@@ -277,6 +289,7 @@ code.bg-navy {
     border-color: var(--blue-border-color);
 }
 .bg-blue-active {
+    color: var(--blue-text-color) !important;
     background-color: var(--blue-active-color);
 }
 .bg-blue .color-palette-box h4,
@@ -298,6 +311,7 @@ code.bg-blue {
     border-color: var(--teal-border-color);
 }
 .bg-teal-active {
+    color: var(--teal-text-color) !important;
     background-color: var(--teal-active-color);
 }
 .bg-teal .color-palette-box h4,
@@ -319,6 +333,7 @@ code.bg-teal {
     border-color: var(--olive-border-color);
 }
 .bg-olive-active {
+    color: var(--olive-text-color) !important;
     background-color: var(--olive-active-color);
 }
 .bg-olive .color-palette-box h4,
@@ -340,6 +355,7 @@ code.bg-olive {
     border-color: var(--lime-border-color);
 }
 .bg-lime-active {
+    color: var(--lime-text-color) !important;
     background-color: var(--lime-active-color);
 }
 .bg-lime .color-palette-box h4,
@@ -361,6 +377,7 @@ code.bg-lime {
     border-color: var(--orange-border-color);
 }
 .bg-orange-active {
+    color: var(--orange-text-color) !important;
     background-color: var(--orange-active-color);
 }
 .bg-orange .color-palette-box h4,
@@ -382,6 +399,7 @@ code.bg-orange {
     border-color: var(--fuchsia-border-color);
 }
 .bg-fuchsia-active {
+    color: var(--fuchsia-text-color) !important;
     background-color: var(--fuchsia-active-color);
 }
 .bg-fuchsia .color-palette-box h4,
@@ -402,6 +420,7 @@ code.bg-fuchsia {
     border-color: var(--indigo-border-color);
 }
 .bg-indigo-active {
+    color: var(--indigo-text-color) !important;
     background-color: var(--indigo-active-color);
 }
 .bg-indigo .color-palette-box h4,
@@ -423,6 +442,7 @@ code.bg-indigo {
     border-color: var(--purple-border-color);
 }
 .bg-purple-active {
+    color: var(--purple-text-color) !important;
     background-color: var(--purple-active-color);
 }
 .bg-purple .color-palette-box h4,
@@ -444,6 +464,7 @@ code.bg-purple {
     border-color: var(--maroon-border-color);
 }
 .bg-maroon-active {
+    color: var(--maroon-text-color) !important;
     background-color: var(--maroon-active-color);
 }
 .bg-maroon .color-palette-box h4,
@@ -465,6 +486,7 @@ code.bg-maroon {
     border-color: var(--gray-border-color);
 }
 .bg-gray-active {
+    color: var(--gray-text-color) !important;
     background-color: var(--gray-active-color);
 }
 .bg-gray .color-palette-box h4,
@@ -486,6 +508,7 @@ code.bg-gray {
     border-color: var(--black-border-color);
 }
 .bg-black-active {
+    color: var(--black-text-color) !important;
     background-color: var(--black-active-color);
 }
 .bg-black .color-palette-box h4,
