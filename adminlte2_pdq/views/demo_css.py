@@ -188,4 +188,17 @@ def demo_css_widgets(request):
     )
 
 
+def demo_css_typography(request):
+    """Show example typography elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/typography.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
 # endregion Demo CSS

@@ -1,0 +1,38 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Typography
+    <small>Preview of Typography Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/typography/headlines.html' %}
+  </div>
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/typography/block_quotes.html' %}
+  </div>
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/typography/lists.html' %}
+  </div>
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/typography/descriptions.html' %}
+  </div>
+  <div class="row">
+    {% include 'adminlte2_demo_css/partials/typography/text_emphasis.html' %}
+  </div>
+
+{% endblock content %}
