@@ -122,6 +122,19 @@ def demo_css_buttons_boxes(request):
     )
 
 
+def demo_css_carousels(request):
+    """Show example carousel elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/carousels.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
 def demo_css_labels(request):
     """Show example label elements."""
 
