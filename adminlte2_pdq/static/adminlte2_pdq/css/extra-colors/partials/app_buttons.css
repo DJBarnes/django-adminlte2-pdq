@@ -14,11 +14,9 @@
 /* Default coloring. */
 .btn.btn-app.bg-default,
 .btn.btn-app .badge.bg-default {
-    border: 1px solid var(--default-border-color);
-}
-.btn.btn-app.bg-default {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
+    border: 1px solid var(--default-border-color);
 }
 .btn.btn-app.bg-default:active,
 .btn.btn-app.bg-default:focus,
@@ -31,11 +29,9 @@
 /* Equivalent to `light-blue`. */
 .btn.btn-app.bg-primary,
 .btn.btn-app .badge.bg-primary {
-    border: 1px solid var(--primary-border-color);
-}
-.btn.btn-app.bg-primary {
     color: var(--primary-text-color);
     background-color: var(--primary-base-color);
+    border: 1px solid var(--primary-border-color);
 }
 .btn.btn-app.bg-primary:active,
 .btn.btn-app.bg-primary:focus,
@@ -48,11 +44,9 @@
 /* Equivalent to `aqua`. */
 .btn.btn-app.bg-info,
 .btn.btn-app .badge.bg-info {
-    border: 1px solid var(--info-border-color);
-}
-.btn.btn-app.bg-info {
     color: var(--info-text-color);
     background-color: var(--info-base-color);
+    border: 1px solid var(--info-border-color);
 }
 .btn.btn-app.bg-info:active,
 .btn.btn-app.bg-info:focus,
@@ -65,11 +59,9 @@
 /* Equivalent to `green`. */
 .btn.btn-app.bg-success,
 .btn.btn-app .badge.bg-success {
-    border: 1px solid var(--success-border-color);
-}
-.btn.btn-app.bg-success {
     color: var(--success-text-color);
     background-color: var(--success-base-color);
+    border: 1px solid var(--success-border-color);
 }
 .btn.btn-app.bg-success:active,
 .btn.btn-app.bg-success:focus,
@@ -82,11 +74,9 @@
 /* Equivalent to `yellow`. */
 .btn.btn-app.bg-warning,
 .btn.btn-app .badge.bg-warning {
-    border: 1px solid var(--warning-border-color);
-}
-.btn.btn-app.bg-warning {
     color: var(--warning-text-color);
     background-color: var(--warning-base-color);
+    border: 1px solid var(--warning-border-color);
 }
 .btn.btn-app.bg-warning:active,
 .btn.btn-app.bg-warning:focus,
@@ -99,11 +89,9 @@
 /* Equivalent to `red`. */
 .btn.btn-app.bg-danger,
 .btn.btn-app .badge.bg-danger {
-    border: 1px solid var(--danger-border-color);
-}
-.btn.btn-app.bg-danger {
     color: var(--danger-text-color);
     background-color: var(--danger-base-color);
+    border: 1px solid var(--danger-border-color);
 }
 .btn.btn-app.bg-danger:active,
 .btn.btn-app.bg-danger:focus,
@@ -120,11 +108,9 @@
 /* Equivalent to `primary`. */
 .btn.btn-app.bg-light-blue,
 .btn.btn-app .badge.bg-light-blue {
-    border: 1px solid var(--light-blue-border-color);
-}
-.btn.btn-app.bg- {
     color: var(--light-blue-text-color);
     background-color: var(--light-blue-base-color);
+    border: 1px solid var(--light-blue-border-color);
 }
 .btn.btn-app.bg-light-blue:active,
 .btn.btn-app.bg-light-blue:focus,
@@ -137,11 +123,9 @@
 /* Equivalent to `info`. */
 .btn.btn-app.bg-aqua,
 .btn.btn-app .badge.bg-aqua {
-    border: 1px solid var(--aqua-border-color);
-}
-.btn.btn-app.bg-aqua {
     color: var(--aqua-text-color);
     background-color: var(--aqua-base-color);
+    border: 1px solid var(--aqua-border-color);
 }
 .btn.btn-app.bg-aqua:active,
 .btn.btn-app.bg-aqua:focus,
@@ -154,11 +138,9 @@
 /* Equivalent to `success`. */
 .btn.btn-app.bg-green,
 .btn.btn-app .badge.bg-green {
-    border: 1px solid var(--green-border-color);
-}
-.btn.btn-app.bg-green {
     color: var(--green-text-color);
     background-color: var(--green-base-color);
+    border: 1px solid var(--green-border-color);
 }
 .btn.btn-app.bg-green:active,
 .btn.btn-app.bg-green:focus,
@@ -171,11 +153,9 @@
 /* Equivalent to `warning`. */
 .btn.btn-app.bg-yellow,
 .btn.btn-app .badge.bg-yellow {
-    border: 1px solid var(--yellow-border-color);
-}
-.btn.btn-app.bg-yellow {
     color: var(--yellow-text-color);
     background-color: var(--yellow-base-color);
+    border: 1px solid var(--yellow-border-color);
 }
 .btn.btn-app.bg-yellow:active,
 .btn.btn-app.bg-yellow:focus,
@@ -188,11 +168,9 @@
 /* Equivalent to `danger`. */
 .btn.btn-app.bg-red,
 .btn.btn-app .badge.bg-red {
-    border: 1px solid var(--red-border-color);
-}
-.btn.btn-app.bg-red {
     color: var(--red-text-color);
     background-color: var(--red-base-color);
+    border: 1px solid var(--red-border-color);
 }
 .btn.btn-app.bg-red:active,
 .btn.btn-app.bg-red:focus,
@@ -204,11 +182,9 @@
 /* Navy coloring. */
 .btn.btn-app.bg-navy,
 .btn.btn-app .badge.bg-navy {
-    border: 1px solid var(--navy-border-color);
-}
-.btn.btn-app.bg-navy {
     color: var(--navy-text-color);
     background-color: var(--navy-base-color);
+    border: 1px solid var(--navy-border-color);
 }
 .btn.btn-app.bg-navy:active,
 .btn.btn-app.bg-navy:focus,
@@ -220,11 +196,9 @@
 /* Blue coloring. */
 .btn.btn-app.bg-blue,
 .btn.btn-app .badge.bg-blue {
-    border: 1px solid var(--blue-border-color);
-}
-.btn.btn-app.bg-blue {
     color: var(--blue-text-color);
     background-color: var(--blue-base-color);
+    border: 1px solid var(--blue-border-color);
 }
 .btn.btn-app.bg-blue:active,
 .btn.btn-app.bg-blue:focus,
@@ -236,11 +210,9 @@
 /* Teal coloring. */
 .btn.btn-app.bg-teal,
 .btn.btn-app .badge.bg-teal {
-    border: 1px solid var(--teal-border-color);
-}
-.btn.btn-app.bg-teal {
     color: var(--teal-text-color);
     background-color: var(--teal-base-color);
+    border: 1px solid var(--teal-border-color);
 }
 .btn.btn-app.bg-teal:active,
 .btn.btn-app.bg-teal:focus,
@@ -252,11 +224,9 @@
 /* Olive coloring. */
 .btn.btn-app.bg-olive,
 .btn.btn-app .badge.bg-olive {
-    border: 1px solid var(--olive-border-color);
-}
-.btn.btn-app.bg-olive {
     color: var(--olive-text-color);
     background-color: var(--olive-base-color);
+    border: 1px solid var(--olive-border-color);
 }
 .btn.btn-app.bg-olive:active,
 .btn.btn-app.bg-olive:focus,
@@ -268,11 +238,9 @@
 /* Lime coloring. */
 .btn.btn-app.bg-lime,
 .btn.btn-app .badge.bg-lime {
-    border: 1px solid var(--lime-border-color);
-}
-.btn.btn-app.bg-lime {
     color: var(--lime-text-color);
     background-color: var(--lime-base-color);
+    border: 1px solid var(--lime-border-color);
 }
 .btn.btn-app.bg-lime:active,
 .btn.btn-app.bg-lime:focus,
@@ -284,11 +252,9 @@
 /* Orange coloring. */
 .btn.btn-app.bg-orange,
 .btn.btn-app .badge.bg-orange {
-    border: 1px solid var(--orange-border-color);
-}
-.btn.btn-app.bg-orange {
     color: var(--orange-text-color);
     background-color: var(--orange-base-color);
+    border: 1px solid var(--orange-border-color);
 }
 .btn.btn-app.bg-orange:active,
 .btn.btn-app.bg-orange:focus,
@@ -300,11 +266,9 @@
 /* Fuchsia coloring. */
 .btn.btn-app.bg-fuchsia,
 .btn.btn-app .badge.bg-fuchsia {
-    border: 1px solid var(--fuchsia-border-color);
-}
-.btn.btn-app.bg- {
     color: var(--fuchsia-text-color);
     background-color: var(--fuchsia-base-color);
+    border: 1px solid var(--fuchsia-border-color);
 }
 .btn.btn-app.bg-fuchsia:active,
 .btn.btn-app.bg-fuchsia:focus,
@@ -316,11 +280,9 @@
 /* Indigo coloring. */
 .btn.btn-app.bg-indigo,
 .btn.btn-app .badge.bg-indigo {
-    border: 1px solid var(--indigo-border-color);
-}
-.btn.btn-app.bg-indigo {
     color: var(--indigo-text-color);
     background-color: var(--indigo-base-color);
+    border: 1px solid var(--indigo-border-color);
 }
 .btn.btn-app.bg-indigo:active,
 .btn.btn-app.bg-indigo:focus,
@@ -332,11 +294,9 @@
 /* Purple coloring. */
 .btn.btn-app.bg-purple,
 .btn.btn-app .badge.bg-purple {
-    border: 1px solid var(--purple-border-color);
-}
-.btn.btn-app.bg-purple {
     color: var(--purple-text-color);
     background-color: var(--purple-base-color);
+    border: 1px solid var(--purple-border-color);
 }
 .btn.btn-app.bg-purple:active,
 .btn.btn-app.bg-purple:focus,
@@ -348,11 +308,9 @@
 /* Maroon coloring. */
 .btn.btn-app.bg-maroon,
 .btn.btn-app .badge.bg-maroon {
-    border: 1px solid var(--maroon-border-color);
-}
-.btn.btn-app.bg-maroon {
     color: var(--maroon-text-color);
     background-color: var(--maroon-base-color);
+    border: 1px solid var(--maroon-border-color);
 }
 .btn.btn-app.bg-maroon:active,
 .btn.btn-app.bg-maroon:focus,
@@ -364,11 +322,9 @@
 /* Gray coloring. */
 .btn.btn-app.bg-gray,
 .btn.btn-app .badge.bg-gray {
-    border: 1px solid var(--gray-border-color);
-}
-.btn.btn-app.bg-gray {
     color: var(--gray-text-color);
     background-color: var(--gray-base-color);
+    border: 1px solid var(--gray-border-color);
 }
 .btn.btn-app.bg-gray:active,
 .btn.btn-app.bg-gray:focus,
@@ -380,11 +336,9 @@
 /* Black coloring. */
 .btn.btn-app.bg-black,
 .btn.btn-app .badge.bg-black {
-    border: 1px solid var(--black-border-color);
-}
-.btn.btn-app.bg-black {
     color: var(--black-text-color);
     background-color: var(--black-base-color);
+    border: 1px solid var(--black-border-color);
 }
 .btn.btn-app.bg-black:active,
 .btn.btn-app.bg-black:focus,

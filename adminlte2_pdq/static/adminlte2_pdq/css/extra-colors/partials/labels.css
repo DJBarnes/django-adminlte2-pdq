@@ -10,49 +10,49 @@
  */
 
 /* Default coloring. */
-.label-default {
-    color: var(--default-text-color);
-    background-color: var(--default-base-color);
+.label.label-default {
+    color: var(--default-text-color) !important;
+    background-color: var(--default-base-color) !important;
 }
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
-.label-primary {
-    color: var(--primary-text-color);
-    background-color: var(--primary-base-color);
+.label.label-primary {
+    color: var(--primary-text-color) !important;
+    background-color: var(--primary-base-color) !important;
 }
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
-.label-info {
-    color: var(--info-text-color);
-    background-color: var(--info-base-color);
+.label.label-info {
+    color: var(--info-text-color) !important;
+    background-color: var(--info-base-color) !important;
 }
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
-.label-success {
-    color: var(--success-text-color);
-    background-color: var(--success-base-color);
+.label.label-success {
+    color: var(--success-text-color) !important;
+    background-color: var(--success-base-color) !important;
 }
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
-.label-warning {
-    color: var(--warning-text-color);
-    background-color: var(--warning-base-color);
+.label.label-warning {
+    color: var(--warning-text-color) !important;
+    background-color: var(--warning-base-color) !important;
 }
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
-.label-danger {
-    color: var(--danger-text-color);
-    background-color: var(--danger-base-color);
+.label.label-danger {
+    color: var(--danger-text-color) !important;
+    background-color: var(--danger-base-color) !important;
 }
 
 
@@ -63,127 +63,127 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.label-light-blue {
-    color: var(--light-blue-text-color);
-    background-color: var(--light-blue-base-color);
+.label.label-light-blue {
+    color: var(--light-blue-text-color) !important;
+    background-color: var(--light-blue-base-color) !important;
 }
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.label-aqua {
-    color: var(--aqua-text-color);
-    background-color: var(--aqua-base-color);
+.label.label-aqua {
+    color: var(--aqua-text-color) !important;
+    background-color: var(--aqua-base-color) !important;
 }
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.label-green {
-    color: var(--green-text-color);
-    background-color: var(--green-base-color);
+.label.label-green {
+    color: var(--green-text-color) !important;
+    background-color: var(--green-base-color) !important;
 }
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.label-yellow {
-    color: var(--yellow-text-color);
-    background-color: var(--yellow-base-color);
+.label.label-yellow {
+    color: var(--yellow-text-color) !important;
+    background-color: var(--yellow-base-color) !important;
 }
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.label-red {
-    color: var(--red-text-color);
-    background-color: var(--red-base-color);
+.label.label-red {
+    color: var(--red-text-color) !important;
+    background-color: var(--red-base-color) !important;
 }
 
 
 /* Navy coloring. */
-.label-navy {
-    color: var(--navy-text-color);
-    background-color: var(--navy-base-color);
+.label.label-navy {
+    color: var(--navy-text-color) !important;
+    background-color: var(--navy-base-color) !important;
 }
 
 
 /* Blue coloring. */
-.label-blue {
-    color: var(--blue-text-color);
-    background-color: var(--blue-base-color);
+.label.label-blue {
+    color: var(--blue-text-color) !important;
+    background-color: var(--blue-base-color) !important;
 }
 
 
 /* Teal coloring. */
-.label-teal {
-    color: var(--teal-text-color);
-    background-color: var(--teal-base-color);
+.label.label-teal {
+    color: var(--teal-text-color) !important;
+    background-color: var(--teal-base-color) !important;
 }
 
 
 /* Olive coloring. */
-.label-olive {
-    color: var(--olive-text-color);
-    background-color: var(--olive-base-color);
+.label.label-olive {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-base-color) !important;
 }
 
 
 /* Lime coloring. */
-.label-lime {
-    color: var(--lime-text-color);
-    background-color: var(--lime-base-color);
+.label.label-lime {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-base-color) !important;
 }
 
 
 /* Orange coloring. */
-.label-orange {
-    color: var(--orange-text-color);
-    background-color: var(--orange-base-color);
+.label.label-orange {
+    color: var(--orange-text-color) !important;
+    background-color: var(--orange-base-color) !important;
 }
 
 
 /* Fuchsia coloring. */
-.label-fuchsia {
-    color: var(--fuchsia-text-color);
-    background-color: var(--fuchsia-base-color);
+.label.label-fuchsia {
+    color: var(--fuchsia-text-color) !important;
+    background-color: var(--fuchsia-base-color) !important;
 }
 
 
 /* Indigo coloring. */
-.label-indigo {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-base-color);
+.label.label-indigo {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-base-color) !important;
 }
 
 
 /* Purple coloring. */
-.label-purple {
-    color: var(--purple-text-color);
-    background-color: var(--purple-base-color);
+.label.label-purple {
+    color: var(--purple-text-color) !important;
+    background-color: var(--purple-base-color) !important;
 }
 
 
 /* Maroon coloring. */
-.label-maroon {
-    color: var(--maroon-text-color);
-    background-color: var(--maroon-base-color);
+.label.label-maroon {
+    color: var(--maroon-text-color) !important;
+    background-color: var(--maroon-base-color) !important;
 }
 
 
 /* Gray coloring. */
-.label-gray {
-    color: var(--gray-text-color);
-    background-color: var(--gray-base-color);
+.label.label-gray {
+    color: var(--gray-text-color) !important;
+    background-color: var(--gray-base-color) !important;
 }
 
 
 /* Black coloring. */
-.label-black {
-    color: var(--black-text-color);
-    background-color: var(--black-base-color);
+.label.label-black {
+    color: var(--black-text-color) !important;
+    background-color: var(--black-base-color) !important;
 }
