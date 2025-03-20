@@ -12,14 +12,17 @@
 /* Default coloring. */
 .box.box-default {
     border-top-color: var(--default-base-color);
- }
- .box.box-solid.box-default {
+}
+.box.box-solid.box-default {
     color: var(--default-text-color);
     border: 1px solid var(--default-border-color);
- }
- .box.box-solid.box-default > .box-header {
+}
+.box.box-solid.box-default > .box-header {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
+}
+.box.box-default > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -27,14 +30,17 @@
 /* Equivalent to `light-blue`. */
 .box.box-primary {
     border-top-color: var(--primary-base-color);
- }
- .box.box-solid.box-primary {
+}
+.box.box-solid.box-primary {
     color: var(--primary-text-color);
     border: 1px solid var(--primary-border-color);
- }
- .box.box-solid.box-primary > .box-header {
+}
+.box.box-solid.box-primary > .box-header {
     color: var(--primary-text-color);
     background-color: var(--primary-base-color);
+}
+.box.box-primary .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -42,14 +48,17 @@
 /* Equivalent to `aqua`. */
 .box.box-info {
     border-top-color: var(--info-base-color);
- }
- .box.box-solid.box-info {
+}
+.box.box-solid.box-info {
     color: var(--info-text-color);
     border: 1px solid var(--info-border-color);
- }
- .box.box-solid.box-info > .box-header {
+}
+.box.box-solid.box-info > .box-header {
     color: var(--info-text-color);
     background-color: var(--info-base-color);
+}
+.box.box-info > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -57,14 +66,17 @@
 /* Equivalent to `green`. */
 .box.box-success {
     border-top-color: var(--success-base-color);
- }
- .box.box-solid.box-success {
+}
+.box.box-solid.box-success {
     color: var(--success-text-color);
     border: 1px solid var(--success-border-color);
- }
- .box.box-solid.box-success > .box-header {
+}
+.box.box-solid.box-success > .box-header {
     color: var(--success-text-color);
     background-color: var(--success-base-color);
+}
+.box.box-success > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -72,14 +84,17 @@
 /* Equivalent to `yellow`. */
 .box.box-warning {
     border-top-color: var(--warning-base-color);
- }
- .box.box-solid.box-warning {
+}
+.box.box-solid.box-warning {
     color: var(--warning-text-color);
     border: 1px solid var(--warning-border-color);
- }
- .box.box-solid.box-warning > .box-header {
+}
+.box.box-solid.box-warning > .box-header {
     color: var(--warning-text-color);
     background-color: var(--warning-base-color);
+}
+.box.box-warning > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -87,15 +102,19 @@
 /* Equivalent to `red`. */
 .box.box-danger {
     border-top-color: var(--danger-base-color);
- }
- .box.box-solid.box-danger {
+}
+.box.box-solid.box-danger {
     color: var(--danger-text-color);
     border: 1px solid var(--danger-border-color);
- }
- .box.box-solid.box-danger > .box-header {
+}
+.box.box-solid.box-danger > .box-header {
     color: var(--danger-text-color);
     background-color: var(--danger-base-color);
 }
+.box.box-danger > .box-body {
+    color: var(--default-text-dark);
+}
+
 
 
 /**
@@ -107,14 +126,17 @@
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .box.box-light-blue {
     border-top-color: var(--light-blue-base-color);
- }
- .box.box-solid.box-light-blue {
+}
+.box.box-solid.box-light-blue {
     color: var(--light-blue-text-color);
     border: 1px solid var(--light-blue-border-color);
- }
- .box.box-solid.box-light-blue > .box-header {
+}
+.box.box-solid.box-light-blue > .box-header {
     color: var(--light-blue-text-color);
     background-color: var(--light-blue-base-color);
+}
+.box.box-light-blue > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -123,14 +145,17 @@
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .box.box-aqua {
     border-top-color: var(--aqua-base-color);
- }
- .box.box-solid.box-aqua {
+}
+.box.box-solid.box-aqua {
     color: var(--aqua-text-color);
     border: 1px solid var(--aqua-border-color);
- }
- .box.box-solid.box-aqua > .box-header {
+}
+.box.box-solid.box-aqua > .box-header {
     color: var(--aqua-text-color);
     background-color: var(--aqua-base-color);
+}
+.box.box-aqua > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -139,14 +164,17 @@
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .box.box-green {
     border-top-color: var(--green-base-color);
- }
- .box.box-solid.box-green {
+}
+.box.box-solid.box-green {
     color: var(--green-text-color);
     border: 1px solid var(--green-border-color);
- }
- .box.box-solid.box-green > .box-header {
+}
+.box.box-solid.box-green > .box-header {
     color: var(--green-text-color);
     background-color: var(--green-base-color);
+}
+.box.box-green > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -155,14 +183,17 @@
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .box.box-yellow {
     border-top-color: var(--yellow-base-color);
- }
- .box.box-solid.box-yellow {
+}
+.box.box-solid.box-yellow {
     color: var(--yellow-text-color);
     border: 1px solid var(--yellow-border-color);
- }
- .box.box-solid.box-yellow > .box-header {
+}
+.box.box-solid.box-yellow > .box-header {
     color: var(--yellow-text-color);
     background-color: var(--yellow-base-color);
+}
+.box.box-forest > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -171,28 +202,34 @@
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .box.box-red {
     border-top-color: var(--red-base-color);
- }
- .box.box-solid.box-red {
+}
+.box.box-solid.box-red {
     color: var(--red-text-color);
     border: 1px solid var(--red-border-color);
- }
- .box.box-solid.box-red > .box-header {
+}
+.box.box-solid.box-red > .box-header {
     color: var(--red-text-color);
     background-color: var(--red-base-color);
+}
+.box.box-red > .box-body {
+    color: var(--default-text-dark);
 }
 
 
 /* Navy coloring. */
 .box.box-navy {
     border-top-color: var(--navy-base-color);
- }
- .box.box-solid.box-navy {
+}
+.box.box-solid.box-navy {
     color: var(--navy-text-color);
     border: 1px solid var(--navy-border-color);
- }
- .box.box-solid.box-navy > .box-header {
+}
+.box.box-solid.box-navy > .box-header {
     color: var(--navy-text-color);
     background-color: var(--navy-base-color);
+}
+.box.box-navy > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -208,6 +245,9 @@
     color: var(--blue-text-color);
     background-color: var(--blue-base-color);
 }
+.box.box-blue > .box-body {
+    color: var(--default-text-dark);
+}
 
 
 /* Teal coloring. */
@@ -221,6 +261,9 @@
 .box.box-solid.box-teal > .box-header {
     color: var(--teal-text-color);
     background-color: var(--teal-base-color);
+}
+.box.box-teal > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -236,6 +279,9 @@
     color: var(--olive-text-color);
     background-color: var(--olive-base-color);
 }
+.box.box-olive > .box-body {
+    color: var(--default-text-dark);
+}
 
 
 /* Lime coloring. */
@@ -249,6 +295,9 @@
 .box.box-solid.box-lime > .box-header {
     color: var(--lime-text-color);
     background-color: var(--lime-base-color);
+}
+.box.box-lime > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -264,6 +313,9 @@
     color: var(--orange-text-color);
     background-color: var(--orange-base-color);
 }
+.box.box-orange > .box-body {
+    color: var(--default-text-dark);
+}
 
 
 /* Fuchsia coloring. */
@@ -277,6 +329,9 @@
 .box.box-solid.box-fuchsia > .box-header {
     color: var(--fuchsia-text-color);
     background-color: var(--fuchsia-base-color);
+}
+.box.box-fuchsia > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -292,6 +347,9 @@
     color: var(--indigo-text-color);
     background-color: var(--indigo-base-color);
 }
+.box.box-indigo > .box-body {
+    color: var(--default-text-dark);
+}
 
 
 /* Purple coloring. */
@@ -305,6 +363,9 @@
 .box.box-solid.box-purple > .box-header {
     color: var(--purple-text-color);
     background-color: var(--purple-base-color);
+}
+.box.box-purple > .box-body {
+    color: var(--default-text-dark);
 }
 
 
@@ -320,6 +381,9 @@
     color: var(--maroon-text-color);
     background-color: var(--maroon-base-color);
 }
+.box.box-maroon > .box-body {
+    color: var(--default-text-dark);
+}
 
 
 /* Gray coloring. */
@@ -334,6 +398,9 @@
     color: var(--gray-text-color);
     background-color: var(--gray-base-color);
 }
+.box.box-gray > .box-body {
+    color: var(--default-text-dark);
+}
 
 
 /* Black coloring. */
@@ -347,4 +414,7 @@
 .box.box-solid.box-black > .box-header {
     color: var(--black-text-color);
     background-color: var(--black-base-color);
+}
+.box.box-black > .box-body {
+    color: var(--default-text-dark);
 }
