@@ -82,6 +82,11 @@ CSS_MENU = [
                         "icon": "fa fa-home",
                     },
                     {
+                        "route": "adminlte2_pdq:demo-css-typography",
+                        "text": "Typography",
+                        "icon": "fa fa-text-width",
+                    },
+                    {
                         "route": "adminlte2_pdq:demo-css-widgets",
                         "text": "Widgets",
                         "icon": "fa fa-th",
