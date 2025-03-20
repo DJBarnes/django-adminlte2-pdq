@@ -1,0 +1,74 @@
+{# Text Emphasis #}
+
+
+<div class="col-sm-6">
+  <div class="box box-default">
+
+    {# Start Box Head #}
+    <div class="box-header with-border">
+
+      <i class="fa fa-text-width"></i>
+      <h3 class="box-title">
+        Text Emphasis
+      </h3>
+
+      {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+    </div>
+    {# End Box Head #}
+
+    {# Start Box Body #}
+    <div class="box-body">
+
+      <p class="lead">This &lt;p&gt; uses "lead" to emphasize importance.</p>
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <p class="text-{{ bootstrap_type }}">This &lt;p&gt; uses "text-{{ bootstrap_type }}" for variation of emphasis.</p>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+      <p class="text-muted">This &lt;p&gt; uses "text-muted" for variation of emphasis.</p>
+
+    </div>
+    {# End Box Body #}
+
+  </div>
+</div>
+
+
+<div class="col-sm-6">
+  <div class="box box-default">
+
+    {# Start Box Head #}
+    <div class="box-header with-border">
+
+      <i class="fa fa-text-width"></i>
+      <h3 class="box-title">
+        Code Emphasis
+      </h3>
+
+      {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+    </div>
+    {# End Box Head #}
+
+    {# Start Box Body #}
+    <div class="box-body">
+
+      {% for bootstrap_type in bootstrap_types %}
+
+        {# Example Elements Start Here #}
+        <code class="bg-{{ bootstrap_type }}">This &lt;code&gt; uses "bg-{{ bootstrap_type }}" for variation of emphasis.</code>
+        <br>
+        {# Example Elements End Here #}
+
+      {% endfor %}
+
+    </div>
+    {# End Box Body #}
+
+  </div>
+</div>

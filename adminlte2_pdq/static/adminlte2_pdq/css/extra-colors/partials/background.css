@@ -23,6 +23,10 @@
 .color-palette-box h4.bg-text-default {
     color: var(--default-text-color);
 }
+code.bg-default {
+    color: var(--default-light-accent-text-color) !important;
+    background-color: var(--default-light-accent-color) !important;
+}
 
 
 /* Primary coloring. */
@@ -39,6 +43,10 @@
 .bg-text-primary,
 .color-palette-box h4.bg-text-primary {
     color: var(--primary-text-color);
+}
+code.bg-primary {
+    color: var(--primary-light-accent-text-color) !important;
+    background-color: var(--primary-light-accent-color) !important;
 }
 
 
@@ -57,6 +65,10 @@
 .color-palette-box h4.bg-text-info {
     color: var(--info-text-color);
 }
+code.bg-info {
+    color: var(--info-light-accent-text-color) !important;
+    background-color: var(--info-light-accent-color) !important;
+}
 
 
 /* Success coloring. */
@@ -73,6 +85,10 @@
 .bg-text-success,
 .color-palette-box h4.bg-text-success {
     color: var(--success-text-color);
+}
+code.bg-success {
+    color: var(--success-light-accent-text-color) !important;
+    background-color: var(--success-light-accent-color) !important;
 }
 
 
@@ -91,6 +107,10 @@
 .color-palette-box h4.bg-text-warning {
     color: var(--warning-text-color);
 }
+code.bg-warning {
+    color: var(--warning-light-accent-text-color) !important;
+    background-color: var(--warning-light-accent-color) !important;
+}
 
 
 /* Danger coloring. */
@@ -107,6 +127,10 @@
 .bg-text-danger,
 .color-palette-box h4.bg-text-danger {
     color: var(--danger-text-color);
+}
+code.bg-danger {
+    color: var(--danger-light-accent-text-color) !important;
+    background-color: var(--danger-light-accent-color) !important;
 }
 
 
@@ -130,6 +154,10 @@
 .color-palette-box h4.bg-text-light-blue {
     color: var(--light-blue-text-color);
 }
+code.bg-light-blue {
+    color: var(--light-blue-light-accent-text-color) !important;
+    background-color: var(--light-blue-light-accent-color) !important;
+}
 
 
 /* Aqua coloring. */
@@ -147,6 +175,10 @@
 .bg-text-aqua,
 .color-palette-box h4.bg-text-aqua {
     color: var(--aqua-text-color);
+}
+code.bg-aqua {
+    color: var(--aqua-light-accent-text-color) !important;
+    background-color: var(--aqua-light-accent-color) !important;
 }
 
 
@@ -166,6 +198,10 @@
 .color-palette-box h4.bg-text-green {
     color: var(--green-text-color);
 }
+code.bg-green {
+    color: var(--green-light-accent-text-color) !important;
+    background-color: var(--green-light-accent-color) !important;
+}
 
 
 /* Yellow coloring. */
@@ -183,6 +219,10 @@
 .bg-text-yellow,
 .color-palette-box h4.bg-text-yellow {
     color: var(--yellow-text-color);
+}
+code.bg-yellow {
+    color: var(--yellow-light-accent-text-color) !important;
+    background-color: var(--yellow-light-accent-color) !important;
 }
 
 
@@ -202,6 +242,10 @@
 .color-palette-box h4.bg-text-red {
     color: var(--red-text-color);
 }
+code.bg-red {
+    color: var(--red-light-accent-text-color) !important;
+    background-color: var(--red-light-accent-color) !important;
+}
 
 
 /* Navy coloring. */
@@ -218,6 +262,10 @@
 .bg-text-navy,
 .color-palette-box h4.bg-text-navy {
     color: var(--navy-text-color);
+}
+code.bg-navy {
+    color: var(--navy-light-accent-text-color) !important;
+    background-color: var(--navy-light-accent-color) !important;
 }
 
 
@@ -236,6 +284,10 @@
 .color-palette-box h4.bg-text-blue {
     color: var(--blue-text-color);
 }
+code.bg-blue {
+    color: var(--blue-light-accent-text-color) !important;
+    background-color: var(--blue-light-accent-color) !important;
+}
 
 
 /* Teal coloring. */
@@ -252,6 +304,10 @@
 .bg-text-teal,
 .color-palette-box h4.bg-text-teal {
     color: var(--teal-text-color);
+}
+code.bg-teal {
+    color: var(--teal-light-accent-text-color) !important;
+    background-color: var(--teal-light-accent-color) !important;
 }
 
 
@@ -270,6 +326,10 @@
 .color-palette-box h4.bg-text-olive {
     color: var(--olive-text-color);
 }
+code.bg-olive {
+    color: var(--olive-light-accent-text-color) !important;
+    background-color: var(--olive-light-accent-color) !important;
+}
 
 
 /* Lime coloring. */
@@ -286,6 +346,10 @@
 .bg-text-lime,
 .color-palette-box h4.bg-text-lime {
     color: var(--lime-text-color);
+}
+code.bg-lime {
+    color: var(--lime-light-accent-text-color) !important;
+    background-color: var(--lime-light-accent-color) !important;
 }
 
 
@@ -304,6 +368,10 @@
 .color-palette-box h4.bg-text-orange {
     color: var(--orange-text-color);
 }
+code.bg-orange {
+    color: var(--orange-light-accent-text-color) !important;
+    background-color: var(--orange-light-accent-color) !important;
+}
 
 
 /* Fuchsia coloring. */
@@ -321,6 +389,10 @@
 .color-palette-box h4.bg-text-fuchsia {
     color: var(--fuchsia-text-color);
 }
+code.bg-fuchsia {
+    color: var(--fuchsia-light-accent-text-color) !important;
+    background-color: var(--fuchsia-light-accent-color) !important;
+}
 
 
 /* Indigo coloring. */
@@ -336,6 +408,10 @@
 .bg-text-indigo,
 .color-palette-box h4.bg-text-indigo {
     color: var(--indigo-text-color);
+}
+code.bg-indigo {
+    color: var(--indigo-light-accent-text-color) !important;
+    background-color: var(--indigo-light-accent-color) !important;
 }
 
 
@@ -354,6 +430,10 @@
 .color-palette-box h4.bg-text-purple {
     color: var(--purple-text-color);
 }
+code.bg-purple {
+    color: var(--purple-light-accent-text-color) !important;
+    background-color: var(--purple-light-accent-color) !important;
+}
 
 
 /* Maroon coloring. */
@@ -370,6 +450,10 @@
 .bg-text-maroon,
 .color-palette-box h4.bg-text-maroon {
     color: var(--maroon-text-color);
+}
+code.bg-maroon {
+    color: var(--maroon-light-accent-text-color) !important;
+    background-color: var(--maroon-light-accent-color) !important;
 }
 
 
@@ -388,6 +472,10 @@
 .color-palette-box h4.bg-text-gray {
     color: var(--gray-text-color);
 }
+code.bg-gray {
+    color: var(--gray-light-accent-text-color) !important;
+    background-color: var(--gray-light-accent-color) !important;
+}
 
 
 /* Black coloring. */
@@ -404,4 +492,8 @@
 .bg-text-black,
 .color-palette-box h4.bg-text-black {
     color: var(--black-text-color);
+}
+code.bg-black {
+    color: var(--black-light-accent-text-color) !important;
+    background-color: var(--black-light-accent-color) !important;
 }
