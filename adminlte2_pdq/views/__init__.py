@@ -21,6 +21,7 @@ from .demo_css import (
     demo_css_boxes_standard,
     demo_css_buttons_basic,
     demo_css_buttons_specialized,
+    demo_css_carousels,
     demo_css_labels,
     demo_css_modals,
     demo_css_tables,

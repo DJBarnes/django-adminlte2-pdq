@@ -1,0 +1,54 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Carousels
+    <small>Preview of Carousel Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  {# Carousels #}
+  <div class="row">
+
+    <div class="box box-default color-palette-box">
+
+      {# Start Box Head #}
+      <div class="box-header with-border">
+
+        <i class="fa fa-columns"></i>
+        <h3 class="box-title">
+          Carousels
+        </h3>
+
+        {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+      </div>
+      {# End Box Head #}
+
+      {# Start Box Body #}
+      <div class="box-body">
+        <div class="row">
+
+          {% include 'adminlte2_demo_css/partials/carousels.html' %}
+
+        </div>
+      </div>
+      {# End Box Body #}
+
+    </div>
+
+  </div>
+
+{% endblock content %}

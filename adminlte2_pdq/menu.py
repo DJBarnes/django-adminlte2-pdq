@@ -115,6 +115,11 @@ CSS_MENU = [
                                 "icon": "fa fa-circle-o",
                             },
                             {
+                                "route": "adminlte2_pdq:demo-css-carousels",
+                                "text": "Carousels",
+                                "icon": "fa fa-circle-o",
+                            },
+                            {
                                 "route": "adminlte2_pdq:demo-css-labels",
                                 "text": "Labels & Tooltips",
                                 "icon": "fa fa-circle-o",
