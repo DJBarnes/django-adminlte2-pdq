@@ -39,6 +39,7 @@ urlpatterns = [
                                 views.demo_css_buttons_specialized,
                                 name="demo-css-buttons-specialized",
                             ),
+                            path("carousels/", views.demo_css_carousels, name="demo-css-carousels"),
                             path("labels/", views.demo_css_labels, name="demo-css-labels"),
                             path("modals/", views.demo_css_modals, name="demo-css-modals"),
                             path("typography/", views.demo_css_typography, name="demo-css-typography"),
