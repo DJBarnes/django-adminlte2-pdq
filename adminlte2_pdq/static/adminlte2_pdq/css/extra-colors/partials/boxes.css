@@ -192,7 +192,7 @@
     color: var(--yellow-text-color);
     background-color: var(--yellow-base-color);
 }
-.box.box-forest > .box-body {
+.box.box-yellow > .box-body {
     color: var(--default-text-dark);
 }
 
