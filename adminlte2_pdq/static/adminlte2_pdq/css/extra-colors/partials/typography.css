@@ -1,0 +1,161 @@
+/**
+ * Extra coloring CSS for AdminLte `` elements.
+ */
+
+
+/**
+ * Implement existing AdminLte color terms (warning, info, danger, etc).
+ * AdminLte already had the equivalent via colors (yellow, red, etc),
+ * but this allows using these terms to do the same as well.
+ */
+
+/* Default coloring. */
+.text-default {
+    color: var(--default-base-color) !important;
+}
+
+
+/* Primary coloring. */
+/* Equivalent to `light-blue`. */
+.text-primary {
+    color: var(--primary-base-color) !important;
+}
+
+
+/* Info coloring. */
+/* Equivalent to `aqua`. */
+.text-info {
+    color: var(--info-base-color) !important;
+}
+
+
+/* Success coloring. */
+/* Equivalent to `green`. */
+.text-success {
+    color: var(--success-base-color) !important;
+}
+
+
+/* Warning coloring. */
+/* Equivalent to `yellow`. */
+.text-warning {
+    color: var(--warning-base-color) !important;
+}
+
+
+/* Danger coloring. */
+/* Equivalent to `red`. */
+.text-danger {
+    color: var(--danger-base-color) !important;
+}
+
+
+/**
+ * Implement additional Bootstrap colors for AdminLte stylings.
+ */
+
+/* Light-blue coloring. */
+/* Equivalent to `primary`. */
+.text-light-blue {
+    color: var(--light-blue-base-color) !important;
+}
+
+
+/* Aqua coloring. */
+/* Equivalent to `info`. */
+.text-aqua {
+    color: var(--aqua-base-color) !important;
+}
+
+
+/* Green coloring. */
+/* Equivalent to `success`. */
+.text-green {
+    color: var(--green-base-color) !important;
+}
+
+
+/* Yellow coloring. */
+/* Equivalent to `warning`. */
+.text-yellow {
+    color: var(--yellow-base-color) !important;
+}
+
+
+/* Red coloring. */
+/* Equivalent to `danger`. */
+.text-red {
+    color: var(--red-base-color) !important;
+}
+
+
+/* Navy coloring. */
+.text-navy {
+    color: var(--navy-base-color) !important;
+}
+
+
+/* Blue coloring. */
+.text-blue {
+    color: var(--blue-base-color) !important;
+}
+
+
+/* Teal coloring. */
+.text-teal {
+    color: var(--teal-base-color) !important;
+}
+
+
+/* Olive coloring. */
+.text-olive {
+    color: var(--olive-base-color) !important;
+}
+
+
+/* Lime coloring. */
+.text-lime {
+    color: var(--lime-base-color) !important;
+}
+
+
+/* Orange coloring. */
+.text-orange {
+    color: var(--orange-base-color) !important;
+}
+
+
+/* Fuchsia coloring. */
+.text-fuchsia {
+    color: var(--fuchsia-base-color) !important;
+}
+
+
+/* Indigo coloring. */
+.text-indigo {
+    color: var(--indigo-base-color) !important;
+}
+
+
+/* Purple coloring. */
+.text-purple {
+    color: var(--purple-base-color) !important;
+}
+
+
+/* Maroon coloring. */
+.text-maroon {
+    color: var(--maroon-base-color) !important;
+}
+
+
+/* Gray coloring. */
+.text-gray {
+    color: var(--gray-base-color) !important;
+}
+
+
+/* Black coloring. */
+.text-black {
+    color: var(--black-base-color) !important;
+}
