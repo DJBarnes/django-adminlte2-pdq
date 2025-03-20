@@ -10,126 +10,126 @@
  */
 
 /* Default coloring. */
-.btn-default,
-.box .btn-default,
+.btn.btn-default,
+.box .btn.btn-default,
 .box.box-solid > .box-header .btn.btn-default {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
     border: 1px solid var(--default-border-color);
 }
-.btn-default:active,
-.btn-default:focus,
-.btn-default:hover,
+.btn.btn-default:active,
+.btn.btn-default:focus,
+.btn.btn-default:hover,
 .box.box-solid > .box-header .btn.btn-default:active,
 .box.box-solid > .box-header .btn.btn-default:focus,
 .box.box-solid > .box-header .btn.btn-default:hover {
-    color: var(--default-text-color);
-    background-color: var(--default-active-color);
+    color: var(--default-text-color) !important;
+    background-color: var(--default-active-color) !important;
 }
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
 /* Fix adminlte buttons in box-header on hover. */
-.btn-primary,
-.box .btn-primary,
+.btn.btn-primary,
+.box .btn.btn-primary,
 .box.box-solid > .box-header .btn.btn-primary {
     color: var(--primary-text-color);
     background-color: var(--primary-base-color);
     border: 1px solid var(--primary-border-color);
 }
-.btn-primary:active,
-.btn-primary:focus,
-.btn-primary:hover,
+.btn.btn-primary:active,
+.btn.btn-primary:focus,
+.btn.btn-primary:hover,
 .box.box-solid > .box-header .btn.btn-primary:active,
 .box.box-solid > .box-header .btn.btn-primary:focus,
 .box.box-solid > .box-header .btn.btn-primary:hover {
-    color: var(--primary-text-color);
-    background-color: var(--primary-active-color);
+    color: var(--primary-text-color) !important;
+    background-color: var(--primary-active-color) !important;
 }
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
 /* Fix adminlte buttons in box-header on hover. */
-.btn-info,
-.box .btn-info,
+.btn.btn-info,
+.box .btn.btn-info,
 .box.box-solid > .box-header .btn.btn-info {
     color: var(--info-text-color);
     background-color: var(--info-base-color);
     border: 1px solid var(--info-border-color);
 }
-.btn-info:active,
-.btn-info:focus,
-.btn-info:hover,
+.btn.btn-info:active,
+.btn.btn-info:focus,
+.btn.btn-info:hover,
 .box.box-solid > .box-header .btn.btn-info:active,
 .box.box-solid > .box-header .btn.btn-info:focus,
 .box.box-solid > .box-header .btn.btn-info:hover {
-    color: var(--info-text-color);
-    background-color: var(--info-active-color);
+    color: var(--info-text-color) !important;
+    background-color: var(--info-active-color) !important;
 }
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
 /* Fix adminlte buttons in box-header on hover. */
-.btn-success,
-.box .btn-success,
+.btn.btn-success,
+.box .btn.btn-success,
 .box.box-solid > .box-header .btn.btn-success {
     color: var(--success-text-color);
     background-color: var(--success-base-color);
     border: 1px solid var(--success-border-color);
 }
-.btn-success:active,
-.btn-success:focus,
-.btn-success:hover,
+.btn.btn-success:active,
+.btn.btn-success:focus,
+.btn.btn-success:hover,
 .box.box-solid > .box-header .btn.btn-success:active,
 .box.box-solid > .box-header .btn.btn-success:focus,
 .box.box-solid > .box-header .btn.btn-success:hover {
-    color: var(--success-text-color);
-    background-color: var(--success-active-color);
+    color: var(--success-text-color) !important;
+    background-color: var(--success-active-color) !important;
 }
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
 /* Fix adminlte buttons in box-header on hover */
-.btn-warning,
-.box .btn-warning,
+.btn.btn-warning,
+.box .btn.btn-warning,
 .box.box-solid > .box-header .btn.btn-warning {
     color: var(--warning-text-color);
     background-color: var(--warning-base-color);
     border: 1px solid var(--warning-border-color);
 }
-.btn-warning:active,
-.btn-warning:focus,
-.btn-warning:hover,
+.btn.btn-warning:active,
+.btn.btn-warning:focus,
+.btn.btn-warning:hover,
 .box.box-solid > .box-header .btn.btn-warning:active,
 .box.box-solid > .box-header .btn.btn-warning:focus,
 .box.box-solid > .box-header .btn.btn-warning:hover {
-    color: var(--warning-text-color);
-    background-color: var(--warning-active-color);
+    color: var(--warning-text-color) !important;
+    background-color: var(--warning-active-color) !important;
 }
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
 /* Fix adminlte buttons in box-header on hover */
-.btn-danger,
-.box .btn-danger,
+.btn.btn-danger,
+.box .btn.btn-danger,
 .box.box-solid > .box-header .btn.btn-danger {
     color: var(--danger-text-color);
     background-color: var(--danger-base-color);
     border: 1px solid var(--danger-border-color);
 }
-.btn-danger:active,
-.btn-danger:focus,
-.btn-danger:hover,
+.btn.btn-danger:active,
+.btn.btn-danger:focus,
+.btn.btn-danger:hover,
 .box.box-solid > .box-header .btn.btn-danger:active,
 .box.box-solid > .box-header .btn.btn-danger:focus,
 .box.box-solid > .box-header .btn.btn-danger:hover {
-    color: var(--danger-text-color);
-    background-color: var(--danger-active-color);
+    color: var(--danger-text-color) !important;
+    background-color: var(--danger-active-color) !important;
 }
 
 
@@ -140,331 +140,331 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.btn-light-blue,
-.box .btn-light-blue,
+.btn.btn-light-blue,
+.box .btn.btn-light-blue,
 .box.box-solid > .box-header .btn.btn-light-blue {
     color: var(--light-blue-text-color);
     background-color: var(--light-blue-base-color);
     border: 1px solid var(--light-blue-border-color);
 }
-.btn-light-blue:active,
-.btn-light-blue:focus,
-.btn-light-blue:hover,
+.btn.btn-light-blue:active,
+.btn.btn-light-blue:focus,
+.btn.btn-light-blue:hover,
 .box.box-solid > .box-header .btn.btn-light-blue:active,
 .box.box-solid > .box-header .btn.btn-light-blue:focus,
 .box.box-solid > .box-header .btn.btn-light-blue:hover {
-    color: var(--light-blue-text-color);
-    background-color: var(--light-blue-active-color);
+    color: var(--light-blue-text-color) !important;
+    background-color: var(--light-blue-active-color) !important;
 }
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.btn-aqua,
-.box .btn-aqua,
+.btn.btn-aqua,
+.box .btn.btn-aqua,
 .box.box-solid > .box-header .btn.btn-aqua {
     color: var(--aqua-text-color);
     background-color: var(--aqua-base-color);
     border: 1px solid var(--aqua-border-color);
 }
-.btn-aqua:active,
-.btn-aqua:focus,
-.btn-aqua:hover,
+.btn.btn-aqua:active,
+.btn.btn-aqua:focus,
+.btn.btn-aqua:hover,
 .box.box-solid > .box-header .btn.btn-aqua:active,
 .box.box-solid > .box-header .btn.btn-aqua:focus,
 .box.box-solid > .box-header .btn.btn-aqua:hover {
-    color: var(--aqua-text-color);
-    background-color: var(--aqua-active-color);
+    color: var(--aqua-text-color) !important;
+    background-color: var(--aqua-active-color) !important;
 }
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.btn-green,
-.box .btn-green,
+.btn.btn-green,
+.box .btn.btn-green,
 .box.box-solid > .box-header .btn.btn-green {
     color: var(--green-text-color);
     background-color: var(--green-base-color);
     border: 1px solid var(--green-border-color);
 }
-.btn-green:active,
-.btn-green:focus,
-.btn-green:hover,
+.btn.btn-green:active,
+.btn.btn-green:focus,
+.btn.btn-green:hover,
 .box.box-solid > .box-header .btn.btn-green:active,
 .box.box-solid > .box-header .btn.btn-green:focus,
 .box.box-solid > .box-header .btn.btn-green:hover {
-    color: var(--green-text-color);
-    background-color: var(--green-active-color);
+    color: var(--green-text-color) !important;
+    background-color: var(--green-active-color) !important;
 }
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.btn-yellow,
-.box .btn-yellow,
+.btn.btn-yellow,
+.box .btn.btn-yellow,
 .box.box-solid > .box-header .btn.btn-yellow {
     color: var(--yellow-text-color);
     background-color: var(--yellow-base-color);
     border: 1px solid var(--yellow-border-color);
 }
-.btn-yellow:active,
-.btn-yellow:focus,
-.btn-yellow:hover,
+.btn.btn-yellow:active,
+.btn.btn-yellow:focus,
+.btn.btn-yellow:hover,
 .box.box-solid > .box-header .btn.btn-yellow:active,
 .box.box-solid > .box-header .btn.btn-yellow:focus,
 .box.box-solid > .box-header .btn.btn-yellow:hover {
-    color: var(--yellow-text-color);
-    background-color: var(--yellow-active-color);
+    color: var(--yellow-text-color) !important;
+    background-color: var(--yellow-active-color) !important;
 }
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.btn-red,
-.box .btn-red,
+.btn.btn-red,
+.box .btn.btn-red,
 .box.box-solid > .box-header .btn.btn-red {
     color: var(--red-text-color);
     background-color: var(--red-base-color);
     border: 1px solid var(--red-border-color);
 }
-.btn-red:active,
-.btn-red:focus,
-.btn-red:hover,
+.btn.btn-red:active,
+.btn.btn-red:focus,
+.btn.btn-red:hover,
 .box.box-solid > .box-header .btn.btn-red:active,
 .box.box-solid > .box-header .btn.btn-red:focus,
 .box.box-solid > .box-header .btn.btn-red:hover {
-    color: var(--red-text-color);
-    background-color: var(--red-active-color);
+    color: var(--red-text-color) !important;
+    background-color: var(--red-active-color) !important;
 }
 
 
 /* Navy coloring. */
-.btn-navy,
-.box .btn-navy,
+.btn.btn-navy,
+.box .btn.btn-navy,
 .box.box-solid > .box-header .btn.btn-navy {
     color: var(--navy-text-color);
     background-color: var(--navy-base-color);
     border: 1px solid var(--navy-border-color);
 }
-.btn-navy:active,
-.btn-navy:focus,
-.btn-navy:hover,
+.btn.btn-navy:active,
+.btn.btn-navy:focus,
+.btn.btn-navy:hover,
 .box.box-solid > .box-header .btn.btn-navy:active,
 .box.box-solid > .box-header .btn.btn-navy:focus,
 .box.box-solid > .box-header .btn.btn-navy:hover {
-    color: var(--navy-text-color);
-    background-color: var(--navy-active-color);
+    color: var(--navy-text-color) !important;
+    background-color: var(--navy-active-color) !important;
 }
 
 
 /* Blue coloring. */
-.btn-blue,
-.box .btn-blue,
+.btn.btn-blue,
+.box .btn.btn-blue,
 .box.box-solid > .box-header .btn.btn-blue {
     color: var(--blue-text-color);
     background-color: var(--blue-base-color);
     border: 1px solid var(--blue-border-color);
 }
-.btn-blue:active,
-.btn-blue:focus,
-.btn-blue:hover,
+.btn.btn-blue:active,
+.btn.btn-blue:focus,
+.btn.btn-blue:hover,
 .box.box-solid > .box-header .btn.btn-blue:active,
 .box.box-solid > .box-header .btn.btn-blue:focus,
 .box.box-solid > .box-header .btn.btn-blue:hover {
-    color: var(--blue-text-color);
-    background-color: var(--blue-active-color);
+    color: var(--blue-text-color) !important;
+    background-color: var(--blue-active-color) !important;
 }
 
 
 /* Teal coloring. */
-.btn-teal,
-.box .btn-teal,
+.btn.btn-teal,
+.box .btn.btn-teal,
 .box.box-solid > .box-header .btn.btn-teal {
     color: var(--teal-text-color);
     background-color: var(--teal-base-color);
     border: 1px solid var(--teal-border-color);
 }
-.btn-teal:active,
-.btn-teal:focus,
-.btn-teal:hover,
+.btn.btn-teal:active,
+.btn.btn-teal:focus,
+.btn.btn-teal:hover,
 .box.box-solid > .box-header .btn.btn-teal:active,
 .box.box-solid > .box-header .btn.btn-teal:focus,
 .box.box-solid > .box-header .btn.btn-teal:hover {
-    color: var(--teal-text-color);
-    background-color: var(--teal-active-color);
+    color: var(--teal-text-color) !important;
+    background-color: var(--teal-active-color) !important;
 }
 
 
 /* Olive coloring. */
-.btn-olive,
-.box .btn-olive,
+.btn.btn-olive,
+.box .btn.btn-olive,
 .box.box-solid > .box-header .btn.btn-olive {
     color: var(--olive-text-color);
     background-color: var(--olive-base-color);
     border: 1px solid var(--olive-border-color);
 }
-.btn-olive:active,
-.btn-olive:focus,
-.btn-olive:hover,
+.btn.btn-olive:active,
+.btn.btn-olive:focus,
+.btn.btn-olive:hover,
 .box.box-solid > .box-header .btn.btn-olive:active,
 .box.box-solid > .box-header .btn.btn-olive:focus,
 .box.box-solid > .box-header .btn.btn-olive:hover {
-    color: var(--olive-text-color);
-    background-color: var(--olive-active-color);
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-active-color) !important;
 }
 
 
 /* Lime coloring. */
-.btn-lime,
-.box .btn-lime,
+.btn.btn-lime,
+.box .btn.btn-lime,
 .box.box-solid > .box-header .btn.btn-lime {
     color: var(--lime-text-color);
     background-color: var(--lime-base-color);
     border: 1px solid var(--lime-border-color);
 }
-.btn-lime:active,
-.btn-lime:focus,
-.btn-lime:hover,
+.btn.btn-lime:active,
+.btn.btn-lime:focus,
+.btn.btn-lime:hover,
 .box.box-solid > .box-header .btn.btn-lime:active,
 .box.box-solid > .box-header .btn.btn-lime:focus,
 .box.box-solid > .box-header .btn.btn-lime:hover {
-    color: var(--lime-text-color);
-    background-color: var(--lime-active-color);
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-active-color) !important;
 }
 
 
 /* Orange coloring. */
-.btn-orange,
-.box .btn-orange,
+.btn.btn-orange,
+.box .btn.btn-orange,
 .box.box-solid > .box-header .btn.btn-orange {
     color: var(--orange-text-color);
     background-color: var(--orange-base-color);
     border: 1px solid var(--orange-border-color);
 }
-.btn-orange:active,
-.btn-orange:focus,
-.btn-orange:hover,
+.btn.btn-orange:active,
+.btn.btn-orange:focus,
+.btn.btn-orange:hover,
 .box.box-solid > .box-header .btn.btn-orange:active,
 .box.box-solid > .box-header .btn.btn-orange:focus,
 .box.box-solid > .box-header .btn.btn-orange:hover {
-    color: var(--orange-text-color);
-    background-color: var(--orange-active-color);
+    color: var(--orange-text-color) !important;
+    background-color: var(--orange-active-color) !important;
 }
 
 
 /* Fuchsia coloring. */
-.btn-fuchsia,
-.box .btn-fuchsia,
+.btn.btn-fuchsia,
+.box .btn.btn-fuchsia,
 .box.box-solid > .box-header .btn.btn-fuchsia {
     color: var(--fuchsia-text-color);
     background-color: var(--fuchsia-base-color);
     border: 1px solid var(--fuchsia-border-color);
 }
-.btn-fuchsia:active,
-.btn-fuchsia:focus,
-.btn-fuchsia:hover,
+.btn.btn-fuchsia:active,
+.btn.btn-fuchsia:focus,
+.btn.btn-fuchsia:hover,
 .box.box-solid > .box-header .btn.btn-fuchsia:active,
 .box.box-solid > .box-header .btn.btn-fuchsia:focus,
 .box.box-solid > .box-header .btn.btn-fuchsia:hover {
-    color: var(--fuchsia-text-color);
-    background-color: var(--fuchsia-active-color);
+    color: var(--fuchsia-text-color) !important;
+    background-color: var(--fuchsia-active-color) !important;
 }
 
 
 /* Indigo coloring. */
-.btn-indigo,
-.box .btn-indigo,
+.btn.btn-indigo,
+.box .btn.btn-indigo,
 .box.box-solid > .box-header .btn.btn-indigo {
     color: var(--indigo-text-color);
     background-color: var(--indigo-base-color);
     border: 1px solid var(--indigo-border-color);
 }
-.btn-indigo:active,
-.btn-indigo:focus,
-.btn-indigo:hover,
+.btn.btn-indigo:active,
+.btn.btn-indigo:focus,
+.btn.btn-indigo:hover,
 .box.box-solid > .box-header .btn.btn-indigo:active,
 .box.box-solid > .box-header .btn.btn-indigo:focus,
 .box.box-solid > .box-header .btn.btn-indigo:hover {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-active-color);
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-active-color) !important;
 }
 
 
 /* Purple coloring. */
-.btn-purple,
-.box .btn-purple,
+.btn.btn-purple,
+.box .btn.btn-purple,
 .box.box-solid > .box-header .btn.btn-purple {
     color: var(--purple-text-color);
     background-color: var(--purple-base-color);
     border: 1px solid var(--purple-border-color);
 }
-.btn-purple:active,
-.btn-purple:focus,
-.btn-purple:hover,
+.btn.btn-purple:active,
+.btn.btn-purple:focus,
+.btn.btn-purple:hover,
 .box.box-solid > .box-header .btn.btn-purple:active,
 .box.box-solid > .box-header .btn.btn-purple:focus,
 .box.box-solid > .box-header .btn.btn-purple:hover {
-    color: var(--purple-text-color);
-    background-color: var(--purple-active-color);
+    color: var(--purple-text-color) !important;
+    background-color: var(--purple-active-color) !important;
 }
 
 
 /* Maroon coloring. */
-.btn-maroon,
-.box .btn-maroon,
+.btn.btn-maroon,
+.box .btn.btn-maroon,
 .box.box-solid > .box-header .btn.btn-maroon {
     color: var(--maroon-text-color);
     background-color: var(--maroon-base-color);
     border: 1px solid var(--maroon-border-color);
 }
-.btn-maroon:active,
-.btn-maroon:focus,
-.btn-maroon:hover,
+.btn.btn-maroon:active,
+.btn.btn-maroon:focus,
+.btn.btn-maroon:hover,
 .box.box-solid > .box-header .btn.btn-maroon:active,
 .box.box-solid > .box-header .btn.btn-maroon:focus,
 .box.box-solid > .box-header .btn.btn-maroon:hover {
-    color: var(--maroon-text-color);
-    background-color: var(--maroon-active-color);
+    color: var(--maroon-text-color) !important;
+    background-color: var(--maroon-active-color) !important;
 }
 
 
 /* Gray coloring. */
-.btn-gray,
-.box .btn-gray,
+.btn.btn-gray,
+.box .btn.btn-gray,
 .box.box-solid > .box-header .btn.btn-gray {
     color: var(--gray-text-color);
     background-color: var(--gray-base-color);
     border: 1px solid var(--gray-border-color);
 }
-.btn-gray:active,
-.btn-gray:focus,
-.btn-gray:hover,
+.btn.btn-gray:active,
+.btn.btn-gray:focus,
+.btn.btn-gray:hover,
 .box.box-solid > .box-header .btn.btn-gray:active,
 .box.box-solid > .box-header .btn.btn-gray:focus,
 .box.box-solid > .box-header .btn.btn-gray:hover {
-    color: var(--gray-text-color);
-    background-color: var(--gray-active-color);
+    color: var(--gray-text-color) !important;
+    background-color: var(--gray-active-color) !important;
 }
 
 
 /* Black coloring. */
-.btn-black,
-.box .btn-black,
+.btn.btn-black,
+.box .btn.btn-black,
 .box.box-solid > .box-header .btn.btn-black {
     color: var(--black-text-color);
     background-color: var(--black-base-color);
     border: 1px solid var(--black-border-color);
 }
-.btn-black:active,
-.btn-black:focus,
-.btn-black:hover,
+.btn.btn-black:active,
+.btn.btn-black:focus,
+.btn.btn-black:hover,
 .box.box-solid > .box-header .btn.btn-black:active,
 .box.box-solid > .box-header .btn.btn-black:focus,
 .box.box-solid > .box-header .btn.btn-black:hover {
-    color: var(--black-text-color);
-    background-color: var(--black-active-color);
+    color: var(--black-text-color) !important;
+    background-color: var(--black-active-color) !important;
 }

@@ -10,26 +10,43 @@
  */
 
 /* Default coloring. */
-
+.small-box.bg-default .small-box-footer {
+    color: var(--default-text-color) !important;
+}
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
+.small-box.bg-primary .small-box-footer {
+    color: var(--primary-text-color) !important;
+}
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+.small-box.bg-info .small-box-footer {
+    color: var(--info-text-color) !important;
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+.small-box.bg-success .small-box-footer {
+    color: var(--success-text-color) !important;
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+.small-box.bg-warning .small-box-footer {
+    color: var(--warning-text-color) !important;
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+.small-box.bg-danger .small-box-footer {
+    color: var(--danger-text-color) !important;
+}
 
 
 /**
@@ -39,69 +56,112 @@
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.small-box.bg-light-blue .small-box-footer {
+    color: var(--light-blue-text-color) !important;
+}
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.small-box.bg-aqua .small-box-footer {
+    color: var(--aqua-text-color) !important;
+}
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.small-box.bg-green .small-box-footer {
+    color: var(--green-text-color) !important;
+}
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.small-box.bg-yellow .small-box-footer {
+    color: var(--yellow-text-color) !important;
+}
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
+.small-box.bg-red .small-box-footer {
+    color: var(--red-text-color) !important;
+}
 
 
 /* Navy coloring. */
+.small-box.bg-navy .small-box-footer {
+    color: var(--navy-text-color) !important;
+}
 
 
 /* Blue coloring. */
+.small-box.bg-blue .small-box-footer {
+    color: var(--blue-text-color) !important;
+}
 
 
 /* Teal coloring. */
+.small-box.bg-teal .small-box-footer {
+    color: var(--teal-text-color) !important;
+}
 
 
 /* Olive coloring. */
+.small-box.bg-olive .small-box-footer {
+    color: var(--olive-text-color) !important;
+}
 
 
 /* Lime coloring. */
+.small-box.bg-lime .small-box-footer {
+    color: var(--lime-text-color) !important;
+}
 
 
 /* Orange coloring. */
+.small-box.bg-orange .small-box-footer {
+    color: var(--orange-text-color) !important;
+}
 
 
 /* Fuchsia coloring. */
+.small-box.bg-fuchsia .small-box-footer {
+    color: var(--fuchsia-text-color) !important;
+}
 
 
 /* Indigo coloring. */
+.small-box.bg-indigo .small-box-footer {
+    color: var(--indigo-text-color) !important;
+}
 
 
 /* Purple coloring. */
+.small-box.bg-purple .small-box-footer {
+    color: var(--purple-text-color) !important;
+}
 
 
 /* Maroon coloring. */
+.small-box.bg-maroon .small-box-footer {
+    color: var(--maroon-text-color) !important;
+}
 
 
 /* Gray coloring. */
+.small-box.bg-gray .small-box-footer {
+    color: var(--gray-text-color) !important;
+}
 
 
 /* Black coloring. */
-
-
-.small-box.bg-default .small-box-footer,
-.small-box.bg-gray .small-box-footer,
-.small-box.bg-teal .small-box-footer,
-.small-box.bg-lime .small-box-footer {
-  color: #333 !important;
+.small-box.bg-black .small-box-footer {
+    color: var(--black-text-color) !important;
 }
 
 
