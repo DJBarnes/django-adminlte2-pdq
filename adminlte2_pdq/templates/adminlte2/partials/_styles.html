@@ -22,9 +22,29 @@
 
   {% block styles_main_fixes %}
     <!-- Extra Features and Fixes -->
-    <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/color-variables.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/extra-colors.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-features/extra-features.css' %}">
+
+    {% block styles_main_fixes__color_variables %}
+      {# Section where color variables are defined. These are used in the below "extra-colors.css". #}
+      <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/color-variables.css' %}">
+    {% endblock styles_main_fixes__color_variables %}
+
+    {% block styles_main_fixes__extra_colors %}
+      {# Definitions for colors applied to various AdminLte2 html components. #}
+      {# Some colors were already defined in the base AdminLte2 components, but it was inconsistent and not all #}
+      {# colors applied to all components. This attempts to fix that. #}
+      {# This also overrides the original AdminLte2 html components to use the above `color-variables.css`, that way #}
+      {# the colors can be adjusted/overridden on the fly, per project, if desired. The actual color values should be #}
+      {# the same (or at least very close), but now they can be adjusted dynamically. #}
+      <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/extra-colors.css' %}">
+    {% endblock styles_main_fixes__extra_colors %}
+
+    {% block styles_main_fixes__extra_features %}
+      {# Additional features and logic to make the CSS work. #}
+      {# Mostly includes compatability fixes between Django and AdminLte2. In rare cases, also contains more modern #}
+      {# CSS classes and features, such as basic flexbox classes. #}
+      <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-features/extra-features.css' %}">
+    {% endblock styles_main_fixes__extra_features %}
+
   {% endblock styles_main_fixes %}
 
 
