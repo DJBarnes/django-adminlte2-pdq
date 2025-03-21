@@ -24,6 +24,7 @@
 .color-palette-box h4.bg-text-default {
     color: var(--default-text-color);
 }
+code,
 code.bg-default {
     color: var(--default-light-accent-text-color) !important;
     background-color: var(--default-light-accent-color) !important;

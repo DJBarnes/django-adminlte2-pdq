@@ -10,6 +10,7 @@
  */
 
 /* Default coloring. */
+.small-box .small-box-footer,
 .small-box.bg-default .small-box-footer {
     color: var(--default-text-color) !important;
 }

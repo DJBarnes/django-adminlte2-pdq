@@ -10,6 +10,7 @@
  */
 
 /* Default coloring. */
+.callout,
 .callout.callout-default {
     color: var(--default-text-color) !important;
     background-color: var(--default-base-color) !important;

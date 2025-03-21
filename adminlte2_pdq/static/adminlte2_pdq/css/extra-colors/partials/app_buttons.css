@@ -12,12 +12,17 @@
  */
 
 /* Default coloring. */
+.btn.btn-app,
+.btn.btn-app .badge,
 .btn.btn-app.bg-default,
 .btn.btn-app .badge.bg-default {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
     border: 1px solid var(--default-border-color);
 }
+.btn.btn-app:active,
+.btn.btn-app:focus,
+.btn.btn-app:hover,
 .btn.btn-app.bg-default:active,
 .btn.btn-app.bg-default:focus,
 .btn.btn-app.bg-default:hover {

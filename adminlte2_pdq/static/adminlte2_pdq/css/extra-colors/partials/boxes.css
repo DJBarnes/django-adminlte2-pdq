@@ -10,17 +10,21 @@
  */
 
 /* Default coloring. */
+.box,
 .box.box-default {
     border-top-color: var(--default-base-color);
 }
+.box.box-solid,
 .box.box-solid.box-default {
     color: var(--default-text-color);
     border: 1px solid var(--default-border-color);
 }
+.box.box-solid > .box-header,
 .box.box-solid.box-default > .box-header {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
 }
+.box > .box-body,
 .box.box-default > .box-body {
     color: var(--default-text-dark);
 }

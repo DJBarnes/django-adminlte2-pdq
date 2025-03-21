@@ -11,23 +11,33 @@
 
 /* Default coloring. */
 /* Handling for carousel background coloring. */
+.carousel .carousel-indicators li:active,
+.carousel .carousel-indicators li:focus,
+.carousel .carousel-indicators li:hover,
 .carousel.bg-default .carousel-indicators li:active,
 .carousel.bg-default .carousel-indicators li:focus,
 .carousel.bg-default .carousel-indicators li:hover {
     background-color: var(--default-border-color);
 }
 /* Handling for carousel inner-element coloring. */
+.carousel .carousel-control,
+.carousel .carousel-caption,
+.carousel .carousel-indicators li,
 .carousel.carousel-default .carousel-control,
 .carousel.carousel-default .carousel-caption,
 .carousel.carousel-default .carousel-indicators li {
     color: var(--default-base-color);
     border-color: var(--default-base-color);
 }
+.carousel .carousel-indicators li.active,
+.carousel .carousel-indicators li:active,
 .carousel.carousel-default .carousel-indicators li.active,
 .carousel.carousel-default .carousel-indicators li:active {
     background-color: var(--default-base-color);
     border-color: var(--default-border-color);
 }
+.carousel .carousel-indicators li:focus,
+.carousel .carousel-indicators li:hover,
 .carousel.carousel-default .carousel-indicators li:focus,
 .carousel.carousel-default .carousel-indicators li:hover {
     background-color: var(--default-border-color);
