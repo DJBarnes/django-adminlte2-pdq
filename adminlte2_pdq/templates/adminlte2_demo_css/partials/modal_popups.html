@@ -1,5 +1,6 @@
 {# Modal Popups #}
 
+
 {% for bootstrap_type in bootstrap_types %}
 
   {# Example Elements Start Here #}
@@ -34,11 +35,11 @@
 {% for bootstrap_type in bootstrap_types %}
 
   {# Example Elements Start Here #}
-  <div class="modal fade" id="modal-solid-{{ bootstrap_type }}" style="display: none;">
+  <div class="modal fade" id="modal-header-{{ bootstrap_type }}" style="display: none;">
     <div class="modal-dialog">
       <div class="modal-content">
 
-        <div class="modal-header alert-{{ bootstrap_type }}">
+        <div class="modal-header alert alert-{{ bootstrap_type }}">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span></button>
           <h4 class="modal-title">{{ bootstrap_type|capfirst }} Modal</h4>
@@ -64,3 +65,36 @@
 
 {% endfor %}
 
+
+{% for bootstrap_type in bootstrap_types %}
+
+  {# Example Elements Start Here #}
+  <div class="modal fade" id="modal-footer-{{ bootstrap_type }}" style="display: none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">{{ bootstrap_type|capfirst }} Modal</h4>
+        </div>
+
+        <div class="modal-body">
+          <p>One fine body…</p>
+        </div>
+
+        <div class="modal-footer alert alert-{{ bootstrap_type }}">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+            Close
+          </button>
+          <button type="button" class="btn btn-{{ bootstrap_type }}">
+            Save changes
+          </button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div>
+  {# Example Elements End Here #}
+
+{% endfor %}
