@@ -1,5 +1,6 @@
 {# Modals #}
 
+
 <div class="box box-solid box-default">
 
   <div class="box-header with-border">
@@ -29,9 +30,49 @@
 
     </div>
 
+  </div>
+</div>
+
+<div class="box box-solid box-default">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h4><i class="fa fa-question"></i> Solid Header Only Modals</h4>
+    </div>
+  </div>
+
+  <div class="row">
+
+    {% for bootstrap_type in bootstrap_types %}
+
+      {# Example Elements Start Here #}
+      <div class="col-sm-2" style="margin-bottom:10px;">
+        <button
+          class="btn btn-{{ bootstrap_type }}"
+          data-toggle="modal"
+          data-target="#modal-header-{{ bootstrap_type }}"
+        >
+          {{ bootstrap_type|capfirst }} Modal
+        </button>
+      </div>
+      {# Example Elements End Here #}
+
+    {% endfor %}
+
+  </div>
+</div>
+
+
+<div class="box box-solid box-default">
+
+  <div class="box-header with-border">
+    <h3 class="box-title">Modals</h3>
+  </div>
+
+  <div class="box-body">
     <div class="row">
       <div class="col-sm-12">
-        <h4><i class="fa fa-question"></i> Solid Header Only Modals</h4>
+        <h4><i class="fa fa-question-circle"></i> Solid Footer Only Modals</h4>
       </div>
     </div>
 
@@ -41,11 +82,7 @@
 
         {# Example Elements Start Here #}
         <div class="col-sm-2" style="margin-bottom:10px;">
-          <button
-            class="btn btn-{{ bootstrap_type }}"
-            data-toggle="modal"
-            data-target="#modal-solid-{{ bootstrap_type }}"
-          >
+          <button class="btn btn-{{ bootstrap_type }}" data-toggle="modal" data-target="#modal-footer-{{ bootstrap_type }}">
             {{ bootstrap_type|capfirst }} Modal
           </button>
         </div>
@@ -54,5 +91,6 @@
       {% endfor %}
 
     </div>
+
   </div>
 </div>

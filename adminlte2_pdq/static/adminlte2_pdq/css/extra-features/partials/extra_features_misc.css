@@ -172,3 +172,10 @@ Prevent tooltip opacity
 .max-width-25px {
     max-width: 25px;
 }
+
+
+/* Correct incorrect margin in some modal headers. */
+.modal-header.alert,
+.modal-footer.alert {
+    margin-bottom: 0;
+}
