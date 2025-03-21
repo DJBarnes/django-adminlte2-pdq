@@ -10,6 +10,10 @@
  */
 
 /* Default coloring. */
+.table > thead > tr > td,
+.table > tfoot > tr > td,
+.table > thead > tr > th,
+.table > tfoot > tr > th,
 .table > thead > tr > td.default,
 .table > tfoot > tr > td.default,
 .table > thead > tr > th.default,
@@ -21,6 +25,8 @@
     color: var(--default-text-color);
     background-color: var(--default-base-color);
 }
+.table > tbody > tr > td,
+.table > tbody > tr > th,
 .table > tbody > tr > td.default,
 .table > tbody > tr > th.default,
 .table > tbody > tr.default > td,
@@ -28,6 +34,11 @@
     color: var(--default-text-dark);
     background-color: var(--default-light-accent-color);
 }
+.table-hover > tbody > tr > td:hover,
+.table-hover > tbody > tr > th:hover,
+.table-hover > tbody > tr:hover,
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th,
 .table-hover > tbody > tr > td.default:hover,
 .table-hover > tbody > tr > th.default:hover,
 .table-hover > tbody > tr.default:hover > td,

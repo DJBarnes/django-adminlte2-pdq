@@ -11,6 +11,10 @@
 
 
 /* Default coloring. */
+.dropdown-menu,
+.dropdown-menu li > a,
+.dropdown-menu li > input,
+.dropdown-menu li > button,
 .dropdown-menu.dropdown-menu-default,
 .dropdown-menu.dropdown-menu-default li > a,
 .dropdown-menu.dropdown-menu-default li > input,
@@ -19,6 +23,12 @@
     background-color: var(--default-base-color);
     border-color: var(--default-border-color);
 }
+.dropdown-menu li > a:hover,
+.dropdown-menu li > input:hover,
+.dropdown-menu li > button:hover,
+.dropdown-menu li > a:focus,
+.dropdown-menu li > input:focus,
+.dropdown-menu li > button:focus,
 .dropdown-menu.dropdown-menu-default li > a:hover,
 .dropdown-menu.dropdown-menu-default li > input:hover,
 .dropdown-menu.dropdown-menu-default li > button:hover,
@@ -28,6 +38,7 @@
     color: var(--default-text-color);
     background-color: var(--default-active-color);
 }
+.dropdown-menu li.divider,
 .dropdown-menu.dropdown-menu-default li.divider {
     background-color: var(--default-border-color);
     border-color: var(--default-border-color);
