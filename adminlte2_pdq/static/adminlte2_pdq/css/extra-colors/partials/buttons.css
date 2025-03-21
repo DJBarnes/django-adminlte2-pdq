@@ -10,16 +10,25 @@
  */
 
 /* Default coloring. */
+.btn,
 .btn.btn-default,
+.box .btn,
 .box .btn.btn-default,
+.box.box-solid > .box-header .btn,
 .box.box-solid > .box-header .btn.btn-default {
     color: var(--default-text-color);
     background-color: var(--default-base-color);
     border: 1px solid var(--default-border-color);
 }
+.btn:active,
+.btn:focus,
+.btn:hover,
 .btn.btn-default:active,
 .btn.btn-default:focus,
 .btn.btn-default:hover,
+.box.box-solid > .box-header .btn:active,
+.box.box-solid > .box-header .btn:focus,
+.box.box-solid > .box-header .btn:hover,
 .box.box-solid > .box-header .btn.btn-default:active,
 .box.box-solid > .box-header .btn.btn-default:focus,
 .box.box-solid > .box-header .btn.btn-default:hover {
