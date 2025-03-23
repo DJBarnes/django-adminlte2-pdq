@@ -2,9 +2,6 @@
  * Handling for CSS extra element color options, above and beyond
  * what AdminLte provides.
  *
- * This CSS only accounts for extra colors in existing AdminLte elements.
- * For any new colors, see extra-features.css.
- *
  * For package clarity and organization, this file only imports other files.
  * All logic should be split into the `partials` subfolder.
  */
