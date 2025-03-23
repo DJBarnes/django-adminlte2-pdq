@@ -51,7 +51,7 @@
 .carousel.bg-primary .carousel-indicators li:active,
 .carousel.bg-primary .carousel-indicators li:focus,
 .carousel.bg-primary .carousel-indicators li:hover {
-    background-color: var(---border-color);
+    background-color: var(--primary-border-color);
 }
 /* Handling for carousel inner-element coloring. */
 .carousel.carousel-primary .carousel-control,
