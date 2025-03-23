@@ -26,13 +26,13 @@
 
     {% for model in app.models %}
       <div class="col-md-4 col-sm-6 model-box">
-        <div class="info-box {% block model_info_box_color %}bg-light-blue{% endblock model_info_box_color %}">
+        <div class="info-box {% block model_info_box_color %}bg-primary{% endblock model_info_box_color %}">
           <a href="{{ model.admin_url }}" class="section">
             <span class="info-box-icon">
               <i class="{% render_model_icon %}"></i>
             </span>
           </a>
-        
+
           <div class="info-box-content">
             <span class="info-box-text">
               {{ model.name }}
@@ -46,7 +46,7 @@
                 Add
               </a>
             {% endif %}
-          
+
             {% if model.admin_url %}
               <a
                 href="{{ model.admin_url }}"
@@ -56,11 +56,11 @@
                 Change
               </a>
             {% endif %}
-          
+
           </div><!-- /.info-box-content -->
         </div>
       </div>
     {% endfor %}
-  
+
   </div><!-- /.box-body -->
 </div>
