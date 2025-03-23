@@ -20,6 +20,19 @@
     background-color: var(--default-base-color);
     border: 1px solid var(--default-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box > .box-header > .box-tools .btn-box-tool,
+.box.box-default > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid > .box-header > .box-tools .btn-box-tool,
+.box.box-solid.box-default > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-color);
+}
+/* Handle for Hover events. */
 .btn:active,
 .btn:focus,
 .btn:hover,
@@ -35,11 +48,17 @@
     color: var(--default-text-color) !important;
     background-color: var(--default-active-color) !important;
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-default > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-default > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-default > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--default-text-color) !important;
+    background-color: var(--default-active-color) !important;
+}
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
-/* Fix adminlte buttons in box-header on hover. */
 .btn.btn-primary,
 .box .btn.btn-primary,
 .box.box-solid > .box-header .btn.btn-primary {
@@ -47,6 +66,17 @@
     background-color: var(--primary-base-color);
     border: 1px solid var(--primary-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-primary > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-primary > .box-header > .box-tools .btn-box-tool {
+    color: var(--primary-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-primary:active,
 .btn.btn-primary:focus,
 .btn.btn-primary:hover,
@@ -56,11 +86,17 @@
     color: var(--primary-text-color) !important;
     background-color: var(--primary-active-color) !important;
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-primary > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-primary > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-primary > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--primary-text-color) !important;
+    background-color: var(--primary-active-color) !important;
+}
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
-/* Fix adminlte buttons in box-header on hover. */
 .btn.btn-info,
 .box .btn.btn-info,
 .box.box-solid > .box-header .btn.btn-info {
@@ -68,6 +104,17 @@
     background-color: var(--info-base-color);
     border: 1px solid var(--info-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-info > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-info > .box-header > .box-tools .btn-box-tool {
+    color: var(--info-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-info:active,
 .btn.btn-info:focus,
 .btn.btn-info:hover,
@@ -77,11 +124,17 @@
     color: var(--info-text-color) !important;
     background-color: var(--info-active-color) !important;
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-info > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-info > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-info > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--info-text-color) !important;
+    background-color: var(--info-active-color) !important;
+}
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
-/* Fix adminlte buttons in box-header on hover. */
 .btn.btn-success,
 .box .btn.btn-success,
 .box.box-solid > .box-header .btn.btn-success {
@@ -89,6 +142,17 @@
     background-color: var(--success-base-color);
     border: 1px solid var(--success-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-success > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-success > .box-header > .box-tools .btn-box-tool {
+    color: var(--success-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-success:active,
 .btn.btn-success:focus,
 .btn.btn-success:hover,
@@ -98,11 +162,17 @@
     color: var(--success-text-color) !important;
     background-color: var(--success-active-color) !important;
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-success > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-success > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-success > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--success-text-color) !important;
+    background-color: var(--success-active-color) !important;
+}
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
-/* Fix adminlte buttons in box-header on hover */
 .btn.btn-warning,
 .box .btn.btn-warning,
 .box.box-solid > .box-header .btn.btn-warning {
@@ -110,6 +180,17 @@
     background-color: var(--warning-base-color);
     border: 1px solid var(--warning-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-warning > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-warning > .box-header > .box-tools .btn-box-tool {
+    color: var(--warning-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-warning:active,
 .btn.btn-warning:focus,
 .btn.btn-warning:hover,
@@ -119,11 +200,17 @@
     color: var(--warning-text-color) !important;
     background-color: var(--warning-active-color) !important;
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-warning > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-warning > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-warning > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--warning-text-color) !important;
+    background-color: var(--warning-active-color) !important;
+}
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
-/* Fix adminlte buttons in box-header on hover */
 .btn.btn-danger,
 .box .btn.btn-danger,
 .box.box-solid > .box-header .btn.btn-danger {
@@ -131,12 +218,30 @@
     background-color: var(--danger-base-color);
     border: 1px solid var(--danger-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-danger > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-danger > .box-header > .box-tools .btn-box-tool {
+    color: var(--danger-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-danger:active,
 .btn.btn-danger:focus,
 .btn.btn-danger:hover,
 .box.box-solid > .box-header .btn.btn-danger:active,
 .box.box-solid > .box-header .btn.btn-danger:focus,
 .box.box-solid > .box-header .btn.btn-danger:hover {
+    color: var(--danger-text-color) !important;
+    background-color: var(--danger-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-danger > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-danger > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-danger > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--danger-text-color) !important;
     background-color: var(--danger-active-color) !important;
 }
@@ -156,12 +261,30 @@
     background-color: var(--light-blue-base-color);
     border: 1px solid var(--light-blue-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-light-blue > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-light-blue > .box-header > .box-tools .btn-box-tool {
+    color: var(--light-blue-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-light-blue:active,
 .btn.btn-light-blue:focus,
 .btn.btn-light-blue:hover,
 .box.box-solid > .box-header .btn.btn-light-blue:active,
 .box.box-solid > .box-header .btn.btn-light-blue:focus,
 .box.box-solid > .box-header .btn.btn-light-blue:hover {
+    color: var(--light-blue-text-color) !important;
+    background-color: var(--light-blue-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-light-blue > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-light-blue > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-light-blue > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--light-blue-text-color) !important;
     background-color: var(--light-blue-active-color) !important;
 }
@@ -177,12 +300,30 @@
     background-color: var(--aqua-base-color);
     border: 1px solid var(--aqua-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-aqua > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-aqua > .box-header > .box-tools .btn-box-tool {
+    color: var(--aqua-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-aqua:active,
 .btn.btn-aqua:focus,
 .btn.btn-aqua:hover,
 .box.box-solid > .box-header .btn.btn-aqua:active,
 .box.box-solid > .box-header .btn.btn-aqua:focus,
 .box.box-solid > .box-header .btn.btn-aqua:hover {
+    color: var(--aqua-text-color) !important;
+    background-color: var(--aqua-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-aqua > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-aqua > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-aqua > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--aqua-text-color) !important;
     background-color: var(--aqua-active-color) !important;
 }
@@ -198,12 +339,30 @@
     background-color: var(--green-base-color);
     border: 1px solid var(--green-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-green > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-green > .box-header > .box-tools .btn-box-tool {
+    color: var(--green-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-green:active,
 .btn.btn-green:focus,
 .btn.btn-green:hover,
 .box.box-solid > .box-header .btn.btn-green:active,
 .box.box-solid > .box-header .btn.btn-green:focus,
 .box.box-solid > .box-header .btn.btn-green:hover {
+    color: var(--green-text-color) !important;
+    background-color: var(--green-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-green > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-green > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-green > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--green-text-color) !important;
     background-color: var(--green-active-color) !important;
 }
@@ -219,12 +378,30 @@
     background-color: var(--yellow-base-color);
     border: 1px solid var(--yellow-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-yellow > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-yellow > .box-header > .box-tools .btn-box-tool {
+    color: var(--yellow-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-yellow:active,
 .btn.btn-yellow:focus,
 .btn.btn-yellow:hover,
 .box.box-solid > .box-header .btn.btn-yellow:active,
 .box.box-solid > .box-header .btn.btn-yellow:focus,
 .box.box-solid > .box-header .btn.btn-yellow:hover {
+    color: var(--yellow-text-color) !important;
+    background-color: var(--yellow-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-yellow > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-yellow > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-yellow > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--yellow-text-color) !important;
     background-color: var(--yellow-active-color) !important;
 }
@@ -240,12 +417,30 @@
     background-color: var(--red-base-color);
     border: 1px solid var(--red-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-red > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-red > .box-header > .box-tools .btn-box-tool {
+    color: var(--red-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-red:active,
 .btn.btn-red:focus,
 .btn.btn-red:hover,
 .box.box-solid > .box-header .btn.btn-red:active,
 .box.box-solid > .box-header .btn.btn-red:focus,
 .box.box-solid > .box-header .btn.btn-red:hover {
+    color: var(--red-text-color) !important;
+    background-color: var(--red-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-red > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-red > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-red > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--red-text-color) !important;
     background-color: var(--red-active-color) !important;
 }
@@ -259,12 +454,30 @@
     background-color: var(--navy-base-color);
     border: 1px solid var(--navy-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-navy > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-navy > .box-header > .box-tools .btn-box-tool {
+    color: var(--navy-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-navy:active,
 .btn.btn-navy:focus,
 .btn.btn-navy:hover,
 .box.box-solid > .box-header .btn.btn-navy:active,
 .box.box-solid > .box-header .btn.btn-navy:focus,
 .box.box-solid > .box-header .btn.btn-navy:hover {
+    color: var(--navy-text-color) !important;
+    background-color: var(--navy-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-navy > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-navy > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-navy > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--navy-text-color) !important;
     background-color: var(--navy-active-color) !important;
 }
@@ -278,12 +491,30 @@
     background-color: var(--blue-base-color);
     border: 1px solid var(--blue-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-blue > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-blue > .box-header > .box-tools .btn-box-tool {
+    color: var(--blue-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-blue:active,
 .btn.btn-blue:focus,
 .btn.btn-blue:hover,
 .box.box-solid > .box-header .btn.btn-blue:active,
 .box.box-solid > .box-header .btn.btn-blue:focus,
 .box.box-solid > .box-header .btn.btn-blue:hover {
+    color: var(--blue-text-color) !important;
+    background-color: var(--blue-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-blue > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-blue > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-blue > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--blue-text-color) !important;
     background-color: var(--blue-active-color) !important;
 }
@@ -297,12 +528,30 @@
     background-color: var(--teal-base-color);
     border: 1px solid var(--teal-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-teal > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-teal > .box-header > .box-tools .btn-box-tool {
+    color: var(--teal-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-teal:active,
 .btn.btn-teal:focus,
 .btn.btn-teal:hover,
 .box.box-solid > .box-header .btn.btn-teal:active,
 .box.box-solid > .box-header .btn.btn-teal:focus,
 .box.box-solid > .box-header .btn.btn-teal:hover {
+    color: var(--teal-text-color) !important;
+    background-color: var(--teal-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-teal > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-teal > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-teal > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--teal-text-color) !important;
     background-color: var(--teal-active-color) !important;
 }
@@ -316,12 +565,30 @@
     background-color: var(--olive-base-color);
     border: 1px solid var(--olive-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-olive > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool {
+    color: var(--olive-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-olive:active,
 .btn.btn-olive:focus,
 .btn.btn-olive:hover,
 .box.box-solid > .box-header .btn.btn-olive:active,
 .box.box-solid > .box-header .btn.btn-olive:focus,
 .box.box-solid > .box-header .btn.btn-olive:hover {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--olive-text-color) !important;
     background-color: var(--olive-active-color) !important;
 }
@@ -335,12 +602,30 @@
     background-color: var(--lime-base-color);
     border: 1px solid var(--lime-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-lime > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool {
+    color: var(--lime-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-lime:active,
 .btn.btn-lime:focus,
 .btn.btn-lime:hover,
 .box.box-solid > .box-header .btn.btn-lime:active,
 .box.box-solid > .box-header .btn.btn-lime:focus,
 .box.box-solid > .box-header .btn.btn-lime:hover {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--lime-text-color) !important;
     background-color: var(--lime-active-color) !important;
 }
@@ -354,12 +639,30 @@
     background-color: var(--orange-base-color);
     border: 1px solid var(--orange-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-orange > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-orange > .box-header > .box-tools .btn-box-tool {
+    color: var(--orange-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-orange:active,
 .btn.btn-orange:focus,
 .btn.btn-orange:hover,
 .box.box-solid > .box-header .btn.btn-orange:active,
 .box.box-solid > .box-header .btn.btn-orange:focus,
 .box.box-solid > .box-header .btn.btn-orange:hover {
+    color: var(--orange-text-color) !important;
+    background-color: var(--orange-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-orange > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-orange > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-orange > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--orange-text-color) !important;
     background-color: var(--orange-active-color) !important;
 }
@@ -373,12 +676,30 @@
     background-color: var(--fuchsia-base-color);
     border: 1px solid var(--fuchsia-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-fuchsia > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-fuchsia > .box-header > .box-tools .btn-box-tool {
+    color: var(--fuchsia-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-fuchsia:active,
 .btn.btn-fuchsia:focus,
 .btn.btn-fuchsia:hover,
 .box.box-solid > .box-header .btn.btn-fuchsia:active,
 .box.box-solid > .box-header .btn.btn-fuchsia:focus,
 .box.box-solid > .box-header .btn.btn-fuchsia:hover {
+    color: var(--fuchsia-text-color) !important;
+    background-color: var(--fuchsia-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-fuchsia > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-fuchsia > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-fuchsia > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--fuchsia-text-color) !important;
     background-color: var(--fuchsia-active-color) !important;
 }
@@ -392,12 +713,30 @@
     background-color: var(--indigo-base-color);
     border: 1px solid var(--indigo-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-indigo > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool {
+    color: var(--indigo-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-indigo:active,
 .btn.btn-indigo:focus,
 .btn.btn-indigo:hover,
 .box.box-solid > .box-header .btn.btn-indigo:active,
 .box.box-solid > .box-header .btn.btn-indigo:focus,
 .box.box-solid > .box-header .btn.btn-indigo:hover {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--indigo-text-color) !important;
     background-color: var(--indigo-active-color) !important;
 }
@@ -411,12 +750,30 @@
     background-color: var(--purple-base-color);
     border: 1px solid var(--purple-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-purple > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-purple > .box-header > .box-tools .btn-box-tool {
+    color: var(--purple-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-purple:active,
 .btn.btn-purple:focus,
 .btn.btn-purple:hover,
 .box.box-solid > .box-header .btn.btn-purple:active,
 .box.box-solid > .box-header .btn.btn-purple:focus,
 .box.box-solid > .box-header .btn.btn-purple:hover {
+    color: var(--purple-text-color) !important;
+    background-color: var(--purple-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-purple > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-purple > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-purple > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--purple-text-color) !important;
     background-color: var(--purple-active-color) !important;
 }
@@ -430,12 +787,30 @@
     background-color: var(--maroon-base-color);
     border: 1px solid var(--maroon-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-maroon > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-maroon > .box-header > .box-tools .btn-box-tool {
+    color: var(--maroon-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-maroon:active,
 .btn.btn-maroon:focus,
 .btn.btn-maroon:hover,
 .box.box-solid > .box-header .btn.btn-maroon:active,
 .box.box-solid > .box-header .btn.btn-maroon:focus,
 .box.box-solid > .box-header .btn.btn-maroon:hover {
+    color: var(--maroon-text-color) !important;
+    background-color: var(--maroon-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-maroon > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-maroon > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-maroon > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--maroon-text-color) !important;
     background-color: var(--maroon-active-color) !important;
 }
@@ -449,12 +824,30 @@
     background-color: var(--gray-base-color);
     border: 1px solid var(--gray-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-gray > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-gray > .box-header > .box-tools .btn-box-tool {
+    color: var(--gray-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-gray:active,
 .btn.btn-gray:focus,
 .btn.btn-gray:hover,
 .box.box-solid > .box-header .btn.btn-gray:active,
 .box.box-solid > .box-header .btn.btn-gray:focus,
 .box.box-solid > .box-header .btn.btn-gray:hover {
+    color: var(--gray-text-color) !important;
+    background-color: var(--gray-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-gray > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-gray > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-gray > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--gray-text-color) !important;
     background-color: var(--gray-active-color) !important;
 }
@@ -468,12 +861,30 @@
     background-color: var(--black-base-color);
     border: 1px solid var(--black-border-color);
 }
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-black > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-black > .box-header > .box-tools .btn-box-tool {
+    color: var(--black-text-color);
+}
+/* Handle for Hover events. */
 .btn.btn-black:active,
 .btn.btn-black:focus,
 .btn.btn-black:hover,
 .box.box-solid > .box-header .btn.btn-black:active,
 .box.box-solid > .box-header .btn.btn-black:focus,
 .box.box-solid > .box-header .btn.btn-black:hover {
+    color: var(--black-text-color) !important;
+    background-color: var(--black-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-black > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-black > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-black > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--black-text-color) !important;
     background-color: var(--black-active-color) !important;
 }
