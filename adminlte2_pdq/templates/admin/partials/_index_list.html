@@ -4,8 +4,8 @@
 
 <div class="app-{{ app.app_label }} module">
   <table class="table table-hover table-striped">
-  
-    <caption class="{% block model_table_header_color %}bg-light-blue{% endblock model_table_header_color %}">
+
+    <caption class="{% block model_table_header_color %}bg-primary{% endblock model_table_header_color %}">
       <a
         href="{{ app.app_url }}" class="section"
         title="{% blocktrans with name=app.name %}Models in the {{ name }} application{% endblocktrans %}"
@@ -14,10 +14,10 @@
         {{ app.name }}
       </a>
     </caption>
-  
+
     {% for model in app.models %}
       <tr class="model-{{ model.object_name|lower }}">
-      
+
         {% if model.admin_url %}
           <td>
             <i class="{% render_model_icon %}"></i>
@@ -35,7 +35,7 @@
 
         {% if model.add_url %}
           <td>
-            <a 
+            <a
               href="{{ model.add_url }}"
               class="{% block add_class %}btn btn-success btn-xs section{% endblock add_class %}"
             >
@@ -60,9 +60,9 @@
         {% else %}
             <td>&nbsp;</td>
         {% endif %}
-      
+
       </tr>
     {% endfor %}
-  
+
   </table>
 </div>
