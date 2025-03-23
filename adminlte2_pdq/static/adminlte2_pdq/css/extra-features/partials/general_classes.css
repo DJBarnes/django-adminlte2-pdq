@@ -8,26 +8,45 @@
 .flexbox {
     display: flex;
 }
-
 .flex-row {
     display: flex;
     flex-direction: row;
 }
-
 .flex-column {
     display: flex;
     flex-direction: column;
 }
-
 .flex-center {
     justify-content: center;
     align-items: center;
 }
-
+.flex-wrap {
+    flex-wrap: wrap;
+}
 .flex-grow {
     flex: 1;
 }
-
 .flex-grow-children > * {
     flex: 1;
+}
+
+
+/* General utility css classes. */
+.underline {
+    text-decoration: underline !important;
+}
+.no-underline {
+    text-decoration: none !important;
+}
+.no-border {
+    /* Allows removing border elements entirely. */
+    border: 0 !important;
+}
+.clear-border {
+    /* Allows keeping the spacing of border elements, but making the border invisible. */
+    border-color: #00000000 !important;
+}
+.clear-background {
+    /* Allows removing element border from being visible. */
+    background-color: #00000000 !important;
 }
