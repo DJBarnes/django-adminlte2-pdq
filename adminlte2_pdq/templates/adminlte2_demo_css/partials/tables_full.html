@@ -10,7 +10,9 @@
 
   {# Start Box Head #}
   <div class="box-header">
-    <h3 class="box-title">Full Colored Tables</h3>
+    <h3 class="box-title">
+      Full Colored Tables <small>(Borders, Hover Effects, and JS DataTable Effects)</small>
+    </h3>
 
     {% include 'adminlte2_demo_css/partials/box_tools.html' %}
   </div>
@@ -43,7 +45,7 @@
                 {# Example Elements Start Here #}
                 <table
                   id="datatable-full-table-{{ bootstrap_type }}"
-                  class="table table-bordered table-hover"
+                  class="table table-bordered border-{{ bootstrap_type }} table-hover"
                   role="grid"
                 >
 
