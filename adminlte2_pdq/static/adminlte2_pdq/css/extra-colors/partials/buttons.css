@@ -26,7 +26,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid > .box-header > .box-tools .btn-box-tool,
 .box.box-solid.box-default > .box-header > .box-tools .btn-box-tool {
@@ -71,7 +70,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-primary > .box-header > .box-tools .btn-box-tool {
     color: var(--primary-text-color);
@@ -109,7 +107,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-info > .box-header > .box-tools .btn-box-tool {
     color: var(--info-text-color);
@@ -147,7 +144,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-success > .box-header > .box-tools .btn-box-tool {
     color: var(--success-text-color);
@@ -185,7 +181,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-warning > .box-header > .box-tools .btn-box-tool {
     color: var(--warning-text-color);
@@ -223,7 +218,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-danger > .box-header > .box-tools .btn-box-tool {
     color: var(--danger-text-color);
@@ -266,7 +260,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-light-blue > .box-header > .box-tools .btn-box-tool {
     color: var(--light-blue-text-color);
@@ -305,7 +298,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-aqua > .box-header > .box-tools .btn-box-tool {
     color: var(--aqua-text-color);
@@ -344,7 +336,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-green > .box-header > .box-tools .btn-box-tool {
     color: var(--green-text-color);
@@ -383,7 +374,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-yellow > .box-header > .box-tools .btn-box-tool {
     color: var(--yellow-text-color);
@@ -422,7 +412,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-red > .box-header > .box-tools .btn-box-tool {
     color: var(--red-text-color);
@@ -459,7 +448,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-navy > .box-header > .box-tools .btn-box-tool {
     color: var(--navy-text-color);
@@ -496,7 +484,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-blue > .box-header > .box-tools .btn-box-tool {
     color: var(--blue-text-color);
@@ -533,7 +520,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-teal > .box-header > .box-tools .btn-box-tool {
     color: var(--teal-text-color);
@@ -570,7 +556,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool {
     color: var(--olive-text-color);
@@ -607,7 +592,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool {
     color: var(--lime-text-color);
@@ -644,7 +628,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-orange > .box-header > .box-tools .btn-box-tool {
     color: var(--orange-text-color);
@@ -681,7 +664,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-fuchsia > .box-header > .box-tools .btn-box-tool {
     color: var(--fuchsia-text-color);
@@ -718,7 +700,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool {
     color: var(--indigo-text-color);
@@ -755,7 +736,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-purple > .box-header > .box-tools .btn-box-tool {
     color: var(--purple-text-color);
@@ -792,7 +772,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-maroon > .box-header > .box-tools .btn-box-tool {
     color: var(--maroon-text-color);
@@ -829,7 +808,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-gray > .box-header > .box-tools .btn-box-tool {
     color: var(--gray-text-color);
@@ -866,7 +844,6 @@
     color: var(--default-text-dark);
     background-color: #00000000;
     border: 0;
-    transition: 0.2s;
 }
 .box.box-solid.box-black > .box-header > .box-tools .btn-box-tool {
     color: var(--black-text-color);
