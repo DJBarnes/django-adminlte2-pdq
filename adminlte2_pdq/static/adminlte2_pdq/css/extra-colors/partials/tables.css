@@ -10,10 +10,7 @@
  */
 
 /* Default coloring. */
-.table > thead > tr > td,
-.table > tfoot > tr > td,
-.table > thead > tr > th,
-.table > tfoot > tr > th,
+/* Handle for general table elements. */
 .table > thead > tr > td.default,
 .table > tfoot > tr > td.default,
 .table > thead > tr > th.default,
@@ -25,8 +22,6 @@
     color: var(--default-text-color);
     background-color: var(--default-base-color);
 }
-.table > tbody > tr > td,
-.table > tbody > tr > th,
 .table > tbody > tr > td.default,
 .table > tbody > tr > th.default,
 .table > tbody > tr.default > td,
@@ -34,6 +29,7 @@
     color: var(--default-text-dark);
     background-color: var(--default-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td:hover,
 .table-hover > tbody > tr > th:hover,
 .table-hover > tbody > tr:hover,
@@ -44,12 +40,48 @@
 .table-hover > tbody > tr.default:hover > td,
 .table-hover > tbody > tr:hover > .default,
 .table-hover > tbody > tr.default:hover > th {
-    background-color: #f4f4f4;
+    background-color: var(--default-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered {
+    border: 1px var(--default-base-color);
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td,
+.table-bordered > colgroup + thead > tr:first-child > th,
+.table-bordered.border-default > thead > tr > th,
+.table-bordered.border-default > tbody > tr > th,
+.table-bordered.border-default > tfoot > tr > th,
+.table-bordered.border-default > thead > tr > td,
+.table-bordered.border-default > tbody > tr > td,
+.table-bordered.border-default > tfoot > tr > td {
+    border: 1px solid var(--default-light-accent-color);
+}
+.table-bordered.border-default > thead > tr.default > th,
+.table-bordered.border-default > tfoot > tr.default > th,
+.table-bordered.border-default > thead > tr.default > td,
+.table-bordered.border-default > tfoot > tr.default > td,
+.table-bordered.border-default > thead > tr > th.default,
+.table-bordered.border-default > tfoot > tr > th.default,
+.table-bordered.border-default > thead > tr > td.default,
+.table-bordered.border-default > tfoot > tr > td.default {
+    border: 1px solid var(--default-border-color);
+}
+.table-bordered.border-default > tbody > tr.default > th,
+.table-bordered.border-default > tbody > tr.default > td,
+.table-bordered.border-default > tbody > tr > th.default,
+.table-bordered.border-default > tbody > tr > td.default {
+    border: 1px solid var(--default-base-color);
 }
 
 
 /* Primary coloring. */
 /* Equivalent to `light-blue`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.primary,
 .table > tfoot > tr > td.primary,
 .table > thead > tr > th.primary,
@@ -68,17 +100,44 @@
     color: var(--default-text-dark);
     background-color: var(--primary-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.primary:hover,
 .table-hover > tbody > tr > th.primary:hover,
 .table-hover > tbody > tr.primary:hover > td,
 .table-hover > tbody > tr:hover > .primary,
 .table-hover > tbody > tr.primary:hover > th {
-    background-color: #7da5bd;
+    background-color: var(--primary-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-primary > thead > tr > th,
+.table-bordered.border-primary > tbody > tr > th,
+.table-bordered.border-primary > tfoot > tr > th,
+.table-bordered.border-primary > thead > tr > td,
+.table-bordered.border-primary > tbody > tr > td,
+.table-bordered.border-primary > tfoot > tr > td {
+    border: 1px solid var(--primary-light-accent-color);
+}
+.table-bordered.border-primary > thead > tr.primary > th,
+.table-bordered.border-primary > tfoot > tr.primary > th,
+.table-bordered.border-primary > thead > tr.primary > td,
+.table-bordered.border-primary > tfoot > tr.primary > td,
+.table-bordered.border-primary > thead > tr > th.primary,
+.table-bordered.border-primary > tfoot > tr > th.primary,
+.table-bordered.border-primary > thead > tr > td.primary,
+.table-bordered.border-primary > tfoot > tr > td.primary {
+    border: 1px solid var(--primary-border-color);
+}
+.table-bordered.border-primary > tbody > tr.primary > th,
+.table-bordered.border-primary > tbody > tr.primary > td,
+.table-bordered.border-primary > tbody > tr > th.primary,
+.table-bordered.border-primary > tbody > tr > td.primary {
+    border: 1px solid var(--primary-base-color);
 }
 
 
 /* Info coloring. */
 /* Equivalent to `aqua`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.info,
 .table > tfoot > tr > td.info,
 .table > thead > tr > th.info,
@@ -97,17 +156,44 @@
     color: var(--default-text-dark);
     background-color: var(--info-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.info:hover,
 .table-hover > tbody > tr > th.info:hover,
 .table-hover > tbody > tr.info:hover > td,
 .table-hover > tbody > tr:hover > .info,
 .table-hover > tbody > tr.info:hover > th {
-    background-color: #78d8f0;
+    background-color: var(--info-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-info > thead > tr > th,
+.table-bordered.border-info > tbody > tr > th,
+.table-bordered.border-info > tfoot > tr > th,
+.table-bordered.border-info > thead > tr > td,
+.table-bordered.border-info > tbody > tr > td,
+.table-bordered.border-info > tfoot > tr > td {
+    border: 1px solid var(--info-light-accent-color);
+}
+.table-bordered.border-info > thead > tr.info > th,
+.table-bordered.border-info > tfoot > tr.info > th,
+.table-bordered.border-info > thead > tr.info > td,
+.table-bordered.border-info > tfoot > tr.info > td,
+.table-bordered.border-info > thead > tr > th.info,
+.table-bordered.border-info > tfoot > tr > th.info,
+.table-bordered.border-info > thead > tr > td.info,
+.table-bordered.border-info > tfoot > tr > td.info {
+    border: 1px solid var(--info-border-color);
+}
+.table-bordered.border-info > tbody > tr.info > th,
+.table-bordered.border-info > tbody > tr.info > td,
+.table-bordered.border-info > tbody > tr > th.info,
+.table-bordered.border-info > tbody > tr > td.info {
+    border: 1px solid var(--info-base-color);
 }
 
 
 /* Success coloring. */
 /* Equivalent to `green`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.success,
 .table > tfoot > tr > td.success,
 .table > thead > tr > th.success,
@@ -126,17 +212,44 @@
     color: var(--default-text-dark);
     background-color: var(--success-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr:hover > .success,
 .table-hover > tbody > tr.success:hover > th {
-    background-color: #53a680;
+    background-color: var(--success-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-success > thead > tr > th,
+.table-bordered.border-success > tbody > tr > th,
+.table-bordered.border-success > tfoot > tr > th,
+.table-bordered.border-success > thead > tr > td,
+.table-bordered.border-success > tbody > tr > td,
+.table-bordered.border-success > tfoot > tr > td {
+    border: 1px solid var(--success-light-accent-color);
+}
+.table-bordered.border-success > thead > tr.success > th,
+.table-bordered.border-success > tfoot > tr.success > th,
+.table-bordered.border-success > thead > tr.success > td,
+.table-bordered.border-success > tfoot > tr.success > td,
+.table-bordered.border-success > thead > tr > th.success,
+.table-bordered.border-success > tfoot > tr > th.success,
+.table-bordered.border-success > thead > tr > td.success,
+.table-bordered.border-success > tfoot > tr > td.success {
+    border: 1px solid var(--success-border-color);
+}
+.table-bordered.border-success > tbody > tr.success > th,
+.table-bordered.border-success > tbody > tr.success > td,
+.table-bordered.border-success > tbody > tr > th.success,
+.table-bordered.border-success > tbody > tr > td.success {
+    border: 1px solid var(--success-base-color);
 }
 
 
 /* Warning coloring. */
 /* Equivalent to `yellow`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.warning,
 .table > tfoot > tr > td.warning,
 .table > thead > tr > th.warning,
@@ -152,20 +265,46 @@
 .table > tbody > tr > th.warning,
 .table > tbody > tr.warning > td,
 .table > tbody > tr.warning > th {
-    color: var(--default-text-dark);
     background-color: var(--warning-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.warning:hover,
 .table-hover > tbody > tr > th.warning:hover,
 .table-hover > tbody > tr.warning:hover > td,
 .table-hover > tbody > tr:hover > .warning,
 .table-hover > tbody > tr.warning:hover > th {
-    background-color: #f2c883;
+    background-color: var(--warning-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-warning > thead > tr > th,
+.table-bordered.border-warning > tbody > tr > th,
+.table-bordered.border-warning > tfoot > tr > th,
+.table-bordered.border-warning > thead > tr > td,
+.table-bordered.border-warning > tbody > tr > td,
+.table-bordered.border-warning > tfoot > tr > td {
+    border: 1px solid var(--warning-light-accent-color);
+}
+.table-bordered.border-warning > thead > tr.warning > th,
+.table-bordered.border-warning > tfoot > tr.warning > th,
+.table-bordered.border-warning > thead > tr.warning > td,
+.table-bordered.border-warning > tfoot > tr.warning > td,
+.table-bordered.border-warning > thead > tr > th.warning,
+.table-bordered.border-warning > tfoot > tr > th.warning,
+.table-bordered.border-warning > thead > tr > td.warning,
+.table-bordered.border-warning > tfoot > tr > td.warning {
+    border: 1px solid var(--warning-border-color);
+}
+.table-bordered.border-warning > tbody > tr.warning > th,
+.table-bordered.border-warning > tbody > tr.warning > td,
+.table-bordered.border-warning > tbody > tr > th.warning,
+.table-bordered.border-warning > tbody > tr > td.warning {
+    border: 1px solid var(--warning-base-color);
 }
 
 
 /* Danger coloring. */
 /* Equivalent to `red`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.danger,
 .table > tfoot > tr > td.danger,
 .table > thead > tr > th.danger,
@@ -184,12 +323,38 @@
     color: var(--default-text-dark);
     background-color: var(--danger-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.danger:hover,
 .table-hover > tbody > tr > th.danger:hover,
 .table-hover > tbody > tr.danger:hover > td,
 .table-hover > tbody > tr:hover > .danger,
 .table-hover > tbody > tr.danger:hover > th {
-    background-color: #de958c;
+    background-color: var(--danger-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-danger > thead > tr > th,
+.table-bordered.border-danger > tbody > tr > th,
+.table-bordered.border-danger > tfoot > tr > th,
+.table-bordered.border-danger > thead > tr > td,
+.table-bordered.border-danger > tbody > tr > td,
+.table-bordered.border-danger > tfoot > tr > td {
+    border: 1px solid var(--danger-light-accent-color);
+}
+.table-bordered.border-danger > thead > tr.danger > th,
+.table-bordered.border-danger > tfoot > tr.danger > th,
+.table-bordered.border-danger > thead > tr.danger > td,
+.table-bordered.border-danger > tfoot > tr.danger > td,
+.table-bordered.border-danger > thead > tr > th.danger,
+.table-bordered.border-danger > tfoot > tr > th.danger,
+.table-bordered.border-danger > thead > tr > td.danger,
+.table-bordered.border-danger > tfoot > tr > td.danger {
+    border: 1px solid var(--danger-border-color);
+}
+.table-bordered.border-danger > tbody > tr.danger > th,
+.table-bordered.border-danger > tbody > tr.danger > td,
+.table-bordered.border-danger > tbody > tr > th.danger,
+.table-bordered.border-danger > tbody > tr > td.danger {
+    border: 1px solid var(--danger-base-color);
 }
 
 
@@ -199,6 +364,7 @@
 
 /* Light-blue coloring. */
 /* Equivalent to `primary`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.light-blue,
 .table > tfoot > tr > td.light-blue,
 .table > thead > tr > th.light-blue,
@@ -215,19 +381,46 @@
 .table > tbody > tr.light-blue > td,
 .table > tbody > tr.light-blue > th {
     color: var(--default-text-dark);
-    background-color: var(--blue-light-accent-color);
+    background-color: var(--light-blue-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.light-blue:hover,
 .table-hover > tbody > tr > th.light-blue:hover,
 .table-hover > tbody > tr.light-blue:hover > td,
 .table-hover > tbody > tr:hover > .light-blue,
 .table-hover > tbody > tr.light-blue:hover > th {
-    background-color: #7da5bd;
+    background-color: var(--light-blue-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-light-blue > thead > tr > th,
+.table-bordered.border-light-blue > tbody > tr > th,
+.table-bordered.border-light-blue > tfoot > tr > th,
+.table-bordered.border-light-blue > thead > tr > td,
+.table-bordered.border-light-blue > tbody > tr > td,
+.table-bordered.border-light-blue > tfoot > tr > td {
+    border: 1px solid var(--light-blue-light-accent-color);
+}
+.table-bordered.border-light-blue > thead > tr.light-blue > th,
+.table-bordered.border-light-blue > tfoot > tr.light-blue > th,
+.table-bordered.border-light-blue > thead > tr.light-blue > td,
+.table-bordered.border-light-blue > tfoot > tr.light-blue > td,
+.table-bordered.border-light-blue > thead > tr > th.light-blue,
+.table-bordered.border-light-blue > tfoot > tr > th.light-blue,
+.table-bordered.border-light-blue > thead > tr > td.light-blue,
+.table-bordered.border-light-blue > tfoot > tr > td.light-blue {
+    border: 1px solid var(--light-blue-border-color);
+}
+.table-bordered.border-light-blue > tbody > tr.light-blue > th,
+.table-bordered.border-light-blue > tbody > tr.light-blue > td,
+.table-bordered.border-light-blue > tbody > tr > th.light-blue,
+.table-bordered.border-light-blue > tbody > tr > td.light-blue {
+    border: 1px solid var(--light-blue-base-color);
 }
 
 
 /* Aqua coloring. */
 /* Equivalent to `info`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.aqua,
 .table > tfoot > tr > td.aqua,
 .table > thead > tr > th.aqua,
@@ -246,17 +439,44 @@
     color: var(--default-text-dark);
     background-color: var(--aqua-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.aqua:hover,
 .table-hover > tbody > tr > th.aqua:hover,
 .table-hover > tbody > tr.aqua:hover > td,
 .table-hover > tbody > tr:hover > .aqua,
 .table-hover > tbody > tr.aqua:hover > th {
-    background-color: #78d8f0;
+    background-color: var(--aqua-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-aqua > thead > tr > th,
+.table-bordered.border-aqua > tbody > tr > th,
+.table-bordered.border-aqua > tfoot > tr > th,
+.table-bordered.border-aqua > thead > tr > td,
+.table-bordered.border-aqua > tbody > tr > td,
+.table-bordered.border-aqua > tfoot > tr > td {
+    border: 1px solid var(--aqua-light-accent-color);
+}
+.table-bordered.border-aqua > thead > tr.aqua > th,
+.table-bordered.border-aqua > tfoot > tr.aqua > th,
+.table-bordered.border-aqua > thead > tr.aqua > td,
+.table-bordered.border-aqua > tfoot > tr.aqua > td,
+.table-bordered.border-aqua > thead > tr > th.aqua,
+.table-bordered.border-aqua > tfoot > tr > th.aqua,
+.table-bordered.border-aqua > thead > tr > td.aqua,
+.table-bordered.border-aqua > tfoot > tr > td.aqua {
+    border: 1px solid var(--aqua-border-color);
+}
+.table-bordered.border-aqua > tbody > tr.aqua > th,
+.table-bordered.border-aqua > tbody > tr.aqua > td,
+.table-bordered.border-aqua > tbody > tr > th.aqua,
+.table-bordered.border-aqua > tbody > tr > td.aqua {
+    border: 1px solid var(--aqua-base-color);
 }
 
 
 /* Green coloring. */
 /* Equivalent to `success`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.green,
 .table > tfoot > tr > td.green,
 .table > thead > tr > th.green,
@@ -275,17 +495,44 @@
     color: var(--default-text-dark);
     background-color: var(--green-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.green:hover,
 .table-hover > tbody > tr > th.green:hover,
 .table-hover > tbody > tr.green:hover > td,
 .table-hover > tbody > tr:hover > .green,
 .table-hover > tbody > tr.green:hover > th {
-    background-color: #53a680;
+    background-color: var(--green-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-green > thead > tr > th,
+.table-bordered.border-green > tbody > tr > th,
+.table-bordered.border-green > tfoot > tr > th,
+.table-bordered.border-green > thead > tr > td,
+.table-bordered.border-green > tbody > tr > td,
+.table-bordered.border-green > tfoot > tr > td {
+    border: 1px solid var(--green-light-accent-color);
+}
+.table-bordered.border-green > thead > tr.green > th,
+.table-bordered.border-green > tfoot > tr.green > th,
+.table-bordered.border-green > thead > tr.green > td,
+.table-bordered.border-green > tfoot > tr.green > td,
+.table-bordered.border-green > thead > tr > th.green,
+.table-bordered.border-green > tfoot > tr > th.green,
+.table-bordered.border-green > thead > tr > td.green,
+.table-bordered.border-green > tfoot > tr > td.green {
+    border: 1px solid var(--green-border-color);
+}
+.table-bordered.border-green > tbody > tr.green > th,
+.table-bordered.border-green > tbody > tr.green > td,
+.table-bordered.border-green > tbody > tr > th.green,
+.table-bordered.border-green > tbody > tr > td.green {
+    border: 1px solid var(--green-base-color);
 }
 
 
 /* Yellow coloring. */
 /* Equivalent to `warning`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.yellow,
 .table > tfoot > tr > td.yellow,
 .table > thead > tr > th.yellow,
@@ -304,17 +551,44 @@
     color: var(--default-text-dark);
     background-color: var(--yellow-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.yellow:hover,
 .table-hover > tbody > tr > th.yellow:hover,
 .table-hover > tbody > tr.yellow:hover > td,
 .table-hover > tbody > tr:hover > .yellow,
 .table-hover > tbody > tr.yellow:hover > th {
-    background-color: #f2c883;
+    background-color: var(--yellow-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-yellow > thead > tr > th,
+.table-bordered.border-yellow > tbody > tr > th,
+.table-bordered.border-yellow > tfoot > tr > th,
+.table-bordered.border-yellow > thead > tr > td,
+.table-bordered.border-yellow > tbody > tr > td,
+.table-bordered.border-yellow > tfoot > tr > td {
+    border: 1px solid var(--yellow-light-accent-color);
+}
+.table-bordered.border-yellow > thead > tr.yellow > th,
+.table-bordered.border-yellow > tfoot > tr.yellow > th,
+.table-bordered.border-yellow > thead > tr.yellow > td,
+.table-bordered.border-yellow > tfoot > tr.yellow > td,
+.table-bordered.border-yellow > thead > tr > th.yellow,
+.table-bordered.border-yellow > tfoot > tr > th.yellow,
+.table-bordered.border-yellow > thead > tr > td.yellow,
+.table-bordered.borderyellow- > tfoot > tr > td.yellow {
+    border: 1px solid var(--yellow-border-color);
+}
+.table-bordered.border-yellow > tbody > tr.yellow > th,
+.table-bordered.border-yellow > tbody > tr.yellow > td,
+.table-bordered.border-yellow > tbody > tr > th.yellow,
+.table-bordered.border-yellow > tbody > tr > td.yellow {
+    border: 1px solid var(--yellow-base-color);
 }
 
 
 /* Red coloring. */
 /* Equivalent to `danger`. */
+/* Handle for general table elements. */
 .table > thead > tr > td.red,
 .table > tfoot > tr > td.red,
 .table > thead > tr > th.red,
@@ -333,16 +607,43 @@
     color: var(--default-text-dark);
     background-color: var(--red-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.red:hover,
 .table-hover > tbody > tr > th.red:hover,
 .table-hover > tbody > tr.red:hover > td,
 .table-hover > tbody > tr:hover > .red,
 .table-hover > tbody > tr.red:hover > th {
-    background-color: #de958c;
+    background-color: var(--red-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-red > thead > tr > th,
+.table-bordered.border-red > tbody > tr > th,
+.table-bordered.border-red > tfoot > tr > th,
+.table-bordered.border-red > thead > tr > td,
+.table-bordered.border-red > tbody > tr > td,
+.table-bordered.border-red > tfoot > tr > td {
+    border: 1px solid var(--red-light-accent-color);
+}
+.table-bordered.border-red > thead > tr.red > th,
+.table-bordered.border-red > tfoot > tr.red > th,
+.table-bordered.border-red > thead > tr.red > td,
+.table-bordered.border-red > tfoot > tr.red > td,
+.table-bordered.border-red > thead > tr > th.red,
+.table-bordered.border-red > tfoot > tr > th.red,
+.table-bordered.border-red > thead > tr > td.red,
+.table-bordered.border-red > tfoot > tr > td.red {
+    border: 1px solid var(--red-border-color);
+}
+.table-bordered.border-red > tbody > tr.red > th,
+.table-bordered.border-red > tbody > tr.red > td,
+.table-bordered.border-red > tbody > tr > th.red,
+.table-bordered.border-red > tbody > tr > td.red {
+    border: 1px solid var(--red-base-color);
 }
 
 
 /* Navy coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.navy,
 .table > tfoot > tr > td.navy,
 .table > thead > tr > th.navy,
@@ -361,16 +662,43 @@
     color: var(--default-text-dark);
     background-color: var(--navy-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.navy:hover,
 .table-hover > tbody > tr > th.navy:hover,
 .table-hover > tbody > tr.navy:hover > td,
 .table-hover > tbody > tr:hover > .navy,
 .table-hover > tbody > tr.navy:hover > th {
-    background-color: #2d4359;
+    background-color: var(--navy-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-navy > thead > tr > th,
+.table-bordered.border-navy > tbody > tr > th,
+.table-bordered.border-navy > tfoot > tr > th,
+.table-bordered.border-navy > thead > tr > td,
+.table-bordered.border-navy > tbody > tr > td,
+.table-bordered.border-navy > tfoot > tr > td {
+    border: 1px solid var(--navy-light-accent-color);
+}
+.table-bordered.border-navy > thead > tr.navy > th,
+.table-bordered.border-navy > tfoot > tr.navy > th,
+.table-bordered.border-navy > thead > tr.navy > td,
+.table-bordered.border-navy > tfoot > tr.navy > td,
+.table-bordered.border-navy > thead > tr > th.navy,
+.table-bordered.border-navy > tfoot > tr > th.navy,
+.table-bordered.border-navy > thead > tr > td.navy,
+.table-bordered.border-navy > tfoot > tr > td.navy {
+    border: 1px solid var(--navy-border-color);
+}
+.table-bordered.border-navy > tbody > tr.navy > th,
+.table-bordered.border-navy > tbody > tr.navy > td,
+.table-bordered.border-navy > tbody > tr > th.navy,
+.table-bordered.border-navy > tbody > tr > td.navy {
+    border: 1px solid var(--navy-base-color);
 }
 
 
 /* Blue coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.blue,
 .table > tfoot > tr > td.blue,
 .table > thead > tr > th.blue,
@@ -389,16 +717,43 @@
     color: var(--default-text-dark);
     background-color: var(--blue-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.blue:hover,
 .table-hover > tbody > tr > th.blue:hover,
 .table-hover > tbody > tr.blue:hover > td,
 .table-hover > tbody > tr:hover > .blue,
 .table-hover > tbody > tr.blue:hover > th {
-    background-color: #5c96b8;
+    background-color: var(--blue-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-blue > thead > tr > th,
+.table-bordered.border-blue > tbody > tr > th,
+.table-bordered.border-blue > tfoot > tr > th,
+.table-bordered.border-blue > thead > tr > td,
+.table-bordered.border-blue > tbody > tr > td,
+.table-bordered.border-blue > tfoot > tr > td {
+    border: 1px solid var(--blue-light-accent-color);
+}
+.table-bordered.border-blue > thead > tr.blue > th,
+.table-bordered.border-blue > tfoot > tr.blue > th,
+.table-bordered.border-blue > thead > tr.blue > td,
+.table-bordered.border-blue > tfoot > tr.blue > td,
+.table-bordered.border-blue > thead > tr > th.blue,
+.table-bordered.border-blue > tfoot > tr > th.blue,
+.table-bordered.border-blue > thead > tr > td.blue,
+.table-bordered.border-blue > tfoot > tr > td.blue {
+    border: 1px solid var(--blue-border-color);
+}
+.table-bordered.border-blue > tbody > tr.blue > th,
+.table-bordered.border-blue > tbody > tr.blue > td,
+.table-bordered.border-blue > tbody > tr > th.blue,
+.table-bordered.border-blue > tbody > tr > td.blue {
+    border: 1px solid var(--blue-base-color);
 }
 
 
 /* Teal coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.teal,
 .table > tfoot > tr > td.teal,
 .table > thead > tr > th.teal,
@@ -417,16 +772,43 @@
     color: var(--default-text-dark);
     background-color: var(--teal-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.teal:hover,
 .table-hover > tbody > tr > th.teal:hover,
 .table-hover > tbody > tr.teal:hover > td,
 .table-hover > tbody > tr:hover > .teal,
 .table-hover > tbody > tr.teal:hover > th {
-    background-color: #83cccc;
+    background-color: var(--teal-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-teal > thead > tr > th,
+.table-bordered.border-teal > tbody > tr > th,
+.table-bordered.border-teal > tfoot > tr > th,
+.table-bordered.border-teal > thead > tr > td,
+.table-bordered.border-teal > tbody > tr > td,
+.table-bordered.border-teal > tfoot > tr > td {
+    border: 1px solid var(--teal-light-accent-color);
+}
+.table-bordered.border-teal > thead > tr.teal > th,
+.table-bordered.border-teal > tfoot > tr.teal > th,
+.table-bordered.border-teal > thead > tr.teal > td,
+.table-bordered.border-teal > tfoot > tr.teal > td,
+.table-bordered.border-teal > thead > tr > th.teal,
+.table-bordered.border-teal > tfoot > tr > th.teal,
+.table-bordered.border-teal > thead > tr > td.teal,
+.table-bordered.border-teal > tfoot > tr > td.teal {
+    border: 1px solid var(--teal-border-color);
+}
+.table-bordered.border-teal > tbody > tr.teal > th,
+.table-bordered.border-teal > tbody > tr.teal > td,
+.table-bordered.border-teal > tbody > tr > th.teal,
+.table-bordered.border-teal > tbody > tr > td.teal {
+    border: 1px solid var(--teal-base-color);
 }
 
 
 /* Olive coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.olive,
 .table > tfoot > tr > td.olive,
 .table > thead > tr > th.olive,
@@ -445,15 +827,43 @@
     color: var(--default-text-dark);
     background-color: var(--olive-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.olive:hover,
 .table-hover > tbody > tr > th.olive:hover,
 .table-hover > tbody > tr.olive:hover > td,
 .table-hover > tbody > tr:hover > .olive,
 .table-hover > tbody > tr.olive:hover > th {
-    background-color: #6b9984;
+    background-color: var(--olive-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-olive > thead > tr > th,
+.table-bordered.border-olive > tbody > tr > th,
+.table-bordered.border-olive > tfoot > tr > th,
+.table-bordered.border-olive > thead > tr > td,
+.table-bordered.border-olive > tbody > tr > td,
+.table-bordered.border-olive > tfoot > tr > td {
+    border: 1px solid var(--olive-light-accent-color);
+}
+.table-bordered.border-olive > thead > tr.olive > th,
+.table-bordered.border-olive > tfoot > tr.olive > th,
+.table-bordered.border-olive > thead > tr.olive > td,
+.table-bordered.border-olive > tfoot > tr.olive > td,
+.table-bordered.border-olive > thead > tr > th.olive,
+.table-bordered.border-olive > tfoot > tr > th.olive,
+.table-bordered.border-olive > thead > tr > td.olive,
+.table-bordered.border-olive > tfoot > tr > td.olive {
+    border: 1px solid var(--olive-border-color);
+}
+.table-bordered.border-olive > tbody > tr.olive > th,
+.table-bordered.border-olive > tbody > tr.olive > td,
+.table-bordered.border-olive > tbody > tr > th.olive,
+.table-bordered.border-olive > tbody > tr > td.olive {
+    border: 1px solid var(--olive-base-color);
 }
 
+
 /* Lime coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.lime,
 .table > tfoot > tr > td.lime,
 .table > thead > tr > th.lime,
@@ -472,15 +882,43 @@
     color: var(--default-text-dark);
     background-color: var(--lime-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.lime:hover,
 .table-hover > tbody > tr > th.lime:hover,
 .table-hover > tbody > tr.lime:hover > td,
 .table-hover > tbody > tr:hover > .lime,
 .table-hover > tbody > tr.lime:hover > th {
-    background-color: #80ffb7;
+    background-color: var(--lime-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-lime > thead > tr > th,
+.table-bordered.border-lime > tbody > tr > th,
+.table-bordered.border-lime > tfoot > tr > th,
+.table-bordered.border-lime > thead > tr > td,
+.table-bordered.border-lime > tbody > tr > td,
+.table-bordered.border-lime > tfoot > tr > td {
+    border: 1px solid var(--lime-light-accent-color);
+}
+.table-bordered.border-lime > thead > tr.lime > th,
+.table-bordered.border-lime > tfoot > tr.lime > th,
+.table-bordered.border-lime > thead > tr.lime > td,
+.table-bordered.border-lime > tfoot > tr.lime > td,
+.table-bordered.border-lime > thead > tr > th.lime,
+.table-bordered.border-lime > tfoot > tr > th.lime,
+.table-bordered.border-lime > thead > tr > td.lime,
+.table-bordered.border-lime > tfoot > tr > td.lime {
+    border: 1px solid var(--lime-border-color);
+}
+.table-bordered.border-lime > tbody > tr.lime > th,
+.table-bordered.border-lime > tbody > tr.lime > td,
+.table-bordered.border-lime > tbody > tr > th.lime,
+.table-bordered.border-lime > tbody > tr > td.lime {
+    border: 1px solid var(--lime-base-color);
 }
 
+
 /* Orange coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.orange,
 .table > tfoot > tr > td.orange,
 .table > thead > tr > th.orange,
@@ -499,16 +937,43 @@
     color: var(--default-text-dark);
     background-color: var(--orange-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.orange:hover,
 .table-hover > tbody > tr > th.orange:hover,
 .table-hover > tbody > tr.orange:hover > td,
 .table-hover > tbody > tr:hover > .orange,
 .table-hover > tbody > tr.orange:hover > th {
-    background-color: #f7bd8a;
+    background-color: var(--orange-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-orange > thead > tr > th,
+.table-bordered.border-orange > tbody > tr > th,
+.table-bordered.border-orange > tfoot > tr > th,
+.table-bordered.border-orange > thead > tr > td,
+.table-bordered.border-orange > tbody > tr > td,
+.table-bordered.border-orange > tfoot > tr > td {
+    border: 1px solid var(--orange-light-accent-color);
+}
+.table-bordered.border-orange > thead > tr.orange > th,
+.table-bordered.border-orange > tfoot > tr.orange > th,
+.table-bordered.border-orange > thead > tr.orange > td,
+.table-bordered.border-orange > tfoot > tr.orange > td,
+.table-bordered.border-orange > thead > tr > th.orange,
+.table-bordered.border-orange > tfoot > tr > th.orange,
+.table-bordered.border-orange > thead > tr > td.orange,
+.table-bordered.border-orange > tfoot > tr > td.orange {
+    border: 1px solid var(--orange-border-color);
+}
+.table-bordered.border-orange > tbody > tr.orange > th,
+.table-bordered.border-orange > tbody > tr.orange > td,
+.table-bordered.border-orange > tbody > tr > th.orange,
+.table-bordered.border-orange > tbody > tr > td.orange {
+    border: 1px solid var(--orange-base-color);
 }
 
 
 /* Fuchsia coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.fuchsia,
 .table > tfoot > tr > td.fuchsia,
 .table > thead > tr > th.fuchsia,
@@ -527,16 +992,43 @@
     color: var(--default-text-dark);
     background-color: var(--fuchsia-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.fuchsia:hover,
 .table-hover > tbody > tr > th.fuchsia:hover,
 .table-hover > tbody > tr.fuchsia:hover > td,
 .table-hover > tbody > tr:hover > .fuchsia,
 .table-hover > tbody > tr.fuchsia:hover > th {
-    background-color: #f081d6;
+    background-color: var(--fuchsia-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-fuchsia > thead > tr > th,
+.table-bordered.border-fuchsia > tbody > tr > th,
+.table-bordered.border-fuchsia > tfoot > tr > th,
+.table-bordered.border-fuchsia > thead > tr > td,
+.table-bordered.border-fuchsia > tbody > tr > td,
+.table-bordered.border-fuchsia > tfoot > tr > td {
+    border: 1px solid var(--fuchsia-light-accent-color);
+}
+.table-bordered.border-fuchsia > thead > tr.fuchsia > th,
+.table-bordered.border-fuchsia > tfoot > tr.fuchsia > th,
+.table-bordered.border-fuchsia > thead > tr.fuchsia > td,
+.table-bordered.border-fuchsia > tfoot > tr.fuchsia > td,
+.table-bordered.border-fuchsia > thead > tr > th.fuchsia,
+.table-bordered.border-fuchsia > tfoot > tr > th.fuchsia,
+.table-bordered.border-fuchsia > thead > tr > td.fuchsia,
+.table-bordered.border-fuchsia > tfoot > tr > td.fuchsia {
+    border: 1px solid var(--fuchsia-border-color);
+}
+.table-bordered.border-fuchsia > tbody > tr.fuchsia > th,
+.table-bordered.border-fuchsia > tbody > tr.fuchsia > td,
+.table-bordered.border-fuchsia > tbody > tr > th.fuchsia,
+.table-bordered.border-fuchsia > tbody > tr > td.fuchsia {
+    border: 1px solid var(--fuchsia-base-color);
 }
 
 
 /* Indigo coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.indigo,
 .table > tfoot > tr > td.indigo,
 .table > thead > tr > th.indigo,
@@ -555,16 +1047,43 @@
     color: var(--default-text-dark);
     background-color: var(--indigo-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.indigo:hover,
 .table-hover > tbody > tr > th.indigo:hover,
 .table-hover > tbody > tr.indigo:hover > td,
 .table-hover > tbody > tr:hover > .indigo,
 .table-hover > tbody > tr.indigo:hover > th {
-    background-color: #be9cd9;
+    background-color: var(--indigo-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-indigo > thead > tr > th,
+.table-bordered.border-indigo > tbody > tr > th,
+.table-bordered.border-indigo > tfoot > tr > th,
+.table-bordered.border-indigo > thead > tr > td,
+.table-bordered.border-indigo > tbody > tr > td,
+.table-bordered.border-indigo > tfoot > tr > td {
+    border: 1px solid var(--indigo-light-accent-color);
+}
+.table-bordered.border-indigo > thead > tr.indigo > th,
+.table-bordered.border-indigo > tfoot > tr.indigo > th,
+.table-bordered.border-indigo > thead > tr.indigo > td,
+.table-bordered.border-indigo > tfoot > tr.indigo > td,
+.table-bordered.border-indigo > thead > tr > th.indigo,
+.table-bordered.border-indigo > tfoot > tr > th.indigo,
+.table-bordered.border-indigo > thead > tr > td.indigo,
+.table-bordered.border-indigo > tfoot > tr > td.indigo {
+    border: 1px solid var(--indigo-border-color);
+}
+.table-bordered.border-indigo > tbody > tr.indigo > th,
+.table-bordered.border-indigo > tbody > tr.indigo > td,
+.table-bordered.border-indigo > tbody > tr > th.indigo,
+.table-bordered.border-indigo > tbody > tr > td.indigo {
+    border: 1px solid var(--indigo-base-color);
 }
 
 
 /* Purple coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.purple,
 .table > tfoot > tr > td.purple,
 .table > thead > tr > th.purple,
@@ -583,16 +1102,43 @@
     color: var(--default-text-dark);
     background-color: var(--purple-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.purple:hover,
 .table-hover > tbody > tr > th.purple:hover,
 .table-hover > tbody > tr.purple:hover > td,
 .table-hover > tbody > tr:hover > .purple,
 .table-hover > tbody > tr.purple:hover > th {
-    background-color: #b9b6f7;
+    background-color: var(--purple-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-purple > thead > tr > th,
+.table-bordered.border-purple > tbody > tr > th,
+.table-bordered.border-purple > tfoot > tr > th,
+.table-bordered.border-purple > thead > tr > td,
+.table-bordered.border-purple > tbody > tr > td,
+.table-bordered.border-purple > tfoot > tr > td {
+    border: 1px solid var(--purple-light-accent-color);
+}
+.table-bordered.border-purple > thead > tr.purple > th,
+.table-bordered.border-purple > tfoot > tr.purple > th,
+.table-bordered.border-purple > thead > tr.purple > td,
+.table-bordered.border-purple > tfoot > tr.purple > td,
+.table-bordered.border-purple > thead > tr > th.purple,
+.table-bordered.border-purple > tfoot > tr > th.purple,
+.table-bordered.border-purple > thead > tr > td.purple,
+.table-bordered.border-purple > tfoot > tr > td.purple {
+    border: 1px solid var(--purple-border-color);
+}
+.table-bordered.border-purple > tbody > tr.purple > th,
+.table-bordered.border-purple > tbody > tr.purple > td,
+.table-bordered.border-purple > tbody > tr > th.purple,
+.table-bordered.border-purple > tbody > tr > td.purple {
+    border: 1px solid var(--purple-base-color);
 }
 
 
 /* Maroon coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.maroon,
 .table > tfoot > tr > td.maroon,
 .table > thead > tr > th.maroon,
@@ -611,16 +1157,43 @@
     color: var(--default-text-dark);
     background-color: var(--maroon-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.maroon:hover,
 .table-hover > tbody > tr > th.maroon:hover,
 .table-hover > tbody > tr.maroon:hover > td,
 .table-hover > tbody > tr:hover > .maroon,
 .table-hover > tbody > tr.maroon:hover > th {
-    background-color: #d9799c;
+    background-color: var(--maroon-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-maroon > thead > tr > th,
+.table-bordered.border-maroon > tbody > tr > th,
+.table-bordered.border-maroon > tfoot > tr > th,
+.table-bordered.border-maroon > thead > tr > td,
+.table-bordered.border-maroon > tbody > tr > td,
+.table-bordered.border-maroon > tfoot > tr > td {
+    border: 1px solid var(--maroon-light-accent-color);
+}
+.table-bordered.border-maroon > thead > tr.maroon > th,
+.table-bordered.border-maroon > tfoot > tr.maroon > th,
+.table-bordered.border-maroon > thead > tr.maroon > td,
+.table-bordered.border-maroon > tfoot > tr.maroon > td,
+.table-bordered.border-maroon > thead > tr > th.maroon,
+.table-bordered.border-maroon > tfoot > tr > th.maroon,
+.table-bordered.border-maroon > thead > tr > td.maroon,
+.table-bordered.border-maroon > tfoot > tr > td.maroon {
+    border: 1px solid var(--maroon-border-color);
+}
+.table-bordered.border-maroon > tbody > tr.maroon > th,
+.table-bordered.border-maroon > tbody > tr.maroon > td,
+.table-bordered.border-maroon > tbody > tr > th.maroon,
+.table-bordered.border-maroon > tbody > tr > td.maroon {
+    border: 1px solid var(--maroon-base-color);
 }
 
 
 /* Gray coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.gray,
 .table > tfoot > tr > td.gray,
 .table > thead > tr > th.gray,
@@ -639,16 +1212,43 @@
     color: var(--default-text-dark);
     background-color: var(--gray-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.gray:hover,
 .table-hover > tbody > tr > th.gray:hover,
 .table-hover > tbody > tr.gray:hover > td,
 .table-hover > tbody > tr:hover > .gray,
 .table-hover > tbody > tr.gray:hover > th {
-    background-color: #d2d6de;
+    background-color: var(--gray-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-gray > thead > tr > th,
+.table-bordered.border-gray > tbody > tr > th,
+.table-bordered.border-gray > tfoot > tr > th,
+.table-bordered.border-gray > thead > tr > td,
+.table-bordered.border-gray > tbody > tr > td,
+.table-bordered.border-gray > tfoot > tr > td {
+    border: 1px solid var(--gray-light-accent-color);
+}
+.table-bordered.border-gray > thead > tr.gray > th,
+.table-bordered.border-gray > tfoot > tr.gray > th,
+.table-bordered.border-gray > thead > tr.gray > td,
+.table-bordered.border-gray > tfoot > tr.gray > td,
+.table-bordered.border-gray > thead > tr > th.gray,
+.table-bordered.border-gray > tfoot > tr > th.gray,
+.table-bordered.border-gray > thead > tr > td.gray,
+.table-bordered.border-gray > tfoot > tr > td.gray {
+    border: 1px solid var(--gray-border-color);
+}
+.table-bordered.border-gray > tbody > tr.gray > th,
+.table-bordered.border-gray > tbody > tr.gray > td,
+.table-bordered.border-gray > tbody > tr > th.gray,
+.table-bordered.border-gray > tbody > tr > td.gray {
+    border: 1px solid var(--gray-base-color);
 }
 
 
 /* Black coloring. */
+/* Handle for general table elements. */
 .table > thead > tr > td.black,
 .table > tfoot > tr > td.black,
 .table > thead > tr > th.black,
@@ -667,10 +1267,36 @@
     color: var(--default-text-dark);
     background-color: var(--black-light-accent-color);
 }
+/* Handle for table-hover elements. */
 .table-hover > tbody > tr > td.black:hover,
 .table-hover > tbody > tr > th.black:hover,
 .table-hover > tbody > tr.black:hover > td,
 .table-hover > tbody > tr:hover > .black,
 .table-hover > tbody > tr.black:hover > th {
-    background-color: #2b2b2b;
+    background-color: var(--black-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-black > thead > tr > th,
+.table-bordered.border-black > tbody > tr > th,
+.table-bordered.border-black > tfoot > tr > th,
+.table-bordered.border-black > thead > tr > td,
+.table-bordered.border-black > tbody > tr > td,
+.table-bordered.border-black > tfoot > tr > td {
+    border: 1px solid var(--black-light-accent-color);
+}
+.table-bordered.border-black > thead > tr.black > th,
+.table-bordered.border-black > tfoot > tr.black > th,
+.table-bordered.border-black > thead > tr.black > td,
+.table-bordered.border-black > tfoot > tr.black > td,
+.table-bordered.border-black > thead > tr > th.black,
+.table-bordered.border-black > tfoot > tr > th.black,
+.table-bordered.border-black > thead > tr > td.black,
+.table-bordered.border-black > tfoot > tr > td.black {
+    border: 1px solid var(--black-border-color);
+}
+.table-bordered.border-black > tbody > tr.black > th,
+.table-bordered.border-black > tbody > tr.black > td,
+.table-bordered.border-black > tbody > tr > th.black,
+.table-bordered.border-black > tbody > tr > td.black {
+    border: 1px solid var(--black-base-color);
 }
