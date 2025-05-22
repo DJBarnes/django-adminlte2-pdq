@@ -1,6 +1,4 @@
-"""
-General package constants.
-"""
+"""General package constants."""
 
 # Third-Party Imports.
 from django.conf import settings
