@@ -6,6 +6,7 @@ on:
       - master
       - main
       - coverage
+      - test-actions
   pull_request:
 
 
@@ -27,10 +28,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
       - name: Retrieve coverage results
         uses: actions/download-artifact@v4
