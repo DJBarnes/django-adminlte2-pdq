@@ -5,7 +5,7 @@ on:
 
 
 jobs:
-  test-37:
+  test-38:
     # Only run tests when NOT pushing tags. Assumes tests already passed from pushed commit that tag is based on.
     if: ${{ !startsWith(github.ref, 'refs/tags') }}
     strategy:
@@ -48,7 +48,9 @@ jobs:
         run: pipenv run tox
 
       - name: Rename coverage results
-        run: mv .coverage .coverage.${{ matrix.python-version }}
+        run: |
+          mv .coverage .coverage.${{ matrix.python-version }}
+          ls .coverage.${{ matrix.python-version }}
 
       - name: Upload coverage results
         uses: actions/upload-artifact@v4

@@ -11,8 +11,8 @@ on:
 
 
 jobs:
-  test-py36:
-    uses: ./.github/workflows/test_3.6.yaml
+  test-py37:
+    uses: ./.github/workflows/test_3.7.yaml
 
   test-py38:
     uses: ./.github/workflows/test_3.8.yaml
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     # Need to run this after tests succeed so that coverage reflects test runs with all django and python combinations.
     needs:
-      - test-py36
+      - test-py37
       - test-py38
     steps:
       - name: Checkout code
