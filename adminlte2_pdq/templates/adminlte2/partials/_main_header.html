@@ -113,13 +113,14 @@
 
                                     {% block user_footer_right_button %}
                                       <div class="pull-right">
-                                        <a href="{% block logout_url %}{% get_logout_url %}{% endblock logout_url %}" class="btn btn-default btn-flat">
-
-                                          {% block logout_text %}
-                                            Sign out
-                                          {% endblock logout_text %}
-
-                                        </a>
+                                        <form method="POST" action="{% block logout_url %}{% get_logout_url %}{% endblock logout_url %}">
+                                          {% csrf_token %}
+                                          <button type="submit" class="btn btn-default btn-flat">
+                                            {% block logout_text %}
+                                              Sign out
+                                            {% endblock logout_text %}
+                                          </button>
+                                        </form>
                                       </div>
                                     {% endblock user_footer_right_button %}
 
