@@ -5,11 +5,12 @@ Constants related to package whitelisting.
 # Third-Party Imports.
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
+from django.urls import reverse_lazy
 
 
 # Known routes that should never require being logged in.
-LOGIN_URL = getattr(settings, "LOGIN_URL", "/accounts/login")
-LOGOUT_ROUTE = getattr(settings, "LOGOUT_ROUTE", "logout")
+LOGIN_URL = getattr(settings, "LOGIN_URL", reverse_lazy("login"))
+LOGOUT_URL = getattr(settings, "LOGOUT_URL", reverse_lazy("logout"))
 PWD_RESET_ROUTE = getattr(settings, "PWD_RESET_ROUTE", "password_reset")
 PWD_RESET_DONE_ROUTE = getattr(settings, "PWD_RESET_DONE_ROUTE", "password_reset_done")
 PWD_RESET_CONFIRM_ROUTE = getattr(settings, "PWD_RESET_CONFIRM_ROUTE", "password_reset_confirm")
@@ -28,7 +29,7 @@ PWD_CHANGE_DONE = getattr(settings, "PWD_CHANGE_DONE", "password_change_done")
 # List of known routes that should never require being logged in.
 LOGIN_EXEMPT_WHITELIST = [
     LOGIN_URL,
-    LOGOUT_ROUTE,
+    LOGOUT_URL,
     PWD_RESET_ROUTE,
     PWD_RESET_DONE_ROUTE,
     PWD_RESET_CONFIRM_ROUTE,

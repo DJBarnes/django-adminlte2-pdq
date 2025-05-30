@@ -28,7 +28,7 @@ from .general_constants import (
 # Constants related to package routes.
 from .route_and_policy_constants import (
     LOGIN_URL,
-    LOGOUT_ROUTE,
+    LOGOUT_URL,
     PWD_RESET_ROUTE,
     PWD_RESET_DONE_ROUTE,
     PWD_RESET_CONFIRM_ROUTE,

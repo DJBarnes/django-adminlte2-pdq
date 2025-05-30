@@ -15,6 +15,8 @@ from django.utils.safestring import mark_safe
 from adminlte2_pdq.constants import (
     DATETIME_WIDGET,
     DATE_WIDGET,
+    LOGIN_URL,
+    LOGOUT_URL,
     TIME_WIDGET,
     BOLD_REQUIRED_FIELDS,
     ASTERISK_REQUIRED_FIELDS,
@@ -273,11 +275,15 @@ def render_horizontal_formset(formset, section_heading):
 # | Value Simple Template Tags
 # |-----------------------------------------------------------------------------
 
+@register.simple_tag()
+def get_login_url():
+    """Get the log in URL from the constants."""
+    return getattr(settings, "LOGIN_URL", reverse("login"))
 
 @register.simple_tag()
 def get_logout_url():
-    """Get the log out URL from the settings."""
-    return getattr(settings, "LOGOUT_URL", "/accounts/logout")
+    """Get the log out URL from the constants."""
+    return getattr(settings, "LOGOUT_URL", reverse("logout"))
 
 
 @register.simple_tag()

@@ -670,8 +670,7 @@ class TemplateTagTestCase(TestCase):
                 rendered_template,
             )
 
-    # TODO: Am I missing something, or are the descriptions for these two get_logout_url tests flipped?
-    def test__get_logout_url__entry_in_settings(self):
+    def test__get_logout_url__no_entry_in_settings(self):
         context = Context({})
 
         template_to_render = Template("{% load adminlte_tags %}{% get_logout_url %}")
@@ -680,8 +679,8 @@ class TemplateTagTestCase(TestCase):
 
         self.assertIn("/accounts/logout", rendered_template)
 
-    @override_settings(LOGOUT_URL="/foobar/logout")
-    def test__get_logout_url__no_entry_in_settings(self):
+    @override_settings(LOGOUT_URL="/foobar/logout/")
+    def test__get_logout_url__entry_in_settings(self):
         """Should fallback to default."""
         context = Context({})
 
