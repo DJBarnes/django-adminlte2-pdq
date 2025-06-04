@@ -4,15 +4,6 @@
 from django.conf import settings
 
 
-# Imports that may not be accessible, depending on local python environment setup.
-try:
-    from colorama import Back, Fore, Style
-
-    COLORAMA_PRESENT = True
-except ImportError:
-    COLORAMA_PRESENT = False
-
-
 # Date/Time picker widgets to use. Valid values are "native", "jquery", "bootstrap".
 DATETIME_WIDGET = getattr(settings, "ADMINLTE2_DATETIME_WIDGET", "native")
 DATE_WIDGET = getattr(settings, "ADMINLTE2_DATE_WIDGET", "native")
@@ -68,16 +59,3 @@ RESPONSE_404_PRODUCTION_MESSAGE = str(
         "Could not access the requested page. If you believe this was an error, please contact the site administrator.",
     )
 ).strip()
-
-
-# Debug output values. Use for internal project debugging.
-TEXT_BLUE = "{0}{1}{2}".format(Fore.BLUE, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
-TEXT_CYAN = "{0}{1}{2}".format(Fore.CYAN, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
-TEXT_GREEN = "{0}{1}{2}".format(Fore.GREEN, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
-TEXT_PURPLE = "{0}{1}{2}".format(Fore.MAGENTA, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
-TEXT_RED = "{0}{1}{2}".format(Fore.RED, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
-TEXT_RESET = Style.RESET_ALL if COLORAMA_PRESENT else ""
-TEXT_YELLOW = "{0}{1}{2}".format(Fore.YELLOW, Back.RESET, Style.NORMAL) if COLORAMA_PRESENT else ""
-
-# Optionally display package-wide debug printing.
-SHOW_DEBUG_PRINT = getattr(settings, "ADMINLTE2_SHOW_DEBUG_PRINT", False)

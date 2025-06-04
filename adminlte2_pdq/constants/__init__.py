@@ -12,16 +12,6 @@ from .general_constants import (
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
-    # Debug text settings.
-    TEXT_BLUE,
-    TEXT_CYAN,
-    TEXT_GREEN,
-    TEXT_PURPLE,
-    TEXT_RED,
-    TEXT_RESET,
-    TEXT_YELLOW,
-    # Debug print
-    SHOW_DEBUG_PRINT,
 )
 
 
