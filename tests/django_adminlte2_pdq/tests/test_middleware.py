@@ -203,7 +203,8 @@ class StandardMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -214,7 +215,8 @@ class StandardMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
 
 @override_settings(DEBUG=True)
@@ -263,7 +265,8 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test__with_login_whitelist(self):
@@ -277,7 +280,8 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -288,7 +292,8 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
 
 @override_settings(DEBUG=True)
@@ -691,7 +696,8 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", UPDATED_STRICT_POLICY_WHITELIST)
@@ -706,7 +712,8 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
         with self.subTest("As user with full permissions"):
             # Should succeed and load as expected.
@@ -717,7 +724,8 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
     @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/")  # Pretend the root url is a media file.
     def test__no_whitelists_and_home_page_is_media_route(self):
@@ -744,7 +752,8 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
     @patch("adminlte2_pdq.middleware.WEBSOCKET_ROUTE", "/")  # Pretend the root url is a websocket file.
     def test__no_whitelists_and_home_page_is_websocket_route(self):
@@ -771,7 +780,8 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+            self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
     @patch(
         "adminlte2_pdq.middleware.STRICT_POLICY_SERVE_403_FUZZY_WHITELIST",
