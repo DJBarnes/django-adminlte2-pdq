@@ -94,8 +94,11 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample2 page!")
 
+    # region Demo CSS Views
+
     def test_demo_css_home_view_returns_correct_template(self):
-        """Test demo view returns correct template"""
+        """Test Demo CSS Home view returns correct template"""
+
         request = RequestFactory().get("demo-css/")
         request._messages = messages.storage.default_storage(request)  # pylint: disable=protected-access
         request.user = self.test_user_w_perms
@@ -122,6 +125,506 @@ class ViewsTestCase(TestCase):
         self.assertContains(response, "Boxes | Standard")
         self.assertContains(response, "Boxes | Solid")
         self.assertContains(response, "Tables")
+
+    def test_demo_css__view_returns_correct_template(self):
+        """Test Demo CSS  view returns correct template"""
+
+        request = RequestFactory().get("demo-css/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+        self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_typography_view_returns_correct_template(self):
+        """Test Demo CSS Typography view returns correct template"""
+
+        request = RequestFactory().get("demo-css/typography/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_typography(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Typography
+    <small>Preview of Typography Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_widgets_view_returns_correct_template(self):
+        """Test Demo CSS Widgets view returns correct template"""
+
+        request = RequestFactory().get("demo-css/widgets/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_widgets(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Widgets
+    <small>Preview of Widget Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_ui_general_view_returns_correct_template(self):
+        """Test Demo CSS UI (General) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/general/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_ui_general(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    General UI
+    <small>Preview of UI Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_alerts_view_returns_correct_template(self):
+        """Test Demo CSS Alerts view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/alerts")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_alerts(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Alerts and Callouts
+    <small>Preview of Alert & Callout Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_buttons_basic_view_returns_correct_template(self):
+        """Test Demo CSS Buttons (Basic) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/buttons/basic/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_buttons_basic(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Buttons (Basic)
+    <small>Preview of Button Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_buttons_specialized_view_returns_correct_template(self):
+        """Test Demo CSS Buttons (Specialized) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/buttons/specialized/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_buttons_specialized(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Buttons (Specialized)
+    <small>Preview of Specialized Button Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_carousel_view_returns_correct_template(self):
+        """Test Demo CSS Carousel view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/carousels/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_carousels(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Carousels
+    <small>Preview of Carousel Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_labels_view_returns_correct_template(self):
+        """Test Demo CSS Labels view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/labels/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_labels(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Labels & Tooltips
+    <small>Preview of Label & Tooltip Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_modals_view_returns_correct_template(self):
+        """Test Demo CSS  view returns correct template"""
+
+        request = RequestFactory().get("demo-css/modals/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_modals(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Modals
+    <small>Preview of Modal Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_boxes_standard_view_returns_correct_template(self):
+        """Test Demo CSS Boxes (Solid) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/boxes/standard/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_boxes_standard(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Boxes
+    <small>Preview of Box Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_boxes_solid_view_returns_correct_template(self):
+        """Test Demo CSS Boxes (Solid) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/boxes/solid/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_boxes_solid(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Boxes
+    <small>Preview of Solid Box Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_tables_view_returns_correct_template(self):
+        """Test Demo CSS Tables view returns correct template"""
+
+        request = RequestFactory().get("demo-css/tables/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_tables(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Tables
+    <small>Preview of Table Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    # endregion Demo CSS Views
 
     # |-------------------------------------------------------------------------
     # | Test views work as expected using Client
