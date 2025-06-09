@@ -27,6 +27,7 @@ urlpatterns = [
                 path("boxes/standard/", views.demo_css_boxes_standard, name="demo-css-boxes-standard"),
                 path("boxes/solid/", views.demo_css_boxes_solid, name="demo-css-boxes-solid"),
                 path("tables/", views.demo_css_tables, name="demo-css-tables"),
+                path("typography/", views.demo_css_typography, name="demo-css-typography"),
                 path(
                     "ui/",
                     include(
@@ -42,7 +43,6 @@ urlpatterns = [
                             path("carousels/", views.demo_css_carousels, name="demo-css-carousels"),
                             path("labels/", views.demo_css_labels, name="demo-css-labels"),
                             path("modals/", views.demo_css_modals, name="demo-css-modals"),
-                            path("typography/", views.demo_css_typography, name="demo-css-typography"),
                         ]
                     ),
                 ),
