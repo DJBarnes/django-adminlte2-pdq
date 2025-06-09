@@ -152,7 +152,7 @@ def demo_css_modals(request):
 
     return render(
         request,
-        "adminlte2_demo_css/old/modals.html",
+        "adminlte2_demo_css/modals.html",
         {
             "bootstrap_types": BOOTSTRAP_TYPES,
             "ADMINLTE2_MENU": CSS_MENU,
