@@ -94,7 +94,7 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample2 page!")
 
-    def test_demo_view_returns_correct_template(self):
+    def test_demo_css_home_view_returns_correct_template(self):
         """Test demo view returns correct template"""
         request = RequestFactory().get("demo-css/")
         request._messages = messages.storage.default_storage(request)  # pylint: disable=protected-access
@@ -102,13 +102,25 @@ class ViewsTestCase(TestCase):
         request.site = MOCK_SITE
         response = views.demo_css(request)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Demo CSS")
-        self.assertContains(response, "Dropdown Menus")
-        self.assertContains(response, "Buttons")
-        self.assertContains(response, "Labels")
-        self.assertContains(response, "Boxes")
-        self.assertContains(response, "Alerts and Callouts")
+
+        # Check for page title content.
+        self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+        self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
         self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
         self.assertContains(response, "Tables")
 
     # |-------------------------------------------------------------------------
