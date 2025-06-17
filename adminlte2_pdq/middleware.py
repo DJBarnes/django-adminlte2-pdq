@@ -10,7 +10,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import redirect
-from django.urls import resolve
+from django.urls import resolve, is_valid_path
+from django.utils.http import escape_leading_slashes
 from django.views.generic.base import RedirectView
 
 # Internal Imports.
@@ -391,10 +392,16 @@ class AuthMiddleware:
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""
 
+        # Handle if the path is missing the trailing slash.
+        if self.should_redirect_with_slash(request):
+            path = self.get_full_path_with_slash(request)
+        else:
+            path = request.path_info
+
         # Initialize default data structure.
         # This is our fallback if view is not using AdminLtePdq logic.
         data_dict = {
-            "path": request.path,
+            "path": path,
             "decorator_name": "",
             "allow_anonymous_access": False,
             "login_required": False,
@@ -507,6 +514,44 @@ class AuthMiddleware:
 
         # Return parsed data.
         return data_dict
+
+    def should_redirect_with_slash(self, request):
+        """
+        Return True if settings.APPEND_SLASH is True and appending a slash to
+        the request path turns an invalid path into a valid one.
+        """
+        if settings.APPEND_SLASH and not request.path_info.endswith("/"):
+            urlconf = getattr(request, "urlconf", None)
+            if not is_valid_path(request.path_info, urlconf):
+                match = is_valid_path(f"{request.path_info}/", urlconf)
+                if match:
+                    view = match.func
+                    return getattr(view, "should_append_slash", True)
+        return False
+
+    def get_full_path_with_slash(self, request):
+        """
+        Return the full path of the request with a trailing slash appended.
+
+        Raise a RuntimeError if settings.DEBUG is True and request.method is
+        DELETE, POST, PUT, or PATCH.
+        """
+        new_path = request.get_full_path(force_append_slash=True)
+        # Prevent construction of scheme relative urls.
+        new_path = escape_leading_slashes(new_path)
+        if settings.DEBUG and request.method in ("DELETE", "POST", "PUT", "PATCH"):
+            raise RuntimeError(
+                "You called this URL via %(method)s, but the URL doesn't end "
+                "in a slash and you have APPEND_SLASH set. Django can't "
+                "redirect to the slash URL while maintaining %(method)s data. "
+                "Change your form to point to %(url)s (note the trailing "
+                "slash), or set APPEND_SLASH=False in your Django settings."
+                % {
+                    "method": request.method,
+                    "url": request.get_host() + new_path,
+                }
+            )
+        return new_path
 
     def verify_logged_in(self, request, view_data):
         """Checks to verify User is logged in, for views that require it."""
