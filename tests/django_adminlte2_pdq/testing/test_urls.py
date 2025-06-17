@@ -7,6 +7,7 @@ from django.urls import include, path
 
 # Internal Imports.
 from . import views
+from adminlte2_pdq.views import demo_css, home
 
 
 app_name = "adminlte2_pdq_tests"
@@ -165,4 +166,8 @@ urlpatterns = [
             ]
         ),
     ),
+    # Redefinition of some standard views, except minus a trailing slash.
+    # Used specifically in APPEND_SLASH middleware tests.
+    path("home", home, name="home-no-slash"),
+    path("demo-css-no-slash", demo_css, name="demo-css-no-slash"),
 ]
