@@ -1,7 +1,7 @@
 # Build properties for deployment.
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta:__legacy__"
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
 
 
 # region Core Project Settings and Metadata
@@ -97,6 +97,10 @@ Homepage = "https://github.com/djbarnes/django-adminlte2-pdq"
 
 
 # region Third-Party Package Settings
+
+# Flit build settings
+[tool.flit.module]
+name = "adminlte2_pdq"
 
 # "Black" formatter settings.
 [tool.black]
