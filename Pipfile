@@ -27,7 +27,7 @@ pylint-django = "*"             # Improves code analysis for Django projects.
 # Testing/Pytest dependencies.
 colorama = "*"                  # Console coloring package. Used for additional functionality in below ETC package.
 coverage = "*"                  # Outputs testing coverage data.
-coverage_enable_subprocess = "*"    # Required to run coverage in pytest while muti-threaded.
+coverage_enable_subprocess = "*"    # Required to run coverage in pytest while multi-threaded.
 django-expanded-test-cases = "*"    # Utilities for easier testing.
 pytest = "*"                    # Base Pytest package. Current preferred testing method.
 pytest-cov = "*"                # Additional Pytest logic for multithreaded coverage support.
