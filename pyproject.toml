@@ -155,7 +155,7 @@ omit = [
 [tool.pylint.main]
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins = ["pylint_django", "pylint.extensions.no_self_use"]
+load-plugins = ["pylint_django"]
 
 # Good variable names which should always be accepted, separated by a comma.
 good-names = [
@@ -224,11 +224,13 @@ disable = [
     "too-few-public-methods",
     "too-many-ancestors",
     "too-many-arguments",
+    "too-many-boolean-expressions",
     "too-many-branches",
     "too-many-instance-attributes",
     "too-many-lines",
     "too-many-locals",
     "too-many-nested-blocks",
+    "too-many-positional-arguments",
     "too-many-public-methods",
     "too-many-statements",
     "wrong-import-order",
