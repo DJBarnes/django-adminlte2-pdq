@@ -100,7 +100,7 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
         # Verify values imported from middleware file.
-        # We don't use constants.py values because the above settings techncially don't override such.
+        # We don't use constants.py values because the above settings technically don't override such.
         # Plus this test is a middleware test so it's probably fine.
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
@@ -348,6 +348,7 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
     @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/")  # Pretend the root url is a media file.
     def test__no_whitelists_and_home_page_is_media_route(self):
+        """Test no white lists and home page is media route"""
         # MEDIA_URL should not be allowed to be the root of a website, thus can not skip the login required check.
 
         with self.subTest("As anonymous user"):
@@ -362,6 +363,7 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
     @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/demo-css/")  # Pretend the demo-css route is a media file.
     def test__no_whitelists_and_misc_page_is_media_route(self):
+        """Test no white lists and misc page is media route"""
 
         with self.subTest("As anonymous user"):
             # Process response.
@@ -373,6 +375,7 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
     @patch("adminlte2_pdq.middleware.WEBSOCKET_ROUTE", "/")  # Pretend the root url is a websocket file.
     def test__no_whitelists_and_home_page_is_websocket_route(self):
+        """Test no white lists and home page is websocket route"""
         # WEBSOCKET_URL should not be allowed to be the root of a website, thus can not skip the login required check.
 
         with self.subTest("As anonymous user"):
@@ -387,6 +390,7 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
     @patch("adminlte2_pdq.middleware.WEBSOCKET_ROUTE", "/demo-css/")  # Pretend the demo-css route is a websocket file.
     def test__no_whitelists_and_misc_page_is_websocket_route(self):
+        """Test no white lists and misc page is websocket route"""
 
         with self.subTest("As anonymous user"):
             # Process response.

@@ -4,7 +4,7 @@ Tests for Admin Template Tags
 
 # Third-Party Imports.
 from django.contrib.admin.models import LogEntry
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.template import Template, Context
 from django.test import TestCase, override_settings
 
@@ -111,7 +111,8 @@ class TemplateTagAdminTestCase(TestCase):
         """Test show control sidebar recent activity tab pane displays when
         setting is default"""
 
-        user = User()
+        user_model = get_user_model()
+        user = user_model()
 
         context = Context(
             {
@@ -132,7 +133,8 @@ class TemplateTagAdminTestCase(TestCase):
         """Test show control sidebar recent activity tab pane displays when
         setting is true"""
 
-        user = User()
+        user_model = get_user_model()
+        user = user_model()
 
         context = Context(
             {
@@ -153,7 +155,8 @@ class TemplateTagAdminTestCase(TestCase):
         """Tests show control sidebar recent activity tab pane is hidden when
         setting is false"""
 
-        user = User()
+        user_model = get_user_model()
+        user = user_model()
 
         context = Context({"user": user})
         template_to_render = Template(

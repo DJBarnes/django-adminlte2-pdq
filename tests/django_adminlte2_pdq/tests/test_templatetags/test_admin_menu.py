@@ -424,6 +424,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=True)
     def test__menu_group_separator__enabled(self):
+        """Test menu group separator enabled."""
 
         with self.subTest("No additional menus"):
             user = self.create_user()
@@ -554,6 +555,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=True)
     @override_settings(ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=False)
     def test__menu_group_separator__only_admin(self):
+        """Test menu group separator only admin."""
         user = self.create_user()
         user.is_staff = True
         user.is_superuser = False
@@ -585,6 +587,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
     @override_settings(ADMINLTE2_USE_MENU_GROUP_SEPARATOR=False)
     def test__menu_group_separator__disabled(self):
+        """Test menu group separator disabled."""
 
         with self.subTest("One additional menu"):
             user = self.create_user()

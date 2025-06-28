@@ -17,6 +17,7 @@ from adminlte2_pdq.templatetags import sidebar_menu
 UserModel = get_user_model()
 
 
+# pylint:disable=invalid-name
 class TemplateTagSidebarMenu__ViewFallbackWhenNodeUndefined__Decorators(TemplateTagSidebarMenuBaseTestCase):
     """Tests the logic for when a node does not have permissions defined,
     so logic has to fall back to values defined on a function-based (aka decorator) view.
@@ -7474,6 +7475,7 @@ class TemplateTagSidebarMenu__ViewFallbackWhenNodeUndefined__Decorators(Template
     # endregion Strict Mode, Both Whitelists
 
 
+# pylint:disable=invalid-name
 class TemplateTagSidebarMenu__ViewFallbackWhenNodeUndefined__Classes(TemplateTagSidebarMenuBaseTestCase):
     """Tests the logic for when a node does not have permissions defined,
     so logic has to fall back to values defined on a class-based (aka mixin) view.

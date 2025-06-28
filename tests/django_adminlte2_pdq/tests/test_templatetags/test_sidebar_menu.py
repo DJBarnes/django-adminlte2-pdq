@@ -23,6 +23,8 @@ UserModel = get_user_model()
 
 
 class TemplateTagSidebarMenuBaseTestCase(TestCase):
+    """Template Tags Sidebar Menu Base Test Case"""
+
     # region Expected Test Messages
 
     node_error__key_error_message = (
@@ -199,11 +201,13 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
     def test__default_routes_are_registered_function__works_when_routes_are_registered(self):
         """Test default routes are registered function works when routes are registered"""
+        # pylint:disable=protected-access
         self.assertTrue(sidebar_menu._default_routes_are_registered())
 
     @override_settings(ROOT_URLCONF="tests.django_adminlte2_pdq.testing.urls_empty")
     def test__default_routes_are_registered_function__fails_when_routes_are_not_registered(self):
         """Test default routes are registered function fails when routes are not registered"""
+        # pylint:disable=protected-access
         self.assertFalse(sidebar_menu._default_routes_are_registered())
 
     # endregion Demo Url
@@ -832,7 +836,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     # region ensure_node_has_url_property() Function
 
     def test__ensure_node_has_url_property__success(self):
-        """"""
+        """Test ensure node has url property success"""
 
         with self.subTest("Works when node has url property defined"):
             node = {
@@ -869,7 +873,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertEqual("#", node["url"])
 
     def test__ensure_node_has_url_property__failure(self):
-        """"""
+        """Test ensure node has url property failure"""
 
         with self.subTest("Raises KeyError when route field is missing"):
             node = {
@@ -897,6 +901,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     # region check_for_login_whitelisted_node() Function
 
     def test__check_for_login_whitelisted_node__node_not_in_list(self):
+        """Test check for login whitelisted node where node not in list"""
         node = {
             "route": "foobar",
             "text": "Sample Form",
@@ -909,6 +914,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:sample_form"])
     def test__check_for_login_whitelisted_node__node_in_list(self):
+        """Test check for login whitelisted node where node is in list"""
         node = {
             "route": "adminlte2_pdq:sample_form",
             "text": "Sample Form",
@@ -924,6 +930,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     # region check_for_strict_whitelisted_node() Function
 
     def test__check_for_strict_whitelisted_node__node_not_in_list(self):
+        """Test check for strict whitelisted node where node not in list."""
         node = {
             "route": "foobar",
             "text": "Sample2",
@@ -936,6 +943,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:sample2"])
     def test__check_for_strict_whitelisted_node__node_in_list(self):
+        """Test check for strict whitelisted node where node is in list."""
         node = {
             "route": "adminlte2_pdq:sample2",
             "text": "Sample2",
@@ -951,6 +959,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     # region Permission Check Functions
 
     def test__check_for_one_permission(self):
+        """Test check for one permission."""
 
         with self.subTest("As user with most permissions, except one required"):
             self._setup_staff_user()
@@ -989,6 +998,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertTrue(allowed)
 
     def test__check_for_all_permissions(self):
+        """Test check for all permissions"""
 
         with self.subTest("As user with most permissions, except the one required"):
             self._setup_staff_user()
@@ -1029,6 +1039,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     # endregion Permission Check Functions
 
     def test__check_for_one_permission_in_node_list(self):
+        """Test check for one permission in node list"""
 
         with self.subTest("Returns true for superuser regardless of tree size"):
             self._setup_super_user()
@@ -1189,6 +1200,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertFalse(allowed)
 
     def test__check_for_node_that_matches_request_path(self):
+        """Test check for node that matches request path."""
 
         with self.subTest("Returns false for no nodes"):
             nodes = []
@@ -1312,9 +1324,11 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertFalse(match)
 
 
-class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
+class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
+    """Template Tag Sidebar Menu Render Test Case"""
 
     def test__render_types(self):
+        """Test render types"""
         with self.subTest("Render section - standard"):
             self._setup_staff_user("add_permission")
 
@@ -1571,6 +1585,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=False)
     def test__user_has_access_and_admin_include_is_off(self):
+        """Test user has access to admin include is off"""
         self._setup_staff_user(
             [
                 "add_permission",
@@ -1626,6 +1641,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
     def test__user_has_access_and_admin_include_is_on(self):
+        """Test user has access and admin include is on"""
 
         with self.subTest("With menu not first"):
             self._setup_staff_user(
@@ -1909,7 +1925,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn('<li class="separator">', rendered_template)
 
 
-class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTestCase):
+class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
     """Tests for is_allowed_node() function in sidebar logic."""
 
     # region Loose Mode, Standard Settings
@@ -1997,7 +2013,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             self.assertTrue(allowed)
 
     def test__standard__node_allow_anonymous_access(self):
-        """"""
+        """Test standard node allow anonymous access"""
 
         # Node used for all subtests.
         node = {
@@ -2077,7 +2093,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             self.assertTrue(allowed)
 
     def test__standard__node_login_required(self):
-        """"""
+        """Test standard node login required"""
 
         # Node used for all subtests.
         node = {
@@ -2241,7 +2257,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             self.assertTrue(allowed)
 
     def test__standard__node_one_permission_required(self):
-        """"""
+        """Test standard node one permission required."""
 
         # Node used for all subtests.
         node = {
@@ -2322,7 +2338,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
             self.assertTrue(allowed)
 
     def test__standard__node_full_permissions_required(self):
-        """"""
+        """Test standard node full permission required."""
 
         # Node used for all subtests.
         node = {
@@ -2408,7 +2424,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_minimal(self):
-        """"""
+        """Test login required no whitelists node minimal"""
 
         # Node used for all subtests.
         node = {
@@ -2489,7 +2505,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_allow_anonymous_access(self):
-        """"""
+        """Test login required no whitelist node allow anonymous access"""
 
         # Node used for all subtests.
         node = {
@@ -2573,7 +2589,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_login_required(self):
-        """"""
+        """Test login required no whitelists node login required"""
 
         # Node used for all subtests.
         node = {
@@ -2655,7 +2671,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_allow_without_permissions(self):
-        """"""
+        """Test login required no whitelists node allow without permissions"""
 
         # Node used for all subtests.
         node = {
@@ -2737,7 +2753,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_one_permission_required(self):
-        """"""
+        """Test login required no whitelists node one permission required"""
 
         # Node used for all subtests.
         node = {
@@ -2819,7 +2835,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     def test__login_required__no_whitelists__node_full_permissions_required(self):
-        """"""
+        """Test login required no whitelists node full permissions required."""
 
         # Node used for all subtests.
         node = {
@@ -2906,7 +2922,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_minimal(self):
-        """"""
+        """Test login required with login whitelist node minimal."""
 
         # Node used for all subtests.
         node = {
@@ -2987,7 +3003,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_allow_anonymous_access(self):
-        """"""
+        """Test login required with login whitelist node allow anonymous access."""
 
         # Node used for all subtests.
         node = {
@@ -3071,7 +3087,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_login_required(self):
-        """"""
+        """Test login required with login whitelist node login required."""
 
         # Node used for all subtests.
         node = {
@@ -3152,7 +3168,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_allow_without_permissions(self):
-        """"""
+        """Test login required with login whitelist node allow without permissions."""
 
         # Node used for all subtests.
         node = {
@@ -3233,7 +3249,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_one_permission_required(self):
-        """"""
+        """Test login required with login whitelist node one permission required."""
 
         # Node used for all subtests.
         node = {
@@ -3316,7 +3332,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__login_required__with_login_whitelist__node_full_permissions_required(self):
-        """"""
+        """Test login required with login whitelist node full permissions required."""
 
         # Node used for all subtests.
         node = {
@@ -3403,7 +3419,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test__strict__no_whitelists__node_minimal(self):
-        """"""
+        """Test strict no whitelists node minimal."""
 
         # Node used for all subtests.
         node = {
@@ -3484,7 +3500,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test__strict__no_whitelists__node_allow_anonymous_access(self):
-        """"""
+        """Test strict no whitelists node allow anonymous access."""
 
         # Node used for all subtests.
         node = {
@@ -3566,7 +3582,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test__strict__no_whitelists__node_login_required(self):
-        """"""
+        """Test strict no whitelists node login required."""
 
         # Node used for all subtests.
         node = {
@@ -3649,7 +3665,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test__strict__no_whitelists__node_allow_without_permissions(self):
-        """"""
+        """Test strict no whitelists node allow without permissions."""
 
         # Node used for all subtests.
         node = {
@@ -3732,7 +3748,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test__strict__no_whitelists__node_one_permission_required(self):
-        """"""
+        """Test strict no whitelists node one permission required."""
 
         # Node used for all subtests.
         node = {
@@ -3815,7 +3831,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     def test__strict__no_whitelists__node_full_permissions_required(self):
-        """"""
+        """Test strict no whitelists node full permissions required."""
 
         # Node used for all subtests.
         node = {
@@ -4417,7 +4433,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_minimal(self):
-        """"""
+        """Test strict with permission whitelist node minimal."""
 
         # Node used for all subtests.
         node = {
@@ -4500,7 +4516,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_allow_anonymous_access(self):
-        """"""
+        """Test strict with permission whitelist node allow anonymous access."""
 
         # Node used for all subtests.
         node = {
@@ -4584,7 +4600,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_login_required(self):
-        """"""
+        """Test strict with permission whitelist node login required."""
 
         # Node used for all subtests.
         node = {
@@ -4668,7 +4684,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_allow_without_permissions(self):
-        """"""
+        """Test strict with permission whitelist node allow without permissions."""
 
         # Node used for all subtests.
         node = {
@@ -4752,7 +4768,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_one_permission_required(self):
-        """"""
+        """Test strict with permission whitelist node one permission required."""
 
         # Node used for all subtests.
         node = {
@@ -4836,7 +4852,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_permission_whitelist__node_full_permissions_required(self):
-        """"""
+        """Test strict with permission whitelist node full permissions required."""
 
         # Node used for all subtests.
         node = {
@@ -4925,7 +4941,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_both_whitelists__node_minimal(self):
-        """"""
+        """Test strict with both whitelists node minimal."""
 
         # Node used for all subtests.
         node = {
@@ -5009,7 +5025,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_both_whitelists__node_allow_anonymous_access(self):
-        """"""
+        """Test strict with both whitelists node allow anonymous access."""
 
         # Node used for all subtests.
         node = {
@@ -5094,7 +5110,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_both_whitelists__node_login_required(self):
-        """"""
+        """Test strict with both whitelists node login required."""
 
         # Node used for all subtests.
         node = {
@@ -5179,7 +5195,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_both_whitelists__node_allow_without_permissions(self):
-        """"""
+        """Test strict with both whitelists node allow without permissions."""
 
         # Node used for all subtests.
         node = {
@@ -5264,7 +5280,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_both_whitelists__node_one_permission_required(self):
-        """"""
+        """Test strict with both whitelists node one permission required."""
 
         # Node used for all subtests.
         node = {
@@ -5349,7 +5365,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_both_whitelists__node_full_permissions_required(self):
-        """"""
+        """Test strict with both whitelists node full permissions required."""
 
         # Node used for all subtests.
         node = {

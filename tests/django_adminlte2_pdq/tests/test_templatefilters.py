@@ -40,7 +40,7 @@ class TemplateTagTestCase(TestCase):
             super().assertInHTML(needle, haystack, **kwargs)
         except AssertionError as err:
             message = err.args[0]
-            message += "\n---\n{0}\n---\n".format(haystack)
+            message += f"\n---\n{haystack}\n---\n"
             err.args = (message,)
             raise err
 
@@ -48,7 +48,7 @@ class TemplateTagTestCase(TestCase):
         """Creates a new method to ensure that HTML does not show up."""
         try:
             super().assertInHTML(needle, haystack, **kwargs)
-            message = "{0} Unexpectedly found in {1}".format(needle, haystack)
+            message = f"{needle} Unexpectedly found in {haystack}"
             raise AssertionError(message)
         except AssertionError:
             pass
