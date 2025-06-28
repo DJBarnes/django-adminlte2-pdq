@@ -47,22 +47,13 @@ class Command(BaseCommand):
         }
 
         # Handle permission "name" arg.
-        if options["hide_names"]:
-            include_names = False
-        else:
-            include_names = True
+        include_names = not options["hide_names"]
 
         # Handle permission "codename" arg.
-        if options["hide_codenames"]:
-            include_codenames = False
-        else:
-            include_codenames = True
+        include_codenames = not options["hide_codenames"]
 
         # Handle permission "content type" arg.
-        if options["hide_content_type"]:
-            include_content_types = False
-        else:
-            include_content_types = True
+        include_content_types = not options["hide_content_type"]
 
         # Get all permission objects.
         # all_permissions = Permission.objects.all()

@@ -76,28 +76,16 @@ class Command(BaseCommand):
         }
 
         # Handle "app name" arg.
-        if options["hide_app_names"]:
-            include_app_names = False
-        else:
-            include_app_names = True
+        include_app_names = not options["hide_app_names"]
 
         # Handle "app name" arg.
-        if options["hide_url_names"]:
-            include_url_names = False
-        else:
-            include_url_names = True
+        include_url_names = not options["hide_url_names"]
 
         # Handle "lookup str" arg.
-        if options["show_lookup_strings"]:
-            include_lookup_str = True
-        else:
-            include_lookup_str = False
+        include_lookup_str = options["show_lookup_strings"]
 
         # Handle "default_args" arg.
-        if options["show_default_args"]:
-            include_default_args = True
-        else:
-            include_default_args = False
+        include_default_args = options["show_default_args"]
 
         # Import project urls.
         # Done this way to force urls to populate fully.
@@ -235,7 +223,7 @@ class Command(BaseCommand):
 
                 # Process url "name" as defined in the Django url definition.
                 name = str(url.name).strip()
-                if name == "" or name == "None":
+                if name in set("", "None"):
                     name = "None"
                 elif url.app_name:
                     name = url.app_name + ":" + name
@@ -355,7 +343,7 @@ class Command(BaseCommand):
         target = value
         decorators = {}
 
-        def visit_FunctionDef(node):
+        def visit_function_def(node):
             decorators[node.name] = []
             for n in node.decorator_list:
                 name = ""
@@ -368,7 +356,7 @@ class Command(BaseCommand):
 
         # Function view. May have package decorators. Continue.
         node_iter = ast.NodeVisitor()
-        node_iter.visit_FunctionDef = visit_FunctionDef
+        node_iter.visit_function_def = visit_function_def
         node_iter.visit(ast.parse(inspect.getsource(target)))
 
         # Return dict of parsed decorators from view.
