@@ -231,16 +231,14 @@ class AuthMiddleware:
         if is_perm_whitelisted:
             # Whitelisted, yet using a decorator that requires permissions. Raise error.
             if view_data["decorator_name"] == "permission_required":
-                raise ImproperlyConfigured(
-                    (
-                        "AdminLtePdq Error: The {view_type} view '{view_name}' has a permission {view_perm_type}, "
-                        "but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
-                    ).format(
-                        view_type=view_data["view_type"],
-                        view_name=view_data["view_name"],
-                        view_perm_type=view_data["view_perm_type"],
-                    )
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
+                view_perm_type = view_data["view_perm_type"]
+                error_message = (
+                    f"AdminLtePdq Error: The {view_type} view '{view_name}' has a permission {view_perm_type}, "
+                    "but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
                 )
+                raise ImproperlyConfigured(error_message)
 
             # Whitelisted, and using a decorator that also removes permissions. Raise warning.
             if view_data["decorator_name"] == "allow_without_permissions":
@@ -250,15 +248,13 @@ class AuthMiddleware:
                 else:
                     decorator_name = "AllowWithoutPermissions"
 
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
+                view_perm_type = view_data["view_perm_type"]
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
-                    "{view_perm_type}, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. These two effectively "
+                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
+                    f"{view_perm_type}, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. These two effectively "
                     "achieve the same functionality."
-                ).format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
-                    view_perm_type=view_data["view_perm_type"],
-                    decorator_name=decorator_name,
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -275,17 +271,14 @@ class AuthMiddleware:
                 else:
                     decorator_name = "LoginRequired"
 
-                raise ImproperlyConfigured(
-                    (
-                        "AdminLtePdq Error: The {view_type} view '{view_name}' has a '{decorator_name}' "
-                        "{view_perm_type}, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
-                    ).format(
-                        view_type=view_data["view_type"],
-                        view_name=view_data["view_name"],
-                        view_perm_type=view_data["view_perm_type"],
-                        decorator_name=decorator_name,
-                    )
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
+                view_perm_type = view_data["view_perm_type"]
+                error_message = (
+                    f"AdminLtePdq Error: The {view_type} view '{view_name}' has a '{decorator_name}' "
+                    f"{view_perm_type}, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
                 )
+                raise ImproperlyConfigured(error_message)
 
             # Whitelisted, and using a decorator that also removes permissions. Raise warning.
             if view_data["decorator_name"] == "allow_anonymous_access":
@@ -295,15 +288,13 @@ class AuthMiddleware:
                 else:
                     decorator_name = "AllowAnonymousAccess"
 
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
+                view_perm_type = view_data["view_perm_type"]
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
-                    "{view_perm_type}, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
+                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
+                    f"{view_perm_type}, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
                     "achieve the same functionality."
-                ).format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
-                    view_perm_type=view_data["view_perm_type"],
-                    decorator_name=decorator_name,
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -329,17 +320,15 @@ class AuthMiddleware:
                 else:
                     decorator_name = "AllowWithoutPermissions"
 
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
+                view_perm_type = view_data["view_perm_type"]
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' is login whitelisted, but the view "
+                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' is login whitelisted, but the view "
                     "still requires permissions. A user must login to have permissions, so the login whitelist is "
                     "redundant and probably not achieving the desired effect. Correct this by adding the view to "
                     "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
-                    "'{decorator_name}' {view_perm_type}."
-                ).format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
-                    view_perm_type=view_data["view_perm_type"],
-                    decorator_name=decorator_name,
+                    f"'{decorator_name}' {view_perm_type}."
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -355,17 +344,16 @@ class AuthMiddleware:
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
+                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
                     "requirements, but does not have any permissions set. "
                     "This means that this view is inaccessible until permissions "
                     "are set for the view.\n"
                     "\n\n"
                     "For further information, please see the docs: "
                     "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-                ).format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -384,17 +372,16 @@ class AuthMiddleware:
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
+                view_type = view_data["view_type"]
+                view_name = view_data["view_name"]
                 warning_message = (
-                    "AdminLtePdq Warning: The {view_type} view '{view_name}' is permission exempt, "
+                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' is permission exempt, "
                     "but has some permission requirements set. "
                     "This means that this view is accessible to anyone authenticated, and the "
                     "permissions are ineffective.\n"
                     "\n\n"
                     "For further information, please see the docs: "
                     "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-                ).format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
