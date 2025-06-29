@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/django-adminlte2-pdq?color=blue)](https://img.shields.io/pypi/v/django-adminlte2-pdq?color=blue)
 [![Python Versions](https://img.shields.io/badge/python-%3E%3D3.7-brightgreen)](https://img.shields.io/badge/python-%3E%3D3.7-brightgreen)
 [![Django Versions](https://img.shields.io/badge/django-%3E%3D3.2-brightgreen)](https://img.shields.io/badge/django-%3E%3D3.2-brightgreen)
+[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Run Tests](https://github.com/DJBarnes/django-adminlte2-pdq/actions/workflows/test.yaml/badge.svg)](https://github.com/DJBarnes/django-adminlte2-pdq/actions/workflows/test.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/DJBarnes/django-adminlte2-pdq/badge.svg?branch=main)](https://coveralls.io/github/DJBarnes/django-adminlte2-pdq?branch=main)
 [![Documentation Status](https://readthedocs.org/projects/django-adminlte2-pdq/badge/?version=latest)](https://django-adminlte2-pdq.readthedocs.io/en/latest/?badge=latest)
@@ -58,9 +59,7 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
     ---
     :information_source: **NOTE**
     The **adminlte2_pdq** app should be listed before any Django apps so
-    that template overriding works correctly. Additionally, if you plan to
-    override any Django-AdminLTE2-PDQ templates, the apps containing those
-    templates should be listed above the **adminlte2_pdq app**.
+    that template overriding works correctly.
 
     ---
 
@@ -68,13 +67,7 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
     available authentication and authorization scenarios from this package to
     function.
 
-    Add this middleware to your middleware list in ``settings.py``.
-
-    Once installed the available scenarios are controlled by changing settings
-    in your ``settings.py`` file.
-    For more information about the various scenarios and associated settings
-    refer to the full documentation on
-    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html).
+    Add this middleware to your middleware list in ``<PROJECT_FOLDER>/settings.py``.
 
     ```python
 
@@ -84,35 +77,9 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
        ]
     ```
 
-    ---
-    :information_source: **NOTE**
-    Django-AdminLTE2-PDQ has been configured out of the box to get you set up
-    and running as fast as possible. As a result, the settings surrounding
-    authentication and authorization are not as strict as they could be.
-    We **strongly** encourage you to read the Authentication and Authorization
-    section on
-    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html)
-    once you get the basics of this package working.
-
-    ---
-
-4.  Django-AdminLTE2-PDQ provides routes and templates for a home page,
-    some sample pages, and Django's account pages. You can add these default
-    routes to your URLconf if you would like to use them.
-
-    ---
-    :information_source: **NOTE**
-    Using the included routes and templates requires that your `urlpatterns`
-    has both the routes from the package added as well as the `accounts`
-    routes provided by Django. See sample code below.
-
-    ---
-    :warning: **WARNING**
-    Opting not to use these default routes requires that you configure the
-    `ADMINLTE2_HOME_ROUTE` setting, as some parts of the default template
-    expect that your site has at minimum, a home page, defined in that setting.
-
-    ---
+4.  Django-AdminLTE2-PDQ provides routes and templates for a default home page,
+    some sample pages, and Django's account pages. You should add these default
+    routes to your root URLconf in ``<PROJECT_FOLDER>/urls.py``
 
     ```python
     from django.contrib import admin
@@ -128,178 +95,24 @@ The full documentation can be found on [Read The Docs](https://django-adminlte2-
     ]
     ```
 
-5.  Ensure that the login redirect will work.
-    ```python
-    LOGIN_REDIRECT_URL = 'adminlte2_pdq:home'
-    ```
-    ---
-    :information_source: **NOTE**
+5.  Ensure that successful logins redirect to a valid endpoint.
+
     Django-AdminLTE2-PDQ does not include a route or templates for
     `/accounts/profile` which is the default
     [Django Login redirect.](https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url)
     Adding the above entry to your `settings.py` file
     will allow successful logins to redirect to the default provided home page
-    included in step 4. At least until a proper profile route can be set up.
+    included in step 4.
 
-    ---
-    :warning: **WARNING**
-    If you are not using the default urls from step 4, we assume that you
-    already know where you would like to have users redirected to on successful
-    login and thus have already done this step with a different value.
+    ```python
+    LOGIN_REDIRECT_URL = 'adminlte2_pdq:home'
+    ```
 
-    ---
+6.  The package should now have the required bare minimum setup complete.
+    You should be able to run the server and see the default pages located at:
+    ``http://localhost:8000``
 
-6.  Update ``settings.py`` to customize the look and feel of
-    **Django-AdminLTE2-PDQ**. Common configuration options are listed below in the
-    [configuration section](#configuration).
-
-    For the full list of configuration options refer to the documentation on
-    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/configuration/home.html).
-
-7. Override templates to further customize the look and feel of
-   **Django-AdminLTE2-PDQ**.
-
-   See the Templates section on
-   [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/templates/templates.html)
-   for more information.
-
-## Configuration
-
-### Home
-
-Set the "Home" route for your project. This tells the package where to redirect
-users when they click a link that is designed to take the user home.
-```python
-ADMINLTE2_HOME_ROUTE = 'adminlte2_pdq:home'
-```
-
-Set the Logo text for your site. This will be shown in the top left of the top
-bar when the sidebar is expanded.
-```python
-ADMINLTE2_LOGO_TEXT = 'My Awesome Site'
-```
-
-Set the small Logo text for your site. This will be shown in the top left of the
-top bar when the sidebar is collapsed.
-```python
-ADMINLTE2_LOGO_TEXT_SMALL = 'MAS'
-```
-
-Set the skin class to use for the site. Valid skin classes can be found on the
-[AdminLTE documentation](https://adminlte.io/themes/AdminLTE/documentation/)
-page.
-```python
-ADMINLTE2_SKIN_CLASS = 'skin-green-light'
-```
-
-### Menu
-
-By default, the main navigation (non-admin) menu is not part of the sidebar when
-the user is viewing a
-[Django Admin page](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
-If you would like users to be able to see all of the main nav links regardless
-of what page they are on, set this value to ``True``.
-```python
-ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES = (True/False)
-```
-
-By default, the admin navigation menu is not part of the sidebar when the user
-is viewing a main navigation
-(non-[Django-Admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/))
-page. If you would like users to be able to see all of the admin nav links
-regardless of what page they are on, set this value to ``True``.
-```python
-ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES = (True/False)
-```
-
-By default, there will be an implicit separator bar rendered between each menu
-group.
-These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
-**Admin Menu**.
-More information about these groups can be found on the
-[Read The Docs Admin page](https://django-adminlte2-pdq.readthedocs.io/en/latest/menu/general_information.html).
-If you would like to disable this
-separator from being automatically rendered, set this value to ``False``.
-```python
-ADMINLTE2_USE_MENU_GROUP_SEPARATOR = (True/False)
-```
-
-This setting is the definition for the main navigation menu.
-There are a lot of options when creating this menu.
-See the
-[Read The Docs Menu page](https://django-adminlte2-pdq.readthedocs.io/en/latest/menu/general_information.html)
-for a detailed explanation of how to
-create this menu and all of the available options that can be used.
-```python
-ADMINLTE2_MENU = []
-```
-
-### Admin
-
-By default, the admin menu sidebar will not have a link to the admin index page.
-If you would like to append a link to the admin index page in the sidebar,
-set this value to ``True``.
-```python
-ADMINLTE2_INCLUDE_ADMIN_HOME_LINK = (True/False)
-```
-
-By default, Django-AdminLTE2-PDQ will put the Apps on the Admin Index page
-into AdminLTE Info Boxes. Setting this to ``True`` will change that look
-to the traditional Django list view, but still within the main AdminLTE site
-styling.
-```python
-ADMINLTE2_ADMIN_INDEX_USE_APP_LIST = (True/False)
-```
-
-### Authorization
-
-Whether all routes will require that users are logged in to access unless
-the route is added to a Whitelist.
-
-If this setting is set to False, then all routes will be accessible and
-still visible on the sidebar menu.
-
-If this setting is set to True, then all routes will not be accessible nor will
-there be links on the sidebar menu unless the user is logged in or the route is
-found in the
-``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` setting.
-```python
-ADMINLTE2_USE_LOGIN_REQUIRED = (True/False)
-```
-
-Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True,
-this is the list of routes that will be shown on the sidebar menu and
-accessible, despite a user not being logged in.
-
----
-:information_source: **NOTE**
-Even though the default value for this list is an empty list, the underlying
-functionality that this setting is used in has some included routes.
-They can be seen in the full Documentation. The routes defined in this
-setting will be appended to that default list.
-
----
-
-```python
-ADMINLTE2_LOGIN_EXEMPT_WHITELIST = []
-```
-
-Whether routes with no defined permission should be hidden unless added to a
-Whitelist.
-
-If this setting is set to False, then all routes without defined permissions
-are still visible on the sidebar menu.
-
-If this setting is set to True, then all routes without defined permissions
-are hidden on the sidebar menu unless the route is found in the
-``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
-```python
-ADMINLTE2_USE_STRICT_POLICY = (True/False)
-```
-
-Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
-this is the list of routes that will be shown on the sidebar menu and
-accessible, despite said routes having no defined permission.
-```python
-ADMINLTE2_STRICT_POLICY_WHITELIST = []
-```
+    For a more detailed setup, consider reading the
+    [Longstart](https://django-adminlte2-pdq.readthedocs.io/en/latest/longstart.html)
+    and the rest of the full documentation on
+    [Read The Docs](https://django-adminlte2-pdq.readthedocs.io/en/latest/).
