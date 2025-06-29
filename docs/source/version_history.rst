@@ -7,6 +7,8 @@ Version History
 
 * Overhaul of existing auth logic to be more consistent and reliable.
 
+  * Add support for Django 5.0, 5.1, and 5.2.
+
   * Middleware, decorator, and mixin logic have been reworked to better align
     with the intended functionality while remaining 100% backward compatible.
 
