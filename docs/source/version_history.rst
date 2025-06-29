@@ -7,17 +7,11 @@ Version History
 
 * Overhaul of existing auth logic to be more consistent and reliable.
 
-  * Prior testing was inadequate and thus there were multiple instances of
-    unexpected behavior, compared to the intended functionality. Testing has
-    now been greatly improved.
+  * Middleware, decorator, and mixin logic have been reworked to better align
+    with the intended functionality while remaining 100% backward compatible.
 
-  * Middleware, decorator, and mixin logic have been generally reworked
-    to fix these inconsistencies.
-
-  * Updated logic should now match original documentation. Current
-    functionality is the same as it was originally intended. Existing
-    projects (hopefully) won't be affected by this, other than what amounts
-    to bug fixes.
+  * Testing has been improved to better catch edge cases and ensure full
+    alignment with the intended functionality.
 
 * Created project warnings/errors for authentication instances that don't make
   sense.
@@ -77,8 +71,8 @@ Version History
   auto-rendering forms with date, time, and datetime fields.
 
 
-0.1.3 - Fix Potential Django Front End Conflics & Add Middleware Auth Hook
-==========================================================================
+0.1.3 - Fix Potential Django Front End Conflicts & Add Middleware Auth Hook
+===========================================================================
 
 * Fix potential CSS conflicts with Django Admin css.
 
