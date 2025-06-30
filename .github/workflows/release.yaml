@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: release
-      url: https://pypi.org/project/django-adminlte2-pdq
+      url: https://pypi.org/p/django-adminlte2-pdq
     needs:
       - release-build
     permissions:
@@ -56,7 +56,8 @@ jobs:
       - name: Publish release distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository-url: https://pypi.org/legacy/
+          repository-url: https://upload.pypi.org/legacy/
+          verbose: true
 
   # test-pypi-publish:
   #   name: Upload release to Test PyPI
