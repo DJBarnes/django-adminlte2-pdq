@@ -27,7 +27,7 @@ Get a string representation of what field type a given field is.
 
 .. code:: html+django
 
-    {% fieldtype field %}
+    {{ field|fieldtype }}
 
 
 with_attrs
@@ -376,7 +376,7 @@ Return the result of calling dir on an object.
 
 .. code:: html+django
 
-    {% directory field %}
+    {{ field|directory }}
 
 
 dictionary
@@ -391,7 +391,7 @@ Return the result of calling __dict__ on an object.
 
 .. code:: html+django
 
-    {% dictionary field %}
+    {{ field|dictionary }}
 
 
 unsnake
@@ -407,7 +407,7 @@ letter.
 
 .. code:: html+django
 
-    {% unsnake field %}
+    {{ my_snake|unsnake }}
 
 
 unslugify
@@ -422,4 +422,68 @@ Return a string that converts dash to spaces and capitalizes the first letter.
 
 .. code:: html+django
 
-    {% unslugify field %}
+    {{ my_slug|unslugify }}
+
+
+dict_get
+========
+
+Return value for a dict key or None if key does not exist.
+
+:param dict_instance: Dictionary to retrieve the value from with `get`.
+:param key: Key to use when attempting to `get` the value.
+:return: Value for the dict key or None if key does not exist.
+
+**Example:**
+
+.. code:: html+django
+
+    {{ my_dict|dict_get:my_key_var }}
+
+
+multiply
+========
+
+Return result of multiplying two values. Same as python's `*` operator.
+
+:param a: First value in multiplication operation.
+:param b: Second value in multiplication operation.
+:return: Result of the multiplication operation.
+
+**Example:**
+
+.. code:: html+django
+
+    {{ my_first_num|multiply:my_second_num }}
+
+
+divide
+======
+
+Return result of dividing the first value by the second. Same as python's `/` operator.
+
+:param a: Dividend in the division operation.
+:param b: Divisor in the division operation.
+:return: Result of the division operation.
+
+**Example:**
+
+.. code:: html+django
+
+    {{ my_first_num|divide:my_second_num }}
+
+
+modulo
+======
+
+Return remainder after dividing the first value by the second. Same as python's `%` operator.
+
+:param a: Dividend in the modulo operation.
+:param b: Division in the modulo operation.
+:return: Result of the modulo operation.
+
+**Example:**
+
+.. code:: html+django
+
+    {{ my_first_num|modulo:my_second_num }}
