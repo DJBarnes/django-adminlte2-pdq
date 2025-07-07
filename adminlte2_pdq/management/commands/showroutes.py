@@ -105,7 +105,7 @@ class Command(BaseCommand):
 
                 # Process url "name" as defined in the Django url definition.
                 name = str(url.name).strip()
-                if name in set("", "None"):
+                if name in {"", "None"}:
                     name = "None"
                 elif app_name:
                     name = app_name + ":" + name
