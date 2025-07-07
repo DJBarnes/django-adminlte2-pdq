@@ -29,6 +29,7 @@ from .constants import (
     LOGIN_URL,
     HOME_ROUTE,
     MEDIA_ROUTE,
+    STATIC_ROUTE,
     WEBSOCKET_ROUTE,
 )
 
@@ -98,6 +99,19 @@ class AuthMiddleware:
 
         # Handle if an invalid url was entered.
         if view_data["resolver"] is None:
+
+            # Verify that the path is not for static, media, or favicon, in which case a 404 is okay.
+            # Everything else should be an actual view. So, a redirect to the home page makes sense.
+            if (
+                # Verify if static route
+                self.verify_static_route(view_data["path"])
+                # Verify if media route
+                or self.verify_media_route(view_data["path"])
+                # Verify if favicon route
+                or self.verify_favicon_route(view_data["path"])
+            ):
+                raise Http404()
+
             # Entered url does not correspond to any view. Redirect to home route.
             if settings.DEBUG:
                 # Handle output when DEBUG = True.
@@ -570,6 +584,10 @@ class AuthMiddleware:
             or view_data["path"] in LOGIN_EXEMPT_WHITELIST
             # If passes requirements for custom login hook (defined on a per-project basis).
             or self.login_required_hook(request)
+            # If url is for favicon
+            or self.verify_favicon_route(view_data["path"])
+            # If url is for static, as defined in settings.
+            or self.verify_static_route(view_data["path"])
             # If url is for media, as defined in settings.
             or self.verify_media_route(view_data["path"])
             # If url is for websockets, as defined in settings.
@@ -620,11 +638,15 @@ class AuthMiddleware:
                 or view_data["path"] in STRICT_POLICY_WHITELIST
                 # If is the equivalent of the "Django Admin" app.
                 or view_data["app_name"] == "admin"
+                # If url is for favicon
+                or self.verify_favicon_route(view_data["path"])
+                # If url is for static, as defined in settings.
+                or self.verify_static_route(view_data["path"])
                 # If url is for media, as defined in settings.
                 or self.verify_media_route(view_data["path"])
                 # If url is for websockets, as defined in settings.
                 or self.verify_websocket_route(view_data["path"])
-                # If url is for redirecting, as defined in settings.
+                # If url is for redirecting.
                 or self.verify_redirect_route(view_data["view_class"])
             ):
                 # One or more conditions passed for url being exempt from checks.
@@ -757,6 +779,17 @@ class AuthMiddleware:
         """Hook that can be overridden in subclasses to add additional ways
         to pass the login required criteria. Should return either True or False."""
         return False
+
+    def verify_favicon_route(self, path):
+        """Verify that the path of the request is not a favicon request."""
+        return path == "/favicon.ico"
+
+    def verify_static_route(self, path):
+        """Verify that the path of the request is not a STATIC URL"""
+        return_val = False
+        if STATIC_ROUTE and STATIC_ROUTE != "/":
+            return_val = path.startswith(STATIC_ROUTE)
+        return return_val
 
     def verify_media_route(self, path):
         """Verify that the path of the request is not a MEDIA URL"""
