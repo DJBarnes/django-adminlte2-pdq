@@ -53,7 +53,7 @@ class Command(BaseCommand):
         include_codenames = not options["hide_codenames"]
 
         # Handle permission "content type" arg.
-        include_content_types = not options["hide_content_type"]
+        include_content_types = not options["hide_content_types"]
 
         # Get all permission objects.
         # all_permissions = Permission.objects.all()
