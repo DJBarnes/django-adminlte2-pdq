@@ -29,6 +29,9 @@ class Command(BaseCommand):
             help='Skip displaying url "endpoint name" values for each route.',
         )
         parser.add_argument(
+            "--hide-admin-routes", default=False, action="store_true", help="Skip displaying urls created by the admin."
+        )
+        parser.add_argument(
             "--show-lookup-strings",
             default=False,
             action="store_true",
@@ -62,6 +65,9 @@ class Command(BaseCommand):
 
         # Handle "app name" arg.
         include_url_names = not options["hide_url_names"]
+
+        # Handle "app name" arg.
+        hide_admin_routes = options["hide_admin_routes"]
 
         # Handle "lookup str" arg.
         include_lookup_str = options["show_lookup_strings"]
@@ -157,6 +163,10 @@ class Command(BaseCommand):
         # Display parsed url data.
         current_app_name = ""
         for url_dict in all_urls:
+
+            # Handle if user does not want to see the admin routes
+            if hide_admin_routes and url_dict["app_name"] == "admin":
+                continue
 
             # Handle if app name changed.
             if current_app_name == "":
