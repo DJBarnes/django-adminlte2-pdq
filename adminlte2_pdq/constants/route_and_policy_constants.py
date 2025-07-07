@@ -17,6 +17,7 @@ PWD_RESET_CONFIRM_ROUTE = getattr(settings, "PWD_RESET_CONFIRM_ROUTE", "password
 PWD_RESET_COMPLETE_ROUTE = getattr(settings, "PWD_RESET_COMPLETE_ROUTE", "password_reset_complete")
 REGISTER_ROUTE = getattr(settings, "REGISTER_ROUTE", "adminlte2_pdq:register")
 MEDIA_ROUTE = getattr(settings, "MEDIA_URL", "/media/")
+STATIC_ROUTE = getattr(settings, "STATIC_URL", "/static/")
 WEBSOCKET_ROUTE = getattr(settings, "WEBSOCKET_URL", "/ws/")
 
 

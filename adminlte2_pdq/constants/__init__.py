@@ -25,6 +25,7 @@ from .route_and_policy_constants import (
     PWD_RESET_COMPLETE_ROUTE,
     REGISTER_ROUTE,
     MEDIA_ROUTE,
+    STATIC_ROUTE,
     WEBSOCKET_ROUTE,
     HOME_ROUTE,
     PWD_CHANGE,
