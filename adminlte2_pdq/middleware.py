@@ -23,6 +23,7 @@ from .constants import (
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
+    STRICT_POLICY_SERVE_404_FUZZY_WHITELIST,
     STRICT_POLICY,
     STRICT_POLICY_WHITELIST,
     STRICT_POLICY_FUZZY_WHITELIST,
@@ -100,7 +101,7 @@ class AuthMiddleware:
         # Handle if an invalid url was entered.
         if view_data["resolver"] is None:
 
-            # Verify that the path is not for static, media, or favicon, in which case a 404 is okay.
+            # Verify that the path is not for static, media, favicon, or part of whitelist, in which case a 404 is okay.
             # Everything else should be an actual view. So, a redirect to the home page makes sense.
             if (
                 # Verify if static route
@@ -109,6 +110,8 @@ class AuthMiddleware:
                 or self.verify_media_route(view_data["path"])
                 # Verify if favicon route
                 or self.verify_favicon_route(view_data["path"])
+                # Verify if whitelisted route
+                or view_data["path"] in STRICT_POLICY_SERVE_404_FUZZY_WHITELIST
             ):
                 raise Http404()
 

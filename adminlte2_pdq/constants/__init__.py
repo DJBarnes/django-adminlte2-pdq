@@ -41,4 +41,5 @@ from .route_and_policy_constants import (
     STRICT_POLICY_FUZZY_WHITELIST,
     LOGIN_REQUIRED,
     STRICT_POLICY,
+    STRICT_POLICY_SERVE_404_FUZZY_WHITELIST,
 )

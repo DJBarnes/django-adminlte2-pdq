@@ -50,7 +50,7 @@ LOGIN_EXEMPT_WHITELIST += getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", 
 STRICT_POLICY_WHITELIST += getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", [])
 
 
-# App-wide whitelists.
+# Project-wide whitelists.
 # These take a url base, and whitelist any urls that stem from said base.
 # For example, this is required to make the Django Debug Toolbar function.
 LOGIN_EXEMPT_FUZZY_WHITELIST = tuple(
@@ -64,6 +64,24 @@ STRICT_POLICY_FUZZY_WHITELIST = tuple(
     getattr(
         settings,
         "ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST",
+        [],
+    )
+)
+
+# Project-wide serve 404 whitelist.
+# These take either a exact url or url base of urls that should serve a 404
+# and not redirect to the home page when strict mode is enabled.
+# Useful for uncontrollable requests that come from a browser or an extension.
+
+# EX: When using Chrome and the dev tools are open, there will be an automatic
+# request to your Django app for ".well-known/appspecific/com.chrome.devtools.json"
+# which may not exist. Redirecting to Home for that request seems wasteful.
+# So, that value or similar ones can be added to this whitelist to make sure
+# that they serve back a 404 instead of redirecting to Home.
+STRICT_POLICY_SERVE_404_FUZZY_WHITELIST = tuple(
+    getattr(
+        settings,
+        "ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST",
         [],
     )
 )
