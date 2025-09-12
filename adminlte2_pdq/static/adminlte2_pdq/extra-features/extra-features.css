@@ -1343,6 +1343,27 @@ Add support for Font Awesome 5 icons
 .user-panel > .info > a > .fal {
   margin-right: 3px;
 }
+ .sidebar-menu > li > a > .treeview-text {
+    text-overflow: ellipsis;
+    width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: -12px;
+    margin-bottom: -12px;
+ }
+ .sidebar-menu > li > a > .treeview-caret {
+    margin-top: -19px;
+    margin-bottom: -12px;
+    margin-right: -10px;
+    padding: 12px 10px 12px 8px;
+ }
+ .sidebar-menu > li > a {
+    text-decoration: none;
+ }
 .sidebar-menu > li > a > .fas,
 .sidebar-menu > li > a > .fab,
 .sidebar-menu > li > a > .far,

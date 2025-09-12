@@ -47,6 +47,7 @@ MENU = [
                 "icon": "fa fa-group",
             },
             {
+                "route": "adminlte2_pdq:sample2",
                 "text": "Sample Tree",
                 "icon": "fa fa-leaf",
                 "nodes": [

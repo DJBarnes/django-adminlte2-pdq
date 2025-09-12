@@ -77,6 +77,7 @@ class _AdminMenu:
                             "allow_without_permissions": False,
                             "one_of_permissions": model_perms,
                             "permissions": [],
+                            "active": request.path.startswith(url),
                         }
 
                         model_nodes.append(model_node)
@@ -84,10 +85,13 @@ class _AdminMenu:
             if model_nodes:
                 app_name = app["name"]
                 app_icon = self.get_app_icon(app_name)
+                active = request.path.startswith(app["app_url"])
 
                 tree = {
+                    "url": app["app_url"],
                     "text": app_name,
                     "icon": app_icon,
+                    "active": active,
                     "nodes": model_nodes,
                 }
 

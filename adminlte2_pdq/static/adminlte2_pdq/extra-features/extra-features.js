@@ -213,4 +213,21 @@ $(function () {
             }
         }
     });
+
+    // Allow for clicking tree text and using actual link instead of animation.
+    $(document).on('click', '.sidebar-menu li a', function (e) {
+        var target = $(e.target);
+        var anchor = $(e.currentTarget);
+        // If the actual icon for the caret was clicked, find the parent span containing the icon.
+        if (e.target.tagName.toLowerCase() === 'i' && target.hasClass('fa-angle-left')) {
+            target = target.closest('.treeview-caret');
+        }
+        if (!target.hasClass('treeview-caret')) {
+            e.stopPropagation();
+            var href = anchor.attr('href');
+            if (href !== undefined && href !== '' && href !== '#') {
+                window.location.href = href;
+            }
+        }
+    });
 });

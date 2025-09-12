@@ -46,14 +46,6 @@ NODE_REVERSE_ERROR_MESSAGE = (
 # region Render Functions
 
 
-@register.filter
-def url_starts_with(search_string, sub_string):
-    """Determine if a url starts with a sub string"""
-    stripped_search_string = strip_hash_bookmark_from_url(search_string)
-    stripped_sub_string = strip_hash_bookmark_from_url(sub_string)
-    return stripped_search_string.startswith(stripped_sub_string)
-
-
 @register.inclusion_tag("adminlte2/partials/_main_sidebar/_menu.html", takes_context=True)
 def render_menu(context):
     """Render out the sidebar menu.
@@ -137,12 +129,21 @@ def render_tree(context, node):
 
     A tree is an optional, expandable item with nodes within it.
     """
+    ensure_node_has_url_property(node, required=False)
     nodes = node.get("nodes")
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
     add_display_block = check_for_node_that_matches_request_path(context["request"], nodes)
 
     if not node.get("icon"):
         node["icon"] = "not-found"
+
+    active = False
+    if _determine_node_active_status(node, context["request"]):
+        active = True
+    for inner_node in node["nodes"]:
+        if _determine_node_active_status(inner_node, context["request"]):
+            active = True
+    node["active"] = active
 
     return {
         "node": node,
@@ -203,6 +204,8 @@ def render_link(context, node):
 
     if not node.get("icon"):
         node["icon"] = ""
+
+    node["active"] = _determine_node_active_status(node, context["request"])
 
     return {
         "node": node,
@@ -642,11 +645,11 @@ def get_view_from_node(node):
     return view
 
 
-def ensure_node_has_url_property(node):
+def ensure_node_has_url_property(node, required=True):
     """Ensure that a node has a url property"""
     if "url" not in node:
         try:
-            route = node["route"]
+            route = node["route"] if required else node.get("route", "#")
             route_args = node.get("route_args", [])
             route_kwargs = node.get("route_kwargs", {})
             if route != "#":
@@ -691,6 +694,25 @@ def check_for_node_that_matches_request_path(request, nodes):
 def strip_hash_bookmark_from_url(url):
     """Strip the hash bookmark from a string url"""
     return (url or "").split("#")[0]
+
+
+def _url_starts_with(search_string, sub_string):
+    """Determine if a url starts with a sub string"""
+    stripped_search_string = strip_hash_bookmark_from_url(search_string)
+    stripped_sub_string = strip_hash_bookmark_from_url(sub_string)
+    return stripped_search_string.startswith(stripped_sub_string)
+
+
+def _determine_node_active_status(node, request):
+    """Determine if a node should be active"""
+    active = False
+    if node.get("active_requires_exact_url_match", False):
+        if request.path == node["url"]:
+            active = True
+    else:
+        if _url_starts_with(request.path, node["url"]):
+            active = True
+    return active
 
 
 def _default_routes_are_registered():
