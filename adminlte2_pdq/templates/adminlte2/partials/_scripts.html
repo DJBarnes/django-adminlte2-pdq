@@ -17,6 +17,20 @@
 
   {% endblock scripts_main %}
 
+  <!-- Override some AdminLTE options -->
+  {% block adminlte_options %}
+    {% comment %}
+    {# See below commented section for an example.
+    Also refer to: adminlte2_pdq/static/adminlte2_pdq/third-party/admin-lte/X.X.X/js/app.js
+    for available options #}
+    <script>
+      $.AdminLTE.options.animationSpeed = 200;
+      $.AdminLTE.options.sidebarExpandOnHover = true;
+      $.AdminLTE.options.enableFastClick = true;
+    </script>
+    {% endcomment %}
+  {% endblock adminlte_options %}
+
   {% block scripts_main_fixes %}
     <!-- Extra Features and Fixes -->
     <script src="{% static 'adminlte2_pdq/extra-features/extra-features.js' %}"></script>
