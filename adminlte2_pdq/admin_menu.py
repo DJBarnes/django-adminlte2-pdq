@@ -85,10 +85,11 @@ class _AdminMenu:
             if model_nodes:
                 app_name = app["name"]
                 app_icon = self.get_app_icon(app_name)
-                active = request.path.startswith(app["app_url"])
+                app_url = app.get("app_url", "#")
+                active = request.path.startswith(app_url)
 
                 tree = {
-                    "url": app["app_url"],
+                    "url": app_url,
                     "text": app_name,
                     "icon": app_icon,
                     "active": active,

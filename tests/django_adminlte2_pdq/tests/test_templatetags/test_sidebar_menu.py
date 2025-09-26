@@ -1366,7 +1366,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview active">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
 
@@ -1402,7 +1402,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             rendered_template = template_to_render.render(context)
 
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview active">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
 
@@ -1436,7 +1436,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             rendered_template = template_to_render.render(context)
 
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview active">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
 
@@ -1469,13 +1469,15 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
 
             rendered_template = template_to_render.render(context)
 
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview active">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertNotIn("fa fa-leaf", rendered_template)
             self.assertIn("not-found", rendered_template)
 
         with self.subTest("Render link - Standard"):
             self._setup_staff_user("add_permission")
+
+            request = RequestFactory().get("/some/path/")
 
             node = {
                 "route": "adminlte2_pdq:sample2",
@@ -1487,9 +1489,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 {
                     "user": self.staff_user,
                     "node": node,
-                    "request": {
-                        "path": "/some/path",
-                    },
+                    "request": request,
                 }
             )
 
@@ -1503,6 +1503,8 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
         with self.subTest("Render link - No icon provided"):
             self._setup_staff_user("add_permission")
 
+            request = RequestFactory().get("/some/path/")
+
             node = {
                 "route": "adminlte2_pdq:sample2",
                 "text": "Sample2",
@@ -1512,9 +1514,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 {
                     "user": self.staff_user,
                     "node": node,
-                    "request": {
-                        "path": "/some/path",
-                    },
+                    "request": request,
                 }
             )
 
@@ -1528,6 +1528,8 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
         with self.subTest("Render link - Dynamic text via string"):
             self._setup_staff_user("add_permission")
 
+            request = RequestFactory().get("/some/path/")
+
             node = {
                 "route": "adminlte2_pdq:sample2",
                 "text": "Sample2",
@@ -1540,9 +1542,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 {
                     "user": self.staff_user,
                     "node": node,
-                    "request": {
-                        "path": "/some/path",
-                    },
+                    "request": request,
                 }
             )
 
@@ -1558,6 +1558,8 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
         with self.subTest("Render link - Dynamic text via tuple"):
             self._setup_staff_user("add_permission")
 
+            request = RequestFactory().get("/some/path/")
+
             node = {
                 "route": "adminlte2_pdq:sample2",
                 "text": "Sample2",
@@ -1570,9 +1572,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
                 {
                     "user": self.staff_user,
                     "node": node,
-                    "request": {
-                        "path": "/some/path",
-                    },
+                    "request": request,
                 }
             )
 
@@ -1635,7 +1635,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
         self.assertNotIn("<span>User</span>", rendered_template)
         self.assertIn('<li class="header">', rendered_template)
         self.assertIn("Samples", rendered_template)
-        self.assertIn('<li class="treeview">', rendered_template)
+        self.assertIn('<li class="treeview active">', rendered_template)
         self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
         self.assertIn("fa fa-building", rendered_template)
 
@@ -1694,7 +1694,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview ">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
 
@@ -1763,7 +1763,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview ">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
             self.assertIn('<li class="separator">', rendered_template)
@@ -1833,7 +1833,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview ">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
             self.assertIn('<li class="separator">', rendered_template)
@@ -1917,7 +1917,7 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview ">', rendered_template)
             self.assertIn('<span class="node-link-text" title="DemoCSS">DemoCSS</span>', rendered_template)
             self.assertIn("fa fa-building-o", rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
