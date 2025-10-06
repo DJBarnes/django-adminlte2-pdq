@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured
+from django.http import HttpRequest
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
@@ -1431,6 +1432,47 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
 
             self.assertFalse(match)
+
+    def test__determine_node_active_status(self):
+        """Test the the active status for a node is set properly"""
+        # pylint:disable=protected-access
+
+        # Setup a basic node used for the tests
+        node = {
+            "url": "/home/",
+            "text": "Sample1",
+            "icon": "fa fa-group",
+        }
+        # Setup a fake request object to use with testing
+        request = HttpRequest()
+        request.path = "/home/"
+
+        with self.subTest("Active True when exact match"):
+            request.path = "/home/"
+            active = sidebar_menu._determine_node_active_status(node, request)
+            self.assertTrue(active)
+
+        with self.subTest("Active True when starts with match"):
+            request.path = "/home/some/sub/url/"
+            active = sidebar_menu._determine_node_active_status(node, request)
+            self.assertTrue(active)
+
+        with self.subTest("Active False when no match"):
+            request.path = "/homey_da_clown/"
+            active = sidebar_menu._determine_node_active_status(node, request)
+            self.assertFalse(active)
+
+        with self.subTest("Active True when exact match and exact required"):
+            node["active_requires_exact_url_match"] = True
+            request.path = "/home/"
+            active = sidebar_menu._determine_node_active_status(node, request)
+            self.assertTrue(active)
+
+        with self.subTest("Active False when not exact match and exact required"):
+            node["active_requires_exact_url_match"] = True
+            request.path = "/home/some/sub/url/"
+            active = sidebar_menu._determine_node_active_status(node, request)
+            self.assertFalse(active)
 
 
 class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
