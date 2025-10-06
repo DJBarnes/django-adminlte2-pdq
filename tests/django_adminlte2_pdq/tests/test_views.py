@@ -3,7 +3,6 @@ Tests for Views
 """
 
 # System Imports.
-from unittest.mock import patch
 
 # Third-Party Imports.
 from django.conf import settings
@@ -97,7 +96,7 @@ class ViewsTestCase(TestCase):
     def test_demo_view_returns_correct_template(self):
         """Test demo view returns correct template"""
         request = RequestFactory().get("demo-css/")
-        request._messages = messages.storage.default_storage(request)
+        request._messages = messages.storage.default_storage(request)  # pylint: disable=protected-access
         request.user = self.test_user_w_perms
         request.site = MOCK_SITE
         response = views.demo_css(request)
