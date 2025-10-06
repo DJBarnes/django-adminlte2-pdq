@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import ImproperlyConfigured
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
@@ -241,6 +242,114 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             with self.assertRaises(NoReverseMatch) as err:
                 sidebar_menu.get_permissions_from_node(node)
             self.assertEqual(self.node_error__invalid_route_message, str(err.exception))
+
+        with self.subTest("Raises Improperly Configured node when both anonymous and login required"):
+            # Define node that will trigger improperly configured error
+            node = {
+                "route": "foobar",
+                "text": "Sample1",
+                "icon": "fa fa-group",
+                "allow_anonymous_access": True,
+                "login_required": True,
+            }
+
+            # Call function to test.
+            with self.assertRaises(ImproperlyConfigured) as err:
+                sidebar_menu.get_permissions_from_node(node)
+
+        with self.subTest("Raises Improperly Configured node when both no perms and permission required"):
+            # Define node that will trigger improperly configured error
+            node = {
+                "route": "foobar",
+                "text": "Sample1",
+                "icon": "fa fa-group",
+                "allow_without_permissions": True,
+                "permissions": ["foobar"],
+            }
+
+            # Call function to test.
+            with self.assertRaises(ImproperlyConfigured) as err:
+                sidebar_menu.get_permissions_from_node(node)
+
+        with self.subTest("Raises Improperly Configured node when both anonymous and permission required"):
+            # Define node that will trigger improperly configured error
+            node = {
+                "route": "foobar",
+                "text": "Sample1",
+                "icon": "fa fa-group",
+                "allow_anonymous_access": True,
+                "permissions": ["foobar"],
+            }
+
+            # Call function to test.
+            with self.assertRaises(ImproperlyConfigured) as err:
+                sidebar_menu.get_permissions_from_node(node)
+
+        with self.subTest("Raises Improperly Configured view when both anonymous and login required"):
+            # Define a valid node.
+            node = {
+                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
+                "text": "Sample1",
+                "icon": "fa fa-group",
+            }
+            # Patch the "get_permissions_from_view" method to return data that
+            # would reflect a view that is improperly configured. Then attempt
+            # to get the permissions from the node, which will ultimately pull
+            # from the patched view method and cause the improperly configured
+            with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as get_perm_from_view:
+                get_perm_from_view.return_value = {
+                    "allow_anonymous_access": True,
+                    "login_required": True,
+                    "allow_without_permissions": False,
+                    "one_of_permissions": None,
+                    "full_permissions": None,
+                }
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    sidebar_menu.get_permissions_from_node(node)
+
+        with self.subTest("Raises Improperly Configured view when both no perms and permission required"):
+            # Define a valid node.
+            node = {
+                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
+                "text": "Sample1",
+                "icon": "fa fa-group",
+            }
+            # Patch the "get_permissions_from_view" method to return data that
+            # would reflect a view that is improperly configured. Then attempt
+            # to get the permissions from the node, which will ultimately pull
+            # from the patched view method and cause the improperly configured
+            with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as get_perm_from_view:
+                get_perm_from_view.return_value = {
+                    "allow_anonymous_access": False,
+                    "login_required": False,
+                    "allow_without_permissions": True,
+                    "one_of_permissions": ["foobar"],
+                    "full_permissions": None,
+                }
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    sidebar_menu.get_permissions_from_node(node)
+
+        with self.subTest("Raises Improperly Configured view when both anonymous and permission required"):
+            # Define a valid node.
+            node = {
+                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
+                "text": "Sample1",
+                "icon": "fa fa-group",
+            }
+            # Patch the "get_permissions_from_view" method to return data that
+            # would reflect a view that is improperly configured. Then attempt
+            # to get the permissions from the node, which will ultimately pull
+            # from the patched view method and cause the improperly configured
+            with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as get_perm_from_view:
+                get_perm_from_view.return_value = {
+                    "allow_anonymous_access": True,
+                    "login_required": False,
+                    "allow_without_permissions": False,
+                    "one_of_permissions": ["foobar"],
+                    "full_permissions": None,
+                }
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    sidebar_menu.get_permissions_from_node(node)
 
     def test__get_permissions_from_node__standard(self):
         """Tests for get_permissions_from_node() function when passing a basic node."""
