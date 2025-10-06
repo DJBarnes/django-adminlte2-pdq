@@ -222,7 +222,7 @@ class ViewsTestCase(TestCase):
         self.assertContains(
             response,
             (
-                "Could not access the requested page. "
+                "Unable to locate the requested page. "
                 "If you believe this was an error, please contact the site administrator."
             ),
         )

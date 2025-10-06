@@ -37,7 +37,7 @@ RESPONSE_403_PRODUCTION_MESSAGE = str(
     getattr(
         settings,
         "ADMINLTE2_RESPONSE_403_PRODUCTION_MESSAGE",
-        "Could not access the requested page. If you believe this was an error, please contact the site administrator.",
+        "Unable to locate the requested page. If you believe this was an error, please contact the site administrator.",
     )
 ).strip()
 
@@ -56,6 +56,6 @@ RESPONSE_404_PRODUCTION_MESSAGE = str(
     getattr(
         settings,
         "ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE",
-        "Could not access the requested page. If you believe this was an error, please contact the site administrator.",
+        "Unable to locate the requested page. If you believe this was an error, please contact the site administrator.",
     )
 ).strip()
