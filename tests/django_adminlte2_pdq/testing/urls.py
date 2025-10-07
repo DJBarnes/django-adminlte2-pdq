@@ -18,10 +18,6 @@ from django.contrib import admin
 from django.urls import include, path
 
 
-# Will use the custom 404 provided by the package.
-handler404 = "adminlte2_pdq.views.view_404"
-
-
 urlpatterns = [
     # Standard "Django Admin" views, in Adminlte2 format.
     path("admin/", admin.site.urls),

@@ -16,6 +16,15 @@ BOLD_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_BOLD_REQUIRED_FIELDS", True)
 ASTERISK_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_ASTERISK_REQUIRED_FIELDS", True)
 
 
+# Whether the system should use it's default functionality of redirecting users
+# to the home page on a 403 error, or just raise a 403 error that should be
+# handled manually by whatever means the user of the package has set up.
+REDIRECT_TO_HOME_ON_403 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_403", True)
+# Whether the system should use it's default functionality of redirecting users
+# to the home page on a 404 error, or just raise a 404 error that should be
+# handled manually by whatever means the user of the package has set up.
+REDIRECT_TO_HOME_ON_404 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_404", True)
+
 # The message to show upon a standard 403 "missing permissions" redirect.
 # To skip showing messages, change either setting to a blank string.
 # The `debug` message only shows if the above ADMINLTE_DEBUG = True. Otherwise the `production` message shows.

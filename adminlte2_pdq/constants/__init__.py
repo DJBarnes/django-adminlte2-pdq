@@ -7,6 +7,9 @@ from .general_constants import (
     TIME_WIDGET,
     BOLD_REQUIRED_FIELDS,
     ASTERISK_REQUIRED_FIELDS,
+    # 403 / 404 handling.
+    REDIRECT_TO_HOME_ON_403,
+    REDIRECT_TO_HOME_ON_404,
     # Message settings.
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,

@@ -16,6 +16,8 @@ from django.views.generic.base import RedirectView
 
 # Internal Imports.
 from .constants import (
+    REDIRECT_TO_HOME_ON_403,
+    REDIRECT_TO_HOME_ON_404,
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     LOGIN_EXEMPT_FUZZY_WHITELIST,
@@ -112,6 +114,8 @@ class AuthMiddleware:
                 or self.verify_favicon_route(view_data["path"])
                 # Verify if whitelisted route
                 or view_data["path"] in STRICT_POLICY_SERVE_404_FUZZY_WHITELIST
+                # Site setup to handle 404s manually
+                or not REDIRECT_TO_HOME_ON_404
             ):
                 raise Http404()
 
@@ -153,10 +157,13 @@ class AuthMiddleware:
             and not self.verify_strict_mode_permission_set(request, view_data)
         ):
 
-            # Redirect to home route.
-            return redirect(HOME_ROUTE)
+            # Site setup to use built-in 403 handling
+            if REDIRECT_TO_HOME_ON_403:
+                # Redirect to home route.
+                return redirect(HOME_ROUTE)
 
-        # User passed all tests, return requested response.
+        # User passed all tests or wants to handle 403s manually,
+        # return requested response.
         response = self.get_response(request)
         if view_data["decorator_name"]:
             response.admin_pdq_data = view_data
@@ -709,7 +716,7 @@ class AuthMiddleware:
             else:
                 # Error if in production mode.
                 # Create Django Messages warning.
-                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
 
         # If we made it this far, then failed all checks, return False.
         return False

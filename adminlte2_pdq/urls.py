@@ -20,8 +20,6 @@ urlpatterns = [
     path("sample1/", views.sample1, name="sample1"),
     path("sample2/", views.sample2, name="sample2"),
     path("demo-css/", views.demo_css, name="demo-css"),
-    # 404 view. Required to make some logic importing behave as expected.
-    path("view-404/", views.view_404, name="view-404"),
     # Redirects to the home page
     path(
         "",

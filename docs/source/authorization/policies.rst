@@ -333,33 +333,28 @@ the specific settings in settings.py mentioned below.
             'tutorial'  # url_name of the route to the tutorial view.
         ]
 
-Handling 404s and Permission Denied
-===================================
+Handling 404s and 403s
+**********************
 
-This section shows a common way that you could handle 404 errors and
-a Permission Denied exception being thrown (403).
+This section explains how the package handles 404 and 403 errors by default.
+Additionally, it shows what options are available if you would like to do
+something different than the default package behavior.
 
-For starters, Permission Denied can be raised in one of two ways.
+Handling 404 Errors
+===================
 
-1.  You are using the :ref:`authorization/policies:strict policy`
-    and you have not defined any permissions on a view that a user is
-    trying to access.
+404s have a built-in handling behavior. This can be disabled if you
+do not want to use it, which will then just use the default Django handling.
 
-2.  You have defined some required permissions on a view but the user does not
-    meet the required criteria.
+Handling 404s with the Built-In Behavior
+----------------------------------------
 
-When this happens, we believe that it is good to do something different than
-the default behavior that Django provides of just returning a 403 error.
-We believe that it may be better to handle it as if it were a 404 so
-that users are unaware that the location they are trying to access has an
-actual endpoint that they do not have permission to access. It will make it
-harder for bad actors to phish for endpoints that they should not know exist.
-
-This package comes with a view that can be used for 404s and optionally 403s.
-This view will add a warning message via the
+This package comes with built-in behavior to handle 404s, which is on by default
+The built-in functionality is to add a warning message via the
 `Django messages framework <https://docs.djangoproject.com/en/dev/ref/contrib/messages/>`_
-indicating that the page does not exist as well as adding a debug message with
-specifics about what caused the exception. It then redirects to the
+indicating that the page does not exist. It will additionally add a debug
+message and log entry with specifics about what caused the 404 exception.
+It then redirects to the
 :ref:`configuration/home:adminlte2_home_route`
 where the user can see those messages.
 
@@ -370,34 +365,114 @@ where the user can see those messages.
     debug messages can see it, but in production where debug messages should
     not be shown, it will be not rendered.
 
-If you like this behavior and would like to enable it on your site, you can
-add the following to your root urls.py file:
+The package does have some exceptions to the above handling of 404s.
+If the requested url is part of the **static files**, the **media files**,
+a **favicon**, or part of a **special list** in the settings,
+it will do the default Django 404 action by just raising a ``Http404`` error
+and allowing Django to handle it.
 
-**urls.py**
+The special setting that allows you to just raise a ``Http404`` error
+is called ``ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST``.
+This setting can be added to ``settings.py`` and must contain a list of
+"starts with" patterns that should always be treated as actual 404s vs redirects
+to the home page. This is good for requests that might come directly from a
+browser via extensions or developer tools and are out of the developers control.
+Using this setting will prevent the server from sending back the entire
+home page for what should actually be a basic 404 response.
 
-.. code:: python
+**settings.py**
 
-    handler404 = 'adminlte2_pdq.views.view_404'
+    .. code:: python
 
-    urlpatterns = [
-        ...
-    ]
+        ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST = [
+            "/.well-known/appspecific/com.chrome.devtools.json",
+        ]
 
-.. note::
 
-    It must be added to the root urls.py file. It can not be in an app's urls.py
-    file. More information can be found in the
-    `Django Docs <https://docs.djangoproject.com/en/dev/topics/http/urls/#error-handling>`_
+Handling 404s Manually
+----------------------
 
-Additionally, if you would like to also have your 403s for Permission Denied
-exceptions use the same behavior, you can make the 403s also use this same view.
+If you do not want to use the built-in handling for 404 errors and would like
+full control over how to handle them, you should disable the built-in behavior
+with the following setting:
 
-**urls.py**
+**settings.py**
 
-.. code:: python
+    .. code:: python
 
-    handler403 = 'adminlte2_pdq.views.view_404'
+        ADMINLTE2_REDIRECT_TO_HOME_ON_404 = False
 
-    urlpatterns = [
-        ...
-    ]
+
+Handling 403 Errors
+===================
+
+403s also have a built-in handling behavior. This can also be disabled if you
+do not want to use it, which will then just use the default Django handling.
+
+Handling 403s with the Built-In Behavior
+----------------------------------------
+
+To better understand how the built-in 403 handling works, we need
+to clarify some things. Permission Denied (403) can be raised primarily in one
+of two ways.
+
+1.  You are using the :ref:`authorization/policies:strict policy`
+    and you have not defined any permissions on a view that a user is
+    trying to access.
+
+2.  Regardless of the :ref:`authorization/policies:strict policy`,
+    you have defined some required permissions on a view
+    and the user does not meet the required criteria.
+
+When this happens, we believe that it is good to do something different than
+the default behavior that Django provides of just returning a 403 error.
+We believe that it may be better to handle it as if it were a 404 so
+that users are unaware that the location they are trying to access has an
+actual endpoint that they do not have permission to access. It will make it
+harder for bad actors to phish for endpoints that they should not know exist.
+
+Just like the built-in functionality for 404s,
+this package comes with built-in behavior to handle 403s, which is also on by
+default. The built-in functionality is to also add a warning message via the
+`Django messages framework <https://docs.djangoproject.com/en/dev/ref/contrib/messages/>`_
+indicating that the page does not exist. It will additionally add a debug
+message and log entry with specifics about what caused the 403 exception.
+It then redirects to the
+:ref:`configuration/home:adminlte2_home_route`
+where the user can see those messages.
+
+Handling 403s Manually
+----------------------
+
+If you do not want to use the built-in handling for 404 errors and would like
+full control over how to handle them, you should disable the built-in behavior
+with the following setting:
+
+**settings.py**
+
+    .. code:: python
+
+        ADMINLTE2_REDIRECT_TO_HOME_ON_404 = False
+
+
+Customizing the built-in 404 and 403 messages
+---------------------------------------------
+
+If you would like to customize the messages that are shown to the user
+when using the built-in 404 or 403 handling,
+you can set the following settings in ``settings.py``.
+This will also allow you to use different messages for 403 errors in the event
+that you do not want it to operate the same as 404 errors.
+
+**settings.py**
+
+    .. code:: python
+
+        ADMINLTE2_RESPONSE_404_DEBUG_MESSAGE = "Nothing to see here!"
+
+        ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE = "Nothing to see here!"
+
+        ADMINLTE2_RESPONSE_403_DEBUG_MESSAGE = "You lack the power!"
+
+        ADMINLTE2_RESPONSE_403_PRODUCTION_MESSAGE = "You lack the power!"
+
