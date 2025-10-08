@@ -94,6 +94,68 @@ class ConfigurationMiddlewareTestCase(MiddlewareBaseTestCase):
             self.client.get(reverse("adminlte2_pdq:demo-css"))
 
 
+class NotFound404HandlingTestCase(MiddlewareBaseTestCase):
+    """Test that the middleware handles 404s as intended."""
+
+    def test__unknown_static_url_returns_404(self):
+        """Test that an unknown static url returns the default Django 404 page
+        vs redirecting to the home page"""
+        response = self.client.get("/static/missing.css")
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("Not Found", response.content.decode())
+
+    @patch("adminlte2_pdq.middleware.STATIC_ROUTE", "/")
+    def test__unknown_static_url_redirects_to_home_when_static_setting_incorrect(self):
+        """Test that an unknown static url redirects to home when the
+        static setting is incorrect"""
+        response = self.client.get("/static/missing.css", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Dashboard")
+
+    def test__unknown_media_url_returns_404(self):
+        """Test that an unknown static url returns the default Django 404 page
+        vs redirecting to the home page"""
+        response = self.client.get("/media/missing.png", follow=True)
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("Not Found", response.content.decode())
+
+    @patch("adminlte2_pdq.middleware.MEDIA_ROUTE", "/")
+    def test__unknown_media_url_redirects_to_home_when_media_setting_incorrect(self):
+        """Test that an unknown media url redirects to home when the
+        media setting is incorrect"""
+        response = self.client.get("/media/missing.png", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Dashboard")
+
+    def test__unknown_favicon_url_returns_404(self):
+        """Test that an unknown static url returns the default Django 404 page
+        vs redirecting to the home page"""
+        response = self.client.get("/favicon.ico", follow=True)
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("Not Found", response.content.decode())
+
+    def test__unknown_whitelisted_url_returns_404(self):
+        """Test that an unknown static url returns the default Django 404 page
+        vs redirecting to the home page"""
+        response = self.client.get("/.well-known/appspecific/com.chrome.devtools.json", follow=True)
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("Not Found", response.content.decode())
+
+    def test__unknown_app_url_redirects_to_home(self):
+        """Test that an unknown app url redirects to the home page"""
+        response = self.client.get("/missing/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Dashboard")
+
+    @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_404", False)
+    def test__unknown_app_url_returns_404_when_redirect_turned_off(self):
+        """Test that an unknown static url returns the default Django 404 page
+        vs redirecting to the home page when redirect turned off"""
+        response = self.client.get("/missing/", follow=True)
+        self.assertEqual(response.status_code, 404)
+        self.assertIn("Not Found", response.content.decode())
+
+
 @override_settings(DEBUG=True)
 class StandardMiddlewareTestCase(MiddlewareBaseTestCase):
     """Test Middleware handling when in "LOOSE" authentication mode."""
