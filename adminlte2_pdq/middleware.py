@@ -80,12 +80,12 @@ class AuthMiddleware:
             Some of this has to be in the middleware, due to
         """
 
-        # Ensure user object is accessible for Authentication checks.
-        if not hasattr(request, "user"):
+        # Ensure user object is accessible for Authentication checks and messages is available.
+        if not hasattr(request, "user") or not hasattr(request, "_messages"):
             # Django SessionMiddleware is required to use Django AuthenticationMiddleware.
             # Django AuthenticationMiddleware is what gives us access to user object in request.
             # Django MessageMiddleware is required to display messages to user on middleware failure for a view.
-            raise ImportError(
+            raise ImproperlyConfigured(
                 "The Django-AdminLTE2-PDQ AuthMiddleware requires Django authentication middleware to be installed. "
                 "Edit your MIDDLEWARE_CLASSES setting to include:\n\n"
                 ' * "django.contrib.sessions.middleware.SessionMiddleware",\n'

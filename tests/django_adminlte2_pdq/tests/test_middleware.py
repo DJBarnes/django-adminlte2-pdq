@@ -3,6 +3,7 @@ Tests for Middleware
 """
 
 # System Imports.
+from copy import copy
 from unittest.mock import patch
 
 # Third-Party Imports.
@@ -10,6 +11,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
+from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings, TestCase
 from django.urls import reverse
 from pytest import warns
@@ -22,6 +24,13 @@ from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITEL
 UserModel = get_user_model()  # pylint: disable=invalid-name
 UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:demo-css"]
 UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ["adminlte2_pdq:demo-css"]
+
+NO_SESSION_MIDDLEWARE = copy(settings.MIDDLEWARE)
+NO_SESSION_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
+NO_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
+NO_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
+NO_MESSAGES_MIDDLEWARE = copy(settings.MIDDLEWARE)
+NO_MESSAGES_MIDDLEWARE.remove("django.contrib.messages.middleware.MessageMiddleware")
 
 
 class MiddlewareBaseTestCase(TestCase):
@@ -61,6 +70,28 @@ class MiddlewareBaseTestCase(TestCase):
         all_permissions = Permission.objects.all()
         for permission in all_permissions:
             self.test_user_w_perms.user_permissions.add(permission)
+
+
+class ConfigurationMiddlewareTestCase(MiddlewareBaseTestCase):
+    """Test that the project is set up correctly to use PDQ"""
+
+    @override_settings(MIDDLEWARE=NO_SESSION_MIDDLEWARE)
+    def test__missing_session_middleware_raises_error(self):
+        """Test that project with missing session middleware raises error"""
+        with self.assertRaises(ImproperlyConfigured):
+            self.client.get(reverse("adminlte2_pdq:demo-css"))
+
+    @override_settings(MIDDLEWARE=NO_AUTH_MIDDLEWARE)
+    def test__missing_auth_middleware_raises_error(self):
+        """Test that project with missing auth middleware raises error"""
+        with self.assertRaises(ImproperlyConfigured):
+            self.client.get(reverse("adminlte2_pdq:demo-css"))
+
+    @override_settings(MIDDLEWARE=NO_MESSAGES_MIDDLEWARE)
+    def test__missing_message_middleware_raises_error(self):
+        """Test that project with missing message middleware raises error"""
+        with self.assertRaises(ImproperlyConfigured):
+            self.client.get(reverse("adminlte2_pdq:demo-css"))
 
 
 @override_settings(DEBUG=True)
