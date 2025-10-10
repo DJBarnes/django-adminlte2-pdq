@@ -7,7 +7,6 @@ from unittest.mock import patch
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 from pytest import warns
@@ -370,13 +369,7 @@ class StrictModeMixin:
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-@override_settings(STRICT_POLICY=True)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
 class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
     """Runtime test execution of mixins under "Strict" mode."""
@@ -384,14 +377,15 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
@@ -405,17 +399,8 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-@override_settings(STRICT_POLICY=True)
-@override_settings(ADMINLTE2_LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@override_settings(LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-@patch("adminlte2_pdq.constants.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)
 @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)
 class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, StrictModeMixin):
     """Runtime test execution of mixins under "Strict" mode, with login whitelist set for views.
@@ -431,14 +416,15 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(13, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
@@ -833,17 +819,8 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-@override_settings(STRICT_POLICY=True)
-@override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
-@override_settings(STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY_WHITELIST", PERM_WHITELIST_VIEWS)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", PERM_WHITELIST_VIEWS)
 class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictModeMixin):
     """Runtime test execution of mixins under "Strict" mode, with login whitelist set for views.
@@ -858,14 +835,15 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(16, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
@@ -1054,21 +1032,9 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-@override_settings(STRICT_POLICY=True)
-@override_settings(ADMINLTE2_LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@override_settings(LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@override_settings(ADMINLTE2_STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
-@override_settings(STRICT_POLICY_WHITELIST=PERM_WHITELIST_VIEWS)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-@patch("adminlte2_pdq.constants.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)
 @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)
-@patch("adminlte2_pdq.constants.STRICT_POLICY_WHITELIST", PERM_WHITELIST_VIEWS)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", PERM_WHITELIST_VIEWS)
 class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, StrictModeMixin):
     """Runtime test execution of mixins under "Strict" mode, with login whitelist set for views.
@@ -1082,14 +1048,15 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(13, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(16, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
@@ -1260,13 +1227,7 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-@override_settings(STRICT_POLICY=True)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
 class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
     """Tests to make sure mixin logic doesn't bleed into each other.
@@ -1289,14 +1250,15 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertTrue(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
@@ -1602,13 +1564,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=True)
-@override_settings(STRICT_POLICY=True)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
 class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
     """Tests for overlapping mixin use.

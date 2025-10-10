@@ -465,8 +465,6 @@ class MiddlewareUrlProcessingTestCaseAppendSlashFalse(MiddlewareBaseTestCase):
             self.assertEqual("/accounts/login/", response.request["PATH_INFO"])
 
 
-# TODO: Even though the value in constants should always set LOGIN_REQUIRED = True when in STRICT mode,
-#       this patch doesn't seem to. Not sure if there's a better way to handle overriding the settings.
 @override_settings(DEBUG=True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)

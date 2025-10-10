@@ -8,7 +8,6 @@ from pytest import warns
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 
@@ -319,9 +318,6 @@ class LoginModeMixin:
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase, LoginModeMixin):
     """Runtime test execution of decorators under "Login Required" mode."""
@@ -329,14 +325,15 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase, LoginMode
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertFalse(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
@@ -350,13 +347,7 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase, LoginMode
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=True)
-@override_settings(LOGIN_REQUIRED=True)
-@override_settings(ADMINLTE2_LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@override_settings(LOGIN_EXEMPT_WHITELIST=LOGIN_WHITELIST_VIEWS)
-@patch("adminlte2_pdq.constants.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-@patch("adminlte2_pdq.constants.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)
 @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST_VIEWS)
 class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase, LoginModeMixin):
     """Runtime test execution of decorators under "Login Required" mode, with whitelist set for views.
@@ -375,14 +366,15 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertTrue(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertFalse(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(13, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,

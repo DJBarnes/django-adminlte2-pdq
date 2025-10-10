@@ -6,7 +6,6 @@ Tests for Decorator login in project "loose" authentication mode.
 from unittest.mock import patch
 
 # Third-Party Imports.
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 
@@ -15,9 +14,6 @@ from .base_test_case import BaseDecoratorTestCase
 
 
 @override_settings(DEBUG=True)
-@override_settings(ADMINLTE2_USE_STRICT_POLICY=False)
-@override_settings(STRICT_POLICY=False)
-@patch("adminlte2_pdq.constants.STRICT_POLICY", False)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
 class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
     """
@@ -27,14 +23,15 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
     def test__verify_patch_settings(self):
         """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
 
-        # Verify actual project settings values.
-        self.assertFalse(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
-        self.assertFalse(getattr(settings, "STRICT_POLICY", False))
-        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
-        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
 
-        # Verify values imported from constants.py file.
-        from adminlte2_pdq.constants import (
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
             LOGIN_EXEMPT_WHITELIST,
