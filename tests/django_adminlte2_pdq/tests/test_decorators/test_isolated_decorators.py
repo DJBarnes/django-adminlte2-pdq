@@ -6,7 +6,7 @@ Tests for Decorators
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser, Group, Permission
+from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse

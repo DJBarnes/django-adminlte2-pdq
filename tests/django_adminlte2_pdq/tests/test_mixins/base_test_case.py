@@ -8,15 +8,11 @@ Tests for Mixins
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import ImproperlyConfigured
-from django.http import HttpResponse
-from django.test import RequestFactory, TestCase
-from django.views import View
+from django.test import RequestFactory
 from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
-from adminlte2_pdq.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
 # Module Variables.
@@ -315,7 +311,7 @@ class BaseMixinTextCase(IntegrationTestCase):
             *self.user_list__authenticated,
         ]
 
-    def assertAdminPdqData(
+    def assertAdminPdqData(  # pylint:disable=invalid-name
         self,
         response,
         is_empty=False,

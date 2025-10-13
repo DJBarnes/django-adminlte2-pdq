@@ -6,13 +6,12 @@ Tests for Mixins
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser, Group, Permission
+from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpResponse
 from django.test import RequestFactory, TestCase
 from django.views import View
-from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
