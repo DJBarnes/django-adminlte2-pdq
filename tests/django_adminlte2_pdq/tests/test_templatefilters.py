@@ -366,3 +366,56 @@ class TemplateTagTestCase(TestCase):
 
             # Verify retrieved value.
             self.assertIn("This is only a test", result)
+
+    def test_filter__dict_get(self):
+        """Tests for the "dict_get" filter."""
+
+        with self.subTest("Verify returns dict value if it exists"):
+            # Create test dict
+            test_dict = {"foo": "bar"}
+
+            # Get value from filter.
+            result = adminlte_filters.dict_get(test_dict, "foo")
+
+            # Verify retrieved value.
+            self.assertEqual("bar", result)
+
+        with self.subTest("Verify returns None if dict value does not exist"):
+            # Create test dict
+            test_dict = {"foo": "bar"}
+
+            # Get value from filter.
+            result = adminlte_filters.dict_get(test_dict, "baz")
+
+            # Verify retrieved value.
+            self.assertIsNone(result)
+
+    def test_filter__multiply(self):
+        """Tests for the "multiply" filter."""
+
+        with self.subTest("Verify multiplies first and second parameters together"):
+            # Get value from filter.
+            result = adminlte_filters.multiply(6, 3)
+
+            # Verify retrieved value.
+            self.assertEqual(18, result)
+
+    def test_filter__divide(self):
+        """Tests for the "divide" filter."""
+
+        with self.subTest("Verify divides first parameter by the second parameter"):
+            # Get value from filter.
+            result = adminlte_filters.divide(18, 3)
+
+            # Verify retrieved value.
+            self.assertEqual(6, result)
+
+    def test_filter__modulo(self):
+        """Tests for the "modulo" filter."""
+
+        with self.subTest("Verify remainder from dividing first parameter by the second parameter"):
+            # Get value from filter.
+            result = adminlte_filters.modulo(20, 3)
+
+            # Verify retrieved value.
+            self.assertEqual(2, result)
