@@ -688,6 +688,27 @@ class TemplateTagTestCase(TestCase):
                 rendered_template,
             )
 
+    def test__get_login_url__no_entry_in_settings(self):
+        """Test get login url no entry in settings"""
+        context = Context({})
+
+        template_to_render = Template("{% load adminlte_tags %}{% get_login_url %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn("/accounts/login", rendered_template)
+
+    @override_settings(LOGIN_URL="/foobar/login/")
+    def test__get_login_url__entry_in_settings(self):
+        """Should fallback to default."""
+        context = Context({})
+
+        template_to_render = Template("{% load adminlte_tags %}{% get_login_url %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn("/foobar/login", rendered_template)
+
     def test__get_logout_url__no_entry_in_settings(self):
         """Test get logout url no entry in settings"""
         context = Context({})
