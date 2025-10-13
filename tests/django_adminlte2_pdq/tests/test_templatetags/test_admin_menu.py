@@ -214,11 +214,51 @@ class TemplateTagAdminMenuTestCase(TestCase):
             self.assertIn('<span class="node-link-text" title="foo">foo</span>', rendered_template)
 
     @override_settings(ADMINLTE2_ADMIN_MENU_IN_TREE=True)
-    def test__render_admin_menu__admin_menu_in_tree(self):
-        """Test render admin menu works for superuser with admin menu in tree settings"""
+    def test__render_admin_menu__admin_menu_in_tree_with_apps(self):
+        """Test render admin menu works for superuser with admin menu in tree settings with apps"""
 
         user = self.create_user()
-        # user.is_superuser = True
+        user.is_superuser = True
+        request = RequestFactory().get("/rand")
+        setattr(request, "user", user)
+
+        available_apps = [
+            {
+                "app_label": "AUTH",
+                "name": "Authentication",
+                "models": [
+                    {
+                        "perms": {
+                            "add_foo": True,
+                            "update_foo": True,
+                        },
+                        "object_name": "foo",
+                        "change_url": "/foo",
+                    },
+                ],
+            }
+        ]
+
+        context = Context(
+            {
+                "request": request,
+                "user": user,
+                "available_apps": available_apps,
+            }
+        )
+
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
+
+        rendered_template = self.normalize_html(template_to_render.render(context))
+
+        self.assertIn('<li class="treeview active">', rendered_template)
+
+    @override_settings(ADMINLTE2_ADMIN_MENU_IN_TREE=True)
+    def test__render_admin_menu__admin_menu_in_tree_no_apps(self):
+        """Test render admin menu works for superuser with admin menu in tree settings and no apps"""
+
+        user = self.create_user()
+        user.is_superuser = True
         request = RequestFactory().get("/rand")
         setattr(request, "user", user)
 
@@ -232,7 +272,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         rendered_template = self.normalize_html(template_to_render.render(context))
 
-        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn('<li class="treeview active">', rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=True)
     def test__render_admin_menu__include_main_nav(self):
