@@ -78,6 +78,10 @@ class BaseMixinTextCase(IntegrationTestCase):
         "\n\n"
         "Also consider the 'AllowAnonymousAccess' mixin."
     )
+    pdq_loose__login_required_mixin_login_whitelist_message = (
+        "AdminLtePdq Error: The class-based view 'LoginRequiredView' has a 'LoginRequired' "
+        "mixin, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
+    )
     pdq_login__allow_without_permissions_mixin_message = (
         "AdminLtePdq Error: The 'AllowWithoutPermissions' mixin is not supported in AdminLtePdq "
         "LOGIN REQUIRED mode. This mixin only exists for clarity of permission access in STRICT mode."

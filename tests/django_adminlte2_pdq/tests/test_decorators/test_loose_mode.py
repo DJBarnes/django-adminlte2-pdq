@@ -135,6 +135,25 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
                 # Verify values associated with returned view.
                 self.assertAdminPdqData(response, decorator_name="login_required", login_required=True)
 
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq_tests:function-login-required"])
+    def test__login_required_decorator_and_login_whitelisted(self):
+        """Test when both login_required decorator used and view is login whitelisted
+        in "Loose" mode raises improperly configured error."""
+
+        # Conflict between decorator and whitelist for login required. Should raise error for all user types.
+        for user_instance, user_str in self.user_list__full:
+            with self.subTest(f"As {user_str}"):
+
+                with self.assertRaises(ImproperlyConfigured) as err:
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:function-login-required",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=500,
+                    )
+                self.assertText(self.pdq_loose__login_required_decorator_login_whitelist_message, str(err.exception))
+
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Loose" mode."""
 
