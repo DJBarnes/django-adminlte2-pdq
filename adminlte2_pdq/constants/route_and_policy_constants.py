@@ -86,20 +86,40 @@ STRICT_POLICY_SERVE_404_FUZZY_WHITELIST = tuple(
     )
 )
 
-
-# Get whether or not we are using LoginRequired and PermissionRequired.
-# NOTE: By nature of what STRICT_POLICY is, it implicitly means login is required.
-STRICT_POLICY = getattr(settings, "ADMINLTE2_USE_STRICT_POLICY", False)
-if STRICT_POLICY:
-    LOGIN_REQUIRED = True
-else:
-    LOGIN_REQUIRED = getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False)
+# NOTE: This below logic is in functions vs right at module level so that it can be properly tested.
+# They are however called below at module level to ensure that they get run on import.
 
 
-# Verify state of whitelist values against chosen policy.
-if not STRICT_POLICY and getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", []) != []:
-    # Permission whitelisted, but outside of STRICT mode.
-    raise ImproperlyConfigured("Can't use ADMINLTE2_STRICT_POLICY_WHITELIST outside of STRICT_POLICY = True.")
-if not LOGIN_REQUIRED and getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", []) != []:
-    # Login whitelisted, but outside of LOGIN_REQUIRED mode.
-    raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True.")
+def get_strict_policy():
+    """Get the STRICT_POLICY constant value"""
+
+    strict_policy = getattr(settings, "ADMINLTE2_USE_STRICT_POLICY", False)
+    # Verify state of whitelist values against chosen policy.
+    if not strict_policy and getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", []) != []:
+        # Permission whitelisted, but outside of STRICT mode.
+        raise ImproperlyConfigured("Can't use ADMINLTE2_STRICT_POLICY_WHITELIST outside of STRICT_POLICY = True.")
+    # Return the strict policy
+    return strict_policy
+
+
+def get_login_required_policy(strict_policy):
+    """Get the LOGIN_REQUIRED_POLICY constant value"""
+
+    # Get the login policy from the settings.
+    login_policy = getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False)
+
+    # NOTE: By nature of what STRICT_POLICY is, it implicitly means login is required.
+    if strict_policy:
+        login_policy = True
+
+    # Verify state of whitelist values against chosen policy.
+    if not login_policy and getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", []) != []:
+        # Login whitelisted, but outside of LOGIN_REQUIRED mode.
+        raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True.")
+    # Return the strict policy
+    return login_policy
+
+
+# Get whether or not we are using STRICT_POLICY and LOGIN_REQUIRED.
+STRICT_POLICY = get_strict_policy()
+LOGIN_REQUIRED = get_login_required_policy(STRICT_POLICY)
