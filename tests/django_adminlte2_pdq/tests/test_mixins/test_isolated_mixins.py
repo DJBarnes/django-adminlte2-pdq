@@ -255,6 +255,30 @@ class TestIsolatedMixins(TestCase):
 
         self.assertEqual(response.status_code, 302)
 
+    def test__permission_required_one__raises_error_when_permission_is_unknown_type(self):
+        """Test PermissionRequiredMixin with permission_required_one raises
+        error when permission type is unknown type"""
+
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+
+            # Set permission required to the built-in "max" function, which is NOT a permission.
+            permission_required_one = max
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse("foobar")
+
+        with self.assertRaises(TypeError) as cm:
+            request = self.factory.get("/rand")
+            setattr(request, "user", self.none_user)
+            TestView.as_view()(request)
+
+        self.assertEqual(
+            str(cm.exception),
+            f"Unknown type ({type(max)}) for permission. Expected list, tuple, or string.",
+        )
+
     # endregion One Permission Required Tests
 
     # region Permission Required Tests
@@ -346,5 +370,29 @@ class TestIsolatedMixins(TestCase):
             request = self.factory.get("/rand")
             setattr(request, "user", self.full_user)
             TestView.as_view()(request)
+
+    def test__permission_required__raises_error_when_permission_is_unknown_type(self):
+        """Test PermissionRequiredMixin with permission_required raises error
+        when permission type is unknown type"""
+
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+
+            # Set permission required to the built-in "max" function, which is NOT a permission.
+            permission_required = max
+
+            def get(self, request):
+                """Test get method"""
+                return HttpResponse("foobar")
+
+        with self.assertRaises(TypeError) as cm:
+            request = self.factory.get("/rand")
+            setattr(request, "user", self.none_user)
+            TestView.as_view()(request)
+
+        self.assertEqual(
+            str(cm.exception),
+            f"Unknown type ({type(max)}) for permission. Expected list, tuple, or string.",
+        )
 
     # endregion Permission Required Tests

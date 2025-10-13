@@ -50,12 +50,12 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
 def _sanitize_permissions(permission):
     """Sanitized permission values based on type."""
 
-    if isinstance(permission, (list, tuple)):
-        # Is iterable type. Convert to consistent format.
-        permissions = tuple(permission)
-    elif isinstance(permission, str):
+    if isinstance(permission, str):
         # Is str type. Assume is a single permission.
         permissions = (permission,)
+    elif isinstance(permission, (list, tuple)):
+        # Is iterable type. Convert to consistent format.
+        permissions = tuple(permission)
     else:
         # Is other type. Raise error.
         raise TypeError(f"Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.")

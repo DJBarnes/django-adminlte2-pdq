@@ -111,7 +111,7 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         cls.subclasses.append(cls.__name__)
 
     def dispatch(self, request, *args, **kwargs):
-        # Override to always redirect to login in event of permission failure.
+        # Override to always redirect to home in event of permission failure.
         # Default behavior is to redirect to login if unauthenticated, and
         # raise forbidden view otherwise.
         if not self.has_permission():
@@ -169,6 +169,10 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
             )
             raise ImproperlyConfigured(error_message)
 
+        # Set some defaults
+        unknown_perms_one_type = False
+        unknown_perms_all_type = False
+
         # Sanitize permission_required.
         if isinstance(self.permission_required, str):
             perms_all = (self.permission_required,)
@@ -177,6 +181,7 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         else:
             # Need to allow "other" in case user is provided permission_required_one.
             perms_all = tuple()
+            unknown_perms_all_type = self.permission_required is not None
 
         # Sanitize permission_required_one.
         if isinstance(self.permission_required_one, str):
@@ -186,6 +191,13 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         else:
             # Need to allow "other" in case user is provided permission_required.
             perms_one = tuple()
+            unknown_perms_one_type = self.permission_required_one is not None
+
+        # If neither of the perms are set correctly, raise error
+        if unknown_perms_all_type or unknown_perms_one_type:
+            incorrect_type = self.permission_required or self.permission_required_one
+            # Is other type. Raise error.
+            raise TypeError(f"Unknown type ({type(incorrect_type)}) for permission. Expected list, tuple, or string.")
 
         return perms_all, perms_one
 

@@ -254,6 +254,21 @@ class TestIsolatedDecorators(TestCase):
                 ("auth.add_foo", "auth.change_foo"),
             )
 
+    def test__permission_required_one__raises_error_when_permission_is_unknown_type(self):
+        """Test permission_required_one raises error when permission type is unknown type"""
+
+        with self.assertRaises(TypeError) as cm:
+
+            # Create view with a permission required one of the built-in "max" function, which is NOT a permission.
+            @permission_required_one(max, raise_exception=True)
+            def a_view(request):
+                return HttpResponse("foobar")
+
+        self.assertEqual(
+            str(cm.exception),
+            f"Unknown type ({type(max)}) for permission. Expected list, tuple, or string.",
+        )
+
     # endregion One Permission Required Tests
 
     # region Permission Required Tests
@@ -344,5 +359,19 @@ class TestIsolatedDecorators(TestCase):
                 a_view.permission_required,
                 ("auth.add_foo", "auth.change_foo"),
             )
+
+    def test__permission_required__raises_error_when_permission_is_unknown_type(self):
+        """Test permission_required raises error when permission type is unknown type"""
+
+        with self.assertRaises(TypeError) as cm:
+            # Create view with a permission required of the built-in "max" function, which is NOT a permission.
+            @permission_required(max, raise_exception=True)
+            def a_view(request):
+                return HttpResponse("foobar")
+
+        self.assertEqual(
+            str(cm.exception),
+            f"Unknown type ({type(max)}) for permission. Expected list, tuple, or string.",
+        )
 
     # endregion Permission Required Tests
