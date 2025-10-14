@@ -7,7 +7,7 @@ without having potential side-effects on other existing tests.
 """
 
 # Third-Party Imports.
-from django.urls import include, path
+from django.urls import path
 
 # Internal Imports.
 from . import views

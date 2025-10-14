@@ -41,7 +41,7 @@ MIDDLEWARE = [
 ]
 
 
-ROOT_URLCONF = "tests.django_adminlte2_pdq.testing.urls"
+ROOT_URLCONF = "tests.django_adminlte2_pdq.django_test_project.urls"
 
 
 USE_TZ = True
