@@ -26,8 +26,8 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
     All the work should be done by the whitelists.
     """
 
-    LOGIN_EXEMPT_FUZZY_WHITELIST = ("/tests-2/",)
-    STRICT_POLICY_FUZZY_WHITELIST_VIEWS = ("/tests-2/",)
+    LOGIN_EXEMPT_FUZZY_WHITELIST = ("/tests-fuzzy/",)
+    STRICT_POLICY_FUZZY_WHITELIST_VIEWS = ("/tests-fuzzy/",)
 
     def test__ensure_views_cannot_be_accessed_without_settings(self):
         """Sanity check tests, to ensure these specific views cannot be accessed by default."""
@@ -38,7 +38,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -57,7 +57,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,
@@ -81,7 +81,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -100,7 +100,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,
@@ -126,7 +126,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -146,7 +146,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,
@@ -171,7 +171,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -191,7 +191,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,
@@ -215,8 +215,8 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
     All the work should be done by the whitelists.
     """
 
-    LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS = ("/tests-2/",)
-    STRICT_POLICY_FUZZY_WHITELIST_VIEWS = ("/tests-2/",)
+    LOGIN_EXEMPT_FUZZY_WHITELIST_VIEWS = ("/tests-fuzzy/",)
+    STRICT_POLICY_FUZZY_WHITELIST_VIEWS = ("/tests-fuzzy/",)
 
     def test__ensure_views_cannot_be_accessed_without_settings(self):
         """Sanity check tests, to ensure these specific views cannot be accessed by default."""
@@ -227,7 +227,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -247,7 +247,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,
@@ -274,7 +274,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
                 # Should fail and redirect to home. But then home requires login so it still redirects to login.
                 self.assertGetResponse(
                     # View setup.
-                    "adminlte2_pdq_tests_2:standard-1",
+                    "adminlte2_pdq_tests_fuzzy:standard-1",
                     user=AnonymousUser(),
                     # Expected view return data.
                     expected_status=200,
@@ -295,7 +295,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
                 # Verify we get the expected page.
                 self.assertGetResponse(
                     # View setup.
-                    "adminlte2_pdq_tests_2:standard-1",
+                    "adminlte2_pdq_tests_fuzzy:standard-1",
                     user=self.test_user,
                     # Expected view return data.
                     expected_status=200,
@@ -321,7 +321,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -341,7 +341,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,
@@ -366,7 +366,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=AnonymousUser(),
                 # Expected view return data.
                 expected_status=200,
@@ -386,7 +386,7 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:d
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
-                "adminlte2_pdq_tests_2:standard-1",
+                "adminlte2_pdq_tests_fuzzy:standard-1",
                 user=self.test_user,
                 # Expected view return data.
                 expected_status=200,

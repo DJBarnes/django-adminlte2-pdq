@@ -13,7 +13,7 @@ from django.urls import path
 from . import views
 
 
-app_name = "adminlte2_pdq_tests_2"
+app_name = "adminlte2_pdq_tests_fuzzy"
 urlpatterns = [
     path("standard-1/", views.standard_view, name="standard-1"),
     path("standard-2/", views.standard_view, name="standard-2"),

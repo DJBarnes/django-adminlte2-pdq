@@ -23,7 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Testing views.
     path("tests/", include("tests.django_adminlte2_pdq.django_test_project.urls_main")),
-    path("tests-2/", include("tests.django_adminlte2_pdq.django_test_project.urls_fuzzy")),
+    path("tests-fuzzy/", include("tests.django_adminlte2_pdq.django_test_project.urls_fuzzy")),
     # Adminlte2 views.
     path("accounts/", include("django.contrib.auth.urls")),
     path("", include("adminlte2_pdq.urls")),
