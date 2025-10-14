@@ -16,7 +16,7 @@ from shutil import which
 from django.core.management import execute_from_command_line
 
 try:
-    from colorama import Back, Fore, Style
+    from colorama import Fore, Style
 
     COLORAMA_PRESENT = True
 except ImportError:
@@ -185,10 +185,10 @@ def run_tests_with_manage(args, extra_args, script_dir):
         print_primary(f"COMMAND: {' '.join(run_args)}")
 
         # Run command.
-        return_code = execute_from_command_line(run_args)
+        execute_from_command_line(run_args)
 
         # Terminate with process exit code.
-        exit_script(args, return_code)
+        exit_script(args, 0)
 
 
 def run_tests_with_manage_and_coverage(args, extra_args, script_dir):
