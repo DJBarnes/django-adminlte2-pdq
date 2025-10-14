@@ -93,16 +93,7 @@ def allow_anonymous_access(function=None):
 
         return wrap
 
-    if function:
-        return decorator(function)
-
-    # Save values to view fetch function for middleware handling + potential debugging.
-    decorator.decorator_name = "allow_anonymous_access"
-    decorator.login_required = False
-    decorator.one_of_permissions = None
-    decorator.permissions = None
-
-    return decorator
+    return decorator(function) if function else decorator
 
 
 def login_required(function=None, redirect_field_name="next", login_url=None):
@@ -142,9 +133,7 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
 
         return wrap
 
-    if function:
-        return decorator(function)
-    return decorator
+    return decorator(function) if function else decorator
 
 
 def allow_without_permissions(function=None, redirect_field_name="next", login_url=None):
@@ -175,9 +164,7 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
 
         return wrap
 
-    if function:
-        return decorator(function)
-    return decorator
+    return decorator(function) if function else decorator
 
 
 def permission_required_one(permission, login_url=None, raise_exception=False):
@@ -191,8 +178,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
     # Set url if none is provided.
     # Defaults to project "home" page for security.
-    if login_url is None:
-        login_url = reverse_lazy(HOME_ROUTE)
+    login_url = login_url or reverse_lazy(HOME_ROUTE)
 
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
@@ -236,8 +222,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
 
     # Set url if none is provided.
     # Defaults to project "home" page for security.
-    if login_url is None:
-        login_url = reverse_lazy(HOME_ROUTE)
+    login_url = login_url or reverse_lazy(HOME_ROUTE)
 
     # Ensure consistent permission format.
     permissions = _sanitize_permissions(permission)
