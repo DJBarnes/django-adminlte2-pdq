@@ -590,8 +590,6 @@ class AuthMiddleware:
             view_data["allow_anonymous_access"] is True
             # If url name exists in whitelist.
             or self.is_login_whitelisted(view_data)
-            # If path exists in whitelist.
-            or view_data["path"] in LOGIN_EXEMPT_WHITELIST
             # If passes requirements for custom login hook (defined on a per-project basis).
             or self.login_required_hook(request)
             # If url is for favicon
@@ -643,9 +641,7 @@ class AuthMiddleware:
             # Determine if request url is exempt. Is the case for the following:
             if (
                 # If url name exists in whitelist.
-                self.is_permission_whitelisted(view_data)
-                # If path exists in whitelist.
-                or view_data["path"] in STRICT_POLICY_WHITELIST
+                or self.is_permission_whitelisted(view_data)
                 # If is the equivalent of the "Django Admin" app.
                 or view_data["app_name"] == "admin"
                 # If url is for favicon
@@ -756,13 +752,21 @@ class AuthMiddleware:
         """Determines if view is login-whitelisted. Used for login_required mode or strict mode."""
 
         try:
-            return bool(
-                # In "app-wide" exemption list.
-                view_data["path"].startswith(LOGIN_EXEMPT_FUZZY_WHITELIST)
-                # In "standard" exemption list.
+            # In "standard" exemption list.
+            whitelisted_directly = (
+                view_data["path"] in LOGIN_EXEMPT_WHITELIST
                 or view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
                 or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
             )
+
+            # In "app-wide" exemption list.
+            whitelisted_fuzzy = False
+            for entry in LOGIN_EXEMPT_FUZZY_WHITELIST:
+                if view_data["path"].startswith(entry):
+                    whitelisted_fuzzy = True
+
+            # Return if either whitelisted directly or via fuzzy logic
+            return whitelisted_directly or whitelisted_fuzzy
         except KeyError:
             return False
 
@@ -770,13 +774,21 @@ class AuthMiddleware:
         """Determines if view is permission-whitelisted. Used for strict mode."""
 
         try:
-            return bool(
-                # In "app-wide" exemption list.
-                view_data["path"].startswith(STRICT_POLICY_FUZZY_WHITELIST)
-                # In "standard" exemption list.
+            # In "standard" exemption list.
+            whitelisted_directly = (
+                view_data["path"] in STRICT_POLICY_WHITELIST
                 or view_data["current_url_name"] in STRICT_POLICY_WHITELIST
                 or view_data["fully_qualified_url_name"] in STRICT_POLICY_WHITELIST
             )
+
+            # In "app-wide" exemption list.
+            whitelisted_fuzzy = False
+            for entry in STRICT_POLICY_FUZZY_WHITELIST:
+                if view_data["path"].startswith(entry):
+                    whitelisted_fuzzy = True
+
+            # Return if either whitelisted directly or via fuzzy logic
+            return whitelisted_directly or whitelisted_fuzzy
         except KeyError:
             return False
 
