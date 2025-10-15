@@ -634,6 +634,10 @@ class AuthMiddleware:
 
             # Determine if request url is exempt. Is the case for the following:
             if (
+                # View has allow_anonymous decorator.
+                view_data["allow_anonymous_access"] is True
+                # View has allow_anonymous decorator.
+                or view_data["allow_without_permissions"] is True
                 # If url name exists in whitelist.
                 or self.is_permission_whitelisted(view_data)
                 # If is the equivalent of the "Django Admin" app.
