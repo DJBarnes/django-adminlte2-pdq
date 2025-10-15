@@ -592,14 +592,8 @@ class AuthMiddleware:
             or self.is_login_whitelisted(view_data)
             # If passes requirements for custom login hook (defined on a per-project basis).
             or self.login_required_hook(request)
-            # If url is for favicon
-            or self.verify_favicon_route(view_data["path"])
-            # If url is for static, as defined in settings.
-            or self.verify_static_route(view_data["path"])
-            # If url is for media, as defined in settings.
-            or self.verify_media_route(view_data["path"])
-            # If url is for websockets, as defined in settings.
-            or self.verify_websocket_route(view_data["path"])
+            # If url is for a special route that does not need processing
+            or self.is_special_route(view_data)
         )
 
     def verify_has_perms(self, request, view_data):
@@ -644,14 +638,10 @@ class AuthMiddleware:
                 or self.is_permission_whitelisted(view_data)
                 # If is the equivalent of the "Django Admin" app.
                 or view_data["app_name"] == "admin"
-                # If url is for favicon
-                or self.verify_favicon_route(view_data["path"])
-                # If url is for static, as defined in settings.
-                or self.verify_static_route(view_data["path"])
-                # If url is for media, as defined in settings.
-                or self.verify_media_route(view_data["path"])
-                # If url is for websockets, as defined in settings.
-                or self.verify_websocket_route(view_data["path"])
+                # If passes requirements for custom login hook (defined on a per-project basis).
+                or self.permission_required_hook(request)
+                # If url is for a special route that does not need processing
+                or self.is_special_route(view_data)
                 # If url is for redirecting.
                 or self.verify_redirect_route(view_data["view_class"])
             ):
@@ -801,6 +791,22 @@ class AuthMiddleware:
         """Hook that can be overridden in subclasses to add additional ways
         to pass the login required criteria. Should return either True or False."""
         return False
+
+    def is_special_route(self, view_data):
+        """Check if the path is a special route that should forego checks"""
+
+        path = view_data["path"]
+
+        return (
+            # If url is for favicon
+            self.verify_favicon_route(path)
+            # If url is for static, as defined in settings.
+            or self.verify_static_route(path)
+            # If url is for media, as defined in settings.
+            or self.verify_media_route(path)
+            # If url is for websockets, as defined in settings.
+            or self.verify_websocket_route(path)
+        )
 
     def verify_favicon_route(self, path):
         """Verify that the path of the request is not a favicon request."""
