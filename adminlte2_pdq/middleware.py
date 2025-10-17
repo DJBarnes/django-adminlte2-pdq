@@ -106,12 +106,8 @@ class AuthMiddleware:
             # Verify that the path is not for static, media, favicon, or part of whitelist, in which case a 404 is okay.
             # Everything else should be an actual view. So, a redirect to the home page makes sense.
             if (
-                # Verify if static route
-                self.verify_static_route(view_data["path"])
-                # Verify if media route
-                or self.verify_media_route(view_data["path"])
-                # Verify if favicon route
-                or self.verify_favicon_route(view_data["path"])
+                # Is a special route where 404s are okay
+                self.is_special_route(view_data)
                 # Verify if whitelisted route
                 or view_data["path"] in STRICT_POLICY_SERVE_404_FUZZY_WHITELIST
                 # Site setup to handle 404s manually
@@ -134,7 +130,7 @@ class AuthMiddleware:
             return redirect(HOME_ROUTE)
 
         # Raise errors on conflicting decorator/mixin states.
-        self.check_error_states(request, view_data)
+        self.check_main_error_states(request, view_data)
 
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
@@ -144,19 +140,13 @@ class AuthMiddleware:
             # Redirect to login page.
             return redirect(LOGIN_URL + f"?next={request.path}")
 
-        self.check_for_should_display_redirect_message(request, view_data)
+        # Check any post login error states.
+        # NOTE: This call need to happen after we do the above Login Required checking.
+        self.check_post_login_check_error_states(request, view_data)
 
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
-        if (
-            # Is STRICT mode.
-            STRICT_POLICY
-            # Is not a decorator allowing lowered permission checks.
-            and view_data["decorator_name"] not in ["allow_anonymous_access", "allow_without_permissions"]
-            # Fails general checks for everything else.
-            and not self.verify_strict_mode_permission_set(request, view_data)
-        ):
-
+        if STRICT_POLICY and not self.verify_strict_mode_permission_set(request, view_data):
             # Site setup to use built-in 403 handling
             if REDIRECT_TO_HOME_ON_403:
                 # Redirect to home route.
@@ -170,7 +160,7 @@ class AuthMiddleware:
 
         return response
 
-    def check_error_states(self, request, view_data):
+    def check_main_error_states(self, request, view_data):
         """Check for various conflicting decorator/mixin states, raise error upon finding any."""
 
         # Check if view is in any whitelists.
@@ -413,6 +403,82 @@ class AuthMiddleware:
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
 
+    def check_post_login_check_error_states(self, request, view_data):
+        """Check for various permission required errors
+        TODO: See if there is a way to combine this with the other error states above
+        Though it might be hard because this check currently needs to happen
+        after we handle redirecting for login required checks."""
+
+        view_missing_decorators = view_data["decorator_name"] not in [
+            "login_required",
+            "permission_required",
+            "allow_anonymous_access",
+            "allow_without_permissions",
+        ]
+
+        # Handle if using Strict mode and there are no permission set on the view.
+        if (
+            # In strict mode
+            STRICT_POLICY
+            # and missing decorators
+            and view_missing_decorators
+            # and the view is not exempt from requiring permissions
+            and not self.view_is_permission_exempt(request, view_data)
+            # and the view does not have any one of permissions set
+            and not view_data["one_of_permissions"]
+            # and the view does not have any full permissions set
+            and not view_data["full_permissions"]
+            # and not login required
+            and not view_data["login_required"]
+        ):
+
+            view_type = view_data["view_type"]
+            view_name = view_data["view_name"]
+            view_perm_type = view_data["view_perm_type"]
+
+            if settings.DEBUG:
+                # Warning if in development mode.
+                warning_message = (
+                    "AdminLtePdq Warning: This project is set to run in strict mode, and "
+                    f"the {view_type} view '{view_name}' does not have any {view_perm_type}s set. "
+                    f"This means that this view is inaccessible until permission {view_perm_type}s "
+                    "are set for the view, or the view is added to the "
+                    "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+                    "\n\n"
+                    "For further information, please see the docs: "
+                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+                )
+                # Create console warning message.
+                warnings.warn(warning_message, RuntimeWarning)
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+            else:
+                # Error if in production mode.
+                # Create Django Messages warning.
+                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
+
+        # Check if state where user failed permissions check.
+        if (
+            # If url name does not exist in whitelist.
+            not self.is_permission_whitelisted(view_data)
+            # If user fails perm checks.
+            and not self.verify_has_perms(request, view_data)
+        ):
+
+            if settings.DEBUG:
+                # Warning if in development mode.
+                warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
+                    view_type=view_data["view_type"],
+                    view_name=view_data["view_name"],
+                )
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+
+            else:
+                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""
 
@@ -622,125 +688,38 @@ class AuthMiddleware:
         # Return true if passes both checks.
         return passed_one_of_perms_check and passed_full_perms_check
 
+    def view_is_permission_exempt(self, request, view_data):
+        """Return whether the view is exempt from requiring permissions in strict mode."""
+        return (
+            # View has allow_anonymous decorator.
+            view_data["allow_anonymous_access"] is True
+            # View has allow_anonymous decorator.
+            or view_data["allow_without_permissions"] is True
+            # If url name exists in whitelist.
+            or self.is_permission_whitelisted(view_data)
+            # If is the equivalent of the "Django Admin" app.
+            or view_data["app_name"] == "admin"
+            # If passes requirements for custom login hook (defined on a per-project basis).
+            or self.permission_required_hook(request)
+            # If url is for a special route that does not need processing
+            or self.is_special_route(view_data)
+            # If url is for redirecting.
+            or self.verify_redirect_route(view_data["view_class"])
+        )
+
     def verify_strict_mode_permission_set(self, request, view_data):
         """Verify view access based on permission/login requirements on the view object.
 
         :return: False if user cannot access view as per Strict Mode policy | True otherwise.
         """
-        exempt = False
-
-        # Proceed if is a proper view (not a "404 not found").
-        if view_data["resolver"]:
-
-            # Determine if request url is exempt. Is the case for the following:
-            if (
-                # View has allow_anonymous decorator.
-                view_data["allow_anonymous_access"] is True
-                # View has allow_anonymous decorator.
-                or view_data["allow_without_permissions"] is True
-                # If url name exists in whitelist.
-                or self.is_permission_whitelisted(view_data)
-                # If is the equivalent of the "Django Admin" app.
-                or view_data["app_name"] == "admin"
-                # If passes requirements for custom login hook (defined on a per-project basis).
-                or self.permission_required_hook(request)
-                # If url is for a special route that does not need processing
-                or self.is_special_route(view_data)
-                # If url is for redirecting.
-                or self.verify_redirect_route(view_data["view_class"])
-            ):
-                # One or more conditions passed for url being exempt from checks.
-                exempt = True
-
-            # Allow request if any of the checks passed.
-            if (
-                # View is exempt from requirements.
-                exempt
-                # OR view didn't require permissions due to decorators.
-                or view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]
-                # OR user had the correct permissions.
-                # For now, this check technically only works because we don't set these values
-                # on the redirect-to-login requests. So they're populated if the user passes
-                # decorator/mixin checks, and unpopulated otherwise.
-                #
-                # If we ever start populating these values on all requests, then
-                # this logic will no longer work.
-                or view_data["login_required"]
-                or view_data["one_of_permissions"]
-                or view_data["full_permissions"]
-            ):
-                return True
-
-            # Decorator/Mixin failed checks, or Login Required not set.
-            # Add messages, warnings, and return False.
-            # TODO: Upon closer examination, this looks like older logic (likely from before any major reworks)
-            #   which was never moved. This section effectively provides warning messages/redirects, if in
-            #   strict mode and the view doesn't have proper permissions set.
-            #
-            #   This logic no longer really makes sense here, as this function looks to be more about
-            #   validating the user permissions in strict mode, rather than checking that the view itself
-            #   is correctly defined.
-            #
-            #   Long-term, this should probably be moved to the `check_error_states()` function,
-            #   but for now tests somehow seem to pass and time is limited, so leaving here for now.
-            if settings.DEBUG:
-                # Warning if in development mode.
-                warning_message = (
-                    "AdminLtePdq Warning: This project is set to run in strict mode, and "
-                    "the {view_type} view '{view_name}' does not have any {view_perm_type}s set. "
-                    "This means that this view is inaccessible until permission {view_perm_type}s "
-                    "are set for the view, or the view is added to the "
-                    "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-                    "\n\n"
-                    "For further information, please see the docs: "
-                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-                ).format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
-                    view_perm_type=view_data["view_perm_type"],
-                )
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
-            else:
-                # Error if in production mode.
-                # Create Django Messages warning.
-                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
-
-        # If we made it this far, then failed all checks, return False.
-        return False
-
-    def check_for_should_display_redirect_message(self, request, view_data):
-        """When redirecting to home (due to failure on permission checks), we want a helper message in debug mode.
-
-        This logic checks for that.
-        Note that STRICT MODE is handled elsewhere, so this does not have to handle for that.
-        """
-
-        # Check if state where user failed permissions check.
-        if (
-            # If url name does not exist in whitelist.
-            not self.is_permission_whitelisted(view_data)
-            # If path does not exist in whitelist.
-            and not view_data["path"] in STRICT_POLICY_WHITELIST
-            # If user fails perm checks.
-            and not self.verify_has_perms(request, view_data)
-        ):
-
-            if settings.DEBUG:
-                # Warning if in development mode.
-                warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
-                )
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
-
-            else:
-                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
+        # Using Strict Mode
+        return STRICT_POLICY and (
+            # View is exempt from using permissions
+            self.view_is_permission_exempt(request, view_data)
+            # OR one of the following permissions are set.
+            or view_data["one_of_permissions"]
+            or view_data["full_permissions"]
+        )
 
     def is_login_whitelisted(self, view_data):
         """Determines if view is login-whitelisted. Used for login_required mode or strict mode."""
@@ -752,17 +731,20 @@ class AuthMiddleware:
                 or view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
                 or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
             )
+        except KeyError:
+            whitelisted_directly = False
 
+        try:
             # In "app-wide" exemption list.
             whitelisted_fuzzy = False
             for entry in LOGIN_EXEMPT_FUZZY_WHITELIST:
                 if view_data["path"].startswith(entry):
                     whitelisted_fuzzy = True
-
-            # Return if either whitelisted directly or via fuzzy logic
-            return whitelisted_directly or whitelisted_fuzzy
         except KeyError:
-            return False
+            whitelisted_fuzzy = False
+
+        # Return if either whitelisted directly or via fuzzy logic
+        return whitelisted_directly or whitelisted_fuzzy
 
     def is_permission_whitelisted(self, view_data):
         """Determines if view is permission-whitelisted. Used for strict mode."""
@@ -774,17 +756,20 @@ class AuthMiddleware:
                 or view_data["current_url_name"] in STRICT_POLICY_WHITELIST
                 or view_data["fully_qualified_url_name"] in STRICT_POLICY_WHITELIST
             )
+        except KeyError:
+            whitelisted_directly = False
 
+        try:
             # In "app-wide" exemption list.
             whitelisted_fuzzy = False
             for entry in STRICT_POLICY_FUZZY_WHITELIST:
                 if view_data["path"].startswith(entry):
                     whitelisted_fuzzy = True
-
-            # Return if either whitelisted directly or via fuzzy logic
-            return whitelisted_directly or whitelisted_fuzzy
         except KeyError:
-            return False
+            whitelisted_fuzzy = False
+
+        # Return if either whitelisted directly or via fuzzy logic
+        return whitelisted_directly or whitelisted_fuzzy
 
     def login_required_hook(self, request):
         """Hook that can be overridden in subclasses to add additional ways
