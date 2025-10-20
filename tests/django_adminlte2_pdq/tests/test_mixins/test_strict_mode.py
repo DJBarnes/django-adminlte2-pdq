@@ -1698,3 +1698,102 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
                     one_of_permissions=("auth.view_foo", "auth.delete_foo"),
                     full_permissions=("auth.add_foo", "auth.change_foo"),
                 )
+
+
+@override_settings(DEBUG=False)
+@patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+@patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+class TestStrictAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCase):
+    """Tests to make sure mixin logic doesn't bleed into each other.
+
+    By "bleeding", we refer to instances when the user overlaps values for one
+    Mixin with another. Or forgets expected values of a Mixin. Or combinations thereof.
+
+    For example, a LoginRequired Mixin should always behave the same as the login_required
+    mixin, even if the user accidentally defines permissions on the view as well.
+
+    Due to how Mixins and our project middleware works, these are not as cleanly separated
+    as they are with the decorators, and so additional tests are required.
+
+    NOTE: I'm not sure if it's possible to get updated values for response attributes?
+        Seems to only return the values defined at literal class value.
+        So sometimes the passed attributes seem "wrong" but as long as the actual view
+        directs as expected, then it's probably fine? Not sure if there's a better way...
+    """
+
+    def test__verify_patch_settings(self):
+        """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
+
+        # NOTE: The heavy lifting of these tests is done in the middleware.
+        # Therefore the patch that is used needs to target the imports in the middleware.
+        # Import from the middleware to verify that the patch works as intended.
+        # Settings do not need to be overridden because every setting is first converted
+        # to a constant. So, we only need to patch the constant in the middleware.
+
+        # Verify values imported from middleware.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.middleware import (
+            LOGIN_REQUIRED,
+            STRICT_POLICY,
+            LOGIN_EXEMPT_WHITELIST,
+            STRICT_POLICY_WHITELIST,
+        )
+
+        self.assertTrue(LOGIN_REQUIRED)
+        self.assertTrue(STRICT_POLICY)
+        self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
+        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+
+    def test__bleeding_conflicting_permissions__in_production(self):
+        """Bleeding tests for allow_without_permissions mixin, in project "Strict" mode in production."""
+
+        # Should fail and redirect to login for anyone unauthenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
+                    expected_content=[
+                        "Sign in to start your session",
+                        "Remember Me",
+                        "I forgot my password",
+                    ],
+                )
+
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(response, is_empty=True)
+
+        # Should succeed and load as expected for all authenticated users.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
+
+                #  Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                    expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                )
+
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(
+                    response,
+                    decorator_name="allow_without_permissions",
+                    login_required=True,
+                    allow_without_permissions=True,
+                    one_of_permissions=("auth.add_foo", "auth.change_foo"),
+                    full_permissions=("auth.add_foo", "auth.change_foo"),
+                )
