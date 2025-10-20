@@ -724,24 +724,25 @@ class AuthMiddleware:
     def is_login_whitelisted(self, view_data):
         """Determines if view is login-whitelisted. Used for login_required mode or strict mode."""
 
-        try:
-            # In "standard" exemption list.
-            whitelisted_directly = (
-                view_data["path"] in LOGIN_EXEMPT_WHITELIST
-                or view_data["current_url_name"] in LOGIN_EXEMPT_WHITELIST
-                or view_data["fully_qualified_url_name"] in LOGIN_EXEMPT_WHITELIST
-            )
-        except KeyError:
-            whitelisted_directly = False
+        # Fetch out path and url names and default to blank string.
+        path = view_data.get("path", "")
+        url_name = view_data.get("current_url_name", "")
+        full_url_name = view_data.get("fully_qualified_url_name", "")
 
-        try:
-            # In "app-wide" exemption list.
-            whitelisted_fuzzy = False
-            for entry in LOGIN_EXEMPT_FUZZY_WHITELIST:
-                if view_data["path"].startswith(entry):
-                    whitelisted_fuzzy = True
-        except KeyError:
-            whitelisted_fuzzy = False
+        # In "standard" exemption list.
+        # Verify whether each path var is not an empty string and is in the whitelist.
+        whitelisted_directly = (
+            (path and path in LOGIN_EXEMPT_WHITELIST)
+            or (url_name and url_name in LOGIN_EXEMPT_WHITELIST)
+            or (full_url_name and full_url_name in LOGIN_EXEMPT_WHITELIST)
+        )
+
+        # In "app-wide" exemption list.
+        # Verify whether path var is not an empty string and is in the fuzzy whitelist.
+        whitelisted_fuzzy = False
+        for entry in LOGIN_EXEMPT_FUZZY_WHITELIST:
+            if path and path.startswith(entry):
+                whitelisted_fuzzy = True
 
         # Return if either whitelisted directly or via fuzzy logic
         return whitelisted_directly or whitelisted_fuzzy
@@ -749,24 +750,25 @@ class AuthMiddleware:
     def is_permission_whitelisted(self, view_data):
         """Determines if view is permission-whitelisted. Used for strict mode."""
 
-        try:
-            # In "standard" exemption list.
-            whitelisted_directly = (
-                view_data["path"] in STRICT_POLICY_WHITELIST
-                or view_data["current_url_name"] in STRICT_POLICY_WHITELIST
-                or view_data["fully_qualified_url_name"] in STRICT_POLICY_WHITELIST
-            )
-        except KeyError:
-            whitelisted_directly = False
+        # Fetch out path and url names and default to blank string.
+        path = view_data.get("path", "")
+        url_name = view_data.get("current_url_name", "")
+        full_url_name = view_data.get("fully_qualified_url_name", "")
 
-        try:
-            # In "app-wide" exemption list.
-            whitelisted_fuzzy = False
-            for entry in STRICT_POLICY_FUZZY_WHITELIST:
-                if view_data["path"].startswith(entry):
-                    whitelisted_fuzzy = True
-        except KeyError:
-            whitelisted_fuzzy = False
+        # In "standard" exemption list.
+        # Verify whether each path var is not an empty string and is in the whitelist.
+        whitelisted_directly = (
+            (path and path in STRICT_POLICY_WHITELIST)
+            or (url_name and url_name in STRICT_POLICY_WHITELIST)
+            or (full_url_name and full_url_name in STRICT_POLICY_WHITELIST)
+        )
+
+        # In "app-wide" exemption list.
+        # Verify whether path var is not an empty string and is in the fuzzy whitelist.
+        whitelisted_fuzzy = False
+        for entry in STRICT_POLICY_FUZZY_WHITELIST:
+            if path and path.startswith(entry):
+                whitelisted_fuzzy = True
 
         # Return if either whitelisted directly or via fuzzy logic
         return whitelisted_directly or whitelisted_fuzzy
