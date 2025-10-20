@@ -795,3 +795,159 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                 # Verify values associated with returned view.
                 # Was redirected to login so should be no data.
                 self.assertAdminPdqData(response, is_empty=True)
+
+
+@override_settings(DEBUG=False)
+class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCase):
+    """Tests to make sure mixin logic doesn't bleed into each other.
+
+    By "bleeding", we refer to instances when the user overlaps values for one
+    Mixin with another. Or forgets expected values of a Mixin. Or combinations thereof.
+
+    For example, a LoginRequired Mixin should always behave the same as the login_required
+    mixin, even if the user accidentally defines permissions on the view as well.
+
+    Due to how Mixins and our project middleware works, these are not as cleanly separated
+    as they are with the decorators, and so additional tests are required.
+
+    NOTE: I'm not sure if it's possible to get updated values for response attributes?
+        Seems to only return the values defined at literal class value.
+        So sometimes the passed attributes seem "wrong" but as long as the actual view
+        directs as expected, then it's probably fine? Not sure if there's a better way...
+    """
+
+    def test__verify_patch_settings(self):
+        """Sanity check tests, to make sure settings are set as intended, even if other tests fail."""
+
+        # Verify actual project settings values.
+        self.assertFalse(getattr(settings, "ADMINLTE2_USE_LOGIN_REQUIRED", False))
+        self.assertFalse(getattr(settings, "STRICT_POLICY", False))
+        self.assertEqual(0, len(getattr(settings, "LOGIN_EXEMPT_WHITELIST", [])))
+        self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
+
+        # Verify values imported from constants.py file.
+        # pylint: disable=import-outside-toplevel
+        from adminlte2_pdq.constants import (
+            LOGIN_REQUIRED,
+            STRICT_POLICY,
+            LOGIN_EXEMPT_WHITELIST,
+            STRICT_POLICY_WHITELIST,
+        )
+
+        # Test for expected setting values.
+        self.assertFalse(LOGIN_REQUIRED)
+        self.assertFalse(STRICT_POLICY)
+        self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
+        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+
+    def test__bleeding_one_permission_missing_permissions__in_production(self):
+        """Bleeding tests for permission_required_one mixin, in project "Loose" mode in production."""
+
+        # Should fail and redirect to login for anyone unauthenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+
+                with self.assertRaises(ImproperlyConfigured):
+                    #  Verify we get the expected page.
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=True,
+                        # Expected content on page.
+                        expected_title="Login |",
+                        expected_content=[
+                            "Sign in to start your session",
+                            "Remember Me",
+                            "I forgot my password",
+                        ],
+                        expected_messages=[
+                            self.pdq__no_permissions_one__message,
+                        ],
+                    )
+
+        # Permission view incorrectly defined on view.
+        # Should fail and redirect to "home" page for anyone authenticated.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
+
+                with self.assertRaises(ImproperlyConfigured):
+                    # Verify we get the expected page.
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=True,
+                        # Expected content on page.
+                        expected_title="Dashboard",
+                        expected_header="Dashboard <small>Version 2.0</small>",
+                        expected_content=[
+                            "Monthly Recap Report",
+                            "Visitors Report",
+                            "Inventory",
+                            "Downloads",
+                        ],
+                        expected_messages=[
+                            self.pdq__no_permissions_one__message,
+                        ],
+                    )
+
+    def test__bleeding_full_permission_missing_permissions__in_production(self):
+        """Bleeding tests for permission_required_one mixin, in project "Loose" mode in production."""
+
+        # Should fail and redirect to login for anyone unauthenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+
+                with self.assertRaises(ImproperlyConfigured):
+                    #  Verify we get the expected page.
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=True,
+                        # Expected content on page.
+                        expected_title="Login |",
+                        expected_content=[
+                            "Sign in to start your session",
+                            "Remember Me",
+                            "I forgot my password",
+                        ],
+                        expected_messages=[
+                            self.pdq__no_permissions_full__message,
+                        ],
+                    )
+
+        # Permission view incorrectly defined on view.
+        # Should fail and redirect to "home" page for anyone authenticated.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
+
+                with self.assertRaises(ImproperlyConfigured):
+                    #  Verify we get the expected page.
+                    self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=True,
+                        # Expected content on page.
+                        expected_title="Dashboard",
+                        expected_header="Dashboard <small>Version 2.0</small>",
+                        expected_content=[
+                            "Monthly Recap Report",
+                            "Visitors Report",
+                            "Inventory",
+                            "Downloads",
+                        ],
+                        expected_messages=[
+                            self.pdq__no_permissions_full__message,
+                        ],
+                    )
