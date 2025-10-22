@@ -612,11 +612,11 @@ class AuthMiddleware:
         """
         if settings.APPEND_SLASH and not request.path_info.endswith("/"):
             urlconf = getattr(request, "urlconf", None)
-            if not is_valid_path(request.path_info, urlconf):
-                match = is_valid_path(f"{request.path_info}/", urlconf)
-                if match:
-                    view = match.func
-                    return getattr(view, "should_append_slash", True)
+            current_is_not_valid = not is_valid_path(request.path_info, urlconf)
+            appended_slash_is_valid = is_valid_path(f"{request.path_info}/", urlconf)
+            if current_is_not_valid and appended_slash_is_valid:
+                view = appended_slash_is_valid.func
+                return getattr(view, "should_append_slash", True)
         return False
 
     def get_full_path_with_slash(self, request):

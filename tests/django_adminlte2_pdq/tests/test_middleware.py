@@ -357,6 +357,47 @@ class MiddlewareUrlProcessingTestCaseAppendSlashTrue(MiddlewareBaseTestCase):
             # Verify expected final url.
             self.assertEqual("/accounts/login/", response.request["PATH_INFO"])
 
+    def test__trailing_slash__with_valid_url_and_post_request(self):
+        """Tests handling of trailing url slashes with valid urls,
+        when APPEND_SLASH is True, but request is a POST request."""
+
+        with self.subTest("Processing url with a trailing slash"):
+            # Should handle as normal.
+
+            # Get actual url.
+            url = reverse("adminlte2_pdq:demo-css")
+
+            # Verify url ends with slash.
+            self.assertEqual(str(url)[-1], "/")
+
+            # Process response. Should succeed and load as expected.
+            self.client.force_login(self.test_user_w_perms)
+            response = self.client.post(url)
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "<h1>Demo CSS</h1>")
+
+            # Verify expected final url.
+            self.assertEqual(url, response.request["PATH_INFO"])
+
+        with self.subTest("Processing url without a trailing slash"):
+            # Should auto-magically add the trailing slash, and then proceed as normal.
+
+            # Get actual url.
+            url = reverse("adminlte2_pdq:demo-css")[:-1]
+
+            # Verify url does NOT end with slash.
+            self.assertNotEqual(str(url)[-1], "/")
+
+            # Process response. Should succeed and load as expected.
+            self.client.force_login(self.test_user_w_perms)
+
+            with self.assertRaises(RuntimeError) as rte:
+                response = self.client.post(url, follow=True)
+
+            self.assertIn("You called this URL via", str(rte.exception))
+
 
 @override_settings(DEBUG=True)
 @override_settings(APPEND_SLASH=False)
