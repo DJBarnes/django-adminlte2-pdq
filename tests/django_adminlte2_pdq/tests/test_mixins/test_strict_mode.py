@@ -397,6 +397,61 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
         self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
 
+    @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False)
+    def test__no_decorators__redirect_on_403_turned_off(self):
+        """Test for view with no decorators, in project "Strict" mode
+        and the redirect on 403 setting is set to False.
+        Everything should raise a 403 error rather than redirecting to Home.
+        """
+
+        # Should fail and redirect to login for anyone unauthenticated.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:class-standard",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=True,
+                    # Expected content on page.
+                    expected_title="Login |",
+                    expected_content=[
+                        "Sign in to start your session",
+                        "Remember Me",
+                        "I forgot my password",
+                    ],
+                )
+
+                # Verify values associated with returned view.
+                # View had no decorators so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
+
+        # Should fail and redirect to home with a warning message, for all authenticated users.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
+
+                # Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:class-standard",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=403,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="403 Forbidden",
+                    expected_content=[
+                        "403 Forbidden",
+                    ],
+                )
+
+                # Verify values associated with returned view.
+                # View had no decorators so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
+
 
 @override_settings(DEBUG=True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)

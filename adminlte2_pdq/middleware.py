@@ -8,7 +8,7 @@ import warnings
 from django.http import Http404
 from django.conf import settings
 from django.contrib import messages
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.shortcuts import redirect
 from django.urls import resolve, is_valid_path
 from django.utils.http import escape_leading_slashes
@@ -151,6 +151,8 @@ class AuthMiddleware:
             if REDIRECT_TO_HOME_ON_403:
                 # Redirect to home route.
                 return redirect(HOME_ROUTE)
+            else:
+                raise PermissionDenied()
 
         # User passed all tests or wants to handle 403s manually,
         # return requested response.
@@ -717,8 +719,8 @@ class AuthMiddleware:
             # View is exempt from using permissions
             self.view_is_permission_exempt(request, view_data)
             # OR one of the following permissions are set.
-            or view_data["one_of_permissions"]
-            or view_data["full_permissions"]
+            or bool(view_data["one_of_permissions"])
+            or bool(view_data["full_permissions"])
         )
 
     def is_login_whitelisted(self, view_data):
@@ -826,4 +828,4 @@ class AuthMiddleware:
 
     def verify_redirect_route(self, view_class):
         """Verify that the view class is a RedirectView"""
-        return view_class and view_class == RedirectView
+        return view_class is not None and view_class == RedirectView
