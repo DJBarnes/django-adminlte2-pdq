@@ -3,6 +3,7 @@ Tests for Views
 """
 
 # System Imports.
+from unittest.mock import patch
 
 # Third-Party Imports.
 from django.conf import settings
@@ -210,6 +211,17 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
 
+    @override_settings(DEBUG=True)
+    @patch("adminlte2_pdq.middleware.RESPONSE_404_DEBUG_MESSAGE", "")
+    def test_404_view_works_when_triggered_and_followed_in_dev_and_no_message_set(self):
+        """Test 404 view works when triggered in dev with no message set"""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
+
     @override_settings(DEBUG=False)
     def test_404_view_works_when_triggered_and_followed_in_prod(self):
         """Test 404 view works when triggered"""
@@ -219,6 +231,23 @@ class ViewsTestCase(TestCase):
         response = self.client.get("unknown/route/", follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.middleware.RESPONSE_404_PRODUCTION_MESSAGE", "")
+    def test_404_view_works_when_triggered_and_followed_in_prod_and_no_message_set(self):
+        """Test 404 view works when triggered"""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
             response,
             (
                 "Unable to locate the requested page. "
