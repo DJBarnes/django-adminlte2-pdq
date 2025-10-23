@@ -29,15 +29,9 @@ class TemplateTagAdminMenuTestCase(TestCase):
         """Normalize HTML string to remove newlines and extra whitespace"""
         return (
             " ".join(html_string.replace("\n", "").split())
-            .replace(
-                " >",
-                ">",
-                # TODO: Consider also adding the following to remove whitespace between tags.
-                # ).replace(
-                #     "> ", ">"
-                # ).replace(
-                #     " <", "<"
-            )
+            .replace(" >", ">")
+            .replace("> ", ">")
+            .replace(" <", "<")
             .replace('" "', '""')
         )
 
