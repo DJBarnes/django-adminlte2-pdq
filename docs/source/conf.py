@@ -1,9 +1,12 @@
+"""Sphinx documentation conf module"""
+
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+# pylint:disable=wrong-import-position,invalid-name
 
 # -- Path setup --------------------------------------------------------------
 
@@ -17,15 +20,16 @@ import sys
 sys.path.insert(0, os.path.abspath("../.."))
 
 # Allow reading Django files/syntax, in order to generate docs from them.
+# pylint:disable=wrong-import-position
 import django
 from django.conf import settings
-from adminlte2_pdq import __version__
+from adminlte2_pdq import __version__  # pylint:disable=import-error
 
 
 # -- Project information -----------------------------------------------------
 AUTHORS = "David Barnes, Brandon Rodriguez"
 project = "Django-AdminLTE2-PDQ"  # pylint:disable=invalid-name
-copyright = f"{datetime.date.today().year}, {AUTHORS}"  # pylint:disable=invalid-name
+copyright = f"{datetime.date.today().year}, {AUTHORS}"  # pylint:disable=redefined-builtin
 author = AUTHORS  # pylint:disable=invalid-name
 
 # The version info for the project you're documenting, acts as replacement for

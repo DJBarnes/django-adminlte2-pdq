@@ -205,7 +205,7 @@ def render_form(form, labels=True, media=None, **kwargs):
     if form:
         media = form.media
     form = form or []
-    fields_to_render = [field for field in form]
+    fields_to_render = list(form)
     return render_fields(*fields_to_render, labels=labels, media=media, **kwargs)
 
 
@@ -250,7 +250,7 @@ def render_horizontal_form(form, labels=True, media=None, **kwargs):
     if form:
         media = form.media
     form = form or []
-    fields_to_render = [field for field in form]
+    fields_to_render = list(form)
     return render_horizontal_fields(*fields_to_render, labels=labels, media=media, **kwargs)
 
 
