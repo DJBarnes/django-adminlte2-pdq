@@ -495,11 +495,9 @@ def is_allowed_node(user, node):
         # Default to not passing checks and not requiring both.
         passes_one_check = False
         passes_all_check = False
-        requires_both_to_pass = False
 
         # If both types of permissions are set, then passing both is required to show the node.
-        if one_of_permissions and full_permissions:
-            requires_both_to_pass = True
+        requires_both_to_pass = bool(one_of_permissions) and bool(full_permissions)
 
         # Check if one permission required.
         if one_of_permissions:
