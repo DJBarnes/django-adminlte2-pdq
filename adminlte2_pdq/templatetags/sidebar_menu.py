@@ -482,23 +482,24 @@ def is_allowed_node(user, node):
     # Otherwise if any permission values exist, user needs to pass a permission check.
     elif one_of_permissions or full_permissions:
 
-        # TODO: I'm so tired, I suspect I messed this logic up?
-        #   Verify permission-access node tests when more rested.
-        #   The goal of this is to allow views that either need one_permission or full_permissions.
-        #   In such a case, the user should be able to pass the single check without worrying about the other.
-        #   .
-        #   But also needs to allow stacking requirements so that a node/view can define and require both values.
-        #   In the case of using both, the user needs to have all of the perms in full_permissions AND at least one
-        #   perm in one_of_permissions.
-        #   .
-        #   Tests seemed fine when going through them, but now looking at this final logic I have here, I
-        #   suspect it's possibly too relaxed.
-        #   Specifically, in cases where one_permission or full_permissions are defined, but no values are passed in,
-        #   does this fail? I don't know if we have any tests for that on the node level.
+        # TODO: Fairly certain that this handles the way we want. Starts out False and only becomes True if things pass.
+        # Should handle if only "one of perms" or "full perms" is set.
+        # Meaning it is not required that both pass. Only the one that is set.
+        # Should also handle stacking of "one of perms" and "full perms". Where both have to pass.
+        #
+        # May need to add tests for this. Not sure if there are specific tests to verify that it can do
+        # No perms, One of Perm, Full Perms, and both One of Perm and Full Perms.
+        # Probably only need a test for each of those scenarios if we do not have it already.
+        # Double-check and then remove todo when we know it is properly tested.
 
-        # Default to passing checks.
-        passes_one_check = True
-        passes_all_check = True
+        # Default to not passing checks and not requiring both.
+        passes_one_check = False
+        passes_all_check = False
+        requires_both_to_pass = False
+
+        # If both types of permissions are set, then passing both is required to show the node.
+        if one_of_permissions and full_permissions:
+            requires_both_to_pass = True
 
         # Check if one permission required.
         if one_of_permissions:
@@ -508,10 +509,15 @@ def is_allowed_node(user, node):
         if full_permissions:
             passes_all_check = check_for_all_permissions(user, full_permissions)
 
-        # Final result is the combination of these two.
-        passes_permission_check = passes_one_check and passes_all_check
+        # Figure out if both passed and if at least one passed.
+        both_passed = passes_one_check and passes_all_check
+        one_passed = passes_one_check or passes_all_check
 
-    # Return true if passes both types of checks. False otherwise.
+        # Final result is the combination of passing both if both are required.
+        # Otherwise, only passing one is required so we can just check that.
+        passes_permission_check = both_passed if requires_both_to_pass else one_passed
+
+    # Return True if passes both types of checks. False otherwise.
     return passes_login_check and passes_permission_check
 
 
