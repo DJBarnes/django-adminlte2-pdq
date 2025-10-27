@@ -153,6 +153,38 @@ class FullPermissionsRequiredViewAsString(PermissionRequiredMixin, TemplateView)
     template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
 
 
+class StrictModeOnePermissionRequiredView(TemplateView):
+    """Testing view with permission requirement, but no per mixin. Assumes using Strict Mode."""
+
+    permission_required_one = ["auth.add_foo", "auth.change_foo"]
+
+    template_name = "django_adminlte2_pdq_tests/templates/one_permission_required_view.html"
+
+
+class StrictModeOnePermissionRequiredViewAsString(TemplateView):
+    """Testing view with permission requirement as string, but no per mixin. Assumes using Strict Mode."""
+
+    permission_required_one = "auth.add_foo"
+
+    template_name = "django_adminlte2_pdq_tests/templates/one_permission_required_view.html"
+
+
+class StrictModeFullPermissionsRequiredView(TemplateView):
+    """Testing view with permission requirement, but no per mixin. Assumes using Strict Mode."""
+
+    permission_required = ["auth.add_foo", "auth.change_foo"]
+
+    template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
+
+
+class StrictModeFullPermissionsRequiredViewAsString(TemplateView):
+    """Testing view with permission requirement as string, but no per mixin. Assumes using Strict Mode."""
+
+    permission_required = "auth.add_foo"
+
+    template_name = "django_adminlte2_pdq_tests/templates/full_permissions_required_view.html"
+
+
 # endregion Class Views
 
 

@@ -111,6 +111,26 @@ urlpatterns = [
                     views.FullPermissionsRequiredViewAsString.as_view(),
                     name="class-full-permissions-required-as-string",
                 ),
+                path(
+                    "one_permission_strict/",
+                    views.StrictModeOnePermissionRequiredView.as_view(),
+                    name="class-one-permission-required-strict",
+                ),
+                path(
+                    "one_permission_as_string_strict/",
+                    views.StrictModeOnePermissionRequiredViewAsString.as_view(),
+                    name="class-one-permission-required-as-string-strict",
+                ),
+                path(
+                    "full_permissions_strict/",
+                    views.StrictModeFullPermissionsRequiredView.as_view(),
+                    name="class-full-permissions-required-strict",
+                ),
+                path(
+                    "full_permissions_as_string_strict/",
+                    views.StrictModeFullPermissionsRequiredViewAsString.as_view(),
+                    name="class-full-permissions-required-as-string-strict",
+                ),
             ]
         ),
     ),

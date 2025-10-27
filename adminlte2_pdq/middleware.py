@@ -146,7 +146,19 @@ class AuthMiddleware:
 
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
-        if STRICT_POLICY and not self.verify_strict_mode_permission_set(request, view_data):
+        permission_required = view_data["decorator_name"] in ("permission_required", "permission_required_one")
+        if (STRICT_POLICY or permission_required) and not self.verify_passes_permissions(request, view_data):
+            # Apply potential warnings
+            if settings.DEBUG:
+                # Warning if in development mode.
+                warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
+                    view_type=view_data["view_type"],
+                    view_name=view_data["view_name"],
+                )
+            else:
+                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
+            # Create Django Messages warning.
+            messages.warning(request, warning_message)
             # Site setup to use built-in 403 handling
             if REDIRECT_TO_HOME_ON_403:
                 # Redirect to home route.
@@ -168,7 +180,7 @@ class AuthMiddleware:
         # Check if view is in any whitelists.
         is_login_whitelisted = self.is_login_whitelisted(view_data)
         is_perm_whitelisted = self.is_permission_whitelisted(view_data)
-        view_requires_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
+        view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
 
         # Pull out some data from the view_data for easier processing
         view_decorator_name = view_data["decorator_name"]
@@ -190,17 +202,17 @@ class AuthMiddleware:
                 mode_type = "STRICT"
                 mode_text = "login and permissions are"
                 if view_perm_type == "decorator":
-                    similar_decorators = "'allow_anonymous_access' or 'allow_without_permissions'"
+                    related_decorators = "'allow_anonymous_access' or 'allow_without_permissions'"
                 else:
-                    similar_decorators = "'AllowAnonymousAccess' or 'AllowWithoutPermissions'"
+                    related_decorators = "'AllowAnonymousAccess' or 'AllowWithoutPermissions'"
                 pluralize = "s"
             else:
                 mode_type = "LOGIN REQUIRED"
                 mode_text = "login is"
                 if view_perm_type == "decorator":
-                    similar_decorators = "'allow_anonymous_access'"
+                    related_decorators = "'allow_anonymous_access'"
                 else:
-                    similar_decorators = "'AllowAnonymousAccess'"
+                    related_decorators = "'AllowAnonymousAccess'"
                 pluralize = ""
 
             # Display error message.
@@ -209,7 +221,7 @@ class AuthMiddleware:
                 f"{mode_type} mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
                 "for all views that are not in a whitelist setting."
                 "\n\n"
-                f"Also consider the {similar_decorators} {view_perm_type}{pluralize}."
+                f"Also consider the {related_decorators} {view_perm_type}{pluralize}."
             )
             raise ImproperlyConfigured(error_message)
 
@@ -315,11 +327,32 @@ class AuthMiddleware:
                 messages.warning(request, warning_message)
 
         # Handle if view is a permission view but does NOT have permission requirements defined.
+        # Determine if is a class-based view.
+        is_class_based = view_type == "class-based"
+        # Determine if is view that should require permissions
+        is_perm_view = (
+            # Has decorator or mixin explicitly saying that permission is required.
+            view_decorator_name == "permission_required"
+            # Or, we are a non-whitelisted, class-based view, with no other mixins, in strict mode.
+            or (
+                # In Strict Mode
+                STRICT_POLICY
+                # and is a class based view, which implicitly assumes permission required. (unlike function-based)
+                and is_class_based
+                # and there is no mixin on the view (We called it decorator regardless of mixin or decorator)
+                and not view_decorator_name
+                # The view is not whitelisted and thus should have some permissions defined on it.
+                and not is_perm_whitelisted
+                # The view is not a redirect view
+                and not self.verify_redirect_route(view_data["view_class"])
+            )
+        )
         if (
             # Is a permission view.
-            view_decorator_name == "permission_required"
+            # view_decorator_name == "permission_required"
+            is_perm_view
             # And no permission values defined.
-            and not view_requires_permissions
+            and not view_defines_permissions
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
@@ -345,7 +378,7 @@ class AuthMiddleware:
             # Is permission exempt view.
             view_decorator_name == "allow_without_permissions"
             # But permission values are defined.
-            and view_requires_permissions
+            and view_defines_permissions
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
@@ -376,10 +409,14 @@ class AuthMiddleware:
             "allow_without_permissions",
         ]
 
+        view_type = view_data["view_type"]
+
         # Handle if using Strict mode and there are no permission set on the view.
         if (
             # In strict mode
             STRICT_POLICY
+            # and view is function-based
+            and view_type == "function-based"
             # and missing decorators
             and view_missing_decorators
             # and the view is not exempt from requiring permissions
@@ -392,7 +429,6 @@ class AuthMiddleware:
             and not view_data["login_required"]
         ):
 
-            view_type = view_data["view_type"]
             view_name = view_data["view_name"]
             view_perm_type = view_data["view_perm_type"]
 
@@ -416,28 +452,6 @@ class AuthMiddleware:
                 # Error if in production mode.
                 # Create Django Messages warning.
                 messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
-
-        # Check if state where user failed permissions check.
-        if (
-            # If url name does not exist in whitelist.
-            not self.is_permission_whitelisted(view_data)
-            # If user fails perm checks.
-            and not self.verify_has_perms(request, view_data)
-        ):
-
-            if settings.DEBUG:
-                # Warning if in development mode.
-                warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
-                    view_type=view_data["view_type"],
-                    view_name=view_data["view_name"],
-                )
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
-
-            else:
-                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
 
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""
@@ -495,12 +509,18 @@ class AuthMiddleware:
                 data_dict["view_type"] = "class-based"
                 data_dict["view_perm_type"] = "mixin"
 
-                # Handle for AdminLtePdq-specific attributes.
-                if admin_pdq_data:
-                    data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
-                    data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
-                    data_dict["login_required"] = admin_pdq_data.get("login_required", False)
-                    data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
+                if admin_pdq_data or STRICT_POLICY:
+                    if admin_pdq_data:
+                        data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
+                        data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
+                        data_dict["login_required"] = admin_pdq_data.get("login_required", False)
+                        data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
+                    else:
+                        # No Mixins used, use default data_dict as admin_pdq_data and also set on view.
+                        # NOTE: We only set this default in class-based views.
+                        # Function-based will still need a decorator to set the required perms.
+                        admin_pdq_data = data_dict
+                        view_class.admin_pdq_data = data_dict
 
                     # Because we seem unable to get the "updated" class attributes,
                     # and only have access to the original literal class-level values,
@@ -624,12 +644,26 @@ class AuthMiddleware:
             or self.is_special_route(view_data)
         )
 
+    def verify_passes_permissions(self, request, view_data):
+        """Checks to verify User passes the permission checks, for views that require it."""
+
+        # If user passes perm check, just return true.
+        if self.verify_has_perms(request, view_data):
+            return True
+
+        # User does not pass perms check. Still allow request for the following:
+        return self.view_is_permission_exempt(request, view_data)
+
     def verify_has_perms(self, request, view_data):
         """Checks to verify User has required permissions, for views that require it."""
 
         # Default to failing.
         passed_one_of_perms_check = False
         passed_full_perms_check = False
+
+        # If no perms at all are not set on the view, return false
+        if not (view_data["one_of_permissions"] or view_data["full_permissions"]):
+            return False
 
         if view_data["one_of_permissions"]:
             # Partial set exists. Must have at least one of any.
@@ -667,20 +701,6 @@ class AuthMiddleware:
             or self.is_special_route(view_data)
             # If url is for redirecting.
             or self.verify_redirect_route(view_data["view_class"])
-        )
-
-    def verify_strict_mode_permission_set(self, request, view_data):
-        """Verify view access based on permission/login requirements on the view object.
-
-        :return: False if user cannot access view as per Strict Mode policy | True otherwise.
-        """
-        # Using Strict Mode
-        return STRICT_POLICY and (
-            # View is exempt from using permissions
-            self.view_is_permission_exempt(request, view_data)
-            # OR one of the following permissions are set.
-            or bool(view_data["one_of_permissions"])
-            or bool(view_data["full_permissions"])
         )
 
     def is_login_whitelisted(self, view_data):

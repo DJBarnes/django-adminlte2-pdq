@@ -36,21 +36,31 @@ class StrictModeMixin:
             with self.subTest(f"As {user_str}"):
 
                 # Verify we get the expected page.
-                response = self.assertGetResponse(
-                    # View setup.
-                    "adminlte2_pdq_tests:class-standard",
-                    user=user_instance,
-                    # Expected view return data.
-                    expected_status=200,
-                    view_should_redirect=True,
-                    # Expected content on page.
-                    expected_title="Login |",
-                    expected_content=[
-                        "Sign in to start your session",
-                        "Remember Me",
-                        "I forgot my password",
-                    ],
-                )
+                with warns(Warning) as warning_info:
+                    response = self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-standard",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=True,
+                        # Expected content on page.
+                        expected_title="Login |",
+                        expected_content=[
+                            "Sign in to start your session",
+                            "Remember Me",
+                            "I forgot my password",
+                        ],
+                    )
+
+                # Collect actual warnings that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warnings that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__no_mixin_message),
+                }
+                # Assert warnings match.
+                self.assertEqual(expected_warns, actual_warns)
 
                 # Verify values associated with returned view.
                 # View had no mixins so should be no data.
@@ -400,9 +410,10 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
     @override_settings(DEBUG=False)
     @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False)
     def test__no_decorators__redirect_on_403_turned_off(self):
-        """Test for view with no decorators, in project "Strict" mode
+        """Test for view with perms, in project "Strict" mode
         and the redirect on 403 setting is set to False.
-        Everything should raise a 403 error rather than redirecting to Home.
+        Unauthenticated users should get redirected to login.
+        Everyone else should raise a 403 error rather than redirecting to Home.
         """
 
         # Should fail and redirect to login for anyone unauthenticated.
@@ -411,7 +422,7 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
 
                 response = self.assertGetResponse(
                     # View setup.
-                    "adminlte2_pdq_tests:class-standard",
+                    "adminlte2_pdq_tests:class-full-permissions-required-strict",
                     user=user_instance,
                     # Expected view return data.
                     expected_status=200,
@@ -429,14 +440,15 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
                 # View had no decorators so should be no data.
                 self.assertAdminPdqData(response, is_empty=True)
 
-        # Should fail and redirect to home with a warning message, for all authenticated users.
-        for user_instance, user_str in self.user_list__authenticated:
+        # Should fail and return 403 message, for all authenticated users lacking correct perms.
+        user_list_missing_perms = self.user_list__no_permissions + self.user_list__partial_permissions
+        for user_instance, user_str in user_list_missing_perms:
             with self.subTest(f"As {user_str}"):
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
-                    "adminlte2_pdq_tests:class-standard",
+                    "adminlte2_pdq_tests:class-full-permissions-required-strict",
                     user=user_instance,
                     # Expected view return data.
                     expected_status=403,
@@ -445,6 +457,29 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
                     expected_title="403 Forbidden",
                     expected_content=[
                         "403 Forbidden",
+                    ],
+                )
+
+                # Verify values associated with returned view.
+                # View had no decorators so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
+
+        # Should succeed for all users that have correct perms
+        for user_instance, user_str in self.user_list__full_permissions:
+            with self.subTest(f"As {user_str}"):
+
+                # Verify we get the expected page.
+                response = self.assertGetResponse(
+                    # View setup.
+                    "adminlte2_pdq_tests:class-full-permissions-required-strict",
+                    user=user_instance,
+                    # Expected view return data.
+                    expected_status=200,
+                    view_should_redirect=False,
+                    # Expected content on page.
+                    expected_title="Full Permissions Required View | Django AdminLtePdq Testing",
+                    expected_content=[
+                        "Full Permissions Required",
                     ],
                 )
 

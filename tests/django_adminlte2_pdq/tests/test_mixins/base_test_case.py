@@ -84,11 +84,10 @@ class BaseMixinTextCase(IntegrationTestCase):
     )
 
     pdq_strict__no_mixin_message = (
-        "AdminLtePdq Warning: This project is set to run in strict mode, and "
-        "the class-based view 'StandardView' does not have any mixins set. "
-        "This means that this view is inaccessible until permission mixins "
-        "are set for the view, or the view is added to the "
-        "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+        "AdminLtePdq Warning: The class-based view 'StandardView' has permission "
+        "requirements, but does not have any permissions set. "
+        "This means that this view is inaccessible until permissions "
+        "are set for the view.\n"
         "\n\n"
         "For further information, please see the docs: "
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
