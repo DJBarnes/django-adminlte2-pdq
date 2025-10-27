@@ -147,7 +147,7 @@ class AuthMiddleware:
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
         permission_required = view_data["decorator_name"] in ("permission_required", "permission_required_one")
-        if (STRICT_POLICY or permission_required) and not self.verify_passes_permissions(request, view_data):
+        if (STRICT_POLICY or permission_required) and not self.verify_permissions(request, view_data):
             # Apply potential warnings
             if settings.DEBUG:
                 # Warning if in development mode.
@@ -644,28 +644,29 @@ class AuthMiddleware:
             or self.is_special_route(view_data)
         )
 
-    def verify_passes_permissions(self, request, view_data):
+    def verify_permissions(self, request, view_data):
         """Checks to verify User passes the permission checks, for views that require it."""
 
         # If user passes perm check, just return true.
-        if self.verify_has_perms(request, view_data):
+        if self.user_passes_perms(request, view_data):
             return True
 
         # User does not pass perms check. Still allow request for the following:
         return self.view_is_permission_exempt(request, view_data)
 
-    def verify_has_perms(self, request, view_data):
+    def user_passes_perms(self, request, view_data):
         """Checks to verify User has required permissions, for views that require it."""
 
         # Default to failing.
         passed_one_of_perms_check = False
         passed_full_perms_check = False
-
-        # If no perms at all are not set on the view, return false
-        if not (view_data["one_of_permissions"] or view_data["full_permissions"]):
-            return False
+        # Only allow passing if at least one of the types of perms are set on the view.
+        # NOTE: This will help ensure that if the PermissionRequired mixin is used, the user must
+        # fill out the `permission_required` attribute for the view to pass perm checks.
+        at_least_one_set = False
 
         if view_data["one_of_permissions"]:
+            at_least_one_set = True
             # Partial set exists. Must have at least one of any.
             if any(request.user.has_perm(perm) for perm in view_data["one_of_permissions"]):
                 passed_one_of_perms_check = True
@@ -674,6 +675,7 @@ class AuthMiddleware:
             passed_one_of_perms_check = True
 
         if view_data["full_permissions"]:
+            at_least_one_set = True
             # Full set exists. Must have all.
             if all(request.user.has_perm(perm) for perm in view_data["full_permissions"]):
                 passed_full_perms_check = True
@@ -682,7 +684,7 @@ class AuthMiddleware:
             passed_full_perms_check = True
 
         # Return true if passes both checks.
-        return passed_one_of_perms_check and passed_full_perms_check
+        return at_least_one_set and passed_one_of_perms_check and passed_full_perms_check
 
     def view_is_permission_exempt(self, request, view_data):
         """Return whether the view is exempt from requiring permissions in strict mode."""
