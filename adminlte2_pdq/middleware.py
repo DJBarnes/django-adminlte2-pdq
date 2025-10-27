@@ -170,45 +170,46 @@ class AuthMiddleware:
         is_perm_whitelisted = self.is_permission_whitelisted(view_data)
         view_requires_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
 
+        # Pull out some data from the view_data for easier processing
+        view_decorator_name = view_data["decorator_name"]
+        view_type = view_data["view_type"]
+        view_name = view_data["view_name"]
+        view_perm_type = view_data["view_perm_type"]
+
+        # Get the actual name of the decorator used based on whether it is a function-based or class-based view.
+        if view_perm_type == "decorator":
+            decorator_name = view_decorator_name
+        else:
+            decorator_name = view_decorator_name.replace("_", " ").title().replace(" ", "")
+
         # Handle if using login_required decorator within STRICT mode or Login Required mode.
-        if (STRICT_POLICY or LOGIN_REQUIRED) and view_data["decorator_name"] == "login_required":
+        if (STRICT_POLICY or LOGIN_REQUIRED) and view_decorator_name == "login_required":
 
             # Determine some error message values based on mode.
             if STRICT_POLICY:
                 mode_type = "STRICT"
                 mode_text = "login and permissions are"
-                if view_data["view_perm_type"] == "decorator":
-                    decorator_name = "login_required"
+                if view_perm_type == "decorator":
                     similar_decorators = "'allow_anonymous_access' or 'allow_without_permissions'"
                 else:
-                    decorator_name = "LoginRequired"
                     similar_decorators = "'AllowAnonymousAccess' or 'AllowWithoutPermissions'"
                 pluralize = "s"
             else:
                 mode_type = "LOGIN REQUIRED"
                 mode_text = "login is"
-                if view_data["view_perm_type"] == "decorator":
-                    decorator_name = "login_required"
+                if view_perm_type == "decorator":
                     similar_decorators = "'allow_anonymous_access'"
                 else:
-                    decorator_name = "LoginRequired"
                     similar_decorators = "'AllowAnonymousAccess'"
                 pluralize = ""
 
             # Display error message.
             error_message = (
-                "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
-                "{mode_type} mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
+                f"AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
+                f"{mode_type} mode. Having {mode_type} mode on implicitly assumes {mode_text} required "
                 "for all views that are not in a whitelist setting."
                 "\n\n"
-                "Also consider the {similar_decorators} {view_perm_type}{pluralize}."
-            ).format(
-                decorator_name=decorator_name,
-                mode_type=mode_type,
-                mode_text=mode_text,
-                similar_decorators=similar_decorators,
-                view_perm_type=view_data["view_perm_type"],
-                pluralize=pluralize,
+                f"Also consider the {similar_decorators} {view_perm_type}{pluralize}."
             )
             raise ImproperlyConfigured(error_message)
 
@@ -217,10 +218,10 @@ class AuthMiddleware:
             # Using allow_anonymous or allow_without_permissions in Loose mode.
             (
                 (not STRICT_POLICY and not LOGIN_REQUIRED)
-                and view_data["decorator_name"] in ["allow_anonymous_access", "allow_without_permissions"]
+                and view_decorator_name in ["allow_anonymous_access", "allow_without_permissions"]
             )
             # Or using allow_without_permissions outside of strict mode.
-            or (not STRICT_POLICY and view_data["decorator_name"] == "allow_without_permissions")
+            or (not STRICT_POLICY and view_decorator_name == "allow_without_permissions")
         ):
             # Determine some error message values based on mode.
             if not STRICT_POLICY and not LOGIN_REQUIRED:
@@ -228,29 +229,17 @@ class AuthMiddleware:
             else:
                 mode_type = "LOGIN REQUIRED"
 
-            if view_data["view_perm_type"] == "decorator":
-                decorator_name = view_data["decorator_name"]
-            else:
-                decorator_name = view_data["decorator_name"].replace("_", " ").title().replace(" ", "")
-
             # Display error message.
             error_message = (
-                "AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
-                "{mode_type} mode. This {view_perm_type} only exists for clarity of permission access in STRICT mode."
-            ).format(
-                decorator_name=decorator_name,
-                view_perm_type=view_data["view_perm_type"],
-                mode_type=mode_type,
+                f"AdminLtePdq Error: The '{decorator_name}' {view_perm_type} is not supported in AdminLtePdq "
+                f"{mode_type} mode. This {view_perm_type} only exists for clarity of permission access in STRICT mode."
             )
             raise ImproperlyConfigured(error_message)
 
         # Handle if view is strict-mode whitelisted but using a decorator/mixin state that doesn't make sense.
         if is_perm_whitelisted:
             # Whitelisted, yet using a decorator that requires permissions. Raise error.
-            if view_data["decorator_name"] == "permission_required":
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
-                view_perm_type = view_data["view_perm_type"]
+            if view_decorator_name == "permission_required":
                 error_message = (
                     f"AdminLtePdq Error: The {view_type} view '{view_name}' has a permission {view_perm_type}, "
                     "but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
@@ -258,16 +247,7 @@ class AuthMiddleware:
                 raise ImproperlyConfigured(error_message)
 
             # Whitelisted, and using a decorator that also removes permissions. Raise warning.
-            if view_data["decorator_name"] == "allow_without_permissions":
-
-                if view_data["view_perm_type"] == "decorator":
-                    decorator_name = "allow_without_permissions"
-                else:
-                    decorator_name = "AllowWithoutPermissions"
-
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
-                view_perm_type = view_data["view_perm_type"]
+            if view_decorator_name == "allow_without_permissions":
                 warning_message = (
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
                     f"{view_perm_type}, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. These two effectively "
@@ -281,16 +261,7 @@ class AuthMiddleware:
         # Handle if view is login whitelisted but using a decorator/mixin state that doesn't make sense.
         if is_login_whitelisted:
             # Whitelisted, yet using a decorator that requires login. Raise error.
-            if view_data["decorator_name"] == "login_required":
-
-                if view_data["view_perm_type"] == "decorator":
-                    decorator_name = "login_required"
-                else:
-                    decorator_name = "LoginRequired"
-
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
-                view_perm_type = view_data["view_perm_type"]
+            if view_decorator_name == "login_required":
                 error_message = (
                     f"AdminLtePdq Error: The {view_type} view '{view_name}' has a '{decorator_name}' "
                     f"{view_perm_type}, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
@@ -298,16 +269,7 @@ class AuthMiddleware:
                 raise ImproperlyConfigured(error_message)
 
             # Whitelisted, and using a decorator that also removes permissions. Raise warning.
-            if view_data["decorator_name"] == "allow_anonymous_access":
-
-                if view_data["view_perm_type"] == "decorator":
-                    decorator_name = "allow_anonymous_access"
-                else:
-                    decorator_name = "AllowAnonymousAccess"
-
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
-                view_perm_type = view_data["view_perm_type"]
+            if view_decorator_name == "allow_anonymous_access":
                 warning_message = (
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
                     f"{view_perm_type}, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
@@ -321,31 +283,31 @@ class AuthMiddleware:
             # Handle if whitelists don't make sense.
             # Specifically if view is login whitelisted, but permissions are still required in some way.
             # In such a case, the user still requires login for permissions, so the login whitelist does nothing.
-            if (
-                # Not in a state that would invalidate this.
-                not (is_perm_whitelisted or view_data["decorator_name"] == "allow_without_permissions")
-                # and IS on one of the states that we're looking for.
-                and (
-                    # Is strict policy
-                    STRICT_POLICY
-                    # Or using a permission decorator.
-                    or view_data["decorator_name"] == "permission_required"
-                )
-            ):
-                if view_data["view_perm_type"] == "decorator":
-                    decorator_name = "allow_without_permissions"
-                else:
-                    decorator_name = "AllowWithoutPermissions"
 
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
-                view_perm_type = view_data["view_perm_type"]
+            # Determine if permissions are still required and if they are negated properly.
+            requires_permissions = STRICT_POLICY or view_decorator_name == "permission_required"
+            permission_required_not_negated = not (
+                is_perm_whitelisted or view_decorator_name == "allow_without_permissions"
+            )
+
+            if (
+                # It is login whitelisted AND (See above if)
+                # Requires permissions via Strict or decorator
+                requires_permissions
+                # And that permission requirement is not negated somehow
+                and permission_required_not_negated
+            ):
+                if view_perm_type == "decorator":
+                    suggested_decorator = "allow_without_permissions"
+                else:
+                    suggested_decorator = "AllowWithoutPermissions"
+
                 warning_message = (
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' is login whitelisted, but the view "
                     "still requires permissions. A user must login to have permissions, so the login whitelist is "
                     "redundant and probably not achieving the desired effect. Correct this by adding the view to "
                     "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
-                    f"'{decorator_name}' {view_perm_type}."
+                    f"'{suggested_decorator}' {view_perm_type}."
                 )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
@@ -355,14 +317,12 @@ class AuthMiddleware:
         # Handle if view is a permission view but does NOT have permission requirements defined.
         if (
             # Is a permission view.
-            view_data["decorator_name"] == "permission_required"
+            view_decorator_name == "permission_required"
             # And no permission values defined.
             and not view_requires_permissions
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
                 warning_message = (
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
                     "requirements, but does not have any permissions set. "
@@ -383,14 +343,12 @@ class AuthMiddleware:
         # Handle if view is permission exempt view, but has permission requirements defined.
         if (
             # Is permission exempt view.
-            view_data["decorator_name"] == "allow_without_permissions"
+            view_decorator_name == "allow_without_permissions"
             # But permission values are defined.
             and view_requires_permissions
         ):
             if settings.DEBUG:
                 # Warning if in development mode.
-                view_type = view_data["view_type"]
-                view_name = view_data["view_name"]
                 warning_message = (
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' is permission exempt, "
                     "but has some permission requirements set. "
@@ -531,6 +489,7 @@ class AuthMiddleware:
 
             # Process data.
             if view_class:
+                # Processing a class-based view.
                 # Get class attributes.
                 data_dict["view_name"] = view_class.__qualname__
                 data_dict["view_type"] = "class-based"
@@ -582,6 +541,7 @@ class AuthMiddleware:
                     view_class.admin_pdq_data["full_permissions"] = data_dict["full_permissions"]
 
             else:
+                # Processing a function-based view.
                 # Get function attributes.
                 data_dict["view_name"] = resolver.func.__qualname__
                 data_dict["view_type"] = "function-based"
