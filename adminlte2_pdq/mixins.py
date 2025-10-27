@@ -126,10 +126,6 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         # Sanitize permission data and update class values.
         perms_all, perms_one = self.get_permission_required()
 
-        # Instantly fail if not at least one defined.
-        if not (perms_all or perms_one):
-            return False
-
         # Otherwise, at least one is defined.
         # Default to the opposite of starting point.
         # That way if either is None, it's automatically passing.
@@ -158,14 +154,13 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
 
         # Raise error if neither of expected attributes defined.
         if self.permission_required is None and self.permission_required_one is None:
+            class_name = self.__class__.__name__
             error_message = (
-                "{class_name} uses the PermissionRequiredMixin mixin but is missing permission "
+                f"{class_name} uses the PermissionRequiredMixin mixin but is missing permission "
                 "permission attributes. To fix this, define either the "
-                "{class_name}.permission_required or "
-                "{class_name}.permission_required_one attributes. Or override "
-                "{class_name}.get_permission_required() to change how the mixin functions."
-            ).format(
-                class_name=self.__class__.__name__,
+                f"{class_name}.permission_required or "
+                f"{class_name}.permission_required_one attributes. Or override "
+                f"{class_name}.get_permission_required() to change how the mixin functions."
             )
             raise ImproperlyConfigured(error_message)
 
