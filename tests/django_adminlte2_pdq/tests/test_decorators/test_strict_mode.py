@@ -1216,37 +1216,86 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
     def test__allow_without_permissions_decorator(self):
         """Test for allow_without_permissions decorator, in project "Strict" mode, with both whitelists."""
 
-        # TODO: This redirects to login for some reason.
-        #   I suspect it's something to do with the actual mixin/decorator logic.
-        #   Perhaps the middleware is doing too much work, and the mixins/decorators don't understand
-        #   whitelists enough to allow this case?
-        #   This is such a specific and stupid case though that I don't know if I care to
-        #   troubleshoot it at this time. Fix later.
+        # NOTE: For unauthenticated users, they will pass all of the middleware checks correctly here.
+        # However, the decorator "allow_without_permissions" assumes that the user needs to be logged in.
+        # It does because the "allow_without_permissions" decorator uses the django "login_required" decorator
+        # under the hood. This means that even though we have whitelisted the view in the login required
+        # whitelist, it has no effect because the "login_required" decorator does not look at the whitelist
+        # to know if it needs to still allow the request to go through. Maybe we need to fix this.
+        # In short, the middleware works as intended. But, since the actual "allow_without_permission"
+        # decorator uses "login_required", login is still required.
+        # TODO: Consider changing how the "allow_without_permission" decorator works.
 
-        # # All users are in both login and permission whitelist, so they should handle all the same.
-        # for user_instance, user_str in self.user_list__full:
-        #     with self.subTest(f"As {user_str}"):
-        #
-        #         # Verify we get the expected page.
-        #         response = self.assertGetResponse(
-        #             # View setup.
-        #             "adminlte2_pdq_tests:function-allow-without-permissions",
-        #             user=user_instance,
-        #             # Expected view return data.
-        #             expected_status=200,
-        #             view_should_redirect=False,
-        #             # Expected content on page.
-        #             expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
-        #             expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
-        #         )
-        #
-        #         # Verify values associated with returned view.
-        #         self.assertAdminPdqData(
-        #             response,
-        #             decorator_name="allow_without_permissions",
-        #             login_required=True,
-        #             allow_without_permissions=True,
-        #         )
+        # Anonymous users will need to be logged in despite it being whitelisted for the reasons above.
+        # Thus they will see the login page.
+        for user_instance, user_str in self.user_list__unauthenticated:
+            with self.subTest(f"As {user_str}"):
+
+                # Verify we get the expected page.
+                with warns(Warning) as warning_info:
+                    response = self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:function-allow-without-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=True,
+                        # Expected content on page.
+                        expected_title="Login |",
+                        expected_content=[
+                            "Sign in to start your session",
+                            "Remember Me",
+                            "I forgot my password",
+                        ],
+                    )
+
+                # Collect actual warnings that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warnings that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+                }
+                # Assert warnings match.
+                self.assertEqual(expected_warns, actual_warns)
+
+                # Verify values associated with returned view.
+                # Was redirected to login so should be no data.
+                self.assertAdminPdqData(response, is_empty=True)
+
+        # All logged in users will be able to get to the view as intended.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
+
+                # Verify we get the expected page.
+                with warns(Warning) as warning_info:
+                    response = self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:function-allow-without-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=False,
+                        # Expected content on page.
+                        expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                        expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    )
+
+                # Collect actual warnings that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warnings that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+                }
+                # Assert warnings match.
+                self.assertEqual(expected_warns, actual_warns)
+
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(
+                    response,
+                    decorator_name="allow_without_permissions",
+                    login_required=True,
+                    allow_without_permissions=True,
+                )
 
     def test__one_permission_required_decorator(self):
         """Test for permission_required_one decorator, in project "Strict" mode, with both whitelists.

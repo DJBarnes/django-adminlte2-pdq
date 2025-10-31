@@ -1243,37 +1243,39 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
     def test__allow_without_permissions_mixin(self):
         """Test for allow_without_permissions mixin, in project "Strict" mode, with both whitelists."""
 
-        # TODO: This redirects to login for some reason.
-        #   I suspect it's something to do with the actual mixin/decorator logic.
-        #   Perhaps the middleware is doing too much work, and the mixins/decorators don't understand
-        #   whitelists enough to allow this case?
-        #   This is such a specific and stupid case though that I don't know if I care to
-        #   troubleshoot it at this time. Fix later.
+        for user_instance, user_str in self.user_list__authenticated:
+            with self.subTest(f"As {user_str}"):
 
-        # # All users are in both login and permission whitelist, so they should handle all the same.
-        # for user_instance, user_str in self.user_list__full:
-        #     with self.subTest(f"As {user_str}"):
-        #
-        #         # Verify we get the expected page.
-        #         response = self.assertGetResponse(
-        #             # View setup.
-        #             "adminlte2_pdq_tests:class-allow-without-permissions",
-        #             user=user_instance,
-        #             # Expected view return data.
-        #             expected_status=200,
-        #             view_should_redirect=False,
-        #             # Expected content on page.
-        #             expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
-        #             expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
-        #         )
-        #
-        #         # Verify values associated with returned view.
-        #         self.assertAdminPdqData(
-        #             response,
-        #             decorator_name="allow_without_permissions",
-        #             login_required=True,
-        #             allow_without_permissions=True,
-        #         )
+                # Verify we get the expected page.
+                with warns(Warning) as warning_info:
+                    response = self.assertGetResponse(
+                        # View setup.
+                        "adminlte2_pdq_tests:class-allow-without-permissions",
+                        user=user_instance,
+                        # Expected view return data.
+                        expected_status=200,
+                        view_should_redirect=False,
+                        # Expected content on page.
+                        expected_title="Allow Without Permissions View | Django AdminLtePdq Testing",
+                        expected_header="Django AdminLtePdq | Allow Without Permissions View Header",
+                    )
+
+                # Collect actual warnings that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warnings that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__allow_without_permissions_whitelist_overlap_message),
+                }
+                # Assert warnings match.
+                self.assertEqual(expected_warns, actual_warns)
+
+                # Verify values associated with returned view.
+                self.assertAdminPdqData(
+                    response,
+                    decorator_name="allow_without_permissions",
+                    login_required=True,
+                    allow_without_permissions=True,
+                )
 
     def test__one_permission_required_mixin(self):
         """Test for permission_required_one mixin, in project "Strict" mode, with both whitelists.

@@ -140,6 +140,8 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
     """Decorator for strict mode, that defines a view which requires login, but no permissions.
 
     Also adds the required logic to render the view on the sidebar template.
+    TODO: Consider changing how the "allow_without_permission" decorator works so that it also
+    looks at the whitelists to know if it should actually use the "login_required decorator".
     """
 
     admin_pdq_data = {
