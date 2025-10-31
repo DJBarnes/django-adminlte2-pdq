@@ -4071,7 +4071,7 @@ class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTes
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:demo-css"])
     def test__strict__with_login_whitelist__node_minimal(self):
         """
-        Note: The LOGIN_EXEMPT_WHITELIST is only for login access.
+        NOTE: The LOGIN_EXEMPT_WHITELIST is only for login access.
             If the view is not also put into the PERMISSION_EXEMPT_WHITELIST, then the login
             whitelist effectively does nothing. This is because permissions are still required,
             and to have permissions, a user needs to be logged in.

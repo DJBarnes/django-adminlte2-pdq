@@ -74,10 +74,6 @@ class AuthMiddleware:
 
         Upon failure, user will be redirected accordingly.
         Redirects are determined by the LOGIN_REDIRECT_URL setting, and the ADMINLTE2_HOME_ROUTE setting.
-
-        # TODO: I really don't like how much heavy lifting this middleware is doing.
-            Consider trying to offload logic to decorators/mixins in the future, if possible.
-            Some of this has to be in the middleware, due to
         """
 
         # Ensure user object is accessible for Authentication checks and messages is available.
