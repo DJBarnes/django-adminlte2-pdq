@@ -1,6 +1,77 @@
 Version History
 ***************
 
+0.2.1 - Filters, Commands, Messages, 404s, and Tree Nodes
+=========================================================
+
+* Add New Template filters
+
+  * ``dict_get`` which allows getting a dict value by key where the key can be
+    a variable vs the literal key. Defaults to None if not found.
+
+  * ``multiply`` which allows for multiplying two numbers together.
+
+  * ``divide`` which allows for dividing the first number by the second.
+
+  * ``modulo`` which allows for remainder after dividing the first number by the
+    second.
+
+* Update and fix bugs in management commands
+
+  * Update the ``showperms`` command to:
+
+    * Optionally show the **has_perm** text that should be used when testing if a
+      user has permissions.
+
+    * Optionally hide the default Django permissions from the output.
+
+  * Update the ``showroutes`` command to allow hiding all admin routes.
+
+  * Fix some bugs that prevented some of the commands from working correctly.
+
+* Update how messages are displayed
+
+  * Breaking Change - The colors for the Info and Debug level messages have
+    been swapped. Info is now dark blue and Debug is light blue. This aligns
+    better with what users will expect to see.
+
+  * The colors to use for each message are now fully configurable via
+    overriding the ``_messages.html`` partial template and changing the class
+    to use for each message type.
+
+* Update how 404s work
+
+  * There is a new Whitelist that can be used to whitelist url patterns that
+    should return a 404 instead of redirecting to the home page. This is useful
+    for non-view endpoints like static files which should just be a 404.
+
+  * Update the default message for 403 and 404s to be a little more vague.
+    Detailed messages still exist in the logging and during debugging.
+
+* Add ability to add links for root tree nodes.
+
+  * When this is done, the text is a clickable link and the caret is the
+    part that will handle the expansion and collapse of the tree node.
+
+  * If there is no link for the root tree node, then the entire text and
+    caret will control the expansion and collapse of the tree node.
+
+* Refactor the main middleware to read better and be organized in a consistent
+  way.
+
+* Pylint and Testing Improvements
+
+  * Fix many pylint errors including changing many uses of ``.format`` to
+    f-strings.
+
+  * Improve testing to handle testing majority of possible edge cases.
+
+  * Testing now has 100% code coverage
+
+* Update base CSS and JS packages including adminlte2.
+
+* General smaller bugfixes, such as for trailing slashes.
+
 
 0.2.0 - Internal Auth Logic Rework
 ==================================
