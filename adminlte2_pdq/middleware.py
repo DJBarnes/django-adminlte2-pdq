@@ -77,7 +77,7 @@ class AuthMiddleware:
         """
 
         # Ensure user object is accessible for Authentication checks and messages is available.
-        if not hasattr(request, "user") or not hasattr(request, "_messages"):
+        if not hasattr(request, "user") or not hasattr(request, "session") or not hasattr(request, "_messages"):
             # Django SessionMiddleware is required to use Django AuthenticationMiddleware.
             # Django AuthenticationMiddleware is what gives us access to user object in request.
             # Django MessageMiddleware is required to display messages to user on middleware failure for a view.

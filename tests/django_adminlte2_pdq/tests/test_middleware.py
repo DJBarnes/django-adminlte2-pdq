@@ -3,6 +3,7 @@ Tests for Middleware
 """
 
 # System Imports.
+import sys
 from copy import copy
 from unittest.mock import patch
 
@@ -31,6 +32,10 @@ NO_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
 NO_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
 NO_MESSAGES_MIDDLEWARE = copy(settings.MIDDLEWARE)
 NO_MESSAGES_MIDDLEWARE.remove("django.contrib.messages.middleware.MessageMiddleware")
+
+NO_SESSION_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
+NO_SESSION_AUTH_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
+NO_SESSION_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
 
 
 class MiddlewareBaseTestCase(TestCase):
@@ -78,8 +83,16 @@ class ConfigurationMiddlewareTestCase(MiddlewareBaseTestCase):
     @override_settings(MIDDLEWARE=NO_SESSION_MIDDLEWARE)
     def test__missing_session_middleware_raises_error(self):
         """Test that project with missing session middleware raises error"""
-        with self.assertRaises(ImproperlyConfigured):
-            self.client.get(reverse("adminlte2_pdq:demo-css"))
+        # TODO: Remove this decision when support for python 3.7 is dropped.
+        version = sys.version_info
+        version_str = f"{version[0]}.{version[1]}"
+        # Handle differently if version = 3.7
+        if version_str == "3.7":
+            with self.assertRaises(AssertionError):
+                self.client.get(reverse("adminlte2_pdq:demo-css"))
+        else:
+            with self.assertRaises(ImproperlyConfigured):
+                self.client.get(reverse("adminlte2_pdq:demo-css"))
 
     @override_settings(MIDDLEWARE=NO_AUTH_MIDDLEWARE)
     def test__missing_auth_middleware_raises_error(self):
@@ -90,6 +103,12 @@ class ConfigurationMiddlewareTestCase(MiddlewareBaseTestCase):
     @override_settings(MIDDLEWARE=NO_MESSAGES_MIDDLEWARE)
     def test__missing_message_middleware_raises_error(self):
         """Test that project with missing message middleware raises error"""
+        with self.assertRaises(ImproperlyConfigured):
+            self.client.get(reverse("adminlte2_pdq:demo-css"))
+
+    @override_settings(MIDDLEWARE=NO_SESSION_AUTH_MIDDLEWARE)
+    def test__missing_session_and_auth_middleware_raises_error(self):
+        """Test that project with missing session and auth middleware raises error"""
         with self.assertRaises(ImproperlyConfigured):
             self.client.get(reverse("adminlte2_pdq:demo-css"))
 
