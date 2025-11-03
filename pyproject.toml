@@ -106,6 +106,10 @@ name = "adminlte2_pdq"
 [tool.black]
 line-length = 120
 
+# Esbonio settings
+[tool.esbonio.sphinx]
+pythonCommand = ["pipenv", "run", "python"]
+
 # endregion Third-Party Package Settings
 
 
