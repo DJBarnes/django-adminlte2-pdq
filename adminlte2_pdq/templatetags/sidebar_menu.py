@@ -704,18 +704,16 @@ def _url_starts_with(search_string, sub_string):
     """Determine if a url starts with a sub string"""
     stripped_search_string = strip_hash_bookmark_from_url(search_string)
     stripped_sub_string = strip_hash_bookmark_from_url(sub_string)
-    return stripped_search_string.startswith(stripped_sub_string)
+    return stripped_sub_string and stripped_search_string.startswith(stripped_sub_string)
 
 
 def _determine_node_active_status(node, request):
     """Determine if a node should be active"""
     active = False
-    if node.get("active_requires_exact_url_match", False):
-        if request.path == node["url"]:
-            active = True
+    if node.get("active_requires_exact_url_match", False) or node["url"] == "/":
+        active = request.path == node["url"]
     else:
-        if _url_starts_with(request.path, node["url"]):
-            active = True
+        active = _url_starts_with(request.path, node["url"])
     return active
 
 

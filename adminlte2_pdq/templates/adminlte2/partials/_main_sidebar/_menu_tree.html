@@ -2,7 +2,7 @@
 
 
 {% if allowed %}
-  <li class="treeview {% if node.active %}active{% endif %}">
+  <li class="treeview{% if node.active %} active{% endif %}">
     <a
       {% if node.url %}
         href="{{ node.url }}"

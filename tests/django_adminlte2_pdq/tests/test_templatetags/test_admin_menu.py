@@ -44,7 +44,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user = self.create_user()
             user.is_staff = True
             user.pk = 1
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             context = Context(
@@ -62,7 +62,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         with self.subTest("As superuser - Default settings"):
             user = self.create_user()
             user.is_superuser = True
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             context = Context(
@@ -82,7 +82,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user.is_staff = True
             user.is_superuser = False
             user.pk = 4
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             available_apps = [
@@ -96,7 +96,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                                 "update_foo": False,
                             },
                             "object_name": "foo",
-                            "change_url": "/foo",
+                            "change_url": "/foo/",
                         },
                     ],
                 }
@@ -118,7 +118,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 '<span class="treeview-text" title="Authentication">Authentication</span>',
                 rendered_template,
             )
-            self.assertNotIn('<a href="/foo">', rendered_template)
+            self.assertNotIn('<a href="/foo/">', rendered_template)
             self.assertNotIn("<span>foo</span>", rendered_template)
 
         with self.subTest("As staff - Defined available apps in context, no urls"):
@@ -126,7 +126,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user.is_staff = True
             user.is_superuser = False
             user.pk = 4
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             available_apps = [
@@ -161,14 +161,14 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 '<span class="treeview-text" title="Authentication">Authentication</span>',
                 rendered_template,
             )
-            self.assertNotIn('<a href="/foo">', rendered_template)
+            self.assertNotIn('<a href="/foo/">', rendered_template)
             self.assertNotIn("<span>foo</span>", rendered_template)
 
         with self.subTest("As superuser - Defined available apps in context"):
             user = self.create_user()
             user.is_superuser = True
             user.pk = 1
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             available_apps = [
@@ -182,7 +182,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                                 "update_foo": True,
                             },
                             "object_name": "foo",
-                            "change_url": "/foo",
+                            "change_url": "/foo/",
                         },
                     ],
                 }
@@ -204,7 +204,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 '<span class="treeview-text" title="Authentication">Authentication</span>',
                 rendered_template,
             )
-            self.assertIn('<a href="/foo" class="node-link">', rendered_template)
+            self.assertIn('<a href="/foo/" class="node-link">', rendered_template)
             self.assertIn('<span class="node-link-text" title="foo">foo</span>', rendered_template)
 
     @override_settings(ADMINLTE2_ADMIN_MENU_IN_TREE=True)
@@ -213,7 +213,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         user = self.create_user()
         user.is_superuser = True
-        request = RequestFactory().get("/rand")
+        request = RequestFactory().get("/rand/")
         setattr(request, "user", user)
 
         available_apps = [
@@ -227,7 +227,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                             "update_foo": True,
                         },
                         "object_name": "foo",
-                        "change_url": "/foo",
+                        "change_url": "/foo/",
                     },
                 ],
             }
@@ -245,7 +245,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         rendered_template = self.normalize_html(template_to_render.render(context))
 
-        self.assertIn('<li class="treeview active">', rendered_template)
+        self.assertIn('<li class="treeview">', rendered_template)
 
     @override_settings(ADMINLTE2_ADMIN_MENU_IN_TREE=True)
     def test__render_admin_menu__admin_menu_in_tree_no_apps(self):
@@ -253,7 +253,28 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         user = self.create_user()
         user.is_superuser = True
-        request = RequestFactory().get("/rand")
+        request = RequestFactory().get("/rand/")
+        setattr(request, "user", user)
+
+        context = Context(
+            {
+                "request": request,
+                "user": user,
+            }
+        )
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
+
+        rendered_template = self.normalize_html(template_to_render.render(context))
+
+        self.assertIn('<li class="treeview">', rendered_template)
+
+    @override_settings(ADMINLTE2_ADMIN_MENU_IN_TREE=True)
+    def test__render_admin_menu__admin_menu_in_tree_no_apps_with_match(self):
+        """Test render admin menu works for superuser with admin menu in tree settings and no apps and url match"""
+
+        user = self.create_user()
+        user.is_superuser = True
+        request = RequestFactory().get("/admin/")
         setattr(request, "user", user)
 
         context = Context(
@@ -274,7 +295,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         user = self.create_user()
         # user.is_superuser = True
-        request = RequestFactory().get("/rand")
+        request = RequestFactory().get("/rand/")
         setattr(request, "user", user)
 
         context = Context(
@@ -295,7 +316,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         """Test render_admin_tree_icon() tag renders in different scenarios."""
 
         with self.subTest("When icon is the default"):
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
 
             context = Context(
                 {
@@ -309,7 +330,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             self.assertIn("fa fa-superpowers", rendered_template)
 
         with self.subTest("When icon has been changed"):
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
 
             original_icon_text = AdminMenu.get_admin_icon()
             icon_text = "fa fa-foo"
@@ -332,7 +353,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         """Test render_app_icon() renders in different scenarios."""
 
         with self.subTest("When icon is the default"):
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
 
             app = {
                 "app_label": "Foo",
@@ -344,7 +365,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                             "update_foo": False,
                         },
                         "object_name": "foo",
-                        "change_url": "/foo",
+                        "change_url": "/foo/",
                     },
                 ],
             }
@@ -362,7 +383,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             self.assertIn("fa fa-circle", rendered_template)
 
         with self.subTest("When icon has been changed"):
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
 
             app = {
                 "app_label": "Foo",
@@ -374,7 +395,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                             "update_foo": False,
                         },
                         "object_name": "foo",
-                        "change_url": "/foo",
+                        "change_url": "/foo/",
                     },
                 ],
             }
@@ -401,7 +422,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         """Test render_model_icon() renders in different scenarios."""
 
         with self.subTest("When icon is the default"):
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
 
             model = {
                 "perms": {
@@ -409,7 +430,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "update_foo": False,
                 },
                 "object_name": "foo",
-                "change_url": "/foo",
+                "change_url": "/foo/",
             }
 
             context = Context(
@@ -425,7 +446,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             self.assertIn("fa fa-circle-o", rendered_template)
 
         with self.subTest("When icon has been changed"):
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
 
             model = {
                 "perms": {
@@ -433,7 +454,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "update_foo": False,
                 },
                 "object_name": "foo",
-                "change_url": "/foo",
+                "change_url": "/foo/",
             }
 
             original_icon_text = AdminMenu.get_model_icon(model["object_name"])
@@ -465,7 +486,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user.is_staff = True
             user.is_superuser = False
             user.pk = 4
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             model = {
@@ -474,7 +495,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "update_foo": False,
                 },
                 "object_name": "foo",
-                "change_url": "/foo",
+                "change_url": "/foo/",
             }
 
             context = Context(
@@ -495,7 +516,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user.is_staff = True
             user.is_superuser = False
             user.pk = 4
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             model = {
@@ -504,7 +525,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "update_foo": False,
                 },
                 "object_name": "foo",
-                "change_url": "/foo",
+                "change_url": "/foo/",
             }
 
             context = Context(
@@ -537,7 +558,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user.is_staff = True
             user.is_superuser = False
             user.pk = 4
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             model = {
@@ -546,7 +567,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "update_foo": False,
                 },
                 "object_name": "foo",
-                "change_url": "/foo",
+                "change_url": "/foo/",
             }
 
             context = Context(
@@ -594,7 +615,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
         user.is_staff = True
         user.is_superuser = False
         user.pk = 4
-        request = RequestFactory().get("/rand")
+        request = RequestFactory().get("/rand/")
         setattr(request, "user", user)
 
         model = {
@@ -603,7 +624,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                 "update_foo": False,
             },
             "object_name": "foo",
-            "change_url": "/foo",
+            "change_url": "/foo/",
         }
 
         context = Context(
@@ -628,7 +649,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
             user.is_staff = True
             user.is_superuser = False
             user.pk = 4
-            request = RequestFactory().get("/rand")
+            request = RequestFactory().get("/rand/")
             setattr(request, "user", user)
 
             model = {
@@ -637,7 +658,7 @@ class TemplateTagAdminMenuTestCase(TestCase):
                     "update_foo": False,
                 },
                 "object_name": "foo",
-                "change_url": "/foo",
+                "change_url": "/foo/",
             }
 
             context = Context(
