@@ -710,10 +710,11 @@ def _url_starts_with(search_string, sub_string):
 def _determine_node_active_status(node, request):
     """Determine if a node should be active"""
     active = False
-    if node.get("active_requires_exact_url_match", False) or node["url"] == "/":
-        active = request.path == node["url"]
+    node_url = node.get("url", None)
+    if node.get("active_requires_exact_url_match", False) or node_url == "/":
+        active = request.path == node_url
     else:
-        active = _url_starts_with(request.path, node["url"])
+        active = _url_starts_with(request.path, node_url)
     return active
 
 
