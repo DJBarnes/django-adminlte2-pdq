@@ -186,6 +186,21 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.modal.modal-error .modal-header,
+.modal.modal-error .modal-header .alert-error,
+.modal.modal-error .modal-footer {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-active-color) !important;
+    border-color: var(--error-border-color);
+}
+.modal.modal-error .modal-body {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-base-color) !important;
+}
+
+
 /* Navy coloring. */
 .modal.modal-navy .modal-header,
 .modal.modal-navy .modal-header .alert-navy,

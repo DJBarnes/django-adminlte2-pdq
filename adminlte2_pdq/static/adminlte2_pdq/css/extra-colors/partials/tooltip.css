@@ -314,6 +314,32 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.tooltip-error + .tooltip.top .tooltip-arrow,
+.tooltip-error.tooltip.top .tooltip-arrow {
+    border-top-color: var(--error-base-color);
+}
+.tooltip-error + .tooltip.bottom .tooltip-arrow,
+.tooltip-error.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: var(--error-base-color);
+}
+.tooltip-error + .tooltip.left .tooltip-arrow,
+.tooltip-error.tooltip.left .tooltip-arrow {
+    border-left-color: var(--error-base-color);
+}
+.tooltip-error + .tooltip.right .tooltip-arrow,
+.tooltip-error.tooltip.right .tooltip-arrow {
+    border-right-color: var(--error-base-color);
+}
+.tooltip-error + .tooltip > .tooltip-inner,
+.tooltip-error.tooltip > .tooltip-inner {
+    color: var(--error-text-color);
+    background-color: var(--error-base-color);
+    border-color: var(--error-base-color);
+}
+
+
 /* Navy coloring. */
 .tooltip-navy + .tooltip.top .tooltip-arrow,
 .tooltip-navy.tooltip.top .tooltip-arrow {

@@ -324,6 +324,33 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+/* Handling for carousel background coloring. */
+.carousel.bg-error .carousel-indicators li:active,
+.carousel.bg-error .carousel-indicators li:focus,
+.carousel.bg-error .carousel-indicators li:hover {
+    background-color: var(--error-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-error .carousel-control,
+.carousel.carousel-error .carousel-caption,
+.carousel.carousel-error .carousel-indicators li {
+    color: var(--error-base-color);
+    border-color: var(--error-base-color);
+}
+.carousel.carousel-error .carousel-indicators li.active,
+.carousel.carousel-error .carousel-indicators li:active {
+    background-color: var(--error-base-color);
+    border-color: var(--error-border-color);
+}
+.carousel.carousel-error .carousel-indicators li:focus,
+.carousel.carousel-error .carousel-indicators li:hover {
+    background-color: var(--error-border-color);
+    border-color: var(--error-border-color);
+}
+
+
 /* Navy coloring. */
 /* Handling for carousel background coloring. */
 .carousel.bg-navy .carousel-indicators li:active,

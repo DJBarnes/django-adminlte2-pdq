@@ -89,6 +89,13 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.text-error {
+    color: var(--error-base-color) !important;
+}
+
+
 /* Navy coloring. */
 .text-navy {
     color: var(--navy-base-color) !important;
