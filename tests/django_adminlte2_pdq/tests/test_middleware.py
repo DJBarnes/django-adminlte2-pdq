@@ -340,7 +340,7 @@ class MiddlewareUrlProcessingTestCaseAppendSlashTrue(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
 
             # Verify expected final url.
             self.assertEqual(url, response.request["PATH_INFO"])
@@ -360,7 +360,7 @@ class MiddlewareUrlProcessingTestCaseAppendSlashTrue(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
 
             # Verify expected final url.
             self.assertEqual(url + "/", response.request["PATH_INFO"])
@@ -413,7 +413,7 @@ class MiddlewareUrlProcessingTestCaseAppendSlashTrue(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
 
             # Verify expected final url.
             self.assertEqual(url, response.request["PATH_INFO"])
@@ -505,7 +505,7 @@ class MiddlewareUrlProcessingTestCaseAppendSlashFalse(MiddlewareBaseTestCase):
 
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
-            self.assertContains(response, "<h1>Demo CSS</h1>")
+            self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
 
             # Verify expected final url.
             self.assertEqual(url, response.request["PATH_INFO"])

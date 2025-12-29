@@ -1434,7 +1434,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertFalse(match)
 
     def test__determine_node_active_status(self):
-        """Test the the active status for a node is set properly"""
+        """Test that the active status for a node is set properly"""
         # pylint:disable=protected-access
 
         # Setup a basic node used for the tests
