@@ -10,6 +10,7 @@ Subpackages
    adminlte2_pdq.constants
    adminlte2_pdq.management
    adminlte2_pdq.templatetags
+   adminlte2_pdq.views
 
 Submodules
 ----------
@@ -66,14 +67,6 @@ adminlte2\_pdq.urls module
 --------------------------
 
 .. automodule:: adminlte2_pdq.urls
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
-adminlte2\_pdq.views module
----------------------------
-
-.. automodule:: adminlte2_pdq.views
    :members:
    :show-inheritance:
    :undoc-members:
