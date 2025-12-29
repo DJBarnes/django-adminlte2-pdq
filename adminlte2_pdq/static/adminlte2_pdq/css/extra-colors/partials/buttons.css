@@ -435,6 +435,43 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.btn.btn-error,
+.box .btn.btn-error,
+.box.box-solid > .box-header .btn.btn-error {
+    color: var(--error-text-color);
+    background-color: var(--error-base-color);
+    border: 1px solid var(--error-border-color);
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-error > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+}
+.box.box-solid.box-error > .box-header > .box-tools .btn-box-tool {
+    color: var(--error-text-color);
+}
+/* Handle for Hover events. */
+.btn.btn-error:active,
+.btn.btn-error:focus,
+.btn.btn-error:hover,
+.box.box-solid > .box-header .btn.btn-error:active,
+.box.box-solid > .box-header .btn.btn-error:focus,
+.box.box-solid > .box-header .btn.btn-error:hover {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-error > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-error > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-error > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-active-color) !important;
+}
+
+
 /* Navy coloring. */
 .btn.btn-navy,
 .box .btn.btn-navy,

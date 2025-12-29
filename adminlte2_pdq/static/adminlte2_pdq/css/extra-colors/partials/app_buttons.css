@@ -184,6 +184,21 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.btn.btn-app.bg-error,
+.btn.btn-app .badge.bg-error {
+    color: var(--error-text-color);
+    background-color: var(--error-base-color);
+    border: 1px solid var(--error-border-color);
+}
+.btn.btn-app.bg-error:active,
+.btn.btn-app.bg-error:focus,
+.btn.btn-app.bg-error:hover {
+    background-color: var(--error-active-color);
+}
+
+
 /* Navy coloring. */
 .btn.btn-app.bg-navy,
 .btn.btn-app .badge.bg-navy {

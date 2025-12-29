@@ -220,6 +220,24 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.box.box-error {
+    border-top-color: var(--error-base-color);
+}
+.box.box-solid.box-error {
+    color: var(--error-text-color);
+    border: 1px solid var(--error-border-color);
+}
+.box.box-solid.box-error > .box-header {
+    color: var(--error-text-color);
+    background-color: var(--error-base-color);
+}
+.box.box-error > .box-body {
+    color: var(--default-text-dark);
+}
+
+
 /* Navy coloring. */
 .box.box-navy {
     border-top-color: var(--navy-base-color);

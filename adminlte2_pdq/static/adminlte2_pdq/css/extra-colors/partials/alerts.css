@@ -62,6 +62,14 @@
     border-color: var(--danger-border-color);
 }
 
+/* Error coloring. */
+/* Equivalent to `red`. */
+.alert.alert-error {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-base-color) !important;
+    border-color: var(--error-border-color);
+}
+
 
 /**
  * Implement additional Bootstrap colors for AdminLte stylings.

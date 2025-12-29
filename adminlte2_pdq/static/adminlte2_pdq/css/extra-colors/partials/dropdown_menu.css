@@ -303,6 +303,31 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.dropdown-menu.dropdown-menu-error,
+.dropdown-menu.dropdown-menu-error li > a,
+.dropdown-menu.dropdown-menu-error li > input,
+.dropdown-menu.dropdown-menu-error li > button {
+    color: var(--error-text-color);
+    background-color: var(--error-base-color);
+    border-color: var(--error-border-color);
+}
+.dropdown-menu.dropdown-menu-error li > a:hover,
+.dropdown-menu.dropdown-menu-error li > input:hover,
+.dropdown-menu.dropdown-menu-error li > button:hover,
+.dropdown-menu.dropdown-menu-error li > a:focus,
+.dropdown-menu.dropdown-menu-error li > input:focus,
+.dropdown-menu.dropdown-menu-error li > button:focus {
+    color: var(--error-text-color);
+    background-color: var(--error-active-color);
+}
+.dropdown-menu.dropdown-menu-error li.divider {
+    background-color: var(--error-border-color);
+    border-color: var(--error-border-color);
+}
+
+
 /* Navy coloring. */
 .dropdown-menu.dropdown-menu-navy,
 .dropdown-menu.dropdown-menu-navy li > a,

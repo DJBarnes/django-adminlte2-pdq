@@ -81,7 +81,7 @@
     --yellow-light-accent-text-color: var(--default-text-semi-dark);
     --yellow-light-accent-color: var(--warning-light-accent-color);
     --yellow-table-hover-color: var(--warning-table-hover-color);
-    /* "Danger"/"Red" colors. */
+    /* "Danger"/"Red"/"Error" colors. */
     --danger-text-color: var(--default-text-light);
     --danger-base-color: #dd4b39;
     --danger-border-color: #b3301e;
@@ -96,6 +96,13 @@
     --red-light-accent-text-color: var(--default-text-semi-dark);
     --red-light-accent-color: var(--danger-light-accent-color);
     --red-table-hover-color: var(--danger-table-hover-color);
+    --error-text-color: var(--danger-text-color);
+    --error-base-color: var(--danger-base-color);
+    --error-border-color: var(--danger-border-color);
+    --error-active-color: var(--danger-active-color);
+    --error-light-accent-text-color: var(--default-text-semi-dark);
+    --error-light-accent-color: var(--danger-light-accent-color);
+    --error-table-hover-color: var(--danger-table-hover-color);
     /* "Navy" colors. */
     --navy-text-color: var(--default-text-light);
     --navy-base-color: #001f3f;

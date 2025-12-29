@@ -260,6 +260,28 @@ code.bg-red {
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.bg-error {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-base-color) !important;
+    border-color: var(--error-border-color);
+}
+.bg-error-active {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-active-color) !important;
+}
+.bg-error .color-palette-box h4,
+.bg-text-error,
+.color-palette-box h4.bg-text-error {
+    color: var(--error-text-color);
+}
+code.bg-error {
+    color: var(--error-light-accent-text-color) !important;
+    background-color: var(--error-light-accent-color) !important;
+}
+
+
 /* Navy coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .bg-navy {

@@ -106,6 +106,14 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.label.label-error {
+    color: var(--error-text-color) !important;
+    background-color: var(--error-base-color) !important;
+}
+
+
 /* Navy coloring. */
 .label.label-navy {
     color: var(--navy-text-color) !important;

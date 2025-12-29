@@ -94,6 +94,13 @@
 }
 
 
+/* Error coloring. */
+/* Equivalent to `danger`. */
+.small-box.bg-error .small-box-footer {
+    color: var(--error-text-color) !important;
+}
+
+
 /* Navy coloring. */
 .small-box.bg-navy .small-box-footer {
     color: var(--navy-text-color) !important;
