@@ -228,34 +228,6 @@
 }
 
 
-/* Olive coloring. */
-.modal.modal-olive .modal-header,
-.modal.modal-olive .modal-header .alert-olive,
-.modal.modal-olive .modal-footer {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-active-color) !important;
-    border-color: var(--olive-border-color);
-}
-.modal.modal-olive .modal-body {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-base-color) !important;
-}
-
-
-/* Lime coloring. */
-.modal.modal-lime .modal-header,
-.modal.modal-lime .modal-header .alert-lime,
-.modal.modal-lime .modal-footer {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-active-color) !important;
-    border-color: var(--lime-border-color);
-}
-.modal.modal-lime .modal-body {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-base-color) !important;
-}
-
-
 /* Orange coloring. */
 .modal.modal-orange .modal-header,
 .modal.modal-orange .modal-header .alert-orange,
@@ -281,20 +253,6 @@
 .modal.modal-fuchsia .modal-body {
     color: var(--fuchsia-text-color) !important;
     background-color: var(--fuchsia-base-color) !important;
-}
-
-
-/* Indigo coloring. */
-.modal.modal-indigo .modal-header,
-.modal.modal-indigo .modal-header .alert-indigo,
-.modal.modal-indigo .modal-footer {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-active-color) !important;
-    border-color: var(--indigo-border-color);
-}
-.modal.modal-indigo .modal-body {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-base-color) !important;
 }
 
 

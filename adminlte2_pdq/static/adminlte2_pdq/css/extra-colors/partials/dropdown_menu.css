@@ -375,54 +375,6 @@
 }
 
 
-/* Olive coloring. */
-.dropdown-menu.dropdown-menu-olive,
-.dropdown-menu.dropdown-menu-olive li > a,
-.dropdown-menu.dropdown-menu-olive li > input,
-.dropdown-menu.dropdown-menu-olive li > button {
-    color: var(--olive-text-color);
-    background-color: var(--olive-base-color);
-    border-color: var(--olive-border-color);
-}
-.dropdown-menu.dropdown-menu-olive li > a:hover,
-.dropdown-menu.dropdown-menu-olive li > input:hover,
-.dropdown-menu.dropdown-menu-olive li > button:hover,
-.dropdown-menu.dropdown-menu-olive li > a:focus,
-.dropdown-menu.dropdown-menu-olive li > input:focus,
-.dropdown-menu.dropdown-menu-olive li > button:focus {
-    color: var(--olive-text-color);
-    background-color: var(--olive-active-color);
-}
-.dropdown-menu.dropdown-menu-olive li.divider {
-    background-color: var(--olive-border-color);
-    border-color: var(--olive-border-color);
-}
-
-
-/* Lime coloring. */
-.dropdown-menu.dropdown-menu-lime,
-.dropdown-menu.dropdown-menu-lime li > a,
-.dropdown-menu.dropdown-menu-lime li > input,
-.dropdown-menu.dropdown-menu-lime li > button {
-    color: var(--lime-text-color);
-    background-color: var(--lime-base-color);
-    border-color: var(--lime-border-color);
-}
-.dropdown-menu.dropdown-menu-lime li > a:hover,
-.dropdown-menu.dropdown-menu-lime li > input:hover,
-.dropdown-menu.dropdown-menu-lime li > button:hover,
-.dropdown-menu.dropdown-menu-lime li > a:focus,
-.dropdown-menu.dropdown-menu-lime li > input:focus,
-.dropdown-menu.dropdown-menu-lime li > button:focus {
-    color: var(--lime-text-color);
-    background-color: var(--lime-active-color);
-}
-.dropdown-menu.dropdown-menu- li.divider {
-    background-color: var(--lime-border-color);
-    border-color: var(--lime-border-color);
-}
-
-
 /* Orange coloring. */
 .dropdown-menu.dropdown-menu-orange,
 .dropdown-menu.dropdown-menu-orange li > a,
@@ -468,30 +420,6 @@
 .dropdown-menu.dropdown-menu-fuchsia li.divider {
     background-color: var(--fuchsia-border-color);
     border-color: var(--fuchsia-border-color);
-}
-
-
-/* Indigo coloring. */
-.dropdown-menu.dropdown-menu-indigo,
-.dropdown-menu.dropdown-menu-indigo li > a,
-.dropdown-menu.dropdown-menu-indigo li > input,
-.dropdown-menu.dropdown-menu-indigo li > button {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-base-color);
-    border-color: var(--indigo-border-color);
-}
-.dropdown-menu.dropdown-menu-indigo li > a:hover,
-.dropdown-menu.dropdown-menu-indigo li > input:hover,
-.dropdown-menu.dropdown-menu-indigo li > button:hover,
-.dropdown-menu.dropdown-menu-indigo li > a:focus,
-.dropdown-menu.dropdown-menu-indigo li > input:focus,
-.dropdown-menu.dropdown-menu-indigo li > button:focus {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-active-color);
-}
-.dropdown-menu.dropdown-menu-indigo li.divider {
-    background-color: var(--indigo-border-color);
-    border-color: var(--indigo-border-color);
 }
 
 

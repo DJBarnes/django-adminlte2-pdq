@@ -389,56 +389,6 @@
 }
 
 
-/* Olive coloring. */
-.tooltip-olive + .tooltip.top .tooltip-arrow,
-.tooltip-olive.tooltip.top .tooltip-arrow {
-    border-top-color: var(--olive-base-color);
-}
-.tooltip-olive + .tooltip.bottom .tooltip-arrow,
-.tooltip-olive.tooltip.bottom .tooltip-arrow {
-    border-bottom-color: var(--olive-base-color);
-}
-.tooltip-olive + .tooltip.left .tooltip-arrow,
-.tooltip-olive.tooltip.left .tooltip-arrow {
-    border-left-color: var(--olive-base-color);
-}
-.tooltip-olive + .tooltip.right .tooltip-arrow,
-.tooltip-olive.tooltip.right .tooltip-arrow {
-    border-right-color: var(--olive-base-color);
-}
-.tooltip-olive + .tooltip > .tooltip-inner,
-.tooltip-olive.tooltip > .tooltip-inner {
-    color: var(--olive-text-color);
-    background-color: var(--olive-base-color);
-    border-color: var(--olive-base-color);
-}
-
-
-/* Lime coloring. */
-.tooltip-lime + .tooltip.top .tooltip-arrow,
-.tooltip-lime.tooltip.top .tooltip-arrow {
-    border-top-color: var(--lime-base-color);
-}
-.tooltip-lime + .tooltip.bottom .tooltip-arrow,
-.tooltip-lime.tooltip.bottom .tooltip-arrow {
-    border-bottom-color: var(--lime-base-color);
-}
-.tooltip-lime + .tooltip.left .tooltip-arrow,
-.tooltip-lime.tooltip.left .tooltip-arrow {
-    border-left-color: var(--lime-base-color);
-}
-.tooltip-lime + .tooltip.right .tooltip-arrow,
-.tooltip-lime.tooltip.right .tooltip-arrow {
-    border-right-color: var(--lime-base-color);
-}
-.tooltip-lime + .tooltip > .tooltip-inner,
-.tooltip-lime.tooltip > .tooltip-inner {
-    color: var(--lime-text-color);
-    background-color: var(--lime-base-color);
-    border-color: var(--lime-base-color);
-}
-
-
 /* Orange coloring. */
 .tooltip-orange + .tooltip.top .tooltip-arrow,
 .tooltip-orange.tooltip.top .tooltip-arrow {
@@ -486,31 +436,6 @@
     color: var(--fuchsia-text-color);
     background-color: var(--fuchsia-base-color);
     border-color: var(--fuchsia-base-color);
-}
-
-
-/* Indigo coloring. */
-.tooltip-indigo + .tooltip.top .tooltip-arrow,
-.tooltip-indigo.tooltip.top .tooltip-arrow {
-    border-top-color: var(--indigo-base-color);
-}
-.tooltip-indigo + .tooltip.bottom .tooltip-arrow,
-.tooltip-indigo.tooltip.bottom .tooltip-arrow {
-    border-bottom-color: var(--indigo-base-color);
-}
-.tooltip-indigo + .tooltip.left .tooltip-arrow,
-.tooltip-indigo.tooltip.left .tooltip-arrow {
-    border-left-color: var(--indigo-base-color);
-}
-.tooltip-indigo + .tooltip.right .tooltip-arrow,
-.tooltip-indigo.tooltip.right .tooltip-arrow {
-    border-right-color: var(--indigo-base-color);
-}
-.tooltip-indigo + .tooltip > .tooltip-inner,
-.tooltip-indigo.tooltip > .tooltip-inner {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-base-color);
-    border-color: var(--indigo-base-color);
 }
 
 

@@ -1,0 +1,284 @@
+/**
+ * Example of extra coloring CSS to add a `indigo` color theme to AdminLte.
+ *
+ * To define your own custom color theme, copy this into a new file, and
+ * then replace all instances of `indigo` with the name of your color.
+ *
+ * Then override `static/adminlte2_pdq/css/extra-colors/extra-colors.css`.
+ * If unsure of how to override, see example file in project repo.
+ *
+ * Don't forget to define the color variables too
+ * (See example-additional-colors.css for examples).
+ *
+ * Finally, to be able to see your color theme in the AdminLte PDQ CSS
+ * example pages, override the `ADMINLTE2_CSS_COLORS_DICT` variable to
+ * include all the original package values, as well as your new theme color.
+ */
+
+
+/* Background Coloring. */
+.bg-indigo {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-base-color) !important;
+    border-color: var(--indigo-border-color);
+}
+.bg-indigo-active {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-active-color) !important;
+}
+.bg-indigo .color-palette-box h4,
+.bg-text-indigo,
+.color-palette-box h4.bg-text-indigo {
+    color: var(--indigo-text-color);
+}
+code.bg-indigo {
+    color: var(--indigo-light-accent-text-color) !important;
+    background-color: var(--indigo-light-accent-color) !important;
+}
+
+
+/* Box Coloring */
+.box.box-indigo {
+    border-top-color: var(--indigo-base-color);
+}
+.box.box-solid.box-indigo {
+    color: var(--indigo-text-color);
+    border: 1px solid var(--indigo-border-color);
+}
+.box.box-solid.box-indigo > .box-header {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+}
+.box.box-indigo .box-body {
+    color: var(--default-text-dark);
+}
+
+
+/* Modal Coloring */
+.modal.modal-indigo .modal-header,
+.modal.modal-indigo .modal-header .alert-indigo,
+.modal.modal-indigo .modal-footer {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-active-color) !important;
+    border-color: var(--indigo-border-color);
+}
+.modal.modal-indigo .modal-body {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-base-color) !important;
+}
+
+
+/* Table Coloring. */
+/* Handle for general table elements. */
+.table > thead > tr > td.indigo,
+.table > tfoot > tr > td.indigo,
+.table > thead > tr > th.indigo,
+.table > tfoot > tr > th.indigo,
+.table > thead > tr.indigo > td,
+.table > tfoot > tr.indigo > td,
+.table > thead > tr.indigo > th,
+.table > tfoot > tr.indigo > th {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+}
+.table > tbody > tr > td.indigo,
+.table > tbody > tr > th.indigo,
+.table > tbody > tr.indigo > td,
+.table > tbody > tr.indigo > th {
+    color: var(--default-text-dark);
+    background-color: var(--indigo-light-accent-color);
+}
+/* Handle for table-hover elements. */
+.table-hover > tbody > tr > td.indigo:hover,
+.table-hover > tbody > tr > th.indigo:hover,
+.table-hover > tbody > tr.indigo:hover > td,
+.table-hover > tbody > tr:hover > .indigo,
+.table-hover > tbody > tr.indigo:hover > th {
+    background-color: var(--indigo-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-indigo > thead > tr > th,
+.table-bordered.border-indigo > tbody > tr > th,
+.table-bordered.border-indigo > tfoot > tr > th,
+.table-bordered.border-indigo > thead > tr > td,
+.table-bordered.border-indigo > tbody > tr > td,
+.table-bordered.border-indigo > tfoot > tr > td {
+    border: 1px solid var(--indigo-light-accent-color);
+}
+.table-bordered.border-indigo > thead > tr.indigo > th,
+.table-bordered.border-indigo > tfoot > tr.indigo > th,
+.table-bordered.border-indigo > thead > tr.indigo > td,
+.table-bordered.border-indigo > tfoot > tr.indigo > td,
+.table-bordered.border-indigo > thead > tr > th.indigo,
+.table-bordered.border-indigo > tfoot > tr > th.indigo,
+.table-bordered.border-indigo > thead > tr > td.indigo,
+.table-bordered.border-indigo > tfoot > tr > td.indigo {
+    border: 1px solid var(--indigo-border-color);
+}
+.table-bordered.border-indigo > tbody > tr.indigo > th,
+.table-bordered.border-indigo > tbody > tr.indigo > td,
+.table-bordered.border-indigo > tbody > tr > th.indigo,
+.table-bordered.border-indigo > tbody > tr > td.indigo {
+    border: 1px solid var(--indigo-base-color);
+}
+
+
+/* Alert Coloring. */
+.alert.alert-indigo {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-base-color) !important;
+    border-color: var(--indigo-border-color);
+}
+
+
+/* App Button Coloring. */
+.btn.btn-app.bg-indigo,
+.btn.btn-app .badge.bg-indigo {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border: 1px solid var(--indigo-border-color);
+}
+.btn.btn-app.bg-indigo:active,
+.btn.btn-app.bg-indigo:focus,
+.btn.btn-app.bg-indigo:hover {
+    background-color: var(--indigo-active-color);
+}
+
+
+/* Button Coloring. */
+.btn.btn-indigo,
+.box .btn.btn-indigo,
+.box.box-solid > .box-header .btn.btn-indigo {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border: 1px solid var(--indigo-border-color);
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-indigo > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool {
+    color: var(--indigo-text-color);
+}
+/* Handle for Hover events. */
+.btn.btn-indigo:active,
+.btn.btn-indigo:focus,
+.btn.btn-indigo:hover,
+.box.box-solid > .box-header .btn.btn-indigo:active,
+.box.box-solid > .box-header .btn.btn-indigo:focus,
+.box.box-solid > .box-header .btn.btn-indigo:hover {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-active-color) !important;
+}
+
+
+/* Callout Coloring. */
+.callout.callout-indigo {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-base-color) !important;
+    border-color: var(--indigo-border-color);
+}
+
+
+/* Carousel Coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-indigo .carousel-indicators li:active,
+.carousel.bg-indigo .carousel-indicators li:focus,
+.carousel.bg-indigo .carousel-indicators li:hover {
+    background-color: var(--indigo-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-indigo .carousel-control,
+.carousel.carousel-indigo .carousel-caption,
+.carousel.carousel-indigo .carousel-indicators li {
+    color: var(--indigo-base-color);
+    border-color: var(--indigo-base-color);
+}
+.carousel.carousel-indigo .carousel-indicators li.active,
+.carousel.carousel-indigo .carousel-indicators li:active {
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
+}
+.carousel.carousel-indigo .carousel-indicators li:focus,
+.carousel.carousel-indigo .carousel-indicators li:hover {
+    background-color: var(--indigo-border-color);
+    border-color: var(--indigo-border-color);
+}
+
+
+/* Dropdown Coloring. */
+.dropdown-menu.dropdown-menu-indigo,
+.dropdown-menu.dropdown-menu-indigo li > a,
+.dropdown-menu.dropdown-menu-indigo li > input,
+.dropdown-menu.dropdown-menu-indigo li > button {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-border-color);
+}
+.dropdown-menu.dropdown-menu-indigo li > a:hover,
+.dropdown-menu.dropdown-menu-indigo li > input:hover,
+.dropdown-menu.dropdown-menu-indigo li > button:hover,
+.dropdown-menu.dropdown-menu-indigo li > a:focus,
+.dropdown-menu.dropdown-menu-indigo li > input:focus,
+.dropdown-menu.dropdown-menu-indigo li > button:focus {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-active-color);
+}
+.dropdown-menu.dropdown-menu-indigo li.divider {
+    background-color: var(--indigo-border-color);
+    border-color: var(--indigo-border-color);
+}
+
+
+/* Label Coloring. */
+.label.label-indigo {
+    color: var(--indigo-text-color) !important;
+    background-color: var(--indigo-base-color) !important;
+}
+
+
+/* Small-Box Coloring. */
+.small-box.bg-indigo .small-box-footer {
+    color: var(--indigo-text-color) !important;
+}
+
+
+/* Tooltip Coloring. */
+.tooltip-indigo + .tooltip.top .tooltip-arrow,
+.tooltip-indigo.tooltip.top .tooltip-arrow {
+    border-top-color: var(--indigo-base-color);
+}
+.tooltip-indigo + .tooltip.bottom .tooltip-arrow,
+.tooltip-indigo.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: var(--indigo-base-color);
+}
+.tooltip-indigo + .tooltip.left .tooltip-arrow,
+.tooltip-indigo.tooltip.left .tooltip-arrow {
+    border-left-color: var(--indigo-base-color);
+}
+.tooltip-indigo + .tooltip.right .tooltip-arrow,
+.tooltip-indigo.tooltip.right .tooltip-arrow {
+    border-right-color: var(--indigo-base-color);
+}
+.tooltip-indigo + .tooltip > .tooltip-inner,
+.tooltip-indigo.tooltip > .tooltip-inner {
+    color: var(--indigo-text-color);
+    background-color: var(--indigo-base-color);
+    border-color: var(--indigo-base-color);
+}
+
+
+/* Typography Coloring. */
+.text-indigo {
+    color: var(--indigo-base-color) !important;
+}

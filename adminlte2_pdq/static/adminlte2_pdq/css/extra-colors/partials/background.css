@@ -326,50 +326,6 @@ code.bg-teal {
 }
 
 
-/* Olive coloring. */
-/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.bg-olive {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-base-color) !important;
-    border-color: var(--olive-border-color);
-}
-.bg-olive-active {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-active-color) !important;
-}
-.bg-olive .color-palette-box h4,
-.bg-text-olive,
-.color-palette-box h4.bg-text-olive {
-    color: var(--olive-text-color);
-}
-code.bg-olive {
-    color: var(--olive-light-accent-text-color) !important;
-    background-color: var(--olive-light-accent-color) !important;
-}
-
-
-/* Lime coloring. */
-/* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
-.bg-lime {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-base-color) !important;
-    border-color: var(--lime-border-color);
-}
-.bg-lime-active {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-active-color) !important;
-}
-.bg-lime .color-palette-box h4,
-.bg-text-lime,
-.color-palette-box h4.bg-text-lime {
-    color: var(--lime-text-color);
-}
-code.bg-lime {
-    color: var(--lime-light-accent-text-color) !important;
-    background-color: var(--lime-light-accent-color) !important;
-}
-
-
 /* Orange coloring. */
 /* Already implemented by AdminLte, but redefined again here to guarantee package consistency. */
 .bg-orange {
@@ -411,27 +367,6 @@ code.bg-orange {
 code.bg-fuchsia {
     color: var(--fuchsia-light-accent-text-color) !important;
     background-color: var(--fuchsia-light-accent-color) !important;
-}
-
-
-/* Indigo coloring. */
-.bg-indigo {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-base-color) !important;
-    border-color: var(--indigo-border-color);
-}
-.bg-indigo-active {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-active-color) !important;
-}
-.bg-indigo .color-palette-box h4,
-.bg-text-indigo,
-.color-palette-box h4.bg-text-indigo {
-    color: var(--indigo-text-color);
-}
-code.bg-indigo {
-    color: var(--indigo-light-accent-text-color) !important;
-    background-color: var(--indigo-light-accent-color) !important;
 }
 
 

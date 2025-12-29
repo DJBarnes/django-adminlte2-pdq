@@ -1,0 +1,44 @@
+/**
+ * Example of creating a few custom CSS color variable definitions.
+ *
+ * To define your own custom color theme, create a css file in your project
+ * that defines color variables, similarly to below.
+ *
+ * Then override `static/adminlte2_pdq/css/extra-colors/color-variables.css`.
+ * If unsure of how to override, see example file in project repo.
+ *
+ * Don't forget to define the css element for the color too
+ * (see [ indigo.css / lime.css / olive.css ] for examples).
+ *
+ * Finally, to be able to see your color theme in the AdminLte PDQ CSS
+ * example pages, override the `ADMINLTE2_CSS_COLORS_DICT` variable to
+ * include all the original package values, as well as your new theme color.
+ */
+
+
+:root {
+    /* "Olive" colors. */
+    --olive-text-color: var(--default-text-light);
+    --olive-base-color: #3d9970;
+    --olive-border-color: #2e7354;
+    --olive-active-color: #368763;
+    --olive-light-accent-text-color: var(--default-text-semi-dark);
+    --olive-light-accent-color: #cfe6db;
+    --olive-table-hover-color: #add9c3;
+    /* "Lime" colors. */
+    --lime-text-color: var(--default-text-dark);
+    --lime-base-color: #01ff70;
+    --lime-border-color: #00ce59;
+    --lime-active-color: #00e765;
+    --lime-light-accent-text-color: var(--default-text-semi-dark);
+    --lime-light-accent-color: #daf2e5;
+    --lime-table-hover-color: #b8e6cb;
+    /* "Indigo" colors. */
+    --indigo-text-color: var(--default-text-light);
+    --indigo-base-color: #a35cd8;
+    --indigo-border-color: #8d4bbf;
+    --indigo-active-color: #9a52d2;
+    --indigo-light-accent-text-color: var(--default-text-semi-dark);
+    --indigo-light-accent-color: #dccfe6;
+    --indigo-table-hover-color: #c5add9;
+}

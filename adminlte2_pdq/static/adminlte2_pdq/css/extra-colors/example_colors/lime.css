@@ -1,0 +1,284 @@
+/**
+ * Example of extra coloring CSS to add a `lime` theme color to AdminLte.
+ *
+ * To define your own custom color theme, copy this into a new file, and
+ * then replace all instances of `lime` with the name of your color.
+ *
+ * Then override `static/adminlte2_pdq/css/extra-colors/extra-colors.css`.
+ * If unsure of how to override, see example file in project repo.
+ *
+ * Don't forget to define the color variables too
+ * (See example-additional-colors.css for examples).
+ *
+ * Finally, to be able to see your color theme in the AdminLte PDQ CSS
+ * example pages, override the `ADMINLTE2_CSS_COLORS_DICT` variable to
+ * include all the original package values, as well as your new theme color.
+ */
+
+
+/* Background Coloring. */
+.bg-lime {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-base-color) !important;
+    border-color: var(--lime-border-color);
+}
+.bg-lime-active {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-active-color) !important;
+}
+.bg-lime .color-palette-box h4,
+.bg-text-lime,
+.color-palette-box h4.bg-text-lime {
+    color: var(--lime-text-color);
+}
+code.bg-lime {
+    color: var(--lime-light-accent-text-color) !important;
+    background-color: var(--lime-light-accent-color) !important;
+}
+
+
+/* Box Coloring */
+.box.box-lime {
+    border-top-color: var(--lime-base-color);
+}
+.box.box-solid.box-lime {
+    color: var(--lime-text-color);
+    border: 1px solid var(--lime-border-color);
+}
+.box.box-solid.box-lime > .box-header {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+}
+.box.box-lime .box-body {
+    color: var(--default-text-dark);
+}
+
+
+/* Modal Coloring */
+.modal.modal-lime .modal-header,
+.modal.modal-lime .modal-header .alert-lime,
+.modal.modal-lime .modal-footer {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-active-color) !important;
+    border-color: var(--lime-border-color);
+}
+.modal.modal-lime .modal-body {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-base-color) !important;
+}
+
+
+/* Table Coloring. */
+/* Handle for general table elements. */
+.table > thead > tr > td.lime,
+.table > tfoot > tr > td.lime,
+.table > thead > tr > th.lime,
+.table > tfoot > tr > th.lime,
+.table > thead > tr.lime > td,
+.table > tfoot > tr.lime > td,
+.table > thead > tr.lime > th,
+.table > tfoot > tr.lime > th {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+}
+.table > tbody > tr > td.lime,
+.table > tbody > tr > th.lime,
+.table > tbody > tr.lime > td,
+.table > tbody > tr.lime > th {
+    color: var(--default-text-dark);
+    background-color: var(--lime-light-accent-color);
+}
+/* Handle for table-hover elements. */
+.table-hover > tbody > tr > td.lime:hover,
+.table-hover > tbody > tr > th.lime:hover,
+.table-hover > tbody > tr.lime:hover > td,
+.table-hover > tbody > tr:hover > .lime,
+.table-hover > tbody > tr.lime:hover > th {
+    background-color: var(--lime-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-lime > thead > tr > th,
+.table-bordered.border-lime > tbody > tr > th,
+.table-bordered.border-lime > tfoot > tr > th,
+.table-bordered.border-lime > thead > tr > td,
+.table-bordered.border-lime > tbody > tr > td,
+.table-bordered.border-lime > tfoot > tr > td {
+    border: 1px solid var(--lime-light-accent-color);
+}
+.table-bordered.border-lime > thead > tr.lime > th,
+.table-bordered.border-lime > tfoot > tr.lime > th,
+.table-bordered.border-lime > thead > tr.lime > td,
+.table-bordered.border-lime > tfoot > tr.lime > td,
+.table-bordered.border-lime > thead > tr > th.lime,
+.table-bordered.border-lime > tfoot > tr > th.lime,
+.table-bordered.border-lime > thead > tr > td.lime,
+.table-bordered.border-lime > tfoot > tr > td.lime {
+    border: 1px solid var(--lime-border-color);
+}
+.table-bordered.border-lime > tbody > tr.lime > th,
+.table-bordered.border-lime > tbody > tr.lime > td,
+.table-bordered.border-lime > tbody > tr > th.lime,
+.table-bordered.border-lime > tbody > tr > td.lime {
+    border: 1px solid var(--lime-base-color);
+}
+
+
+/* Alert Coloring. */
+.alert.alert-lime {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-base-color) !important;
+    border-color: var(--lime-border-color);
+}
+
+
+/* App Button Coloring. */
+.btn.btn-app.bg-lime,
+.btn.btn-app .badge.bg-lime {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border: 1px solid var(--lime-border-color);
+}
+.btn.btn-app.bg-lime:active,
+.btn.btn-app.bg-lime:focus,
+.btn.btn-app.bg-lime:hover {
+    background-color: var(--lime-active-color);
+}
+
+
+/* Button Coloring. */
+.btn.btn-lime,
+.box .btn.btn-lime,
+.box.box-solid > .box-header .btn.btn-lime {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border: 1px solid var(--lime-border-color);
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-lime > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool {
+    color: var(--lime-text-color);
+}
+/* Handle for Hover events. */
+.btn.btn-lime:active,
+.btn.btn-lime:focus,
+.btn.btn-lime:hover,
+.box.box-solid > .box-header .btn.btn-lime:active,
+.box.box-solid > .box-header .btn.btn-lime:focus,
+.box.box-solid > .box-header .btn.btn-lime:hover {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-active-color) !important;
+}
+
+
+/* Callout Coloring. */
+.callout.callout-lime {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-base-color) !important;
+    border-color: var(--lime-border-color);
+}
+
+
+/* Carousel Coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-lime .carousel-indicators li:active,
+.carousel.bg-lime .carousel-indicators li:focus,
+.carousel.bg-lime .carousel-indicators li:hover {
+    background-color: var(--lime-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-lime .carousel-control,
+.carousel.carousel-lime .carousel-caption,
+.carousel.carousel-lime .carousel-indicators li {
+    color: var(--lime-base-color);
+    border-color: var(--lime-base-color);
+}
+.carousel.carousel-lime .carousel-indicators li.active,
+.carousel.carousel-lime .carousel-indicators li:active {
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
+}
+.carousel.carousel-lime .carousel-indicators li:focus,
+.carousel.carousel-lime .carousel-indicators li:hover {
+    background-color: var(--lime-border-color);
+    border-color: var(--lime-border-color);
+}
+
+
+/* Dropdown Coloring. */
+.dropdown-menu.dropdown-menu-lime,
+.dropdown-menu.dropdown-menu-lime li > a,
+.dropdown-menu.dropdown-menu-lime li > input,
+.dropdown-menu.dropdown-menu-lime li > button {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-border-color);
+}
+.dropdown-menu.dropdown-menu-lime li > a:hover,
+.dropdown-menu.dropdown-menu-lime li > input:hover,
+.dropdown-menu.dropdown-menu-lime li > button:hover,
+.dropdown-menu.dropdown-menu-lime li > a:focus,
+.dropdown-menu.dropdown-menu-lime li > input:focus,
+.dropdown-menu.dropdown-menu-lime li > button:focus {
+    color: var(--lime-text-color);
+    background-color: var(--lime-active-color);
+}
+.dropdown-menu.dropdown-menu-lime li.divider {
+    background-color: var(--lime-border-color);
+    border-color: var(--lime-border-color);
+}
+
+
+/* Label Coloring. */
+.label.label-lime {
+    color: var(--lime-text-color) !important;
+    background-color: var(--lime-base-color) !important;
+}
+
+
+/* Small-Box Coloring. */
+.small-box.bg-lime .small-box-footer {
+    color: var(--lime-text-color) !important;
+}
+
+
+/* Tooltip Coloring. */
+.tooltip-lime + .tooltip.top .tooltip-arrow,
+.tooltip-lime.tooltip.top .tooltip-arrow {
+    border-top-color: var(--lime-base-color);
+}
+.tooltip-lime + .tooltip.bottom .tooltip-arrow,
+.tooltip-lime.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: var(--lime-base-color);
+}
+.tooltip-lime + .tooltip.left .tooltip-arrow,
+.tooltip-lime.tooltip.left .tooltip-arrow {
+    border-left-color: var(--lime-base-color);
+}
+.tooltip-lime + .tooltip.right .tooltip-arrow,
+.tooltip-lime.tooltip.right .tooltip-arrow {
+    border-right-color: var(--lime-base-color);
+}
+.tooltip-lime + .tooltip > .tooltip-inner,
+.tooltip-lime.tooltip > .tooltip-inner {
+    color: var(--lime-text-color);
+    background-color: var(--lime-base-color);
+    border-color: var(--lime-base-color);
+}
+
+
+/* Typography Coloring. */
+.text-lime {
+    color: var(--lime-base-color) !important;
+}

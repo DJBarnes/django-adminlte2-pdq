@@ -107,18 +107,6 @@
 }
 
 
-/* Olive coloring. */
-.text-olive {
-    color: var(--olive-base-color) !important;
-}
-
-
-/* Lime coloring. */
-.text-lime {
-    color: var(--lime-base-color) !important;
-}
-
-
 /* Orange coloring. */
 .text-orange {
     color: var(--orange-base-color) !important;
@@ -128,12 +116,6 @@
 /* Fuchsia coloring. */
 .text-fuchsia {
     color: var(--fuchsia-base-color) !important;
-}
-
-
-/* Indigo coloring. */
-.text-indigo {
-    color: var(--indigo-base-color) !important;
 }
 
 

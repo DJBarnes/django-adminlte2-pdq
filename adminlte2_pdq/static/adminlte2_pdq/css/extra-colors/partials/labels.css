@@ -127,20 +127,6 @@
 }
 
 
-/* Olive coloring. */
-.label.label-olive {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-base-color) !important;
-}
-
-
-/* Lime coloring. */
-.label.label-lime {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-base-color) !important;
-}
-
-
 /* Orange coloring. */
 .label.label-orange {
     color: var(--orange-text-color) !important;
@@ -152,13 +138,6 @@
 .label.label-fuchsia {
     color: var(--fuchsia-text-color) !important;
     background-color: var(--fuchsia-base-color) !important;
-}
-
-
-/* Indigo coloring. */
-.label.label-indigo {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-base-color) !important;
 }
 
 

@@ -1,0 +1,40 @@
+/**
+ * Handling for CSS extra element color options, above and beyond
+ * what AdminLte provides.
+ *
+ * Largely, this defines additional element stylings, such that
+ * colors which belonged to the original AdminLte can now be
+ * applied uniformly to all element types.
+ *
+ * For package clarity and organization, this file only imports other files.
+ * All logic is split into the `partials` subfolder.
+ */
+
+
+/*
+Not sure if it matters, but trying to import elements in terms of "more generic"
+to "more specific". Elements that that act as containers for other elements
+are imported earlier, in hopes of skipping style conflicts (if any exist).
+*/
+
+
+/* Base coloring. */
+@import "./partials/background.css";
+
+/* Large/container elements. */
+@import "./partials/boxes.css";
+@import "./partials/modals.css";
+@import "./partials/tables.css";
+
+/* More specific/smaller elements. */
+@import "./partials/app_buttons.css";
+@import "./partials/alerts.css";
+@import "./partials/buttons.css";
+@import "./partials/callouts.css";
+@import "./partials/carousels.css";
+@import "./partials/dropdown_menu.css";
+@import "./partials/info_boxes.css";
+@import "./partials/labels.css";
+@import "./partials/small_boxes.css";
+@import "./partials/tooltip.css";
+@import "./partials/typography.css";
