@@ -543,78 +543,6 @@
 }
 
 
-/* Olive coloring. */
-.btn.btn-olive,
-.box .btn.btn-olive,
-.box.box-solid > .box-header .btn.btn-olive {
-    color: var(--olive-text-color);
-    background-color: var(--olive-base-color);
-    border: 1px solid var(--olive-border-color);
-}
-/* Correct the box-tools buttons to be the same color as the box. */
-.box.box-olive > .box-header > .box-tools .btn-box-tool {
-    color: var(--default-text-dark);
-    background-color: #00000000;
-    border: 0;
-}
-.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool {
-    color: var(--olive-text-color);
-}
-/* Handle for Hover events. */
-.btn.btn-olive:active,
-.btn.btn-olive:focus,
-.btn.btn-olive:hover,
-.box.box-solid > .box-header .btn.btn-olive:active,
-.box.box-solid > .box-header .btn.btn-olive:focus,
-.box.box-solid > .box-header .btn.btn-olive:hover {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-active-color) !important;
-}
-/* Correct the box-tools buttons to be the same color as the box. */
-.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:active,
-.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:focus,
-.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:hover {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-active-color) !important;
-}
-
-
-/* Lime coloring. */
-.btn.btn-lime,
-.box .btn.btn-lime,
-.box.box-solid > .box-header .btn.btn-lime {
-    color: var(--lime-text-color);
-    background-color: var(--lime-base-color);
-    border: 1px solid var(--lime-border-color);
-}
-/* Correct the box-tools buttons to be the same color as the box. */
-.box.box-lime > .box-header > .box-tools .btn-box-tool {
-    color: var(--default-text-dark);
-    background-color: #00000000;
-    border: 0;
-}
-.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool {
-    color: var(--lime-text-color);
-}
-/* Handle for Hover events. */
-.btn.btn-lime:active,
-.btn.btn-lime:focus,
-.btn.btn-lime:hover,
-.box.box-solid > .box-header .btn.btn-lime:active,
-.box.box-solid > .box-header .btn.btn-lime:focus,
-.box.box-solid > .box-header .btn.btn-lime:hover {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-active-color) !important;
-}
-/* Correct the box-tools buttons to be the same color as the box. */
-.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:active,
-.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:focus,
-.box.box-solid.box-lime > .box-header > .box-tools .btn-box-tool:hover {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-active-color) !important;
-}
-
-
 /* Orange coloring. */
 .btn.btn-orange,
 .box .btn.btn-orange,
@@ -684,42 +612,6 @@
 .box.box-solid.box-fuchsia > .box-header > .box-tools .btn-box-tool:hover {
     color: var(--fuchsia-text-color) !important;
     background-color: var(--fuchsia-active-color) !important;
-}
-
-
-/* Indigo coloring. */
-.btn.btn-indigo,
-.box .btn.btn-indigo,
-.box.box-solid > .box-header .btn.btn-indigo {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-base-color);
-    border: 1px solid var(--indigo-border-color);
-}
-/* Correct the box-tools buttons to be the same color as the box. */
-.box.box-indigo > .box-header > .box-tools .btn-box-tool {
-    color: var(--default-text-dark);
-    background-color: #00000000;
-    border: 0;
-}
-.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool {
-    color: var(--indigo-text-color);
-}
-/* Handle for Hover events. */
-.btn.btn-indigo:active,
-.btn.btn-indigo:focus,
-.btn.btn-indigo:hover,
-.box.box-solid > .box-header .btn.btn-indigo:active,
-.box.box-solid > .box-header .btn.btn-indigo:focus,
-.box.box-solid > .box-header .btn.btn-indigo:hover {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-active-color) !important;
-}
-/* Correct the box-tools buttons to be the same color as the box. */
-.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:active,
-.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:focus,
-.box.box-solid.box-indigo > .box-header > .box-tools .btn-box-tool:hover {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-active-color) !important;
 }
 
 

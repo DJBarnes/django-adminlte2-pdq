@@ -1,0 +1,171 @@
+/**
+ * Handling for base CSS color variable definitions.
+ * Used to define the base package color theme CSS.
+ *
+ * Recommended to not touch/override this.
+ */
+
+
+:root {
+    /* General text values */
+    --default-text-light: #fff;
+    --default-text-semi-dark: #595959;
+    --default-text-dark: #333;
+
+    /* General color values. */
+    /* "Default" colors. */
+    --default-text-color: var(--default-text-dark);
+    --default-base-color: #f4f4f4;
+    --default-border-color: #e7e7e7;
+    --default-active-color: #dddddd;
+    --default-light-accent-text-color: var(--default-text-semi-dark);
+    --default-light-accent-color: #f7f7f7;
+    --default-table-hover-color: #f2f2f2;
+    /* "Primary"/"Light-Blue" colors. */
+    --primary-text-color: var(--default-text-light);
+    --primary-base-color: #3c8dbc;
+    --primary-border-color: #2d698c;
+    --primary-active-color: #357ca5;
+    --primary-light-accent-text-color: var(--default-text-semi-dark);
+    --primary-light-accent-color: #cfdde6;
+    --primary-table-hover-color: #adc7d9;
+    --light-blue-text-color: var(--primary-text-color);
+    --light-blue-base-color: var(--primary-base-color);
+    --light-blue-border-color: var(--primary-border-color);
+    --light-blue-active-color: var(--primary-active-color);
+    --light-blue-light-accent-text-color: var(--default-text-semi-dark);
+    --light-blue-light-accent-color: var(--primary-light-accent-color);
+    --light-blue-table-hover-color: var(--primary-table-hover-color);
+    /* "Info"/"Aqua" colors. */
+    --info-text-color: var(--default-text-light);
+    --info-base-color: #00c0ef;
+    --info-border-color: #0097bc;
+    --info-active-color: #00a7d0;
+    --info-light-accent-text-color: var(--default-text-semi-dark);
+    --info-light-accent-color: #daf1f7;
+    --info-table-hover-color: #c0e6f0;
+    --aqua-text-color: var(--info-text-color);
+    --aqua-base-color: var(--info-base-color);
+    --aqua-border-color: var(--info-border-color);
+    --aqua-active-color: var(--info-active-color);
+    --aqua-light-accent-text-color: var(--default-text-semi-dark);
+    --aqua-light-accent-color: var(--info-light-accent-color);
+    --aqua-table-hover-color: var(--info-table-hover-color);
+    /* "Success"/"Green" colors. */
+    --success-text-color: var(--default-text-light);
+    --success-base-color: #00a65a;
+    --success-border-color: #00733e;
+    --success-active-color: #008d4c;
+    --success-light-accent-text-color: var(--default-text-semi-dark);
+    --success-light-accent-color: #d8f0e5;
+    --success-table-hover-color: #b6e3cf;
+    --green-text-color: var(--success-text-color);
+    --green-base-color: var(--success-base-color);
+    --green-border-color: var(--success-border-color);
+    --green-active-color: var(--success-active-color);
+    --green-light-accent-text-color: var(--default-text-semi-dark);
+    --green-light-accent-color: var(--success-light-accent-color);
+    --green-table-hover-color: var(--success-table-hover-color);
+    /* "Warning"/Yellow" colors. */
+    --warning-text-color: var(--default-text-light);
+    --warning-base-color: #f39c12;
+    --warning-border-color: #c87f0a;
+    --warning-active-color: #db8b0b;
+    --warning-light-accent-text-color: var(--default-text-semi-dark);
+    --warning-light-accent-color: #fcf3e3;
+    --warning-table-hover-color: #f0ddc0;
+    --yellow-text-color: var(--warning-text-color);
+    --yellow-base-color: var(--warning-base-color);
+    --yellow-border-color: var(--warning-border-color);
+    --yellow-active-color: var(--warning-active-color);
+    --yellow-light-accent-text-color: var(--default-text-semi-dark);
+    --yellow-light-accent-color: var(--warning-light-accent-color);
+    --yellow-table-hover-color: var(--warning-table-hover-color);
+    /* "Danger"/"Red" colors. */
+    --danger-text-color: var(--default-text-light);
+    --danger-base-color: #dd4b39;
+    --danger-border-color: #b3301e;
+    --danger-active-color: #d33724;
+    --danger-light-accent-text-color: var(--default-text-semi-dark);
+    --danger-light-accent-color: #f2e1df;
+    --danger-table-hover-color: #e6bdb8;
+    --red-text-color: var(--danger-text-color);
+    --red-base-color: var(--danger-base-color);
+    --red-border-color: var(--danger-border-color);
+    --red-active-color: var(--danger-active-color);
+    --red-light-accent-text-color: var(--default-text-semi-dark);
+    --red-light-accent-color: var(--danger-light-accent-color);
+    --red-table-hover-color: var(--danger-table-hover-color);
+    /* "Navy" colors. */
+    --navy-text-color: var(--default-text-light);
+    --navy-base-color: #001f3f;
+    --navy-border-color: #000c1a;
+    --navy-active-color: #001226;
+    --navy-light-accent-text-color: var(--default-text-semi-dark);
+    --navy-light-accent-color: #cfdae6;
+    --navy-table-hover-color: #adc3d9;
+    /* "Blue" colors. */
+    --blue-text-color: var(--default-text-light);
+    --blue-base-color: #1a94db;
+    --blue-border-color: #0a72ad;
+    --blue-active-color: #0c80c4;
+    --blue-light-accent-text-color: var(--default-text-semi-dark);
+    --blue-light-accent-color: #dceaf2;
+    --blue-table-hover-color: #b8d5e6;
+    /* "Teal" colors. */
+    --teal-text-color: var(--default-text-dark);
+    --teal-base-color: #39cccc;
+    --teal-border-color: #2aa2a2;
+    --teal-active-color: #30bbbb;
+    --teal-light-accent-text-color: var(--default-text-semi-dark);
+    --teal-light-accent-color: #cfe6e6;
+    --teal-table-hover-color: #add9d9;
+    /* "Orange" colors. */
+    --orange-text-color: var(--default-text-light);
+    --orange-base-color: #ff851b;
+    --orange-border-color: #e66b00;
+    --orange-active-color: #ff7701;
+    --orange-light-accent-text-color: var(--default-text-semi-dark);
+    --orange-light-accent-color: #e6d9cf;
+    --orange-table-hover-color: #d9c2ad;
+    /* "Fuchsia" colors. */
+    --fuchsia-text-color: var(--default-text-light);
+    --fuchsia-base-color: #f012be;
+    --fuchsia-border-color: #cc0ca2;
+    --fuchsia-active-color: #db0ead;
+    --fuchsia-light-accent-text-color: var(--default-text-semi-dark);
+    --fuchsia-light-accent-color: #e6cfe1;
+    --fuchsia-table-hover-color: #d9adcf;
+    /* "Purple" colors. */
+    --purple-text-color: var(--default-text-light);
+    --purple-base-color: #605ca8;
+    --purple-border-color: #484580;
+    --purple-active-color: #555299;
+    --purple-light-accent-text-color: var(--default-text-semi-dark);
+    --purple-light-accent-color: #cfcfe6;
+    --purple-table-hover-color: #adadd9;
+    /* "Maroon" colors. */
+    --maroon-text-color: var(--default-text-light);
+    --maroon-base-color: #d81b60;
+    --maroon-border-color: #a61449;
+    --maroon-active-color: #ca195a;
+    --maroon-light-accent-text-color: var(--default-text-semi-dark);
+    --maroon-light-accent-color: #e6cfd8;
+    --maroon-table-hover-color: #d9adbd;
+    /* "Gray" colors. */
+    --gray-text-color: var(--default-text-dark);
+    --gray-base-color: #d2d6de;
+    --gray-border-color: #b5bbc8;
+    --gray-active-color: #9fa5b3;
+    --gray-light-accent-text-color: var(--default-text-semi-dark);
+    --gray-light-accent-color: #dfe3eb;
+    --gray-table-hover-color: #bdc8de;
+    /* "Black" colors. */
+    --black-text-color: var(--default-text-light);
+    --black-base-color: #2b2b2b;
+    --black-border-color: #111111;
+    --black-active-color: #050505;
+    --black-light-accent-text-color: var(--default-text-semi-dark);
+    --black-light-accent-color: #cccccc;
+    --black-table-hover-color: #cccccc;
+}

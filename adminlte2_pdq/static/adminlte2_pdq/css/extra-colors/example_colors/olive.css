@@ -1,0 +1,284 @@
+/**
+ * Example of extra coloring CSS to add a `olive` color theme to AdminLte.
+ *
+ * To define your own custom color theme, copy this into a new file, and
+ * then replace all instances of `olive` with the name of your color.
+ *
+ * Then override `static/adminlte2_pdq/css/extra-colors/extra-colors.css`.
+ * If unsure of how to override, see example file in project repo.
+ *
+ * Don't forget to define the color variables too
+ * (See example-additional-colors.css for examples).
+ *
+ * Finally, to be able to see your color theme in the AdminLte PDQ CSS
+ * example pages, override the `ADMINLTE2_CSS_COLORS_DICT` variable to
+ * include all the original package values, as well as your new theme color.
+ */
+
+
+/* Background Coloring. */
+.bg-olive {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-base-color) !important;
+    border-color: var(--olive-border-color);
+}
+.bg-olive-active {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-active-color) !important;
+}
+.bg-olive .color-palette-box h4,
+.bg-text-olive,
+.color-palette-box h4.bg-text-olive {
+    color: var(--olive-text-color);
+}
+code.bg-olive {
+    color: var(--olive-light-accent-text-color) !important;
+    background-color: var(--olive-light-accent-color) !important;
+}
+
+
+/* Box Coloring */
+.box.box-olive {
+    border-top-color: var(--olive-base-color);
+}
+.box.box-solid.box-olive {
+    color: var(--olive-text-color);
+    border: 1px solid var(--olive-border-color);
+}
+.box.box-solid.box-olive > .box-header {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+}
+.box.box-olive .box-body {
+    color: var(--default-text-dark);
+}
+
+
+/* Modal Coloring */
+.modal.modal-olive .modal-header,
+.modal.modal-olive .modal-header .alert-olive,
+.modal.modal-olive .modal-footer {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-active-color) !important;
+    border-color: var(--olive-border-color);
+}
+.modal.modal-olive .modal-body {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-base-color) !important;
+}
+
+
+/* Table Coloring. */
+/* Handle for general table elements. */
+.table > thead > tr > td.olive,
+.table > tfoot > tr > td.olive,
+.table > thead > tr > th.olive,
+.table > tfoot > tr > th.olive,
+.table > thead > tr.olive > td,
+.table > tfoot > tr.olive > td,
+.table > thead > tr.olive > th,
+.table > tfoot > tr.olive > th {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+}
+.table > tbody > tr > td.olive,
+.table > tbody > tr > th.olive,
+.table > tbody > tr.olive > td,
+.table > tbody > tr.olive > th {
+    color: var(--default-text-dark);
+    background-color: var(--olive-light-accent-color);
+}
+/* Handle for table-hover elements. */
+.table-hover > tbody > tr > td.olive:hover,
+.table-hover > tbody > tr > th.olive:hover,
+.table-hover > tbody > tr.olive:hover > td,
+.table-hover > tbody > tr:hover > .olive,
+.table-hover > tbody > tr.olive:hover > th {
+    background-color: var(--olive-table-hover-color);
+}
+/* Handle for table-border elements. */
+.table-bordered.border-olive > thead > tr > th,
+.table-bordered.border-olive > tbody > tr > th,
+.table-bordered.border-olive > tfoot > tr > th,
+.table-bordered.border-olive > thead > tr > td,
+.table-bordered.border-olive > tbody > tr > td,
+.table-bordered.border-olive > tfoot > tr > td {
+    border: 1px solid var(--olive-light-accent-color);
+}
+.table-bordered.border-olive > thead > tr.olive > th,
+.table-bordered.border-olive > tfoot > tr.olive > th,
+.table-bordered.border-olive > thead > tr.olive > td,
+.table-bordered.border-olive > tfoot > tr.olive > td,
+.table-bordered.border-olive > thead > tr > th.olive,
+.table-bordered.border-olive > tfoot > tr > th.olive,
+.table-bordered.border-olive > thead > tr > td.olive,
+.table-bordered.border-olive > tfoot > tr > td.olive {
+    border: 1px solid var(--olive-border-color);
+}
+.table-bordered.border-olive > tbody > tr.olive > th,
+.table-bordered.border-olive > tbody > tr.olive > td,
+.table-bordered.border-olive > tbody > tr > th.olive,
+.table-bordered.border-olive > tbody > tr > td.olive {
+    border: 1px solid var(--olive-base-color);
+}
+
+
+/* Alert Coloring. */
+.alert.alert-olive {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-base-color) !important;
+    border-color: var(--olive-border-color);
+}
+
+
+/* App Button Coloring. */
+.btn.btn-app.bg-olive,
+.btn.btn-app .badge.bg-olive {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border: 1px solid var(--olive-border-color);
+}
+.btn.btn-app.bg-olive:active,
+.btn.btn-app.bg-olive:focus,
+.btn.btn-app.bg-olive:hover {
+    background-color: var(--olive-active-color);
+}
+
+
+/* Button Coloring. */
+.btn.btn-olive,
+.box .btn.btn-olive,
+.box.box-solid > .box-header .btn.btn-olive {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border: 1px solid var(--olive-border-color);
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-olive > .box-header > .box-tools .btn-box-tool {
+    color: var(--default-text-dark);
+    background-color: #00000000;
+    border: 0;
+    transition: 0.2s;
+}
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool {
+    color: var(--olive-text-color);
+}
+/* Handle for Hover events. */
+.btn.btn-olive:active,
+.btn.btn-olive:focus,
+.btn.btn-olive:hover,
+.box.box-solid > .box-header .btn.btn-olive:active,
+.box.box-solid > .box-header .btn.btn-olive:focus,
+.box.box-solid > .box-header .btn.btn-olive:hover {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-active-color) !important;
+}
+/* Correct the box-tools buttons to be the same color as the box. */
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:active,
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:focus,
+.box.box-solid.box-olive > .box-header > .box-tools .btn-box-tool:hover {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-active-color) !important;
+}
+
+
+/* Callout Coloring. */
+.callout.callout-olive {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-base-color) !important;
+    border-color: var(--olive-border-color);
+}
+
+
+/* Carousel Coloring. */
+/* Handling for carousel background coloring. */
+.carousel.bg-olive .carousel-indicators li:active,
+.carousel.bg-olive .carousel-indicators li:focus,
+.carousel.bg-olive .carousel-indicators li:hover {
+    background-color: var(--olive-border-color);
+}
+/* Handling for carousel inner-element coloring. */
+.carousel.carousel-olive .carousel-control,
+.carousel.carousel-olive .carousel-caption,
+.carousel.carousel-olive .carousel-indicators li {
+    color: var(--olive-base-color);
+    border-color: var(--olive-base-color);
+}
+.carousel.carousel-olive .carousel-indicators li.active,
+.carousel.carousel-olive .carousel-indicators li:active {
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
+}
+.carousel.carousel-olive .carousel-indicators li:focus,
+.carousel.carousel-olive .carousel-indicators li:hover {
+    background-color: var(--olive-border-color);
+    border-color: var(--olive-border-color);
+}
+
+
+/* Dropdown Coloring. */
+.dropdown-menu.dropdown-menu-olive,
+.dropdown-menu.dropdown-menu-olive li > a,
+.dropdown-menu.dropdown-menu-olive li > input,
+.dropdown-menu.dropdown-menu-olive li > button {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-border-color);
+}
+.dropdown-menu.dropdown-menu-olive li > a:hover,
+.dropdown-menu.dropdown-menu-olive li > input:hover,
+.dropdown-menu.dropdown-menu-olive li > button:hover,
+.dropdown-menu.dropdown-menu-olive li > a:focus,
+.dropdown-menu.dropdown-menu-olive li > input:focus,
+.dropdown-menu.dropdown-menu-olive li > button:focus {
+    color: var(--olive-text-color);
+    background-color: var(--olive-active-color);
+}
+.dropdown-menu.dropdown-menu-olive li.divider {
+    background-color: var(--olive-border-color);
+    border-color: var(--olive-border-color);
+}
+
+
+/* Label Coloring. */
+.label.label-olive {
+    color: var(--olive-text-color) !important;
+    background-color: var(--olive-base-color) !important;
+}
+
+
+/* Small-Box Coloring. */
+.small-box.bg-olive .small-box-footer {
+    color: var(--olive-text-color) !important;
+}
+
+
+/* Tooltip Coloring. */
+.tooltip-olive + .tooltip.top .tooltip-arrow,
+.tooltip-olive.tooltip.top .tooltip-arrow {
+    border-top-color: var(--olive-base-color);
+}
+.tooltip-olive + .tooltip.bottom .tooltip-arrow,
+.tooltip-olive.tooltip.bottom .tooltip-arrow {
+    border-bottom-color: var(--olive-base-color);
+}
+.tooltip-olive + .tooltip.left .tooltip-arrow,
+.tooltip-olive.tooltip.left .tooltip-arrow {
+    border-left-color: var(--olive-base-color);
+}
+.tooltip-olive + .tooltip.right .tooltip-arrow,
+.tooltip-olive.tooltip.right .tooltip-arrow {
+    border-right-color: var(--olive-base-color);
+}
+.tooltip-olive + .tooltip > .tooltip-inner,
+.tooltip-olive.tooltip > .tooltip-inner {
+    color: var(--olive-text-color);
+    background-color: var(--olive-base-color);
+    border-color: var(--olive-base-color);
+}
+
+
+/* Typography Coloring. */
+.text-olive {
+    color: var(--olive-base-color) !important;
+}

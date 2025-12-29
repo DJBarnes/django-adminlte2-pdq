@@ -226,34 +226,6 @@
 }
 
 
-/* Olive coloring. */
-.btn.btn-app.bg-olive,
-.btn.btn-app .badge.bg-olive {
-    color: var(--olive-text-color);
-    background-color: var(--olive-base-color);
-    border: 1px solid var(--olive-border-color);
-}
-.btn.btn-app.bg-olive:active,
-.btn.btn-app.bg-olive:focus,
-.btn.btn-app.bg-olive:hover {
-    background-color: var(--olive-active-color);
-}
-
-
-/* Lime coloring. */
-.btn.btn-app.bg-lime,
-.btn.btn-app .badge.bg-lime {
-    color: var(--lime-text-color);
-    background-color: var(--lime-base-color);
-    border: 1px solid var(--lime-border-color);
-}
-.btn.btn-app.bg-lime:active,
-.btn.btn-app.bg-lime:focus,
-.btn.btn-app.bg-lime:hover {
-    background-color: var(--lime-active-color);
-}
-
-
 /* Orange coloring. */
 .btn.btn-app.bg-orange,
 .btn.btn-app .badge.bg-orange {
@@ -279,20 +251,6 @@
 .btn.btn-app.bg-fuchsia:focus,
 .btn.btn-app.bg-fuchsia:hover {
     background-color: var(--fuchsia-active-color);
-}
-
-
-/* Indigo coloring. */
-.btn.btn-app.bg-indigo,
-.btn.btn-app .badge.bg-indigo {
-    color: var(--indigo-text-color);
-    background-color: var(--indigo-base-color);
-    border: 1px solid var(--indigo-border-color);
-}
-.btn.btn-app.bg-indigo:active,
-.btn.btn-app.bg-indigo:focus,
-.btn.btn-app.bg-indigo:hover {
-    background-color: var(--indigo-active-color);
 }
 
 

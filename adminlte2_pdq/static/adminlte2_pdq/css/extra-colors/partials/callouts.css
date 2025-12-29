@@ -141,22 +141,6 @@
 }
 
 
-/* Olive coloring. */
-.callout.callout-olive {
-    color: var(--olive-text-color) !important;
-    background-color: var(--olive-base-color) !important;
-    border-color: var(--olive-border-color);
-}
-
-
-/* Lime coloring. */
-.callout.callout-lime {
-    color: var(--lime-text-color) !important;
-    background-color: var(--lime-base-color) !important;
-    border-color: var(--lime-border-color);
-}
-
-
 /* Orange coloring. */
 .callout.callout-orange {
     color: var(--orange-text-color) !important;
@@ -170,14 +154,6 @@
     color: var(--fuchsia-text-color) !important;
     background-color: var(--fuchsia-base-color) !important;
     border-color: var(--fuchsia-border-color);
-}
-
-
-/* Indigo coloring. */
-.callout.callout-indigo {
-    color: var(--indigo-text-color) !important;
-    background-color: var(--indigo-base-color) !important;
-    border-color: var(--indigo-border-color);
 }
 
 

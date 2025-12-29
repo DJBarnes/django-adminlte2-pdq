@@ -402,58 +402,6 @@
 }
 
 
-/* Olive coloring. */
-/* Handling for carousel background coloring. */
-.carousel.bg-olive .carousel-indicators li:active,
-.carousel.bg-olive .carousel-indicators li:focus,
-.carousel.bg-olive .carousel-indicators li:hover {
-    background-color: var(--olive-border-color);
-}
-/* Handling for carousel inner-element coloring. */
-.carousel.carousel-olive .carousel-control,
-.carousel.carousel-olive .carousel-caption,
-.carousel.carousel-olive .carousel-indicators li {
-    color: var(--olive-base-color);
-    border-color: var(--olive-base-color);
-}
-.carousel.carousel-olive .carousel-indicators li.active,
-.carousel.carousel-olive .carousel-indicators li:active {
-    background-color: var(--olive-base-color);
-    border-color: var(--olive-border-color);
-}
-.carousel.carousel-olive .carousel-indicators li:focus,
-.carousel.carousel-olive .carousel-indicators li:hover {
-    background-color: var(--olive-border-color);
-    border-color: var(--olive-border-color);
-}
-
-
-/* Lime coloring. */
-/* Handling for carousel background coloring. */
-.carousel.bg-lime .carousel-indicators li:active,
-.carousel.bg-lime .carousel-indicators li:focus,
-.carousel.bg-lime .carousel-indicators li:hover {
-    background-color: var(--lime-border-color);
-}
-/* Handling for carousel inner-element coloring. */
-.carousel.carousel-lime .carousel-control,
-.carousel.carousel-lime .carousel-caption,
-.carousel.carousel-lime .carousel-indicators li {
-    color: var(--lime-base-color);
-    border-color: var(--lime-base-color);
-}
-.carousel.carousel-lime .carousel-indicators li.active,
-.carousel.carousel-lime .carousel-indicators li:active {
-    background-color: var(--lime-base-color);
-    border-color: var(--lime-border-color);
-}
-.carousel.carousel-lime .carousel-indicators li:focus,
-.carousel.carousel-lime .carousel-indicators li:hover {
-    background-color: var(--lime-border-color);
-    border-color: var(--lime-border-color);
-}
-
-
 /* Orange coloring. */
 /* Handling for carousel background coloring. */
 .carousel.bg-orange .carousel-indicators li:active,
@@ -503,32 +451,6 @@
 .carousel.carousel-fuchsia .carousel-indicators li:hover {
     background-color: var(--fuchsia-border-color);
     border-color: var(--fuchsia-border-color);
-}
-
-
-/* Indigo coloring. */
-/* Handling for carousel background coloring. */
-.carousel.bg-indigo .carousel-indicators li:active,
-.carousel.bg-indigo .carousel-indicators li:focus,
-.carousel.bg-indigo .carousel-indicators li:hover {
-    background-color: var(--indigo-border-color);
-}
-/* Handling for carousel inner-element coloring. */
-.carousel.carousel-indigo .carousel-control,
-.carousel.carousel-indigo .carousel-caption,
-.carousel.carousel-indigo .carousel-indicators li {
-    color: var(--indigo-base-color);
-    border-color: var(--indigo-base-color);
-}
-.carousel.carousel-indigo .carousel-indicators li.active,
-.carousel.carousel-indigo .carousel-indicators li:active {
-    background-color: var(--indigo-base-color);
-    border-color: var(--indigo-border-color);
-}
-.carousel.carousel-indigo .carousel-indicators li:focus,
-.carousel.carousel-indigo .carousel-indicators li:hover {
-    background-color: var(--indigo-border-color);
-    border-color: var(--indigo-border-color);
 }
 
 
