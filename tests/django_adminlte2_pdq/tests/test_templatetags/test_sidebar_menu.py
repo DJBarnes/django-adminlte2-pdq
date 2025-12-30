@@ -15,6 +15,7 @@ from django.http import HttpRequest
 from django.template import Template, Context
 from django.test import TestCase, override_settings, RequestFactory
 from django.urls import NoReverseMatch
+from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.
 from adminlte2_pdq.templatetags import sidebar_menu
@@ -25,7 +26,9 @@ UserModel = get_user_model()
 
 
 class TemplateTagSidebarMenuBaseTestCase(TestCase):
-    """Template Tags Sidebar Menu Base Test Case"""
+    """Base test case for testing the Template Tags Sidebar Menu.
+    Used as a base for all below test classes.
+    """
 
     # region Expected Test Messages
 
@@ -196,7 +199,7 @@ class TemplateTagSidebarMenuBaseTestCase(TestCase):
 
 class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
     """
-    Test Template Tags and Helper functions used in those template tags
+    Tests basic logic for sidebar Template Tags and Helper functions used in those template tags.
     """
 
     # region Demo Url
@@ -1475,8 +1478,8 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertFalse(active)
 
 
-class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
-    """Template Tag Sidebar Menu Render Test Case"""
+class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
+    """Tests for expected rendering of the Template Tag Sidebar Menu."""
 
     def test__render_types(self):
         """Test render types"""
@@ -2074,6 +2077,112 @@ class TemplateTagSidebarMenu_RendertestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
             self.assertIn('<li class="separator">', rendered_template)
+
+
+class TemplateTagSidebarMenu_FullStackRenderTestCase(  # pylint:disable=invalid-name
+    IntegrationTestCase,
+    TemplateTagSidebarMenuBaseTestCase,
+):
+    """Tests for expected rendering of the Template Tag Sidebar Menu."""
+
+    def test__dynamic_menu_does_not_duplicate(self):
+        """There was a bug where dynamically created menus would cause duplication
+        if the following conditions were met:
+
+        1) The`ADMINLTE2_MENU_FIRST` variable was defined and used to create dynamic menus within a class-based view.
+        2) The value passed to ADMINLTE2_MENU_FIRST was defined in a separate file, and imported into the file
+           containing the class-based view.
+        3) The view in question was accessed multiple times in a row (such as a page refresh).
+        """
+
+        # Access view first time. Should display as expected.
+        self.assertGetResponse(
+            "adminlte2_pdq_tests:class-standard",
+            expected_header="Django AdminLtePdq | Standard View Header",
+            expected_content=[
+                # "First" sidebar menu definition.
+                '<li class="header"> Custom Menu - First </li>',
+                '<span class="node-link-text" title="[First] Custom Url 1">[First] Custom Url 1</span>',
+                # "Standard" sidebar menu definition.
+                '<li class="header"> Custom Menu - Standard </li>',
+                '<span class="node-link-text" title="[Standard] Custom Url 1">[Standard] Custom Url 1</span>',
+                # "Last" sidebar menu definition.
+                '<li class="header"> Custom Menu - Last </li>',
+                '<span class="node-link-text" title="[Last] Custom Url 1">[Last] Custom Url 1</span>',
+            ],
+        )
+
+        # Access view second+ time. This is where the bug could occur.
+        # To test this, we verify that the test fails when we check for any repeat values.
+
+        # Test for duplicate "first" sidebar values.
+        with self.assertRaises(AssertionError):
+            self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                expected_header="Django AdminLtePdq | Standard View Header",
+                expected_content=[
+                    # "First" sidebar menu definition.
+                    '<li class="header"> Custom Menu - First </li>',
+                    '<span class="node-link-text" title="[First] Custom Url 1">[First] Custom Url 1</span>',
+                    # "Standard" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Standard </li>',
+                    '<span class="node-link-text" title="[Standard] Custom Url 1">[Standard] Custom Url 1</span>',
+                    # "Last" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Last </li>',
+                    '<span class="node-link-text" title="[Last] Custom Url 1">[Last] Custom Url 1</span>',
+                    #
+                    # Now check for repeats. Should fail here.
+                    # "First" sidebar menu definition.
+                    '<li class="header"> Custom Menu - First </li>',
+                    '<span class="node-link-text" title="[First] Custom Url 1">[First] Custom Url 1</span>',
+                ],
+            )
+
+        # Test for duplicate "standard" sidebar values.
+        with self.assertRaises(AssertionError):
+            self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                expected_header="Django AdminLtePdq | Standard View Header",
+                expected_content=[
+                    # "First" sidebar menu definition.
+                    '<li class="header"> Custom Menu - First </li>',
+                    '<span class="node-link-text" title="[First] Custom Url 1">[First] Custom Url 1</span>',
+                    # "Standard" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Standard </li>',
+                    '<span class="node-link-text" title="[Standard] Custom Url 1">[Standard] Custom Url 1</span>',
+                    # "Last" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Last </li>',
+                    '<span class="node-link-text" title="[Last] Custom Url 1">[Last] Custom Url 1</span>',
+                    #
+                    # Now check for repeats. Should fail here.
+                    # "Standard" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Standard </li>',
+                    '<span class="node-link-text" title="[Standard] Custom Url 1">[Standard] Custom Url 1</span>',
+                ],
+            )
+
+        # Test for duplicate "last" sidebar values.
+        with self.assertRaises(AssertionError):
+            self.assertGetResponse(
+                "adminlte2_pdq_tests:class-standard",
+                expected_header="Django AdminLtePdq | Standard View Header",
+                expected_content=[
+                    # "First" sidebar menu definition.
+                    '<li class="header"> Custom Menu - First </li>',
+                    '<span class="node-link-text" title="[First] Custom Url 1">[First] Custom Url 1</span>',
+                    # "Standard" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Standard </li>',
+                    '<span class="node-link-text" title="[Standard] Custom Url 1">[Standard] Custom Url 1</span>',
+                    # "Last" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Last </li>',
+                    '<span class="node-link-text" title="[Last] Custom Url 1">[Last] Custom Url 1</span>',
+                    #
+                    # Now check for repeats. Should fail here.
+                    # "Last" sidebar menu definition.
+                    '<li class="header"> Custom Menu - Last </li>',
+                    '<span class="node-link-text" title="[Last] Custom Url 1">[Last] Custom Url 1</span>',
+                ],
+            )
 
 
 class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name

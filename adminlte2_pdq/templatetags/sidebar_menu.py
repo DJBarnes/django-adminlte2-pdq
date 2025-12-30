@@ -53,26 +53,33 @@ def render_menu(context):
     A menu is the entire menu on the sidebar.
     """
 
-    use_menu_group_separator = getattr(
-        settings,
-        "ADMINLTE2_USE_MENU_GROUP_SEPARATOR",
-        True,
+    # Get customization settings to determine how to render sidebar.
+    use_menu_group_separator = bool(
+        getattr(
+            settings,
+            "ADMINLTE2_USE_MENU_GROUP_SEPARATOR",
+            True,
+        )
+    )
+    include_admin_nav = bool(
+        getattr(
+            settings,
+            "ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES",
+            False,
+        )
     )
 
-    include_admin_nav = getattr(
-        settings,
-        "ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES",
-        False,
-    )
-
+    # Create a basic "separator" node.
     separator = {
         "text": "",
         "nodes": [],
         "separator": True,
     }
 
+    # Determine if we should use the "default" menu. Based on project route registration.
     default_menu = MENU if _default_routes_are_registered() else []
 
+    # Determine the actual menus to use, based on provided context.
     menu_first = context.get("ADMINLTE2_MENU_FIRST", [])
     menu_main = context.get(
         "ADMINLTE2_MENU",
@@ -85,20 +92,28 @@ def render_menu(context):
     menu_admin = AdminMenu.create_menu(context) if include_admin_nav else []
     menu_last = context.get("ADMINLTE2_MENU_LAST", [])
 
-    section_list = menu_first
+    # Generate our menu, using the above values.
+    section_list = []
+
+    # Handle for "first" menu section.
+    section_list += menu_first
     if use_menu_group_separator and menu_first and (menu_main or menu_admin or menu_last):
         section_list += [separator]
 
+    # Handle for "main"/"standard" menu section.
     section_list += menu_main
     if use_menu_group_separator and menu_main and (menu_admin or menu_last):
         section_list += [separator]
 
+    # Handle for "admin" menu section.
     section_list += menu_admin
     if use_menu_group_separator and menu_admin and menu_last:
         section_list += [separator]
 
+    # Handle for "last" menu section.
     section_list += menu_last
 
+    # Return our generated values.
     return {
         "section_list": section_list,
         "user": context["user"],  # render_section needs this
