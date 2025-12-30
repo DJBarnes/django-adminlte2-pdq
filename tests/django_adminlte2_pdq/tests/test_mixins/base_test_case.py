@@ -245,13 +245,19 @@ class BaseMixinTextCase(IntegrationTestCase):
 
         # Add no permissions/groups to staff none_user.
         self.none_staff_user = self.get_user("jacob_staff_none")
+        self.none_staff_user.is_staff = True
+        self.none_staff_user.save()
 
         # Add permission auth.add_foo to staff partial_perm_user.
         self.partial_perm_staff_user = self.get_user("jack_staff_partial")
+        self.partial_perm_staff_user.is_staff = True
+        self.partial_perm_staff_user.save()
         self.add_user_permission("add_foo", user=self.partial_perm_staff_user)
 
         # Add permissions auth.add_foo and auth.change_foo to staff full_perm_user.
         self.full_perm_staff_user = self.get_user("jessie_staff_full")
+        self.full_perm_staff_user.is_staff = True
+        self.full_perm_staff_user.save()
         self.add_user_permission("add_foo", user=self.full_perm_staff_user)
         self.add_user_permission("change_foo", user=self.full_perm_staff_user)
 
