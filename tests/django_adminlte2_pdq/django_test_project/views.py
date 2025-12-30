@@ -102,6 +102,27 @@ class StandardView(TemplateView):
 
     template_name = "django_adminlte2_pdq_tests/templates/standard_view.html"
 
+    def get_context_data(self, **kwargs):
+        """Add additional context (variables) for template to display."""
+
+        # Call parent logic.
+        context = super().get_context_data(**kwargs)
+
+        # Define custom menu nodes to test "dynamic menu" logic on.
+        from .custom_menu_definitions import (
+            CUSTOM_MENU_FIRST,
+            CUSTOM_MENU_STANDARD,
+            CUSTOM_MENU_LAST,
+        )
+
+        # Override AdminLte menu with our custom ones.
+        context["ADMINLTE2_MENU_FIRST"] = CUSTOM_MENU_FIRST
+        context["ADMINLTE2_MENU"] = CUSTOM_MENU_STANDARD
+        context["ADMINLTE2_MENU_LAST"] = CUSTOM_MENU_LAST
+
+        # Return updated context.
+        return context
+
 
 class AllowAnonymousAccessView(AllowAnonymousAccessMixin, TemplateView):
     """Testing view for STRICT mode, allowing full access."""
