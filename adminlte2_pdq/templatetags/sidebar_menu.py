@@ -127,7 +127,11 @@ def render_section(context, section):
 
     A section is a grouping of items within the menu.
     """
+
+    # Get our set of nodes.
     nodes = section.get("nodes")
+
+    # Check that
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
 
     return {
@@ -144,14 +148,18 @@ def render_tree(context, node):
 
     A tree is an optional, expandable item with nodes within it.
     """
+
+    # Process variables.
     ensure_node_has_url_property(node, required=False)
     nodes = node.get("nodes")
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
     add_display_block = check_for_node_that_matches_request_path(context["request"], nodes)
 
+    # Determine if root has an icon.
     if not node.get("icon"):
         node["icon"] = "not-found"
 
+    # Determine "active" state. This controls what on the menu is highlighted.
     active = False
     if _determine_node_active_status(node, context["request"]):
         active = True
@@ -160,6 +168,7 @@ def render_tree(context, node):
             active = True
     node["active"] = active
 
+    # Return parsed values for node.
     return {
         "node": node,
         "allowed": allowed,
@@ -537,10 +546,10 @@ def is_allowed_node(user, node):
 def check_for_one_permission(user, permissions):
     """
     Check to see if the passed user has at least one of the permissions
-
     that are listed in the passed permissions.
-    If the user does not have one of them, false is returned.
-    If the passed permission list is empty, the method returns false.
+
+    If the user does not have one of them, return False.
+    If the passed permission list is empty, return False.
     Even though empty permission lists return false here, they are checked
     with the whitelist methods in the is_allowed_node method.
     Unless you know what you are doing, consider using is_allowed_node
@@ -567,10 +576,10 @@ def check_for_one_permission(user, permissions):
 def check_for_all_permissions(user, permissions):
     """
     Check to see if the passed user has all of the permissions
-
     that are listed in the passed permissions.
-    If the user does not have all of them, false is returned.
-    If the passed permission list is empty, the method returns false.
+
+    If the user does not have all of them, return False.
+    If the passed permission list is empty, return False.
     Even though empty permission lists return false here, they are checked
     with the whitelist methods in the is_allowed_node method.
     Unless you know what you are doing, consider using is_allowed_node
@@ -596,22 +605,31 @@ def check_for_all_permissions(user, permissions):
 def check_for_one_permission_in_node_list(user, nodes):
     """Check user has one permission in the entire node list"""
 
-    # Superusers get all permissions
+    # Superusers get all permissions, and thus get full access.
     if user.is_superuser:
         return True
 
     allowed = False
 
     if nodes:
+
+        # Handle for each node in our set of nodes.
         for node in nodes:
+
+            # Check children of this node, if any.
             child_nodes = node.get("nodes")
             if child_nodes:
+                # Found children. Recursively check.
                 child_allowed = check_for_one_permission_in_node_list(user, child_nodes)
                 if child_allowed:
                     allowed = True
+
             else:
+                # No children found. Check properties of current node.
+                # If user has at least one permission set on this node, then we return true.
                 check_result = is_allowed_node(user, node)
 
+                # If we found even one permission, then no futher handling required.
                 if check_result:
                     allowed = True
                     break
@@ -637,74 +655,127 @@ def get_view_from_node(node):
 
     view = None
     try:
+        # Attempt to parse route value, if possible.
         route = node["route"]
+        # Get route args/kwargs, if present.
         route_args = node.get("route_args", [])
         route_kwargs = node.get("route_kwargs", {})
+        # Get url value, if present.
         url_with_hash = node.get("url", None)
         url = url_with_hash.split("#")[0] if url_with_hash else None
 
         try:
+            # Attempt to process url.
             if route != "#":
+                # Using route values.
                 view = resolve(reverse(route, args=route_args, kwargs=route_kwargs))
             elif url and url != "":
+                # No valid route. Attempt using url values.
                 view = resolve(url)
         except Http404:
+            # Failed to get route.
             view = None
 
     except KeyError as key_error:
+        # Failed to get key.
+        # This should only happen when "route" value is missing from node.
         error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
         raise KeyError(error_message) from key_error
     except NoReverseMatch as reverse_error:
+        # Attempted to parse a route, but could not find a match.
         error_message = NODE_REVERSE_ERROR_MESSAGE.format(
             route=route,
             reverse_error=reverse_error,
         )
         raise NoReverseMatch(error_message) from reverse_error
 
+    # Return our found view.
     return view
 
 
 def ensure_node_has_url_property(node, required=True):
-    """Ensure that a node has a url property"""
+    """Ensure that a node has a url property."""
+
+    # Proceed if node is missing "url" property.
+    # Otherwise take the "url" at face value and skip.
     if "url" not in node:
         try:
+            # Attempt to parse route value, if possible.
             route = node["route"] if required else node.get("route", "#")
+            # Get route args/kwargs, if present.
             route_args = node.get("route_args", [])
             route_kwargs = node.get("route_kwargs", {})
+
+            # Attempt to process url.
             if route != "#":
+                # Using route values.
                 url = reverse(route, args=route_args, kwargs=route_kwargs)
             else:
+                # No route to process. Set to placeholder.
                 url = "#"
+
         except KeyError as key_error:
+            # Failed to get key.
+            # This should only happen when "route" value is missing from node,
+            # but it's a type of node where "route" is required.
             error_message = NODE_KEY_ERROR_MESSAGE.format(key_error=key_error)
             raise KeyError(error_message) from key_error
+
         except NoReverseMatch as reverse_error:
+            # Attempted to parse a route, but could not find a match.
             error_message = NODE_REVERSE_ERROR_MESSAGE.format(
                 route=route,
                 reverse_error=reverse_error,
             )
             raise NoReverseMatch(error_message) from reverse_error
 
+        # Save our parsed value to node.
         node["url"] = url
 
 
 def check_for_node_that_matches_request_path(request, nodes):
-    """Check for a node that matches the request path"""
+    """Check for a node that matches the request path. Used for loading a page with expanded trees.
+
+    Note that this check includes children of this node.
+    """
 
     match = False
 
     if nodes:
+
+        # Handle for each node in our set of nodes.
         for node in nodes:
+
+            # Skip nodes that exclusively exist for separation.
+            is_separator = node.get("separator", False)
+            if is_separator:
+                # Is "separator" node.
+                # Purely exist for visual clarity. No urls to match.
+                continue
+
+            # Check children of this node, if any.
             child_nodes = node.get("nodes")
             if child_nodes:
+                # Found children. Recursively check.
                 child_match = check_for_node_that_matches_request_path(request, child_nodes)
                 if child_match:
                     match = True
+
             else:
+                # No children found. Check properties of current node.
+                # If it matches the request URL, then this tree starts expanded on page load.
+
+                # Get url to check against.
+                # Note that the url is parsed from the "route" value, if "url" is not explicitly given.
                 ensure_node_has_url_property(node)
-                stripped_request = strip_hash_bookmark_from_url(request.path)
+
+                # Sanitize both our request url and node url.
+                stripped_request_path = strip_hash_bookmark_from_url(request.path)
                 stripped_node_url = strip_hash_bookmark_from_url(node["url"])
-                if stripped_request.startswith(stripped_node_url):
+
+                # Verify that the start of the request url matches our node.
+                # If so, we consider this a match and start with our tree expanded.
+                if stripped_request_path.startswith(stripped_node_url):
                     match = True
 
     return match
@@ -723,7 +794,10 @@ def _url_starts_with(search_string, sub_string):
 
 
 def _determine_node_active_status(node, request):
-    """Determine if a node should be active"""
+    """Determine if a node should be active.
+
+    In this case, "active" means that it is visually highlighted by CSS, on page load.
+    """
     active = False
     node_url = node.get("url", None)
     if node.get("active_requires_exact_url_match", False) or node_url == "/":
