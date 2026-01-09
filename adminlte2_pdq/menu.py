@@ -76,6 +76,7 @@ CSS_MENU = [
             {
                 "route": "#",
                 "text": "Demo CSS",
+                "icon": "fa fa-file",
                 "nodes": [
                     {
                         "route": "adminlte2_pdq:demo-css",
