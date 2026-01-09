@@ -164,6 +164,7 @@ def render_tree(context, node):
     if _determine_node_active_status(node, context["request"]):
         active = True
     for inner_node in node["nodes"]:
+        ensure_node_has_url_property(inner_node)
         if _determine_node_active_status(inner_node, context["request"]):
             active = True
     node["active"] = active
@@ -799,7 +800,7 @@ def _determine_node_active_status(node, request):
     In this case, "active" means that it is visually highlighted by CSS, on page load.
     """
     active = False
-    node_url = node.get("url", None)
+    node_url = node["url"]
     if node.get("active_requires_exact_url_match", False) or node_url == "/":
         active = request.path == node_url
     else:

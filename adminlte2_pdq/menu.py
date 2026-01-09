@@ -74,6 +74,7 @@ CSS_MENU = [
                 "icon": "fa fa-dashboard",
             },
             {
+                "route": "#",
                 "text": "Demo CSS",
                 "nodes": [
                     {
@@ -92,6 +93,7 @@ CSS_MENU = [
                         "icon": "fa fa-th",
                     },
                     {
+                        "route": "#",
                         "text": "UI Elements",
                         "nodes": [
                             {
