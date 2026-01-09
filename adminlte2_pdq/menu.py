@@ -81,6 +81,7 @@ CSS_MENU = [
                         "route": "adminlte2_pdq:demo-css",
                         "text": "Demo CSS Home",
                         "icon": "fa fa-home",
+                        "active_requires_exact_url_match": True,
                     },
                     {
                         "route": "adminlte2_pdq:demo-css-typography",
