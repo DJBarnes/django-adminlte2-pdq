@@ -441,10 +441,33 @@ It then redirects to the
 :ref:`configuration/home:adminlte2_home_route`
 where the user can see those messages.
 
+For 403s, there is another special setting that allows you to just raise a
+``PermissionDenied`` error instead of having the package handle it. The setting
+is called ``ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST``.
+This setting can be added to ``settings.py`` and must contain a list of
+"starts with" patterns that should always be treated as actual 403s vs redirects
+to the home page.
+
+This is good for sections of the project that may handle auth
+differently. A good example would be APIs. You might have an app where all
+endpoints are located at ``api/`` and instead of having 403s redirect to the
+home page, you want to manually control what happens and send them back a
+JSON response that explains the situation in JSON format. Adding ``api/`` to this
+setting will then make it so that all urls that start with ``api/`` will skip
+the built-in 403 handling.
+
+**settings.py**
+
+    .. code:: python
+
+        ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST = [
+            "api/",
+        ]
+
 Handling 403s Manually
 ----------------------
 
-If you do not want to use the built-in handling for 404 errors and would like
+If you do not want to use the built-in handling for 403 errors and would like
 full control over how to handle them, you should disable the built-in behavior
 with the following setting:
 
@@ -452,7 +475,7 @@ with the following setting:
 
     .. code:: python
 
-        ADMINLTE2_REDIRECT_TO_HOME_ON_404 = False
+        ADMINLTE2_REDIRECT_TO_HOME_ON_403 = False
 
 
 Customizing the built-in 404 and 403 messages
