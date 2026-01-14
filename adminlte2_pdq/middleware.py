@@ -25,6 +25,7 @@ from .constants import (
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
+    STRICT_POLICY_SERVE_403_FUZZY_WHITELIST,
     STRICT_POLICY_SERVE_404_FUZZY_WHITELIST,
     STRICT_POLICY,
     STRICT_POLICY_WHITELIST,
@@ -105,7 +106,7 @@ class AuthMiddleware:
                 # Is a special route where 404s are okay
                 self.is_special_route(view_data)
                 # Verify if whitelisted route
-                or view_data["path"] in STRICT_POLICY_SERVE_404_FUZZY_WHITELIST
+                or self.path_starts_with_whitelist_entry(view_data["path"], STRICT_POLICY_SERVE_404_FUZZY_WHITELIST)
                 # Site setup to handle 404s manually
                 or not REDIRECT_TO_HOME_ON_404
             ):
@@ -155,12 +156,18 @@ class AuthMiddleware:
                 warning_message = RESPONSE_403_PRODUCTION_MESSAGE
             # Create Django Messages warning.
             messages.warning(request, warning_message)
-            # Site setup to use built-in 403 handling
-            if REDIRECT_TO_HOME_ON_403:
-                # Redirect to home route.
-                return redirect(HOME_ROUTE)
-            else:
+
+            # Verify that the path is not part of a whitelist, in which case a 403 is okay.
+            # Everything else should be an actual view. So, a redirect to the home page makes sense.
+            if (
+                # Verify if whitelisted route
+                self.path_starts_with_whitelist_entry(view_data["path"], STRICT_POLICY_SERVE_403_FUZZY_WHITELIST)
+                # Site setup to handle 403s manually
+                or not REDIRECT_TO_HOME_ON_403
+            ):
                 raise PermissionDenied()
+            else:
+                return redirect(HOME_ROUTE)
 
         # User passed all tests or wants to handle 403s manually,
         # return requested response.
@@ -719,10 +726,7 @@ class AuthMiddleware:
 
         # In "app-wide" exemption list.
         # Verify whether path var is not an empty string and is in the fuzzy whitelist.
-        whitelisted_fuzzy = False
-        for entry in LOGIN_EXEMPT_FUZZY_WHITELIST:
-            if path and path.startswith(entry):
-                whitelisted_fuzzy = True
+        whitelisted_fuzzy = self.path_starts_with_whitelist_entry(path, LOGIN_EXEMPT_FUZZY_WHITELIST)
 
         # Return if either whitelisted directly or via fuzzy logic
         return whitelisted_directly or whitelisted_fuzzy
@@ -743,15 +747,20 @@ class AuthMiddleware:
             or (full_url_name and full_url_name in STRICT_POLICY_WHITELIST)
         )
 
-        # In "app-wide" exemption list.
+        # In "project-wide" exemption list.
         # Verify whether path var is not an empty string and is in the fuzzy whitelist.
-        whitelisted_fuzzy = False
-        for entry in STRICT_POLICY_FUZZY_WHITELIST:
-            if path and path.startswith(entry):
-                whitelisted_fuzzy = True
+        whitelisted_fuzzy = self.path_starts_with_whitelist_entry(path, STRICT_POLICY_FUZZY_WHITELIST)
 
         # Return if either whitelisted directly or via fuzzy logic
         return whitelisted_directly or whitelisted_fuzzy
+
+    def path_starts_with_whitelist_entry(self, path, whitelist):
+        """Determine if a path starts with an entry in a given whitelist"""
+        whitelisted = False
+        for entry in whitelist:
+            if path and path.startswith(entry):
+                whitelisted = True
+        return whitelisted
 
     def login_required_hook(self, request):
         """Hook that can be overridden in subclasses to add additional ways

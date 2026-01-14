@@ -68,6 +68,26 @@ STRICT_POLICY_FUZZY_WHITELIST = tuple(
     )
 )
 
+# Project-wide serve 403 whitelist.
+# These take either a exact url or url base of urls that should serve a 403
+# and not redirect to the home page when strict mode is enabled.
+# Useful for specific url patterns that will handle authentication and authorization manually.
+
+# EX: You may create an app for apis in your project and all of them are located
+# at an endpoint such as "api/". In this case, when there is a 403, you do not want
+# to do the default behavior of sending a redirect to the Home page of the site.
+# You instead probably want to create some sort of JSON response that conveys the
+# problem to the user. So, by adding "api/" to this list, all urls that start with "api/"
+# will be handled by raising a PermissionDenied exception when a 403 occurs
+# rather than redirecting to home. Which can be manually handled by code that you write.
+STRICT_POLICY_SERVE_403_FUZZY_WHITELIST = tuple(
+    getattr(
+        settings,
+        "ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST",
+        [],
+    )
+)
+
 # Project-wide serve 404 whitelist.
 # These take either a exact url or url base of urls that should serve a 404
 # and not redirect to the home page when strict mode is enabled.
