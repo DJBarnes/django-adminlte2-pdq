@@ -10,7 +10,11 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 # Internal Imports.
-from .constants import HOME_ROUTE
+from .constants import (
+    HOME_ROUTE,
+    REDIRECT_TO_HOME_ON_403,
+    STRICT_POLICY_SERVE_403_FUZZY_WHITELIST,
+)
 
 
 class AllowAnonymousAccessMixin:
@@ -111,13 +115,22 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
         cls.subclasses.append(cls.__name__)
 
     def dispatch(self, request, *args, **kwargs):
-        # Override to always redirect to home in event of permission failure.
+        # Override to always redirect to home in event of permission failure
+        # unless the user specifically wants to regain the default behavior.
         # Default behavior is to redirect to login if unauthenticated, and
         # raise forbidden view otherwise.
         if not self.has_permission():
-            # Failed permission checks. Redirect user.
-            # Defaults to project "home" page for security.
-            return redirect(reverse_lazy(HOME_ROUTE))
+            # Failed permission checks.
+            # Determine if path is 403 fuzzy whitelisted.
+            path_is_403_fuzzy_whitelisted = self.path_starts_with_whitelist_entry(
+                request.path, STRICT_POLICY_SERVE_403_FUZZY_WHITELIST
+            )
+            # If the path should skip 403 handling, use default, otherwise, redirect to home
+            if path_is_403_fuzzy_whitelisted or not REDIRECT_TO_HOME_ON_403:
+                return self.handle_no_permission()
+            else:
+                return redirect(reverse_lazy(HOME_ROUTE))
+
         return super().dispatch(request, *args, **kwargs)
 
     def has_permission(self):
@@ -195,6 +208,14 @@ class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
             raise TypeError(f"Unknown type ({type(incorrect_type)}) for permission. Expected list, tuple, or string.")
 
         return perms_all, perms_one
+
+    def path_starts_with_whitelist_entry(self, path, whitelist):
+        """Determine if a path starts with an entry in a given whitelist"""
+        whitelisted = False
+        for entry in whitelist:
+            if path and path.startswith(entry):
+                whitelisted = True
+        return whitelisted
 
 
 # Limit imports from this file.

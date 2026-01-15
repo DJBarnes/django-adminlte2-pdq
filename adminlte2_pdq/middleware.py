@@ -145,7 +145,7 @@ class AuthMiddleware:
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
         permission_required = view_data["decorator_name"] in ("permission_required", "permission_required_one")
         if (STRICT_POLICY or permission_required) and not self.verify_permissions(request, view_data):
-            # Apply potential warnings
+            # Create potential warnings messages
             if settings.DEBUG:
                 # Warning if in development mode.
                 warning_message = RESPONSE_403_DEBUG_MESSAGE.format(
@@ -154,19 +154,25 @@ class AuthMiddleware:
                 )
             else:
                 warning_message = RESPONSE_403_PRODUCTION_MESSAGE
-            # Create Django Messages warning.
-            messages.warning(request, warning_message)
 
-            # Verify that the path is not part of a whitelist, in which case a 403 is okay.
-            # Everything else should be an actual view. So, a redirect to the home page makes sense.
-            if (
-                # Verify if whitelisted route
-                self.path_starts_with_whitelist_entry(view_data["path"], STRICT_POLICY_SERVE_403_FUZZY_WHITELIST)
-                # Site setup to handle 403s manually
-                or not REDIRECT_TO_HOME_ON_403
-            ):
-                raise PermissionDenied()
+            # Determine if path is 403 fuzzy whitelisted.
+            path_is_403_fuzzy_whitelisted = self.path_starts_with_whitelist_entry(
+                view_data["path"], STRICT_POLICY_SERVE_403_FUZZY_WHITELIST
+            )
+            # If the path should skip 403 checking.
+            if path_is_403_fuzzy_whitelisted or not REDIRECT_TO_HOME_ON_403:
+                # Check if View has a mixin or decorator that will handle checking perms.
+                # If not, we should raise PermissionDenied. If it does, we can just skip handling
+                # all together as it will be handled at the decorator / mixin level.
+                if not permission_required:
+                    # Create Django Messages warning.
+                    messages.warning(request, warning_message)
+                    # No mixin or decorator on view, need to handle here.
+                    raise PermissionDenied()  # No mixin or decorator on view, need to handle here.
             else:
+                # Create Django Messages warning.
+                messages.warning(request, warning_message)
+                # Redirect to the Home Route
                 return redirect(HOME_ROUTE)
 
         # User passed all tests or wants to handle 403s manually,

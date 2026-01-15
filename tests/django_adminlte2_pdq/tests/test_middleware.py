@@ -25,6 +25,7 @@ from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITEL
 UserModel = get_user_model()  # pylint: disable=invalid-name
 UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:demo-css"]
 UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ["adminlte2_pdq:demo-css"]
+UPDATED_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST = ["/tests/"]
 
 NO_SESSION_MIDDLEWARE = copy(settings.MIDDLEWARE)
 NO_SESSION_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
@@ -62,10 +63,22 @@ class MiddlewareBaseTestCase(TestCase):
         "'allow_without_permissions' decorator."
     )
 
+    pdq_strict__no_permissions_set_message = (
+        "AdminLtePdq Warning: The class-based view 'StandardView' has permission requirements, "
+        "but does not have any permissions set. This means that this view is inaccessible until "
+        "permissions are set for the view.\n\n\nFor further information, please see the docs: "
+        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+    )
+
     # endregion Expected Test Messages
 
     def setUp(self):
         self.test_anonymous_user = AnonymousUser()
+
+        self.test_user_no_perms = UserModel()
+        self.test_user_no_perms.username = "test_user_no_perms"
+        self.test_user_no_perms.set_password("password")
+        self.test_user_no_perms.save()
 
         self.test_user_w_perms = UserModel()
         self.test_user_w_perms.username = "test_user_w_perms"
@@ -759,3 +772,58 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
             # Verify values associated with returned view.
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "<h1>Demo CSS</h1>")
+
+    @patch(
+        "adminlte2_pdq.middleware.STRICT_POLICY_SERVE_403_FUZZY_WHITELIST",
+        UPDATED_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST,
+    )
+    @patch(
+        "adminlte2_pdq.mixins.STRICT_POLICY_SERVE_403_FUZZY_WHITELIST",
+        UPDATED_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST,
+    )
+    def test__with_fuzzy_403_whitelist(self):
+        """Test when "STRICT" mode and fuzzy 403 whitelist is set."""
+
+        with self.subTest("As anonymous user"):
+            # Should fail and redirect to login.
+
+            # Process response.
+            response = self.client.get(
+                reverse("adminlte2_pdq_tests:class-full-permissions-required-as-string"), follow=True
+            )
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 200)
+            self.assertContains(response, "Login")
+
+        with self.subTest("As user with no permissions"):
+            # Should raise a 403 permission denied.
+
+            # Process response.
+            self.client.force_login(self.test_user_no_perms)
+            response = self.client.get(
+                reverse("adminlte2_pdq_tests:class-full-permissions-required-as-string"), follow=True
+            )
+
+            # Verify values associated with returned view.
+            self.assertEqual(response.status_code, 403)
+
+        with self.subTest("As user with no permissions and view with manual perm handling"):
+            # Should raise a 403 permission denied.
+
+            with warns(Warning) as warning_info:
+                # Process response.
+                self.client.force_login(self.test_user_no_perms)
+                response = self.client.get(reverse("adminlte2_pdq_tests:class-standard"), follow=True)
+
+                # Verify values associated with returned view.
+                self.assertEqual(response.status_code, 403)
+
+                # Collect actual warnings that occurred.
+                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
+                # Define expected warnings that should have occurred.
+                expected_warns = {
+                    (RuntimeWarning, self.pdq_strict__no_permissions_set_message),
+                }
+                # Assert warnings match.
+                self.assertEqual(expected_warns, actual_warns)
