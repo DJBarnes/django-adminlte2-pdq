@@ -450,10 +450,10 @@ to the home page.
 
 This is good for sections of the project that may handle auth
 differently. A good example would be APIs. You might have an app where all
-endpoints are located at ``api/`` and instead of having 403s redirect to the
+endpoints are located at ``/api/`` and instead of having 403s redirect to the
 home page, you want to manually control what happens and send them back a
-JSON response that explains the situation in JSON format. Adding ``api/`` to this
-setting will then make it so that all urls that start with ``api/`` will skip
+JSON response that explains the situation in JSON format. Adding ``/api/`` to this
+setting will then make it so that all urls that start with ``/api/`` will skip
 the built-in 403 handling.
 
 **settings.py**
@@ -461,7 +461,7 @@ the built-in 403 handling.
     .. code:: python
 
         ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST = [
-            "api/",
+            "/api/",
         ]
 
 Handling 403s Manually
