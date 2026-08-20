@@ -8,3 +8,4 @@
 
 import "./partials/ui_tooltip_conflict_fix.js";
 import "./partials/header_breadcrumb_overlap_fix.js";
+import "./partials/tooltip_color_fix.js";
