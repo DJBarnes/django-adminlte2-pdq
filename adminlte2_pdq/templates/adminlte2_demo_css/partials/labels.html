@@ -1,6 +1,42 @@
 {# Labels #}
 
 <div class="box box-default">
+  <div class="box-body">
+
+
+    <p>On hover, label elements can have a "tooltip" message that shows up.</p>
+
+    <br>
+
+    <p>
+      To implement tooltips, add <code>data-toggle="tooltip"</code>,
+      and then <code>title="&lt;message&gt;"</code>,
+      where <code>&lt;message&gt;</code> is the text to display in the tooltip.
+    </p>
+
+    <p>
+      Optionally, a tooltip can have a color applied in one of two ways:
+    </p>
+    <ol>
+      <li>
+        <p>
+          Add a <code>data-tooltip-color=&lt;color&gt;</code>, where <code>&lt;color&gt;</code>
+          is the desired color to use from existing package color themes.
+        </p>
+      </li>
+      <li>
+        <p>
+          Add a CSS class of <code>tooltip-&lt;color&gt;</code>, where <code>&lt;color&gt;</code>
+          is the desired color to use from existing package color themes.
+        </p>
+      </li>
+    </ol>
+
+  </div>
+
+</div>
+
+<div class="box box-default">
 
   {# Start Box Head #}
   <div class="box-header with-border">
@@ -24,6 +60,7 @@
             data-toggle="tooltip"
             data-placement="top"
             data-html="true"
+            data-tooltip-color="{{ bootstrap_type }}"
             class="label label-{{ bootstrap_type }} tooltip-{{ bootstrap_type }}"
             title="<p>Sample test message. This is a tooltip test message.</p>"
           >
@@ -66,6 +103,7 @@
             data-toggle="tooltip"
             data-placement="top"
             data-html="true"
+            data-tooltip-color="{{ bootstrap_type }}"
             class="label label-large label-{{ bootstrap_type }} tooltip-{{ bootstrap_type }}"
             title="<p>Sample test message. This is a tooltip test message.</p>"
           >
