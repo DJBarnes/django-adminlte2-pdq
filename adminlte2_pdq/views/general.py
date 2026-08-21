@@ -7,6 +7,11 @@ import logging
 from django.shortcuts import render
 
 # Internal Imports.
+from adminlte2_pdq.constants import (
+    ALLOW_403_404_MESSAGES_IN_PRODUCTION,
+    RESPONSE_404_DEBUG_MESSAGE,
+    RESPONSE_404_PRODUCTION_MESSAGE,
+)
 from adminlte2_pdq.decorators import (
     login_required,
     permission_required,
@@ -76,3 +81,25 @@ def sample1(request):
 def sample2(request):
     """Show default sample2 page"""
     return render(request, "adminlte2/sample2.html", {})
+
+
+def view_404(request, exception):
+    """On failure to locate a route, redirect to home page."""
+
+    # Display warning.
+    if settings.DEBUG:
+        # Handle output when DEBUG = True.
+        if len(RESPONSE_404_DEBUG_MESSAGE) > 0:
+            messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)
+            logger.warning(RESPONSE_404_DEBUG_MESSAGE)
+            messages.debug(request, str(exception))
+            logger.warning(str(exception))
+    else:
+        # Handle output in production mode (when DEBUG = False).
+        if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
+            if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+
+    # Redirect to home.
+    home_route = getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home")
+    return redirect(home_route)

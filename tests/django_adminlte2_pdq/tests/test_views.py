@@ -96,9 +96,539 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample2 page!")
 
-    # |-------------------------------------------------------------------------
-    # | Test views work as expected using Client
-    # |-------------------------------------------------------------------------
+    # region Demo CSS Views
+
+    def test_demo_css_home_view_returns_correct_template(self):
+        """Test Demo CSS Home view returns correct template"""
+
+        request = RequestFactory().get("demo-css/")
+        request._messages = messages.storage.default_storage(request)  # pylint: disable=protected-access
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+        self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css__view_returns_correct_template(self):
+        """Test Demo CSS  view returns correct template"""
+
+        request = RequestFactory().get("demo-css/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
+        self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_typography_view_returns_correct_template(self):
+        """Test Demo CSS Typography view returns correct template"""
+
+        request = RequestFactory().get("demo-css/typography/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_typography(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Typography
+    <small>Preview of Typography Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_widgets_view_returns_correct_template(self):
+        """Test Demo CSS Widgets view returns correct template"""
+
+        request = RequestFactory().get("demo-css/widgets/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_widgets(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Widgets
+    <small>Preview of Widget Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_ui_general_view_returns_correct_template(self):
+        """Test Demo CSS UI (General) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/general/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_ui_general(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    General UI
+    <small>Preview of UI Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_alerts_view_returns_correct_template(self):
+        """Test Demo CSS Alerts view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/alerts")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_alerts(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Alerts and Callouts
+    <small>Preview of Alert & Callout Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_buttons_basic_view_returns_correct_template(self):
+        """Test Demo CSS Buttons (Basic) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/buttons/basic/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_buttons_basic(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Buttons (Basic)
+    <small>Preview of Button Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_buttons_specialized_view_returns_correct_template(self):
+        """Test Demo CSS Buttons (Specialized) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/buttons/specialized/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_buttons_specialized(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Buttons (Specialized)
+    <small>Preview of Specialized Button Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_carousel_view_returns_correct_template(self):
+        """Test Demo CSS Carousel view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/carousels/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_carousels(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Carousels
+    <small>Preview of Carousel Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_labels_view_returns_correct_template(self):
+        """Test Demo CSS Labels view returns correct template"""
+
+        request = RequestFactory().get("demo-css/ui/labels/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_labels(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Labels & Tooltips
+    <small>Preview of Label & Tooltip Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_modals_view_returns_correct_template(self):
+        """Test Demo CSS  view returns correct template"""
+
+        request = RequestFactory().get("demo-css/modals/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_modals(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Modals
+    <small>Preview of Modal Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_boxes_standard_view_returns_correct_template(self):
+        """Test Demo CSS Boxes (Solid) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/boxes/standard/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_boxes_standard(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Boxes
+    <small>Preview of Box Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_boxes_solid_view_returns_correct_template(self):
+        """Test Demo CSS Boxes (Solid) view returns correct template"""
+
+        request = RequestFactory().get("demo-css/boxes/solid/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_boxes_solid(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Boxes
+    <small>Preview of Solid Box Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    def test_demo_css_tables_view_returns_correct_template(self):
+        """Test Demo CSS Tables view returns correct template"""
+
+        request = RequestFactory().get("demo-css/tables/")
+        request._messages = messages.storage.default_storage(request)
+        request.user = self.test_user_w_perms
+        request.site = MOCK_SITE
+        response = views.demo_css_tables(request)
+        self.assertEqual(response.status_code, 200)
+
+        # Check for page title content.
+        self.assertContains(
+            response,
+            """
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Tables
+    <small>Preview of Table Elements</small>
+  </h1>
+            """.strip(),
+        )
+
+        # Check for expected page link elements.
+        self.assertContains(response, "Demo CSS Home")
+        self.assertContains(response, "Typography")
+        self.assertContains(response, "Widgets")
+        self.assertContains(response, "UI Elements")
+        self.assertContains(response, "General")
+        self.assertContains(response, "Alerts")
+        self.assertContains(response, "Buttons | Basic")
+        self.assertContains(response, "Buttons | Specialized")
+        self.assertContains(response, "Carousels")
+        self.assertContains(response, "Labels &amp; Tooltips")
+        self.assertContains(response, "Modals")
+        self.assertContains(response, "Boxes | Standard")
+        self.assertContains(response, "Boxes | Solid")
+        self.assertContains(response, "Tables")
+
+    # endregion Demo CSS Views
+
+    # region Test views work as expected using Client
 
     def test_home_view_works_when_not_authenticated(self):
         """Test home view works when not authenticated"""
@@ -180,36 +710,174 @@ class ViewsTestCase(TestCase):
         self.assertContains(response, "This is the sample2 page!")
         self.assertNotContains(response, "Username")
 
+    # endregion Test views work as expected using Client
+
+    # region Check 403/404 Message Handling
+
+    def test_403_view_works_when_triggered(self):
+        """Verify 403 view works when triggered."""
+        self.client.force_login(self.test_user_no_perms)
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_403_message_display_when_triggered_and_followed_in_dev(self):
+        """Verify 403 displays when triggered, AND prod 403/404 messages are allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,"AdminLtePdq Warning: Attempted to access ")
+        self.assertContains(
+            response,
+            " which requires permissions, and user permission requirements were not met. ",
+        )
+
+    @override_settings(DEBUG=True)
+    @patch("adminlte2_pdq.constants.RESPONSE_403_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_DEBUG_MESSAGE", "")
+    def test_403_message_not_display_when_triggered_and_followed_in_dev_and_no_message_set(self):
+        """Verify 403 doesn't display when triggered in dev with no message set."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "AdminLtePdq Warning: Attempted to access ")
+        self.assertNotContains(
+            response,
+            " which requires permissions, and user permission requirements were not met. ",
+        )
+
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_403_message_displays_when_triggered_and_followed_in_dev_and_messages_off(self):
+        """Verify 403 displays when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "AdminLtePdq Warning: Attempted to access ")
+        self.assertContains(
+            response,
+            " which requires permissions, and user permission requirements were not met. ",
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_403_message_display_when_triggered_and_followed_in_prod(self):
+        """Verify 403 displays when triggered, AND prod 403/404 messages are allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.constants.RESPONSE_403_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_DEBUG_MESSAGE", "")
+    def test_403_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set(self):
+        """Verify 403 doesn't display when triggered in dev with no message set."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_403_message_not_display_when_triggered_and_followed_in_prod_and_messages_off(self):
+        """Verify 403 doesn't display when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
     def test_404_view_works_when_triggered(self):
-        """Test 404 view works when triggered"""
+        """Verify 404 view works when triggered."""
         self.client.force_login(self.test_user_no_perms)
         response = self.client.get("unknown/route/")
         self.assertEqual(response.status_code, 302)
 
-    @override_settings(DEBUG=True)
-    def test_404_view_works_when_triggered_and_followed_in_dev(self):
-        """Test 404 view works when triggered"""
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_404_message_display_when_triggered_and_followed_in_dev(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are allowed."""
 
         self.client.force_login(self.test_user_no_perms)
 
         response = self.client.get("unknown/route/", follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
+        self.assertContains(
+            response,
+            "AdminLtePdq Warning: The page you were looking for does not exist.",
+        )
 
     @override_settings(DEBUG=True)
+    @patch("adminlte2_pdq.constants.RESPONSE_404_DEBUG_MESSAGE", "")
     @patch("adminlte2_pdq.middleware.RESPONSE_404_DEBUG_MESSAGE", "")
-    def test_404_view_works_when_triggered_and_followed_in_dev_and_no_message_set(self):
-        """Test 404 view works when triggered in dev with no message set"""
+    def test_404_message_not_display_when_triggered_and_followed_in_dev_and_no_message_set(self):
+        """Verify 404 doesn't display when triggered in dev with no message set."""
 
         self.client.force_login(self.test_user_no_perms)
 
         response = self.client.get("unknown/route/", follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
+        self.assertNotContains(
+            response,
+            "AdminLtePdq Warning: The page you were looking for does not exist.",
+        )
 
-    @override_settings(DEBUG=False)
-    def test_404_view_works_when_triggered_and_followed_in_prod(self):
-        """Test 404 view works when triggered"""
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_404_message_display_when_triggered_and_followed_in_dev_and_messages_off(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "AdminLtePdq Warning: The page you were looking for does not exist.",
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_404_message_display_when_triggered_and_followed_in_prod(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are allowed."""
 
         self.client.force_login(self.test_user_no_perms)
 
@@ -224,9 +892,10 @@ class ViewsTestCase(TestCase):
         )
 
     @override_settings(DEBUG=False)
-    @patch("adminlte2_pdq.middleware.RESPONSE_404_PRODUCTION_MESSAGE", "")
-    def test_404_view_works_when_triggered_and_followed_in_prod_and_no_message_set(self):
-        """Test 404 view works when triggered"""
+    @patch("adminlte2_pdq.constants.RESPONSE_404_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_404_DEBUG_MESSAGE", "")
+    def test_404_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set(self):
+        """Verify 404 doesn't display when triggered in dev with no message set."""
 
         self.client.force_login(self.test_user_no_perms)
 
@@ -240,99 +909,22 @@ class ViewsTestCase(TestCase):
             ),
         )
 
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_404_message_not_display_when_triggered_and_followed_in_prod_and_messages_off(self):
+        """Verify 404 doesn't display when triggered, AND prod 403/404 messages are not allowed."""
 
-# Demo CSS pages: (URL name, template, text that only appears on that page).
-DEMO_CSS_PAGES = [
-    ("demo-css", "adminlte2_demo_css/home.html", '<h3 class="box-title">Welcome!</h3>'),
-    ("demo-css-typography", "adminlte2_demo_css/typography.html", "Preview of Typography Elements"),
-    ("demo-css-widgets", "adminlte2_demo_css/widgets.html", "Widgets"),
-    ("demo-css-ui-general", "adminlte2_demo_css/ui_general.html", "color-palette-box"),
-    ("demo-css-alerts", "adminlte2_demo_css/alerts.html", "This is a debug message via the messages framework."),
-    ("demo-css-buttons-basic", "adminlte2_demo_css/buttons_basic.html", "Buttons"),
-    ("demo-css-buttons-specialized", "adminlte2_demo_css/buttons_specialized.html", "btn-app"),
-    ("demo-css-carousels", "adminlte2_demo_css/carousels.html", "carousel-indicators"),
-    ("demo-css-labels", "adminlte2_demo_css/labels.html", "data-tooltip-color"),
-    ("demo-css-modals", "adminlte2_demo_css/modals.html", "modal-dialog"),
-    ("demo-css-boxes-standard", "adminlte2_demo_css/boxes_standard.html", "box-header"),
-    ("demo-css-boxes-solid", "adminlte2_demo_css/boxes_solid.html", "box-solid"),
-    ("demo-css-tables", "adminlte2_demo_css/tables.html", "table-border-"),
-    ("demo-css-forms", "adminlte2_demo_css/forms.html", "<form"),
-    ("demo-css-full-span-links", "adminlte2_demo_css/full_span_links.html", "full-span-link"),
-]
+        self.client.force_login(self.test_user_no_perms)
 
-# Sidebar entries every demo page shows.
-DEMO_CSS_MENU_TEXT = [
-    "Demo CSS Home",
-    "Typography",
-    "Widgets",
-    "UI Elements",
-    "Buttons | Basic",
-    "Buttons | Specialized",
-    "Labels &amp; Tooltips",
-    "Full-Span Links",
-    "Boxes | Standard",
-    "Boxes | Solid",
-    "Tables",
-    "Forms",
-]
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
 
-
-class DemoCssViewsTestCase(TestCase):
-    """Tests for the demo CSS pages."""
-
-    def test__pages_render(self):
-        """Each demo page renders its template, its content, and the demo menu."""
-        for url_name, template_name, page_text in DEMO_CSS_PAGES:
-            with self.subTest(url_name):
-                response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
-
-                self.assertEqual(response.status_code, 200)
-                self.assertTemplateUsed(response, template_name)
-                self.assertContains(response, page_text)
-                for menu_text in DEMO_CSS_MENU_TEXT:
-                    self.assertContains(response, menu_text)
-                # The default menu's sections are included when their routes exist.
-                self.assertContains(response, "Change Password")
-
-    def test__breadcrumbs_link_back_to_the_demo_home(self):
-        """Each demo page's breadcrumbs link to the demo home and end with the page's name."""
-        demo_home_link = f'<a href="{reverse("adminlte2_pdq:demo-css")}">Demo CSS</a>'
-        for url_name, _template_name, _page_text in DEMO_CSS_PAGES:
-            with self.subTest(url_name):
-                response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
-                breadcrumbs = response.content.decode().split('<ol class="breadcrumb">', 1)[1].split("</ol>", 1)[0]
-
-                if url_name == "demo-css":
-                    self.assertNotIn(demo_home_link, breadcrumbs)
-                    self.assertIn('<li class="active">', breadcrumbs)
-                else:
-                    self.assertIn(demo_home_link, breadcrumbs)
-                    page_name = breadcrumbs.split('<li class="active">', 1)[1].split("</li>", 1)[0].strip()
-                    self.assertTrue(page_name)
-
-    def test__colors_are_listed(self):
-        """Pages show every color from ADMINLTE2_DEMO_CSS_COLORS."""
-        response = self.client.get(reverse("adminlte2_pdq:demo-css-ui-general"))
-
-        # Bootstrap's contextual colors use AdminLTE's `bg-*` names.
-        for bg_name in ("light-blue", "aqua", "navy", "indigo", "black"):
-            self.assertContains(response, f"bg-{bg_name} color-palette")
-        self.assertContains(response, "#0073b7")
-
-    @override_settings(ROOT_URLCONF="tests.django_adminlte2_pdq.django_test_project.urls_without_auth")
-    def test__pages_render_without_password_change_url(self):
-        """Without the password change URL, demo pages render and leave out the default menu's sections."""
-        for url_name, _template_name, _page_text in DEMO_CSS_PAGES:
-            with self.subTest(url_name):
-                response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
-
-                self.assertEqual(response.status_code, 200)
-                self.assertNotContains(response, "Change Password")
-
-    def test__deprecated_template_still_renders(self):
-        """The old adminlte2/demo_css.html template extends the new demo home page."""
-        request = RequestFactory().get("/demo-css/")
-        request.user = AnonymousUser()
-        response = render(request, "adminlte2/demo_css.html", {})
-
-        self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
+    # endregion Check 403/404 Message Handling
