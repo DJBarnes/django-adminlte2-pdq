@@ -785,8 +785,8 @@ class ViewsTestCase(TestCase):
         )
 
     @override_settings(DEBUG=False)
-    @patch("adminlte2_pdq.constants.RESPONSE_403_DEBUG_MESSAGE", "")
-    @patch("adminlte2_pdq.middleware.RESPONSE_403_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.constants.RESPONSE_403_PRODUCTION_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_PRODUCTION_MESSAGE", "")
     def test_403_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set(self):
         """Verify 403 doesn't display when triggered in dev with no message set."""
 
@@ -890,8 +890,8 @@ class ViewsTestCase(TestCase):
         )
 
     @override_settings(DEBUG=False)
-    @patch("adminlte2_pdq.constants.RESPONSE_404_DEBUG_MESSAGE", "")
-    @patch("adminlte2_pdq.middleware.RESPONSE_404_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.constants.RESPONSE_404_PRODUCTION_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_404_PRODUCTION_MESSAGE", "")
     def test_404_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set(self):
         """Verify 404 doesn't display when triggered in dev with no message set."""
 
