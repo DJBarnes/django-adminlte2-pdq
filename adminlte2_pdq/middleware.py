@@ -36,6 +36,8 @@ from .constants import (
     MEDIA_ROUTE,
     STATIC_ROUTE,
     WEBSOCKET_ROUTE,
+    USE_LOGIN_NEXT,
+    LOGIN_NEXT_UNIVERSAL_URL,
 )
 
 
@@ -137,7 +139,18 @@ class AuthMiddleware:
             # User not logged in and view requires login to access.
 
             # Redirect to login page.
-            return redirect(LOGIN_URL + f"?next={request.path}")
+            if USE_LOGIN_NEXT:
+                # Using next redirect.
+                # Check if using a "universal" next url (such as always wanting logins to redirect to home page).
+                if len(LOGIN_NEXT_UNIVERSAL_URL) > 0:
+                    # Using a "universal" next url. Append that value.
+                    return redirect(LOGIN_URL + f"?next={LOGIN_NEXT_UNIVERSAL_URL}")
+                else:
+                    # Not using a "universal" next url. Try to use current url for next redirect.
+                    return redirect(LOGIN_URL + f"?next={request.path}")
+            else:
+                # Not using next redirect. Simply bring user to login page.
+                return redirect(LOGIN_URL)
 
         # Check any post login error states.
         # NOTE: This call need to happen after we do the above Login Required checking.

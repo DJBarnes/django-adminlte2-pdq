@@ -8,6 +8,31 @@ from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse_lazy
 
 
+# Handling for login urls.
+
+# Enables or disables redirecting to a "next" redirect when logging in.
+# Can have minor security risks when True, similar to the ALLOW_403_404_MESSAGES_IN_PRODUCTION setting,
+# as it can potentially show malicious third-party users what pages exist in a site.
+USE_LOGIN_NEXT = getattr(settings, "ADMINLTE2_USE_LOGIN_NEXT", True)
+# Optional "Universal" URL to go to, when user is logging in.
+# If this value is left blank, then will instead try to redirect "next"
+# to whatever page the user attempted to access, prior to login page.
+LOGIN_NEXT_UNIVERSAL_URL = str(getattr(settings, "ADMINLTE2_LOGIN_NEXT_UNIVERSAL_URL", "")).strip()
+
+# Clean "Universal" next url.
+if len(LOGIN_NEXT_UNIVERSAL_URL) > 0:
+    if LOGIN_NEXT_UNIVERSAL_URL[0] != "/":
+        LOGIN_NEXT_UNIVERSAL_URL = "/" + LOGIN_NEXT_UNIVERSAL_URL
+    if LOGIN_NEXT_UNIVERSAL_URL[-1] != "/":
+        LOGIN_NEXT_UNIVERSAL_URL += "/"
+
+
+# Verify "next" configuration makes sense.
+if not USE_LOGIN_NEXT and len(LOGIN_NEXT_UNIVERSAL_URL) > 0:
+    # Universal "next" applied, but not using "next" urls.
+    raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_NEXT_UNIVERSAL_URL when USE_LOGIN_NEXT = False.")
+
+
 # Known routes that should never require being logged in.
 LOGIN_URL = getattr(settings, "LOGIN_URL", reverse_lazy("login"))
 LOGOUT_URL = getattr(settings, "LOGOUT_URL", reverse_lazy("logout"))

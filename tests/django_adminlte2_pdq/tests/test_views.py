@@ -926,3 +926,56 @@ class ViewsTestCase(TestCase):
         )
 
     # endregion Check 403/404 Message Handling
+
+    # region Check "next" redirect URL handling
+
+    def test_next_url_in_default_state(self):
+        """Verify "next" url in default state."""
+        response = self.client.get(reverse("adminlte2_pdq:sample2"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "This is the sample2 page!")
+        self.assertContains(response, "Username")
+        self.assertContains(response, "Login")
+
+        # Verify that we are on the login page and, it is trying to redirect to the requested URL.
+        self.assertURLEqual(response.redirect_chain[-1][0], "/accounts/login/?next=/sample2/")
+
+    @override_settings(DEBUG=False, USE_LOGIN_NEXT=False)
+    @patch("adminlte2_pdq.constants.USE_LOGIN_NEXT", False)
+    @patch("adminlte2_pdq.middleware.USE_LOGIN_NEXT", False)
+    def test_next_url_with_next_disabled(self):
+        """Verify "next" url when "next" is disabled."""
+        response = self.client.get(reverse("adminlte2_pdq:sample2"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "This is the sample2 page!")
+        self.assertContains(response, "Username")
+        self.assertContains(response, "Login")
+
+        # Verify that we are on the login page and, it has no "next" value.
+        self.assertURLEqual(response.redirect_chain[-1][0], "/accounts/login/")
+
+    @override_settings(DEBUG=False, LOGIN_NEXT_UNIVERSAL_URL="/test-universal/")
+    @patch("adminlte2_pdq.constants.LOGIN_NEXT_UNIVERSAL_URL", "/test-universal/")
+    @patch("adminlte2_pdq.middleware.LOGIN_NEXT_UNIVERSAL_URL", "/test-universal/")
+    def test_next_url_with_universal_next(self):
+        """Verify "next" url when a "universal" url value is provided."""
+        response = self.client.get(reverse("adminlte2_pdq:sample2"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "This is the sample2 page!")
+        self.assertContains(response, "Username")
+        self.assertContains(response, "Login")
+
+        # Verify that we are on the login page and, it is trying to redirect to the "universal" URL.
+        self.assertURLEqual(response.redirect_chain[-1][0], "/accounts/login/?next=/test-universal/")
+
+        # Check a second page does the same thing, just to be sure.
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "This is the sample1 page!")
+        self.assertContains(response, "Username")
+        self.assertContains(response, "Login")
+
+        # Verify that we are on the login page and, it is trying to redirect to the "universal" URL.
+        self.assertURLEqual(response.redirect_chain[-1][0], "/accounts/login/?next=/test-universal/")
+
+    # endregion Check "Next" redirect URL handling
