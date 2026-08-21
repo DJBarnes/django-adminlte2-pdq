@@ -21,6 +21,7 @@ from .constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     LOGIN_EXEMPT_FUZZY_WHITELIST,
+    ALLOW_403_404_MESSAGES_IN_PRODUCTION,
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
@@ -119,9 +120,10 @@ class AuthMiddleware:
                     messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)
                     logger.warning(RESPONSE_404_DEBUG_MESSAGE)
             else:
-                # Handle output when DEBUG = False.
-                if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
-                    messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+                # Handle output in production mode (when DEBUG = False).
+                if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
+                    if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                        messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
@@ -153,7 +155,11 @@ class AuthMiddleware:
                     view_name=view_data["view_name"],
                 )
             else:
-                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
+                # Handle output in production mode (when DEBUG = False).
+                warning_message = ""
+                if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
+                    if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
+                        warning_message = RESPONSE_403_PRODUCTION_MESSAGE
 
             # Determine if path is 403 fuzzy whitelisted.
             path_is_403_fuzzy_whitelisted = self.path_starts_with_whitelist_entry(
@@ -166,12 +172,17 @@ class AuthMiddleware:
                 # all together as it will be handled at the decorator / mixin level.
                 if not permission_required:
                     # Create Django Messages warning.
-                    messages.warning(request, warning_message)
+                    if len(warning_message) > 0:
+                        messages.warning(request, warning_message)
+
                     # No mixin or decorator on view, need to handle here.
                     raise PermissionDenied()  # No mixin or decorator on view, need to handle here.
+
             else:
                 # Create Django Messages warning.
-                messages.warning(request, warning_message)
+                if len(warning_message) > 0:
+                    messages.warning(request, warning_message)
+
                 # Redirect to the Home Route
                 return redirect(HOME_ROUTE)
 
@@ -458,9 +469,10 @@ class AuthMiddleware:
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
             else:
-                # Error if in production mode.
-                # Create Django Messages warning.
-                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
+                # Handle output in production mode (when DEBUG = False).
+                if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
+                    if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
+                        messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
 
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""

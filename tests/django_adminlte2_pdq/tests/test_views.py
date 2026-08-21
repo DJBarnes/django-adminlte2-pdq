@@ -626,9 +626,7 @@ class ViewsTestCase(TestCase):
 
     # endregion Demo CSS Views
 
-    # |-------------------------------------------------------------------------
-    # | Test views work as expected using Client
-    # |-------------------------------------------------------------------------
+    # region Test views work as expected using Client
 
     def test_home_view_works_when_not_authenticated(self):
         """Test home view works when not authenticated"""
@@ -710,36 +708,174 @@ class ViewsTestCase(TestCase):
         self.assertContains(response, "This is the sample2 page!")
         self.assertNotContains(response, "Username")
 
+    # endregion Test views work as expected using Client
+
+    # region Check 403/404 Message Handling
+
+    def test_403_view_works_when_triggered(self):
+        """Verify 403 view works when triggered."""
+        self.client.force_login(self.test_user_no_perms)
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_403_message_display_when_triggered_and_followed_in_dev(self):
+        """Verify 403 displays when triggered, AND prod 403/404 messages are allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response,"AdminLtePdq Warning: Attempted to access ")
+        self.assertContains(
+            response,
+            " which requires permissions, and user permission requirements were not met. ",
+        )
+
+    @override_settings(DEBUG=True)
+    @patch("adminlte2_pdq.constants.RESPONSE_403_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_DEBUG_MESSAGE", "")
+    def test_403_message_not_display_when_triggered_and_followed_in_dev_and_no_message_set(self):
+        """Verify 403 doesn't display when triggered in dev with no message set."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, "AdminLtePdq Warning: Attempted to access ")
+        self.assertNotContains(
+            response,
+            " which requires permissions, and user permission requirements were not met. ",
+        )
+
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_403_message_displays_when_triggered_and_followed_in_dev_and_messages_off(self):
+        """Verify 403 displays when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "AdminLtePdq Warning: Attempted to access ")
+        self.assertContains(
+            response,
+            " which requires permissions, and user permission requirements were not met. ",
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_403_message_display_when_triggered_and_followed_in_prod(self):
+        """Verify 403 displays when triggered, AND prod 403/404 messages are allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.constants.RESPONSE_403_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_DEBUG_MESSAGE", "")
+    def test_403_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set(self):
+        """Verify 403 doesn't display when triggered in dev with no message set."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_403_message_not_display_when_triggered_and_followed_in_prod_and_messages_off(self):
+        """Verify 403 doesn't display when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get(reverse("adminlte2_pdq:sample1"), follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
     def test_404_view_works_when_triggered(self):
-        """Test 404 view works when triggered"""
+        """Verify 404 view works when triggered."""
         self.client.force_login(self.test_user_no_perms)
         response = self.client.get("unknown/route/")
         self.assertEqual(response.status_code, 302)
 
-    @override_settings(DEBUG=True)
-    def test_404_view_works_when_triggered_and_followed_in_dev(self):
-        """Test 404 view works when triggered"""
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_404_message_display_when_triggered_and_followed_in_dev(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are allowed."""
 
         self.client.force_login(self.test_user_no_perms)
 
         response = self.client.get("unknown/route/", follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
+        self.assertContains(
+            response,
+            "AdminLtePdq Warning: The page you were looking for does not exist.",
+        )
 
     @override_settings(DEBUG=True)
+    @patch("adminlte2_pdq.constants.RESPONSE_404_DEBUG_MESSAGE", "")
     @patch("adminlte2_pdq.middleware.RESPONSE_404_DEBUG_MESSAGE", "")
-    def test_404_view_works_when_triggered_and_followed_in_dev_and_no_message_set(self):
-        """Test 404 view works when triggered in dev with no message set"""
+    def test_404_message_not_display_when_triggered_and_followed_in_dev_and_no_message_set(self):
+        """Verify 404 doesn't display when triggered in dev with no message set."""
 
         self.client.force_login(self.test_user_no_perms)
 
         response = self.client.get("unknown/route/", follow=True)
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, "AdminLtePdq Warning: The page you were looking for does not exist.")
+        self.assertNotContains(
+            response,
+            "AdminLtePdq Warning: The page you were looking for does not exist.",
+        )
 
-    @override_settings(DEBUG=False)
-    def test_404_view_works_when_triggered_and_followed_in_prod(self):
-        """Test 404 view works when triggered"""
+    @override_settings(DEBUG=True, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_404_message_display_when_triggered_and_followed_in_dev_and_messages_off(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            "AdminLtePdq Warning: The page you were looking for does not exist.",
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    def test_404_message_display_when_triggered_and_followed_in_prod(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are allowed."""
 
         self.client.force_login(self.test_user_no_perms)
 
@@ -754,9 +890,10 @@ class ViewsTestCase(TestCase):
         )
 
     @override_settings(DEBUG=False)
-    @patch("adminlte2_pdq.middleware.RESPONSE_404_PRODUCTION_MESSAGE", "")
-    def test_404_view_works_when_triggered_and_followed_in_prod_and_no_message_set(self):
-        """Test 404 view works when triggered"""
+    @patch("adminlte2_pdq.constants.RESPONSE_404_DEBUG_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_404_DEBUG_MESSAGE", "")
+    def test_404_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set(self):
+        """Verify 404 doesn't display when triggered in dev with no message set."""
 
         self.client.force_login(self.test_user_no_perms)
 
@@ -769,3 +906,23 @@ class ViewsTestCase(TestCase):
                 "If you believe this was an error, please contact the site administrator."
             ),
         )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    def test_404_message_not_display_when_triggered_and_followed_in_prod_and_messages_off(self):
+        """Verify 404 doesn't display when triggered, AND prod 403/404 messages are not allowed."""
+
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    # endregion Check 403/404 Message Handling

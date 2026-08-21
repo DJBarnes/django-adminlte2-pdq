@@ -25,6 +25,15 @@ REDIRECT_TO_HOME_ON_403 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_403",
 # handled manually by whatever means the user of the package has set up.
 REDIRECT_TO_HOME_ON_404 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_404", True)
 
+
+# Sets if 403 and 404 messages are allowed to show up in production.
+# Enabling can be useful for debugging.
+# Defaults to off, as technically this is a minor security risk.
+# By showing these messages in production, malicious third-parties
+# can use this to gather info on which URLs are valid.
+ALLOW_403_404_MESSAGES_IN_PRODUCTION = getattr(settings, "ADMINLTE2_ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+
+
 # The message to show upon a standard 403 "missing permissions" redirect.
 # To skip showing messages, change either setting to a blank string.
 # The `debug` message only shows if the above ADMINLTE_DEBUG = True. Otherwise the `production` message shows.

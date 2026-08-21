@@ -10,6 +10,7 @@ from django.shortcuts import redirect, render
 
 # Internal Imports.
 from adminlte2_pdq.constants import (
+    ALLOW_403_404_MESSAGES_IN_PRODUCTION,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
 )
@@ -97,9 +98,10 @@ def view_404(request, exception):
             messages.debug(request, str(exception))
             logger.warning(str(exception))
     else:
-        # Handle output when DEBUG = False.
-        if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
-            messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+        # Handle output in production mode (when DEBUG = False).
+        if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
+            if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
     # Redirect to home.
     home_route = getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home")
