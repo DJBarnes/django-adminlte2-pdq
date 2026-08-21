@@ -22,6 +22,7 @@ from .constants import (
     LOGIN_EXEMPT_WHITELIST,
     LOGIN_EXEMPT_FUZZY_WHITELIST,
     ALLOW_403_404_MESSAGES_IN_PRODUCTION,
+    ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD,
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
@@ -123,9 +124,20 @@ class AuthMiddleware:
                     logger.warning(RESPONSE_404_DEBUG_MESSAGE)
             else:
                 # Handle output in production mode (when DEBUG = False).
+
+                # First make sure production messages are enabled at all.
                 if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-                    if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
-                        messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+
+                    # Handle based on if we want to display only to auth'd users or not.
+                    if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
+                        # Require auth to display messages.
+                        if request.user.is_authenticated:
+                            if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+                    else:
+                        # Handle the same for all users.
+                        if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                            messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
@@ -170,9 +182,20 @@ class AuthMiddleware:
             else:
                 # Handle output in production mode (when DEBUG = False).
                 warning_message = ""
+
+                # First make sure production messages are enabled at all.
                 if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-                    if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
-                        warning_message = RESPONSE_403_PRODUCTION_MESSAGE
+
+                    # Handle based on if we want to display only to auth'd users or not.
+                    if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
+                        # Require auth to display messages.
+                        if request.user.is_authenticated:
+                            if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
+                                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
+                    else:
+                        # Handle the same for all users.
+                        if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
+                            warning_message = RESPONSE_403_PRODUCTION_MESSAGE
 
             # Determine if path is 403 fuzzy whitelisted.
             path_is_403_fuzzy_whitelisted = self.path_starts_with_whitelist_entry(
@@ -483,9 +506,20 @@ class AuthMiddleware:
                 messages.warning(request, warning_message)
             else:
                 # Handle output in production mode (when DEBUG = False).
+
+                # First make sure production messages are enabled at all.
                 if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-                    if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
-                        messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
+
+                    # Handle based on if we want to display only to auth'd users or not.
+                    if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
+                        # Require auth to display messages.
+                        if request.user.is_authenticated:
+                            if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
+                                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
+                    else:
+                        # Handle the same for all users.
+                        if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
+                            messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
 
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""

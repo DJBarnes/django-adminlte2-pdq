@@ -925,6 +925,134 @@ class ViewsTestCase(TestCase):
             ),
         )
 
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", False)
+    def test_404_message_displays_for_everyone_by_default(self):
+        """Verify 404 displays when triggered, regardless of logged in or not."""
+
+        # Check when anonymous.
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+        # Check when logged in.
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", True)
+    def test_404_message_display_when_triggered_and_followed_in_prod_auth_only(self):
+        """Verify 404 displays when triggered, AND prod 403/404 messages are allowed."""
+
+        # Check when anonymous.
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+        # Check when logged in.
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.constants.RESPONSE_404_PRODUCTION_MESSAGE", "")
+    @patch("adminlte2_pdq.middleware.RESPONSE_404_PRODUCTION_MESSAGE", "")
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", True)
+    def test_404_message_not_display_when_triggered_and_followed_in_prod_and_no_message_set_auth_only(self):
+        """Verify 404 doesn't display when triggered in dev with no message set."""
+
+        # Check when anonymous.
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+        # Check when logged in.
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+    @override_settings(DEBUG=False, ALLOW_403_404_MESSAGES_IN_PRODUCTION=False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION", False)
+    @patch("adminlte2_pdq.constants.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", True)
+    @patch("adminlte2_pdq.middleware.ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD", True)
+    def test_404_message_not_display_when_triggered_and_followed_in_prod_and_messages_off_auth_only(self):
+        """Verify 404 doesn't display when triggered, AND prod 403/404 messages are not allowed."""
+
+        # Check when anonymous.
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
+        # Check when logged in.
+        self.client.force_login(self.test_user_no_perms)
+
+        response = self.client.get("unknown/route/", follow=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(
+            response,
+            (
+                "Unable to locate the requested page. "
+                "If you believe this was an error, please contact the site administrator."
+            ),
+        )
+
     # endregion Check 403/404 Message Handling
 
     # region Check "next" redirect URL handling

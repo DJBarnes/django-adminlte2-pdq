@@ -33,6 +33,13 @@ REDIRECT_TO_HOME_ON_404 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_404",
 # By showing these messages in production, malicious third-parties
 # can use this to gather info on which URLs are valid.
 ALLOW_403_404_MESSAGES_IN_PRODUCTION = getattr(settings, "ADMINLTE2_ALLOW_403_404_MESSAGES_IN_PRODUCTION", True)
+# Alternatively, you can disable these 403/404 messages only when a user is not authenticated.
+# False means it will show for all users. True means it will only show if a user is authenticated.
+ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD = getattr(
+    settings,
+    "ADMINLTE2_ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD",
+    False,
+)
 
 
 # The message to show upon a standard 403 "missing permissions" redirect.

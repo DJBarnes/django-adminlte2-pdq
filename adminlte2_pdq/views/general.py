@@ -11,6 +11,7 @@ from django.shortcuts import redirect, render
 # Internal Imports.
 from adminlte2_pdq.constants import (
     ALLOW_403_404_MESSAGES_IN_PRODUCTION,
+    ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
 )
@@ -99,9 +100,20 @@ def view_404(request, exception):
             logger.warning(str(exception))
     else:
         # Handle output in production mode (when DEBUG = False).
+
+        # First make sure production messages are enabled at all.
         if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-            if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
-                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+
+            # Handle based on if we want to display only to auth'd users or not.
+            if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
+                # Require auth to display messages.
+                if request.user.is_authenticated:
+                    if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                        messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+            else:
+                # Handle the same for all users.
+                if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                    messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
     # Redirect to home.
     home_route = getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home")
