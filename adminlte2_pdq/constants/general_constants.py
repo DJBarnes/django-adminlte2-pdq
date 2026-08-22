@@ -16,11 +16,11 @@ BOLD_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_BOLD_REQUIRED_FIELDS", True)
 ASTERISK_REQUIRED_FIELDS = getattr(settings, "ADMINLTE2_ASTERISK_REQUIRED_FIELDS", True)
 
 
-# Whether the system should use it's default functionality of redirecting users
+# Whether the system should use its default functionality of redirecting users
 # to the home page on a 403 error, or just raise a 403 error that should be
 # handled manually by whatever means the user of the package has set up.
 REDIRECT_TO_HOME_ON_403 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_403", True)
-# Whether the system should use it's default functionality of redirecting users
+# Whether the system should use its default functionality of redirecting users
 # to the home page on a 404 error, or just raise a 404 error that should be
 # handled manually by whatever means the user of the package has set up.
 REDIRECT_TO_HOME_ON_404 = getattr(settings, "ADMINLTE2_REDIRECT_TO_HOME_ON_404", True)
@@ -63,7 +63,10 @@ RESPONSE_403_PRODUCTION_MESSAGE = str(
     getattr(
         settings,
         "ADMINLTE2_RESPONSE_403_PRODUCTION_MESSAGE",
-        "Unable to locate the requested page. If you believe this was an error, please contact the site administrator.",
+        (
+            "Unable to locate the requested page. "
+            "If you believe this was an error, please contact the site administrator."
+        ),
     )
 ).strip()
 

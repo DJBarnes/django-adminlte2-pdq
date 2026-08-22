@@ -94,7 +94,7 @@ STRICT_POLICY_FUZZY_WHITELIST = tuple(
 )
 
 # Project-wide serve 403 whitelist.
-# These take either a exact url or url base of urls that should serve a 403
+# These take either an exact url or url base of urls that should serve a 403
 # and not redirect to the home page when strict mode is enabled.
 # Useful for specific url patterns that will handle authentication and authorization manually.
 
@@ -114,7 +114,7 @@ STRICT_POLICY_SERVE_403_FUZZY_WHITELIST = tuple(
 )
 
 # Project-wide serve 404 whitelist.
-# These take either a exact url or url base of urls that should serve a 404
+# These take either an exact url or url base of urls that should serve a 404
 # and not redirect to the home page when strict mode is enabled.
 # Useful for uncontrollable requests that come from a browser or an extension.
 
@@ -139,10 +139,12 @@ def get_strict_policy():
     """Get the STRICT_POLICY constant value"""
 
     strict_policy = getattr(settings, "ADMINLTE2_USE_STRICT_POLICY", False)
+
     # Verify state of whitelist values against chosen policy.
     if not strict_policy and getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", []) != []:
         # Permission whitelisted, but outside of STRICT mode.
         raise ImproperlyConfigured("Can't use ADMINLTE2_STRICT_POLICY_WHITELIST outside of STRICT_POLICY = True.")
+
     # Return the strict policy
     return strict_policy
 
@@ -161,6 +163,7 @@ def get_login_required_policy(strict_policy):
     if not login_policy and getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", []) != []:
         # Login whitelisted, but outside of LOGIN_REQUIRED mode.
         raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True.")
+
     # Return the strict policy
     return login_policy
 
