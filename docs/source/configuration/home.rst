@@ -24,6 +24,8 @@ ADMINLTE2_HOME_ROUTE
 Set the "Home" route for your project. This tells the package where to redirect
 users when they click a link that is designed to take the user home.
 
+For additional routes defined in settings, see :doc:`./known_routes`.
+
 :Type: ``string``
 :Default: ``adminlte2_pdq:home``
 
