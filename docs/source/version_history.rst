@@ -1,6 +1,47 @@
 Version History
 ***************
 
+0.2.2 - Improved 403/404 Handling, Plus Improved Documentation
+==============================================================
+
+* Updated package 403/404 handling to be optional, so users are no longer
+  forced to use the built-in package 403/404 logic.
+
+  * Includes several new settings to customize 403/404 handling in various
+    ways.
+    See package documentation for details.
+
+* Expanded package documentation, to better match changes from the version
+  2.0 and 2.1 updates.
+
+* Partially reworked package CSS for organization and consistency.
+
+  * Include general CSS file improvements all-around.
+    But in particular, anything regarding colors for reusable elements is
+    now refactored and much more organized.
+
+  * Added the ability (and examples) to make additional
+    custom colors for existing reusable elements, including
+    examples and documentation of of how to get custom colors to show up
+    in the Demo CSS pages.
+    In case the provided colors were insufficient.
+
+* Reworked "Demo CSS" pages to be much more thorough and helpful.
+
+  * There is now a proper page for every main reusable element in the
+    package.
+    Including a select few custom elements above and beyond what the original
+    AdminLTE provided.
+
+  * Note: Some elements from the original AdminLTE (mostly related to graphs
+    and charts) do not have "Demo CSS" pages in PDQ.
+    That is because they are not (yet) supported for the full, expanded
+    coloring logic that PDQ provides.
+    For any elements missing from the "Demo CSS" pages, please see the
+    original AdminLTE docs for examples.
+
+* Minor bugfixes, mostly with the sidebar.
+
 0.2.1 - Filters, Commands, Messages, 404s, and Tree Nodes
 =========================================================
 
