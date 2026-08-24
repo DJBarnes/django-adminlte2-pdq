@@ -129,6 +129,11 @@ CSS_MENU = [
                                 "text": "Modals",
                                 "icon": "fa fa-circle-o",
                             },
+                            {
+                                "route": "adminlte2_pdq:demo-css-full-span-links",
+                                "text": "Full-Span Links",
+                                "icon": "fa fa-circle-o",
+                            },
                         ],
                         "icon": "fa fa-laptop",
                     },
@@ -146,6 +151,11 @@ CSS_MENU = [
                         "route": "adminlte2_pdq:demo-css-tables",
                         "text": "Tables",
                         "icon": "fa fa-table",
+                    },
+                    {
+                        "route": "adminlte2_pdq:demo-css-forms",
+                        "text": "Forms",
+                        "icon": "fa fa-square-o",
                     },
                 ],
             },

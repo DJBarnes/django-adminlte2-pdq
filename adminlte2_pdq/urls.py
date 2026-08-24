@@ -26,6 +26,8 @@ urlpatterns = [
             [
                 path("boxes/standard/", views.demo_css_boxes_standard, name="demo-css-boxes-standard"),
                 path("boxes/solid/", views.demo_css_boxes_solid, name="demo-css-boxes-solid"),
+                path("forms/", views.demo_css_forms, name="demo-css-forms"),
+                path("full-span-links/", views.demo_css_full_span_links, name="demo-css-full-span-links"),
                 path("tables/", views.demo_css_tables, name="demo-css-tables"),
                 path("typography/", views.demo_css_typography, name="demo-css-typography"),
                 path(

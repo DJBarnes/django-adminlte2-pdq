@@ -1,0 +1,112 @@
+{# Full-Span-Links #}
+
+<div class="box box-primary">
+
+  {# Start Box Head #}
+  <div class="box-header">
+
+    <i class="fa fa-edit"></i>
+    &nbsp;
+    <h3 class="box-title">Table Full-Span Links</h3>
+
+    {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+
+  </div>
+  {# End Box Head #}
+
+  {# Start Box Body #}
+  <div class="box-body pad">
+
+    <p>
+      <span class="text-blue">Note:</span> There is no way to apply a full-span-link to the entire table at once.
+      It needs to be added per <code>&lt;th&gt;</code>&#47;<code>&lt;td&gt;</code> element.
+    </p>
+    <p>
+      If you want to have the entire table be a clickable link, then you will need to add the same full-span-link to
+      every child <code>&lt;th&gt;</code>&#47;<code>&lt;td&gt;</code> element within the table.
+    </p>
+
+    {# Table with full-span-link #}
+    <table class="table table-bordered">
+
+      <thead>
+
+        <tr class="navy">
+
+          <th class="text-center" colspan="3">
+
+            {# This is what creates our link. #}
+            <a class="full-span-link" href="#" ></a>
+
+            Table header <code>&lt;th&gt;</code> element with a Full-Span Link.
+          </th>
+
+        </tr>
+
+        <tr class="navy">
+
+          {% for i2 in '123'|make_list %}
+
+            <th class="text-center">
+
+              {# This is what creates our link. #}
+              <a class="full-span-link" href="#" ></a>
+
+              Table header <code>&lt;th&gt;</code> element with a Full-Span Link.
+            </th>
+
+          {% endfor %}
+
+        </tr>
+
+      </thead>
+
+      <tbody class="navy">
+
+        {% for i1 in '123'|make_list %}
+          <tr class="navy">
+
+            {% for i2 in '123'|make_list %}
+
+              <td>
+
+                {# This is what creates our link. #}
+                <a class="full-span-link" href="#" ></a>
+
+                Table body <code>&lt;td&gt;</code> element with a Full-Span Link.
+              </td>
+
+            {% endfor %}
+
+          </tr>
+        {% endfor %}
+
+      </tbody>
+
+      <tfoot>
+
+        <tr class="navy">
+
+          {% for i1 in '123'|make_list %}
+
+            <th class="text-center">
+
+              {# This is what creates our link. #}
+              <a class="full-span-link" href="#" ></a>
+
+              Table footer <code>&lt;th&gt;</code> element with a Full-Span Link.
+            </th>
+
+          {% endfor %}
+
+        </tr>
+
+      </tfoot>
+
+    </table>
+    {# End Table with full-span-link #}
+
+  </div>
+  {# End Box Body #}
+
+</div>

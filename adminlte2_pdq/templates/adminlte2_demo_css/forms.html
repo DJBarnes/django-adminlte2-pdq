@@ -6,8 +6,8 @@
   <h1>
     Demo CSS
     &nbsp; &#124; &nbsp;
-    Buttons (Specialized)
-    <small>Preview of Specialized Button Elements</small>
+    Forms
+    <small>Preview of Form Elements</small>
   </h1>
 
   {% block breadcrumbs %}
@@ -19,9 +19,11 @@
 
 {% block content %}
 
-  {# Specialized Buttons #}
+  {# Labels #}
   <div class="row">
-    {% include 'adminlte2_demo_css/partials/buttons/buttons_specialized.html' %}
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/forms.html' %}
+    </div>
   </div>
 
 {% endblock content %}

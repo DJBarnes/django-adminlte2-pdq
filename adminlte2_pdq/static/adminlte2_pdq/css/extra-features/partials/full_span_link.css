@@ -15,6 +15,7 @@ a.full-span-link {
     right: 0;
     left: 0;
     bottom: 0;
+    z-index: 1000;
 
     opacity: 10%;
 
@@ -25,6 +26,12 @@ a.full-span-link {
 /**
  * Modified "parent elements" to work with the full-span-link element.
  */
+
+
+/* Alert element. */
+.alert .close {
+    z-index: 1001;
+}
 
 
 /* Info-box element. */
@@ -39,6 +46,15 @@ a.full-span-link {
 /* Small-box element. */
 .small-box:hover a.full-span-link {
     background-color: #fff;
+}
+
+
+/* State widget element. */
+.box .box-body.state-widget-body {
+    position: relative;
+}
+.box.state-widget .box-tools {
+    z-index: 1001;
 }
 
 
