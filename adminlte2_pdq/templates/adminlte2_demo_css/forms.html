@@ -1,0 +1,29 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Forms
+    <small>Preview of Form Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  {# Labels #}
+  <div class="row">
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/forms.html' %}
+    </div>
+  </div>
+
+{% endblock content %}

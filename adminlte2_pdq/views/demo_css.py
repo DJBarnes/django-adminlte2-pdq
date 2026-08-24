@@ -134,6 +134,32 @@ def demo_css_carousels(request):
     )
 
 
+def demo_css_forms(request):
+    """Show example form elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/forms.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
+def demo_css_full_span_links(request):
+    """Show example full-span link elements."""
+
+    return render(
+        request,
+        "adminlte2_demo_css/full_span_links.html",
+        {
+            "bootstrap_types": BOOTSTRAP_TYPES,
+            "ADMINLTE2_MENU": CSS_MENU,
+        },
+    )
+
+
 def demo_css_labels(request):
     """Show example label elements."""
 

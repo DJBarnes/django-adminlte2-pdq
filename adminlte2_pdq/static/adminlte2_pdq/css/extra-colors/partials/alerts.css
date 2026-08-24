@@ -131,6 +131,9 @@
     background-color: var(--navy-base-color) !important;
     border-color: var(--navy-border-color);
 }
+.alert.alert-navy .close {
+    color: #fff;
+}
 
 
 /* Blue coloring. */
@@ -194,4 +197,7 @@
     color: var(--black-text-color) !important;
     background-color: var(--black-base-color) !important;
     border-color: var(--black-border-color);
+}
+.alert.alert-black .close {
+    color: #fff;
 }

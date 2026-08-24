@@ -1,0 +1,53 @@
+{% extends "adminlte2_demo_css/main.html" %}
+
+
+{% block content_header %}
+
+  <h1>
+    Demo CSS
+    &nbsp; &#124; &nbsp;
+    Full-Span Links
+    <small>Preview of Full-Span-Link Elements</small>
+  </h1>
+
+  {% block breadcrumbs %}
+    {{ block.super }}
+  {% endblock breadcrumbs %}
+
+{% endblock content_header %}
+
+
+{% block content %}
+
+  <p>
+    Below are elements that have "full-span links", aka
+    <code>&lt;a&gt;</code> links that cover the full larger element.
+  </p>
+  <p>
+    Can be useful when you want more than just a standard button that is still click-able and leads to a new page.
+  </p>
+
+  {# Full-Span-Links #}
+  <div class="row">
+
+    <div class="col-xs-6">
+      {% include 'adminlte2_demo_css/partials/full_span_links/alerts.html' %}
+    </div>
+
+    <div class="col-xs-6">
+      {% include 'adminlte2_demo_css/partials/full_span_links/callouts.html' %}
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <div class="col-xs-12">
+      {% include 'adminlte2_demo_css/partials/full_span_links/info_boxes.html' %}
+      {% include 'adminlte2_demo_css/partials/full_span_links/small_boxes.html' %}
+      {% include 'adminlte2_demo_css/partials/full_span_links/state_widgets.html' %}
+      {% include 'adminlte2_demo_css/partials/full_span_links/tables.html' %}
+    </div>
+  </div>
+
+{% endblock content %}
