@@ -457,10 +457,7 @@ class AuthMiddleware:
                 warnings.warn(warning_message, RuntimeWarning)
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
-            else:
-                # Error if in production mode.
-                # Create Django Messages warning.
-                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
+            # In production, the 403 handling in run_auth_checks adds the production message.
 
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""

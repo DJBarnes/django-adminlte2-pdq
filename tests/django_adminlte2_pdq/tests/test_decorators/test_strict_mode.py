@@ -7,11 +7,14 @@ from unittest.mock import patch
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
+from django.contrib.messages import get_messages
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
+from django.urls import reverse
 from pytest import warns
 
 # Internal Imports.
+from adminlte2_pdq.middleware import RESPONSE_403_PRODUCTION_MESSAGE
 from .base_test_case import BaseDecoratorTestCase, LOGIN_WHITELIST_VIEWS, PERM_WHITELIST_VIEWS
 
 
@@ -395,6 +398,16 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase, StrictModeMixin)
         self.assertTrue(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
         self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+
+    @override_settings(DEBUG=False)
+    def test__no_decorators__production_403_message_shown_once(self):
+        """In production, a view with no decorators adds the 403 message once, not twice."""
+
+        self.client.force_login(self.none_user)
+        response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
+
+        message_texts = [str(message) for message in get_messages(response.wsgi_request)]
+        self.assertEqual(1, message_texts.count(RESPONSE_403_PRODUCTION_MESSAGE))
 
     @override_settings(DEBUG=False)
     @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False)
