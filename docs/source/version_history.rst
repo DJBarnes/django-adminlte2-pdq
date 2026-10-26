@@ -1,6 +1,36 @@
 Version History
 ***************
 
+Unreleased
+==========
+
+* Add the ``ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST`` setting. Paths
+  that start with an entry in this list raise ``PermissionDenied`` on a failed
+  permission check instead of redirecting to the home page.
+
+* Setting ``ADMINLTE2_REDIRECT_TO_HOME_ON_403`` to ``False`` now turns off the
+  redirect to the home page for both the middleware and the
+  ``PermissionRequiredMixin``. Views without a permission decorator or mixin
+  raise ``PermissionDenied``.
+
+* The login redirect now keeps the query string of the requested page in the
+  ``next`` parameter, URL-encodes it, and supports a URL name in
+  ``LOGIN_URL``.
+
+* Fix the sidebar menu growing on every request when
+  ``ADMINLTE2_MENU_FIRST`` is provided through view context.
+
+* Fix a ``KeyError`` when a sidebar tree contains a nested tree without a
+  ``route``.
+
+* Fix sidebar nodes being marked active when they should not be.
+
+* Fix ``ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST`` matching only exact
+  paths instead of path prefixes.
+
+* Fix the 403 production message being shown twice in strict mode for views
+  without a decorator.
+
 0.2.1 - Filters, Commands, Messages, 404s, and Tree Nodes
 =========================================================
 
