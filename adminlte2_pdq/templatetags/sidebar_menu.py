@@ -131,7 +131,7 @@ def render_section(context, section):
     # Get our set of nodes.
     nodes = section.get("nodes")
 
-    # Check that
+    # Check that the user can see at least one node in the section.
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
 
     return {
@@ -164,6 +164,8 @@ def render_tree(context, node):
     if _determine_node_active_status(node, context["request"]):
         active = True
     for inner_node in node["nodes"]:
+        # Nested trees may omit a route, the same as top-level trees. Links must have one.
+        ensure_node_has_url_property(inner_node, required=not inner_node.get("nodes"))
         if _determine_node_active_status(inner_node, context["request"]):
             active = True
     node["active"] = active
@@ -745,13 +747,6 @@ def check_for_node_that_matches_request_path(request, nodes):
 
         # Handle for each node in our set of nodes.
         for node in nodes:
-
-            # Skip nodes that exclusively exist for separation.
-            is_separator = node.get("separator", False)
-            if is_separator:
-                # Is "separator" node.
-                # Purely exist for visual clarity. No urls to match.
-                continue
 
             # Check children of this node, if any.
             child_nodes = node.get("nodes")
