@@ -149,10 +149,7 @@ omit = [
     "*/management/commands/*.py",
     # Omit init files.
     "*/__init__.py",
-    # Omit setup files.
-    "./setup.py",
     # Omit Testing Scripts.
-    "./runpytests.py",
     "./runtests.py",
 ]
 

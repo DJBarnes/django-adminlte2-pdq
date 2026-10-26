@@ -21,8 +21,8 @@ We'd also love PRs. If you're thinking of a large PR, we advise opening up an is
 1. Configure and install Pipenv: `python -m pip install pipenv`.
 1. Create a virtual environment using pipenv for the latest supported version of python.
 1. Configure and install the dependencies: `pipenv sync --dev`.
-1. Make sure the tests pass on your machine: `./runpytests.py`.
-1. Ensure you are able to run tests with code coverage: `./coverage_tests.sh`.
+1. Make sure the tests pass on your machine: `pipenv run python runtests.py`.
+1. Ensure you are able to run tests with code coverage: `pipenv run python runtests.py --with-coverage`.
 1. Create a new branch: `git checkout -b my-branch-name`.
 1. Make your change, add tests, and make sure the tests still pass.
 1. Push to your fork and [submit a pull request][pr].
