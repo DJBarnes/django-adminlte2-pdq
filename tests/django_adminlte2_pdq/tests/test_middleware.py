@@ -268,6 +268,29 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
             self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
             self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')
 
+    def test__login_redirect_next_url(self):
+        """The login redirect passes the requested path, including any query string, as "next"."""
+
+        with self.subTest("Path only"):
+            response = self.client.get("/demo-css/")
+
+            self.assertRedirects(response, "/accounts/login/?next=/demo-css/", fetch_redirect_response=False)
+
+        with self.subTest("Path with query string"):
+            response = self.client.get("/demo-css/?tab=1&sort=name")
+
+            self.assertRedirects(
+                response,
+                "/accounts/login/?next=/demo-css/%3Ftab%3D1%26sort%3Dname",
+                fetch_redirect_response=False,
+            )
+
+        with self.subTest("LOGIN_URL is a url name"):
+            with patch("adminlte2_pdq.middleware.LOGIN_URL", "login"):
+                response = self.client.get("/demo-css/")
+
+            self.assertRedirects(response, "/accounts/login/?next=/demo-css/", fetch_redirect_response=False)
+
     @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", UPDATED_LOGIN_EXEMPT_WHITELIST)
     def test__with_login_whitelist(self):
         """Test when "LOGIN_REQUIRED" mode and login whitelist is set."""

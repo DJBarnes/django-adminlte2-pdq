@@ -8,6 +8,7 @@ import warnings
 from django.http import Http404
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.shortcuts import redirect
 from django.urls import resolve, is_valid_path
@@ -135,7 +136,7 @@ class AuthMiddleware:
             # User not logged in and view requires login to access.
 
             # Redirect to login page.
-            return redirect(LOGIN_URL + f"?next={request.path}")
+            return redirect_to_login(request.get_full_path(), LOGIN_URL)
 
         # Check any post login error states.
         # NOTE: This call need to happen after we do the above Login Required checking.
