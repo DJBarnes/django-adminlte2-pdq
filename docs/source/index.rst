@@ -119,6 +119,7 @@ and more, to aid in the rapid development of a site.
    configuration/admin
    configuration/authorization
    configuration/form
+   configuration/front_end_styling
 
 
 .. toctree::

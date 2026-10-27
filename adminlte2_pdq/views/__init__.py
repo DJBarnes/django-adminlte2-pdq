@@ -1,20 +1,14 @@
-"""
-Imports view logic for "views" folder.
-Makes project imports to this folder behave like a standard single file.
-"""
+"""Django AdminLTE2 Views"""
 
-# General view imports.
+# Internal Imports.
 from .general import (
     home,
     register,
     sample_form,
     sample1,
     sample2,
-    view_404,
 )
-
-# Demo css view imports.
-from .demo_css import (
+from .demo import (
     demo_css,
     demo_css_alerts,
     demo_css_boxes_solid,

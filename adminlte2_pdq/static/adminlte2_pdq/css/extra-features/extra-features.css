@@ -4,12 +4,18 @@
  *
  * For package clarity and organization, this file only imports other files.
  * All logic should be split into the `partials` subfolder.
+ * To leave a partial out, override the `styles_main_fixes__extra_features` template block
+ * and import the partials you want.
  */
 
 
-@import "./partials/general_classes.css";
+@import "./partials/forms.css";
+@import "./partials/utilities.css";
+@import "./partials/user_image.css";
+@import "./partials/dropdown_menu.css";
+@import "./partials/tooltips.css";
+@import "./partials/sidebar.css";
 @import "./partials/font_awesome_5.css";
-@import "./partials/form_adjustments.css";
+@import "./partials/header_breadcrumb_overlap_fix.css";
 @import "./partials/full_span_link.css";
 @import "./partials/wiggle.css";
-@import "./partials/extra_features_misc.css";

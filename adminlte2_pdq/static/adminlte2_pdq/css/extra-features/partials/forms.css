@@ -1,0 +1,44 @@
+/**
+ * Form styles: label weights, file input buttons, and checkbox error colors.
+ */
+
+
+label {
+    font-weight: 400;
+}
+label.required {
+    font-weight: 700;
+}
+.checkbox label.required {
+    font-weight: 700;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+/* Form tweaks */
+/*
+Show form errors for checkboxes too.
+(Based on '.form-group.has-error .help-block')
+*/
+.checkbox.has-error .help-block,
+.checkbox.has-error label {
+    color: #dd4b39;
+}

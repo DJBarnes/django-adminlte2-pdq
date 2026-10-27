@@ -1,3 +1,4 @@
+{% load adminlte_filters %}
 {# Carousels #}
 {% load static %}
 
@@ -5,7 +6,7 @@
 {% for bootstrap_type in bootstrap_types %}
 
   <div
-    class="col-sm-3 flex-column flex-center flex-grow-children bg-{{ bootstrap_type }}"
+    class="col-sm-3 pdq-flex-column pdq-flex-center pdq-flex-grow-children bg-{{ demo_bg_names|dict_get:bootstrap_type }}"
     style="min-height: 500px; padding-top: 20px; padding-bottom: 20px;"
   >
 
@@ -59,7 +60,7 @@
 
     <div
       id="carousel-example-generic-{{ bootstrap_type }}-bg"
-      class="carousel slide col-xs-12 bg-{{ bootstrap_type }}"
+      class="carousel slide col-xs-12 bg-{{ demo_bg_names|dict_get:bootstrap_type }}"
       data-ride="carousel"
     >
 

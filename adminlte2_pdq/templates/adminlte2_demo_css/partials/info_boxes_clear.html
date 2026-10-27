@@ -1,3 +1,4 @@
+{% load adminlte_filters %}
 {# Info Boxes #}
 
 
@@ -23,7 +24,7 @@
 
       {# Example Elements Start Here #}
       <div class="info-box">
-        <span class="info-box-icon bg-{{ bootstrap_type }}">
+        <span class="info-box-icon bg-{{ demo_bg_names|dict_get:bootstrap_type }}">
           <i class="fa fa-envelope-o"></i>
         </span>
         <div class="info-box-content">

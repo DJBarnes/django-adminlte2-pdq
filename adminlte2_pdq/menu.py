@@ -64,6 +64,7 @@ MENU = [
 
 
 # Used only on the demo-css pages.
+# The demo views add the default menu's Profile and Samples sections when their routes are registered.
 CSS_MENU = [
     {
         "text": "Home",
@@ -75,11 +76,13 @@ CSS_MENU = [
             },
             {
                 "text": "Demo CSS",
+                "icon": "fa fa-file",
                 "nodes": [
                     {
                         "route": "adminlte2_pdq:demo-css",
                         "text": "Demo CSS Home",
                         "icon": "fa fa-home",
+                        "active_requires_exact_url_match": True,
                     },
                     {
                         "route": "adminlte2_pdq:demo-css-typography",
@@ -156,42 +159,6 @@ CSS_MENU = [
                         "route": "adminlte2_pdq:demo-css-forms",
                         "text": "Forms",
                         "icon": "fa fa-square-o",
-                    },
-                ],
-            },
-        ],
-    },
-    {
-        "text": "Profile",
-        "nodes": [
-            {
-                "route": "password_change",
-                "text": "Change Password",
-                "icon": "fa fa-lock",
-            }
-        ],
-    },
-    {
-        "text": "Samples",
-        "nodes": [
-            {
-                "route": "adminlte2_pdq:sample_form",
-                "text": "Sample Form",
-                "icon": "fa fa-list-alt",
-            },
-            {
-                "route": "adminlte2_pdq:sample1",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            },
-            {
-                "text": "Sample Tree",
-                "icon": "fa fa-leaf",
-                "nodes": [
-                    {
-                        "route": "adminlte2_pdq:sample2",
-                        "text": "Sample2",
-                        "icon": "fa fa-building",
                     },
                 ],
             },

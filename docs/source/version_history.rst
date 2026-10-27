@@ -4,6 +4,96 @@ Version History
 Unreleased
 ==========
 
+* Extra color classes are now generated from one palette and cover every
+  AdminLTE color plus ``default``, ``error``, and ``indigo``: backgrounds
+  (``bg-{color}``, ``bg-{color}-active``), text, code tints
+  (``code-{color}``), alerts, boxes, buttons, callouts, carousels
+  (``carousel-{color}``), dropdown menus (``dropdown-menu-{color}``), labels,
+  modals, table rows and cells, bordered tables (``table-border-{color}``),
+  and tooltips (``tooltip-{color}``). Classes that AdminLTE or Bootstrap
+  already define are not changed.
+
+* Colors are CSS custom properties named ``--pdq-{color}-{part}``, defined in
+  ``adminlte2_pdq/css/extra-colors/color-variables.css``. Redefine them in
+  your own CSS to change a color.
+
+* Add ``python -m adminlte2_pdq.color_css --custom NAME BASE``, which prints
+  the CSS for a project's own color: its custom properties and every color
+  class.
+
+* Existing extra color classes now use AdminLTE's color values:
+
+  * ``*-black``: ``#2b2b2b`` is now ``#111`` (AdminLTE's ``bg-black``).
+  * ``*-gray``: ``#b5bbc8`` is now ``#d2d6de`` with ``#000`` text
+    (AdminLTE's ``bg-gray``).
+  * ``alert-default``, ``callout-default``, and ``tooltip-default`` use the
+    ``btn-default`` grey, ``#f4f4f4``.
+  * ``alert-primary``, ``callout-primary``, and ``tooltip-primary``:
+    ``#337ab7`` is now ``#3c8dbc`` (AdminLTE's primary).
+  * Table rows and cells with ``orange`` or ``purple`` use the same tints as
+    the other colors. Header and footer cells use the solid color.
+  * Button hover colors and callout and modal border colors for the extra
+    colors follow AdminLTE's convention (5% and 10% darker).
+  * Text on lime is ``#444``.
+
+* Lime backgrounds (``bg-lime``) use dark text instead of white.
+
+* Tooltip colors now work on any element with a ``tooltip-{color}`` class or
+  a ``data-tooltip-color`` attribute. Previously they did not apply, because
+  AdminLTE creates tooltips inside ``<body>``.
+
+* Add utility classes ``pdq-flex``, ``pdq-flex-row``, ``pdq-flex-column``,
+  ``pdq-flex-center``, ``pdq-flex-wrap``, ``pdq-flex-grow``,
+  ``pdq-flex-grow-children``, ``pdq-underline``, ``pdq-no-underline``,
+  ``pdq-clear-border``, and ``pdq-clear-background``.
+
+* Add ``full-span-link``: an ``<a>`` tag with this class covers its parent
+  alert, callout, info box, small box, state widget, or table cell, making the
+  whole element clickable.
+
+* The ``wiggle`` animation is turned off for users who prefer reduced motion.
+
+* Static files moved into ``css/`` and ``js/`` folders under
+  ``adminlte2_pdq/``. The old paths still work and are deprecated:
+
+  * ``extra-features/extra-features.css``: now
+    ``css/extra-colors/color-variables.css``,
+    ``css/extra-colors/extra-colors.css``, and
+    ``css/extra-features/extra-features.css``.
+  * ``extra-features/header-breadcrumb-overlap-fix.css``: now part of
+    ``css/extra-features/extra-features.css``.
+  * ``extra-features/extra-features.js``,
+    ``extra-features/header-breadcrumb-overlap-fix.js``, and
+    ``extra-features/sidebar-state.js``: now in ``js/extra-features/``.
+  * ``conflicts/conflicts.css`` and ``conflicts/conflicts.js``: now
+    ``css/conflicts/conflicts.css`` and ``js/conflicts/conflicts.js``.
+  * ``conflicts/django-admin-conflicts.css``: now
+    ``css/conflicts/django_admin_conflicts.css``.
+
+* The demo CSS page is now a set of pages under ``/demo-css/``: typography,
+  widgets, general UI and color palette, alerts, basic and specialized
+  buttons, carousels, labels and tooltips, modals, full-span links, standard
+  and solid boxes, tables, and forms. The demo pages have their own sidebar
+  menu. Its Profile and Samples sections appear only when their routes are
+  registered.
+
+* Add the ``ADMINLTE2_DEMO_CSS_COLORS`` setting: the colors shown on the demo
+  CSS pages, as ``{name: hex value}``.
+
+* The ``adminlte2/demo_css.html`` template is deprecated. It now extends
+  ``adminlte2_demo_css/home.html``.
+
+* The first item of the default sidebar menu is now labeled "Dashboard"
+  instead of "Home".
+
+* ``adminlte2_pdq.views`` is now a package. Views are still importable from
+  ``adminlte2_pdq.views``.
+
+* The ``styles_main_fixes`` template block contains three new blocks:
+  ``styles_main_fixes__color_variables``,
+  ``styles_main_fixes__extra_colors``, and
+  ``styles_main_fixes__extra_features``.
+
 * Add the ``ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST`` setting. Paths
   that start with an entry in this list raise ``PermissionDenied`` on a failed
   permission check instead of redirecting to the home page.

@@ -1,3 +1,4 @@
+{% load adminlte_filters %}
 {# Small Boxes #}
 
 
@@ -22,7 +23,7 @@
     {% for bootstrap_type in bootstrap_types %}
 
       {# Example Elements Start Here #}
-      <div class="small-box bg-{{ bootstrap_type }}">
+      <div class="small-box bg-{{ demo_bg_names|dict_get:bootstrap_type }}">
         <div class="inner">
           <h3>150</h3>
           <p>{{ bootstrap_type|capfirst }} Small Box</p>

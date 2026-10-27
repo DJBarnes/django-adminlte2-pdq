@@ -23,6 +23,14 @@ adminlte2\_pdq.admin\_menu module
    :show-inheritance:
    :undoc-members:
 
+adminlte2\_pdq.color\_css module
+--------------------------------
+
+.. automodule:: adminlte2_pdq.color_css
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 adminlte2\_pdq.decorators module
 --------------------------------
 

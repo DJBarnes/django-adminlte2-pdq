@@ -14,7 +14,6 @@
 // Close the sidebar if they had it closed before.
 var sidebarState = sessionStorage.getItem("sidebar-open");
 if (sidebarState == 'closed') {
-    var body = document.getElementsByTagName
     $("body").addClass("sidebar-collapse");
 }
 

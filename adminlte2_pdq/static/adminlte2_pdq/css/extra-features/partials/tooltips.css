@@ -1,0 +1,11 @@
+/**
+ * Tooltips.
+ */
+
+
+/*
+Prevent tooltip opacity
+*/
+.tooltip.in {
+    opacity: 1;
+}

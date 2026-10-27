@@ -18,3 +18,9 @@
 .wiggle:hover {
     animation: none;
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .wiggle {
+        animation: none;
+    }
+}

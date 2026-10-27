@@ -4,10 +4,10 @@ adminlte2\_pdq.views package
 Submodules
 ----------
 
-adminlte2\_pdq.views.demo\_css module
--------------------------------------
+adminlte2\_pdq.views.demo module
+--------------------------------
 
-.. automodule:: adminlte2_pdq.views.demo_css
+.. automodule:: adminlte2_pdq.views.demo
    :members:
    :show-inheritance:
    :undoc-members:

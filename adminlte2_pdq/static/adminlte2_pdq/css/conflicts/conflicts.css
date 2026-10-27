@@ -1,11 +1,8 @@
 /**
- * Handling for CSS conflicts within existing/required libraries.
+ * Fixes for conflicts between AdminLTE, Bootstrap, and other libraries.
  *
- * For package clarity and organization, this file only imports other files.
- * All logic should be split into the `partials` subfolder.
+ * This file only imports the partials below.
  */
 
 
-@import "./partials/django_admin_conflicts.css";
-@import "./partials/gravitar_sidebar_text_fix.css";
-@import "./partials/header_breadcrumb_overlap_fix.css";
+@import "./partials/gravatar_sidebar_text_fix.css";

@@ -1,0 +1,32 @@
+/**
+ * Dropdown menu items: allows buttons and inputs in dropdown menus, styled like links.
+ */
+
+
+/* Allow buttons in dropdown-menus and allow coloring with info,primary, etc. */
+.dropdown-menu > li > a, .dropdown-menu > li > input, .dropdown-menu > li > button {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #777;
+    white-space: nowrap;
+    width: 100%;
+    height: 26px;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > input:hover, .dropdown-menu > li > button:hover {
+    background-color: #e1e3e9;
+    color: #333;
+}
+
+.dropdown-menu > li > a:focus, .dropdown-menu > li > input:focus, .dropdown-menu > li > button:focus {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+    outline: none;
+}

@@ -1,0 +1,97 @@
+/**
+ * Utility classes.
+ *
+ * Classes added by this package use the `pdq-` prefix, to avoid collisions with
+ * Bootstrap 4/5 and other CSS frameworks that use the same names.
+ */
+
+
+.separator {
+    padding: 0;
+    color: #848484;
+    background: #f9fafc;
+    line-height: 1px;
+}
+.separator > hr {
+    margin: 0;
+    color: #848484;
+    background: #f9fafc;
+    border-style: inset;
+    border-width: 1px;
+    height: initial;
+}
+
+ul.no-bullets {
+    list-style-type:none;
+    padding:0;
+    padding-left:20px;
+}
+
+.label-large {
+    font-size:inherit;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.font-18 {
+    font-size: 18px;
+}
+
+.remove-top-bottom-padding {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+/* Remove the bottom margin of an alert used as a modal header or footer. */
+.modal-header.alert,
+.modal-footer.alert {
+    margin-bottom: 0;
+}
+
+
+/* Flexbox. */
+.pdq-flex {
+    display: flex;
+}
+.pdq-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+.pdq-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+.pdq-flex-center {
+    justify-content: center;
+    align-items: center;
+}
+.pdq-flex-wrap {
+    flex-wrap: wrap;
+}
+.pdq-flex-grow {
+    flex: 1;
+}
+.pdq-flex-grow-children > * {
+    flex: 1;
+}
+
+
+/* Text decoration. */
+.pdq-underline {
+    text-decoration: underline !important;
+}
+.pdq-no-underline {
+    text-decoration: none !important;
+}
+
+
+/* Borders and backgrounds. AdminLTE provides `.no-border` to remove a border entirely. */
+.pdq-clear-border {
+    /* Keep the border's space, but make it invisible. */
+    border-color: transparent !important;
+}
+.pdq-clear-background {
+    background-color: transparent !important;
+}

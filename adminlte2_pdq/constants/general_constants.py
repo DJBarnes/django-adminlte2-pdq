@@ -3,6 +3,9 @@
 # Third-Party Imports.
 from django.conf import settings
 
+# Internal Imports.
+from adminlte2_pdq import color_css as _color_css
+
 
 # Date/Time picker widgets to use. Valid values are "native", "jquery", "bootstrap".
 DATETIME_WIDGET = getattr(settings, "ADMINLTE2_DATETIME_WIDGET", "native")
@@ -73,29 +76,33 @@ RESPONSE_404_PRODUCTION_MESSAGE = str(
 # Demo CSS Constant
 # Override this to change what color values appear in all the demo css pages.
 # Can be used to remove any unwanted colors, or add new custom colors if desired.
-CSS_COLORS_DICT = dict(
+# Values are {name: hex value}; the hex value is only displayed.
+DEMO_CSS_COLORS = dict(
     getattr(
         settings,
-        "ADMINLTE2_CSS_COLORS_DICT",
+        "ADMINLTE2_DEMO_CSS_COLORS",
         {
-            "default": "#f4f4f4",
-            "primary": "#3c8dbc",
-            "info": "#00c0ef",
-            "success": "#00a65a",
-            "warning": "#f39c12",
-            "danger": "#dd4b39",
-            "navy": "#001f3f",
-            "blue": "#1a94db",
-            "teal": "#39cccc",
-            "olive": "#3d9970",
-            "lime": "#01ff70",
-            "orange": "#ff851b",
-            "fuchsia": "#f012be",
-            "indigo": "#a35cd8",
-            "purple": "#605ca8",
-            "maroon": "#d81b60",
-            "gray": "#d2d6de",
-            "black": "#2b2b2b",
+            name: _color_css.COLORS_BY_NAME[name].base
+            for name in (
+                "default",
+                "primary",
+                "info",
+                "success",
+                "warning",
+                "danger",
+                "navy",
+                "blue",
+                "teal",
+                "olive",
+                "lime",
+                "orange",
+                "fuchsia",
+                "indigo",
+                "purple",
+                "maroon",
+                "gray",
+                "black",
+            )
         },
     )
 )

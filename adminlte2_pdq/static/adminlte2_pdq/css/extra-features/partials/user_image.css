@@ -1,0 +1,56 @@
+/**
+ * User image placeholders that show initials when there is no image.
+ */
+
+
+.user-image-replacement-div {
+    display: inline-block;
+    background: #d2d6de;
+    width: 25px;
+    height: 25px;
+    color: #444;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 2;
+    text-align: center;
+    position: relative;
+    vertical-align: middle;
+}
+
+.user-image-replacement-div > img {
+    position: absolute;
+    top: 2px;
+    left: 0;
+}
+
+.user-chat-image-replacement-div {
+    display: inline-block;
+    background: #d2d6de;
+    width: 40px;
+    height: 40px;
+    color: #444;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 2.3;
+    text-align: center;
+    position: relative;
+}
+
+.user-chat-image-replacement-div > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Keep initials inside user image on mobile */
+@media (max-width: 767px) {
+    .navbar-nav > .user-menu .user-image {
+        float: left;
+        margin-top: -2px;
+        line-height: 2;
+        top: 0;
+    }
+    .navbar-nav > .user-menu .user-image > img {
+        margin-top:0;
+    }
+}

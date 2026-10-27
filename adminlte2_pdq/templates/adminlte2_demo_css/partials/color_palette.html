@@ -1,5 +1,5 @@
 {# Color Palette #}
-{% load adminlte_tags %}
+{% load adminlte_filters %}
 
 
 <div class="box box-default color-palette-box">
@@ -41,15 +41,15 @@
 
       {# Example Elements Start Here #}
       <div class="col-sm-4 col-md-2">
-        <h4 class="text-center bg-text-{{ bootstrap_type }}">{{ bootstrap_type }}</h4>
+        <h4 class="text-center" style="color: var(--pdq-{{ bootstrap_type }}-text);">{{ bootstrap_type }}</h4>
         <div class="color-palette-set">
-          <div class="bg-{{ bootstrap_type }} disabled color-palette">
+          <div class="bg-{{ demo_bg_names|dict_get:bootstrap_type }} disabled color-palette">
             <span>Disabled</span>
           </div>
-          <div class="bg-{{ bootstrap_type }} color-palette">
-            <span>{{ css_color_hex_keys|dict_key:bootstrap_type }}</span>
+          <div class="bg-{{ demo_bg_names|dict_get:bootstrap_type }} color-palette">
+            <span>{{ demo_css_colors|dict_get:bootstrap_type }}</span>
           </div>
-          <div class="bg-{{ bootstrap_type }}-active color-palette">
+          <div class="bg-{{ demo_bg_names|dict_get:bootstrap_type }}-active color-palette">
             <span>Active</span>
           </div>
         </div>

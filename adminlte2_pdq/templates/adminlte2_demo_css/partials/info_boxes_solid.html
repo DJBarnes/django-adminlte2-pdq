@@ -1,3 +1,4 @@
+{% load adminlte_filters %}
 {# Info Boxes #}
 
 
@@ -22,7 +23,7 @@
     {% for bootstrap_type in bootstrap_types %}
 
       {# Example Elements Start Here #}
-      <div class="info-box bg-{{ bootstrap_type }}">
+      <div class="info-box bg-{{ demo_bg_names|dict_get:bootstrap_type }}">
         <span class="info-box-icon">
           <i class="fa fa-calendar"></i>
         </span>

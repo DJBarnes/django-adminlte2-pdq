@@ -3,6 +3,8 @@
  *
  * Basically, add a `.full-span-link` to an <a> tag, to make it stretch
  * across most parent elements, effectively making any element click-able.
+ * Supported parents: alerts, callouts, info boxes, small boxes, state widgets, and table cells.
+ * Other parents need `position: relative`.
  */
 
 
@@ -13,11 +15,11 @@ a.full-span-link {
     position: absolute;
     top: 0;
     right: 0;
-    left: 0;
     bottom: 0;
-    z-index: 1000;
+    left: 0;
+    z-index: 1;
 
-    opacity: 10%;
+    opacity: 0.1;
 
     transition: background-color 0.2s linear;
 }
@@ -28,40 +30,32 @@ a.full-span-link {
  */
 
 
-/* Alert element. */
-.alert .close {
-    z-index: 1001;
-}
-
-
-/* Info-box element. */
-.info-box {
+/* Parents that are not already positioned. */
+.alert:has(> a.full-span-link),
+.callout:has(> a.full-span-link),
+.info-box:has(> a.full-span-link),
+.box .box-body.state-widget-body,
+td:has(> a.full-span-link),
+th:has(> a.full-span-link) {
     position: relative;
 }
-.info-box:hover a.full-span-link {
-    background-color: #fff;
-}
 
 
-/* Small-box element. */
-.small-box:hover a.full-span-link {
-    background-color: #fff;
-}
-
-
-/* State widget element. */
-.box .box-body.state-widget-body {
-    position: relative;
-}
+/* Keep controls inside the parent above the link. */
+.alert:has(> a.full-span-link) .close,
 .box.state-widget .box-tools {
-    z-index: 1001;
-}
-
-
-/* Table elements. */
-table tr, table th, table td {
     position: relative;
+    z-index: 2;
 }
-table:hover a.full-span-link {
+
+
+/* Highlight the link when its parent is hovered. */
+.alert:hover > a.full-span-link,
+.callout:hover > a.full-span-link,
+.info-box:hover > a.full-span-link,
+.small-box:hover > a.full-span-link,
+.box .box-body.state-widget-body:hover > a.full-span-link,
+td:hover > a.full-span-link,
+th:hover > a.full-span-link {
     background-color: #fff;
 }
