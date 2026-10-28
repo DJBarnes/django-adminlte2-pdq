@@ -47,11 +47,9 @@ they will see the sidebar link and have access.
     from adminlte2_pdq.mixins import LoginRequiredMixin
 
     class DemoCss(LoginRequiredMixin, View):
-        """Show examples of extra-features.css"""
-        def get(request):
-            return render(request, 'adminlte2/demo_css.html', {
-                'bootstrap_types': ['primary'],
-            })
+        """Show the demo CSS home page."""
+        def get(self, request):
+            return render(request, 'adminlte2_demo_css/home.html')
 
 
 Permission Required Mixin
@@ -247,7 +245,7 @@ permissions at first, then show how to correct it. The views are as follows:
     class SampleForm(LoginRequiredMixin, View):
         """Show Sample Form Page"""
 
-        def get(request):
+        def get(self, request):
             form = SampleForm()
             return render(request, 'adminlte2/sample_form.html', {'form':form})
 
@@ -266,11 +264,9 @@ permissions at first, then show how to correct it. The views are as follows:
             return render(request, 'adminlte2/sample2.html', {})
 
     class DemoCss(View):
-        """Show examples of extra-features.css"""
-        def get(request):
-            return render(request, 'adminlte2/demo_css.html', {
-                'bootstrap_types': ['primary'],
-            })
+        """Show the demo CSS home page."""
+        def get(self, request):
+            return render(request, 'adminlte2_demo_css/home.html')
 
 
 **What logged out anonymous users can see and access:**
@@ -478,7 +474,7 @@ follows:
     class SampleForm(LoginRequiredMixin, View):
         """Show Sample Form Page"""
 
-        def get(request):
+        def get(self, request):
             form = SampleForm()
             return render(request, 'adminlte2/sample_form.html', {'form':form})
 
@@ -497,11 +493,9 @@ follows:
             return render(request, 'adminlte2/sample2.html', {})
 
     class DemoCss(View):
-        """Show examples of extra-features.css"""
-        def get(request):
-            return render(request, 'adminlte2/demo_css.html', {
-                'bootstrap_types': ['primary'],
-            })
+        """Show the demo CSS home page."""
+        def get(self, request):
+            return render(request, 'adminlte2_demo_css/home.html')
 
 
 **What logged out users can see and access:**

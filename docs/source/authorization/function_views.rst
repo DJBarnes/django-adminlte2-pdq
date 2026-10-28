@@ -56,10 +56,8 @@ they will see the sidebar link and have access.
 
     @login_required
     def demo_css(request):
-        """Show examples of extra-features.css"""
-        return render(request, 'adminlte2/demo_css.html', {
-            'bootstrap_types': ['primary'],
-        })
+        """Show the demo CSS home page."""
+        return render(request, 'adminlte2_demo_css/home.html')
 
 
 Permission Required Decorator
@@ -270,10 +268,8 @@ Below is all the code required to generate these views.
 
 
     def demo_css(request):
-    """Show examples of extra-features.css"""
-    return render(request, 'adminlte2/demo_css.html', {
-        'bootstrap_types': ['primary'],
-    })
+        """Show the demo CSS home page."""
+        return render(request, 'adminlte2_demo_css/home.html')
 
 
 **What logged out anonymous users can see and access:**
@@ -492,10 +488,8 @@ Below is all the code required to generate these views.
 
 
     def demo_css(request):
-    """Show examples of extra-features.css"""
-    return render(request, 'adminlte2/demo_css.html', {
-        'bootstrap_types': ['primary'],
-    })
+        """Show the demo CSS home page."""
+        return render(request, 'adminlte2_demo_css/home.html')
 
 
 **What logged out users can see and access:**
