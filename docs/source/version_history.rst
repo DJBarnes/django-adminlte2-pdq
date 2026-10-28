@@ -139,7 +139,10 @@ Unreleased
 
 * Fix the default home page's images and charts. The template referenced
   AdminLTE files under ``2.3.7``, which the package doesn't include; it now
-  uses the included ``2.3.11`` files.
+  uses the included ``2.3.11`` files. Its chart, map, sparkline, and scroll libraries
+  (Chart.js 1.1.1, jQuery Sparkline, jVectorMap 1.2.2, jQuery slimScroll 1.3.8)
+  are now included with the package, from AdminLTE 2.3.11's plugins, instead
+  of loaded from the adminlte.io demo site.
 
 * Fix the sidebar menu growing on every request when
   ``ADMINLTE2_MENU_FIRST`` is provided through view context.
