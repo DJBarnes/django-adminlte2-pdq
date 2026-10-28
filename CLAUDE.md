@@ -54,6 +54,14 @@ The project runs in one of three modes: loose (default), login-required (`ADMINL
 - **`middleware.AuthMiddleware`** resolves the request URL (`parse_request_data`), reads `admin_pdq_data` from the resolved view, and decides whether to allow, redirect to login, redirect home with a message (403), or raise `Http404`/`PermissionDenied`. It also raises `ImproperlyConfigured` for decorator/policy combinations that conflict (`check_main_error_states`, `check_post_login_check_error_states`). Whitelists come in exact form (route names/URLs) and "fuzzy" form (path prefixes, via `path_starts_with_whitelist_entry`), including the `SERVE_403`/`SERVE_404` fuzzy whitelists.
 - **Sidebar** (`templatetags/sidebar_menu.py`) mirrors the same rules to decide which menu nodes to show (`is_allowed_node`). It resolves each node's route to its view and reads the permissions from that view's decorator or mixin. When auth behavior changes, the middleware and sidebar logic usually both need updating.
 
+### Generated CSS
+
+Some CSS under `adminlte2_pdq/static/adminlte2_pdq/css/` is generated and committed; never edit it by hand. Tests fail when the committed files differ from the generator output.
+
+- `python -m adminlte2_pdq.color_css` writes `css/extra-colors/color-variables.css` (`--pdq-{color}-{part}` custom properties) and `css/extra-colors/extra-colors.css` (color classes for every component). It only emits classes that AdminLTE 2.3.11 / Bootstrap 3.3.7 don't already define, so stock components keep their look. `--custom NAME BASE` prints CSS for a project's own color.
+- `python -m adminlte2_pdq.dark_css` writes `css/dark-mode/dark-skins.css` (AdminLTE skins renamed to `skin-{color}-dark`) and `css/dark-mode/dark-mode.css` from `adminlte2_pdq/css_source/dark_mode.css`, where the `.pdq-dark` prefix expands to `:is(.skin-blue-dark, ...)`. Every dark rule must stay scoped to a dark skin (tested), because the files are always loaded.
+- To check rendering, compare screenshots of the demo pages (`/demo-css/`) in light and dark skins.
+
 ### Menu and templates
 
 - The menu is built from `ADMINLTE2_MENU_FIRST`, `ADMINLTE2_MENU` (default in `menu.py`), the auto-generated admin menu (`admin_menu.py` / `templatetags/admin/`), and `ADMINLTE2_MENU_LAST`. If you change the default `menu.py` routes, also update `_default_routes_are_registered` in `sidebar_menu.py`.
