@@ -2,29 +2,53 @@
 Constants related to package whitelisting.
 """
 
+# System Imports.
+import warnings
+
 # Third-Party Imports.
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.urls import reverse_lazy
 
 
+def get_renamed_setting(name, old_name, default):
+    """Get a setting that was renamed, falling back to its old name with a deprecation warning."""
+    if hasattr(settings, name):
+        return getattr(settings, name)
+    if hasattr(settings, old_name):
+        warnings.warn(
+            f"The {old_name} setting is deprecated and will be removed in a future release. Rename it to {name}.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return getattr(settings, old_name)
+    return default
+
+
 # Known routes that should never require being logged in.
+# LOGIN_URL, MEDIA_URL, and STATIC_URL are Django's own settings. The others are this package's.
 LOGIN_URL = getattr(settings, "LOGIN_URL", reverse_lazy("login"))
-LOGOUT_URL = getattr(settings, "LOGOUT_URL", reverse_lazy("logout"))
-PWD_RESET_ROUTE = getattr(settings, "PWD_RESET_ROUTE", "password_reset")
-PWD_RESET_DONE_ROUTE = getattr(settings, "PWD_RESET_DONE_ROUTE", "password_reset_done")
-PWD_RESET_CONFIRM_ROUTE = getattr(settings, "PWD_RESET_CONFIRM_ROUTE", "password_reset_confirm")
-PWD_RESET_COMPLETE_ROUTE = getattr(settings, "PWD_RESET_COMPLETE_ROUTE", "password_reset_complete")
-REGISTER_ROUTE = getattr(settings, "REGISTER_ROUTE", "adminlte2_pdq:register")
+LOGOUT_URL = get_renamed_setting("ADMINLTE2_LOGOUT_URL", "LOGOUT_URL", reverse_lazy("logout"))
+PWD_RESET_ROUTE = get_renamed_setting("ADMINLTE2_PASSWORD_RESET_ROUTE", "PWD_RESET_ROUTE", "password_reset")
+PWD_RESET_DONE_ROUTE = get_renamed_setting(
+    "ADMINLTE2_PASSWORD_RESET_DONE_ROUTE", "PWD_RESET_DONE_ROUTE", "password_reset_done"
+)
+PWD_RESET_CONFIRM_ROUTE = get_renamed_setting(
+    "ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE", "PWD_RESET_CONFIRM_ROUTE", "password_reset_confirm"
+)
+PWD_RESET_COMPLETE_ROUTE = get_renamed_setting(
+    "ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE", "PWD_RESET_COMPLETE_ROUTE", "password_reset_complete"
+)
+REGISTER_ROUTE = get_renamed_setting("ADMINLTE2_REGISTER_ROUTE", "REGISTER_ROUTE", "adminlte2_pdq:register")
 MEDIA_ROUTE = getattr(settings, "MEDIA_URL", "/media/")
 STATIC_ROUTE = getattr(settings, "STATIC_URL", "/static/")
-WEBSOCKET_ROUTE = getattr(settings, "WEBSOCKET_URL", "/ws/")
+WEBSOCKET_ROUTE = get_renamed_setting("ADMINLTE2_WEBSOCKET_URL", "WEBSOCKET_URL", "/ws/")
 
 
 # Known routes that should never require a permission check.
 HOME_ROUTE = getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home")
-PWD_CHANGE = getattr(settings, "PWD_CHANGE", "password_change")
-PWD_CHANGE_DONE = getattr(settings, "PWD_CHANGE_DONE", "password_change_done")
+PWD_CHANGE = get_renamed_setting("ADMINLTE2_PASSWORD_CHANGE_ROUTE", "PWD_CHANGE", "password_change")
+PWD_CHANGE_DONE = get_renamed_setting("ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE", "PWD_CHANGE_DONE", "password_change_done")
 
 
 # List of known routes that should never require being logged in.

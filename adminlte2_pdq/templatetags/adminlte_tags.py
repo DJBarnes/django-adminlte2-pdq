@@ -13,6 +13,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+from adminlte2_pdq.constants.route_and_policy_constants import get_renamed_setting
 from adminlte2_pdq.constants import (
     DATETIME_WIDGET,
     DATE_WIDGET,
@@ -284,7 +285,7 @@ def get_login_url():
 @register.simple_tag()
 def get_logout_url():
     """Get the log out URL from the constants."""
-    return getattr(settings, "LOGOUT_URL", reverse("logout"))
+    return get_renamed_setting("ADMINLTE2_LOGOUT_URL", "LOGOUT_URL", reverse("logout"))
 
 
 @register.simple_tag()

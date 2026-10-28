@@ -16,8 +16,24 @@ Most of these settings take a URL name, such as ``"password_reset"`` or
 
 .. note::
 
-    Several of these settings do not have the ``ADMINLTE2_`` prefix. Use the
-    names exactly as shown.
+    ``LOGIN_URL``, ``MEDIA_URL``, and ``STATIC_URL`` are Django's own settings.
+    The other settings on this page belong to this package and use the
+    ``ADMINLTE2_`` prefix. Their old names without the prefix still work, with
+    a deprecation warning, and will be removed in a future release:
+
+    =============================  ==========================================
+    Old name                       New name
+    =============================  ==========================================
+    ``LOGOUT_URL``                 ``ADMINLTE2_LOGOUT_URL``
+    ``PWD_RESET_ROUTE``            ``ADMINLTE2_PASSWORD_RESET_ROUTE``
+    ``PWD_RESET_DONE_ROUTE``       ``ADMINLTE2_PASSWORD_RESET_DONE_ROUTE``
+    ``PWD_RESET_CONFIRM_ROUTE``    ``ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE``
+    ``PWD_RESET_COMPLETE_ROUTE``   ``ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE``
+    ``REGISTER_ROUTE``             ``ADMINLTE2_REGISTER_ROUTE``
+    ``PWD_CHANGE``                 ``ADMINLTE2_PASSWORD_CHANGE_ROUTE``
+    ``PWD_CHANGE_DONE``            ``ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE``
+    ``WEBSOCKET_URL``              ``ADMINLTE2_WEBSOCKET_URL``
+    =============================  ==========================================
 
 The home route is set by :ref:`configuration/home:ADMINLTE2_HOME_ROUTE`.
 
@@ -39,21 +55,22 @@ Example::
     LOGIN_URL = "login"
 
 
-LOGOUT_URL
-----------
+ADMINLTE2_LOGOUT_URL
+--------------------
 
-The logout page. It does not require login.
+The logout page. It does not require login. Django has no logout URL
+setting, so this one belongs to the package.
 
 :Type: ``string`` (a URL path or a URL name)
 :Default: the URL of the ``logout`` route
 
 Example::
 
-    LOGOUT_URL = "/accounts/logout/"
+    ADMINLTE2_LOGOUT_URL = "/accounts/logout/"
 
 
-PWD_RESET_ROUTE
----------------
+ADMINLTE2_PASSWORD_RESET_ROUTE
+------------------------------
 
 The page where users request a password reset.
 
@@ -62,11 +79,11 @@ The page where users request a password reset.
 
 Example::
 
-    PWD_RESET_ROUTE = "accounts:password_reset"
+    ADMINLTE2_PASSWORD_RESET_ROUTE = "accounts:password_reset"
 
 
-PWD_RESET_DONE_ROUTE
---------------------
+ADMINLTE2_PASSWORD_RESET_DONE_ROUTE
+-----------------------------------
 
 The page shown after a password reset is requested.
 
@@ -75,11 +92,11 @@ The page shown after a password reset is requested.
 
 Example::
 
-    PWD_RESET_DONE_ROUTE = "accounts:password_reset_done"
+    ADMINLTE2_PASSWORD_RESET_DONE_ROUTE = "accounts:password_reset_done"
 
 
-PWD_RESET_CONFIRM_ROUTE
------------------------
+ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE
+--------------------------------------
 
 The page where users set a new password from the reset link.
 
@@ -88,11 +105,11 @@ The page where users set a new password from the reset link.
 
 Example::
 
-    PWD_RESET_CONFIRM_ROUTE = "accounts:password_reset_confirm"
+    ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE = "accounts:password_reset_confirm"
 
 
-PWD_RESET_COMPLETE_ROUTE
-------------------------
+ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE
+---------------------------------------
 
 The page shown after the new password is set.
 
@@ -101,11 +118,11 @@ The page shown after the new password is set.
 
 Example::
 
-    PWD_RESET_COMPLETE_ROUTE = "accounts:password_reset_complete"
+    ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE = "accounts:password_reset_complete"
 
 
-REGISTER_ROUTE
---------------
+ADMINLTE2_REGISTER_ROUTE
+------------------------
 
 The user registration page.
 
@@ -114,7 +131,7 @@ The user registration page.
 
 Example::
 
-    REGISTER_ROUTE = "accounts:register"
+    ADMINLTE2_REGISTER_ROUTE = "accounts:register"
 
 
 Routes That Don't Require Permissions
@@ -122,8 +139,8 @@ Routes That Don't Require Permissions
 
 These pages require login, but no permissions, under the strict policy.
 
-PWD_CHANGE
-----------
+ADMINLTE2_PASSWORD_CHANGE_ROUTE
+-------------------------------
 
 The page where logged-in users change their password.
 
@@ -132,11 +149,11 @@ The page where logged-in users change their password.
 
 Example::
 
-    PWD_CHANGE = "accounts:password_change"
+    ADMINLTE2_PASSWORD_CHANGE_ROUTE = "accounts:password_change"
 
 
-PWD_CHANGE_DONE
----------------
+ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE
+------------------------------------
 
 The page shown after the password is changed.
 
@@ -145,7 +162,7 @@ The page shown after the password is changed.
 
 Example::
 
-    PWD_CHANGE_DONE = "accounts:password_change_done"
+    ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE = "accounts:password_change_done"
 
 
 File and Websocket Routes
@@ -161,8 +178,8 @@ MEDIA_URL and STATIC_URL
 Django's own settings. The package reads them as they are.
 
 
-WEBSOCKET_URL
--------------
+ADMINLTE2_WEBSOCKET_URL
+-----------------------
 
 The path prefix of the project's websocket routes.
 
@@ -171,4 +188,4 @@ The path prefix of the project's websocket routes.
 
 Example::
 
-    WEBSOCKET_URL = "/websockets/"
+    ADMINLTE2_WEBSOCKET_URL = "/websockets/"

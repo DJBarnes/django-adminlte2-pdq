@@ -156,6 +156,17 @@ Unreleased
   raises ``ImproperlyConfigured``, now with an explanation of the problem
   instead of the 404 message text.
 
+* The package's route settings now use the ``ADMINLTE2_`` prefix:
+  ``ADMINLTE2_LOGOUT_URL``, ``ADMINLTE2_PASSWORD_RESET_ROUTE``,
+  ``ADMINLTE2_PASSWORD_RESET_DONE_ROUTE``,
+  ``ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE``,
+  ``ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE``, ``ADMINLTE2_REGISTER_ROUTE``,
+  ``ADMINLTE2_PASSWORD_CHANGE_ROUTE``, ``ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE``,
+  and ``ADMINLTE2_WEBSOCKET_URL``. The old names (``LOGOUT_URL``,
+  ``PWD_RESET_ROUTE``, ``REGISTER_ROUTE``, ``PWD_CHANGE``, ``WEBSOCKET_URL``,
+  and so on) still work with a deprecation warning and will be removed in a
+  future release.
+
 * Documentation: new pages for styling and dark mode, the demo CSS classes,
   and the known route settings. Every authorization setting is now listed in
   the authorization configuration page.

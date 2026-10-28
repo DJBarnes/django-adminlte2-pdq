@@ -7,7 +7,11 @@ from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase, override_settings
 
 # First-Party Imports
-from adminlte2_pdq.constants.route_and_policy_constants import get_strict_policy, get_login_required_policy
+from adminlte2_pdq.constants.route_and_policy_constants import (
+    get_login_required_policy,
+    get_renamed_setting,
+    get_strict_policy,
+)
 
 
 class ConfigurationMiddlewareTestCase(TestCase):
@@ -86,3 +90,28 @@ class ConfigurationMiddlewareTestCase(TestCase):
 
         error_message = "Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True."
         self.assertEqual(str(cm.exception), error_message)
+
+
+class RenamedSettingTestCase(TestCase):
+    """Tests for settings that were renamed to have the ADMINLTE2_ prefix."""
+
+    @override_settings(ADMINLTE2_NEW_NAME="new")
+    def test__new_name(self):
+        """The new name is used."""
+        self.assertEqual("new", get_renamed_setting("ADMINLTE2_NEW_NAME", "OLD_NAME", "default"))
+
+    @override_settings(OLD_NAME="old")
+    def test__old_name_warns(self):
+        """The old name still works, with a deprecation warning that names the new setting."""
+        with self.assertWarns(DeprecationWarning) as warning:
+            self.assertEqual("old", get_renamed_setting("ADMINLTE2_NEW_NAME", "OLD_NAME", "default"))
+        self.assertIn("ADMINLTE2_NEW_NAME", str(warning.warning))
+
+    @override_settings(ADMINLTE2_NEW_NAME="new", OLD_NAME="old")
+    def test__new_name_wins(self):
+        """When both are set, the new name is used."""
+        self.assertEqual("new", get_renamed_setting("ADMINLTE2_NEW_NAME", "OLD_NAME", "default"))
+
+    def test__default(self):
+        """With neither set, the default is used."""
+        self.assertEqual("default", get_renamed_setting("ADMINLTE2_NEW_NAME", "OLD_NAME", "default"))

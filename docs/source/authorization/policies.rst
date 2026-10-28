@@ -279,7 +279,7 @@ routes, and websocket routes:
 * home - As defined via the ``ADMINLTE2_HOME_ROUTE`` setting in ``settings.py``
 * media url - As defined via the ``MEDIA_URL`` setting in ``settings.py``
   so long as it is not the default value of ``''``. See note below.
-* websocket url - As defined via the ``WEBSOCKET_URL`` setting in
+* websocket url - As defined via the ``ADMINLTE2_WEBSOCKET_URL`` setting in
   ``settings.py``. Defaults to ``/ws/``.
 
 .. important::

@@ -719,9 +719,9 @@ class TemplateTagTestCase(TestCase):
 
         self.assertIn("/accounts/logout", rendered_template)
 
-    @override_settings(LOGOUT_URL="/foobar/logout/")
+    @override_settings(ADMINLTE2_LOGOUT_URL="/foobar/logout/")
     def test__get_logout_url__entry_in_settings(self):
-        """Should fallback to default."""
+        """Uses ADMINLTE2_LOGOUT_URL when it is set."""
         context = Context({})
 
         template_to_render = Template("{% load adminlte_tags %}{% get_logout_url %}")
