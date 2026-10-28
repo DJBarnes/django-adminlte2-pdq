@@ -410,6 +410,23 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase, StrictModeMixin)
         self.assertEqual(1, message_texts.count(RESPONSE_403_PRODUCTION_MESSAGE))
 
     @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_PRODUCTION_MESSAGE", "")
+    def test__no_decorators__empty_production_403_message_adds_no_message(self):
+        """An empty 403 production message adds no message, whether redirecting or raising PermissionDenied."""
+
+        self.client.force_login(self.none_user)
+
+        with self.subTest("Redirect to home"):
+            response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
+            self.assertEqual([], list(get_messages(response.wsgi_request)))
+
+        with self.subTest("PermissionDenied"):
+            with patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False):
+                response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
+            self.assertEqual(403, response.status_code)
+            self.assertEqual([], list(get_messages(response.wsgi_request)))
+
+    @override_settings(DEBUG=False)
     @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False)
     def test__no_decorators__redirect_on_403_turned_off(self):
         """Test for view with no decorators, in project "Strict" mode

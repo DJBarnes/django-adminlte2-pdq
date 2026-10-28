@@ -11,8 +11,6 @@ from .general_constants import (
     REDIRECT_TO_HOME_ON_403,
     REDIRECT_TO_HOME_ON_404,
     # Message settings.
-    ALLOW_403_404_MESSAGES_IN_PRODUCTION,
-    ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD,
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
@@ -24,10 +22,6 @@ from .general_constants import (
 
 # Constants related to package routes.
 from .route_and_policy_constants import (
-    # Login "next" redirect handling.
-    LOGIN_NEXT_UNIVERSAL_URL,
-    USE_LOGIN_NEXT,
-    # Known routes.
     LOGIN_URL,
     LOGOUT_URL,
     PWD_RESET_ROUTE,

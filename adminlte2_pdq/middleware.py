@@ -22,8 +22,6 @@ from .constants import (
     LOGIN_REQUIRED,
     LOGIN_EXEMPT_WHITELIST,
     LOGIN_EXEMPT_FUZZY_WHITELIST,
-    ALLOW_403_404_MESSAGES_IN_PRODUCTION,
-    ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD,
     RESPONSE_403_DEBUG_MESSAGE,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
@@ -38,8 +36,6 @@ from .constants import (
     MEDIA_ROUTE,
     STATIC_ROUTE,
     WEBSOCKET_ROUTE,
-    USE_LOGIN_NEXT,
-    LOGIN_NEXT_UNIVERSAL_URL,
 )
 
 
@@ -125,20 +121,8 @@ class AuthMiddleware:
                     logger.warning(RESPONSE_404_DEBUG_MESSAGE)
             else:
                 # Handle output in production mode (when DEBUG = False).
-
-                # First make sure production messages are enabled at all.
-                if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-
-                    # Handle based on if we want to display only to auth'd users or not.
-                    if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
-                        # Require auth to display messages.
-                        if request.user.is_authenticated:
-                            if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
-                                messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
-                    else:
-                        # Handle the same for all users.
-                        if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
-                            messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
+                if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                    messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
             # Redirect to home route.
             return redirect(HOME_ROUTE)
@@ -152,18 +136,7 @@ class AuthMiddleware:
             # User not logged in and view requires login to access.
 
             # Redirect to login page.
-            if USE_LOGIN_NEXT:
-                # Using next redirect.
-                # Check if using a "universal" next url (such as always wanting logins to redirect to home page).
-                if len(LOGIN_NEXT_UNIVERSAL_URL) > 0:
-                    # Using a "universal" next url. Append that value.
-                    return redirect(LOGIN_URL + f"?next={LOGIN_NEXT_UNIVERSAL_URL}")
-                else:
-                    # Not using a "universal" next url. Try to use current url for next redirect.
-                    return redirect(LOGIN_URL + f"?next={request.path}")
-            else:
-                # Not using next redirect. Simply bring user to login page.
-                return redirect(LOGIN_URL)
+            return redirect_to_login(request.get_full_path(), LOGIN_URL)
 
         # Check any post login error states.
         # NOTE: This call need to happen after we do the above Login Required checking.
@@ -182,21 +155,7 @@ class AuthMiddleware:
                 )
             else:
                 # Handle output in production mode (when DEBUG = False).
-                warning_message = ""
-
-                # First make sure production messages are enabled at all.
-                if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-
-                    # Handle based on if we want to display only to auth'd users or not.
-                    if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
-                        # Require auth to display messages.
-                        if request.user.is_authenticated:
-                            if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
-                                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
-                    else:
-                        # Handle the same for all users.
-                        if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
-                            warning_message = RESPONSE_403_PRODUCTION_MESSAGE
+                warning_message = RESPONSE_403_PRODUCTION_MESSAGE
 
             # Determine if path is 403 fuzzy whitelisted.
             path_is_403_fuzzy_whitelisted = self.path_starts_with_whitelist_entry(
@@ -209,16 +168,13 @@ class AuthMiddleware:
                 # all together as it will be handled at the decorator / mixin level.
                 if not permission_required:
                     # Create Django Messages warning.
-                    if len(warning_message) > 0:
-                        messages.warning(request, warning_message)
+                    messages.warning(request, warning_message)
 
                     # No mixin or decorator on view, need to handle here.
                     raise PermissionDenied()  # No mixin or decorator on view, need to handle here.
-
             else:
                 # Create Django Messages warning.
-                if len(warning_message) > 0:
-                    messages.warning(request, warning_message)
+                messages.warning(request, warning_message)
 
                 # Redirect to the Home Route
                 return redirect(HOME_ROUTE)
@@ -505,22 +461,7 @@ class AuthMiddleware:
                 warnings.warn(warning_message, RuntimeWarning)
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
-            else:
-                # Handle output in production mode (when DEBUG = False).
-
-                # First make sure production messages are enabled at all.
-                if ALLOW_403_404_MESSAGES_IN_PRODUCTION:
-
-                    # Handle based on if we want to display only to auth'd users or not.
-                    if ALLOW_403_404_MESSAGES_IN_PRODUCTION_ONLY_WHEN_AUTHD:
-                        # Require auth to display messages.
-                        if request.user.is_authenticated:
-                            if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
-                                messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
-                    else:
-                        # Handle the same for all users.
-                        if len(RESPONSE_403_PRODUCTION_MESSAGE) > 0:
-                            messages.warning(request, RESPONSE_403_PRODUCTION_MESSAGE)
+            # In production, the 403 handling in run_auth_checks adds the production message.
 
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""
