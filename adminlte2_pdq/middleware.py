@@ -2,6 +2,7 @@
 
 # System Imports.
 import logging
+from copy import copy
 import warnings
 
 # Third-Party Imports.
@@ -10,7 +11,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
-from django.shortcuts import redirect
+from django.shortcuts import redirect, resolve_url
 from django.urls import resolve, is_valid_path
 from django.utils.http import escape_leading_slashes
 from django.views.generic.base import RedirectView
@@ -114,14 +115,18 @@ class AuthMiddleware:
                 raise Http404()
 
             # Entered url does not correspond to any view. Redirect to home route.
+            # No message when the home page would send the user on to the login page,
+            # so the message doesn't show up on the login page.
+            show_message = not self.home_requires_login(request)
             if settings.DEBUG:
                 # Handle output when DEBUG = True.
                 if len(RESPONSE_404_DEBUG_MESSAGE) > 0:
-                    messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)
                     logger.warning(RESPONSE_404_DEBUG_MESSAGE)
+                    if show_message:
+                        messages.warning(request, RESPONSE_404_DEBUG_MESSAGE)
             else:
                 # Handle output in production mode (when DEBUG = False).
-                if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0:
+                if len(RESPONSE_404_PRODUCTION_MESSAGE) > 0 and show_message:
                     messages.warning(request, RESPONSE_404_PRODUCTION_MESSAGE)
 
             # Redirect to home route.
@@ -652,6 +657,23 @@ class AuthMiddleware:
             or self.login_required_hook(request)
             # If url is for a special route that does not need processing
             or self.is_special_route(view_data)
+        )
+
+    def home_requires_login(self, request):
+        """Determines if the home page would send this user to the login page."""
+
+        # Logged-in users can always reach the home page.
+        if request.user.is_authenticated:
+            return False
+
+        # Check the home page with the same logic as any other request.
+        home_request = copy(request)
+        home_request.path = home_request.path_info = resolve_url(HOME_ROUTE)
+        home_data = self.parse_request_data(home_request)
+        if home_data["resolver"] is None:
+            return False
+        return bool(LOGIN_REQUIRED or home_data["login_required"]) and not self.verify_logged_in(
+            home_request, home_data
         )
 
     def verify_permissions(self, request, view_data):

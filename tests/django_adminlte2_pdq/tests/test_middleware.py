@@ -12,6 +12,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
+from django.contrib.messages import get_messages
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings, TestCase
 from django.urls import reverse
@@ -19,6 +20,7 @@ from pytest import warns
 
 # Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
+from adminlte2_pdq.middleware import RESPONSE_404_DEBUG_MESSAGE, RESPONSE_404_PRODUCTION_MESSAGE
 
 
 # Module Variables.
@@ -186,6 +188,52 @@ class NotFound404HandlingTestCase(MiddlewareBaseTestCase):
         response = self.client.get("/missing/", follow=True)
         self.assertEqual(response.status_code, 404)
         self.assertIn("Not Found", response.content.decode())
+
+
+class NotFound404MessageTestCase(MiddlewareBaseTestCase):
+    """The 404 message is skipped when the home page would send an anonymous user to the login page."""
+
+    def _message_texts(self, user=None):
+        """Request an unknown url and return the messages it adds."""
+        # A new client, so no messages are left over from an earlier request.
+        self.client = self.client_class()
+        if user:
+            self.client.force_login(user)
+        response = self.client.get("/missing/")
+        self.assertRedirects(response, reverse("adminlte2_pdq:home"), fetch_redirect_response=False)
+        return [str(message) for message in get_messages(response.wsgi_request)]
+
+    def _assert_message(self, expected, user=None):
+        for debug, message in ((True, RESPONSE_404_DEBUG_MESSAGE), (False, RESPONSE_404_PRODUCTION_MESSAGE)):
+            with self.subTest(debug=debug):
+                with override_settings(DEBUG=debug):
+                    self.assertEqual([message] if expected else [], self._message_texts(user))
+
+    def test__loose_mode(self):
+        """Anonymous users see the message, because the home page doesn't require login."""
+        self._assert_message(True)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    def test__login_required__anonymous(self):
+        """Anonymous users don't see the message, because the home page sends them to log in."""
+        self._assert_message(False)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    def test__login_required__logged_in(self):
+        """Logged-in users see the message."""
+        self._assert_message(True, user=self.test_user_w_perms)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:home"])
+    def test__login_required__home_whitelisted(self):
+        """Anonymous users see the message when the home page doesn't require login."""
+        self._assert_message(True)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+    def test__strict__anonymous(self):
+        """Anonymous users don't see the message in strict mode."""
+        self._assert_message(False)
 
 
 @override_settings(DEBUG=True)

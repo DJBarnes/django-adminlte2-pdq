@@ -143,6 +143,11 @@ Unreleased
 * Fix the 403 production message being shown twice in strict mode for views
   without a decorator.
 
+* The 404 message is no longer shown to anonymous users when the home page
+  sends them to the login page (login-required and strict modes, unless the
+  home page is whitelisted). Previously the message appeared on the login
+  page. The DEBUG console warning is still logged.
+
 0.2.1 - Filters, Commands, Messages, 404s, and Tree Nodes
 =========================================================
 
