@@ -519,9 +519,13 @@ turned off on its own:
 
         ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE = ""
 
-Anonymous users don't see the 404 message when the home page sends them on to
-the login page (login-required and strict policies, unless the home page is
-whitelisted), so the message does not appear on the login page.
+Under the login-required and strict policies, an anonymous user who requests
+an unknown URL is sent to the login page, the same as for a page that exists,
+and sees no message. After logging in, the user is sent to the requested URL
+and gets the 404 handling. This also applies when
+``ADMINLTE2_REDIRECT_TO_HOME_ON_404`` is ``False``. Static files, media files,
+and ``ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST`` paths always get
+Django's 404 response.
 
 For every message setting and its default, see
 :doc:`../configuration/authorization`.
@@ -530,10 +534,13 @@ For every message setting and its default, see
 Security Notes
 ==============
 
-* The redirects reduce what an anonymous user can learn about which URLs
-  exist, but do not hide it completely. Under the login-required and strict
-  policies, a URL that exists redirects to the login page, while an unknown URL
-  redirects to the home page first.
+* Under the login-required and strict policies, anonymous users get the same
+  response for every URL that requires login, whether or not it exists: a
+  redirect to the login page. Paths in
+  ``ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST`` are the exception,
+  because they always get Django's 404 response.
+* Under the loose policy, pages are public, so a URL that exists loads and an
+  unknown URL is redirected or returns a 404.
 * The default 403 and 404 production messages are the same, so the message
   does not tell a page the user lacks permission for apart from a page that
   does not exist. Changing one of them makes them different.

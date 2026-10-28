@@ -109,9 +109,16 @@ class AuthMiddleware:
                 self.is_special_route(view_data)
                 # Verify if whitelisted route
                 or self.path_starts_with_whitelist_entry(view_data["path"], STRICT_POLICY_SERVE_404_FUZZY_WHITELIST)
-                # Site setup to handle 404s manually
-                or not REDIRECT_TO_HOME_ON_404
             ):
+                raise Http404()
+
+            # Behind a login wall, send anonymous users to the login page, the same as for a page that exists.
+            # Otherwise the response would show which urls exist.
+            if LOGIN_REQUIRED and not self.verify_logged_in(request, view_data):
+                return redirect_to_login(request.get_full_path(), LOGIN_URL)
+
+            # Site setup to handle 404s manually.
+            if not REDIRECT_TO_HOME_ON_404:
                 raise Http404()
 
             # Entered url does not correspond to any view. Redirect to home route.

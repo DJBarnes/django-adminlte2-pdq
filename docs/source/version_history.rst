@@ -145,10 +145,12 @@ Unreleased
 * Fix the 403 production message being shown twice in strict mode for views
   without a decorator.
 
-* The 404 message is no longer shown to anonymous users when the home page
-  sends them to the login page (login-required and strict modes, unless the
-  home page is whitelisted). Previously the message appeared on the login
-  page. The DEBUG console warning is still logged.
+* Under the login-required and strict policies, an anonymous user who
+  requests an unknown URL is now sent to the login page, the same as for a
+  page that exists, instead of to the home page and then the login page. The
+  response no longer shows which URLs exist, and the 404 message no longer
+  appears on the login page. This also applies when
+  ``ADMINLTE2_REDIRECT_TO_HOME_ON_404`` is ``False``.
 
 * Documentation: new pages for styling and dark mode, the demo CSS classes,
   and the known route settings. Every authorization setting is now listed in

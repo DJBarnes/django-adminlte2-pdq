@@ -216,8 +216,8 @@ ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE
 The message shown after redirecting from an unknown URL, when ``DEBUG`` is
 False. Set it to an empty string to show no message.
 
-Anonymous users don't see the 404 message when the home page sends them on to
-the login page.
+Under the login-required and strict policies, anonymous users are sent to the
+login page for unknown URLs and don't see the message.
 
 :Type: ``string``
 :Default: ``"Unable to locate the requested page. If you believe this was an

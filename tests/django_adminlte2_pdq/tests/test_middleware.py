@@ -190,50 +190,77 @@ class NotFound404HandlingTestCase(MiddlewareBaseTestCase):
         self.assertIn("Not Found", response.content.decode())
 
 
-class NotFound404MessageTestCase(MiddlewareBaseTestCase):
-    """The 404 message is skipped when the home page would send an anonymous user to the login page."""
+class NotFound404LoginWallTestCase(MiddlewareBaseTestCase):
+    """Unknown urls behind a login wall look the same as existing pages to anonymous users."""
 
-    def _message_texts(self, user=None):
-        """Request an unknown url and return the messages it adds."""
-        # A new client, so no messages are left over from an earlier request.
+    login_url = "/accounts/login/?next=%2Fmissing%2F"
+
+    def _get(self, path="/missing/", user=None):
+        """Request a url with a new client, so no messages are left over from an earlier request."""
         self.client = self.client_class()
         if user:
             self.client.force_login(user)
-        response = self.client.get("/missing/")
-        self.assertRedirects(response, reverse("adminlte2_pdq:home"), fetch_redirect_response=False)
-        return [str(message) for message in get_messages(response.wsgi_request)]
+        response = self.client.get(path)
+        return response, [str(message) for message in get_messages(response.wsgi_request)]
 
-    def _assert_message(self, expected, user=None):
+    def _assert_home_with_message(self, expected_message, path="/missing/", user=None):
         for debug, message in ((True, RESPONSE_404_DEBUG_MESSAGE), (False, RESPONSE_404_PRODUCTION_MESSAGE)):
             with self.subTest(debug=debug):
                 with override_settings(DEBUG=debug):
-                    self.assertEqual([message] if expected else [], self._message_texts(user))
+                    response, messages = self._get(path, user)
+                    self.assertRedirects(response, reverse("adminlte2_pdq:home"), fetch_redirect_response=False)
+                    self.assertEqual([message] if expected_message else [], messages)
 
     def test__loose_mode(self):
-        """Anonymous users see the message, because the home page doesn't require login."""
-        self._assert_message(True)
+        """No login wall: anonymous users are redirected home with the message."""
+        self._assert_home_with_message(True)
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     def test__login_required__anonymous(self):
-        """Anonymous users don't see the message, because the home page sends them to log in."""
-        self._assert_message(False)
+        """Anonymous users go to the login page, the same as for an existing page."""
+        response, messages = self._get()
+        self.assertRedirects(response, self.login_url, fetch_redirect_response=False)
+        self.assertEqual([], messages)
 
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    def test__login_required__logged_in(self):
-        """Logged-in users see the message."""
-        self._assert_message(True, user=self.test_user_w_perms)
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:home"])
-    def test__login_required__home_whitelisted(self):
-        """Anonymous users see the message when the home page doesn't require login."""
-        self._assert_message(True)
+        # An existing page that requires login redirects the same way.
+        response, _messages = self._get("/sample1/")
+        self.assertRedirects(response, "/accounts/login/?next=%2Fsample1%2F", fetch_redirect_response=False)
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     def test__strict__anonymous(self):
-        """Anonymous users don't see the message in strict mode."""
-        self._assert_message(False)
+        """Anonymous users go to the login page in strict mode."""
+        response, messages = self._get()
+        self.assertRedirects(response, self.login_url, fetch_redirect_response=False)
+        self.assertEqual([], messages)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    def test__login_required__logged_in(self):
+        """Logged-in users are redirected home with the message."""
+        self._assert_home_with_message(True, user=self.test_user_w_perms)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_404", False)
+    def test__login_required__redirect_turned_off(self):
+        """With the redirect off, anonymous users still go to the login page; logged-in users get a 404."""
+        response, _messages = self._get()
+        self.assertRedirects(response, self.login_url, fetch_redirect_response=False)
+
+        response, _messages = self._get(user=self.test_user_w_perms)
+        self.assertEqual(404, response.status_code)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", ("/public/",))
+    def test__login_required__public_path__home_requires_login(self):
+        """An unknown url under a public prefix is redirected home, without the message, which would show on login."""
+        self._assert_home_with_message(False, path="/public/missing/")
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", ("/public/",))
+    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:home"])
+    def test__login_required__public_path__public_home(self):
+        """An unknown url under a public prefix, with a public home page, is redirected home with the message."""
+        self._assert_home_with_message(True, path="/public/missing/")
 
 
 @override_settings(DEBUG=True)
