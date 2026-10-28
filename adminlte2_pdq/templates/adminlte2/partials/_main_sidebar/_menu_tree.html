@@ -2,26 +2,50 @@
 
 
 {% if allowed %}
-  <li class="treeview{% if node.active %} active{% endif %}">
-    <a
-      {% if node.url %}
+  {% if node.url and node.url != "#" %}
+    {% comment %}
+      The tree's root is a link. The link and the expand/collapse toggle are separate elements:
+      AdminLTE toggles the tree when the toggle (the element right before the menu) is clicked,
+      and the link works like any other link.
+    {% endcomment %}
+    <li class="treeview treeview-split{% if node.active %} active{% endif %}">
+      <a
         href="{{ node.url }}"
-      {% else %}
+        class="node-link{% if node.class %} {{ node.class }} {% endif %}"
+        {% for attr, value in node.attributes.items %}
+          {{ attr }}="{{ value }}"
+        {% endfor %}
+      >
+        <i class="{{ node.icon }}"></i>
+        <span class="treeview-text" title="{{ node.text }}">{{ node.text }}</span>
+      </a>
+      <a href="#" class="treeview-toggle" role="button" aria-label="Show or hide {{ node.text }}">
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu" {% if add_display_block %}style="display:block;"{% endif %}>
+        {% render_nodes node.nodes %}
+      </ul>
+    </li>
+  {% else %}
+    <li class="treeview{% if node.active %} active{% endif %}">
+      <a
         href="#"
-      {% endif %}
-      class="node-link{% if node.class %} {{ node.class }} {% endif %}"
-      {% for attr, value in node.attributes.items %}
-        {{ attr }}="{{ value }}"
-      {% endfor %}
-    >
-      <i class="{{ node.icon }}"></i>
-      <span class="treeview-text" title="{{ node.text }}">{{ node.text }}</span>
-      <span class="treeview-caret pull-right-container">
-        <i class="fa fa-angle-left pull-right"></i>
-      </span>
-    </a>
-    <ul class="treeview-menu" {% if add_display_block %}style="display:block;"{% endif %}>
-      {% render_nodes node.nodes %}
-    </ul>
-  </li>
+        class="node-link{% if node.class %} {{ node.class }} {% endif %}"
+        {% for attr, value in node.attributes.items %}
+          {{ attr }}="{{ value }}"
+        {% endfor %}
+      >
+        <i class="{{ node.icon }}"></i>
+        <span class="treeview-text" title="{{ node.text }}">{{ node.text }}</span>
+        <span class="pull-right-container">
+          <i class="fa fa-angle-left pull-right"></i>
+        </span>
+      </a>
+      <ul class="treeview-menu" {% if add_display_block %}style="display:block;"{% endif %}>
+        {% render_nodes node.nodes %}
+      </ul>
+    </li>
+  {% endif %}
 {% endif %}

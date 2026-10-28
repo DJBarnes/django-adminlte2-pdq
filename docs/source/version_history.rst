@@ -131,6 +131,12 @@ Unreleased
   ``next`` parameter, URL-encodes it, and supports a URL name in
   ``LOGIN_URL``.
 
+* A sidebar tree whose root has a route now renders the root as a normal
+  link and the expand/collapse caret as a separate element. Clicking the text
+  follows the link without starting the tree animation; ctrl-click, middle-click,
+  and keyboard navigation work like any other link. The click handler that
+  worked around AdminLTE's tree code was removed.
+
 * Fix the sidebar menu growing on every request when
   ``ADMINLTE2_MENU_FIRST`` is provided through view context.
 

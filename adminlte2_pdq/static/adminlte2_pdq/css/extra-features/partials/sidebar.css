@@ -1,26 +1,55 @@
 /**
- * Sidebar tree items: truncate long text and enlarge the caret's click area.
+ * Sidebar tree items.
  */
 
 
-.sidebar-menu > li > a > .treeview-text {
-   text-overflow: ellipsis;
-   width: 160px;
-   white-space: nowrap;
-   overflow: hidden;
-   display: inline-block;
-   vertical-align: text-bottom;
-   padding-top: 12px;
-   padding-bottom: 12px;
-   margin-top: -12px;
-   margin-bottom: -12px;
+/* Long tree labels end with an ellipsis instead of running under the caret. */
+.sidebar-menu li.treeview > a.node-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
-.sidebar-menu > li > a > .treeview-caret {
-   margin-top: -19px;
-   margin-bottom: -12px;
-   margin-right: -10px;
-   padding: 12px 10px 12px 8px;
+.sidebar-menu li.treeview:not(.treeview-split) > a.node-link {
+    padding-right: 30px;
 }
+
+
+/*
+ * A tree whose root is a link: the link and the expand/collapse toggle are separate elements,
+ * side by side, with the tree's menu on its own line below them.
+ */
+.sidebar-menu li.treeview.treeview-split {
+    display: flex;
+    flex-wrap: wrap;
+}
+.sidebar-menu li.treeview.treeview-split > a.node-link {
+    flex: 1 1 0;
+    min-width: 0;
+}
+.sidebar-menu li.treeview.treeview-split > a.treeview-toggle {
+    flex: 0 0 40px;
+    padding: 0;
+    /* The skins give sidebar links a colored left border; the toggle is part of the same row. */
+    border-left: 0;
+}
+.sidebar-menu li.treeview.treeview-split > .treeview-menu {
+    flex-basis: 100%;
+}
+
+/*
+ * Collapsed mini sidebar: hovering shows the tree's label and menu beside the icon, so the toggle
+ * is hidden and the label must not be clipped.
+ */
+.sidebar-mini.sidebar-collapse .sidebar-menu > li.treeview > a.node-link {
+    overflow: visible;
+}
+.sidebar-mini.sidebar-collapse .sidebar-menu > li.treeview.treeview-split {
+    display: block;
+}
+.sidebar-mini.sidebar-collapse .sidebar-menu > li.treeview.treeview-split > a.treeview-toggle {
+    display: none;
+}
+
+
 .sidebar-menu > li > a {
-   text-decoration: none;
+    text-decoration: none;
 }

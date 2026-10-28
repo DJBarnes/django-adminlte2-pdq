@@ -1628,6 +1628,78 @@ class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertNotIn("fa fa-leaf", rendered_template)
             self.assertIn("not-found", rendered_template)
 
+        with self.subTest("Render tree - Root has a route"):
+            self._setup_staff_user("add_permission")
+
+            request = RequestFactory().get("/sample2/")
+            request.user = self.staff_user
+
+            node = {
+                "route": "adminlte2_pdq:sample1",
+                "text": "Sample Tree",
+                "icon": "fa fa-leaf",
+                "nodes": [
+                    {
+                        "route": "adminlte2_pdq:sample2",
+                        "text": "Sample2",
+                        "icon": "fa fa-building",
+                    },
+                ],
+            }
+
+            context = Context(
+                {
+                    "user": self.staff_user,
+                    "node": node,
+                    "request": request,
+                }
+            )
+
+            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
+
+            rendered_template = " ".join(template_to_render.render(context).split())
+
+            # The root is a plain link, and the toggle is a separate element right before the menu,
+            # which is the element AdminLTE's tree code toggles.
+            self.assertIn('<li class="treeview treeview-split active">', rendered_template)
+            self.assertIn('<a href="/sample1/" class="node-link" >', rendered_template)
+            self.assertIn('class="treeview-toggle"', rendered_template)
+            self.assertRegex(rendered_template, r'class="treeview-toggle".*?</a> <ul class="treeview-menu"')
+            self.assertNotIn("pull-right-container", rendered_template.split('class="treeview-toggle"')[0])
+
+        with self.subTest("Render tree - Root without a route has no separate toggle"):
+            self._setup_staff_user("add_permission")
+
+            request = RequestFactory().get("/sample2/")
+            request.user = self.staff_user
+
+            node = {
+                "text": "Sample Tree",
+                "icon": "fa fa-leaf",
+                "nodes": [
+                    {
+                        "route": "adminlte2_pdq:sample2",
+                        "text": "Sample2",
+                        "icon": "fa fa-building",
+                    },
+                ],
+            }
+
+            context = Context(
+                {
+                    "user": self.staff_user,
+                    "node": node,
+                    "request": request,
+                }
+            )
+
+            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
+
+            rendered_template = template_to_render.render(context)
+
+            self.assertIn('<li class="treeview active">', rendered_template)
+            self.assertNotIn("treeview-toggle", rendered_template)
+
         with self.subTest("Render tree - Nested tree lacks route"):
             self._setup_staff_user("add_permission")
 
@@ -1888,7 +1960,7 @@ class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview treeview-split">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
 
@@ -1957,7 +2029,7 @@ class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview treeview-split">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
             self.assertIn('<li class="separator">', rendered_template)
@@ -2027,7 +2099,7 @@ class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview treeview-split">', rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
             self.assertIn("fa fa-building", rendered_template)
             self.assertIn('<li class="separator">', rendered_template)
@@ -2111,7 +2183,7 @@ class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn("Home", rendered_template)
             self.assertIn('<li class="header">', rendered_template)
             self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview">', rendered_template)
+            self.assertIn('<li class="treeview treeview-split">', rendered_template)
             self.assertIn('<span class="node-link-text" title="DemoCSS">DemoCSS</span>', rendered_template)
             self.assertIn("fa fa-building-o", rendered_template)
             self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
