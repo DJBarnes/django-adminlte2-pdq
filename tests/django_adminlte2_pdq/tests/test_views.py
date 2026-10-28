@@ -8,11 +8,9 @@ from unittest.mock import patch
 # Third-Party Imports.
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
 from django.contrib import messages
 from django.test import override_settings, RequestFactory, TestCase
-from django.shortcuts import render
 from django.urls import reverse
 
 # Internal Imports.
@@ -328,11 +326,3 @@ class DemoCssViewsTestCase(TestCase):
 
                 self.assertEqual(response.status_code, 200)
                 self.assertNotContains(response, "Change Password")
-
-    def test__deprecated_template_still_renders(self):
-        """The old adminlte2/demo_css.html template extends the new demo home page."""
-        request = RequestFactory().get("/demo-css/")
-        request.user = AnonymousUser()
-        response = render(request, "adminlte2/demo_css.html", {})
-
-        self.assertContains(response, '<h3 class="box-title">Welcome!</h3>')

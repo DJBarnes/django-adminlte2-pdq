@@ -4,6 +4,49 @@ Version History
 Unreleased
 ==========
 
+Action Needed When Upgrading
+----------------------------
+
+* **Removed: old static file paths.** The package's static files moved into
+  ``css/`` and ``js/`` folders under ``adminlte2_pdq/``, and the old paths no
+  longer exist. Templates that link an old path get a 404 for that file. The
+  package's own templates already use the new paths; update any template in
+  your project that links one of these:
+
+  * ``extra-features/extra-features.css``: use
+    ``css/extra-colors/color-variables.css``,
+    ``css/extra-colors/extra-colors.css``, and
+    ``css/extra-features/extra-features.css``.
+  * ``extra-features/header-breadcrumb-overlap-fix.css``: now part of
+    ``css/extra-features/extra-features.css``.
+  * ``extra-features/extra-features.js`` and
+    ``extra-features/sidebar-state.js``: use the files of the same name in
+    ``js/extra-features/``.
+  * ``extra-features/header-breadcrumb-overlap-fix.js``: removed with no
+    replacement (see the page header change below). Remove the link.
+  * ``conflicts/conflicts.css`` and ``conflicts/conflicts.js``: use
+    ``css/conflicts/conflicts.css`` and ``js/conflicts/conflicts.js``.
+  * ``conflicts/django-admin-conflicts.css``: use
+    ``css/conflicts/django_admin_conflicts.css``.
+
+* **Removed: the** ``adminlte2/demo_css.html`` **template.** The demo CSS
+  pages moved to the ``adminlte2_demo_css/`` template folder. Views that
+  render the old template should render ``adminlte2_demo_css/home.html``.
+
+* **Deprecated: route setting names.** The package's route settings now use
+  the ``ADMINLTE2_`` prefix: ``ADMINLTE2_LOGOUT_URL``,
+  ``ADMINLTE2_PASSWORD_RESET_ROUTE``, ``ADMINLTE2_PASSWORD_RESET_DONE_ROUTE``,
+  ``ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE``,
+  ``ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE``, ``ADMINLTE2_REGISTER_ROUTE``,
+  ``ADMINLTE2_PASSWORD_CHANGE_ROUTE``, ``ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE``,
+  and ``ADMINLTE2_WEBSOCKET_URL``. The old names (``LOGOUT_URL``,
+  ``PWD_RESET_ROUTE``, ``REGISTER_ROUTE``, ``PWD_CHANGE``, ``WEBSOCKET_URL``,
+  and so on) still work with a deprecation warning and will be removed in a
+  future release. Rename them in your settings.
+
+Other Changes
+-------------
+
 * Extra color classes are now generated from one palette and cover every
   AdminLTE color plus ``default``, ``error``, and ``indigo``: backgrounds
   (``bg-{color}``, ``bg-{color}-active``), text, code tints
@@ -76,32 +119,12 @@ Unreleased
 
 * The ``wiggle`` animation is turned off for users who prefer reduced motion.
 
-* Static files moved into ``css/`` and ``js/`` folders under
-  ``adminlte2_pdq/``. The old paths still work and are deprecated:
-
-  * ``extra-features/extra-features.css``: now
-    ``css/extra-colors/color-variables.css``,
-    ``css/extra-colors/extra-colors.css``, and
-    ``css/extra-features/extra-features.css``.
-  * ``extra-features/header-breadcrumb-overlap-fix.css``: now part of
-    ``css/extra-features/extra-features.css``.
-  * ``extra-features/extra-features.js`` and
-    ``extra-features/sidebar-state.js``: now in ``js/extra-features/``.
-  * ``extra-features/header-breadcrumb-overlap-fix.js``: removed (see the page
-    header change below).
-  * ``conflicts/conflicts.css`` and ``conflicts/conflicts.js``: now
-    ``css/conflicts/conflicts.css`` and ``js/conflicts/conflicts.js``.
-  * ``conflicts/django-admin-conflicts.css``: now
-    ``css/conflicts/django_admin_conflicts.css``.
-
 * When the page header and the breadcrumbs don't fit on one line, the
   breadcrumbs move to their own line below the header and show as a bar, as on
   small screens. The layout is now done in CSS, so it also updates when the
   window is resized, and the bar uses the skin's colors, including the dark
   skins. ``extra-features.js`` adds the class
   ``breadcrumb-wrapped`` to the breadcrumbs while they are on their own line.
-  The file ``extra-features/header-breadcrumb-overlap-fix.js`` is removed;
-  remove any link to it from your templates.
 
 * The demo CSS page is now a set of pages under ``/demo-css/``: typography,
   widgets, general UI and color palette, alerts, basic and specialized
@@ -112,9 +135,6 @@ Unreleased
 
 * Add the ``ADMINLTE2_DEMO_CSS_COLORS`` setting: the colors shown on the demo
   CSS pages, as ``{name: hex value}``.
-
-* The ``adminlte2/demo_css.html`` template is deprecated. It now extends
-  ``adminlte2_demo_css/home.html``.
 
 * The first item of the default sidebar menu is now labeled "Dashboard"
   instead of "Home".
@@ -184,17 +204,6 @@ Unreleased
   ``ERROR`` level on the ``adminlte2_pdq.middleware`` logger, and the user
   gets the same response as for any page they can't access: the login page
   when not logged in, otherwise the 403 handling.
-
-* The package's route settings now use the ``ADMINLTE2_`` prefix:
-  ``ADMINLTE2_LOGOUT_URL``, ``ADMINLTE2_PASSWORD_RESET_ROUTE``,
-  ``ADMINLTE2_PASSWORD_RESET_DONE_ROUTE``,
-  ``ADMINLTE2_PASSWORD_RESET_CONFIRM_ROUTE``,
-  ``ADMINLTE2_PASSWORD_RESET_COMPLETE_ROUTE``, ``ADMINLTE2_REGISTER_ROUTE``,
-  ``ADMINLTE2_PASSWORD_CHANGE_ROUTE``, ``ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE``,
-  and ``ADMINLTE2_WEBSOCKET_URL``. The old names (``LOGOUT_URL``,
-  ``PWD_RESET_ROUTE``, ``REGISTER_ROUTE``, ``PWD_CHANGE``, ``WEBSOCKET_URL``,
-  and so on) still work with a deprecation warning and will be removed in a
-  future release.
 
 * Documentation: new pages for styling and dark mode, the demo CSS classes,
   and the known route settings. Every authorization setting is now listed in
