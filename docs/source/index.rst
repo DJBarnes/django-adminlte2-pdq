@@ -33,11 +33,19 @@ and more, to aid in the rapid development of a site.
 
 * Styled with `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_.
 
-* Automatic
-  `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
-  styling that matches AdminLTE2.
+* Styles beyond AdminLTE2's own:
 
-* Three permission/authentication modes:
+  * Automatic
+    `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
+    styling that matches AdminLTE2.
+
+  * :doc:`Color classes <demo_css>` for every AdminLTE color on every element,
+    plus reusable elements such as full-span links.
+
+  * :ref:`Dark mode <configuration/front_end_styling:Dark Mode>`, which follows
+    the browser's light or dark setting by default.
+
+* :doc:`Three permission/authentication modes <authorization/policies>`:
 
   * "**Loose**" Mode - The default Django handling, and thus the project default.
     All views are accessible to all users, until decorators/mixins are added
@@ -51,7 +59,7 @@ and more, to aid in the rapid development of a site.
     decorators/mixins specify otherwise, all views require permissions in order
     to access.
 
-* Customizable web page templates:
+* :doc:`Customizable web page templates <templates/templates>`:
 
     * Built-in templates split into reasonable block sections, to help
       facilitate any content your site needs.
@@ -62,7 +70,8 @@ and more, to aid in the rapid development of a site.
 
     * Automatic form error and message styling.
 
-* Easy sidebar menu creation and customization:
+* Easy sidebar menu creation and customization
+  (:doc:`menu/general_information`):
 
   * Views can easily be added to the sidebar with just a few lines of code.
 
@@ -71,7 +80,8 @@ and more, to aid in the rapid development of a site.
     * Aka, sidebar links can be customized to only be visible upon meeting
       login or permission criteria.
 
-  * Automatic inclusion of Admin links in the sidebar.
+  * Automatic inclusion of Admin links in the sidebar, which can be turned on
+    or off.
 
 * `Font Awesome 4 <https://fontawesome.com/v4/icons/>`_
   & `Font Awesome 5 <https://fontawesome.com/v5/search>`_ integration.

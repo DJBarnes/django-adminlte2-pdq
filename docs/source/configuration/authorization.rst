@@ -2,8 +2,12 @@ Authentication & Authorization Configuration
 ********************************************
 
 
+Policy Settings
+===============
+
+
 ADMINLTE2_USE_LOGIN_REQUIRED
-============================
+----------------------------
 
 Whether all routes will require that users are logged in to access unless
 the route is added to a Whitelist.
@@ -24,8 +28,33 @@ Example::
     ADMINLTE2_USE_LOGIN_REQUIRED = True
 
 
+ADMINLTE2_USE_STRICT_POLICY
+---------------------------
+
+Whether routes with no defined permission should be hidden unless added to a
+Whitelist.
+
+If this setting is set to False, then all routes without a defined permission
+are still visible on the sidebar menu.
+
+If this setting is set to True, then all routes without a defined permission
+are hidden on the sidebar menu unless the route is found in the
+``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
+
+:Type: ``bool``
+:Default: ``False``
+
+Example::
+
+    ADMINLTE2_USE_STRICT_POLICY = True
+
+
+Whitelist Settings
+==================
+
+
 ADMINLTE2_LOGIN_EXEMPT_WHITELIST
-================================
+--------------------------------
 
 Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
@@ -49,7 +78,7 @@ Example::
 
 
 ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST
-======================================
+--------------------------------------
 
 Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True, a list of path
 prefixes that do not require login. Every URL whose path starts with one of
@@ -66,29 +95,8 @@ Example::
     ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST = ["/__debug__/"]
 
 
-ADMINLTE2_USE_STRICT_POLICY
-===========================
-
-Whether routes with no defined permission should be hidden unless added to a
-Whitelist.
-
-If this setting is set to False, then all routes without a defined permission
-are still visible on the sidebar menu.
-
-If this setting is set to True, then all routes without a defined permission
-are hidden on the sidebar menu unless the route is found in the
-``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
-
-:Type: ``bool``
-:Default: ``False``
-
-Example::
-
-    ADMINLTE2_USE_STRICT_POLICY = True
-
-
 ADMINLTE2_STRICT_POLICY_WHITELIST
-=================================
+---------------------------------
 
 Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
@@ -112,7 +120,7 @@ Example::
 
 
 ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST
-=======================================
+---------------------------------------
 
 Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True, a list of path
 prefixes that do not require permissions. Every URL whose path starts with one
@@ -128,8 +136,12 @@ Example::
     ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST = ["/__debug__/"]
 
 
+403 and 404 Handling Settings
+=============================
+
+
 ADMINLTE2_REDIRECT_TO_HOME_ON_404
-=================================
+---------------------------------
 
 Whether an unknown URL redirects to the home page with a message, instead of
 Django's 404 response. See :ref:`authorization/policies:Handling 404 Errors`.
@@ -143,7 +155,7 @@ Example::
 
 
 ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST
-=================================================
+-------------------------------------------------
 
 A list of path prefixes that always get Django's 404 response instead of the
 redirect to the home page. Static files, media files, and the favicon already
@@ -162,7 +174,7 @@ Example::
 
 
 ADMINLTE2_REDIRECT_TO_HOME_ON_403
-=================================
+---------------------------------
 
 Whether a failed permission check redirects to the home page with a message,
 instead of raising ``PermissionDenied``. See
@@ -177,7 +189,7 @@ Example::
 
 
 ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST
-=================================================
+-------------------------------------------------
 
 A list of path prefixes where a failed permission check raises
 ``PermissionDenied`` instead of redirecting to the home page. Use this for
@@ -195,7 +207,7 @@ Example::
 
 
 ADMINLTE2_RESPONSE_404_DEBUG_MESSAGE
-====================================
+------------------------------------
 
 The message shown after redirecting from an unknown URL, when ``DEBUG`` is
 True. It is also written to the log. Set it to an empty string to show no
@@ -211,7 +223,7 @@ Example::
 
 
 ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE
-=========================================
+-----------------------------------------
 
 The message shown after redirecting from an unknown URL, when ``DEBUG`` is
 False. Set it to an empty string to show no message.
@@ -229,7 +241,7 @@ Example::
 
 
 ADMINLTE2_RESPONSE_403_DEBUG_MESSAGE
-====================================
+------------------------------------
 
 The message shown after a failed permission check, when ``DEBUG`` is True. It
 can include ``{view_type}`` and ``{view_name}``, which are replaced with the
@@ -245,7 +257,7 @@ Example::
 
 
 ADMINLTE2_RESPONSE_403_PRODUCTION_MESSAGE
-=========================================
+-----------------------------------------
 
 The message shown after a failed permission check, when ``DEBUG`` is False.
 Set it to an empty string to show no message. The default is the same as the

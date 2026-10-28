@@ -18,6 +18,9 @@ the full extent of these settings.
 Base Configuration
 ==================
 
+For the login, logout, password, and registration route settings, see
+:doc:`known_routes`.
+
 ADMINLTE2_HOME_ROUTE
 --------------------
 
