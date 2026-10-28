@@ -18,6 +18,22 @@ $(function () {
         }
     });
 
+    // When the page header and the breadcrumbs don't fit on one line, CSS moves the breadcrumbs below the header.
+    // Mark them so they show as a bar, as on small screens. Rechecked whenever the header's size changes.
+    $('section.content-header').each(function () {
+        var title = $(this).children('h1').get(0);
+        var breadcrumb = $(this).children('.breadcrumb').get(0);
+        if (!title || !breadcrumb || typeof ResizeObserver === 'undefined') {
+            return;
+        }
+        var update = function () {
+            var wrapped = breadcrumb.offsetTop >= title.offsetTop + title.offsetHeight;
+            $(breadcrumb).toggleClass('breadcrumb-wrapped', wrapped);
+        };
+        new ResizeObserver(update).observe(this);
+        update();
+    });
+
     // Toggle a row, and it's content
     $('.toggle-visible').click(function (e) {
         var target = $(this).data('toggle-target');

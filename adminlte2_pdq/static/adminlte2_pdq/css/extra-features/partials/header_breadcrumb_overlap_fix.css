@@ -1,15 +1,69 @@
 /**
- * When the Page Header (block "page_name") value is long, it can sometimes overlap with the page breadcrumbs.
- * This appears to be an issue with original AdminLTE2, but is still probably undesired behavior.
+ * Page header and breadcrumbs.
  *
- * Some element styles are defined via :before tags, which aren't directly part of the DOM and thus cannot be
- * changed with JS. See things like https://stackoverflow.com/a/17789110 for more info.
+ * AdminLTE positions the breadcrumbs absolutely in the top right corner of the content header, so a long page
+ * header (block "page_name") runs underneath them. Here the content header is a wrapping flex row instead: the
+ * breadcrumbs stay on the right while there is room, and move to their own line below the page header when there
+ * isn't. This follows the window size.
  *
- * Thus, this file gets around it by adding CSS classes.
+ * js/extra-features/extra-features.js adds the class "breadcrumb-wrapped" when the breadcrumbs are on their own line,
+ * so they show as a bar, as on small screens. Without the script, the layout is the same and the breadcrumbs stay
+ * transparent.
  */
 
 
-section.content-header > ol.breadcrumb > li.header-fix:before {
-    color: #97a0b3 !important;
-    content: '>\00a0' !important;
+.content-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    row-gap: 5px;
+}
+.content-header > h1 {
+    flex: 0 1 auto;
+    min-width: 0;
+}
+.content-header > .breadcrumb {
+    /* Moves to its own line first; only a trail wider than the whole header shrinks, wrapping between items. */
+    flex: 0 1 auto;
+    position: static;
+    float: none;
+    /* Same position as AdminLTE's top: 15px; right: 10px, inside the header's 15px padding. */
+    margin: 0 -5px 0 auto;
+    /*
+     * Keeps the header the height of the page title, as when the breadcrumbs were positioned absolutely.
+     * The breadcrumbs are about 5px taller than the title, and 8px in Django admin pages, whose base.css sets a
+     * larger line height on list items.
+     */
+    margin-bottom: -10px;
+}
+
+/*
+ * Breadcrumbs on their own line: AdminLTE's small-screen bar. Only properties that don't change the breadcrumbs'
+ * width before wrapping, so the class can't move them back onto the header's line.
+ */
+.content-header > .breadcrumb.breadcrumb-wrapped {
+    flex-grow: 1;
+    margin: 0;
+    padding-left: 10px;
+    background: #d2d6de;
+}
+.content-header > .breadcrumb.breadcrumb-wrapped li:before {
+    color: #97a0b3;
+}
+
+/* Anything else in the content header keeps its own line, as it would outside a flex row. */
+.content-header > :not(h1):not(.breadcrumb) {
+    flex-basis: 100%;
+}
+/* The clearfix for the old floated breadcrumbs takes no part in a flex row. */
+.content-header > .clearfix {
+    display: none;
+}
+
+/* Small screens: AdminLTE shows the breadcrumbs as a full-width bar below the page header. */
+@media (max-width: 991px) {
+    .content-header > .breadcrumb {
+        flex-basis: 100%;
+        margin: 0;
+    }
 }

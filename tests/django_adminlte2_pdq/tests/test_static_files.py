@@ -19,7 +19,6 @@ PDQ_STATIC_DIR = STATIC_DIR / "adminlte2_pdq"
 # JavaScript can't import other files, so each old path is a copy of the current file.
 DEPRECATED_JS_COPIES = {
     "extra-features/extra-features.js": "js/extra-features/extra-features.js",
-    "extra-features/header-breadcrumb-overlap-fix.js": "js/extra-features/header_breadcrumb_overlap_fix.js",
     "extra-features/sidebar-state.js": "js/extra-features/sidebar-state.js",
     "conflicts/conflicts.js": "js/conflicts/conflicts.js",
 }

@@ -85,13 +85,23 @@ Unreleased
     ``css/extra-features/extra-features.css``.
   * ``extra-features/header-breadcrumb-overlap-fix.css``: now part of
     ``css/extra-features/extra-features.css``.
-  * ``extra-features/extra-features.js``,
-    ``extra-features/header-breadcrumb-overlap-fix.js``, and
+  * ``extra-features/extra-features.js`` and
     ``extra-features/sidebar-state.js``: now in ``js/extra-features/``.
+  * ``extra-features/header-breadcrumb-overlap-fix.js``: removed (see the page
+    header change below).
   * ``conflicts/conflicts.css`` and ``conflicts/conflicts.js``: now
     ``css/conflicts/conflicts.css`` and ``js/conflicts/conflicts.js``.
   * ``conflicts/django-admin-conflicts.css``: now
     ``css/conflicts/django_admin_conflicts.css``.
+
+* When the page header and the breadcrumbs don't fit on one line, the
+  breadcrumbs move to their own line below the header and show as a bar, as on
+  small screens. The layout is now done in CSS, so it also updates when the
+  window is resized, and the bar uses the skin's colors (in the dark skins it
+  is transparent, as on small screens). ``extra-features.js`` adds the class
+  ``breadcrumb-wrapped`` to the breadcrumbs while they are on their own line.
+  The file ``extra-features/header-breadcrumb-overlap-fix.js`` is removed;
+  remove any link to it from your templates.
 
 * The demo CSS page is now a set of pages under ``/demo-css/``: typography,
   widgets, general UI and color palette, alerts, basic and specialized
