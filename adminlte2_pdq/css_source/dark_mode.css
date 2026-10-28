@@ -10,6 +10,12 @@
  */
 
 
+/* Native controls (scrollbars, select boxes, checkboxes, date pickers) use the browser's dark styles */
+.pdq-dark {
+    color-scheme: dark;
+    scrollbar-color: var(--pdq-dark-border-strong) var(--pdq-dark-page);
+}
+
 /* region Palette */
 /*
 Dark mode's colors, defined once, as AdminLTE's source keeps its colors in LESS variables. Every rule below uses these

@@ -19,10 +19,16 @@ Unreleased
 
 * Add dark mode: dark versions of the AdminLTE skins, ``skin-blue-dark``,
   ``skin-black-dark``, ``skin-purple-dark``, ``skin-yellow-dark``,
-  ``skin-red-dark``, and ``skin-green-dark``. Set ``ADMINLTE2_SKIN_CLASS`` to
-  one of them. The dark mode CSS is always loaded and only applies under a
-  dark skin class, so a page can switch modes by changing the body's skin
-  class.
+  ``skin-red-dark``, and ``skin-green-dark``. The dark mode CSS is always
+  loaded and only applies under a dark skin class, so a page can switch modes
+  by changing the body's skin class.
+
+* **The site now follows the browser's light or dark mode by default.** Users
+  whose browser or operating system is set to dark mode see the dark version
+  of the site's skin. Light mode is unchanged. Set
+  ``ADMINLTE2_SKIN_FOLLOW_BROWSER = False`` to always use
+  ``ADMINLTE2_SKIN_CLASS``. ``ADMINLTE2_SKIN_CLASS_LIGHT`` and
+  ``ADMINLTE2_SKIN_CLASS_DARK`` choose the skins used in each mode.
 
 * Add ``python -m adminlte2_pdq.color_css --custom NAME BASE``, which prints
   the CSS for a project's own color: its custom properties and every color

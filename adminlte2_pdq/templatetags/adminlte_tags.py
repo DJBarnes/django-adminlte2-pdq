@@ -6,6 +6,7 @@ Collection of template tags to make rendering things easier.
 
 from hashlib import md5
 import logging
+import re
 
 from django import template
 from django.conf import settings
@@ -308,6 +309,39 @@ def get_logo_text_small():
 def get_skin_class():
     """Get the skin class to use from the settings and default to skin-blue"""
     return getattr(settings, "ADMINLTE2_SKIN_CLASS", "skin-blue")
+
+
+def _skin_color(skin_class):
+    """Return the color of a skin class: "blue" for skin-blue, skin-blue-light, and skin-blue-dark."""
+    match = re.fullmatch(r"skin-(.+?)(?:-light|-dark)?", skin_class)
+    return match.group(1) if match else "blue"
+
+
+@register.simple_tag()
+def get_skin_class_light():
+    """Get the skin class to use when following the browser and the browser is in light mode.
+
+    Defaults to ADMINLTE2_SKIN_CLASS, or its -light version when that is a dark skin.
+    """
+    default = get_skin_class()
+    if default.endswith("-dark"):
+        default = f"skin-{_skin_color(default)}-light"
+    return getattr(settings, "ADMINLTE2_SKIN_CLASS_LIGHT", default)
+
+
+@register.simple_tag()
+def get_skin_class_dark():
+    """Get the skin class to use when following the browser and the browser is in dark mode.
+
+    Defaults to the -dark version of ADMINLTE2_SKIN_CLASS.
+    """
+    return getattr(settings, "ADMINLTE2_SKIN_CLASS_DARK", f"skin-{_skin_color(get_skin_class())}-dark")
+
+
+@register.simple_tag()
+def get_skin_follow_browser():
+    """Get whether the skin follows the browser's light or dark mode. Defaults to True."""
+    return bool(getattr(settings, "ADMINLTE2_SKIN_FOLLOW_BROWSER", True))
 
 
 @register.simple_tag()

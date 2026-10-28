@@ -51,6 +51,7 @@
 </head>
 
 
+{% get_skin_follow_browser as skin_follow_browser %}
 <body
   class="
     hold-transition
@@ -58,8 +59,20 @@
     {% block skin_class %}{% get_skin_class %}{% endblock skin_class %}
     {% block body_class %}{% endblock body_class %}
   "
+  {% if skin_follow_browser %}
+    data-skin-current="{% get_skin_class %}"
+    data-skin-light="{% get_skin_class_light %}"
+    data-skin-dark="{% get_skin_class_dark %}"
+  {% endif %}
   {% block body_attrs %}{% endblock body_attrs %}
 >
+  {% block skin_follow_browser %}
+    {% if skin_follow_browser %}
+      {# Must come right after the body tag, so the skin is set before the page is drawn. #}
+      <script src="{% static 'adminlte2_pdq/js/extra-features/skin_follow_browser.js' %}"></script>
+    {% endif %}
+  {% endblock skin_follow_browser %}
+
   {% block sidebar_state %}
     {# NOTE: Must be here so that it can be executed as soon as the body tag is rendered. #}
     <script src="{% static 'adminlte2_pdq/js/extra-features/sidebar-state.js' %}"></script>

@@ -87,8 +87,11 @@ page.
 
 The package adds a dark version of each AdminLTE skin color:
 ``skin-blue-dark``, ``skin-black-dark``, ``skin-purple-dark``,
-``skin-yellow-dark``, ``skin-red-dark``, and ``skin-green-dark``. See
-:ref:`configuration/front_end_styling:Dark Mode`.
+``skin-yellow-dark``, ``skin-red-dark``, and ``skin-green-dark``.
+
+By default the site follows the browser's light or dark mode, and this setting
+is the starting point for the light and dark skins. It is used as-is when
+browser following is off. See :ref:`configuration/front_end_styling:Dark Mode`.
 
 :Type: ``string``
 :Default: ``skin-blue``
