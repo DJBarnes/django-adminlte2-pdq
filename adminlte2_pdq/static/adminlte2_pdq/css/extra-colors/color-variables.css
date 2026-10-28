@@ -11,6 +11,7 @@
 
 
 :root {
+    --pdq-table-body-text: #333;
     /* default */
     --pdq-default-text: #444;
     --pdq-default-base: #f4f4f4;

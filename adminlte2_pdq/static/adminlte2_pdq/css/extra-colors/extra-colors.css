@@ -3311,7 +3311,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.default,
 .table > tbody > tr.default > td,
 .table > tbody > tr.default > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-default-light-accent);
 }
 
@@ -3366,7 +3366,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.primary,
 .table > tbody > tr.primary > td,
 .table > tbody > tr.primary > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-primary-light-accent);
 }
 
@@ -3421,7 +3421,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.light-blue,
 .table > tbody > tr.light-blue > td,
 .table > tbody > tr.light-blue > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-light-blue-light-accent);
 }
 
@@ -3503,7 +3503,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.aqua,
 .table > tbody > tr.aqua > td,
 .table > tbody > tr.aqua > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-aqua-light-accent);
 }
 
@@ -3585,7 +3585,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.green,
 .table > tbody > tr.green > td,
 .table > tbody > tr.green > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-green-light-accent);
 }
 
@@ -3667,7 +3667,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.yellow,
 .table > tbody > tr.yellow > td,
 .table > tbody > tr.yellow > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-yellow-light-accent);
 }
 
@@ -3749,7 +3749,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.red,
 .table > tbody > tr.red > td,
 .table > tbody > tr.red > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-red-light-accent);
 }
 
@@ -3804,7 +3804,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.error,
 .table > tbody > tr.error > td,
 .table > tbody > tr.error > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-error-light-accent);
 }
 
@@ -3859,7 +3859,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.navy,
 .table > tbody > tr.navy > td,
 .table > tbody > tr.navy > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-navy-light-accent);
 }
 
@@ -3914,7 +3914,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.blue,
 .table > tbody > tr.blue > td,
 .table > tbody > tr.blue > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-blue-light-accent);
 }
 
@@ -3969,7 +3969,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.teal,
 .table > tbody > tr.teal > td,
 .table > tbody > tr.teal > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-teal-light-accent);
 }
 
@@ -4024,7 +4024,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.olive,
 .table > tbody > tr.olive > td,
 .table > tbody > tr.olive > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-olive-light-accent);
 }
 
@@ -4079,7 +4079,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.lime,
 .table > tbody > tr.lime > td,
 .table > tbody > tr.lime > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-lime-light-accent);
 }
 
@@ -4134,7 +4134,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.orange,
 .table > tbody > tr.orange > td,
 .table > tbody > tr.orange > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-orange-light-accent);
 }
 
@@ -4189,7 +4189,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.fuchsia,
 .table > tbody > tr.fuchsia > td,
 .table > tbody > tr.fuchsia > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-fuchsia-light-accent);
 }
 
@@ -4244,7 +4244,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.purple,
 .table > tbody > tr.purple > td,
 .table > tbody > tr.purple > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-purple-light-accent);
 }
 
@@ -4299,7 +4299,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.maroon,
 .table > tbody > tr.maroon > td,
 .table > tbody > tr.maroon > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-maroon-light-accent);
 }
 
@@ -4354,7 +4354,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.black,
 .table > tbody > tr.black > td,
 .table > tbody > tr.black > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-black-light-accent);
 }
 
@@ -4409,7 +4409,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.gray,
 .table > tbody > tr.gray > td,
 .table > tbody > tr.gray > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-gray-light-accent);
 }
 
@@ -4464,7 +4464,7 @@ a.label.label-gray:focus {
 .table > tbody > tr > th.indigo,
 .table > tbody > tr.indigo > td,
 .table > tbody > tr.indigo > th {
-    color: #333;
+    color: var(--pdq-table-body-text);
     background-color: var(--pdq-indigo-light-accent);
 }
 

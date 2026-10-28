@@ -45,6 +45,12 @@
       <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-features/extra-features.css' %}">
     {% endblock styles_main_fixes__extra_features %}
 
+    {% block styles_main_fixes__dark_mode %}
+      {# Only applies under a skin-{color}-dark body class. Always loaded, so a page can switch skins at runtime. #}
+      <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/dark-mode/dark-skins.css' %}">
+      <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/dark-mode/dark-mode.css' %}">
+    {% endblock styles_main_fixes__dark_mode %}
+
   {% endblock styles_main_fixes %}
 
 

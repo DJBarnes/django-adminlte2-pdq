@@ -17,6 +17,13 @@ Unreleased
   ``adminlte2_pdq/css/extra-colors/color-variables.css``. Redefine them in
   your own CSS to change a color.
 
+* Add dark mode: dark versions of the AdminLTE skins, ``skin-blue-dark``,
+  ``skin-black-dark``, ``skin-purple-dark``, ``skin-yellow-dark``,
+  ``skin-red-dark``, and ``skin-green-dark``. Set ``ADMINLTE2_SKIN_CLASS`` to
+  one of them. The dark mode CSS is always loaded and only applies under a
+  dark skin class, so a page can switch modes by changing the body's skin
+  class.
+
 * Add ``python -m adminlte2_pdq.color_css --custom NAME BASE``, which prints
   the CSS for a project's own color: its custom properties and every color
   class.
@@ -89,10 +96,11 @@ Unreleased
 * ``adminlte2_pdq.views`` is now a package. Views are still importable from
   ``adminlte2_pdq.views``.
 
-* The ``styles_main_fixes`` template block contains three new blocks:
+* The ``styles_main_fixes`` template block contains four new blocks:
   ``styles_main_fixes__color_variables``,
-  ``styles_main_fixes__extra_colors``, and
-  ``styles_main_fixes__extra_features``.
+  ``styles_main_fixes__extra_colors``,
+  ``styles_main_fixes__extra_features``, and
+  ``styles_main_fixes__dark_mode``.
 
 * Add the ``ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST`` setting. Paths
   that start with an entry in this list raise ``PermissionDenied`` on a failed

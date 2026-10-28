@@ -85,6 +85,11 @@ Set the skin class to use for the site. Valid skin classes can be found on the
 `AdminLTE documentation <https://adminlte.io/themes/AdminLTE/documentation/>`_
 page.
 
+The package adds a dark version of each AdminLTE skin color:
+``skin-blue-dark``, ``skin-black-dark``, ``skin-purple-dark``,
+``skin-yellow-dark``, ``skin-red-dark``, and ``skin-green-dark``. See
+:ref:`configuration/front_end_styling:Dark Mode`.
+
 :Type: ``string``
 :Default: ``skin-blue``
 

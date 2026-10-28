@@ -1,0 +1,836 @@
+/**
+ * AdminLTE PDQ dark mode: source.
+ *
+ * adminlte2_pdq/dark_css.py turns this file into static/adminlte2_pdq/css/dark-mode/dark-mode.css. It replaces
+ * `.pdq-dark` with `:is(.skin-blue-dark, .skin-black-dark, ...)`, so every rule applies only under a dark skin and
+ * keeps the specificity of one class, like AdminLTE's own `.skin-X` rules. The generated file also redefines the
+ * package's --pdq-* color variables for dark mode.
+ *
+ * Covers Bootstrap 3 and AdminLTE 2 components, the Django admin's CSS variables, and Select2.
+ */
+
+
+/* region Palette */
+/*
+Dark mode's colors, defined once, as AdminLTE's source keeps its colors in LESS variables. Every rule below uses these
+rather than repeating the hex values. The tints are dark versions of Bootstrap's contextual colors, each with a lighter
+hover, as Bootstrap's own hovers are a step darker than its light tints.
+*/
+.pdq-dark {
+    --pdq-dark-page: #1a2226;
+    --pdq-dark-surface: #222d32;
+    --pdq-dark-raised: #2c3b41;
+    --pdq-dark-border: #3b4a50;
+    --pdq-dark-border-strong: #4b5d64;
+
+    --pdq-dark-text: #fff;
+    --pdq-dark-text-soft: #d0d0d0;
+    --pdq-dark-text-help: #a3aeb3;
+    --pdq-dark-text-muted: #8a979c;
+    --pdq-dark-text-sidebar: #b8c7ce;
+
+    --pdq-dark-active: #3c8dbc;
+
+    --pdq-dark-success: #1e4b2e;
+    --pdq-dark-success-hover: #265e3a;
+    --pdq-dark-info: #1b3d52;
+    --pdq-dark-info-hover: #224c66;
+    --pdq-dark-warning: #574515;
+    --pdq-dark-warning-hover: #6b551a;
+    --pdq-dark-danger: #5a2323;
+    --pdq-dark-danger-hover: #702c2c;
+    --pdq-dark-orange: #5e3a12;
+    --pdq-dark-orange-hover: #744816;
+    --pdq-dark-purple: #3b3769;
+    --pdq-dark-purple-hover: #4a4583;
+    --pdq-dark-raised-hover: #34454c;
+
+    /* Fields keep their border as faint as the page allows; the default gray is a dark chip with white text */
+    --pdq-dark-field-border: #2c3b41;
+    --pdq-dark-focus: #1f4e79;
+    --pdq-dark-default: #4b5d64;
+}
+/* endregion Palette */
+
+/*
+Django admin's own CSS (admin/css/base.css) colors its tables, modules and forms from these variables, which
+otherwise keep their light values in dark mode. Values follow Django's admin/css/dark_mode.css, in our palette.
+*/
+.pdq-dark {
+    --body-fg: var(--pdq-dark-text);
+    --body-bg: var(--pdq-dark-surface);
+    --body-quiet-color: var(--pdq-dark-text-soft);
+    --body-medium-color: #e0e0e0;
+    --body-loud-color: var(--pdq-dark-text);
+
+    --link-fg: #81d4fa;
+    --link-hover-color: #4ac1f7;
+    --link-selected-fg: #6f94c6;
+
+    --hairline-color: var(--pdq-dark-border);
+    --border-color: var(--pdq-dark-border);
+
+    --error-fg: #e35f5f;
+    --message-success-bg: #006b1b;
+    --message-warning-bg: #583305;
+    --message-error-bg: #570808;
+
+    --darkened-bg: var(--pdq-dark-page);
+    --selected-bg: var(--pdq-dark-border);
+    --selected-row: #00363a;
+
+    --close-button-bg: #333;
+    --close-button-hover-bg: #666;
+}
+
+/* region Form fields */
+/*
+Fields are dark, with light text. Plain inputs without .form-control are included: they inherit dark mode's white
+text, which otherwise lands on the browser's white field.
+*/
+.pdq-dark .form-control,
+.pdq-dark input:not([type]),
+.pdq-dark input[type="text"],
+.pdq-dark input[type="number"],
+.pdq-dark input[type="email"],
+.pdq-dark input[type="password"],
+.pdq-dark input[type="search"],
+.pdq-dark input[type="tel"],
+.pdq-dark input[type="url"],
+.pdq-dark input[type="date"],
+.pdq-dark select,
+.pdq-dark textarea {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-page);
+    border-color: var(--pdq-dark-field-border);
+}
+.pdq-dark .form-control:focus {
+    border-color: var(--pdq-dark-active);
+}
+.pdq-dark .form-control::placeholder,
+.pdq-dark input::placeholder,
+.pdq-dark textarea::placeholder {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .input-group-addon {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-field-border);
+}
+.pdq-dark .help-block {
+    color: var(--pdq-dark-text-help);
+}
+/* Validation states keep their color, which the lighter help text above would otherwise replace */
+.pdq-dark .has-success .help-block,
+.pdq-dark .has-success .control-label {
+    color: #00a65a;
+}
+.pdq-dark .has-warning .help-block,
+.pdq-dark .has-warning .control-label {
+    color: #f39c12;
+}
+.pdq-dark .has-error .help-block,
+.pdq-dark .has-error .control-label {
+    color: #dd4b39;
+}
+.pdq-dark legend {
+    color: var(--pdq-dark-text);
+    border-bottom-color: var(--pdq-dark-border);
+}
+/* Disabled and readonly fields stay a step lighter than editable ones, as in light mode */
+.pdq-dark .form-control[disabled],
+.pdq-dark .form-control[readonly],
+.pdq-dark input[disabled],
+.pdq-dark input[readonly],
+.pdq-dark select[disabled],
+.pdq-dark textarea[disabled],
+.pdq-dark textarea[readonly] {
+    color: var(--pdq-dark-text-soft);
+    background-color: var(--pdq-dark-border);
+}
+/* endregion Form fields */
+
+.pdq-dark .content-wrapper {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-page);
+}
+.pdq-dark .box,
+.pdq-dark .box .box-header {
+    background-color: var(--pdq-dark-surface);
+    color: var(--pdq-dark-text);
+}
+
+.pdq-dark .info-box {
+    background-color: var(--pdq-dark-page);
+}
+.pdq-dark .table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: var(--pdq-dark-surface);
+}
+/* Like Bootstrap's light hover (#f5f5f5, the same as its .active rows), a faint step up */
+.pdq-dark .table-hover>tbody>tr:hover {
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark .table-bordered {
+    border: 1px solid var(--pdq-dark-border);
+}
+.pdq-dark .table-bordered > thead > tr > th,
+.pdq-dark .table-bordered > tbody > tr > th,
+.pdq-dark .table-bordered > tfoot > tr > th,
+.pdq-dark .table-bordered > thead > tr > td,
+.pdq-dark .table-bordered > tbody > tr > td,
+.pdq-dark .table-bordered > tfoot > tr > td {
+    border: 1px solid var(--pdq-dark-border);
+}
+
+.pdq-dark .sidebar-menu .treeview-menu > li > a.node-link:hover {
+    background: var(--pdq-dark-border);
+}
+
+/* region Tables: contextual row colors and nested tables */
+/*
+Bootstrap's .active/.success/.info/.warning/.danger color table rows and cells light, under text that dark mode makes
+white. (The package's own color rows use the --pdq-* tint variables, which dark mode redefines.) Each becomes a dark tint of its own color. Bootstrap's light .bg-*
+helpers get the same tints, and nested tables lose Bootstrap's white background.
+*/
+.pdq-dark .table .table {
+    background-color: transparent;
+}
+
+.pdq-dark .table > thead > tr > td.active, .pdq-dark .table > tbody > tr > td.active,
+.pdq-dark .table > tfoot > tr > td.active, .pdq-dark .table > thead > tr > th.active,
+.pdq-dark .table > tbody > tr > th.active, .pdq-dark .table > tfoot > tr > th.active,
+.pdq-dark .table > thead > tr.active > td, .pdq-dark .table > tbody > tr.active > td,
+.pdq-dark .table > tfoot > tr.active > td, .pdq-dark .table > thead > tr.active > th,
+.pdq-dark .table > tbody > tr.active > th, .pdq-dark .table > tfoot > tr.active > th {
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark .table > thead > tr > td.success, .pdq-dark .table > tbody > tr > td.success,
+.pdq-dark .table > tfoot > tr > td.success, .pdq-dark .table > thead > tr > th.success,
+.pdq-dark .table > tbody > tr > th.success, .pdq-dark .table > tfoot > tr > th.success,
+.pdq-dark .table > thead > tr.success > td, .pdq-dark .table > tbody > tr.success > td,
+.pdq-dark .table > tfoot > tr.success > td, .pdq-dark .table > thead > tr.success > th,
+.pdq-dark .table > tbody > tr.success > th, .pdq-dark .table > tfoot > tr.success > th,
+.pdq-dark .bg-success {
+    background-color: var(--pdq-dark-success);
+}
+.pdq-dark .table > thead > tr > td.info, .pdq-dark .table > tbody > tr > td.info,
+.pdq-dark .table > tfoot > tr > td.info, .pdq-dark .table > thead > tr > th.info,
+.pdq-dark .table > tbody > tr > th.info, .pdq-dark .table > tfoot > tr > th.info,
+.pdq-dark .table > thead > tr.info > td, .pdq-dark .table > tbody > tr.info > td,
+.pdq-dark .table > tfoot > tr.info > td, .pdq-dark .table > thead > tr.info > th,
+.pdq-dark .table > tbody > tr.info > th, .pdq-dark .table > tfoot > tr.info > th,
+.pdq-dark .bg-info {
+    background-color: var(--pdq-dark-info);
+}
+.pdq-dark .table > thead > tr > td.warning, .pdq-dark .table > tbody > tr > td.warning,
+.pdq-dark .table > tfoot > tr > td.warning, .pdq-dark .table > thead > tr > th.warning,
+.pdq-dark .table > tbody > tr > th.warning, .pdq-dark .table > tfoot > tr > th.warning,
+.pdq-dark .table > thead > tr.warning > td, .pdq-dark .table > tbody > tr.warning > td,
+.pdq-dark .table > tfoot > tr.warning > td, .pdq-dark .table > thead > tr.warning > th,
+.pdq-dark .table > tbody > tr.warning > th, .pdq-dark .table > tfoot > tr.warning > th,
+.pdq-dark .bg-warning {
+    background-color: var(--pdq-dark-warning);
+}
+.pdq-dark .table > thead > tr > td.danger, .pdq-dark .table > tbody > tr > td.danger,
+.pdq-dark .table > tfoot > tr > td.danger, .pdq-dark .table > thead > tr > th.danger,
+.pdq-dark .table > tbody > tr > th.danger, .pdq-dark .table > tfoot > tr > th.danger,
+.pdq-dark .table > thead > tr.danger > td, .pdq-dark .table > tbody > tr.danger > td,
+.pdq-dark .table > tfoot > tr.danger > td, .pdq-dark .table > thead > tr.danger > th,
+.pdq-dark .table > tbody > tr.danger > th, .pdq-dark .table > tfoot > tr.danger > th,
+.pdq-dark .bg-danger {
+    background-color: var(--pdq-dark-danger);
+}
+/* Each color's hover is a lighter step of its tint, mirroring Bootstrap's own hover rules */
+.pdq-dark .table-hover > tbody > tr > td.active:hover, .pdq-dark .table-hover > tbody > tr > th.active:hover,
+.pdq-dark .table-hover > tbody > tr.active:hover > td, .pdq-dark .table-hover > tbody > tr:hover > .active,
+.pdq-dark .table-hover > tbody > tr.active:hover > th {
+    background-color: var(--pdq-dark-raised-hover);
+}
+.pdq-dark .table-hover > tbody > tr > td.success:hover, .pdq-dark .table-hover > tbody > tr > th.success:hover,
+.pdq-dark .table-hover > tbody > tr.success:hover > td, .pdq-dark .table-hover > tbody > tr:hover > .success,
+.pdq-dark .table-hover > tbody > tr.success:hover > th {
+    background-color: var(--pdq-dark-success-hover);
+}
+.pdq-dark .table-hover > tbody > tr > td.info:hover, .pdq-dark .table-hover > tbody > tr > th.info:hover,
+.pdq-dark .table-hover > tbody > tr.info:hover > td, .pdq-dark .table-hover > tbody > tr:hover > .info,
+.pdq-dark .table-hover > tbody > tr.info:hover > th {
+    background-color: var(--pdq-dark-info-hover);
+}
+.pdq-dark .table-hover > tbody > tr > td.warning:hover, .pdq-dark .table-hover > tbody > tr > th.warning:hover,
+.pdq-dark .table-hover > tbody > tr.warning:hover > td, .pdq-dark .table-hover > tbody > tr:hover > .warning,
+.pdq-dark .table-hover > tbody > tr.warning:hover > th {
+    background-color: var(--pdq-dark-warning-hover);
+}
+.pdq-dark .table-hover > tbody > tr > td.danger:hover, .pdq-dark .table-hover > tbody > tr > th.danger:hover,
+.pdq-dark .table-hover > tbody > tr.danger:hover > td, .pdq-dark .table-hover > tbody > tr:hover > .danger,
+.pdq-dark .table-hover > tbody > tr.danger:hover > th {
+    background-color: var(--pdq-dark-danger-hover);
+}
+/* endregion Tables */
+
+/* region Components */
+/*
+Every Bootstrap 3 and AdminLTE 2 component that's light in light mode, in all its variants and states, whether or not
+the site uses it yet, so anything added later works in dark mode too. Checked against a gallery of every component.
+*/
+
+/* Typography */
+.pdq-dark .text-muted {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .text-primary {
+    color: #5fa2dd;
+}
+.pdq-dark .text-success {
+    color: #7bc47f;
+}
+.pdq-dark .text-info {
+    color: #6fb7dd;
+}
+.pdq-dark .text-warning {
+    color: #e0b45a;
+}
+.pdq-dark .text-danger {
+    color: #e57373;
+}
+.pdq-dark pre {
+    color: #e0e0e0;
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark code {
+    color: #f48fb1;
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark hr,
+.pdq-dark .page-header {
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark blockquote,
+.pdq-dark .blockquote-reverse {
+    border-color: var(--pdq-dark-border);
+}
+
+/* Buttons */
+.pdq-dark .btn-default,
+.pdq-dark .btn-app {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .btn-default:hover,
+.pdq-dark .btn-default:focus,
+.pdq-dark .btn-default:active,
+.pdq-dark .btn-default.active,
+.pdq-dark .open > .dropdown-toggle.btn-default,
+.pdq-dark .btn-app:hover {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-border);
+    border-color: var(--pdq-dark-border-strong);
+}
+
+/*
+AdminLTE gives default buttons in a solid box's header their own light gray. They match the default buttons above
+instead.
+*/
+.pdq-dark .box.box-solid > .box-header .btn.btn-default {
+    color: var(--pdq-dark-text);
+    background: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .box.box-solid > .box-header .btn.btn-default:hover {
+    background: var(--pdq-dark-border);
+    border-color: var(--pdq-dark-border-strong);
+}
+
+/* Boxes */
+.pdq-dark .box-footer {
+    background-color: var(--pdq-dark-surface);
+    border-top-color: var(--pdq-dark-border);
+}
+/* A "default" solid box's header is AdminLTE's light gray */
+.pdq-dark .box.box-solid.box-default {
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .box.box-solid.box-default > .box-header {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-border);
+}
+/* Like AdminLTE, only the text color of links and buttons in the header changes */
+.pdq-dark .box.box-solid.box-default > .box-header a,
+.pdq-dark .box.box-solid.box-default > .box-header .btn {
+    color: var(--pdq-dark-text);
+}
+/* Navs, tabs, breadcrumbs, pagination and pager */
+.pdq-dark .nav-tabs {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .nav-tabs > li > a:hover,
+.pdq-dark .nav-tabs > li > a:focus,
+.pdq-dark .nav-pills > li > a:hover,
+.pdq-dark .nav-pills > li > a:focus,
+.pdq-dark .nav-stacked > li > a:hover {
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .nav-tabs > li.active > a,
+.pdq-dark .nav-tabs > li.active > a:hover,
+.pdq-dark .nav-tabs > li.active > a:focus {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+    border-bottom-color: transparent;
+}
+.pdq-dark .nav-pills > li:not(.active) > a,
+.pdq-dark .nav-stacked > li:not(.active) > a {
+    color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .nav-stacked > li.active > a,
+.pdq-dark .nav-stacked > li.active > a:hover {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark .nav > li.disabled > a {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .nav-tabs-custom,
+.pdq-dark .nav-tabs-custom > .tab-content {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .nav-tabs-custom > .nav-tabs {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .nav-tabs-custom > .nav-tabs > li > a,
+.pdq-dark .nav-tabs-custom > .nav-tabs > li.header {
+    color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .nav-tabs-custom > .nav-tabs > li.active > a,
+.pdq-dark .nav-tabs-custom > .nav-tabs > li.active:hover > a {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .breadcrumb {
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .breadcrumb > .active {
+    color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .breadcrumb > li + li:before {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .content-header > .breadcrumb {
+    background-color: transparent;
+}
+.pdq-dark .content-header > .breadcrumb > li > a,
+.pdq-dark .content-header > .breadcrumb > li + li:before {
+    color: var(--pdq-dark-text-sidebar);
+}
+.pdq-dark .pagination > li > a,
+.pdq-dark .pagination > li > span,
+.pdq-dark .pager li > a,
+.pdq-dark .pager li > span {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .pagination > li > a:hover,
+.pdq-dark .pagination > li > span:hover,
+.pdq-dark .pager li > a:hover {
+    background-color: var(--pdq-dark-border);
+}
+.pdq-dark .pagination > .active > a,
+.pdq-dark .pagination > .active > span,
+.pdq-dark .pagination > .active > a:hover,
+.pdq-dark .pagination > .active > span:hover {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-active);
+    border-color: var(--pdq-dark-active);
+}
+.pdq-dark .pagination > .disabled > a,
+.pdq-dark .pagination > .disabled > span,
+.pdq-dark .pager .disabled > a,
+.pdq-dark .pager .disabled > span {
+    color: var(--pdq-dark-text-muted);
+    background-color: var(--pdq-dark-surface);
+}
+
+/* Jumbotron, thumbnails, progress bars, wells */
+.pdq-dark .jumbotron,
+.pdq-dark .thumbnail {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .thumbnail .caption {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .progress {
+    background-color: var(--pdq-dark-border);
+}
+.pdq-dark .well {
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+
+/* List groups: plain items, and the active, disabled and colored ones */
+.pdq-dark .list-group-item {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark a.list-group-item:hover,
+.pdq-dark a.list-group-item:focus,
+.pdq-dark button.list-group-item:hover,
+.pdq-dark button.list-group-item:focus {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark .list-group-item-heading,
+.pdq-dark a.list-group-item .list-group-item-heading,
+.pdq-dark button.list-group-item .list-group-item-heading {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .list-group-item-text {
+    color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .list-group-item.active,
+.pdq-dark .list-group-item.active:hover,
+.pdq-dark .list-group-item.active:focus {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-active);
+    border-color: var(--pdq-dark-active);
+}
+.pdq-dark .list-group-item.disabled,
+.pdq-dark .list-group-item.disabled:hover {
+    color: var(--pdq-dark-text-muted);
+    background-color: var(--pdq-dark-page);
+}
+.pdq-dark .list-group-item-success {
+    background-color: var(--pdq-dark-success);
+}
+.pdq-dark .list-group-item-info {
+    background-color: var(--pdq-dark-info);
+}
+.pdq-dark .list-group-item-warning {
+    background-color: var(--pdq-dark-warning);
+}
+.pdq-dark .list-group-item-danger {
+    background-color: var(--pdq-dark-danger);
+}
+.pdq-dark .list-group-item-success,
+.pdq-dark .list-group-item-info,
+.pdq-dark .list-group-item-warning,
+.pdq-dark .list-group-item-danger {
+    color: var(--pdq-dark-text);
+}
+
+/* Panels: the default one and the colored headings, with the same tints as the table rows */
+.pdq-dark .panel {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .panel-footer {
+    background-color: var(--pdq-dark-raised);
+    border-top-color: var(--pdq-dark-border);
+}
+.pdq-dark .panel-default > .panel-heading {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .panel-success > .panel-heading {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-success);
+    border-color: var(--pdq-dark-success);
+}
+.pdq-dark .panel-info > .panel-heading {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-info);
+    border-color: var(--pdq-dark-info);
+}
+.pdq-dark .panel-warning > .panel-heading {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-warning);
+    border-color: var(--pdq-dark-warning);
+}
+.pdq-dark .panel-danger > .panel-heading {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-danger);
+    border-color: var(--pdq-dark-danger);
+}
+
+/* Modals and popovers (tooltips are already dark) */
+.pdq-dark .modal-content {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .modal-header {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .modal-footer {
+    border-top-color: var(--pdq-dark-border);
+}
+.pdq-dark .modal-header .close {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .popover {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .popover-title {
+    background-color: var(--pdq-dark-raised);
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .popover.top > .arrow:after {
+    border-top-color: var(--pdq-dark-surface);
+}
+.pdq-dark .popover.bottom > .arrow:after {
+    border-bottom-color: var(--pdq-dark-raised);
+}
+.pdq-dark .popover.left > .arrow:after {
+    border-left-color: var(--pdq-dark-surface);
+}
+.pdq-dark .popover.right > .arrow:after {
+    border-right-color: var(--pdq-dark-surface);
+}
+
+/* AdminLTE widgets */
+.pdq-dark .box-comments,
+.pdq-dark .attachment-block {
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .box-comments .box-comment {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .box-comments .comment-text,
+.pdq-dark .attachment-block .attachment-text {
+    color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .box-comments .username,
+.pdq-dark .attachment-block .attachment-heading {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .timeline > li > .timeline-item {
+    color: var(--pdq-dark-text-soft);
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .timeline > li > .timeline-item > .timeline-header {
+    color: var(--pdq-dark-text);
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .timeline > li > .timeline-item > .time {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .timeline:before {
+    background-color: var(--pdq-dark-border);
+}
+.pdq-dark .direct-chat-text {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-border);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .direct-chat-text:after,
+.pdq-dark .direct-chat-text:before {
+    border-right-color: var(--pdq-dark-border);
+}
+.pdq-dark .direct-chat-timestamp {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .products-list > .item {
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .product-list-in-box > .item {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .products-list .product-description,
+.pdq-dark .users-list-date {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .todo-list > li {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+    border-left-color: var(--pdq-dark-border);
+}
+.pdq-dark .todo-list > li.done {
+    color: var(--pdq-dark-text-muted);
+    background-color: var(--pdq-dark-surface);
+}
+.pdq-dark .users-list-name {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .bg-gray-light {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+}
+
+/* Borders: each of AdminLTE's rules that draws a light border (#f4f4f4, #d2d6de, #ddd) gets the dark border */
+.pdq-dark .table > thead > tr > th,
+.pdq-dark .table > tbody > tr > th,
+.pdq-dark .table > tfoot > tr > th,
+.pdq-dark .table > thead > tr > td,
+.pdq-dark .table > tbody > tr > td,
+.pdq-dark .table > tfoot > tr > td {
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .box.box-default {
+    border-top-color: var(--pdq-dark-border);
+}
+.pdq-dark .box-header.with-border,
+.pdq-dark .mailbox-controls.with-border,
+.pdq-dark .mailbox-read-info,
+.pdq-dark .post {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .box .nav-stacked > li,
+.pdq-dark .nav-stacked > li.header {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .box .border-right {
+    border-right-color: var(--pdq-dark-border);
+}
+.pdq-dark .box .border-left {
+    border-left-color: var(--pdq-dark-border);
+}
+.pdq-dark .nav-tabs-custom > .nav-tabs > li.active > a {
+    border-left-color: var(--pdq-dark-border);
+    border-right-color: var(--pdq-dark-border);
+}
+.pdq-dark .nav-tabs-custom.tab-default > .nav-tabs > li.active {
+    border-top-color: var(--pdq-dark-border-strong);
+}
+.pdq-dark .timeline-inverse > li > .timeline-item {
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .timeline-inverse > li > .timeline-item > .timeline-header {
+    border-bottom-color: var(--pdq-dark-border);
+}
+.pdq-dark .dropdown-menu,
+.pdq-dark .navbar-nav > .user-menu > .dropdown-menu > .user-body {
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .mailbox-attachments li,
+.pdq-dark .img-bordered,
+.pdq-dark .img-bordered-sm {
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .invoice {
+    background-color: var(--pdq-dark-surface);
+    border-color: var(--pdq-dark-border);
+}
+.pdq-dark .sort-highlight {
+    background-color: var(--pdq-dark-raised);
+    border-color: var(--pdq-dark-border-strong);
+}
+
+/* Select2, which AdminLTE also styles */
+.pdq-dark .select2-container--default .select2-selection--single,
+.pdq-dark .select2-container--default .select2-selection--multiple,
+.pdq-dark .select2-selection .select2-selection--single,
+.pdq-dark .select2-dropdown {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-page);
+    border-color: var(--pdq-dark-field-border);
+}
+.pdq-dark .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .select2-search--dropdown .select2-search__field,
+.pdq-dark .select2-search--inline .select2-search__field {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-page);
+    border-color: var(--pdq-dark-field-border);
+}
+.pdq-dark .select2-container--default .select2-results__option[aria-selected="true"] {
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-border);
+    border-color: var(--pdq-dark-border-strong);
+}
+
+/* "Default" gray chips are a dark gray with white text, rather than AdminLTE's light gray. Like AdminLTE's own
+.bg-gray, this one is !important; .label-default isn't. */
+.pdq-dark .label-default {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-default);
+}
+.pdq-dark .bg-gray {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-default) !important;
+}
+.pdq-dark .bg-gray-active {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-border) !important;
+}
+
+/* Page frame */
+/* The login, register, and lockscreen pages */
+.pdq-dark.login-page,
+.pdq-dark.register-page,
+.pdq-dark.lockscreen {
+    background: var(--pdq-dark-page);
+}
+.pdq-dark .login-logo a,
+.pdq-dark .register-logo a,
+.pdq-dark .lockscreen-logo a {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .login-box-body,
+.pdq-dark .register-box-body,
+.pdq-dark .lockscreen-item,
+.pdq-dark .lockscreen-image {
+    color: var(--pdq-dark-text-soft);
+    background: var(--pdq-dark-surface);
+}
+.pdq-dark .login-box-body .form-control-feedback,
+.pdq-dark .register-box-body .form-control-feedback {
+    color: var(--pdq-dark-text-muted);
+}
+.pdq-dark .lockscreen-credentials .btn {
+    color: var(--pdq-dark-text);
+    background-color: var(--pdq-dark-raised);
+}
+.pdq-dark .main-footer {
+    color: var(--pdq-dark-text-soft);
+    background-color: var(--pdq-dark-surface);
+    border-top-color: var(--pdq-dark-border);
+}
+.pdq-dark .sidebar-menu > li.header {
+    color: #8aa4af;
+}
+/* The package's control sidebar (the admin's Recent actions) is AdminLTE's light one: it takes the dark one's colors */
+.pdq-dark .control-sidebar-light {
+    color: var(--pdq-dark-text-sidebar);
+}
+.pdq-dark .control-sidebar-light,
+.pdq-dark .control-sidebar-light + .control-sidebar-bg {
+    background: var(--pdq-dark-surface);
+    border-left-color: #1c2529;
+}
+.pdq-dark .control-sidebar-light .nav-tabs.control-sidebar-tabs > li > a {
+    color: var(--pdq-dark-text-sidebar);
+    background: #181f23;
+    border-color: #141a1d;
+}
+.pdq-dark .control-sidebar-light .nav-tabs.control-sidebar-tabs > li > a:hover {
+    color: var(--pdq-dark-text);
+    background: #1c2529;
+}
+.pdq-dark .control-sidebar-light .nav-tabs.control-sidebar-tabs > li.active > a {
+    color: var(--pdq-dark-text);
+    background: var(--pdq-dark-surface);
+}
+.pdq-dark .control-sidebar-light .control-sidebar-heading,
+.pdq-dark .control-sidebar-light .control-sidebar-subheading {
+    color: var(--pdq-dark-text);
+}
+.pdq-dark .control-sidebar-light .control-sidebar-menu > li > a:hover {
+    background: #1e282c;
+}
+/* endregion Components */

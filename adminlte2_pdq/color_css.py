@@ -318,6 +318,7 @@ def render_variables():
         "",
         "",
         ":root {",
+        f"    --pdq-table-body-text: {TABLE_BODY_TEXT};",
     ]
     for name in NAMES:
         if name in ALIASES:
@@ -546,7 +547,7 @@ def _component_rules(name, color=None):  # pylint: disable=too-many-statements
         yield "table", _rule(
             [f".table > tbody > tr > {cell}.{name}" for cell in ("td", "th")]
             + [f".table > tbody > tr.{name} > {cell}" for cell in ("td", "th")],
-            [f"color: {TABLE_BODY_TEXT}", f"background-color: {light_accent}"],
+            ["color: var(--pdq-table-body-text)", f"background-color: {light_accent}"],
         )
         yield "table", _rule(
             [

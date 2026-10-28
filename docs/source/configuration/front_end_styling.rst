@@ -37,6 +37,73 @@ Example::
 ----
 
 
+Dark Mode
+=========
+
+To use dark mode, set :ref:`configuration/home:ADMINLTE2_SKIN_CLASS` to one of
+the dark skins:
+
+* ``skin-blue-dark``
+* ``skin-black-dark``
+* ``skin-purple-dark``
+* ``skin-yellow-dark``
+* ``skin-red-dark``
+* ``skin-green-dark``
+
+Each dark skin uses the header color of the AdminLTE skin with the same name,
+a dark sidebar, and dark page content. Dark mode covers Bootstrap and AdminLTE
+elements, the package's color classes, the login page, and the Django admin
+pages.
+
+Example::
+
+    ADMINLTE2_SKIN_CLASS = 'skin-blue-dark'
+
+The dark mode CSS is always loaded and only applies under a dark skin class.
+To switch between light and dark mode without reloading the page, for example
+from a button or a user setting, replace the skin class on ``<body>``:
+
+.. code:: javascript
+
+    $('body').removeClass('skin-blue').addClass('skin-blue-dark');
+
+The package does not store a user's choice. Projects that offer a choice keep
+it themselves, for example in a user profile or a cookie, and override the
+``skin_class`` block of ``adminlte2/base.html`` to render the chosen class.
+
+
+Styling your own elements
+-------------------------
+
+Dark mode's colors are CSS custom properties that are defined under the dark
+skin classes. Use them to style your own elements in dark mode:
+
+==============================  ============================================
+Property                        Used for
+==============================  ============================================
+``--pdq-dark-page``             Page background
+``--pdq-dark-surface``          Boxes, panels, and modals
+``--pdq-dark-raised``           Raised elements: input addons, wells
+``--pdq-dark-border``           Borders
+``--pdq-dark-border-strong``    Hover borders
+``--pdq-dark-text``             Text
+``--pdq-dark-text-soft``        Secondary text
+``--pdq-dark-text-muted``       Muted text
+==============================  ============================================
+
+For example:
+
+.. code:: css
+
+    .skin-blue-dark .my-widget {
+        color: var(--pdq-dark-text);
+        background-color: var(--pdq-dark-surface);
+    }
+
+
+----
+
+
 Template Blocks
 ===============
 
@@ -52,6 +119,10 @@ can replace or remove one part:
 
 ``styles_main_fixes__extra_features``
     Loads ``adminlte2_pdq/css/extra-features/extra-features.css``.
+
+``styles_main_fixes__dark_mode``
+    Loads ``adminlte2_pdq/css/dark-mode/dark-skins.css`` and
+    ``adminlte2_pdq/css/dark-mode/dark-mode.css``.
 
 For example, to load your own colors after the package's colors, override
 ``adminlte2/partials/_styles.html`` in your project:
