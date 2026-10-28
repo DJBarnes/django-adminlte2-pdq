@@ -152,6 +152,10 @@ Unreleased
   appears on the login page. This also applies when
   ``ADMINLTE2_REDIRECT_TO_HOME_ON_404`` is ``False``.
 
+* In production, a view that requires permissions but defines none still
+  raises ``ImproperlyConfigured``, now with an explanation of the problem
+  instead of the 404 message text.
+
 * Documentation: new pages for styling and dark mode, the demo CSS classes,
   and the known route settings. Every authorization setting is now listed in
   the authorization configuration page.

@@ -871,6 +871,17 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertContains(response, "<h1>Demo CSS <small>Home</small></h1>")
 
+    @override_settings(DEBUG=False)
+    def test__view_without_permissions_in_production(self):
+        """In production, a view with permission requirements but no permissions raises ImproperlyConfigured
+        with an explanation of the problem."""
+        self.client.force_login(self.test_user_no_perms)
+
+        with self.assertRaises(ImproperlyConfigured) as error:
+            self.client.get(reverse("adminlte2_pdq_tests:class-standard"))
+
+        self.assertEqual(self.pdq_strict__no_permissions_set_message, str(error.exception))
+
     @patch(
         "adminlte2_pdq.middleware.STRICT_POLICY_SERVE_403_FUZZY_WHITELIST",
         UPDATED_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST,

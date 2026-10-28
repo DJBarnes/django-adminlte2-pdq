@@ -379,24 +379,25 @@ class AuthMiddleware:
             # And no permission values defined.
             and not view_defines_permissions
         ):
+            warning_message = (
+                f"AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
+                "requirements, but does not have any permissions set. "
+                "This means that this view is inaccessible until permissions "
+                "are set for the view.\n"
+                "\n\n"
+                "For further information, please see the docs: "
+                "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+            )
             if settings.DEBUG:
                 # Warning if in development mode.
-                warning_message = (
-                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
-                    "requirements, but does not have any permissions set. "
-                    "This means that this view is inaccessible until permissions "
-                    "are set for the view.\n"
-                    "\n\n"
-                    "For further information, please see the docs: "
-                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-                )
                 # Create console warning message.
                 warnings.warn(warning_message, RuntimeWarning)
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
             else:
-                # Error if in production mode.
-                raise ImproperlyConfigured(RESPONSE_404_PRODUCTION_MESSAGE)
+                # Error if in production mode. Users see the generic server error page;
+                # the explanation goes to the logs and error emails.
+                raise ImproperlyConfigured(warning_message)
 
         # Handle if view is permission exempt view, but has permission requirements defined.
         if (
