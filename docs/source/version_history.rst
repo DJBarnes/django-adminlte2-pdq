@@ -137,6 +137,10 @@ Unreleased
   and keyboard navigation work like any other link. The click handler that
   worked around AdminLTE's tree code was removed.
 
+* Fix the default home page's images and charts. The template referenced
+  AdminLTE files under ``2.3.7``, which the package doesn't include; it now
+  uses the included ``2.3.11`` files.
+
 * Fix the sidebar menu growing on every request when
   ``ADMINLTE2_MENU_FIRST`` is provided through view context.
 

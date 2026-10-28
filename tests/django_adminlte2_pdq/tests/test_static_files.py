@@ -35,8 +35,11 @@ class StaticFilesTestCase(SimpleTestCase):
     """Tests for files under adminlte2_pdq/static/adminlte2_pdq/."""
 
     def test__template_static_references_exist(self):
-        """Every {% static 'adminlte2_pdq/...' %} path in the package templates exists."""
-        pattern = re.compile(r"""{%\s*static\s+['"](adminlte2_pdq/[^'"]+)['"]\s*%}""")
+        """Every {% static %} path in the package templates exists in the package's static files.
+
+        Paths under admin/ are Django admin's own static files, so they are not checked here.
+        """
+        pattern = re.compile(r"""{%\s*static\s+['"]((?!admin/)[^'"]+)['"]\s*%}""")
         for template in TEMPLATE_DIR.rglob("*.html"):
             for path in pattern.findall(template.read_text(encoding="utf-8")):
                 with self.subTest(template=str(template.relative_to(TEMPLATE_DIR)), path=path):
