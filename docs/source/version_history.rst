@@ -97,8 +97,8 @@ Unreleased
 * When the page header and the breadcrumbs don't fit on one line, the
   breadcrumbs move to their own line below the header and show as a bar, as on
   small screens. The layout is now done in CSS, so it also updates when the
-  window is resized, and the bar uses the skin's colors (in the dark skins it
-  is transparent, as on small screens). ``extra-features.js`` adds the class
+  window is resized, and the bar uses the skin's colors, including the dark
+  skins. ``extra-features.js`` adds the class
   ``breadcrumb-wrapped`` to the breadcrumbs while they are on their own line.
   The file ``extra-features/header-breadcrumb-overlap-fix.js`` is removed;
   remove any link to it from your templates.

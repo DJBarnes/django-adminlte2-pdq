@@ -519,6 +519,15 @@ grays in dark mode), take the lightened text colors, so they show on dark slides
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .content-header > .breadcrumb {
     background-color: transparent;
 }
+/* AdminLTE's breadcrumb bar on small screens, and below a long page header (breadcrumb-wrapped) */
+@media (max-width: 991px) {
+    :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .content-header > .breadcrumb {
+        background-color: var(--pdq-dark-raised);
+    }
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .content-header > .breadcrumb.breadcrumb-wrapped {
+    background-color: var(--pdq-dark-raised);
+}
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .content-header > .breadcrumb > li > a,
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .content-header > .breadcrumb > li + li:before {
     color: var(--pdq-dark-text-sidebar);
