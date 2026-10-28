@@ -395,9 +395,10 @@ class AuthMiddleware:
                 # Create Django Messages warning.
                 messages.warning(request, warning_message)
             else:
-                # Error if in production mode. Users see the generic server error page;
-                # the explanation goes to the logs and error emails.
-                raise ImproperlyConfigured(warning_message)
+                # In production, log the problem for the developers. The request continues, so the user gets
+                # the same response as for any other page they can't access: the login page if not logged in,
+                # otherwise the 403 handling, since no user has the view's (undefined) permissions.
+                logger.error(warning_message)
 
         # Handle if view is permission exempt view, but has permission requirements defined.
         if (

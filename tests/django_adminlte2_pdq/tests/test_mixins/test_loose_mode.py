@@ -13,6 +13,7 @@ from django.test import override_settings
 from pytest import warns
 
 # Internal Imports.
+from adminlte2_pdq.constants import RESPONSE_403_PRODUCTION_MESSAGE
 from .base_test_case import BaseMixinTextCase
 
 
@@ -841,14 +842,15 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
         self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
 
     def test__bleeding_one_permission_missing_permissions__in_production(self):
-        """Bleeding tests for permission_required_one mixin, in project "Loose" mode in production."""
+        """A permission mixin without permissions, in production: the error is logged, and users get
+        the login page or the 403 handling, the same as for any page they can't access."""
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                with self.assertRaises(ImproperlyConfigured):
-                    #  Verify we get the expected page.
+                #  Verify we get the expected page.
+                with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -863,18 +865,16 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
                             "Remember Me",
                             "I forgot my password",
                         ],
-                        expected_messages=[
-                            self.pdq__no_permissions_one__message,
-                        ],
                     )
+                self.assertIn("does not have any permissions set", logs.output[0])
 
         # Permission view incorrectly defined on view.
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
 
-                with self.assertRaises(ImproperlyConfigured):
-                    # Verify we get the expected page.
+                # Verify we get the expected page.
+                with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -892,19 +892,21 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
                             "Downloads",
                         ],
                         expected_messages=[
-                            self.pdq__no_permissions_one__message,
+                            RESPONSE_403_PRODUCTION_MESSAGE,
                         ],
                     )
+                self.assertIn("does not have any permissions set", logs.output[0])
 
     def test__bleeding_full_permission_missing_permissions__in_production(self):
-        """Bleeding tests for permission_required_one mixin, in project "Loose" mode in production."""
+        """A permission mixin without permissions, in production: the error is logged, and users get
+        the login page or the 403 handling, the same as for any page they can't access."""
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
 
-                with self.assertRaises(ImproperlyConfigured):
-                    #  Verify we get the expected page.
+                #  Verify we get the expected page.
+                with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -919,18 +921,16 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
                             "Remember Me",
                             "I forgot my password",
                         ],
-                        expected_messages=[
-                            self.pdq__no_permissions_full__message,
-                        ],
                     )
+                self.assertIn("does not have any permissions set", logs.output[0])
 
         # Permission view incorrectly defined on view.
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
 
-                with self.assertRaises(ImproperlyConfigured):
-                    #  Verify we get the expected page.
+                #  Verify we get the expected page.
+                with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -948,6 +948,7 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
                             "Downloads",
                         ],
                         expected_messages=[
-                            self.pdq__no_permissions_full__message,
+                            RESPONSE_403_PRODUCTION_MESSAGE,
                         ],
                     )
+                self.assertIn("does not have any permissions set", logs.output[0])

@@ -20,7 +20,11 @@ from pytest import warns
 
 # Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
-from adminlte2_pdq.middleware import RESPONSE_404_DEBUG_MESSAGE, RESPONSE_404_PRODUCTION_MESSAGE
+from adminlte2_pdq.middleware import (
+    RESPONSE_403_PRODUCTION_MESSAGE,
+    RESPONSE_404_DEBUG_MESSAGE,
+    RESPONSE_404_PRODUCTION_MESSAGE,
+)
 
 
 # Module Variables.
@@ -873,14 +877,18 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
 
     @override_settings(DEBUG=False)
     def test__view_without_permissions_in_production(self):
-        """In production, a view with permission requirements but no permissions raises ImproperlyConfigured
-        with an explanation of the problem."""
+        """In production, a view with permission requirements but no permissions logs the problem, and the user
+        gets the 403 handling: a redirect home with the 403 production message."""
         self.client.force_login(self.test_user_no_perms)
 
-        with self.assertRaises(ImproperlyConfigured) as error:
-            self.client.get(reverse("adminlte2_pdq_tests:class-standard"))
+        with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
+            response = self.client.get(reverse("adminlte2_pdq_tests:class-standard"))
 
-        self.assertEqual(self.pdq_strict__no_permissions_set_message, str(error.exception))
+        self.assertEqual(["ERROR:adminlte2_pdq.middleware:" + self.pdq_strict__no_permissions_set_message], logs.output)
+        self.assertRedirects(response, reverse("adminlte2_pdq:home"), fetch_redirect_response=False)
+        self.assertEqual(
+            [RESPONSE_403_PRODUCTION_MESSAGE], [str(message) for message in get_messages(response.wsgi_request)]
+        )
 
     @patch(
         "adminlte2_pdq.middleware.STRICT_POLICY_SERVE_403_FUZZY_WHITELIST",

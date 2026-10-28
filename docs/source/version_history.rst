@@ -152,9 +152,11 @@ Unreleased
   appears on the login page. This also applies when
   ``ADMINLTE2_REDIRECT_TO_HOME_ON_404`` is ``False``.
 
-* In production, a view that requires permissions but defines none still
-  raises ``ImproperlyConfigured``, now with an explanation of the problem
-  instead of the 404 message text.
+* In production, a view that requires permissions but defines none no longer
+  causes a server error (500). The middleware logs the problem at the
+  ``ERROR`` level on the ``adminlte2_pdq.middleware`` logger, and the user
+  gets the same response as for any page they can't access: the login page
+  when not logged in, otherwise the 403 handling.
 
 * The package's route settings now use the ``ADMINLTE2_`` prefix:
   ``ADMINLTE2_LOGOUT_URL``, ``ADMINLTE2_PASSWORD_RESET_ROUTE``,
