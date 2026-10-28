@@ -354,6 +354,36 @@ This section explains how the package handles 404 and 403 errors by default.
 Additionally, it shows what options are available if you would like to do
 something different than the default package behavior.
 
+Views Without Permissions
+=========================
+
+A view that requires permissions but does not define any can't be accessed
+by any user. This happens when a view uses ``permission_required`` (or a
+permission mixin) without listing permissions, or when a class-based view
+under the strict policy has no mixin and no whitelist entry.
+
+The package reports these views in three ways:
+
+* **System check:** ``manage.py check``, ``runserver``, ``migrate``, and the
+  test runner list each such view as warning ``adminlte2_pdq.W001``. This needs
+  no setup: it runs whenever the package and ``AuthMiddleware`` are installed.
+* **Development:** when ``DEBUG`` is True, visiting the view shows a warning
+  message and writes a ``RuntimeWarning``.
+* **Production:** when ``DEBUG`` is False, visiting the view logs the problem
+  at the ``ERROR`` level on the ``adminlte2_pdq.middleware`` logger. The user
+  gets the same response as for any page they can't access: the login page
+  when not logged in, otherwise the 403 handling.
+
+To turn off the system check, add it to Django's
+``SILENCED_SYSTEM_CHECKS`` setting:
+
+**settings.py**
+
+    .. code:: python
+
+        SILENCED_SYSTEM_CHECKS = ["adminlte2_pdq.W001"]
+
+
 Handling 404 Errors
 ===================
 

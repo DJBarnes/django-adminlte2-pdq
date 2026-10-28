@@ -352,42 +352,8 @@ class AuthMiddleware:
                 messages.warning(request, warning_message)
 
         # Handle if view is a permission view but does NOT have permission requirements defined.
-        # Determine if is a class-based view.
-        is_class_based = view_type == "class-based"
-        # Determine if is view that should require permissions
-        is_perm_view = (
-            # Has decorator or mixin explicitly saying that permission is required.
-            view_decorator_name == "permission_required"
-            # Or, we are a non-whitelisted, class-based view, with no other mixins, in strict mode.
-            or (
-                # In Strict Mode
-                STRICT_POLICY
-                # and is a class based view, which implicitly assumes permission required. (unlike function-based)
-                and is_class_based
-                # and there is no mixin on the view (We called it decorator regardless of mixin or decorator)
-                and not view_decorator_name
-                # The view is not whitelisted and thus should have some permissions defined on it.
-                and not is_perm_whitelisted
-                # The view is not a redirect view
-                and not self.verify_redirect_route(view_data["view_class"])
-            )
-        )
-        if (
-            # Is a permission view.
-            # view_decorator_name == "permission_required"
-            is_perm_view
-            # And no permission values defined.
-            and not view_defines_permissions
-        ):
-            warning_message = (
-                f"AdminLtePdq Warning: The {view_type} view '{view_name}' has permission "
-                "requirements, but does not have any permissions set. "
-                "This means that this view is inaccessible until permissions "
-                "are set for the view.\n"
-                "\n\n"
-                "For further information, please see the docs: "
-                "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-            )
+        if self.view_missing_permissions(view_data):
+            warning_message = self.missing_permissions_message(view_data)
             if settings.DEBUG:
                 # Warning if in development mode.
                 # Create console warning message.
@@ -477,6 +443,44 @@ class AuthMiddleware:
                 messages.warning(request, warning_message)
             # In production, the 403 handling in run_auth_checks adds the production message.
 
+    def view_missing_permissions(self, view_data):
+        """Determines if the view requires permissions, but does not define any.
+
+        No user can pass the permission check for such a view. Also used by the
+        adminlte2_pdq.W001 system check.
+        """
+        is_perm_view = (
+            # Has decorator or mixin explicitly saying that permission is required.
+            view_data["decorator_name"] == "permission_required"
+            # Or, we are a non-whitelisted, class-based view, with no other mixins, in strict mode.
+            or (
+                # In Strict Mode
+                STRICT_POLICY
+                # and is a class based view, which implicitly assumes permission required. (unlike function-based)
+                and view_data["view_type"] == "class-based"
+                # and there is no mixin on the view (We called it decorator regardless of mixin or decorator)
+                and not view_data["decorator_name"]
+                # The view is not whitelisted and thus should have some permissions defined on it.
+                and not self.is_permission_whitelisted(view_data)
+                # The view is not a redirect view
+                and not self.verify_redirect_route(view_data["view_class"])
+            )
+        )
+        view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
+        return is_perm_view and not view_defines_permissions
+
+    def missing_permissions_message(self, view_data):
+        """The explanation for a view that requires permissions, but does not define any."""
+        return (
+            f"AdminLtePdq Warning: The {view_data['view_type']} view '{view_data['view_name']}' has permission "
+            "requirements, but does not have any permissions set. "
+            "This means that this view is inaccessible until permissions "
+            "are set for the view.\n"
+            "\n\n"
+            "For further information, please see the docs: "
+            "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+        )
+
     def parse_request_data(self, request):
         """Parses request data and generates dict of calculated values."""
 
@@ -486,9 +490,20 @@ class AuthMiddleware:
         else:
             path = request.path_info
 
-        # Initialize default data structure.
-        # This is our fallback if view is not using AdminLtePdq logic.
-        data_dict = {
+        # Try to get the view.
+        try:
+            resolver = resolve(path)
+        except Http404:
+            # Request was 404, not valid page.
+            data_dict = self.default_view_data(path)
+            data_dict["resolver"] = None
+            return data_dict
+
+        return self.parse_view_data(path, resolver)
+
+    def default_view_data(self, path):
+        """The view data for a view that does not use AdminLtePdq logic."""
+        return {
             "path": path,
             "decorator_name": "",
             "allow_anonymous_access": False,
@@ -498,115 +513,116 @@ class AuthMiddleware:
             "full_permissions": None,
         }
 
-        # Try to get the view.
-        try:
-            resolver = resolve(data_dict["path"])
-            data_dict["resolver"] = resolver
+    def parse_view_data(self, path, resolver, update_view=True):
+        """Generates the dict of calculated values for a resolved view.
 
-            # Determine if view function or view class.
-            view_class = getattr(resolver.func, "view_class", None)
-            data_dict["view_class"] = view_class
+        When update_view is False, the view's admin_pdq_data attributes are not changed.
+        """
+        data_dict = self.default_view_data(path)
+        data_dict["resolver"] = resolver
 
-            # Determine universal values.
-            app_name = resolver.app_name
-            current_url_name = resolver.url_name
-            fully_qualified_url_name = f"{app_name}:{current_url_name}"
-            data_dict["app_name"] = app_name
-            data_dict["current_url_name"] = current_url_name
-            data_dict["fully_qualified_url_name"] = fully_qualified_url_name
+        # Determine if view function or view class.
+        view_class = getattr(resolver.func, "view_class", None)
+        data_dict["view_class"] = view_class
 
-            # Get extra AdminLtePdq data, if available.
-            if view_class:
-                # Is class-based view.
+        # Determine universal values.
+        app_name = resolver.app_name
+        current_url_name = resolver.url_name
+        fully_qualified_url_name = f"{app_name}:{current_url_name}"
+        data_dict["app_name"] = app_name
+        data_dict["current_url_name"] = current_url_name
+        data_dict["fully_qualified_url_name"] = fully_qualified_url_name
 
-                # Get AdminLte class data dict.
-                admin_pdq_data = getattr(view_class, "admin_pdq_data", {})
-            else:
-                # Is function-based view. Get AdminLte function data dict.
-                admin_pdq_data = getattr(resolver.func, "admin_pdq_data", {})
+        # Get extra AdminLtePdq data, if available.
+        if view_class:
+            # Is class-based view.
 
-            # Process data.
-            if view_class:
-                # Processing a class-based view.
-                # Get class attributes.
-                data_dict["view_name"] = view_class.__qualname__
-                data_dict["view_type"] = "class-based"
-                data_dict["view_perm_type"] = "mixin"
+            # Get AdminLte class data dict.
+            admin_pdq_data = getattr(view_class, "admin_pdq_data", {})
+        else:
+            # Is function-based view. Get AdminLte function data dict.
+            admin_pdq_data = getattr(resolver.func, "admin_pdq_data", {})
 
-                if admin_pdq_data or STRICT_POLICY:
-                    if admin_pdq_data:
-                        data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
-                        data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
-                        data_dict["login_required"] = admin_pdq_data.get("login_required", False)
-                        data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
-                    else:
-                        # No Mixins used, use default data_dict as admin_pdq_data and also set on view.
-                        # NOTE: We only set this default in class-based views.
-                        # Function-based will still need a decorator to set the required perms.
-                        admin_pdq_data = data_dict
-                        view_class.admin_pdq_data = data_dict
+        # Process data.
+        if view_class:
+            # Processing a class-based view.
+            # Get class attributes.
+            data_dict["view_name"] = view_class.__qualname__
+            data_dict["view_type"] = "class-based"
+            data_dict["view_perm_type"] = "mixin"
 
-                    # Because we seem unable to get the "updated" class attributes,
-                    # and only have access to the original literal class-level values,
-                    # we seem unable to rely on the data dict for this.
-                    permission_required_one_value = getattr(view_class, "permission_required_one", None)
-                    permission_required_value = getattr(view_class, "permission_required", None)
-
-                    # Sanitize values.
-                    if permission_required_one_value is not None:
-                        # Is populated. Make sure it's the correct format.
-                        if isinstance(permission_required_one_value, tuple):
-                            # Correct format, pass.
-                            pass
-                        elif isinstance(permission_required_one_value, list):
-                            # Is an iterable type, but not the expected one. Reformat.
-                            permission_required_one_value = tuple(permission_required_one_value)
-                        else:
-                            # Is some other type. Put into a tuple and hope it works out.
-                            permission_required_one_value = (permission_required_one_value,)
-                    if permission_required_value is not None:
-                        # Is populated. Make sure it's the correct format.
-                        if isinstance(permission_required_value, tuple):
-                            # Correct format, pass.
-                            pass
-                        elif isinstance(permission_required_value, list):
-                            # Is an iterable type, but not the expected one. Reformat.
-                            permission_required_value = tuple(permission_required_value)
-                        else:
-                            # Is some other type. Put into a tuple and hope it works out.
-                            permission_required_value = (permission_required_value,)
-
-                    # Save to data dict.
-                    data_dict["one_of_permissions"] = permission_required_one_value
-                    data_dict["full_permissions"] = permission_required_value
-
-                    # Update data on the class itself.
-                    view_class.admin_pdq_data["one_of_permissions"] = data_dict["one_of_permissions"]
-                    view_class.admin_pdq_data["full_permissions"] = data_dict["full_permissions"]
-
-            else:
-                # Processing a function-based view.
-                # Get function attributes.
-                data_dict["view_name"] = resolver.func.__qualname__
-                data_dict["view_type"] = "function-based"
-                data_dict["view_perm_type"] = "decorator"
-
-                # Handle for AdminLtePdq-specific attributes.
+            if admin_pdq_data or STRICT_POLICY:
                 if admin_pdq_data:
                     data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
                     data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
                     data_dict["login_required"] = admin_pdq_data.get("login_required", False)
                     data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
+                else:
+                    # No Mixins used, use default data_dict as admin_pdq_data and also set on view.
+                    # NOTE: We only set this default in class-based views.
+                    # Function-based will still need a decorator to set the required perms.
+                    admin_pdq_data = data_dict
+                    if update_view:
+                        view_class.admin_pdq_data = data_dict
 
-                    permission_required_one_value = getattr(resolver.func, "permission_required_one", None)
-                    permission_required_value = getattr(resolver.func, "permission_required", None)
+                # Because we seem unable to get the "updated" class attributes,
+                # and only have access to the original literal class-level values,
+                # we seem unable to rely on the data dict for this.
+                permission_required_one_value = getattr(view_class, "permission_required_one", None)
+                permission_required_value = getattr(view_class, "permission_required", None)
 
-                    data_dict["one_of_permissions"] = permission_required_one_value
-                    data_dict["full_permissions"] = permission_required_value
+                # Sanitize values.
+                if permission_required_one_value is not None:
+                    # Is populated. Make sure it's the correct format.
+                    if isinstance(permission_required_one_value, tuple):
+                        # Correct format, pass.
+                        pass
+                    elif isinstance(permission_required_one_value, list):
+                        # Is an iterable type, but not the expected one. Reformat.
+                        permission_required_one_value = tuple(permission_required_one_value)
+                    else:
+                        # Is some other type. Put into a tuple and hope it works out.
+                        permission_required_one_value = (permission_required_one_value,)
+                if permission_required_value is not None:
+                    # Is populated. Make sure it's the correct format.
+                    if isinstance(permission_required_value, tuple):
+                        # Correct format, pass.
+                        pass
+                    elif isinstance(permission_required_value, list):
+                        # Is an iterable type, but not the expected one. Reformat.
+                        permission_required_value = tuple(permission_required_value)
+                    else:
+                        # Is some other type. Put into a tuple and hope it works out.
+                        permission_required_value = (permission_required_value,)
 
-        except Http404:
-            # Request was 404, not valid page.
-            data_dict.update({"resolver": None})
+                # Save to data dict.
+                data_dict["one_of_permissions"] = permission_required_one_value
+                data_dict["full_permissions"] = permission_required_value
+
+                # Update data on the class itself.
+                if update_view:
+                    view_class.admin_pdq_data["one_of_permissions"] = data_dict["one_of_permissions"]
+                    view_class.admin_pdq_data["full_permissions"] = data_dict["full_permissions"]
+
+        else:
+            # Processing a function-based view.
+            # Get function attributes.
+            data_dict["view_name"] = resolver.func.__qualname__
+            data_dict["view_type"] = "function-based"
+            data_dict["view_perm_type"] = "decorator"
+
+            # Handle for AdminLtePdq-specific attributes.
+            if admin_pdq_data:
+                data_dict["decorator_name"] = admin_pdq_data.get("decorator_name", "")
+                data_dict["allow_anonymous_access"] = admin_pdq_data.get("allow_anonymous_access", False)
+                data_dict["login_required"] = admin_pdq_data.get("login_required", False)
+                data_dict["allow_without_permissions"] = admin_pdq_data.get("allow_without_permissions", False)
+
+                permission_required_one_value = getattr(resolver.func, "permission_required_one", None)
+                permission_required_value = getattr(resolver.func, "permission_required", None)
+
+                data_dict["one_of_permissions"] = permission_required_one_value
+                data_dict["full_permissions"] = permission_required_value
 
         # Return parsed data.
         return data_dict

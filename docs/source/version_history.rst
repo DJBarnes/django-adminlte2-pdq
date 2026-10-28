@@ -152,6 +152,10 @@ Unreleased
   appears on the login page. This also applies when
   ``ADMINLTE2_REDIRECT_TO_HOME_ON_404`` is ``False``.
 
+* Add the system check ``adminlte2_pdq.W001``, which lists views that require
+  permissions but define none. It runs automatically with ``manage.py check``,
+  ``runserver``, ``migrate``, and tests.
+
 * In production, a view that requires permissions but defines none no longer
   causes a server error (500). The middleware logs the problem at the
   ``ERROR`` level on the ``adminlte2_pdq.middleware`` logger, and the user
