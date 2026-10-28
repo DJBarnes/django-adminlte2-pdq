@@ -192,6 +192,20 @@ Your choices are:
         each feature, set them on the view, and then assign the permissions to
         the users that need them before anyone can gain access to it.
 
+A policy only sets the default for views. Any view can change it with a
+decorator (:doc:`function_views`) or a mixin (:doc:`class_views`), and
+whitelists can exempt routes. Some examples:
+
+* **A mostly public site:** leave the loose policy on. Put a few views behind
+  a login, and give management views required permissions.
+* **An internal site for one organization:** turn on
+  :ref:`authorization/policies:login required`, so every page needs a login.
+  Mark the few public views with ``allow_anonymous_access``, and give
+  administration views required permissions.
+* **A site with separate departments:** use the strict policy, so each view
+  needs the right permissions. Mark the views every logged-in user may see
+  with ``allow_without_permissions``.
+
 Once you have determined what general policy you want to follow, use
 the corresponding section to properly set up and configure authorization.
 
@@ -424,12 +438,9 @@ of two ways.
     you have defined some required permissions on a view
     and the user does not meet the required criteria.
 
-When this happens, we believe that it is good to do something different than
-the default behavior that Django provides of just returning a 403 error.
-We believe that it may be better to handle it as if it were a 404 so
-that users are unaware that the location they are trying to access has an
-actual endpoint that they do not have permission to access. It will make it
-harder for bad actors to phish for endpoints that they should not know exist.
+When this happens, the package handles it like a 404 instead of returning
+Django's 403 response, so the response does not confirm that the page exists.
+See :ref:`authorization/policies:Security Notes` for the limits of this.
 
 Just like the built-in functionality for 404s,
 this package comes with built-in behavior to handle 403s, which is also on by
@@ -498,4 +509,35 @@ that you do not want it to operate the same as 404 errors.
         ADMINLTE2_RESPONSE_403_DEBUG_MESSAGE = "You lack the power!"
 
         ADMINLTE2_RESPONSE_403_PRODUCTION_MESSAGE = "You lack the power!"
+
+To show no message, set the message to an empty string. Each message can be
+turned off on its own:
+
+**settings.py**
+
+    .. code:: python
+
+        ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE = ""
+
+Anonymous users don't see the 404 message when the home page sends them on to
+the login page (login-required and strict policies, unless the home page is
+whitelisted), so the message does not appear on the login page.
+
+For every message setting and its default, see
+:doc:`../configuration/authorization`.
+
+
+Security Notes
+==============
+
+* The redirects reduce what an anonymous user can learn about which URLs
+  exist, but do not hide it completely. Under the login-required and strict
+  policies, a URL that exists redirects to the login page, while an unknown URL
+  redirects to the home page first.
+* The default 403 and 404 production messages are the same, so the message
+  does not tell a page the user lacks permission for apart from a page that
+  does not exist. Changing one of them makes them different.
+* The :ref:`authorization/policies:strict policy` is the most restrictive
+  policy: every view needs a login and defined permissions, or a whitelist
+  entry.
 

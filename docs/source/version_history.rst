@@ -1,46 +1,158 @@
 Version History
 ***************
 
-0.2.2 - Improved 403/404 Handling, Plus Improved Documentation
-==============================================================
+Unreleased
+==========
 
-* Updated package 403/404 handling to be optional, so users are no longer
-  forced to use the built-in package 403/404 logic.
+* Extra color classes are now generated from one palette and cover every
+  AdminLTE color plus ``default``, ``error``, and ``indigo``: backgrounds
+  (``bg-{color}``, ``bg-{color}-active``), text, code tints
+  (``code-{color}``), alerts, boxes, buttons, callouts, carousels
+  (``carousel-{color}``), dropdown menus (``dropdown-menu-{color}``), labels,
+  modals, table rows and cells, bordered tables (``table-border-{color}``),
+  and tooltips (``tooltip-{color}``). Classes that AdminLTE or Bootstrap
+  already define are not changed, except table header and footer rows.
 
-  * Includes several new settings to customize 403/404 handling in various
-    ways.
-    See package documentation for details.
+* Table header and footer rows (``thead``, ``tfoot``) with Bootstrap's
+  ``success``, ``info``, ``warning``, or ``danger`` classes now take the color
+  itself, as the package's other colors do, instead of Bootstrap's pale tint.
+  Body rows keep Bootstrap's colors.
 
-* Expanded package documentation, to better match changes from the version
-  2.0 and 2.1 updates.
+* Colors are CSS custom properties named ``--pdq-{color}-{part}``, defined in
+  ``adminlte2_pdq/css/extra-colors/color-variables.css``. Redefine them in
+  your own CSS to change a color.
 
-* Partially reworked package CSS for organization and consistency.
+* Add dark mode: dark versions of the AdminLTE skins, ``skin-blue-dark``,
+  ``skin-black-dark``, ``skin-purple-dark``, ``skin-yellow-dark``,
+  ``skin-red-dark``, and ``skin-green-dark``. The dark mode CSS is always
+  loaded and only applies under a dark skin class, so a page can switch modes
+  by changing the body's skin class.
 
-  * Include general CSS file improvements all-around.
-    But in particular, anything regarding colors for reusable elements is
-    now refactored and much more organized.
+* **The site now follows the browser's light or dark mode by default.** Users
+  whose browser or operating system is set to dark mode see the dark version
+  of the site's skin. Light mode is unchanged. Set
+  ``ADMINLTE2_SKIN_FOLLOW_BROWSER = False`` to always use
+  ``ADMINLTE2_SKIN_CLASS``. ``ADMINLTE2_SKIN_CLASS_LIGHT`` and
+  ``ADMINLTE2_SKIN_CLASS_DARK`` choose the skins used in each mode. The
+  script that follows the browser loads in the new ``skin_follow_browser``
+  block of ``adminlte2/base.html``.
 
-  * Added the ability (and examples) to make additional
-    custom colors for existing reusable elements, including
-    examples and documentation of of how to get custom colors to show up
-    in the Demo CSS pages.
-    In case the provided colors were insufficient.
+* Add ``python -m adminlte2_pdq.color_css --custom NAME BASE``, which prints
+  the CSS for a project's own color: its custom properties and every color
+  class.
 
-* Reworked "Demo CSS" pages to be much more thorough and helpful.
+* Existing extra color classes now use AdminLTE's color values:
 
-  * There is now a proper page for every main reusable element in the
-    package.
-    Including a select few custom elements above and beyond what the original
-    AdminLTE provided.
+  * ``*-black``: ``#2b2b2b`` is now ``#111`` (AdminLTE's ``bg-black``).
+  * ``*-gray``: ``#b5bbc8`` is now ``#d2d6de`` with ``#000`` text
+    (AdminLTE's ``bg-gray``).
+  * ``alert-default``, ``callout-default``, and ``tooltip-default`` use the
+    ``btn-default`` grey, ``#f4f4f4``.
+  * ``alert-primary``, ``callout-primary``, and ``tooltip-primary``:
+    ``#337ab7`` is now ``#3c8dbc`` (AdminLTE's primary).
+  * Table row, cell, and code tints are computed from each color and keep
+    part of its lightness and saturation, so colors that share a hue (navy,
+    blue, and primary) stay apart. ``success``, ``info``, ``warning``, and
+    ``danger`` use Bootstrap's own pale tints. Header and footer cells use the
+    solid color. Text on code tints is ``#444``.
+  * Button hover colors and callout and modal border colors for the extra
+    colors follow AdminLTE's convention (5% and 10% darker).
+  * Text on lime is ``#444``.
 
-  * Note: Some elements from the original AdminLTE (mostly related to graphs
-    and charts) do not have "Demo CSS" pages in PDQ.
-    That is because they are not (yet) supported for the full, expanded
-    coloring logic that PDQ provides.
-    For any elements missing from the "Demo CSS" pages, please see the
-    original AdminLTE docs for examples.
+* Lime backgrounds (``bg-lime``) use dark text instead of white.
 
-* Minor bugfixes, mostly with the sidebar.
+* Tooltip colors now work on any element with a ``tooltip-{color}`` class or
+  a ``data-tooltip-color`` attribute. Previously they did not apply, because
+  AdminLTE creates tooltips inside ``<body>``.
+
+* Add utility classes ``pdq-flex``, ``pdq-flex-row``, ``pdq-flex-column``,
+  ``pdq-flex-center``, ``pdq-flex-wrap``, ``pdq-flex-grow``,
+  ``pdq-flex-grow-children``, ``pdq-underline``, ``pdq-no-underline``,
+  ``pdq-clear-border``, and ``pdq-clear-background``.
+
+* Add ``full-span-link``: an ``<a>`` tag with this class covers its parent
+  alert, callout, info box, small box, state widget, or table cell, making the
+  whole element clickable.
+
+* The ``wiggle`` animation is turned off for users who prefer reduced motion.
+
+* Static files moved into ``css/`` and ``js/`` folders under
+  ``adminlte2_pdq/``. The old paths still work and are deprecated:
+
+  * ``extra-features/extra-features.css``: now
+    ``css/extra-colors/color-variables.css``,
+    ``css/extra-colors/extra-colors.css``, and
+    ``css/extra-features/extra-features.css``.
+  * ``extra-features/header-breadcrumb-overlap-fix.css``: now part of
+    ``css/extra-features/extra-features.css``.
+  * ``extra-features/extra-features.js``,
+    ``extra-features/header-breadcrumb-overlap-fix.js``, and
+    ``extra-features/sidebar-state.js``: now in ``js/extra-features/``.
+  * ``conflicts/conflicts.css`` and ``conflicts/conflicts.js``: now
+    ``css/conflicts/conflicts.css`` and ``js/conflicts/conflicts.js``.
+  * ``conflicts/django-admin-conflicts.css``: now
+    ``css/conflicts/django_admin_conflicts.css``.
+
+* The demo CSS page is now a set of pages under ``/demo-css/``: typography,
+  widgets, general UI and color palette, alerts, basic and specialized
+  buttons, carousels, labels and tooltips, modals, full-span links, standard
+  and solid boxes, tables, and forms. The demo pages have their own sidebar
+  menu. Its Profile and Samples sections appear only when their routes are
+  registered.
+
+* Add the ``ADMINLTE2_DEMO_CSS_COLORS`` setting: the colors shown on the demo
+  CSS pages, as ``{name: hex value}``.
+
+* The ``adminlte2/demo_css.html`` template is deprecated. It now extends
+  ``adminlte2_demo_css/home.html``.
+
+* The first item of the default sidebar menu is now labeled "Dashboard"
+  instead of "Home".
+
+* ``adminlte2_pdq.views`` is now a package. Views are still importable from
+  ``adminlte2_pdq.views``.
+
+* The ``styles_main_fixes`` template block contains four new blocks:
+  ``styles_main_fixes__color_variables``,
+  ``styles_main_fixes__extra_colors``,
+  ``styles_main_fixes__extra_features``, and
+  ``styles_main_fixes__dark_mode``.
+
+* Add the ``ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST`` setting. Paths
+  that start with an entry in this list raise ``PermissionDenied`` on a failed
+  permission check instead of redirecting to the home page.
+
+* Setting ``ADMINLTE2_REDIRECT_TO_HOME_ON_403`` to ``False`` now turns off the
+  redirect to the home page for both the middleware and the
+  ``PermissionRequiredMixin``. Views without a permission decorator or mixin
+  raise ``PermissionDenied``.
+
+* The login redirect now keeps the query string of the requested page in the
+  ``next`` parameter, URL-encodes it, and supports a URL name in
+  ``LOGIN_URL``.
+
+* Fix the sidebar menu growing on every request when
+  ``ADMINLTE2_MENU_FIRST`` is provided through view context.
+
+* Fix a ``KeyError`` when a sidebar tree contains a nested tree without a
+  ``route``.
+
+* Fix sidebar nodes being marked active when they should not be.
+
+* Fix ``ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST`` matching only exact
+  paths instead of path prefixes.
+
+* Fix the 403 production message being shown twice in strict mode for views
+  without a decorator.
+
+* The 404 message is no longer shown to anonymous users when the home page
+  sends them to the login page (login-required and strict modes, unless the
+  home page is whitelisted). Previously the message appeared on the login
+  page. The DEBUG console warning is still logged.
+
+* Documentation: new pages for styling and dark mode, the demo CSS classes,
+  and the known route settings. Every authorization setting is now listed in
+  the authorization configuration page.
 
 0.2.1 - Filters, Commands, Messages, 404s, and Tree Nodes
 =========================================================

@@ -1,192 +1,174 @@
 Known Routes Configuration
 **************************
 
-This page defines commonly define "known routes" that are PDQ package settings.
-This includes routes such as the "Home" view, login pages, password reset
-pages, etc.
+The package needs to know the routes of some pages: the pages that must work
+without logging in (login, logout, password reset, registration), the pages
+that must work without permissions (home, password change), and the URL
+prefixes of files that are not views (static, media, websockets). These pages
+are added to the login exempt and strict policy whitelists automatically (see
+:doc:`authorization`).
 
-These routes are included as package settings for several reasons, such as to
-auto-include some of them in whitelists. Because it makes no sense to have
-a login page that is behind a login-required check to access!
+The defaults match Django's ``django.contrib.auth.urls`` and this package's
+URLs. Change them only if your project uses different routes.
+
+Most of these settings take a URL name, such as ``"password_reset"`` or
+``"myapp:register"``. The settings that take a URL path say so.
+
+.. note::
+
+    Several of these settings do not have the ``ADMINLTE2_`` prefix. Use the
+    names exactly as shown.
+
+The home route is set by :ref:`configuration/home:ADMINLTE2_HOME_ROUTE`.
 
 
-ADMINLTE2_HOME_ROUTE
---------------------
-
-Set the "Home" route for your project. This tells the package where to redirect
-users when they click a link that is designed to take the user home.
-
-
-:Type: ``string``
-:Default: ``adminlte2_pdq:home``
-
-Example::
-
-    ADMINLTE2_HOME_ROUTE = 'adminlte2_pdq:home'
-
+Routes That Don't Require Login
+===============================
 
 LOGIN_URL
 ---------
 
-Set the "login page" route for your project.
+Django's own setting. The package redirects users who need to log in to this
+URL, and does not require login for it.
 
-
-:Type: ``string``
-:Default: ``reverse_lazy("login")``
+:Type: ``string`` (a URL path or a URL name)
+:Default: Django's default, ``"/accounts/login/"``
 
 Example::
 
-    LOGIN_URL = 'reverse_lazy("login")'
+    LOGIN_URL = "login"
 
 
 LOGOUT_URL
----------
+----------
 
-Set the "logout page" route for your project.
+The logout page. It does not require login.
 
-
-:Type: ``string``
-:Default: ``reverse_lazy("logout")``
+:Type: ``string`` (a URL path or a URL name)
+:Default: the URL of the ``logout`` route
 
 Example::
 
-    LOGOUT_URL = 'reverse_lazy("logout")'
+    LOGOUT_URL = "/accounts/logout/"
 
 
 PWD_RESET_ROUTE
 ---------------
 
-Set the base "password reset page" route for your project.
+The page where users request a password reset.
 
-
-:Type: ``string``
-:Default: ``password_reset``
+:Type: ``string`` (URL name)
+:Default: ``"password_reset"``
 
 Example::
 
-    PWD_RESET_ROUTE = 'password_reset'
+    PWD_RESET_ROUTE = "accounts:password_reset"
 
 
 PWD_RESET_DONE_ROUTE
 --------------------
 
-Set the "password reset done" route for your project.
+The page shown after a password reset is requested.
 
-
-:Type: ``string``
-:Default: ``password_reset_done``
+:Type: ``string`` (URL name)
+:Default: ``"password_reset_done"``
 
 Example::
 
-    PWD_RESET_DONE_ROUTE = 'password_reset_done'
+    PWD_RESET_DONE_ROUTE = "accounts:password_reset_done"
 
 
 PWD_RESET_CONFIRM_ROUTE
 -----------------------
 
-Set the "confirm password reset" route for your project.
+The page where users set a new password from the reset link.
 
-
-:Type: ``string``
-:Default: ``password_reset_confirm``
+:Type: ``string`` (URL name)
+:Default: ``"password_reset_confirm"``
 
 Example::
 
-    PWD_RESET_CONFIRM_ROUTE = 'password_reset_confirm'
+    PWD_RESET_CONFIRM_ROUTE = "accounts:password_reset_confirm"
 
 
 PWD_RESET_COMPLETE_ROUTE
 ------------------------
 
-Set the "password reset complete" route for your project.
+The page shown after the new password is set.
 
-
-:Type: ``string``
-:Default: ``password_reset_complete``
-
-Example::
-
-    PWD_RESET_COMPLETE_ROUTE = 'password_reset_complete'
-
-PWD_CHANGE
----------
-
-Set the "change password" route for your project.
-
-
-:Type: ``string``
-:Default: ``password_change``
+:Type: ``string`` (URL name)
+:Default: ``"password_reset_complete"``
 
 Example::
 
-    ADMINLTE2_HOME_ROUTE = 'password_change'
-
-
-PWD_CHANGE_DONE
----------------
-
-Set the "done changing password" route for your project.
-
-
-:Type: ``string``
-:Default: ``password_change_done``
-
-Example::
-
-    ADMINLTE2_HOME_ROUTE = 'password_change_done'
+    PWD_RESET_COMPLETE_ROUTE = "accounts:password_reset_complete"
 
 
 REGISTER_ROUTE
 --------------
 
-Set the "user registration" route for your project.
+The user registration page.
 
-
-:Type: ``string``
-:Default: ``adminlte2_pdq:register``
-
-Example::
-
-    ADMINLTE2_HOME_ROUTE = 'adminlte2_pdq:register'
-
-
-MEDIA_ROUTE
----------
-
-Set the "media files" route for your project.
-
-
-:Type: ``string``
-:Default: ``/media/``
+:Type: ``string`` (URL name)
+:Default: ``"adminlte2_pdq:register"``
 
 Example::
 
-    ADMINLTE2_HOME_ROUTE = '/media/'
+    REGISTER_ROUTE = "accounts:register"
 
 
-STATIC_ROUTE
-------------
+Routes That Don't Require Permissions
+=====================================
 
-Set the "static files" route for your project.
+These pages require login, but no permissions, under the strict policy.
 
+PWD_CHANGE
+----------
 
-:Type: ``string``
-:Default: ``/static/``
+The page where logged-in users change their password.
+
+:Type: ``string`` (URL name)
+:Default: ``"password_change"``
 
 Example::
 
-    ADMINLTE2_HOME_ROUTE = '/static/'
+    PWD_CHANGE = "accounts:password_change"
 
 
-WEBSOCKET_ROUTE
+PWD_CHANGE_DONE
 ---------------
 
-Set the "websocket" route for your project.
+The page shown after the password is changed.
 
-
-:Type: ``string``
-:Default: ``/ws/``
+:Type: ``string`` (URL name)
+:Default: ``"password_change_done"``
 
 Example::
 
-    ADMINLTE2_HOME_ROUTE = '/ws/'
+    PWD_CHANGE_DONE = "accounts:password_change_done"
+
+
+File and Websocket Routes
+=========================
+
+The middleware does not check login or permissions for paths that start with
+these prefixes, and a missing file returns Django's 404 response instead of
+redirecting to the home page.
+
+MEDIA_URL and STATIC_URL
+------------------------
+
+Django's own settings. The package reads them as they are.
+
+
+WEBSOCKET_URL
+-------------
+
+The path prefix of the project's websocket routes.
+
+:Type: ``string`` (URL path)
+:Default: ``"/ws/"``
+
+Example::
+
+    WEBSOCKET_URL = "/websockets/"

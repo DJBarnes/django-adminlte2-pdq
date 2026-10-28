@@ -100,9 +100,8 @@ To rephrase, the menu sections render in the following order:
 
 * ``ADMINLTE2_MENU_FIRST``
 * ``ADMINLTE2_MENU``
-* ``Admin_Menu`` (Note: This is not a variable, but rather the menu generated
-  from the standard "Django Admin" views. For details, see
-  :ref:`menu/admin:Displaying the Admin Menu`.)
+* The admin menu (not a variable: the menu generated from the Django admin
+  views; see :ref:`menu/admin:Displaying the Admin Menu`)
 * ``ADMINLTE2_MENU_LAST``
 
 A practical use for this would be to define the main static menu using
@@ -128,64 +127,27 @@ For an example, look at the
 than using the ``ADMINLTE2_MENU_FIRST`` as the context variable in ``views.py``,
 you are using ``ADMINLTE2_MENU``.
 
-
-Making The Entire Menu Dynamic
-==============================
-
-Via View Context Data
----------------------
-
-If you need your menu to be more dynamic, you may consider generating and passing
-menu data within your views.
-This will allow the view to send custom menu values on a per-request basis,
-optionally only overriding the "static" AdminLte PDQ menus on views that need it.
-
-For example, in a class-based view, you may accomplish this with the following:
+In a class-based view, set any of the three menu variables in
+``get_context_data``. Variables you don't set keep their default:
 
 .. code:: python
 
     def get_context_data(self, **kwargs):
-
-        ...
-
-        # Override AdminLte menus with our custom ones.
+        context = super().get_context_data(**kwargs)
         context["ADMINLTE2_MENU_FIRST"] = CUSTOM_MENU_FIRST
-        context["ADMINLTE2_MENU"] = CUSTOM_MENU_STANDARD
+        context["ADMINLTE2_MENU"] = CUSTOM_MENU
         context["ADMINLTE2_MENU_LAST"] = CUSTOM_MENU_LAST
-
-        ...
-
-        # Return updated context.
         return context
 
-For examples on how to define these menu variables, see
-:doc:`examples` and :doc:`building_blocks`.
+When :ref:`configuration/menu:ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES` is
+True, the admin menu appears below ``ADMINLTE2_MENU`` for staff users and
+superusers.
 
-Note that you do not have to provide all three variables.
-You can provide only those needed, and AdminLte PDQ will handle accordingly.
-Any values not overridden in your view will resort to the "default" state.
-
-These variables do the following:
-
-* ``ADMINLTE2_MENU`` - The "base" menu displayed in AdminLte PDQ.
-
-  * Providing this variable will override the static menu that normally
-    displays on the sidebar.
-
-  * If the project variable
-    :ref:`configuration/menu:adminlte2_include_admin_nav_on_main_pages` is
-    set to True AND the user accessing the view is a "staff" user, then
-    this will display directly above the generated "Django Admin" menu.
-
-* ``ADMINLTE2_MENU_FIRST`` - An additional menu section, which will always
-  display at the top of the sidebar, above all other menus.
-
-* ``ADMINLTE2_MENU_LAST`` - An additional menu section, which will always
-  display at the bottom of the sidebar, below all other menus.
+For how to define the menus, see :doc:`building_blocks` and :doc:`examples`.
 
 
-Via Context Processors
-----------------------
+Making The Entire Menu Dynamic
+==============================
 
 If you need your menu to be fully dynamic with zero static content, you may
 consider creating a menu context processor that could run on every request.

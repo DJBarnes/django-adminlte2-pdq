@@ -33,17 +33,11 @@ and more, to aid in the rapid development of a site.
 
 * Styled with `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_.
 
-* Styles beyond what default AdminLte2 provides.
-  Such as:
+* Automatic
+  `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
+  styling that matches AdminLTE2.
 
-  * Automatic
-    `Django Admin <https://docs.djangoproject.com/en/dev/ref/contrib/admin/>`_
-    styling that matches AdminLTE2.
-  * :doc:`Additional reusable HTML elements <./demo_css>` with built-in styling that matches AdminLTE2.
-  * More consistent element color-handling across HTML elements.
-  * Expanded color options for all supported HTML elements.
-
-* :doc:`Three permission/authentication modes <./authorization/overview>`:
+* Three permission/authentication modes:
 
   * "**Loose**" Mode - The default Django handling, and thus the project default.
     All views are accessible to all users, until decorators/mixins are added
@@ -57,7 +51,7 @@ and more, to aid in the rapid development of a site.
     decorators/mixins specify otherwise, all views require permissions in order
     to access.
 
-* :doc:`Customizable web page templates <./templates/templates>`:
+* Customizable web page templates:
 
     * Built-in templates split into reasonable block sections, to help
       facilitate any content your site needs.
@@ -68,18 +62,16 @@ and more, to aid in the rapid development of a site.
 
     * Automatic form error and message styling.
 
-* :doc:`Easy sidebar menu creation and customization <./menu/general_information>`:
+* Easy sidebar menu creation and customization:
 
   * Views can easily be added to the sidebar with just a few lines of code.
 
   * Automatic menu link hiding based on user permissions to views.
 
     * Aka, sidebar links can be customized to only be visible upon meeting
-      login or permission criteria. If enabled, visibility will automatically
-      be set based on the user meeting login/permission criteria.
+      login or permission criteria.
 
-  * Automatic inclusion of Admin links in the sidebar, which can be toggled on
-    or off.
+  * Automatic inclusion of Admin links in the sidebar.
 
 * `Font Awesome 4 <https://fontawesome.com/v4/icons/>`_
   & `Font Awesome 5 <https://fontawesome.com/v5/search>`_ integration.
@@ -94,17 +86,6 @@ and more, to aid in the rapid development of a site.
 
    quickstart
    longstart
-
-
-.. toctree::
-   :maxdepth: 3
-   :caption: Authentication & Authorization
-
-   authorization/overview
-   authorization/security_notes
-   authorization/policies
-   authorization/function_views
-   authorization/class_views
 
 
 .. toctree::
@@ -134,12 +115,21 @@ and more, to aid in the rapid development of a site.
    :caption: Configuration
 
    configuration/home
-   configuration/known_routes
-   configuration/authorization
    configuration/menu
    configuration/admin
+   configuration/authorization
+   configuration/known_routes
    configuration/form
    configuration/front_end_styling
+
+
+.. toctree::
+   :maxdepth: 3
+   :caption: Authentication & Authorization
+
+   authorization/policies
+   authorization/function_views
+   authorization/class_views
 
 
 .. toctree::

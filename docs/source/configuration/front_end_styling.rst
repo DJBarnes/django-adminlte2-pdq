@@ -1,58 +1,151 @@
-Front End Styling Configuration
-*******************************
+Styling Configuration
+*********************
 
-This package contains all of the AdminLTE2 default styles, and then some.
-For example, AdminLTE2 provides some reusable HTML elements with color themes that
-are inconsistently supported across elements.
-
-This package fixes the color themes to work uniformly across all elements, and
-even adds a few additional color options.
-
-All settings on this page relate to said front end elements and color options.
+These settings and template blocks control the package's extra CSS. For the
+color classes the CSS provides, see :doc:`../demo_css`.
 
 
-CSS_COLORS_DICT
----------------
+----
 
-All implemented front-end elements are displayed in the :doc:`../demo_css` page.
 
-You can modify this dictionary if you wish to change which values appear
-on said demo css page. Such as to remove unwanted colors, or add new custom colors.
+Settings
+========
 
-Note that to add custom colors, you will also need to add appropriate CSS files.
-This setting only modifies package logic on the demo css pages, to check for CSS
-files with a name that matches the value listed here.
+ADMINLTE2_DEMO_CSS_COLORS
+-------------------------
 
-See package files at ``static/adminlte2_pdq/css/extra-colors/``
-for implementation examples.
+The colors shown on the :doc:`../demo_css` pages, as a dictionary of color
+name to hex value. The hex value is only displayed on the color palette page.
+Use this setting to remove colors from the demo pages, or to add colors you
+have added to your project (see :ref:`demo_css:Adding a color`).
 
+This setting only affects the demo pages. It does not add or remove CSS.
 
 :Type: ``dict``
-:Default: {
-            "default": "#f4f4f4",
-            "primary": "#3c8dbc",
-            "info": "#00c0ef",
-            "success": "#00a65a",
-            "warning": "#f39c12",
-            "danger": "#dd4b39",
-            "navy": "#001f3f",
-            "blue": "#1a94db",
-            "teal": "#39cccc",
-            "olive": "#3d9970",
-            "lime": "#01ff70",
-            "orange": "#ff851b",
-            "fuchsia": "#f012be",
-            "indigo": "#a35cd8",
-            "purple": "#605ca8",
-            "maroon": "#d81b60",
-            "gray": "#d2d6de",
-            "black": "#2b2b2b",
-        }
+:Default: the package colors, in this order: ``default``, ``primary``,
+    ``info``, ``success``, ``warning``, ``danger``, ``navy``, ``blue``,
+    ``teal``, ``olive``, ``lime``, ``orange``, ``fuchsia``, ``indigo``,
+    ``purple``, ``maroon``, ``gray``, ``black``
 
 Example::
 
-    CSS_COLORS_DICT = {
-        "color_name_1": "#ABABAB",
-        "color_name_2": "#AABBCC",
-        "color_name_3": "#ABCABC",
+    from adminlte2_pdq.constants import DEMO_CSS_COLORS
+
+    ADMINLTE2_DEMO_CSS_COLORS = {**DEMO_CSS_COLORS, "brand": "#6610f2"}
+
+
+----
+
+
+Dark Mode
+=========
+
+The package adds a dark version of each AdminLTE skin color:
+
+* ``skin-blue-dark``
+* ``skin-black-dark``
+* ``skin-purple-dark``
+* ``skin-yellow-dark``
+* ``skin-red-dark``
+* ``skin-green-dark``
+
+Each dark skin uses the header color of the AdminLTE skin with the same name,
+a dark sidebar, and dark page content. Dark mode covers Bootstrap and AdminLTE
+elements, the package's color classes, the login page, and the Django admin
+pages.
+
+By default, the site follows the browser's light or dark mode setting: it uses
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS_LIGHT` when the
+browser is in light mode and
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS_DARK` when it is in
+dark mode, and switches when the browser's setting changes. To always use
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS`, set
+:ref:`configuration/home:ADMINLTE2_SKIN_FOLLOW_BROWSER` to
+``False``.
+
+The dark mode CSS is always loaded and only applies under a dark skin class.
+To switch between light and dark mode from your own code, for example from a
+button or a user setting, turn off browser following and replace the skin
+class on ``<body>``:
+
+.. code:: javascript
+
+    $('body').removeClass('skin-blue').addClass('skin-blue-dark');
+
+The package does not store a user's choice. Projects that offer a choice keep
+it themselves, for example in a user profile or a cookie, and override the
+``skin_class`` block of ``adminlte2/base.html`` to render the chosen class.
+
+
+Styling your own elements
+-------------------------
+
+Dark mode's colors are CSS custom properties that are defined under the dark
+skin classes. Use them to style your own elements in dark mode:
+
+==============================  ============================================
+Property                        Used for
+==============================  ============================================
+``--pdq-dark-page``             Page background
+``--pdq-dark-surface``          Boxes, panels, and modals
+``--pdq-dark-raised``           Raised elements: input addons, wells
+``--pdq-dark-border``           Borders
+``--pdq-dark-border-strong``    Hover borders
+``--pdq-dark-text``             Text
+``--pdq-dark-text-soft``        Secondary text
+``--pdq-dark-text-muted``       Muted text
+==============================  ============================================
+
+For example:
+
+.. code:: css
+
+    .skin-blue-dark .my-widget {
+        color: var(--pdq-dark-text);
+        background-color: var(--pdq-dark-surface);
     }
+
+
+----
+
+
+Template Blocks
+===============
+
+The package's CSS loads in the ``styles_main_fixes`` block of
+``adminlte2/partials/_styles.html``. Each part has its own block, so a project
+can replace or remove one part:
+
+``styles_main_fixes__color_variables``
+    Loads ``adminlte2_pdq/css/extra-colors/color-variables.css``.
+
+``styles_main_fixes__extra_colors``
+    Loads ``adminlte2_pdq/css/extra-colors/extra-colors.css``.
+
+``styles_main_fixes__extra_features``
+    Loads ``adminlte2_pdq/css/extra-features/extra-features.css``.
+
+``styles_main_fixes__dark_mode``
+    Loads ``adminlte2_pdq/css/dark-mode/dark-skins.css`` and
+    ``adminlte2_pdq/css/dark-mode/dark-mode.css``.
+
+For example, to load your own colors after the package's colors, override
+``adminlte2/partials/_styles.html`` in your project:
+
+.. code:: html+django
+
+    {% extends "adminlte2/partials/_styles.html" %}
+    {% load static %}
+
+    {% block styles_main_fixes__extra_colors %}
+      {{ block.super }}
+      <link rel="stylesheet" href="{% static 'css/brand.css' %}">
+    {% endblock styles_main_fixes__extra_colors %}
+
+The package's JavaScript loads in the ``scripts_main_fixes`` block of
+``adminlte2/partials/_scripts.html``.
+
+.. note::
+
+    The package requires a browser that supports CSS custom properties. All
+    current browsers do; Internet Explorer does not.
