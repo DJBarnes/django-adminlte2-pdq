@@ -100,3 +100,55 @@ Example::
 
     ADMINLTE2_SKIN_CLASS = 'skin-green-light'
 
+
+ADMINLTE2_SKIN_FOLLOW_BROWSER
+-----------------------------
+
+Whether the site follows the browser's light or dark mode setting. When
+``True``, a script that runs before the page is drawn replaces the skin class
+with :ref:`configuration/home:ADMINLTE2_SKIN_CLASS_LIGHT` or
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS_DARK`. When
+``False``, the site always uses :ref:`configuration/home:ADMINLTE2_SKIN_CLASS`.
+
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS` is also used when the browser
+has JavaScript turned off.
+
+:Type: ``bool``
+:Default: ``True``
+
+Example::
+
+    ADMINLTE2_SKIN_FOLLOW_BROWSER = False
+
+
+ADMINLTE2_SKIN_CLASS_LIGHT
+--------------------------
+
+The skin class to use when following the browser and the browser is in light
+mode. The value is used as given, so it can be any skin class.
+
+:Type: ``string``
+:Default: :ref:`configuration/home:ADMINLTE2_SKIN_CLASS`, or its ``-light``
+    version when that is a dark skin (``skin-blue-dark`` becomes
+    ``skin-blue-light``)
+
+Example::
+
+    ADMINLTE2_SKIN_CLASS_LIGHT = 'skin-blue-light'
+
+
+ADMINLTE2_SKIN_CLASS_DARK
+-------------------------
+
+The skin class to use when following the browser and the browser is in dark
+mode. The value is used as given, so it can be any skin class.
+
+:Type: ``string``
+:Default: the ``-dark`` version of the
+    :ref:`configuration/home:ADMINLTE2_SKIN_CLASS` color (``skin-blue``
+    becomes ``skin-blue-dark``)
+
+Example::
+
+    ADMINLTE2_SKIN_CLASS_DARK = 'skin-purple-dark'
+

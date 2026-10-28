@@ -55,12 +55,12 @@ elements, the package's color classes, the login page, and the Django admin
 pages.
 
 By default, the site follows the browser's light or dark mode setting: it uses
-:ref:`configuration/front_end_styling:ADMINLTE2_SKIN_CLASS_LIGHT` when the
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS_LIGHT` when the
 browser is in light mode and
-:ref:`configuration/front_end_styling:ADMINLTE2_SKIN_CLASS_DARK` when it is in
+:ref:`configuration/home:ADMINLTE2_SKIN_CLASS_DARK` when it is in
 dark mode, and switches when the browser's setting changes. To always use
 :ref:`configuration/home:ADMINLTE2_SKIN_CLASS`, set
-:ref:`configuration/front_end_styling:ADMINLTE2_SKIN_FOLLOW_BROWSER` to
+:ref:`configuration/home:ADMINLTE2_SKIN_FOLLOW_BROWSER` to
 ``False``.
 
 The dark mode CSS is always loaded and only applies under a dark skin class.
@@ -75,58 +75,6 @@ class on ``<body>``:
 The package does not store a user's choice. Projects that offer a choice keep
 it themselves, for example in a user profile or a cookie, and override the
 ``skin_class`` block of ``adminlte2/base.html`` to render the chosen class.
-
-
-ADMINLTE2_SKIN_FOLLOW_BROWSER
------------------------------
-
-Whether the site follows the browser's light or dark mode setting. When
-``True``, a script that runs before the page is drawn replaces the skin class
-with :ref:`configuration/front_end_styling:ADMINLTE2_SKIN_CLASS_LIGHT` or
-:ref:`configuration/front_end_styling:ADMINLTE2_SKIN_CLASS_DARK`. When
-``False``, the site always uses :ref:`configuration/home:ADMINLTE2_SKIN_CLASS`.
-
-:ref:`configuration/home:ADMINLTE2_SKIN_CLASS` is also used when the browser
-has JavaScript turned off.
-
-:Type: ``bool``
-:Default: ``True``
-
-Example::
-
-    ADMINLTE2_SKIN_FOLLOW_BROWSER = False
-
-
-ADMINLTE2_SKIN_CLASS_LIGHT
---------------------------
-
-The skin class to use when following the browser and the browser is in light
-mode. The value is used as given, so it can be any skin class.
-
-:Type: ``string``
-:Default: :ref:`configuration/home:ADMINLTE2_SKIN_CLASS`, or its ``-light``
-    version when that is a dark skin (``skin-blue-dark`` becomes
-    ``skin-blue-light``)
-
-Example::
-
-    ADMINLTE2_SKIN_CLASS_LIGHT = 'skin-blue-light'
-
-
-ADMINLTE2_SKIN_CLASS_DARK
--------------------------
-
-The skin class to use when following the browser and the browser is in dark
-mode. The value is used as given, so it can be any skin class.
-
-:Type: ``string``
-:Default: the ``-dark`` version of the
-    :ref:`configuration/home:ADMINLTE2_SKIN_CLASS` color (``skin-blue``
-    becomes ``skin-blue-dark``)
-
-Example::
-
-    ADMINLTE2_SKIN_CLASS_DARK = 'skin-purple-dark'
 
 
 Styling your own elements
