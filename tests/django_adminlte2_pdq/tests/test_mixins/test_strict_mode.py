@@ -188,7 +188,7 @@ class StrictModeMixin:
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:class-allow-without-permissions",
-                    user=user_str,
+                    user=user_instance,
                     # Expected view return data.
                     expected_status=200,
                     view_should_redirect=False,
