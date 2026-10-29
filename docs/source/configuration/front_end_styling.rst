@@ -54,6 +54,11 @@ a dark sidebar, and dark page content. Dark mode covers Bootstrap and AdminLTE
 elements, the package's color classes, the login page, and the Django admin
 pages.
 
+In the Django admin pages, the skin decides between light and dark, as in the
+rest of the site. Django admin's own dark mode, which follows the browser, is
+not used: under a light skin the admin stays light even when the browser is
+in dark mode, and under a dark skin it uses dark mode's colors.
+
 By default, the site follows the browser's light or dark mode setting: it uses
 :ref:`configuration/home:ADMINLTE2_SKIN_CLASS_LIGHT` when the
 browser is in light mode and

@@ -2,7 +2,11 @@
 Tests for Admin Template Tags
 """
 
+# System Imports.
+from unittest.mock import patch
+
 # Third-Party Imports.
+import django
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth import get_user_model
 from django.template import Template, Context
@@ -281,3 +285,19 @@ class TemplateTagAdminTestCase(TestCase):
         rendered_template = template_to_render.render(context)
 
         self.assertNotIn('<ul class="nav nav-tabs nav-justified control-sidebar-tabs">', rendered_template)
+
+    # |-------------------------------------------------------------------------
+    # | Test django_admin_follows_browser_dark_mode
+    # |-------------------------------------------------------------------------
+
+    def test_admin_light_colors_css_is_loaded_before_django_4_2(self):
+        """Admin pages load the CSS that keeps Django admin's colors light only before Django 4.2."""
+        user = get_user_model().objects.create_superuser("admin", "admin@example.com", "password")
+        self.client.force_login(user)
+
+        for version, expected in (((3, 2, 25, "final", 0), True), ((4, 1, 13, "final", 0), True), ((4, 2), False)):
+            with self.subTest(version=version), patch.object(django, "VERSION", version):
+                response = self.client.get("/admin/")
+
+                self.assertEqual(response.status_code, 200)
+                self.assertEqual("css/conflicts/django_admin_light_colors.css" in response.content.decode(), expected)

@@ -1,0 +1,46 @@
+/**
+ * Django admin's colors stay light when the browser is in dark mode.
+ *
+ * Before Django 4.2, admin/css/base.css switches its color variables to dark values when the browser prefers a dark
+ * color scheme. In AdminLTE pages the skin decides between light and dark (see ADMINLTE2_SKIN_CLASS and
+ * ADMINLTE2_SKIN_FOLLOW_BROWSER), so a light skin got black tables and forms, and the dark skins got a mix of both.
+ * Django 4.2 and later keep these values in admin/css/dark_mode.css, which the package's admin templates don't load.
+ *
+ * Loaded by admin/base.html only for Django versions before 4.2. The values are Django 3.2's light values for every
+ * variable its dark mode block changes.
+ */
+
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #79aec8;
+        --primary-fg: #fff;
+
+        --body-fg: #333;
+        --body-bg: #fff;
+        --body-quiet-color: #666;
+        --body-loud-color: #000;
+
+        --breadcrumbs-link-fg: var(--body-bg);
+        --breadcrumbs-bg: var(--primary);
+
+        --link-fg: #447e9b;
+        --link-hover-color: #036;
+        --link-selected-fg: #5b80b2;
+
+        --hairline-color: #e8e8e8;
+        --border-color: #ccc;
+
+        --error-fg: #ba2121;
+        --message-success-bg: #dfd;
+        --message-warning-bg: #ffc;
+        --message-error-bg: #ffefef;
+
+        --darkened-bg: #f8f8f8;
+        --selected-bg: #e4e4e4;
+        --selected-row: #ffc;
+
+        --close-button-bg: #888;
+        --close-button-hover-bg: #747474;
+    }
+}

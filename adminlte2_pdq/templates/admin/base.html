@@ -48,6 +48,12 @@
 
   {# Conflicts is here because must override all previous library css including django admin. #}
   <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/conflicts/django_admin_conflicts.css' %}">
+
+  {# Before Django 4.2, admin colors follow the browser's dark mode. Keep them light; the skin decides. #}
+  {% django_admin_follows_browser_dark_mode as admin_follows_browser_dark_mode %}
+  {% if admin_follows_browser_dark_mode %}
+    <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/conflicts/django_admin_light_colors.css' %}">
+  {% endif %}
 {% endblock global_conflict_stylesheets %}
 
 

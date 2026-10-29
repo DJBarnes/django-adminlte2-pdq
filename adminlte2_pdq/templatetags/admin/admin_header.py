@@ -1,5 +1,6 @@
 """Django AdminLTE2 Admin Header"""
 
+import django
 from django import template
 from django.conf import settings
 
@@ -24,3 +25,9 @@ def show_control_sidebar_button():
     show_button = number_of_tabs > 0
 
     return {"show_control_sidebar_button": show_button}
+
+
+@register.simple_tag()
+def django_admin_follows_browser_dark_mode():
+    """Whether Django admin's base.css switches to dark colors when the browser prefers dark (Django < 4.2)."""
+    return django.VERSION < (4, 2)

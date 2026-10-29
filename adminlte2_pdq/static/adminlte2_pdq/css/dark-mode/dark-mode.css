@@ -20,8 +20,10 @@
 Dark mode's colors, defined once, as AdminLTE's source keeps its colors in LESS variables. Every rule below uses these
 rather than repeating the hex values. The tints are dark versions of Bootstrap's contextual colors, each with a lighter
 hover, as Bootstrap's own hovers are a step darker than its light tints.
+Also defined on the root element, for the Django admin variables below.
 */
-:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) {
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark),
+:root:has(> body:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark)) {
     --pdq-dark-page: #1a2226;
     --pdq-dark-surface: #222d32;
     --pdq-dark-raised: #2c3b41;
@@ -66,13 +68,21 @@ hover, as Bootstrap's own hovers are a step darker than its light tints.
 /*
 Django admin's own CSS (admin/css/base.css) colors its tables, modules and forms from these variables, which
 otherwise keep their light values in dark mode. Values follow Django's admin/css/dark_mode.css, in our palette.
+They are set on the root element, as Django sets them, so that Django's variables defined from these (such as
+--button-bg and --header-link-color, which differ between Django versions) take the dark values too.
 */
-:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) {
+:root:has(> body:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark)) {
+    --primary: #264b5d;
+    --primary-fg: #f7f7f7;
+
     --body-fg: var(--pdq-dark-text);
     --body-bg: var(--pdq-dark-surface);
     --body-quiet-color: var(--pdq-dark-text-soft);
     --body-medium-color: #e0e0e0;
     --body-loud-color: var(--pdq-dark-text);
+
+    --breadcrumbs-link-fg: #e0e0e0;
+    --breadcrumbs-bg: var(--primary);
 
     --link-fg: #81d4fa;
     --link-hover-color: #4ac1f7;

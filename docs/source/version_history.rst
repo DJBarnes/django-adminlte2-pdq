@@ -80,6 +80,12 @@ Other Changes
   script that follows the browser loads in the new ``skin_follow_browser``
   block of ``adminlte2/base.html``.
 
+* Fix Django admin pages turning black under a light skin when the browser is
+  in dark mode, on Django versions before 4.2. Django's ``admin/css/base.css``
+  switched the admin's colors to dark from the browser setting; the admin
+  pages now keep Django's light colors and let the skin decide, as on Django
+  4.2 and later.
+
 * Add ``python -m adminlte2_pdq.color_css --custom NAME BASE``, which prints
   the CSS for a project's own color: its custom properties and every color
   class.
