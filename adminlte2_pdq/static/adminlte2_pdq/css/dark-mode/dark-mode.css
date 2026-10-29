@@ -946,12 +946,12 @@ grays in dark mode), take the lightened text colors, so they show on dark slides
     --pdq-default-table-hover: var(--pdq-dark-raised-hover);
     --pdq-default-light-accent-text: var(--pdq-dark-text-soft);
     /* primary */
-    --pdq-primary-light-accent: #1c4054;
-    --pdq-primary-table-hover: #224e67;
+    --pdq-primary-light-accent: #1f4860;
+    --pdq-primary-table-hover: #255673;
     --pdq-primary-light-accent-text: var(--pdq-dark-text-soft);
     /* light-blue */
-    --pdq-light-blue-light-accent: #1c4054;
-    --pdq-light-blue-table-hover: #224e67;
+    --pdq-light-blue-light-accent: #1f4860;
+    --pdq-light-blue-table-hover: #255673;
     --pdq-light-blue-light-accent-text: var(--pdq-dark-text-soft);
     /* info */
     --pdq-info-light-accent: var(--pdq-dark-info);
@@ -990,44 +990,44 @@ grays in dark mode), take the lightened text colors, so they show on dark slides
     --pdq-error-table-hover: var(--pdq-dark-danger-hover);
     --pdq-error-light-accent-text: var(--pdq-dark-text-soft);
     /* navy */
-    --pdq-navy-light-accent: #1c3854;
-    --pdq-navy-table-hover: #224467;
+    --pdq-navy-light-accent: #0b2c4e;
+    --pdq-navy-table-hover: #0e3964;
     --pdq-navy-light-accent-text: var(--pdq-dark-text-soft);
     /* blue */
-    --pdq-blue-light-accent: #1c3f54;
-    --pdq-blue-table-hover: #224e67;
+    --pdq-blue-light-accent: #0e4363;
+    --pdq-blue-table-hover: #115379;
     --pdq-blue-light-accent-text: var(--pdq-dark-text-soft);
     /* teal */
-    --pdq-teal-light-accent: #1c5454;
-    --pdq-teal-table-hover: #226767;
+    --pdq-teal-light-accent: #144e4e;
+    --pdq-teal-table-hover: #196262;
     --pdq-teal-light-accent-text: var(--pdq-dark-text-soft);
     /* olive */
-    --pdq-olive-light-accent: #20503b;
-    --pdq-olive-table-hover: #276248;
+    --pdq-olive-light-accent: #21523c;
+    --pdq-olive-table-hover: #286449;
     --pdq-olive-light-accent-text: var(--pdq-dark-text-soft);
     /* lime */
-    --pdq-lime-light-accent: #1c5435;
-    --pdq-lime-table-hover: #226741;
+    --pdq-lime-light-accent: #0b502a;
+    --pdq-lime-table-hover: #0f6735;
     --pdq-lime-light-accent-text: var(--pdq-dark-text-soft);
     /* orange */
     --pdq-orange-light-accent: var(--pdq-dark-orange);
     --pdq-orange-table-hover: var(--pdq-dark-orange-hover);
     --pdq-orange-light-accent-text: var(--pdq-dark-text-soft);
     /* fuchsia */
-    --pdq-fuchsia-light-accent: #541c48;
-    --pdq-fuchsia-table-hover: #672258;
+    --pdq-fuchsia-light-accent: #70105a;
+    --pdq-fuchsia-table-hover: #86136c;
     --pdq-fuchsia-light-accent-text: var(--pdq-dark-text-soft);
     /* purple */
     --pdq-purple-light-accent: var(--pdq-dark-purple);
     --pdq-purple-table-hover: var(--pdq-dark-purple-hover);
     --pdq-purple-light-accent-text: var(--pdq-dark-text-soft);
     /* maroon */
-    --pdq-maroon-light-accent: #541c31;
-    --pdq-maroon-table-hover: #67223c;
+    --pdq-maroon-light-accent: #6d1032;
+    --pdq-maroon-table-hover: #84133c;
     --pdq-maroon-light-accent-text: var(--pdq-dark-text-soft);
     /* black */
-    --pdq-black-light-accent: #383838;
-    --pdq-black-table-hover: #454545;
+    --pdq-black-light-accent: #363636;
+    --pdq-black-table-hover: #424242;
     --pdq-black-light-accent-text: var(--pdq-dark-text-soft);
     /* gray */
     --pdq-gray-text: var(--pdq-dark-text);
@@ -1039,8 +1039,8 @@ grays in dark mode), take the lightened text colors, so they show on dark slides
     --pdq-gray-table-hover: var(--pdq-dark-raised-hover);
     --pdq-gray-light-accent-text: var(--pdq-dark-text-soft);
     /* indigo */
-    --pdq-indigo-light-accent: #3c1c54;
-    --pdq-indigo-table-hover: #4a2267;
+    --pdq-indigo-light-accent: #4b1b6f;
+    --pdq-indigo-table-hover: #592084;
     --pdq-indigo-light-accent-text: var(--pdq-dark-text-soft);
 }
 /* endregion Package color variables */

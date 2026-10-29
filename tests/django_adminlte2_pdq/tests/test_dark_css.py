@@ -72,3 +72,27 @@ class DarkCssTestCase(SimpleTestCase):
             for part in ("text", "base", "active", "border", "hover"):
                 with self.subTest(name=name, part=part):
                     self.assertIn(f"--pdq-{name}-{part}:", rendered)
+
+    def test__dark_text_soft_matches_the_palette(self):
+        """The soft text color the tints are checked against is the palette's --pdq-dark-text-soft."""
+        source = dark_css.SOURCE_FILE.read_text(encoding="utf-8")
+        self.assertIn(f"--pdq-dark-text-soft: {dark_css.DARK_TEXT_SOFT};", source)
+
+    def test__dark_tints_keep_text_readable_and_a_hover_step(self):
+        """Every computed dark tint keeps the soft text readable, and its hover tint is a different color."""
+        for name in color_css.NAMES:
+            base = color_css.COLORS_BY_NAME[color_css.ALIASES.get(name, name)].base
+            tint, hover = dark_css.dark_tint(base), dark_css.dark_tint(base, hover=True)
+            with self.subTest(name):
+                self.assertGreaterEqual(dark_css._contrast(tint, dark_css.DARK_TEXT_SOFT), dark_css.TINT_MIN_CONTRAST)
+                self.assertGreaterEqual(dark_css._contrast(hover, dark_css.DARK_TEXT_SOFT), dark_css.TINT_MIN_CONTRAST)
+                self.assertNotEqual(tint, hover)
+
+    def test__dark_tints_of_colors_with_one_hue_stay_apart(self):
+        """Navy, blue, and primary share a hue; their dark tints still differ visibly."""
+        tints = {name: dark_css.dark_tint(color_css.COLORS_BY_NAME[name].base) for name in ("navy", "blue", "primary")}
+        rgb = {name: [int(value[i : i + 2], 16) for i in (1, 3, 5)] for name, value in tints.items()}
+        for first, second in (("navy", "blue"), ("blue", "primary"), ("navy", "primary")):
+            with self.subTest(f"{first} and {second}"):
+                distance = sum((a - b) ** 2 for a, b in zip(rgb[first], rgb[second])) ** 0.5
+                self.assertGreaterEqual(distance, 15, tints)

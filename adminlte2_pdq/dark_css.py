@@ -20,6 +20,7 @@ The generated files are committed. A test fails when they are out of date.
 """
 
 # System Imports.
+import colorsys
 import re
 import sys
 from pathlib import Path
@@ -66,9 +67,40 @@ DARK_GRAY_COLORS = {
 }
 
 
+# Dark mode's soft text color (--pdq-dark-text-soft in css_source/dark_mode.css), the text on tinted table rows.
+DARK_TEXT_SOFT = "#d0d0d0"
+
+# Dark tints keep at least this contrast with the soft text.
+TINT_MIN_CONTRAST = 4.5
+
+
 def dark_tint(value, hover=False):
-    """A dark tint of a color, for table rows and code: its hue, at most 50% saturation, 22% lightness."""
-    return color_css.tint(value, 0.50, 0.27 if hover else 0.22)
+    """A dark tint of a color, for table rows and code.
+
+    Keeps the color's hue, caps its HSL saturation at 75%, and maps its lightness into a dark range: 15% plus a fifth
+    of its own lightness. Colors that share a hue, such as navy, blue, and primary, stay apart by their lightness and
+    saturation. Grays are at least 21% light, so their rows stand out from the dark surface. The hover tint is 5%
+    lighter. Both are darkened as needed so the soft text keeps TINT_MIN_CONTRAST on the hover tint, which keeps a
+    visible hover step for bright colors such as teal and lime.
+    """
+    hue, lightness, saturation = colorsys.rgb_to_hls(*color_css._hex_to_rgb(value))
+    saturation = min(saturation, 0.75)
+    base_lightness = 0.15 + 0.20 * lightness
+    if saturation < 0.1:
+        base_lightness = max(base_lightness, 0.21)
+
+    def color(tint_lightness):
+        return color_css._rgb_to_hex(colorsys.hls_to_rgb(hue, tint_lightness, saturation))
+
+    while _contrast(color(base_lightness + 0.05), DARK_TEXT_SOFT) < TINT_MIN_CONTRAST:
+        base_lightness -= 0.005
+    return color(base_lightness + 0.05 if hover else base_lightness)
+
+
+def _contrast(first, second):
+    """WCAG contrast ratio of two colors."""
+    lighter, darker = sorted((color_css.relative_luminance(first), color_css.relative_luminance(second)), reverse=True)
+    return (lighter + 0.05) / (darker + 0.05)
 
 
 def render_skins():
