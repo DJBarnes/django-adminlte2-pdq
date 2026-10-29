@@ -19,19 +19,50 @@
 
 {% block content %}
 
-  {# Basic Table #}
+  {# Links to each color's tables. #}
   <div class="row">
     <div class="col-xs-12">
-      {% include 'adminlte2_demo_css/partials/tables_basic.html' %}
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Colors</h3>
+        </div>
+        <div class="box-body">
+          {% for bootstrap_type in bootstrap_types %}
+            <a href="#tables-{{ bootstrap_type }}" class="btn btn-sm btn-{{ bootstrap_type }} margin-bottom">{{ bootstrap_type|capfirst }}</a>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 
-  {# Full Tables #}
-  <div class="row">
-    <div class="col-xs-12">
-      {% include 'adminlte2_demo_css/partials/tables_full.html' %}
+  {# Each color's tables, one after the other. #}
+  {% for bootstrap_type in bootstrap_types %}
+    <div class="row">
+      <div class="col-xs-12">
+        <div id="tables-{{ bootstrap_type }}" class="box box-solid box-{{ bootstrap_type }}">
+
+          {# Start Box Head #}
+          <div class="box-header with-border">
+            <h3 class="box-title">"{{ bootstrap_type|capfirst }}" Colored Tables</h3>
+
+            {% include 'adminlte2_demo_css/partials/box_tools.html' %}
+          </div>
+          {# End Box Head #}
+
+          {# Start Box Body #}
+          <div class="box-body">
+            {# Basic Table #}
+            {% include 'adminlte2_demo_css/partials/tables_basic.html' %}
+            <br>
+            {# Full Tables #}
+            {% include 'adminlte2_demo_css/partials/tables_full.html' %}
+          </div>
+          {# End Box Body #}
+
+        </div>
+      </div>
     </div>
-  </div>
+  {% endfor %}
 
 {% endblock content %}
 
@@ -53,18 +84,6 @@
           "autoWidth": false
         });
       {% endfor %}
-    });
-  </script>
-
-  {# Prevent our table carousel examples from changing if being hovered on. #}
-  <script>
-    $(function () {
-      $('#carousel-basic-table').carousel({
-          pause: "hover"
-      });
-      $('#carousel-full-table').carousel({
-          pause: "hover"
-      });
     });
   </script>
 
