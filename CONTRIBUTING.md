@@ -18,11 +18,12 @@ We'd also love PRs. If you're thinking of a large PR, we advise opening up an is
 ## Submitting a pull request
 
 1. [Fork][fork] and clone the repository.
-1. Configure and install Pipenv: `python -m pip install pipenv`.
-1. Create a virtual environment using pipenv for the latest supported version of python.
-1. Configure and install the dependencies: `pipenv sync --dev`.
-1. Make sure the tests pass on your machine: `pipenv run python runtests.py`.
-1. Ensure you are able to run tests with code coverage: `pipenv run python runtests.py --with-coverage`.
+1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
+1. Create the virtual environment (`.venv/`) with the dependencies: `uv sync --all-extras`. The project doesn't pin
+   its development dependencies (`uv.lock` isn't committed), so run `uv sync --all-extras --upgrade` now and then to
+   update them to their latest versions.
+1. Make sure the tests pass on your machine: `uv run python runtests.py`.
+1. Ensure you are able to run tests with code coverage: `uv run python runtests.py --with-coverage`.
 1. Create a new branch: `git checkout -b my-branch-name`.
 1. Make your change, add tests, and make sure the tests still pass.
 1. Push to your fork and [submit a pull request][pr].
@@ -30,7 +31,7 @@ We'd also love PRs. If you're thinking of a large PR, we advise opening up an is
 
 Here are a few things you can do that will increase the likelihood of your pull request being accepted:
 
-- Format and lint your code with [Ruff][style]: `pipenv run ruff format .` and `pipenv run ruff check .` (settings are in `pyproject.toml`).
+- Format and lint your code with [Ruff][style]: `uv run ruff format .` and `uv run ruff check .` (settings are in `pyproject.toml`).
 - Write and update tests.
 - Verify new functionality and tests do not reduce test coverage.
 - Keep your changes as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.

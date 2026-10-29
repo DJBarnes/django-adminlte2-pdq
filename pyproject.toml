@@ -70,6 +70,7 @@ dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = [
+    "colorama",
     "coverage",
     "ruff",
 ]
@@ -104,6 +105,12 @@ Homepage = "https://github.com/djbarnes/django-adminlte2-pdq"
 # Flit build settings
 [tool.flit.module]
 name = "adminlte2_pdq"
+
+# "uv" development environment settings.
+[tool.uv]
+# The development environment (`uv sync --all-extras`) uses a recent Python. The package itself supports Python 3.7
+# and later (requires-python); tox tests the older versions.
+environments = ["python_version >= '3.12'"]
 
 # "Ruff" formatter and linter settings.
 [tool.ruff]
@@ -143,7 +150,7 @@ extend-ignore-names = ["assert*", "TestFormSets"]
 
 # Esbonio settings
 [tool.esbonio.sphinx]
-pythonCommand = ["pipenv", "run", "python"]
+pythonCommand = ["uv", "run", "python"]
 
 # endregion Third-Party Package Settings
 

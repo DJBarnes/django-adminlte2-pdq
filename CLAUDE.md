@@ -8,28 +8,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Commands
 
-Dependencies come from Pipenv: `pipenv sync --dev`. The virtualenv lives in `.venv/` (`PIPENV_VENV_IN_PROJECT`). If the shell already has `VIRTUAL_ENV` set from another project, `pipenv run` uses that environment instead, so call `.venv/bin/pytest` (etc.) directly.
+Dependencies come from uv: `uv sync --all-extras` creates `.venv/` with the package and its `dev`, `doc`, and `test` extras. `uv run` always uses the project's `.venv/`, even when the shell has `VIRTUAL_ENV` set from another project (it prints a warning and ignores it).
 
 ```bash
 # Run all tests (pytest; settings come from pyproject.toml)
-pipenv run pytest -n auto
+uv run pytest -n auto
 
 # Single file / class / test
-pipenv run pytest tests/django_adminlte2_pdq/tests/test_middleware.py
-pipenv run pytest "tests/django_adminlte2_pdq/tests/test_decorators/test_strict_mode.py::TestStrictAuthenticationDecorators::test__no_decorators"
+uv run pytest tests/django_adminlte2_pdq/tests/test_middleware.py
+uv run pytest "tests/django_adminlte2_pdq/tests/test_decorators/test_strict_mode.py::TestStrictAuthenticationDecorators::test__no_decorators"
 
 # Tests with an HTML coverage report (written to .django_adminlte_pdq_coverage_html_report/)
-pipenv run python runtests.py --with-coverage [--less-than-100]
+uv run python runtests.py --with-coverage [--less-than-100]
 
 # Full matrix (Python/Django versions, docs build, warnings-as-errors against Django main)
 tox
 
 # Format / lint with Ruff (line length 120; settings in pyproject.toml)
-pipenv run ruff format .
-pipenv run ruff check .
+uv run ruff format .
+uv run ruff check .
 
 # Docs (Sphinx, reStructuredText in docs/source). CI builds them with -W, so warnings fail.
-pipenv run sphinx-build -WE docs/source docs/build
+uv run sphinx-build -WE docs/source docs/build
 ./docs/generate_docs.sh   # regenerates docs/source/api_reference via sphinx-apidoc, then rebuilds
 ```
 
