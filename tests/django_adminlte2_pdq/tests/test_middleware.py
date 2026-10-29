@@ -3,11 +3,11 @@ Tests for Middleware
 """
 
 # System Imports.
-import sys
 from copy import copy
 from unittest.mock import patch
 
 # Third-Party Imports.
+import django
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
@@ -102,11 +102,8 @@ class ConfigurationMiddlewareTestCase(MiddlewareBaseTestCase):
     @override_settings(MIDDLEWARE=NO_SESSION_MIDDLEWARE)
     def test__missing_session_middleware_raises_error(self):
         """Test that project with missing session middleware raises error"""
-        # TODO: Remove this decision when support for python 3.7 is dropped.
-        version = sys.version_info
-        version_str = f"{version[0]}.{version[1]}"
-        # Handle differently if version = 3.7
-        if version_str == "3.7":
+        # Before Django 4.0, Django's AuthenticationMiddleware checks for the session with an assert.
+        if django.VERSION < (4, 0):
             with self.assertRaises(AssertionError):
                 self.client.get(reverse("adminlte2_pdq:demo-css"))
         else:
