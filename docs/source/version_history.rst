@@ -48,8 +48,11 @@ Unreleased
     ``btn-default`` grey, ``#f4f4f4``.
   * ``alert-primary``, ``callout-primary``, and ``tooltip-primary``:
     ``#337ab7`` is now ``#3c8dbc`` (AdminLTE's primary).
-  * Table rows and cells with ``orange`` or ``purple`` use the same tints as
-    the other colors. Header and footer cells use the solid color.
+  * Table row, cell, and code tints are computed from each color and keep
+    part of its lightness and saturation, so colors that share a hue (navy,
+    blue, and primary) stay apart. ``success``, ``info``, ``warning``, and
+    ``danger`` use Bootstrap's own pale tints. Header and footer cells use the
+    solid color. Text on code tints is ``#444``.
   * Button hover colors and callout and modal border colors for the extra
     colors follow AdminLTE's convention (5% and 10% darker).
   * Text on lime is ``#444``.

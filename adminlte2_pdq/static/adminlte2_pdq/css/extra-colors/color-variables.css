@@ -19,7 +19,7 @@
     --pdq-default-border: #ddd;
     --pdq-default-hover: #e7e7e7;
     --pdq-default-light-accent: #f7f7f7;
-    --pdq-default-light-accent-text: #595959;
+    --pdq-default-light-accent-text: #444;
     --pdq-default-table-hover: #f2f2f2;
     /* primary */
     --pdq-primary-text: #fff;
@@ -27,9 +27,9 @@
     --pdq-primary-active: #357ca5;
     --pdq-primary-border: #307095;
     --pdq-primary-hover: #367fa9;
-    --pdq-primary-light-accent: #cfdde6;
-    --pdq-primary-light-accent-text: #595959;
-    --pdq-primary-table-hover: #adc7d9;
+    --pdq-primary-light-accent: #c2d8e5;
+    --pdq-primary-light-accent-text: #444;
+    --pdq-primary-table-hover: #a5c6d9;
     /* light-blue: alias of primary. */
     --pdq-light-blue-text: var(--pdq-primary-text);
     --pdq-light-blue-base: var(--pdq-primary-base);
@@ -45,9 +45,9 @@
     --pdq-info-active: #00a7d0;
     --pdq-info-border: #0097bc;
     --pdq-info-hover: #00acd6;
-    --pdq-info-light-accent: #daf1f7;
-    --pdq-info-light-accent-text: #595959;
-    --pdq-info-table-hover: #c0e6f0;
+    --pdq-info-light-accent: #d9edf7;
+    --pdq-info-light-accent-text: #444;
+    --pdq-info-table-hover: #c4e3f3;
     /* aqua: alias of info. */
     --pdq-aqua-text: var(--pdq-info-text);
     --pdq-aqua-base: var(--pdq-info-base);
@@ -63,9 +63,9 @@
     --pdq-success-active: #008d4c;
     --pdq-success-border: #00733e;
     --pdq-success-hover: #008d4c;
-    --pdq-success-light-accent: #d8f0e5;
-    --pdq-success-light-accent-text: #595959;
-    --pdq-success-table-hover: #b6e3cf;
+    --pdq-success-light-accent: #dff0d8;
+    --pdq-success-light-accent-text: #444;
+    --pdq-success-table-hover: #d0e9c6;
     /* green: alias of success. */
     --pdq-green-text: var(--pdq-success-text);
     --pdq-green-base: var(--pdq-success-base);
@@ -81,9 +81,9 @@
     --pdq-warning-active: #db8b0b;
     --pdq-warning-border: #c87f0a;
     --pdq-warning-hover: #e08e0b;
-    --pdq-warning-light-accent: #fcf3e3;
-    --pdq-warning-light-accent-text: #595959;
-    --pdq-warning-table-hover: #f0ddc0;
+    --pdq-warning-light-accent: #fcf8e3;
+    --pdq-warning-light-accent-text: #444;
+    --pdq-warning-table-hover: #faf2cc;
     /* yellow: alias of warning. */
     --pdq-yellow-text: var(--pdq-warning-text);
     --pdq-yellow-base: var(--pdq-warning-base);
@@ -99,9 +99,9 @@
     --pdq-danger-active: #d33724;
     --pdq-danger-border: #c23321;
     --pdq-danger-hover: #d73925;
-    --pdq-danger-light-accent: #f2e1df;
-    --pdq-danger-light-accent-text: #595959;
-    --pdq-danger-table-hover: #e6bdb8;
+    --pdq-danger-light-accent: #f2dede;
+    --pdq-danger-light-accent-text: #444;
+    --pdq-danger-table-hover: #ebcccc;
     /* red: alias of danger. */
     --pdq-red-text: var(--pdq-danger-text);
     --pdq-red-base: var(--pdq-danger-base);
@@ -126,81 +126,81 @@
     --pdq-navy-active: #001a35;
     --pdq-navy-border: #00060c;
     --pdq-navy-hover: #001226;
-    --pdq-navy-light-accent: #cfdae6;
-    --pdq-navy-light-accent-text: #595959;
-    --pdq-navy-table-hover: #adc3d9;
+    --pdq-navy-light-accent: #aacaea;
+    --pdq-navy-light-accent-text: #444;
+    --pdq-navy-table-hover: #8ab5e2;
     /* blue */
     --pdq-blue-text: #fff;
     --pdq-blue-base: #0073b7;
     --pdq-blue-active: #005384;
     --pdq-blue-border: #005384;
     --pdq-blue-hover: #00639e;
-    --pdq-blue-light-accent: #dceaf2;
-    --pdq-blue-light-accent-text: #595959;
-    --pdq-blue-table-hover: #b8d5e6;
+    --pdq-blue-light-accent: #b4d7ec;
+    --pdq-blue-light-accent-text: #444;
+    --pdq-blue-table-hover: #93c6e4;
     /* teal */
     --pdq-teal-text: #fff;
     --pdq-teal-base: #39cccc;
     --pdq-teal-active: #30bbbb;
     --pdq-teal-border: #2ba7a7;
     --pdq-teal-hover: #30bbbb;
-    --pdq-teal-light-accent: #cfe6e6;
-    --pdq-teal-light-accent-text: #595959;
-    --pdq-teal-table-hover: #add9d9;
+    --pdq-teal-light-accent: #c1e7e7;
+    --pdq-teal-light-accent-text: #444;
+    --pdq-teal-table-hover: #a4dbdb;
     /* olive */
     --pdq-olive-text: #fff;
     --pdq-olive-base: #3d9970;
     --pdq-olive-active: #368763;
     --pdq-olive-border: #2e7555;
     --pdq-olive-hover: #368763;
-    --pdq-olive-light-accent: #cfe6db;
-    --pdq-olive-light-accent-text: #595959;
-    --pdq-olive-table-hover: #add9c3;
+    --pdq-olive-light-accent: #c1e2d3;
+    --pdq-olive-light-accent-text: #444;
+    --pdq-olive-table-hover: #a5d6c0;
     /* lime */
     --pdq-lime-text: #444;
     --pdq-lime-base: #01ff70;
     --pdq-lime-active: #00e765;
     --pdq-lime-border: #00cd5a;
     --pdq-lime-hover: #00e765;
-    --pdq-lime-light-accent: #daf2e5;
-    --pdq-lime-light-accent-text: #595959;
-    --pdq-lime-table-hover: #b8e6cb;
+    --pdq-lime-light-accent: #baeed0;
+    --pdq-lime-light-accent-text: #444;
+    --pdq-lime-table-hover: #99e6ba;
     /* orange */
     --pdq-orange-text: #fff;
     --pdq-orange-base: #ff851b;
     --pdq-orange-active: #ff7701;
     --pdq-orange-border: #e76b00;
     --pdq-orange-hover: #ff7701;
-    --pdq-orange-light-accent: #e6d9cf;
-    --pdq-orange-light-accent-text: #595959;
-    --pdq-orange-table-hover: #d9c2ad;
+    --pdq-orange-light-accent: #eed3bc;
+    --pdq-orange-light-accent-text: #444;
+    --pdq-orange-table-hover: #e6be9b;
     /* fuchsia */
     --pdq-fuchsia-text: #fff;
     --pdq-fuchsia-base: #f012be;
     --pdq-fuchsia-active: #db0ead;
     --pdq-fuchsia-border: #c30c9a;
     --pdq-fuchsia-hover: #db0ead;
-    --pdq-fuchsia-light-accent: #e6cfe1;
-    --pdq-fuchsia-light-accent-text: #595959;
-    --pdq-fuchsia-table-hover: #d9adcf;
+    --pdq-fuchsia-light-accent: #ecbce1;
+    --pdq-fuchsia-light-accent-text: #444;
+    --pdq-fuchsia-table-hover: #e39cd3;
     /* purple */
     --pdq-purple-text: #fff;
     --pdq-purple-base: #605ca8;
     --pdq-purple-active: #555299;
     --pdq-purple-border: #4c4988;
     --pdq-purple-hover: #555299;
-    --pdq-purple-light-accent: #cfcfe6;
-    --pdq-purple-light-accent-text: #595959;
-    --pdq-purple-table-hover: #adadd9;
+    --pdq-purple-light-accent: #c7c6e2;
+    --pdq-purple-light-accent-text: #444;
+    --pdq-purple-table-hover: #adabd4;
     /* maroon */
     --pdq-maroon-text: #fff;
     --pdq-maroon-base: #d81b60;
     --pdq-maroon-active: #ca195a;
     --pdq-maroon-border: #ab154c;
     --pdq-maroon-hover: #c11856;
-    --pdq-maroon-light-accent: #e6cfd8;
-    --pdq-maroon-light-accent-text: #595959;
-    --pdq-maroon-table-hover: #d9adbd;
+    --pdq-maroon-light-accent: #eabdcd;
+    --pdq-maroon-light-accent-text: #444;
+    --pdq-maroon-table-hover: #e09eb6;
     /* black */
     --pdq-black-text: #fff;
     --pdq-black-base: #111111;
@@ -208,7 +208,7 @@
     --pdq-black-border: #000000;
     --pdq-black-hover: #040404;
     --pdq-black-light-accent: #cccccc;
-    --pdq-black-light-accent-text: #595959;
+    --pdq-black-light-accent-text: #444;
     --pdq-black-table-hover: #cccccc;
     /* gray */
     --pdq-gray-text: #000;
@@ -217,7 +217,7 @@
     --pdq-gray-border: #b5bbc8;
     --pdq-gray-hover: #c3c9d3;
     --pdq-gray-light-accent: #dfe3eb;
-    --pdq-gray-light-accent-text: #595959;
+    --pdq-gray-light-accent-text: #444;
     --pdq-gray-table-hover: #bdc8de;
     /* indigo */
     --pdq-indigo-text: #fff;
@@ -225,7 +225,7 @@
     --pdq-indigo-active: #9a52d2;
     --pdq-indigo-border: #8d4bbf;
     --pdq-indigo-hover: #9747d3;
-    --pdq-indigo-light-accent: #dccfe6;
-    --pdq-indigo-light-accent-text: #595959;
-    --pdq-indigo-table-hover: #c5add9;
+    --pdq-indigo-light-accent: #d9c4e8;
+    --pdq-indigo-light-accent-text: #444;
+    --pdq-indigo-table-hover: #c6a7dd;
 }

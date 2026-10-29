@@ -48,10 +48,16 @@ def darken(value, amount):
     return _rgb_to_hex(colorsys.hls_to_rgb(hue, max(0.0, lightness - amount), saturation))
 
 
-def tint(value, saturation_cap, lightness):
-    """Keep a color's hue, cap its HSL saturation at ``saturation_cap``, and set ``lightness`` (0-1)."""
-    hue, _lightness, saturation = colorsys.rgb_to_hls(*_hex_to_rgb(value))
-    return _rgb_to_hex(colorsys.hls_to_rgb(hue, lightness, min(saturation, saturation_cap)))
+def light_tint(value, hover=False):
+    """A pale tint of a color, for code and table body rows.
+
+    Keeps the color's hue and part of its own lightness and saturation (lightness 78% plus a tenth of its own,
+    saturation 20% plus 40% of its own), so colors that share a hue, such as navy, blue, and primary, stay apart.
+    The hover tint is 8% darker.
+    """
+    hue, lightness, saturation = colorsys.rgb_to_hls(*_hex_to_rgb(value))
+    tint_lightness = 0.78 + 0.10 * lightness - (0.08 if hover else 0)
+    return _rgb_to_hex(colorsys.hls_to_rgb(hue, tint_lightness, 0.20 + 0.40 * saturation))
 
 
 def relative_luminance(value):
@@ -71,7 +77,7 @@ def relative_luminance(value):
 
 TEXT_LIGHT = "#fff"
 TEXT_DARK = "#444"
-LIGHT_ACCENT_TEXT = "#595959"
+LIGHT_ACCENT_TEXT = TEXT_DARK
 TABLE_BODY_TEXT = "#333"
 
 # Backgrounds darker than this get light close buttons and icon tints.
@@ -102,9 +108,9 @@ class Color:
         if self.active is None:
             self.active = darken(self.base, 0.05)
         if self.light_accent is None:
-            self.light_accent = tint(self.base, 0.32, 0.86)
+            self.light_accent = light_tint(self.base)
         if self.table_hover is None:
-            self.table_hover = tint(self.base, 0.37, 0.765)
+            self.table_hover = light_tint(self.base, hover=True)
         if self.border is None:
             self.border = darken(self.base, 0.10)
         if self.hover is None:
@@ -132,27 +138,25 @@ COLORS = [
         light_accent="#f7f7f7",
         table_hover="#f2f2f2",
     ),
-    Color("primary", base="#3c8dbc", active="#357ca5", light_accent="#cfdde6", table_hover="#adc7d9"),
-    Color("info", base="#00c0ef", active="#00a7d0", light_accent="#daf1f7", table_hover="#c0e6f0"),
-    Color("success", base="#00a65a", active="#008d4c", light_accent="#d8f0e5", table_hover="#b6e3cf"),
-    Color("warning", base="#f39c12", active="#db8b0b", light_accent="#fcf3e3", table_hover="#f0ddc0"),
-    Color("danger", base="#dd4b39", active="#d33724", light_accent="#f2e1df", table_hover="#e6bdb8"),
-    Color("navy", base="#001f3f", active="#001a35", light_accent="#cfdae6", table_hover="#adc3d9"),
-    Color("blue", base="#0073b7", active="#005384", light_accent="#dceaf2", table_hover="#b8d5e6"),
-    Color("teal", base="#39cccc", active="#30bbbb", light_accent="#cfe6e6", table_hover="#add9d9"),
-    Color("olive", base="#3d9970", active="#368763", light_accent="#cfe6db", table_hover="#add9c3"),
+    Color("primary", base="#3c8dbc", active="#357ca5"),
+    Color("info", base="#00c0ef", active="#00a7d0", light_accent="#d9edf7", table_hover="#c4e3f3"),
+    Color("success", base="#00a65a", active="#008d4c", light_accent="#dff0d8", table_hover="#d0e9c6"),
+    Color("warning", base="#f39c12", active="#db8b0b", light_accent="#fcf8e3", table_hover="#faf2cc"),
+    Color("danger", base="#dd4b39", active="#d33724", light_accent="#f2dede", table_hover="#ebcccc"),
+    Color("navy", base="#001f3f", active="#001a35"),
+    Color("blue", base="#0073b7", active="#005384"),
+    Color("teal", base="#39cccc", active="#30bbbb"),
+    Color("olive", base="#3d9970", active="#368763"),
     Color(
         "lime",
         base="#01ff70",
         active="#00e765",
         text=TEXT_DARK,
-        light_accent="#daf2e5",
-        table_hover="#b8e6cb",
     ),
-    Color("orange", base="#ff851b", active="#ff7701", light_accent="#e6d9cf", table_hover="#d9c2ad"),
-    Color("fuchsia", base="#f012be", active="#db0ead", light_accent="#e6cfe1", table_hover="#d9adcf"),
-    Color("purple", base="#605ca8", active="#555299", light_accent="#cfcfe6", table_hover="#adadd9"),
-    Color("maroon", base="#d81b60", active="#ca195a", light_accent="#e6cfd8", table_hover="#d9adbd"),
+    Color("orange", base="#ff851b", active="#ff7701"),
+    Color("fuchsia", base="#f012be", active="#db0ead"),
+    Color("purple", base="#605ca8", active="#555299"),
+    Color("maroon", base="#d81b60", active="#ca195a"),
     Color("black", base="#111111", active="#000000", light_accent="#cccccc", table_hover="#cccccc"),
     Color(
         "gray",
@@ -167,8 +171,6 @@ COLORS = [
         base="#a35cd8",
         active="#9a52d2",
         border="#8d4bbf",
-        light_accent="#dccfe6",
-        table_hover="#c5add9",
     ),
 ]
 

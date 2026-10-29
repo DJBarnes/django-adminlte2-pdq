@@ -145,3 +145,30 @@ class ColorCssTestCase(SimpleTestCase):
             with self.subTest(name):
                 with self.assertRaises(ValueError):
                     color_css.render_custom_color(color_css.Color(name, base="#6610f2"))
+
+    def test__light_tints_keep_text_readable(self):
+        """Code text stays readable on each light tint, and table text on each hover tint."""
+
+        def contrast(first, second):
+            lighter, darker = sorted((color_css.relative_luminance(first), color_css.relative_luminance(second)))[::-1]
+            return (lighter + 0.05) / (darker + 0.05)
+
+        for color in color_css.COLORS:
+            with self.subTest(color.name):
+                self.assertGreaterEqual(contrast(color.light_accent, color_css.LIGHT_ACCENT_TEXT), 4.5)
+                self.assertGreaterEqual(contrast(color.table_hover, color_css.TABLE_BODY_TEXT), 4.5)
+
+    def test__light_tints_stay_apart(self):
+        """No two colors have nearly the same light tint, including colors that share a hue."""
+
+        def rgb(value):
+            return [int(value[i : i + 2], 16) for i in (1, 3, 5)]
+
+        colors = color_css.COLORS
+        for index, first in enumerate(colors):
+            for second in colors[index + 1 :]:
+                with self.subTest(f"{first.name} and {second.name}"):
+                    distance = (
+                        sum((a - b) ** 2 for a, b in zip(rgb(first.light_accent), rgb(second.light_accent))) ** 0.5
+                    )
+                    self.assertGreaterEqual(distance, 12, (first.light_accent, second.light_accent))
