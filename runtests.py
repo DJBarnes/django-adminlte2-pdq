@@ -10,7 +10,7 @@ import argparse
 import os
 import subprocess
 import sys
-from shutil import which
+from importlib.util import find_spec
 
 # Third-Party Imports.
 from django.core.management import execute_from_command_line
@@ -47,8 +47,8 @@ def main():
     # Get the script directory.
     script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
 
-    # Determine if pytest installed.
-    has_pytest = which("pytest") is not None
+    # Determine if pytest is installed for this Python.
+    has_pytest = find_spec("pytest") is not None
 
     # Parse provided command line args.
     parser = argparse.ArgumentParser()
@@ -104,7 +104,8 @@ def run_tests_with_pytest(args, extra_args, script_dir):
         print_info("Running tests with pytest...")
 
         # Generate command.
-        run_args = ["pytest"] + extra_args
+        # Run pytest with this Python, so it uses this environment's packages (such as Django under tox).
+        run_args = [sys.executable, "-m", "pytest"] + extra_args
         print_primary(f"Command: {' '.join(run_args)}")
 
         # Run command.
@@ -143,6 +144,8 @@ def execute_pytest_coverage_tests(extra_args):
 
     # Generate command.
     run_args = [
+        sys.executable,
+        "-m",
         "pytest",
         "-n",
         "auto",
@@ -221,6 +224,8 @@ def execute_manage_coverage_tests(extra_args, script_dir):
     # Generate command.
     virtual_env_path = os.environ["VIRTUAL_ENV"]
     run_args = [
+        sys.executable,
+        "-m",
         "coverage",
         "run",
         f"{virtual_env_path}/bin/django-admin",
@@ -247,6 +252,8 @@ def create_html_coverage_report(script_dir, lt_100=False):
 
     # Generate command.
     run_args = [
+        sys.executable,
+        "-m",
         "coverage",
         "html",
     ]
