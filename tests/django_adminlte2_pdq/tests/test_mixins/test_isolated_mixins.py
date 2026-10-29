@@ -396,3 +396,14 @@ class TestIsolatedMixins(TestCase):
         )
 
     # endregion Permission Required Tests
+
+
+class TestPathStartsWithWhitelistEntry(TestCase):
+    """Tests for PermissionRequiredMixin.path_starts_with_whitelist_entry."""
+
+    def test__matches_any_entry(self):
+        """The path matches when it starts with any entry, not only the first."""
+        mixin = PermissionRequiredMixin()
+        self.assertTrue(mixin.path_starts_with_whitelist_entry("/public/page/", ["/other/", "/public/"]))
+        self.assertFalse(mixin.path_starts_with_whitelist_entry("/private/page/", ["/other/", "/public/"]))
+        self.assertFalse(mixin.path_starts_with_whitelist_entry("", ["/public/"]))

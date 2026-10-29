@@ -14,13 +14,14 @@ from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
 from django.contrib.messages import get_messages
 from django.core.exceptions import ImproperlyConfigured
-from django.test import override_settings, TestCase
+from django.test import override_settings, RequestFactory, TestCase
 from django.urls import reverse
 from pytest import warns
 
 # Internal Imports.
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 from adminlte2_pdq.middleware import (
+    AuthMiddleware,
     RESPONSE_403_PRODUCTION_MESSAGE,
     RESPONSE_404_DEBUG_MESSAGE,
     RESPONSE_404_PRODUCTION_MESSAGE,
@@ -262,6 +263,14 @@ class NotFound404LoginWallTestCase(MiddlewareBaseTestCase):
     def test__login_required__public_path__public_home(self):
         """An unknown url under a public prefix, with a public home page, is redirected home with the message."""
         self._assert_home_with_message(True, path="/public/missing/")
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.HOME_ROUTE", "/no-such-home-page/")
+    def test__home_requires_login__home_page_not_found(self):
+        """A home route that doesn't resolve to a view is not treated as requiring login."""
+        request = RequestFactory().get("/missing/")
+        request.user = AnonymousUser()
+        self.assertFalse(AuthMiddleware(lambda request: None).home_requires_login(request))
 
 
 @override_settings(DEBUG=True)

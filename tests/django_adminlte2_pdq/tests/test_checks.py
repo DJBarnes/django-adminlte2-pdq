@@ -11,7 +11,7 @@ from django.core import checks
 from django.test import SimpleTestCase, override_settings
 
 # Internal Imports.
-from adminlte2_pdq.checks import check_views_define_permissions
+from adminlte2_pdq.checks import _resolved_patterns, check_views_define_permissions
 from tests.django_adminlte2_pdq.django_test_project import views
 
 
@@ -60,3 +60,11 @@ class ViewsDefinePermissionsCheckTestCase(SimpleTestCase):
         check_views_define_permissions(None)
 
         self.assertEqual(had_data, "admin_pdq_data" in views.StandardView.__dict__)
+
+    def test__other_url_entries_are_skipped(self):
+        """URL list entries that are neither a URL pattern nor an include are skipped."""
+
+        class OtherEntry:
+            pattern = "other/"
+
+        self.assertEqual(list(_resolved_patterns([OtherEntry()], "/", (), ())), [])

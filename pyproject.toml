@@ -158,6 +158,12 @@ omit = [
     "./runtests.py",
 ]
 
+[tool.coverage.report]
+# Lines that only run when a module is run as a script (python -m ...); main() itself is tested.
+exclude_also = [
+    'if __name__ == "__main__":',
+]
+
 # endregion Testing Settings
 
 # region Pylint Settings

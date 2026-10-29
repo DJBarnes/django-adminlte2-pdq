@@ -3,7 +3,12 @@ Tests for the generated dark mode CSS.
 """
 
 # System Imports.
+import io
 import re
+import tempfile
+from contextlib import redirect_stdout
+from pathlib import Path
+from unittest.mock import patch
 
 # Third-Party Imports.
 from django.test import SimpleTestCase
@@ -96,3 +101,12 @@ class DarkCssTestCase(SimpleTestCase):
             with self.subTest(f"{first} and {second}"):
                 distance = sum((a - b) ** 2 for a, b in zip(rgb[first], rgb[second])) ** 0.5
                 self.assertGreaterEqual(distance, 15, tints)
+
+    def test__main__writes_the_css_files(self):
+        """The command writes each generated file."""
+        with tempfile.TemporaryDirectory() as output_dir, patch.object(dark_css, "OUTPUT_DIR", Path(output_dir)):
+            with redirect_stdout(io.StringIO()):
+                self.assertEqual(dark_css.main(), 0)
+            for file_name, render in dark_css.OUTPUTS.items():
+                with self.subTest(file_name):
+                    self.assertEqual((Path(output_dir) / file_name).read_text(encoding="utf-8"), render())

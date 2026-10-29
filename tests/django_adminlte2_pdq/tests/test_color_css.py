@@ -3,8 +3,12 @@ Tests for the generated color CSS.
 """
 
 # System Imports.
+import io
 import re
+import tempfile
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
+from unittest.mock import patch
 
 # Third-Party Imports.
 from django.test import SimpleTestCase
@@ -172,3 +176,28 @@ class ColorCssTestCase(SimpleTestCase):
                         sum((a - b) ** 2 for a, b in zip(rgb(first.light_accent), rgb(second.light_accent))) ** 0.5
                     )
                     self.assertGreaterEqual(distance, 12, (first.light_accent, second.light_accent))
+
+    def test__main__writes_the_css_files(self):
+        """Run without arguments, the command writes each generated file."""
+        with tempfile.TemporaryDirectory() as output_dir, patch.object(color_css, "OUTPUT_DIR", Path(output_dir)):
+            with redirect_stdout(io.StringIO()):
+                self.assertEqual(color_css.main([]), 0)
+            for file_name, render in color_css.OUTPUTS.items():
+                with self.subTest(file_name):
+                    self.assertEqual((Path(output_dir) / file_name).read_text(encoding="utf-8"), render())
+
+    def test__main__prints_a_custom_color(self):
+        """--custom prints the CSS for one color and writes nothing."""
+        output = io.StringIO()
+        with tempfile.TemporaryDirectory() as output_dir, patch.object(color_css, "OUTPUT_DIR", Path(output_dir)):
+            with redirect_stdout(output):
+                self.assertEqual(color_css.main(["--custom", "brand", "#6610f2", "--dark-text"]), 0)
+            self.assertEqual(list(Path(output_dir).iterdir()), [])
+        self.assertIn("--pdq-brand-base: #6610f2;", output.getvalue())
+        self.assertIn(f"--pdq-brand-text: {color_css.TEXT_DARK};", output.getvalue())
+
+    def test__main__rejects_a_package_color_name(self):
+        """--custom with a name the package already uses is an error."""
+        with redirect_stderr(io.StringIO()) as errors, self.assertRaises(SystemExit):
+            color_css.main(["--custom", "navy", "#6610f2"])
+        self.assertIn("navy", errors.getvalue())
