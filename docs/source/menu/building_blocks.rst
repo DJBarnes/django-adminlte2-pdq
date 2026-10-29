@@ -261,11 +261,11 @@ precedence over the URL generated from the required route key.
 
 **permissions**
 
-An optional list of permissions as strings. The user must have all listed
-permissions to see the node.
+An optional list of permissions as strings, or a single permission as a
+string. The user must have all listed permissions to see the node.
 
-:Key: ``url``
-:Type: ``list``
+:Key: ``permissions``
+:Type: ``list`` or ``string``
 :Required: ``False``
 
 .. warning::
@@ -290,11 +290,11 @@ permissions to see the node.
 
 **one_of_permissions**
 
-An optional list of permissions as strings. The user must have at least one of
-these order to see the node.
+An optional list of permissions as strings, or a single permission as a
+string. The user must have at least one of these in order to see the node.
 
-:Key: ``url``
-:Type: ``list``
+:Key: ``one_of_permissions``
+:Type: ``list`` or ``string``
 :Required: ``False``
 
 .. warning::
@@ -322,7 +322,7 @@ these order to see the node.
 An optional key on the node specifying whether a user must be logged in to
 the system to see the node.
 
-:Key: ``url``
+:Key: ``login_required``
 :Type: ``bool``
 :Required: ``False``
 
@@ -400,6 +400,27 @@ Trees can make a very large menu fit into a smaller space by utilizing the
 ability to expand and collapse each tree section.
 
 
+When a Tree Is Shown
+--------------------
+
+A tree is shown only when the user can see at least one of the links inside
+it, including the links in nested trees. Each link follows the same rules as
+any other node: the permissions of the view it points to (see
+:doc:`../authorization/policies`), or the node's own ``permissions``,
+``one_of_permissions``, and ``login_required`` keys. When the user can't see
+any of a tree's links, the whole tree is left out, so the sidebar never shows
+an empty tree or a tree of links the user can't open.
+
+* The tree's own ``route`` or ``url`` (see `Tree Keys`_) doesn't count. A tree
+  whose root is a link is still hidden when none of its links are visible.
+* Superusers see every tree.
+* Sections follow the same rule: a section and its header are shown only when
+  the user can see at least one link in the section.
+
+A tree is shown expanded when the current page's URL starts with the URL of
+one of its links, so the user sees where they are in the menu.
+
+
 ----
 
 
@@ -437,6 +458,45 @@ or a tree that will contain more nodes.
 :Required: ``False``
 
 
+**route**
+
+An optional Django route that makes the tree's text a link. Clicking the
+text opens the route's page; the caret next to it still expands and collapses
+the tree. Without a route, clicking anywhere on the tree's row expands and
+collapses it.
+
+:Key: ``route``
+:Type: ``string``
+:Required: ``False``
+
+.. note::
+
+    The tree's link isn't checked against the permissions of the view it
+    points to; the tree is shown whenever one of its links is visible (see
+    `When a Tree Is Shown`_). Link it to a page that everyone who can see the
+    tree's links can open, such as a landing page for the section.
+
+
+**route_args**, **route_kwargs**
+
+Any args or kwargs needed to reverse the tree's ``route``, the same as for a
+node.
+
+:Key: ``route_args``, ``route_kwargs``
+:Type: ``list``, ``dict``
+:Required: ``False``
+
+
+**url**
+
+An optional URL for the tree's link, instead of a ``route``. As for a node,
+this key is meant for external URLs.
+
+:Key: ``url``
+:Type: ``string``
+:Required: ``False``
+
+
 Tree Example
 ------------
 .. code:: python
@@ -456,6 +516,28 @@ Tree Example with a Node
     {
         'text': 'Sample Tree',
         'icon': 'fa fa-leaf',
+        'nodes': [
+            {
+                'route': 'adminlte2_pdq:sample2',
+                'text': 'Sample2',
+                'icon': 'fa fa-building',
+            },
+        ],
+    },
+
+
+Tree Example with a Link
+------------------------
+
+The tree's text links to the Sample1 page, and its caret expands and
+collapses the tree.
+
+.. code:: python
+
+    {
+        'text': 'Sample Tree',
+        'icon': 'fa fa-leaf',
+        'route': 'adminlte2_pdq:sample1',
         'nodes': [
             {
                 'route': 'adminlte2_pdq:sample2',

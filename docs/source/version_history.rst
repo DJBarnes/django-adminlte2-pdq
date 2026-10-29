@@ -213,7 +213,11 @@ Other Changes
 
 * Documentation: new pages for styling and dark mode, the demo CSS classes,
   and the known route settings. Every authorization setting is now listed in
-  the authorization configuration page.
+  the authorization configuration page. The menu docs explain when a tree is
+  shown and how to make a tree's root a link. The form docs list which forms
+  the error summary checks and how to include forms with other names.
+  Permissions can be given as a single string, which the decorator, mixin,
+  and menu node docs now show.
 
 0.2.1 - Filters, Commands, Messages, 404s, and Tree Nodes
 =========================================================

@@ -89,6 +89,16 @@ sidebar link and have access.
         """Show default sample1 page"""
         return render(request, 'adminlte2/sample1.html', {})
 
+When the view needs only one permission, pass it as a string instead of a
+list:
+
+.. code:: python
+
+    @permission_required('auth.view_group')
+    def group_list(request):
+        """Show the list of groups"""
+        return render(request, 'groups/list.html', {})
+
 
 Permission Required One Decorator
 ---------------------------------
@@ -129,6 +139,8 @@ permissions, they will see the sidebar link and have access.
     def sample2(request):
         """Show default sample2 page"""
         return render(request, 'adminlte2/sample2.html', {})
+
+This decorator also accepts a single permission as a string.
 
 
 Decorator Examples

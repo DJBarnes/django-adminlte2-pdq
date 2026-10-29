@@ -69,6 +69,13 @@ You will use one or the other depending on whether users should have all listed
 permissions to gain view access, or if they only need one of many listed
 permissions to gain view access.
 
+Each attribute takes a list (or tuple) of permissions, or a single permission
+as a string:
+
+.. code:: python
+
+    permission_required = 'auth.view_permission'
+
 
 Permission Required Attribute
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -78,7 +85,7 @@ Permission Required Attribute
     from adminlte2_pdq.mixins import PermissionRequiredMixin
 
     class Sample1(PermissionRequiredMixin, View):
-    """Show sample1 page"""
+        """Show sample1 page"""
 
         # Require that the user has all three permissions to access.
         permission_required = [

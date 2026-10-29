@@ -22,6 +22,11 @@ Determine if the context contains forms or formsets that should be
 checked for errors, and then add any found errors to the context so they
 can be rendered out at the top of the page.
 
+``adminlte2/base.html`` already renders this tag in its ``form_errors`` block.
+It checks the context's ``form`` and ``formset``, or the lists
+``adminlte2_form_list`` and ``adminlte2_formset_list``. See
+:ref:`templates/forms:which forms are checked`.
+
 :Type: ``inclusion``
 :Template: ``adminlte2/partials/_form_error_summary.html``
 
