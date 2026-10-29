@@ -142,6 +142,10 @@ Other Changes
 * Add the ``ADMINLTE2_DEMO_CSS_COLORS`` setting: the colors shown on the demo
   CSS pages, as ``{name: hex value}``.
 
+* The default home page and the sample pages (Sample1, Sample2, Sample Form)
+  start with a message that links to the official AdminLTE 2 demo and to the
+  package's Demo CSS pages. Its close button hides it.
+
 * The first item of the default sidebar menu is now labeled "Dashboard"
   instead of "Home".
 

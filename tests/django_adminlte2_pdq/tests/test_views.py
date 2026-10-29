@@ -94,6 +94,17 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "This is the sample2 page!")
 
+    def test_sample_views_link_to_the_adminlte_demo_and_demo_css(self):
+        """The home and sample pages link to the official AdminLTE demo and the Demo CSS pages"""
+        for view in (views.home, views.sample_form, views.sample1, views.sample2):
+            with self.subTest(view.__name__):
+                request = RequestFactory().get("/")
+                request.user = self.test_user_w_perms
+                request.site = MOCK_SITE
+                response = view(request)
+                self.assertContains(response, 'href="https://adminlte.io/themes/AdminLTE/index2.html"')
+                self.assertContains(response, f'href="{reverse("adminlte2_pdq:demo-css")}"')
+
     # |-------------------------------------------------------------------------
     # | Test views work as expected using Client
     # |-------------------------------------------------------------------------
