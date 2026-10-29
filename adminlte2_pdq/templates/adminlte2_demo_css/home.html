@@ -1,4 +1,15 @@
 {% extends "adminlte2_demo_css/main.html" %}
+{% load i18n %}
+
+
+{% block breadcrumbs %}
+  <ol class="breadcrumb">
+    {% include "admin/partials/_breadcrumb_home.html" %}
+    <li class="active">
+      {% trans 'Demo CSS' %}
+    </li>
+  </ol>
+{% endblock breadcrumbs %}
 
 
 {% block content %}

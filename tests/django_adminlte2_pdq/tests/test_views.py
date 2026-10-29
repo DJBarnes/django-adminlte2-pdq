@@ -294,6 +294,22 @@ class DemoCssViewsTestCase(TestCase):
                 # The default menu's sections are included when their routes exist.
                 self.assertContains(response, "Change Password")
 
+    def test__breadcrumbs_link_back_to_the_demo_home(self):
+        """Each demo page's breadcrumbs link to the demo home and end with the page's name."""
+        demo_home_link = f'<a href="{reverse("adminlte2_pdq:demo-css")}">Demo CSS</a>'
+        for url_name, _template_name, _page_text in DEMO_CSS_PAGES:
+            with self.subTest(url_name):
+                response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
+                breadcrumbs = response.content.decode().split('<ol class="breadcrumb">', 1)[1].split("</ol>", 1)[0]
+
+                if url_name == "demo-css":
+                    self.assertNotIn(demo_home_link, breadcrumbs)
+                    self.assertIn('<li class="active">', breadcrumbs)
+                else:
+                    self.assertIn(demo_home_link, breadcrumbs)
+                    page_name = breadcrumbs.split('<li class="active">', 1)[1].split("</li>", 1)[0].strip()
+                    self.assertTrue(page_name)
+
     def test__colors_are_listed(self):
         """Pages show every color from ADMINLTE2_DEMO_CSS_COLORS."""
         response = self.client.get(reverse("adminlte2_pdq:demo-css-ui-general"))

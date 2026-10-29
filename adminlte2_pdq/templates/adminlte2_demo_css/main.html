@@ -11,7 +11,11 @@
   <ol class="breadcrumb">
     {% include "admin/partials/_breadcrumb_home.html" %}
     <li>
-      {% trans 'Demo CSS' %}
+      <a href="{% url 'adminlte2_pdq:demo-css' %}">{% trans 'Demo CSS' %}</a>
+    </li>
+    {# Each demo page sets its name in this block. #}
+    <li class="active">
+      {% block demo_css_page_name %}{% endblock demo_css_page_name %}
     </li>
   </ol>
 {% endblock breadcrumbs %}
