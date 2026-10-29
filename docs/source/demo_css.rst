@@ -78,9 +78,14 @@ Tooltip                    ``tooltip-{color}`` class or
 =========================  ==================================================
 
 Classes that AdminLTE or Bootstrap already define keep their stock look. For
-example, ``btn-primary`` and ``label-danger`` are unchanged, and table
+example, ``btn-primary`` and ``label-danger`` are unchanged, and table body
 rows with Bootstrap's ``success``, ``info``, ``warning``, and ``danger``
 classes keep Bootstrap's colors.
+
+The one exception is table header and footer rows (``thead`` and ``tfoot``).
+They take the color itself for every color, including Bootstrap's ``success``,
+``info``, ``warning``, and ``danger``, which Bootstrap draws in the same pale
+tint as body rows. This way every colored table looks alike.
 
 
 Changing a color

@@ -11,7 +11,12 @@ Unreleased
   (``carousel-{color}``), dropdown menus (``dropdown-menu-{color}``), labels,
   modals, table rows and cells, bordered tables (``table-border-{color}``),
   and tooltips (``tooltip-{color}``). Classes that AdminLTE or Bootstrap
-  already define are not changed.
+  already define are not changed, except table header and footer rows.
+
+* Table header and footer rows (``thead``, ``tfoot``) with Bootstrap's
+  ``success``, ``info``, ``warning``, or ``danger`` classes now take the color
+  itself, as the package's other colors do, instead of Bootstrap's pale tint.
+  Body rows keep Bootstrap's colors.
 
 * Colors are CSS custom properties named ``--pdq-{color}-{part}``, defined in
   ``adminlte2_pdq/css/extra-colors/color-variables.css``. Redefine them in

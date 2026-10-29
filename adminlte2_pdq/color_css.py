@@ -538,12 +538,14 @@ def _component_rules(name, color=None):  # pylint: disable=too-many-statements
         yield "small-box", _rule(f".small-box.bg-{name} > .small-box-footer", ["background: rgba(255, 255, 255, 0.1)"])
 
     # Table rows and cells. Same structure as Bootstrap's contextual table classes.
+    # Header and footer rows take the color itself. This includes Bootstrap's contextual rows, which Bootstrap draws in
+    # the same pale tint as body rows, so that every color's header and footer look alike.
+    yield "table", _rule(
+        [f".table > {section} > tr > {cell}.{name}" for section in ("thead", "tfoot") for cell in ("td", "th")]
+        + [f".table > {section} > tr.{name} > {cell}" for section in ("thead", "tfoot") for cell in ("td", "th")],
+        [f"color: {text}", f"background-color: {base}"],
+    )
     if not _ships("table-row", name):
-        yield "table", _rule(
-            [f".table > {section} > tr > {cell}.{name}" for section in ("thead", "tfoot") for cell in ("td", "th")]
-            + [f".table > {section} > tr.{name} > {cell}" for section in ("thead", "tfoot") for cell in ("td", "th")],
-            [f"color: {text}", f"background-color: {base}"],
-        )
         yield "table", _rule(
             [f".table > tbody > tr > {cell}.{name}" for cell in ("td", "th")]
             + [f".table > tbody > tr.{name} > {cell}" for cell in ("td", "th")],

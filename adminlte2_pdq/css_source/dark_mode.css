@@ -201,8 +201,10 @@ text, which otherwise lands on the browser's white field.
 /* region Tables: contextual row colors and nested tables */
 /*
 Bootstrap's .active/.success/.info/.warning/.danger color table rows and cells light, under text that dark mode makes
-white. (The package's own color rows use the --pdq-* tint variables, which dark mode redefines.) Each becomes a dark tint of its own color. Bootstrap's light .bg-*
-helpers get the same tints, and nested tables lose Bootstrap's white background.
+white. (The package's own color rows use the --pdq-* tint variables, which dark mode redefines.) Each becomes a dark
+tint of its own color. Header and footer rows of .success/.info/.warning/.danger keep the color itself, from the
+package's extra colors, as every other color does. Bootstrap's light .bg-* helpers get the same tints, and nested
+tables lose Bootstrap's white background.
 */
 .pdq-dark .table .table {
     background-color: transparent;
@@ -216,39 +218,23 @@ helpers get the same tints, and nested tables lose Bootstrap's white background.
 .pdq-dark .table > tbody > tr.active > th, .pdq-dark .table > tfoot > tr.active > th {
     background-color: var(--pdq-dark-raised);
 }
-.pdq-dark .table > thead > tr > td.success, .pdq-dark .table > tbody > tr > td.success,
-.pdq-dark .table > tfoot > tr > td.success, .pdq-dark .table > thead > tr > th.success,
-.pdq-dark .table > tbody > tr > th.success, .pdq-dark .table > tfoot > tr > th.success,
-.pdq-dark .table > thead > tr.success > td, .pdq-dark .table > tbody > tr.success > td,
-.pdq-dark .table > tfoot > tr.success > td, .pdq-dark .table > thead > tr.success > th,
-.pdq-dark .table > tbody > tr.success > th, .pdq-dark .table > tfoot > tr.success > th,
+.pdq-dark .table > tbody > tr > td.success, .pdq-dark .table > tbody > tr > th.success,
+.pdq-dark .table > tbody > tr.success > td, .pdq-dark .table > tbody > tr.success > th,
 .pdq-dark .bg-success {
     background-color: var(--pdq-dark-success);
 }
-.pdq-dark .table > thead > tr > td.info, .pdq-dark .table > tbody > tr > td.info,
-.pdq-dark .table > tfoot > tr > td.info, .pdq-dark .table > thead > tr > th.info,
-.pdq-dark .table > tbody > tr > th.info, .pdq-dark .table > tfoot > tr > th.info,
-.pdq-dark .table > thead > tr.info > td, .pdq-dark .table > tbody > tr.info > td,
-.pdq-dark .table > tfoot > tr.info > td, .pdq-dark .table > thead > tr.info > th,
-.pdq-dark .table > tbody > tr.info > th, .pdq-dark .table > tfoot > tr.info > th,
+.pdq-dark .table > tbody > tr > td.info, .pdq-dark .table > tbody > tr > th.info,
+.pdq-dark .table > tbody > tr.info > td, .pdq-dark .table > tbody > tr.info > th,
 .pdq-dark .bg-info {
     background-color: var(--pdq-dark-info);
 }
-.pdq-dark .table > thead > tr > td.warning, .pdq-dark .table > tbody > tr > td.warning,
-.pdq-dark .table > tfoot > tr > td.warning, .pdq-dark .table > thead > tr > th.warning,
-.pdq-dark .table > tbody > tr > th.warning, .pdq-dark .table > tfoot > tr > th.warning,
-.pdq-dark .table > thead > tr.warning > td, .pdq-dark .table > tbody > tr.warning > td,
-.pdq-dark .table > tfoot > tr.warning > td, .pdq-dark .table > thead > tr.warning > th,
-.pdq-dark .table > tbody > tr.warning > th, .pdq-dark .table > tfoot > tr.warning > th,
+.pdq-dark .table > tbody > tr > td.warning, .pdq-dark .table > tbody > tr > th.warning,
+.pdq-dark .table > tbody > tr.warning > td, .pdq-dark .table > tbody > tr.warning > th,
 .pdq-dark .bg-warning {
     background-color: var(--pdq-dark-warning);
 }
-.pdq-dark .table > thead > tr > td.danger, .pdq-dark .table > tbody > tr > td.danger,
-.pdq-dark .table > tfoot > tr > td.danger, .pdq-dark .table > thead > tr > th.danger,
-.pdq-dark .table > tbody > tr > th.danger, .pdq-dark .table > tfoot > tr > th.danger,
-.pdq-dark .table > thead > tr.danger > td, .pdq-dark .table > tbody > tr.danger > td,
-.pdq-dark .table > tfoot > tr.danger > td, .pdq-dark .table > thead > tr.danger > th,
-.pdq-dark .table > tbody > tr.danger > th, .pdq-dark .table > tfoot > tr.danger > th,
+.pdq-dark .table > tbody > tr > td.danger, .pdq-dark .table > tbody > tr > th.danger,
+.pdq-dark .table > tbody > tr.danger > td, .pdq-dark .table > tbody > tr.danger > th,
 .pdq-dark .bg-danger {
     background-color: var(--pdq-dark-danger);
 }

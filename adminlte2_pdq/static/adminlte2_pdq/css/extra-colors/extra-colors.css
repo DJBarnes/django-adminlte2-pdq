@@ -3460,6 +3460,18 @@ a.label.label-gray:focus {
     border: 1px solid var(--pdq-light-blue-base);
 }
 
+.table > thead > tr > td.info,
+.table > thead > tr > th.info,
+.table > tfoot > tr > td.info,
+.table > tfoot > tr > th.info,
+.table > thead > tr.info > td,
+.table > thead > tr.info > th,
+.table > tfoot > tr.info > td,
+.table > tfoot > tr.info > th {
+    color: var(--pdq-info-text);
+    background-color: var(--pdq-info-base);
+}
+
 .table-bordered.table-border-info > thead > tr > th,
 .table-bordered.table-border-info > thead > tr > td,
 .table-bordered.table-border-info > tbody > tr > th,
@@ -3540,6 +3552,18 @@ a.label.label-gray:focus {
 .table-bordered.table-border-aqua > tbody > tr > th.aqua,
 .table-bordered.table-border-aqua > tbody > tr > td.aqua {
     border: 1px solid var(--pdq-aqua-base);
+}
+
+.table > thead > tr > td.success,
+.table > thead > tr > th.success,
+.table > tfoot > tr > td.success,
+.table > tfoot > tr > th.success,
+.table > thead > tr.success > td,
+.table > thead > tr.success > th,
+.table > tfoot > tr.success > td,
+.table > tfoot > tr.success > th {
+    color: var(--pdq-success-text);
+    background-color: var(--pdq-success-base);
 }
 
 .table-bordered.table-border-success > thead > tr > th,
@@ -3624,6 +3648,18 @@ a.label.label-gray:focus {
     border: 1px solid var(--pdq-green-base);
 }
 
+.table > thead > tr > td.warning,
+.table > thead > tr > th.warning,
+.table > tfoot > tr > td.warning,
+.table > tfoot > tr > th.warning,
+.table > thead > tr.warning > td,
+.table > thead > tr.warning > th,
+.table > tfoot > tr.warning > td,
+.table > tfoot > tr.warning > th {
+    color: var(--pdq-warning-text);
+    background-color: var(--pdq-warning-base);
+}
+
 .table-bordered.table-border-warning > thead > tr > th,
 .table-bordered.table-border-warning > thead > tr > td,
 .table-bordered.table-border-warning > tbody > tr > th,
@@ -3704,6 +3740,18 @@ a.label.label-gray:focus {
 .table-bordered.table-border-yellow > tbody > tr > th.yellow,
 .table-bordered.table-border-yellow > tbody > tr > td.yellow {
     border: 1px solid var(--pdq-yellow-base);
+}
+
+.table > thead > tr > td.danger,
+.table > thead > tr > th.danger,
+.table > tfoot > tr > td.danger,
+.table > tfoot > tr > th.danger,
+.table > thead > tr.danger > td,
+.table > thead > tr.danger > th,
+.table > tfoot > tr.danger > td,
+.table > tfoot > tr.danger > th {
+    color: var(--pdq-danger-text);
+    background-color: var(--pdq-danger-base);
 }
 
 .table-bordered.table-border-danger > thead > tr > th,
