@@ -35,12 +35,18 @@ hover, as Bootstrap's own hovers are a step darker than its light tints.
     --pdq-dark-text-muted: #8a979c;
     --pdq-dark-text-sidebar: #b8c7ce;
 
+    /* AdminLTE's dark colors, lightened for text and other foreground elements; navy stays darker than blue */
+    --pdq-dark-navy-text: #7fa8d8;
+    --pdq-dark-blue-text: #3fa0e0;
+    --pdq-dark-purple-text: #a29ee0;
+    --pdq-dark-maroon-text: #f06292;
+
     --pdq-dark-active: #3c8dbc;
 
     --pdq-dark-success: #1e4b2e;
     --pdq-dark-success-hover: #265e3a;
-    --pdq-dark-info: #1b3d52;
-    --pdq-dark-info-hover: #224c66;
+    --pdq-dark-info: #0b4f63;
+    --pdq-dark-info-hover: #0e6079;
     --pdq-dark-warning: #574515;
     --pdq-dark-warning-hover: #6b551a;
     --pdq-dark-danger: #5a2323;
@@ -299,12 +305,30 @@ the site uses it yet, so anything added later works in dark mode too. Checked ag
 .pdq-dark .text-danger {
     color: #e57373;
 }
+/* AdminLTE's dark text colors, lightened to stay readable. AdminLTE's text colors are !important, so these are too. */
+.pdq-dark .text-navy {
+    color: var(--pdq-dark-navy-text) !important;
+}
+.pdq-dark .text-blue {
+    color: var(--pdq-dark-blue-text) !important;
+}
+.pdq-dark .text-purple {
+    color: var(--pdq-dark-purple-text) !important;
+}
+.pdq-dark .text-maroon {
+    color: var(--pdq-dark-maroon-text) !important;
+}
+/* "Black" is the strongest text color, which in dark mode is the main text color */
+.pdq-dark .text-black {
+    color: var(--pdq-dark-text) !important;
+}
 .pdq-dark pre {
     color: #e0e0e0;
     background-color: var(--pdq-dark-surface);
     border-color: var(--pdq-dark-border);
 }
-.pdq-dark code {
+/* :where() keeps this rule weaker than the package's code-{color} classes, which have their own dark colors */
+.pdq-dark :where(code) {
     color: #f48fb1;
     background-color: var(--pdq-dark-raised);
 }
@@ -366,6 +390,88 @@ instead.
 .pdq-dark .box.box-solid.box-default > .box-header a,
 .pdq-dark .box.box-solid.box-default > .box-header .btn {
     color: var(--pdq-dark-text);
+}
+/* Except lime buttons, whose light background needs their dark text */
+.pdq-dark .box.box-solid.box-default > .box-header .btn.btn-lime {
+    color: var(--pdq-lime-text);
+}
+/* Alerts: the close button of a "default" alert, which is dark gray, is light like the alert's text */
+.pdq-dark .alert.alert-default .close {
+    color: var(--pdq-dark-text);
+}
+/*
+Carousels: carousel-{color} colors the controls, caption, and indicators. The dark colors, and default and gray (dark
+grays in dark mode), take the lightened text colors, so they show on dark slides.
+*/
+.pdq-dark .carousel.carousel-navy .carousel-control,
+.pdq-dark .carousel.carousel-navy .carousel-caption,
+.pdq-dark .carousel.carousel-navy .carousel-indicators li {
+    color: var(--pdq-dark-navy-text);
+    border-color: var(--pdq-dark-navy-text);
+}
+.pdq-dark .carousel.carousel-navy .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-navy .carousel-indicators li:active {
+    background-color: var(--pdq-dark-navy-text);
+}
+.pdq-dark .carousel.carousel-blue .carousel-control,
+.pdq-dark .carousel.carousel-blue .carousel-caption,
+.pdq-dark .carousel.carousel-blue .carousel-indicators li {
+    color: var(--pdq-dark-blue-text);
+    border-color: var(--pdq-dark-blue-text);
+}
+.pdq-dark .carousel.carousel-blue .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-blue .carousel-indicators li:active {
+    background-color: var(--pdq-dark-blue-text);
+}
+.pdq-dark .carousel.carousel-purple .carousel-control,
+.pdq-dark .carousel.carousel-purple .carousel-caption,
+.pdq-dark .carousel.carousel-purple .carousel-indicators li {
+    color: var(--pdq-dark-purple-text);
+    border-color: var(--pdq-dark-purple-text);
+}
+.pdq-dark .carousel.carousel-purple .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-purple .carousel-indicators li:active {
+    background-color: var(--pdq-dark-purple-text);
+}
+.pdq-dark .carousel.carousel-maroon .carousel-control,
+.pdq-dark .carousel.carousel-maroon .carousel-caption,
+.pdq-dark .carousel.carousel-maroon .carousel-indicators li {
+    color: var(--pdq-dark-maroon-text);
+    border-color: var(--pdq-dark-maroon-text);
+}
+.pdq-dark .carousel.carousel-maroon .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-maroon .carousel-indicators li:active {
+    background-color: var(--pdq-dark-maroon-text);
+}
+.pdq-dark .carousel.carousel-black .carousel-control,
+.pdq-dark .carousel.carousel-black .carousel-caption,
+.pdq-dark .carousel.carousel-black .carousel-indicators li {
+    color: var(--pdq-dark-text);
+    border-color: var(--pdq-dark-text);
+}
+.pdq-dark .carousel.carousel-black .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-black .carousel-indicators li:active {
+    background-color: var(--pdq-dark-text);
+}
+.pdq-dark .carousel.carousel-default .carousel-control,
+.pdq-dark .carousel.carousel-default .carousel-caption,
+.pdq-dark .carousel.carousel-default .carousel-indicators li {
+    color: var(--pdq-dark-text-soft);
+    border-color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .carousel.carousel-default .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-default .carousel-indicators li:active {
+    background-color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .carousel.carousel-gray .carousel-control,
+.pdq-dark .carousel.carousel-gray .carousel-caption,
+.pdq-dark .carousel.carousel-gray .carousel-indicators li {
+    color: var(--pdq-dark-text-soft);
+    border-color: var(--pdq-dark-text-soft);
+}
+.pdq-dark .carousel.carousel-gray .carousel-indicators li.active,
+.pdq-dark .carousel.carousel-gray .carousel-indicators li:active {
+    background-color: var(--pdq-dark-text-soft);
 }
 /* Navs, tabs, breadcrumbs, pagination and pager */
 .pdq-dark .nav-tabs {

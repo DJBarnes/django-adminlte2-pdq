@@ -34,12 +34,18 @@ hover, as Bootstrap's own hovers are a step darker than its light tints.
     --pdq-dark-text-muted: #8a979c;
     --pdq-dark-text-sidebar: #b8c7ce;
 
+    /* AdminLTE's dark colors, lightened for text and other foreground elements; navy stays darker than blue */
+    --pdq-dark-navy-text: #7fa8d8;
+    --pdq-dark-blue-text: #3fa0e0;
+    --pdq-dark-purple-text: #a29ee0;
+    --pdq-dark-maroon-text: #f06292;
+
     --pdq-dark-active: #3c8dbc;
 
     --pdq-dark-success: #1e4b2e;
     --pdq-dark-success-hover: #265e3a;
-    --pdq-dark-info: #1b3d52;
-    --pdq-dark-info-hover: #224c66;
+    --pdq-dark-info: #0b4f63;
+    --pdq-dark-info-hover: #0e6079;
     --pdq-dark-warning: #574515;
     --pdq-dark-warning-hover: #6b551a;
     --pdq-dark-danger: #5a2323;
@@ -298,12 +304,30 @@ the site uses it yet, so anything added later works in dark mode too. Checked ag
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .text-danger {
     color: #e57373;
 }
+/* AdminLTE's dark text colors, lightened to stay readable. AdminLTE's text colors are !important, so these are too. */
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .text-navy {
+    color: var(--pdq-dark-navy-text) !important;
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .text-blue {
+    color: var(--pdq-dark-blue-text) !important;
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .text-purple {
+    color: var(--pdq-dark-purple-text) !important;
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .text-maroon {
+    color: var(--pdq-dark-maroon-text) !important;
+}
+/* "Black" is the strongest text color, which in dark mode is the main text color */
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .text-black {
+    color: var(--pdq-dark-text) !important;
+}
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) pre {
     color: #e0e0e0;
     background-color: var(--pdq-dark-surface);
     border-color: var(--pdq-dark-border);
 }
-:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) code {
+/* :where() keeps this rule weaker than the package's code-{color} classes, which have their own dark colors */
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) :where(code) {
     color: #f48fb1;
     background-color: var(--pdq-dark-raised);
 }
@@ -365,6 +389,88 @@ instead.
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .box.box-solid.box-default > .box-header a,
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .box.box-solid.box-default > .box-header .btn {
     color: var(--pdq-dark-text);
+}
+/* Except lime buttons, whose light background needs their dark text */
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .box.box-solid.box-default > .box-header .btn.btn-lime {
+    color: var(--pdq-lime-text);
+}
+/* Alerts: the close button of a "default" alert, which is dark gray, is light like the alert's text */
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .alert.alert-default .close {
+    color: var(--pdq-dark-text);
+}
+/*
+Carousels: carousel-{color} colors the controls, caption, and indicators. The dark colors, and default and gray (dark
+grays in dark mode), take the lightened text colors, so they show on dark slides.
+*/
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-navy .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-navy .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-navy .carousel-indicators li {
+    color: var(--pdq-dark-navy-text);
+    border-color: var(--pdq-dark-navy-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-navy .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-navy .carousel-indicators li:active {
+    background-color: var(--pdq-dark-navy-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-blue .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-blue .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-blue .carousel-indicators li {
+    color: var(--pdq-dark-blue-text);
+    border-color: var(--pdq-dark-blue-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-blue .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-blue .carousel-indicators li:active {
+    background-color: var(--pdq-dark-blue-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-purple .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-purple .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-purple .carousel-indicators li {
+    color: var(--pdq-dark-purple-text);
+    border-color: var(--pdq-dark-purple-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-purple .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-purple .carousel-indicators li:active {
+    background-color: var(--pdq-dark-purple-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-maroon .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-maroon .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-maroon .carousel-indicators li {
+    color: var(--pdq-dark-maroon-text);
+    border-color: var(--pdq-dark-maroon-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-maroon .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-maroon .carousel-indicators li:active {
+    background-color: var(--pdq-dark-maroon-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-black .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-black .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-black .carousel-indicators li {
+    color: var(--pdq-dark-text);
+    border-color: var(--pdq-dark-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-black .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-black .carousel-indicators li:active {
+    background-color: var(--pdq-dark-text);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-default .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-default .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-default .carousel-indicators li {
+    color: var(--pdq-dark-text-soft);
+    border-color: var(--pdq-dark-text-soft);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-default .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-default .carousel-indicators li:active {
+    background-color: var(--pdq-dark-text-soft);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-gray .carousel-control,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-gray .carousel-caption,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-gray .carousel-indicators li {
+    color: var(--pdq-dark-text-soft);
+    border-color: var(--pdq-dark-text-soft);
+}
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-gray .carousel-indicators li.active,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .carousel.carousel-gray .carousel-indicators li:active {
+    background-color: var(--pdq-dark-text-soft);
 }
 /* Navs, tabs, breadcrumbs, pagination and pager */
 :is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark) .nav-tabs {

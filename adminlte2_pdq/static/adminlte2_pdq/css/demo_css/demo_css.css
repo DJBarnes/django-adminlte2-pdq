@@ -44,3 +44,14 @@
 .demo-max-width-25px {
     max-width: 25px;
 }
+
+
+/*
+ * The carousel demo's slide images are black icons. On dark slides (black, and default in a dark skin) they are shown
+ * white instead. Project carousels usually show photos, so this applies to the demo only.
+ */
+.carousel.bg-black .item > img.demo-carousel-icon,
+:is(.skin-blue-dark, .skin-black-dark, .skin-purple-dark, .skin-yellow-dark, .skin-red-dark, .skin-green-dark)
+.carousel.bg-default .item > img.demo-carousel-icon {
+    filter: invert(1);
+}
