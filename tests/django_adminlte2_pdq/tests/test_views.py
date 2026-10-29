@@ -16,7 +16,7 @@ from django.urls import reverse
 from adminlte2_pdq import views
 
 
-UserModel = get_user_model()  # pylint: disable=invalid-name
+UserModel = get_user_model()
 MOCK_SITE = {"name": "Website", "domain": "www.example.com"}
 
 

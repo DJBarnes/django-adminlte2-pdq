@@ -49,7 +49,7 @@ def _resolved_patterns(patterns, prefix="", app_names=(), namespaces=()):
 
 
 @register("adminlte2_pdq")
-def check_views_define_permissions(app_configs, **kwargs):  # pylint: disable=unused-argument
+def check_views_define_permissions(app_configs, **kwargs):
     """adminlte2_pdq.W001: views that require permissions but define none.
 
     No user can access such a view. The check uses the same logic as AuthMiddleware,
@@ -58,8 +58,8 @@ def check_views_define_permissions(app_configs, **kwargs):  # pylint: disable=un
     if AUTH_MIDDLEWARE not in getattr(settings, "MIDDLEWARE", []):
         return []
 
-    # pylint: disable=import-outside-toplevel
-    from adminlte2_pdq.middleware import AuthMiddleware
+    # Only imported when the check runs, after the settings are loaded.
+    from adminlte2_pdq.middleware import AuthMiddleware  # noqa: PLC0415
 
     middleware = AuthMiddleware(lambda request: None)
     warnings = []

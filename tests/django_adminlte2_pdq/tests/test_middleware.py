@@ -29,7 +29,7 @@ from adminlte2_pdq.middleware import (
 
 
 # Module Variables.
-UserModel = get_user_model()  # pylint: disable=invalid-name
+UserModel = get_user_model()
 UPDATED_LOGIN_EXEMPT_WHITELIST = LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq:demo-css"]
 UPDATED_STRICT_POLICY_WHITELIST = STRICT_POLICY_WHITELIST + ["adminlte2_pdq:demo-css"]
 UPDATED_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST = ["/tests/"]
@@ -313,7 +313,6 @@ class LoginRequiredMiddlewareTestCase(MiddlewareBaseTestCase):
         # Verify values imported from middleware file.
         # We don't use constants.py values because the above settings technically don't override such.
         # Plus this test is a middleware test so it's probably fine.
-        # pylint:disable=redefined-outer-name reimported import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -411,7 +410,6 @@ class MiddlewareUrlProcessingTestCaseAppendSlashTrue(MiddlewareBaseTestCase):
         # Verify values imported from middleware file.
         # We don't use constants.py values because the above settings technically don't override such.
         # Plus this test is a middleware test so it's probably fine.
-        # pylint:disable=redefined-outer-name reimported import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -551,7 +549,6 @@ class MiddlewareUrlProcessingTestCaseAppendSlashFalse(MiddlewareBaseTestCase):
         # Verify values imported from middleware file.
         # We don't use constants.py values because the above settings technically don't override such.
         # Plus this test is a middleware test so it's probably fine.
-        # pylint:disable=redefined-outer-name reimported import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -658,7 +655,6 @@ class StrictMiddlewareTestCase(MiddlewareBaseTestCase):
         # Verify values imported from middleware file.
         # We don't use constants.py values because the above settings technically don't override such.
         # Plus this test is a middleware test so it's probably fine.
-        # pylint:disable=redefined-outer-name reimported import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

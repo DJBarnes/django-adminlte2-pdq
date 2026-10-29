@@ -363,7 +363,6 @@ def get_time_widget():
     return TIME_WIDGET
 
 
-# pylint:disable=unused-argument
 @register.simple_tag(takes_context=True)
 def get_avatar_url(context, user=None, email=None, size=None, default="mp"):
     """

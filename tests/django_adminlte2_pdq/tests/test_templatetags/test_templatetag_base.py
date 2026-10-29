@@ -133,7 +133,6 @@ class TemplateTagTestCase(TestCase):
             formset = TestFormSets(data)
             formset.adminlte2_use_error_summary = True
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_formset_data(errors, formset)
 
             self.assertTrue(errors["has_non_form_errors"])
@@ -160,7 +159,6 @@ class TemplateTagTestCase(TestCase):
 
             formset.forms[0].add_error(None, "Test Form Error")
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_formset_data(errors, formset)
 
             self.assertTrue(errors["has_non_field_errors"])
@@ -186,7 +184,6 @@ class TemplateTagTestCase(TestCase):
             formset.adminlte2_use_error_summary = True
             formset.forms[0].add_error("test_text", "Test Field Error")
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_formset_data(errors, formset)
 
             self.assertTrue(errors["has_field_errors"])
@@ -204,7 +201,6 @@ class TemplateTagTestCase(TestCase):
             formset.adminlte2_use_error_summary = True
 
             with self.assertRaises(AttributeError):
-                # pylint:disable=protected-access
                 adminlte_tags._update_errors_with_formset_data(errors, formset)
 
         with self.subTest("Verify returns unmodified errors dict if form does not have use_error summary set"):
@@ -218,7 +214,6 @@ class TemplateTagTestCase(TestCase):
             formset = namedtuple("Form", ["adminlte2_use_error_summary"])
             formset.adminlte2_use_error_summary = False
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_formset_data(errors, formset)
 
             self.assertEqual(errors["forms"], [])
@@ -243,7 +238,6 @@ class TemplateTagTestCase(TestCase):
 
             form.add_error(None, "Test Form Error")
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_form_data(errors, form)
 
             self.assertTrue(errors["has_non_field_errors"])
@@ -261,7 +255,6 @@ class TemplateTagTestCase(TestCase):
             form = self.TestForm(data)
             form.add_error("test_text", "Test Field Error")
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_form_data(errors, form)
 
             self.assertTrue(errors["has_field_errors"])
@@ -282,7 +275,6 @@ class TemplateTagTestCase(TestCase):
             form.add_error(None, "Test Form Error")
             form.add_error("test_text", "Test Field Error")
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_form_data(errors, form)
 
             self.assertTrue(errors["has_non_field_errors"])
@@ -307,7 +299,6 @@ class TemplateTagTestCase(TestCase):
             form.add_error(None, "Test Form Error")
             form.add_error("test_text", "Test Field Error")
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_form_data(errors, form)
 
             self.assertTrue(errors["has_non_field_errors"])
@@ -326,7 +317,6 @@ class TemplateTagTestCase(TestCase):
             form.adminlte2_use_error_summary = True
 
             with self.assertRaises(AttributeError):
-                # pylint:disable=protected-access
                 adminlte_tags._update_errors_with_form_data(errors, form)
 
         with self.subTest("Verify returns an unmodified errors dict, if the form does not have use_error_summary set"):
@@ -340,7 +330,6 @@ class TemplateTagTestCase(TestCase):
             form = namedtuple("Form", ["adminlte2_use_error_summary"])
             form.adminlte2_use_error_summary = False
 
-            # pylint:disable=protected-access
             adminlte_tags._update_errors_with_form_data(errors, form)
 
             self.assertEqual(errors["forms"], [])

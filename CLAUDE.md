@@ -24,9 +24,9 @@ pipenv run python runtests.py --with-coverage [--less-than-100]
 # Full matrix (Python/Django versions, docs build, warnings-as-errors against Django main)
 tox
 
-# Format / lint (black line length is 120)
-pipenv run black .
-pipenv run pylint adminlte2_pdq
+# Format / lint with Ruff (line length 120; settings in pyproject.toml)
+pipenv run ruff format .
+pipenv run ruff check .
 
 # Docs (Sphinx, reStructuredText in docs/source). CI builds them with -W, so warnings fail.
 pipenv run sphinx-build -WE docs/source docs/build

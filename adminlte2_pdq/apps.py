@@ -11,5 +11,5 @@ class AdminLte2PdqConfig(AppConfig):
     verbose_name = "Django AdminLTE2 PDQ"
 
     def ready(self):
-        # Importing the module registers its checks.
-        from adminlte2_pdq import checks  # pylint: disable=import-outside-toplevel,unused-import
+        # Importing the module registers its checks (Django's documented pattern for system checks).
+        from adminlte2_pdq import checks  # noqa: F401, PLC0415

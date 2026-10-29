@@ -1,6 +1,5 @@
 """Testing Utilities."""
 
-# pylint:disable=unused-argument
 
 
 def valid_string_hook_function(arg1, context, kwarg1="kwarg1"):

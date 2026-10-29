@@ -20,9 +20,7 @@ django = "*"                    # Core Django package.
  ##
 [dev-packages]
 # Syntax formatting and checking dependencies.
-black="*"                       # "Uncompromising" Python code formatter.
-pylint = "*"                    # Linter for Python syntax. Must be run in console via "pylint" command.
-pylint-django = "*"             # Improves code analysis for Django projects.
+ruff = "*"                      # Formatter and linter ("ruff format", "ruff check").
 
 # Testing/Pytest dependencies.
 colorama = "*"                  # Console coloring package. Used for additional functionality in below ETC package.

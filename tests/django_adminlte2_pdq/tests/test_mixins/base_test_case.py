@@ -316,7 +316,7 @@ class BaseMixinTextCase(IntegrationTestCase):
             *self.user_list__authenticated,
         ]
 
-    def assertAdminPdqData(  # pylint:disable=invalid-name
+    def assertAdminPdqData(
         self,
         response,
         is_empty=False,

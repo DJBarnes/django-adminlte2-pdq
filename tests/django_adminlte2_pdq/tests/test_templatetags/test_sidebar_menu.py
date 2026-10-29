@@ -206,13 +206,11 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
     def test__default_routes_are_registered_function__works_when_routes_are_registered(self):
         """Test default routes are registered function works when routes are registered"""
-        # pylint:disable=protected-access
         self.assertTrue(sidebar_menu._default_routes_are_registered())
 
     @override_settings(ROOT_URLCONF="tests.django_adminlte2_pdq.django_test_project.urls_empty")
     def test__default_routes_are_registered_function__fails_when_routes_are_not_registered(self):
         """Test default routes are registered function fails when routes are not registered"""
-        # pylint:disable=protected-access
         self.assertFalse(sidebar_menu._default_routes_are_registered())
 
     # endregion Demo Url
@@ -1438,7 +1436,6 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
 
     def test__determine_node_active_status(self):
         """Test the the active status for a node is set properly"""
-        # pylint:disable=protected-access
 
         # Setup a basic node used for the tests
         node = {
@@ -1478,7 +1475,7 @@ class TemplateTagSidebarMenuTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertFalse(active)
 
 
-class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
+class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):  # noqa: N801
     """Tests for expected rendering of the Template Tag Sidebar Menu."""
 
     def test__render_types(self):
@@ -2191,7 +2188,7 @@ class TemplateTagSidebarMenu_RenderTestCase(TemplateTagSidebarMenuBaseTestCase):
             self.assertIn('<li class="separator">', rendered_template)
 
 
-class TemplateTagSidebarMenu_FullStackRenderTestCase(  # pylint:disable=invalid-name
+class TemplateTagSidebarMenu_FullStackRenderTestCase(  # noqa: N801
     IntegrationTestCase,
     TemplateTagSidebarMenuBaseTestCase,
 ):
@@ -2297,7 +2294,7 @@ class TemplateTagSidebarMenu_FullStackRenderTestCase(  # pylint:disable=invalid-
             )
 
 
-class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTestCase):  # pylint:disable=invalid-name
+class TemplateTagSidebarMenu_IsAllowedNodeTestCase(TemplateTagSidebarMenuBaseTestCase):  # noqa: N801
     """Tests for is_allowed_node() function in sidebar logic."""
 
     # region Loose Mode, Standard Settings

@@ -19,7 +19,7 @@ UserModel = get_user_model()
 
 
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:disable=invalid-name
+class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N801
     """Test for project "app-wide" whitelist settings.
 
     For these tests, we only use the Anonymous user and the default user, without any modifications.
@@ -208,7 +208,7 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # p
 
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # pylint:disable=invalid-name
+class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N801
     """Test for project "app-wide" whitelist settings.
 
     For these tests, we only use the Anonymous user and the default user, without any modifications.

@@ -26,7 +26,6 @@ class ConfigurationMiddlewareTestCase(TestCase):
     Because we can easily test those.
     """
 
-    # pylint:disable=import-outside-toplevel
 
     @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=False, ADMINLTE2_USE_STRICT_POLICY=False)
     def test_login_required_and_strict_policy_constant_false_when_setting_false(self):
@@ -71,7 +70,6 @@ class ConfigurationMiddlewareTestCase(TestCase):
         whitelist and the strict policy is set to False."""
 
         with self.assertRaises(ImproperlyConfigured) as cm:
-            # pylint:disable=unused-import
             # from adminlte2_pdq.constants import LOGIN_REQUIRED, STRICT_POLICY
             get_strict_policy()
 
@@ -84,7 +82,6 @@ class ConfigurationMiddlewareTestCase(TestCase):
         whitelist and the login required policy is set to False."""
 
         with self.assertRaises(ImproperlyConfigured) as cm:
-            # pylint:disable=unused-import
             # from adminlte2_pdq.constants import LOGIN_REQUIRED, STRICT_POLICY
             get_login_required_policy(False)
 

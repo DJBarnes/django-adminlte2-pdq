@@ -332,7 +332,6 @@ class TestLoginRequiredAuthenticationDecorators(BaseDecoratorTestCase, LoginMode
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -373,7 +372,6 @@ class TestLoginRequiredAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorT
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

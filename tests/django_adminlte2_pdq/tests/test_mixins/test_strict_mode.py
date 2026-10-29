@@ -394,7 +394,6 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase, StrictModeMixin):
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -513,7 +512,6 @@ class TestStrictAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase, Strict
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -932,7 +930,6 @@ class TestStrictAuthenticationMixinsWithPermWhitelist(BaseMixinTextCase, StrictM
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -1145,7 +1142,6 @@ class TestStrictAuthenticationMixinsWithBothWhitelists(BaseMixinTextCase, Strict
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -1349,7 +1345,6 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -1823,7 +1818,6 @@ class TestStrictAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextC
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

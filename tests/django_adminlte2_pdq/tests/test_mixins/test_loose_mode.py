@@ -37,7 +37,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from constants.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -531,7 +530,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from constants.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -827,7 +825,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
         self.assertEqual(0, len(getattr(settings, "STRICT_POLICY_WHITELIST", [])))
 
         # Verify values imported from constants.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.constants import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

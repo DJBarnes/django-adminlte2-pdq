@@ -334,7 +334,7 @@ def render_variables():
     return "\n".join(parts) + "\n"
 
 
-def _component_rules(name, color=None):  # pylint: disable=too-many-statements
+def _component_rules(name, color=None):
     """Yield (component, rule) pairs for one class name."""
     color = color or _color_for(name)
     text, base, active = _var(name, "text"), _var(name, "base"), _var(name, "active")

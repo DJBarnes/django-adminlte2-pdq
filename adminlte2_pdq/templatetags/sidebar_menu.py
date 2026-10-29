@@ -318,18 +318,10 @@ def get_permissions_from_node(node):
     if node_allow_anonymous_access and node_login_required:
         # Setting conflicting login_required states.
         raise ImproperlyConfigured(err_str__anonymous_and_login_required)
-    if (
-        # So black doesn't one-line this.
-        node_allow_without_permissions
-        and (node_one_of_permissions or node_full_permissions)
-    ):
+    if node_allow_without_permissions and (node_one_of_permissions or node_full_permissions):
         # Setting conflicting permission states.
         raise ImproperlyConfigured(err_str__without_perms_and_perms_required)
-    if (
-        # So black doesn't one-line this.
-        node_allow_anonymous_access
-        and (node_one_of_permissions or node_full_permissions)
-    ):
+    if node_allow_anonymous_access and (node_one_of_permissions or node_full_permissions):
         # Can't have anonymous and permission requirements.
         raise ImproperlyConfigured(err_str__anonymous_permissions)
 
@@ -384,18 +376,10 @@ def get_permissions_from_node(node):
     if view_allow_anonymous_access and view_login_required:
         # Setting conflicting login_required states.
         raise ImproperlyConfigured(err_str__anonymous_and_login_required)
-    if (
-        # So black doesn't one-line this.
-        view_allow_without_permissions
-        and (view_one_of_permissions or view_full_permissions)
-    ):
+    if view_allow_without_permissions and (view_one_of_permissions or view_full_permissions):
         # Setting conflicting permission states.
         raise ImproperlyConfigured(err_str__without_perms_and_perms_required)
-    if (
-        # So black doesn't one-line this.
-        view_allow_anonymous_access
-        and (view_one_of_permissions or view_full_permissions)
-    ):
+    if view_allow_anonymous_access and (view_one_of_permissions or view_full_permissions):
         # Can't have anonymous and permission requirements.
         raise ImproperlyConfigured(err_str__anonymous_permissions)
 

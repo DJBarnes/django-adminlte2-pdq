@@ -332,7 +332,6 @@ class TestLoginRequiredAuthenticationMixins(BaseMixinTextCase, LoginModeMixin):
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,
@@ -373,7 +372,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # to a constant. So, we only need to patch the constant in the middleware.
 
         # Verify values imported from middleware.py file.
-        # pylint: disable=import-outside-toplevel
         from adminlte2_pdq.middleware import (
             LOGIN_REQUIRED,
             STRICT_POLICY,

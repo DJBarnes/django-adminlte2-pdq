@@ -87,7 +87,7 @@ class ColorCssTestCase(SimpleTestCase):
     def test__palette_matches_adminlte(self):
         """Base and active values equal AdminLTE's `.bg-{c}` and `.bg-{c}-active` for its palette."""
         for name in sorted(color_css.ADMINLTE_PALETTE):
-            color = color_css._color_for(name)  # pylint: disable=protected-access
+            color = color_css._color_for(name)
             with self.subTest(name):
                 self.assertEqual(
                     _normalize_hex(color.base),
@@ -101,7 +101,7 @@ class ColorCssTestCase(SimpleTestCase):
     def test__derived_borders_match_adminlte(self):
         """hover and border equal AdminLTE's alert, button, callout, and modal borders."""
         for name in ("info", "success", "warning", "danger"):
-            color = color_css._color_for(name)  # pylint: disable=protected-access
+            color = color_css._color_for(name)
             with self.subTest(name):
                 self.assertEqual(color.hover, _value_for(self.adminlte_rules, f".alert-{name}", "border-color"))
                 self.assertEqual(color.hover, _value_for(self.adminlte_rules, f".btn-{name}", "border-color"))

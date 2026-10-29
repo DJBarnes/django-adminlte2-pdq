@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/django-adminlte2-pdq?color=blue)](https://img.shields.io/pypi/v/django-adminlte2-pdq?color=blue)
 [![Python Versions](https://img.shields.io/badge/python-%3E%3D3.7-brightgreen)](https://img.shields.io/badge/python-%3E%3D3.7-brightgreen)
 [![Django Versions](https://img.shields.io/badge/django-%3E%3D3.2-brightgreen)](https://img.shields.io/badge/django-%3E%3D3.2-brightgreen)
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Run Tests](https://github.com/DJBarnes/django-adminlte2-pdq/actions/workflows/test.yaml/badge.svg)](https://github.com/DJBarnes/django-adminlte2-pdq/actions/workflows/test.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/DJBarnes/django-adminlte2-pdq/badge.svg?branch=main)](https://coveralls.io/github/DJBarnes/django-adminlte2-pdq?branch=main)
 [![Documentation Status](https://readthedocs.org/projects/django-adminlte2-pdq/badge/?version=latest)](https://django-adminlte2-pdq.readthedocs.io/en/latest/?badge=latest)
