@@ -47,6 +47,9 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Add support for Django 6.0 and 6.1 and Python 3.14. The package is tested
+  with Python 3.7 to 3.14 and Django 3.2, 4.2, 5.2, 6.0, and 6.1.
+
 * Extra color classes are now generated from one palette and cover every
   AdminLTE color plus ``default``, ``error``, and ``indigo``: backgrounds
   (``bg-{color}``, ``bg-{color}-active``), text, code tints
