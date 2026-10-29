@@ -146,6 +146,19 @@ Other Changes
   start with a message that links to the official AdminLTE 2 demo and to the
   package's Demo CSS pages. Its close button hides it.
 
+* The user's image in the header, the user menu, and the sidebar shows the
+  user's initials when they don't have a Gravatar, instead of Gravatar's
+  default person image. Users without a first or last name still get the
+  default person image. The ``user_image_initials`` template tag that renders
+  it changed:
+
+  * ``size`` now sets the image's width and height (before, it only set the
+    size of the image requested from Gravatar). The Gravatar image is
+    requested at twice the size.
+  * The new ``class_name`` argument adds CSS classes, such as ``img-circle``.
+  * It renders a ``<span>`` instead of a ``<div>``, so it can be used inline.
+  * Initials are uppercase.
+
 * The first item of the default sidebar menu is now labeled "Dashboard"
   instead of "Home".
 

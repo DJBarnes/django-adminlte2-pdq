@@ -4,23 +4,42 @@
 
 
 .user-image-replacement-div {
-    display: inline-block;
-    background: #d2d6de;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    /* Defaults; the user_image_initials tag sets the size inline. */
     width: 25px;
     height: 25px;
+    line-height: 1;
+    font-size: 10px;
+    background: #d2d6de;
     color: #444;
-    font-size: 12px;
     font-weight: bold;
-    line-height: 2;
     text-align: center;
-    position: relative;
+    white-space: nowrap;
     vertical-align: middle;
 }
 
+/* The Gravatar image covers the initials. It's transparent for users without a Gravatar. */
 .user-image-replacement-div > img {
     position: absolute;
-    top: 2px;
+    top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    border: 0;
+    border-radius: inherit;
+}
+
+/* In the user menu's header, the same border as AdminLTE's image there */
+.navbar-nav > .user-menu > .dropdown-menu > li.user-header > .user-image-replacement-div {
+    z-index: 5;
+    border: 3px solid;
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .user-chat-image-replacement-div {
@@ -44,13 +63,9 @@
 
 /* Keep initials inside user image on mobile */
 @media (max-width: 767px) {
-    .navbar-nav > .user-menu .user-image {
+    .navbar-nav > .user-menu .user-image-replacement-div.user-image {
         float: left;
         margin-top: -2px;
-        line-height: 2;
         top: 0;
-    }
-    .navbar-nav > .user-menu .user-image > img {
-        margin-top:0;
     }
 }

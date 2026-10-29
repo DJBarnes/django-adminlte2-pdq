@@ -1,5 +1,16 @@
-<div class="user-image user-image-replacement-div" {% if title %}title="{{ title }}"{% endif %}>
-  {{ initials }}
-  {# CSS will overlay this image over the above initials #}
-  <img src="{{ profile_url }}" class="user-image" alt="user image">
-</div>
+{% comment %}
+  The user's initials on a gray background, covered by their Gravatar image. Users without a Gravatar get a
+  transparent image, so their initials show, or Gravatar's default person when there are no initials. If the
+  Gravatar image can't load, the initials (or a person icon) still show. The image is decorative: the outer
+  element carries the user's name for screen readers.
+{% endcomment %}
+<span
+  class="user-image-replacement-div{% if class_name %} {{ class_name }}{% endif %}"
+  style="width: {{ size }}px; height: {{ size }}px; font-size: {{ font_size }}px;"
+  role="img"
+  aria-label="{{ title|default:'User Image' }}"
+  {% if title %}title="{{ title }}"{% endif %}
+>
+  {% if initials %}{{ initials }}{% else %}<i class="fa fa-user" aria-hidden="true"></i>{% endif %}
+  <img src="{{ profile_url }}" alt="">
+</span>

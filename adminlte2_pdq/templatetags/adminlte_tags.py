@@ -406,6 +406,7 @@ def user_image_initials(
     first_name="",
     last_name="",
     size=None,
+    class_name="",
 ):
     """
     Show user gravatar, initials, or gravatar default mystery person as image
@@ -426,7 +427,8 @@ def user_image_initials(
     :param initials: The initials to use in place of generated ones.
     :param first_name: The first name to use in place of the users.
     :param last_name: The last name to use in place of the users.
-    :param size: Size if it needs to be overridden. Default is 25x25.
+    :param size: Width and height of the image in pixels. Default is 25.
+    :param class_name: CSS classes to add to the image, such as img-circle or user-image.
     :return: Context for template.
     """
 
@@ -443,19 +445,17 @@ def user_image_initials(
 
     # If initials are not provided, create them from the first and last name.
     if not initials:
-        if first_name and last_name:
-            initials = f"{first_name[0]} {last_name[0]}"
-        elif first_name:
-            initials = f"{first_name[0]}"
-        elif last_name:
-            initials = f"{last_name[0]}"
-        else:
+        # A space keeps the initials from reading as a word or name, such as "A L" rather than "AL".
+        initials = " ".join(name[:1] for name in (first_name, last_name) if name).upper()
+        if not initials:
             gravatar_default = "mp"
 
-    # Get the gravatar url.
+    size = int(size or 25)
+
+    # Get the gravatar url, at twice the displayed size so it stays sharp on high resolution screens.
     profile_url = get_avatar_url(
         context,
-        size=size,
+        size=size * 2,
         user=user,
         email=email,
         default=gravatar_default,
@@ -465,4 +465,7 @@ def user_image_initials(
         "initials": initials or "",
         "profile_url": profile_url,
         "title": f"{first_name} {last_name}".strip(),
+        "size": size,
+        "font_size": round(size * 0.4),
+        "class_name": class_name,
     }

@@ -15,7 +15,7 @@
 
           {% block sb_gravatar %}
             <div class="pull-left image">
-              <img src="{% get_avatar_url user=request.user size=90 %}" class="img-circle" alt="User Image">
+              {% user_image_initials user=request.user size=45 class_name="img-circle" %}
             </div>
           {% endblock sb_gravatar %}
 

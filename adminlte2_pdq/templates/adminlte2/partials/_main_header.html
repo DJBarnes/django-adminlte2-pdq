@@ -57,7 +57,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
                               {% block user_image %}
-                                <img src="{% get_avatar_url user=request.user size=50 %}" class="user-image" alt="User Image">
+                                {% user_image_initials user=request.user size=25 class_name="user-image" %}
                               {% endblock user_image%}
 
                               {% block user_name %}
@@ -77,7 +77,7 @@
                                   {% block user_header %}
 
                                     {% block user_dropdown_image %}
-                                      <img src="{% get_avatar_url user=request.user size=180 %}" class="img-circle" alt="User Image">
+                                      {% user_image_initials user=request.user size=90 class_name="img-circle" %}
                                     {% endblock user_dropdown_image %}
 
                                     {% block user_dropdown_member_since_wrapper %}

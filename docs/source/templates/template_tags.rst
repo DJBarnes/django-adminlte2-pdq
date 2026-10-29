@@ -273,26 +273,31 @@ This function will get the profile email in this order:
 user_image_initials
 ===================
 
-Show user gravatar, initials, or gravatar default mystery person as the image
+Show the user's Gravatar image, or their initials when they don't have a
+Gravatar, or Gravatar's default person image when there are no initials.
 
-Attempt to use/create initials of the user in the style of a profile picture.
-Overlay with the user's gravatar image or a blank one if the user does not
-exist. If initials can not be created, change the gravatar default from blank
-to the standard mystery person.
+The initials are shown on a gray background, covered by the user's Gravatar
+image. For users without a Gravatar, Gravatar returns a transparent image, so
+the initials show through. The initials come from the first and last name.
+
+The package's header, user menu, and sidebar user panel use this tag for the
+user's image.
 
 If the user is passed in, the user will be used for the base information.
 Information can be overridden by other keyword arguments.
 If the user is NOT passed in, keyword arguments for each piece of information
 should be used.
 
-:param context: Context for the template.
 :param user: The user to use for information.
 :param email: The email to use for information.
 :param initials: The initials to use in place of generated ones.
 :param first_name: The first name to use in place of the users.
 :param last_name: The last name to use in place of the users.
-:param size: Size if it needs to be overridden. Default is 25x25.
-:return: Context for template.
+:param size: Width and height of the image in pixels. Defaults to 25. The
+    Gravatar image is requested at twice this size, so it stays sharp on high
+    resolution screens.
+:param class_name: CSS classes to add to the image, such as ``img-circle``
+    for a round image.
 
 :Type: ``inclusive``
 :Template: ``adminlte2/partials/_user_image_initials.html``
@@ -301,5 +306,5 @@ should be used.
 
 .. code:: html+django
 
-    {% user_image_initials %}
+    {% user_image_initials user=request.user size=45 class_name="img-circle" %}
 

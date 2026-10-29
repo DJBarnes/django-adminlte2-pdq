@@ -782,7 +782,7 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("D B", rendered_template)
@@ -805,7 +805,7 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertIn(
-                "https://www.gravatar.com/avatar/5d60d4e28066df254d5452f92c910092?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/5d60d4e28066df254d5452f92c910092?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("J2D", rendered_template)
@@ -827,11 +827,11 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertNotIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn(
-                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("J D", rendered_template)
@@ -851,11 +851,11 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertNotIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn(
-                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("J", rendered_template)
@@ -875,11 +875,11 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertNotIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn(
-                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("J", rendered_template)
@@ -897,11 +897,11 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertNotIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn(
-                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("D", rendered_template)
@@ -921,11 +921,11 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertNotIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn(
-                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn("J2D", rendered_template)
@@ -945,11 +945,27 @@ class TemplateTagTestCase(TestCase):
             rendered_template = template_to_render.render(context)
 
             self.assertNotIn(
-                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=25&amp;d=blank",
+                "https://www.gravatar.com/avatar/174c8d8bad97a893e3d3764912c9868d?s=50&amp;d=blank",
                 rendered_template,
             )
             self.assertIn(
-                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=25&amp;d=mp",
+                "https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?s=50&amp;d=mp",
                 rendered_template,
             )
             self.assertNotIn("title=", rendered_template)
+
+        with self.subTest("Verify user image initials sets the size and classes"):
+            template_to_render = Template(
+                "{% load adminlte_tags %}"
+                "{% user_image_initials first_name='John' last_name='Doe' size=90 class_name='img-circle' %}"
+            )
+
+            rendered_template = template_to_render.render(Context({}))
+
+            self.assertIn('class="user-image-replacement-div img-circle"', rendered_template)
+            self.assertIn("width: 90px; height: 90px; font-size: 36px;", rendered_template)
+            # The image is requested at twice the displayed size.
+            self.assertIn("?s=180&amp;d=blank", rendered_template)
+            self.assertIn("J D", rendered_template)
+            self.assertIn('aria-label="John Doe"', rendered_template)
+            self.assertIn('alt=""', rendered_template)
