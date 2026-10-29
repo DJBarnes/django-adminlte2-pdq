@@ -28,7 +28,7 @@ from pathlib import Path
 # region Color math
 
 
-def _hex_to_rgb(value):
+def hex_to_rgb(value):
     """Convert "#rrggbb" or "#rgb" to a tuple of floats in the 0-1 range."""
     value = value.lstrip("#")
     if len(value) == 3:
@@ -36,7 +36,7 @@ def _hex_to_rgb(value):
     return tuple(int(value[index : index + 2], 16) / 255 for index in (0, 2, 4))
 
 
-def _rgb_to_hex(rgb):
+def rgb_to_hex(rgb):
     """Convert a tuple of floats in the 0-1 range to "#rrggbb"."""
     # Round halves up, as LESS does. Python's round() rounds halves to even.
     return "#" + "".join(f"{int(channel * 255 + 0.5):02x}" for channel in rgb)
@@ -44,8 +44,8 @@ def _rgb_to_hex(rgb):
 
 def darken(value, amount):
     """Darken a color the way LESS ``darken()`` does: reduce HSL lightness by ``amount`` (0-1)."""
-    hue, lightness, saturation = colorsys.rgb_to_hls(*_hex_to_rgb(value))
-    return _rgb_to_hex(colorsys.hls_to_rgb(hue, max(0.0, lightness - amount), saturation))
+    hue, lightness, saturation = colorsys.rgb_to_hls(*hex_to_rgb(value))
+    return rgb_to_hex(colorsys.hls_to_rgb(hue, max(0.0, lightness - amount), saturation))
 
 
 def light_tint(value, hover=False):
@@ -55,9 +55,9 @@ def light_tint(value, hover=False):
     saturation 20% plus 40% of its own), so colors that share a hue, such as navy, blue, and primary, stay apart.
     The hover tint is 8% darker.
     """
-    hue, lightness, saturation = colorsys.rgb_to_hls(*_hex_to_rgb(value))
+    hue, lightness, saturation = colorsys.rgb_to_hls(*hex_to_rgb(value))
     tint_lightness = 0.78 + 0.10 * lightness - (0.08 if hover else 0)
-    return _rgb_to_hex(colorsys.hls_to_rgb(hue, tint_lightness, 0.20 + 0.40 * saturation))
+    return rgb_to_hex(colorsys.hls_to_rgb(hue, tint_lightness, 0.20 + 0.40 * saturation))
 
 
 def relative_luminance(value):
@@ -66,7 +66,7 @@ def relative_luminance(value):
     def channel(component):
         return component / 12.92 if component <= 0.03928 else ((component + 0.055) / 1.055) ** 2.4
 
-    red, green, blue = (channel(component) for component in _hex_to_rgb(value))
+    red, green, blue = (channel(component) for component in hex_to_rgb(value))
     return 0.2126 * red + 0.7152 * green + 0.0722 * blue
 
 

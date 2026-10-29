@@ -83,14 +83,14 @@ def dark_tint(value, hover=False):
     lighter. Both are darkened as needed so the soft text keeps TINT_MIN_CONTRAST on the hover tint, which keeps a
     visible hover step for bright colors such as teal and lime.
     """
-    hue, lightness, saturation = colorsys.rgb_to_hls(*color_css._hex_to_rgb(value))
+    hue, lightness, saturation = colorsys.rgb_to_hls(*color_css.hex_to_rgb(value))
     saturation = min(saturation, 0.75)
     base_lightness = 0.15 + 0.20 * lightness
     if saturation < 0.1:
         base_lightness = max(base_lightness, 0.21)
 
     def color(tint_lightness):
-        return color_css._rgb_to_hex(colorsys.hls_to_rgb(hue, tint_lightness, saturation))
+        return color_css.rgb_to_hex(colorsys.hls_to_rgb(hue, tint_lightness, saturation))
 
     while _contrast(color(base_lightness + 0.05), DARK_TEXT_SOFT) < TINT_MIN_CONTRAST:
         base_lightness -= 0.005
