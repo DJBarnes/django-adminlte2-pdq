@@ -26,7 +26,6 @@ class ConfigurationMiddlewareTestCase(TestCase):
     Because we can easily test those.
     """
 
-
     @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=False, ADMINLTE2_USE_STRICT_POLICY=False)
     def test_login_required_and_strict_policy_constant_false_when_setting_false(self):
         """Test that the LOGIN_REQUIRED and STRICT_POLICY constant is set correctly from settings.py"""

@@ -121,7 +121,6 @@ class Command(BaseCommand):
 
         current_content_type = ""
         for perm in all_permissions:
-
             # Check to see if we should skip the built-in default perms
             if not include_default_types and perm["codename"].startswith(self.DEFAULT_PERMS):
                 continue

@@ -34,7 +34,6 @@ class LoginModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -59,7 +58,6 @@ class LoginModeMixin:
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -83,7 +81,6 @@ class LoginModeMixin:
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -113,7 +110,6 @@ class LoginModeMixin:
         # Invalid mixin used for Login Required mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -133,7 +129,6 @@ class LoginModeMixin:
         # Invalid mixin used for Login Required mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -150,7 +145,6 @@ class LoginModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -175,7 +169,6 @@ class LoginModeMixin:
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -208,7 +201,6 @@ class LoginModeMixin:
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -236,7 +228,6 @@ class LoginModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -264,7 +255,6 @@ class LoginModeMixin:
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -294,7 +284,6 @@ class LoginModeMixin:
         # Should succeed and load as expected for anyone with expected perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -393,7 +382,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -421,7 +409,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # However, should raise a "redundant whitelist" warning.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -464,7 +451,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -502,7 +488,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -547,7 +532,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -591,7 +575,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -632,7 +615,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -674,7 +656,6 @@ class TestLoginRequiredAuthenticationMixinsWithLoginWhitelist(BaseMixinTextCase,
         # However, should raise a "ineffective whitelist" warning.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(

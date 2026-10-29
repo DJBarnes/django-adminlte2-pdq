@@ -37,7 +37,6 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -62,7 +61,6 @@ class StrictModeMixin:
         # Should fail and redirect to home with a warning message, for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -105,7 +103,6 @@ class StrictModeMixin:
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -134,7 +131,6 @@ class StrictModeMixin:
         # Invalid decorator used for Strict mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -151,7 +147,6 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -175,7 +170,6 @@ class StrictModeMixin:
         # Should succeed and load as expected for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -203,7 +197,6 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -228,7 +221,6 @@ class StrictModeMixin:
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -261,7 +253,6 @@ class StrictModeMixin:
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -289,7 +280,6 @@ class StrictModeMixin:
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -317,7 +307,6 @@ class StrictModeMixin:
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -347,7 +336,6 @@ class StrictModeMixin:
         # Should succeed and load as expected for anyone with full perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -436,7 +424,6 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase, StrictModeMixin)
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 response = self.assertGetResponse(
                     # View setup.
                     "adminlte2_pdq_tests:function-standard",
@@ -460,7 +447,6 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase, StrictModeMixin)
         # Should fail and redirect to home with a warning message, for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -531,7 +517,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # But then since we're also not logged in, it redirects to login required page.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -572,7 +557,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to home with a warning message, for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -621,7 +605,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # However, should raise a "ineffective whitelist" warning.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -662,7 +645,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -700,7 +682,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -745,7 +726,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -789,7 +769,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -830,7 +809,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -872,7 +850,6 @@ class TestStrictAuthenticationDecoratorsWithLoginWhitelist(BaseDecoratorTestCase
         # However, should raise a "ineffective whitelist" warning.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -953,7 +930,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -978,7 +954,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # Should succeed and load as expected for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -1005,7 +980,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -1043,7 +1017,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # However, should raise a "redundant whitelist" warning.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -1088,7 +1061,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # All users should raise the same error.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -1109,7 +1081,6 @@ class TestStrictAuthenticationDecoratorsWithPermWhitelist(BaseDecoratorTestCase,
         # All users should raise the same error.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -1163,7 +1134,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # All users are in both login and permission whitelist, so they should handle all the same.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"Running as {user_str} user"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -1187,7 +1157,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # All users are in both login and permission whitelist, so they should handle all the same.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -1226,7 +1195,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # All users are in both login and permission whitelist, so they should handle all the same.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     # Verify we get the expected page.
                     self.assertGetResponse(
@@ -1256,7 +1224,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # Thus they will see the login page.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -1291,7 +1258,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # All logged in users will be able to get to the view as intended.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -1332,7 +1298,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # All users are in both login and permission whitelist, so they should handle all the same.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -1352,7 +1317,6 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
         # All users are in both login and permission whitelist, so they should handle all the same.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -1411,7 +1375,6 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -1446,7 +1409,6 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
             [self.full_group_user, "user with full groups"],
         ):
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -1478,7 +1440,6 @@ class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
             [self.super_user, "superuser"],
         ):
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.

@@ -491,7 +491,6 @@ def is_allowed_node(user, node):
 
     # Otherwise if any permission values exist, user needs to pass a permission check.
     elif one_of_permissions or full_permissions:
-
         # TODO: Fairly certain that this handles the way we want. Starts out False and only becomes True if things pass.
         # Should handle if only "one of perms" or "full perms" is set.
         # Meaning it is not required that both pass. Only the one that is set.
@@ -598,10 +597,8 @@ def check_for_one_permission_in_node_list(user, nodes):
     allowed = False
 
     if nodes:
-
         # Handle for each node in our set of nodes.
         for node in nodes:
-
             # Check children of this node, if any.
             child_nodes = node.get("nodes")
             if child_nodes:
@@ -728,10 +725,8 @@ def check_for_node_that_matches_request_path(request, nodes):
     match = False
 
     if nodes:
-
         # Handle for each node in our set of nodes.
         for node in nodes:
-
             # Check children of this node, if any.
             child_nodes = node.get("nodes")
             if child_nodes:

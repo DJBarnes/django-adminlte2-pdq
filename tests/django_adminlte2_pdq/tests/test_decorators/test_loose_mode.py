@@ -49,7 +49,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -73,7 +72,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Invalid decorator used for loose mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -142,7 +140,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Conflict between decorator and whitelist for login required. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -159,7 +156,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Invalid decorator used for loose mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"Running as {user_str} user"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -176,7 +172,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -201,7 +196,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -234,7 +228,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -262,7 +255,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -290,7 +282,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -320,7 +311,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         # Should succeed and load as expected for anyone with at least all expected perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -348,7 +338,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         """
 
         with self.subTest("As user with failing perm check"):
-
             # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -384,7 +373,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with passing perm check"):
-
             # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -423,7 +411,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
         """
 
         with self.subTest("As user with failing perm check"):
-
             # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -459,7 +446,6 @@ class TestLooseAuthenticationDecorators(BaseDecoratorTestCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with passing perm check"):
-
             # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.

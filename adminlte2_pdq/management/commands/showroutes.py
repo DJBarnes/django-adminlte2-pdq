@@ -163,7 +163,6 @@ class Command(BaseCommand):
         # Display parsed url data.
         current_app_name = ""
         for url_dict in all_urls:
-
             # Handle if user does not want to see the admin routes
             if hide_admin_routes and url_dict["app_name"] == "admin":
                 continue

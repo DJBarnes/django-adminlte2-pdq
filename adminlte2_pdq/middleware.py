@@ -101,7 +101,6 @@ class AuthMiddleware:
 
         # Handle if an invalid url was entered.
         if view_data["resolver"] is None:
-
             # Verify that the path is not for static, media, favicon, or part of whitelist, in which case a 404 is okay.
             # Everything else should be an actual view. So, a redirect to the home page makes sense.
             if (
@@ -221,7 +220,6 @@ class AuthMiddleware:
 
         # Handle if using login_required decorator within STRICT mode or Login Required mode.
         if (STRICT_POLICY or LOGIN_REQUIRED) and view_decorator_name == "login_required":
-
             # Determine some error message values based on mode.
             if STRICT_POLICY:
                 mode_type = "STRICT"
@@ -421,7 +419,6 @@ class AuthMiddleware:
             # and not login required
             and not view_data["login_required"]
         ):
-
             view_name = view_data["view_name"]
             view_perm_type = view_data["view_perm_type"]
 

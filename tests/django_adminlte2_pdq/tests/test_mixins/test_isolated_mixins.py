@@ -366,7 +366,6 @@ class TestIsolatedMixins(TestCase):
                 return HttpResponse("foobar")
 
         with self.assertRaises(ImproperlyConfigured):
-
             request = self.factory.get("/rand")
             setattr(request, "user", self.full_user)
             TestView.as_view()(request)

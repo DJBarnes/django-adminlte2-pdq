@@ -125,7 +125,6 @@ class Command(BaseCommand):
 
             # Only proceed if dealing with actual url pattern.
             if isinstance(url, URLPattern):
-
                 # Try-catch to attempt to find views with decorators/mixins from this package.
                 try:
                     # Parse the url data to import project views and then parse data about them.
@@ -215,7 +214,6 @@ class Command(BaseCommand):
 
             # Only proceed if dealing with actual url pattern.
             if isinstance(url, URLPattern):
-
                 pattern = "".join(acc + [str(url.pattern)])
 
                 if len(pattern) == 0 or pattern[-1] != "/":
@@ -311,7 +309,6 @@ class Command(BaseCommand):
 
             # Process output for this subset of urls.
             for url_dict in url_set:
-
                 line = ""
                 if include_app_names:
                     line += "| {app_name:{app_name_len}} "

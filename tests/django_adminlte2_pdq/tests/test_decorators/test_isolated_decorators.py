@@ -243,7 +243,6 @@ class TestIsolatedDecorators(TestCase):
             return HttpResponse("foobar")
 
         with self.assertRaises(PermissionDenied):
-
             request = self.factory.get("/rand")
             setattr(request, "user", self.none_user)
             response = a_view(request)
@@ -258,7 +257,6 @@ class TestIsolatedDecorators(TestCase):
         """Test permission_required_one raises error when permission type is unknown type"""
 
         with self.assertRaises(TypeError) as cm:
-
             # Create view with a permission required one of the built-in "max" function, which is NOT a permission.
             @permission_required_one(max, raise_exception=True)
             def a_view(request):
@@ -349,7 +347,6 @@ class TestIsolatedDecorators(TestCase):
             return HttpResponse("foobar")
 
         with self.assertRaises(PermissionDenied):
-
             request = self.factory.get("/rand")
             setattr(request, "user", self.none_user)
             response = a_view(request)

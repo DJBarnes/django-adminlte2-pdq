@@ -1,7 +1,6 @@
 """Testing Utilities."""
 
 
-
 def valid_string_hook_function(arg1, context, kwarg1="kwarg1"):
     """A valid hook function used in testing"""
     return "foobar " + arg1 + " " + kwarg1

@@ -34,7 +34,6 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # n
 
         # Should fail and redirect to login for anyone unauthenticated.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -77,7 +76,6 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # n
 
         # Should succeed and load as expected.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -122,7 +120,6 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # n
 
         # Should fail and redirect to login for anyone unauthenticated.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -142,7 +139,6 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # n
 
         # Should succeed and load as expected.
         with self.subTest("As default standard user"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -167,7 +163,6 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # n
 
         # Should succeed and load as expected.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -187,7 +182,6 @@ class Test_LoginRequiredMode_AppWideWhitelistSettings(IntegrationTestCase):  # n
 
         # Should succeed and load as expected.
         with self.subTest("As default standard user"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -223,7 +217,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
 
         # Should fail and redirect to login for anyone unauthenticated.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -243,7 +236,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
 
         # Should fail and redirect to home.
         with self.subTest("As default standard user"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -270,7 +262,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
         # Should fail and redirect to home.
         with self.subTest("As Anonymous User"):
             with warns(Warning) as _warning_info:
-
                 # Should fail and redirect to home. But then home requires login so it still redirects to login.
                 self.assertGetResponse(
                     # View setup.
@@ -291,7 +282,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
         # Should fail and redirect to home.
         with self.subTest("As default standard user"):
             with warns(Warning) as _warning_info:
-
                 # Verify we get the expected page.
                 self.assertGetResponse(
                     # View setup.
@@ -317,7 +307,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
 
         # Should fail and redirect to login for anyone unauthenticated.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -337,7 +326,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
 
         # Should succeed and load as expected.
         with self.subTest("As default standard user"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -362,7 +350,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
 
         # Should succeed and load as expected.
         with self.subTest("As Anonymous User"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.
@@ -382,7 +369,6 @@ class Test_StrictMode_AppWideWhitelistSettings(IntegrationTestCase):  # noqa: N8
 
         # Should succeed and load as expected.
         with self.subTest("As default standard user"):
-
             # Verify we get the expected page.
             self.assertGetResponse(
                 # View setup.

@@ -31,10 +31,8 @@ class _AdminMenu:
             context["available_apps"] = site.get_app_list(request)
 
         for app in context["available_apps"]:
-
             model_nodes = []
             for model in app["models"]:
-
                 if context["user"].is_staff or context["user"].is_superuser:
                     # Initialize to none. If the user has a valid url endpoint they
                     # can access from permissions, the url will get a value.

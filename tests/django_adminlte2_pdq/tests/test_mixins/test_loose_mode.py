@@ -56,7 +56,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -80,7 +79,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Invalid decorator used for loose mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -96,7 +94,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
 
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -121,7 +118,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -150,7 +146,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Conflict between decorator and whitelist for login required. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -167,7 +162,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Invalid decorator used for loose mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -184,7 +178,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -209,7 +202,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should fail and redirect to "home" page for anyone missing perms.
         for user_instance, user_str in self.user_list__no_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -242,7 +234,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             *self.user_list__full_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -270,7 +261,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -298,7 +288,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             *self.user_list__partial_permissions,
         ):
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -328,7 +317,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         # Should succeed and load as expected for anyone with expected perms.
         for user_instance, user_str in self.user_list__full_permissions:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -356,7 +344,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         """
 
         with self.subTest("As user with failing perm check"):
-
             # Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -392,7 +379,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with passing perm check"):
-
             #  Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -431,7 +417,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
         """
 
         with self.subTest("As user with failing perm check"):
-
             #  Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -467,7 +452,6 @@ class TestLooseAuthenticationMixins(BaseMixinTextCase):
             self.assertAdminPdqData(response, is_empty=True)
 
         with self.subTest("As user with passing perm check"):
-
             #  Verify we get the expected page.
             response = self.assertGetResponse(
                 # View setup.
@@ -549,7 +533,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Invalid mixin used for Loose mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -566,7 +549,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -591,7 +573,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -620,7 +601,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Invalid mixin used for Loose mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
             with self.subTest(f"As {user_str}"):
-
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
                         # View setup.
@@ -637,7 +617,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -676,7 +655,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -719,7 +697,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -758,7 +735,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
                     response = self.assertGetResponse(
@@ -845,7 +821,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
@@ -869,7 +844,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 # Verify we get the expected page.
                 with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
@@ -901,7 +875,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(
@@ -925,7 +898,6 @@ class TestLooseAutAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCa
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
             with self.subTest(f"As {user_str}"):
-
                 #  Verify we get the expected page.
                 with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
                     self.assertGetResponse(

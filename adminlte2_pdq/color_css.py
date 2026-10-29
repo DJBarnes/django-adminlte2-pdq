@@ -344,17 +344,23 @@ def _component_rules(name, color=None):
 
     # Background, background-active, and text utilities.
     if not _ships("bg", name):
-        yield "background", _rule(
-            f".bg-{name}",
-            [f"color: {text} !important", f"background-color: {base} !important", f"border-color: {border}"],
+        yield (
+            "background",
+            _rule(
+                f".bg-{name}",
+                [f"color: {text} !important", f"background-color: {base} !important", f"border-color: {border}"],
+            ),
         )
     elif name in ADMINLTE_PALETTE and color.text != ADMINLTE_BG_TEXT.get(name, TEXT_LIGHT):
         # AdminLTE's text color on this background is not readable. Override it.
         yield "background", _rule([f".bg-{name}", f".bg-{name}-active"], [f"color: {text} !important"])
     if not _ships("bg-active", name):
-        yield "background", _rule(
-            f".bg-{name}-active",
-            [f"color: {text} !important", f"background-color: {active} !important"],
+        yield (
+            "background",
+            _rule(
+                f".bg-{name}-active",
+                [f"color: {text} !important", f"background-color: {active} !important"],
+            ),
         )
     if not _ships("text", name):
         # `.text-default` uses the default text color; the default base is too light to read.
@@ -362,16 +368,22 @@ def _component_rules(name, color=None):
         yield "text", _rule(f".text-{name}", [f"color: {text_value} !important"])
 
     # Code tint.
-    yield "code", _rule(
-        f"code.code-{name}",
-        [f"color: {light_accent_text}", f"background-color: {light_accent}"],
+    yield (
+        "code",
+        _rule(
+            f"code.code-{name}",
+            [f"color: {light_accent_text}", f"background-color: {light_accent}"],
+        ),
     )
 
     # Alert.
     if not _ships("alert", name):
-        yield "alert", _rule(
-            f".alert.alert-{name}",
-            [f"color: {text}", f"background-color: {base}", f"border-color: {hover}"],
+        yield (
+            "alert",
+            _rule(
+                f".alert.alert-{name}",
+                [f"color: {text}", f"background-color: {base}", f"border-color: {hover}"],
+            ),
         )
         if color.has_dark_text:
             yield "alert", _rule(f".alert.alert-{name} a", [f"color: {text}"])
@@ -382,20 +394,29 @@ def _component_rules(name, color=None):
     if not _ships("box", name):
         yield "box", _rule(f".box.box-{name}", [f"border-top-color: {base}"])
         yield "box", _rule(f".box.box-solid.box-{name}", [f"border: 1px solid {base}"])
-        yield "box", _rule(
-            f".box.box-solid.box-{name} > .box-header",
-            [f"color: {text}", f"background: {base}", f"background-color: {base}"],
+        yield (
+            "box",
+            _rule(
+                f".box.box-solid.box-{name} > .box-header",
+                [f"color: {text}", f"background: {base}", f"background-color: {base}"],
+            ),
         )
-        yield "box", _rule(
-            [f".box.box-solid.box-{name} > .box-header a", f".box.box-solid.box-{name} > .box-header .btn"],
-            [f"color: {text}"],
+        yield (
+            "box",
+            _rule(
+                [f".box.box-solid.box-{name} > .box-header a", f".box.box-solid.box-{name} > .box-header .btn"],
+                [f"color: {text}"],
+            ),
         )
 
     # Button. States follow Bootstrap's button-variant mixin, with AdminLTE's colors.
     if not _ships("btn", name):
-        yield "button", _rule(
-            f".btn.btn-{name}",
-            [f"color: {text}", f"background-color: {base}", f"border-color: {hover}"],
+        yield (
+            "button",
+            _rule(
+                f".btn.btn-{name}",
+                [f"color: {text}", f"background-color: {base}", f"border-color: {hover}"],
+            ),
         )
         state_selectors = [
             f".btn.btn-{name}:focus",
@@ -406,104 +427,137 @@ def _component_rules(name, color=None):
             f".btn.btn-{name}.active",
             f".open > .dropdown-toggle.btn.btn-{name}",
         ]
-        yield "button", _rule(
-            state_selectors,
-            [f"color: {text}", f"background-color: {hover}", f"border-color: {border}"],
+        yield (
+            "button",
+            _rule(
+                state_selectors,
+                [f"color: {text}", f"background-color: {hover}", f"border-color: {border}"],
+            ),
         )
-        yield "button", _rule(
-            [
-                f".btn.btn-{name}.disabled",
-                f".btn.btn-{name}[disabled]",
-                f"fieldset[disabled] .btn.btn-{name}",
-                f".btn.btn-{name}.disabled:hover",
-                f".btn.btn-{name}[disabled]:hover",
-                f"fieldset[disabled] .btn.btn-{name}:hover",
-                f".btn.btn-{name}.disabled:focus",
-                f".btn.btn-{name}[disabled]:focus",
-                f"fieldset[disabled] .btn.btn-{name}:focus",
-            ],
-            [f"background-color: {base}", f"border-color: {hover}"],
+        yield (
+            "button",
+            _rule(
+                [
+                    f".btn.btn-{name}.disabled",
+                    f".btn.btn-{name}[disabled]",
+                    f"fieldset[disabled] .btn.btn-{name}",
+                    f".btn.btn-{name}.disabled:hover",
+                    f".btn.btn-{name}[disabled]:hover",
+                    f"fieldset[disabled] .btn.btn-{name}:hover",
+                    f".btn.btn-{name}.disabled:focus",
+                    f".btn.btn-{name}[disabled]:focus",
+                    f"fieldset[disabled] .btn.btn-{name}:focus",
+                ],
+                [f"background-color: {base}", f"border-color: {hover}"],
+            ),
         )
         yield "button", _rule(f".btn.btn-{name} .badge", [f"color: {base}", f"background-color: {text}"])
         # Keep the button's own colors inside solid box headers, which recolor every `.btn`.
         yield "button", _rule(f".box.box-solid > .box-header .btn.btn-{name}", [f"color: {text}"])
-        yield "button", _rule(
-            [
-                f".box.box-solid > .box-header .btn.btn-{name}:hover",
-                f".box.box-solid > .box-header .btn.btn-{name}:focus",
-            ],
-            [f"background-color: {hover}"],
+        yield (
+            "button",
+            _rule(
+                [
+                    f".box.box-solid > .box-header .btn.btn-{name}:hover",
+                    f".box.box-solid > .box-header .btn.btn-{name}:focus",
+                ],
+                [f"background-color: {hover}"],
+            ),
         )
     elif name in BOOTSTRAP_CONTEXTUAL:
         # AdminLTE darkens every `.btn` in a solid box header on hover, which hides the hover
         # color of its own colored buttons. Restore it.
         yield "button", _rule(f".box.box-solid > .box-header .btn.btn-{name}", [f"color: {text}"])
-        yield "button", _rule(
-            [
-                f".box.box-solid > .box-header .btn.btn-{name}:hover",
-                f".box.box-solid > .box-header .btn.btn-{name}:focus",
-            ],
-            [f"background-color: {hover}"],
+        yield (
+            "button",
+            _rule(
+                [
+                    f".box.box-solid > .box-header .btn.btn-{name}:hover",
+                    f".box.box-solid > .box-header .btn.btn-{name}:focus",
+                ],
+                [f"background-color: {hover}"],
+            ),
         )
 
     # Callout.
     if not _ships("callout", name):
-        yield "callout", _rule(
-            f".callout.callout-{name}",
-            [f"color: {text}", f"background-color: {base}", f"border-color: {border}"],
+        yield (
+            "callout",
+            _rule(
+                f".callout.callout-{name}",
+                [f"color: {text}", f"background-color: {base}", f"border-color: {border}"],
+            ),
         )
         if color.has_dark_text:
             yield "callout", _rule(f".callout.callout-{name} a", [f"color: {text}"])
 
     # Carousel. `.carousel-{c}` colors the controls, caption, and indicators.
-    yield "carousel", _rule(
-        [
-            f".carousel.bg-{name} .carousel-indicators li:active",
-            f".carousel.bg-{name} .carousel-indicators li:focus",
-            f".carousel.bg-{name} .carousel-indicators li:hover",
-        ],
-        [f"background-color: {border}"],
+    yield (
+        "carousel",
+        _rule(
+            [
+                f".carousel.bg-{name} .carousel-indicators li:active",
+                f".carousel.bg-{name} .carousel-indicators li:focus",
+                f".carousel.bg-{name} .carousel-indicators li:hover",
+            ],
+            [f"background-color: {border}"],
+        ),
     )
-    yield "carousel", _rule(
-        [
-            f".carousel.carousel-{name} .carousel-control",
-            f".carousel.carousel-{name} .carousel-caption",
-            f".carousel.carousel-{name} .carousel-indicators li",
-        ],
-        [f"color: {base}", f"border-color: {base}"],
+    yield (
+        "carousel",
+        _rule(
+            [
+                f".carousel.carousel-{name} .carousel-control",
+                f".carousel.carousel-{name} .carousel-caption",
+                f".carousel.carousel-{name} .carousel-indicators li",
+            ],
+            [f"color: {base}", f"border-color: {base}"],
+        ),
     )
-    yield "carousel", _rule(
-        [
-            f".carousel.carousel-{name} .carousel-indicators li.active",
-            f".carousel.carousel-{name} .carousel-indicators li:active",
-        ],
-        [f"background-color: {base}", f"border-color: {border}"],
+    yield (
+        "carousel",
+        _rule(
+            [
+                f".carousel.carousel-{name} .carousel-indicators li.active",
+                f".carousel.carousel-{name} .carousel-indicators li:active",
+            ],
+            [f"background-color: {base}", f"border-color: {border}"],
+        ),
     )
-    yield "carousel", _rule(
-        [
-            f".carousel.carousel-{name} .carousel-indicators li:focus",
-            f".carousel.carousel-{name} .carousel-indicators li:hover",
-        ],
-        [f"background-color: {border}", f"border-color: {border}"],
+    yield (
+        "carousel",
+        _rule(
+            [
+                f".carousel.carousel-{name} .carousel-indicators li:focus",
+                f".carousel.carousel-{name} .carousel-indicators li:hover",
+            ],
+            [f"background-color: {border}", f"border-color: {border}"],
+        ),
     )
 
     # Dropdown menu.
     menu = f".dropdown-menu.dropdown-menu-{name}"
-    yield "dropdown", _rule(
-        [menu, f"{menu} li > a", f"{menu} li > input", f"{menu} li > button"],
-        [f"color: {text}", f"background-color: {base}", f"border-color: {border}"],
+    yield (
+        "dropdown",
+        _rule(
+            [menu, f"{menu} li > a", f"{menu} li > input", f"{menu} li > button"],
+            [f"color: {text}", f"background-color: {base}", f"border-color: {border}"],
+        ),
     )
-    yield "dropdown", _rule(
-        [
-            f"{menu} li > a:hover",
-            f"{menu} li > a:focus",
-            f"{menu} li > input:hover",
-            f"{menu} li > input:focus",
-            f"{menu} li > button:hover",
-            f"{menu} li > button:focus",
-            f"{menu} .active > a",
-        ],
-        [f"color: {text}", f"background-color: {hover}"],
+    yield (
+        "dropdown",
+        _rule(
+            [
+                f"{menu} li > a:hover",
+                f"{menu} li > a:focus",
+                f"{menu} li > input:hover",
+                f"{menu} li > input:focus",
+                f"{menu} li > button:hover",
+                f"{menu} li > button:focus",
+                f"{menu} .active > a",
+            ],
+            [f"color: {text}", f"background-color: {hover}"],
+        ),
     )
     yield "dropdown", _rule(f"{menu} li.divider", [f"background-color: {border}", f"border-color: {border}"])
 
@@ -515,25 +569,34 @@ def _component_rules(name, color=None):
     if not _ships("label", name):
         yield "label", _rule(f".label.label-{name}", [f"color: {text}", f"background-color: {base}"])
         if color.has_dark_text:
-            yield "label", _rule(
-                [f"a.label.label-{name}:hover", f"a.label.label-{name}:focus"],
-                [f"color: {text}"],
+            yield (
+                "label",
+                _rule(
+                    [f"a.label.label-{name}:hover", f"a.label.label-{name}:focus"],
+                    [f"color: {text}"],
+                ),
             )
 
     # Modal.
     if not _ships("modal", name):
         modal = f".modal.modal-{name}"
-        yield "modal", _rule(
-            [f"{modal} .modal-header", f"{modal} .modal-footer", f"{modal} .modal-header .alert-{name}"],
-            [f"color: {text}", f"background-color: {active}", f"border-color: {border}"],
+        yield (
+            "modal",
+            _rule(
+                [f"{modal} .modal-header", f"{modal} .modal-footer", f"{modal} .modal-header .alert-{name}"],
+                [f"color: {text}", f"background-color: {active}", f"border-color: {border}"],
+            ),
         )
         yield "modal", _rule(f"{modal} .modal-body", [f"color: {text}", f"background-color: {base}"])
 
     # Small box.
     if color.has_dark_text:
-        yield "small-box", _rule(
-            [f".small-box.bg-{name} > .small-box-footer", f".small-box.bg-{name} > .small-box-footer:hover"],
-            [f"color: {text}"],
+        yield (
+            "small-box",
+            _rule(
+                [f".small-box.bg-{name} > .small-box-footer", f".small-box.bg-{name} > .small-box-footer:hover"],
+                [f"color: {text}"],
+            ),
         )
     if color.has_dark_background:
         yield "small-box", _rule(f".small-box.bg-{name} .icon", ["color: rgba(255, 255, 255, 0.15)"])
@@ -542,56 +605,88 @@ def _component_rules(name, color=None):
     # Table rows and cells. Same structure as Bootstrap's contextual table classes.
     # Header and footer rows take the color itself. This includes Bootstrap's contextual rows, which Bootstrap draws in
     # the same pale tint as body rows, so that every color's header and footer look alike.
-    yield "table", _rule(
-        [f".table > {section} > tr > {cell}.{name}" for section in ("thead", "tfoot") for cell in ("td", "th")]
-        + [f".table > {section} > tr.{name} > {cell}" for section in ("thead", "tfoot") for cell in ("td", "th")],
-        [f"color: {text}", f"background-color: {base}"],
+    yield (
+        "table",
+        _rule(
+            [f".table > {section} > tr > {cell}.{name}" for section in ("thead", "tfoot") for cell in ("td", "th")]
+            + [f".table > {section} > tr.{name} > {cell}" for section in ("thead", "tfoot") for cell in ("td", "th")],
+            [f"color: {text}", f"background-color: {base}"],
+        ),
     )
     if not _ships("table-row", name):
-        yield "table", _rule(
-            [f".table > tbody > tr > {cell}.{name}" for cell in ("td", "th")]
-            + [f".table > tbody > tr.{name} > {cell}" for cell in ("td", "th")],
-            ["color: var(--pdq-table-body-text)", f"background-color: {light_accent}"],
+        yield (
+            "table",
+            _rule(
+                [f".table > tbody > tr > {cell}.{name}" for cell in ("td", "th")]
+                + [f".table > tbody > tr.{name} > {cell}" for cell in ("td", "th")],
+                ["color: var(--pdq-table-body-text)", f"background-color: {light_accent}"],
+            ),
         )
-        yield "table", _rule(
-            [
-                f".table-hover > tbody > tr > td.{name}:hover",
-                f".table-hover > tbody > tr > th.{name}:hover",
-                f".table-hover > tbody > tr.{name}:hover > td",
-                f".table-hover > tbody > tr:hover > .{name}",
-                f".table-hover > tbody > tr.{name}:hover > th",
-            ],
-            [f"background-color: {table_hover}"],
+        yield (
+            "table",
+            _rule(
+                [
+                    f".table-hover > tbody > tr > td.{name}:hover",
+                    f".table-hover > tbody > tr > th.{name}:hover",
+                    f".table-hover > tbody > tr.{name}:hover > td",
+                    f".table-hover > tbody > tr:hover > .{name}",
+                    f".table-hover > tbody > tr.{name}:hover > th",
+                ],
+                [f"background-color: {table_hover}"],
+            ),
         )
     bordered = f".table-bordered.table-border-{name}"
-    yield "table", _rule(
-        [f"{bordered} > {section} > tr > {cell}" for section in ("thead", "tbody", "tfoot") for cell in ("th", "td")],
-        [f"border: 1px solid {light_accent}"],
+    yield (
+        "table",
+        _rule(
+            [
+                f"{bordered} > {section} > tr > {cell}"
+                for section in ("thead", "tbody", "tfoot")
+                for cell in ("th", "td")
+            ],
+            [f"border: 1px solid {light_accent}"],
+        ),
     )
-    yield "table", _rule(
-        [f"{bordered} > {section} > tr.{name} > {cell}" for section in ("thead", "tfoot") for cell in ("th", "td")]
-        + [f"{bordered} > {section} > tr > {cell}.{name}" for section in ("thead", "tfoot") for cell in ("th", "td")],
-        [f"border: 1px solid {border}"],
+    yield (
+        "table",
+        _rule(
+            [f"{bordered} > {section} > tr.{name} > {cell}" for section in ("thead", "tfoot") for cell in ("th", "td")]
+            + [
+                f"{bordered} > {section} > tr > {cell}.{name}"
+                for section in ("thead", "tfoot")
+                for cell in ("th", "td")
+            ],
+            [f"border: 1px solid {border}"],
+        ),
     )
-    yield "table", _rule(
-        [f"{bordered} > tbody > tr.{name} > {cell}" for cell in ("th", "td")]
-        + [f"{bordered} > tbody > tr > {cell}.{name}" for cell in ("th", "td")],
-        [f"border: 1px solid {base}"],
+    yield (
+        "table",
+        _rule(
+            [f"{bordered} > tbody > tr.{name} > {cell}" for cell in ("th", "td")]
+            + [f"{bordered} > tbody > tr > {cell}.{name}" for cell in ("th", "td")],
+            [f"border: 1px solid {base}"],
+        ),
     )
 
     # Tooltip. The class goes on the element with the tooltip; Bootstrap inserts the tooltip
     # right after it. The tooltip color script also copies the class onto the tooltip itself.
     for direction in ("top", "right", "bottom", "left"):
-        yield "tooltip", _rule(
-            [
-                f".tooltip-{name} + .tooltip.{direction} > .tooltip-arrow",
-                f".tooltip.tooltip-{name}.{direction} > .tooltip-arrow",
-            ],
-            [f"border-{direction}-color: {base}"],
+        yield (
+            "tooltip",
+            _rule(
+                [
+                    f".tooltip-{name} + .tooltip.{direction} > .tooltip-arrow",
+                    f".tooltip.tooltip-{name}.{direction} > .tooltip-arrow",
+                ],
+                [f"border-{direction}-color: {base}"],
+            ),
         )
-    yield "tooltip", _rule(
-        [f".tooltip-{name} + .tooltip > .tooltip-inner", f".tooltip.tooltip-{name} > .tooltip-inner"],
-        [f"color: {text}", f"background-color: {base}"],
+    yield (
+        "tooltip",
+        _rule(
+            [f".tooltip-{name} + .tooltip > .tooltip-inner", f".tooltip.tooltip-{name} > .tooltip-inner"],
+            [f"color: {text}", f"background-color: {base}"],
+        ),
     )
 
 
