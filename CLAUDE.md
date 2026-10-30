@@ -16,7 +16,7 @@ pipenv run pytest -n auto
 
 # Single file / class / test
 pipenv run pytest tests/django_adminlte2_pdq/tests/core/auth/middleware/test_strict_mode.py
-pipenv run pytest "tests/django_adminlte2_pdq/tests/core/auth/decorators/test_strict_mode.py::TestStrictAuthenticationDecorators::test__no_decorators"
+pipenv run pytest "tests/django_adminlte2_pdq/tests/core/auth/access/test_strict_mode.py::StrictModeAccessTestCase::test__strict_mode"
 
 # Tests with an HTML coverage report (written to .django_adminlte_pdq_coverage_html_report/)
 pipenv run python runtests.py --with-coverage [--less-than-100]
@@ -72,8 +72,9 @@ Some CSS under `adminlte2_pdq/static/adminlte2_pdq/css/` is generated and commit
 
 - A test Django project lives at `tests/django_adminlte2_pdq/django_test_project/` (`DJANGO_SETTINGS_MODULE = tests.django_adminlte2_pdq.django_test_project.settings`). Its `views.py`/`urls*.py` define one test view for each decorator/mixin variant, under the `adminlte2_pdq_tests:` namespace.
 - Tests are split into UI-agnostic tests, which a future base package would take, and AdminLTE 2 tests. `tests/django_adminlte2_pdq/tests/core/` holds the UI-agnostic ones (`auth/`: middleware, decorators, mixins, whitelists, system check; `menu/`: which sidebar nodes a user can see and the node helpers; `settings/`: constants), and `ui/` the AdminLTE 2 ones (`templatetags/`, `css/`, `views/`, static files). Test files are named `test_*.py`.
-- Tests use `django-expanded-test-cases` (`assertGetResponse`, `assertRedirects`, …). The decorator and mixin suites each have a `base_test_case.py` and one file per policy mode (`test_loose_mode.py`, `test_login_required_mode.py`, `test_strict_mode.py`, `test_isolated_*`). Keep the decorator and mixin suites in step with each other.
-- Middleware warnings are asserted with `pytest.warns`.
+- Tests use `django-expanded-test-cases` (`assertGetResponse`, `assertRedirects`, …).
+- Policy behavior is tested with tables of expected results: one table per policy setup, a row per kind of view or node, a column per kind of user. `core/auth/access/` holds the view access tables (outcome, warnings, and messages; each row runs for a function view and a class view), and `core/menu/` the sidebar visibility tables. `base_test_case.py` in each folder explains the cell values. Tests that don't fit a table (stacked decorators, combined mixins, production 403 handling, isolated decorator/mixin tests) are in `core/auth/decorators/` and `core/auth/mixins/`.
+- The access tables check the exact set of middleware warnings per cell (`warnings.catch_warnings`); other tests assert warnings with `pytest.warns`.
 
 ### Docs
 
