@@ -14,7 +14,7 @@ from adminlte2_pdq.constants.route_and_policy_constants import (
 )
 
 
-class ConfigurationMiddlewareTestCase(TestCase):
+class PolicyConstantsTestCase(TestCase):
     """Test that settings / constants in the project is set up correctly to use PDQ
     NOTE: Even though we are testing methods that get the LOGIN_REQUIRED and STRICT_POLICY values
     and not the constants directly, the associated constants should have the same value because in

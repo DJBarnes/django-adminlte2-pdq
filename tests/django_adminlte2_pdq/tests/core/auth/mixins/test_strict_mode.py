@@ -1658,7 +1658,7 @@ class TestStrictAutAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 @override_settings(DEBUG=True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class TestStrictAutAuthenticationMixinsWithOverlap(BaseMixinTextCase):
+class TestStrictAuthenticationMixinsWithOverlap(BaseMixinTextCase):
     """Tests for overlapping mixin use.
 
     Decorator/mixin logic should always be additive.

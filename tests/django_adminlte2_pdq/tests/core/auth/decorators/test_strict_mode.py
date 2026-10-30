@@ -1371,7 +1371,7 @@ class TestStrictAuthenticationDecoratorsWithBothWhitelists(BaseDecoratorTestCase
 @override_settings(DEBUG=True)
 @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
 @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-class TestStrictAutAuthenticationMixinsWithOverlap(BaseDecoratorTestCase):
+class TestStrictAuthenticationDecoratorsWithOverlap(BaseDecoratorTestCase):
     """Tests for overlapping decorator use.
 
     Decorator/mixin logic should always be additive.

@@ -121,7 +121,7 @@ pythonCommand = ["pipenv", "run", "python"]
 # region Testing Settings
 
 [tool.pytest.ini_options]
-python_files = ["tests.py", "tests/test_*.py"]
+python_files = ["tests.py", "test_*.py"]
 
 DJANGO_SETTINGS_MODULE = "tests.django_adminlte2_pdq.django_test_project.settings"
 pythonpath = "."

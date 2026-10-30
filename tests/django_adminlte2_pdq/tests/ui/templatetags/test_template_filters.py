@@ -18,7 +18,7 @@ from adminlte2_pdq.templatetags import adminlte_filters
 UserModel = get_user_model()
 
 
-class TemplateTagTestCase(TestCase):
+class TemplateFilterTestCase(TestCase):
     """Tests for template tags and associated helper methods."""
 
     # region Helper Logic

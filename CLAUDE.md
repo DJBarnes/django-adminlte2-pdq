@@ -15,8 +15,8 @@ Dependencies come from Pipenv: `pipenv sync --dev`. The virtualenv lives in `.ve
 pipenv run pytest -n auto
 
 # Single file / class / test
-pipenv run pytest tests/django_adminlte2_pdq/tests/test_middleware.py
-pipenv run pytest "tests/django_adminlte2_pdq/tests/test_decorators/test_strict_mode.py::TestStrictAuthenticationDecorators::test__no_decorators"
+pipenv run pytest tests/django_adminlte2_pdq/tests/core/auth/middleware/test_strict_mode.py
+pipenv run pytest "tests/django_adminlte2_pdq/tests/core/auth/decorators/test_strict_mode.py::TestStrictAuthenticationDecorators::test__no_decorators"
 
 # Tests with an HTML coverage report (written to .django_adminlte_pdq_coverage_html_report/)
 pipenv run python runtests.py --with-coverage [--less-than-100]
@@ -71,6 +71,7 @@ Some CSS under `adminlte2_pdq/static/adminlte2_pdq/css/` is generated and commit
 ### Tests
 
 - A test Django project lives at `tests/django_adminlte2_pdq/django_test_project/` (`DJANGO_SETTINGS_MODULE = tests.django_adminlte2_pdq.django_test_project.settings`). Its `views.py`/`urls*.py` define one test view for each decorator/mixin variant, under the `adminlte2_pdq_tests:` namespace.
+- Tests are split into UI-agnostic tests, which a future base package would take, and AdminLTE 2 tests. `tests/django_adminlte2_pdq/tests/core/` holds the UI-agnostic ones (`auth/`: middleware, decorators, mixins, whitelists, system check; `menu/`: which sidebar nodes a user can see and the node helpers; `settings/`: constants), and `ui/` the AdminLTE 2 ones (`templatetags/`, `css/`, `views/`, static files). Test files are named `test_*.py`.
 - Tests use `django-expanded-test-cases` (`assertGetResponse`, `assertRedirects`, …). The decorator and mixin suites each have a `base_test_case.py` and one file per policy mode (`test_loose_mode.py`, `test_login_required_mode.py`, `test_strict_mode.py`, `test_isolated_*`). Keep the decorator and mixin suites in step with each other.
 - Middleware warnings are asserted with `pytest.warns`.
 
