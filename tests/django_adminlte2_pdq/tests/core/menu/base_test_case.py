@@ -18,7 +18,7 @@ from adminlte2_pdq.templatetags import sidebar_menu
 UserModel = get_user_model()
 
 # The permissions and groups each kind of user gets. The tests' permissions are auth.add_foo and auth.change_foo.
-# Group add_bar grants add_foo and change_bar grants change_foo. Wrong permissions and groups are ones no test needs.
+# Group add_bar grants add_foo and change_bar grants change_foo. Wrong permissions and groups grant neither.
 PERMISSION_SETS = {
     "no permissions": {},
     "wrong permissions": {"permissions": ["view_foo", "delete_foo"]},

@@ -20,6 +20,8 @@ ROUTE = "adminlte2_pdq:demo-css"
 
 # Each row's node setting. "none" is a node with only a route, text, and icon. The "(two)" row needs either of two
 # permissions, so a user with only one of them shows the difference between one_of_permissions and permissions.
+# A node with both settings needs to pass both. Users with full permissions pass both (add_foo, and change_foo but not
+# view_foo); users with partial permissions pass only permissions, and users with wrong permissions only one_of.
 NODE_SETTINGS = {
     "none": {},
     "allow_anonymous_access": {"allow_anonymous_access": True},
@@ -28,6 +30,10 @@ NODE_SETTINGS = {
     "one_of_permissions": {"one_of_permissions": ["auth.add_foo"]},
     "one_of_permissions (two)": {"one_of_permissions": ["auth.add_foo", "auth.change_foo"]},
     "permissions": {"permissions": ["auth.add_foo", "auth.change_foo"]},
+    "one_of_permissions + permissions": {
+        "one_of_permissions": ["auth.change_foo", "auth.view_foo"],
+        "permissions": ["auth.add_foo"],
+    },
 }
 
 # Cells:
@@ -46,87 +52,94 @@ NODE_SETTINGS = {
 #   su = superuser
 # fmt: off
 LOOSE_MODE = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_without_permissions": (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_without_permissions":         (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 
 LOGIN_REQUIRED_MODE = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_without_permissions": (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_without_permissions":         (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 
 LOGIN_REQUIRED_MODE__LOGIN_WHITELIST = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_without_permissions": (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_without_permissions":         (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 
 STRICT_MODE = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
-    "allow_without_permissions": (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
+    "allow_without_permissions":         (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 
 STRICT_MODE__LOGIN_WHITELIST = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
-    "allow_without_permissions": (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (N,   N, N, N, N, N, N, N,   N, N, N, N, N, N, N,   Y),
+    "allow_without_permissions":         (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 
 STRICT_MODE__PERMISSION_WHITELIST = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_without_permissions": (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_without_permissions":         (N,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 
 STRICT_MODE__BOTH_WHITELISTS = {
-    #                                 user                   staff
-    #                            an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                      (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_without_permissions": (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "one_of_permissions":        (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "one_of_permissions (two)":  (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
-    "permissions":               (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    #                                         user                   staff
+    #                                    an   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                              (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_anonymous_access":            (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "login_required":                    (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "allow_without_permissions":         (Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
+    "one_of_permissions":                (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "one_of_permissions (two)":          (N,   N, N, Y, Y, N, Y, Y,   N, N, Y, Y, N, Y, Y,   Y),
+    "permissions":                       (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
+    "one_of_permissions + permissions":  (N,   N, N, N, Y, N, N, Y,   N, N, N, Y, N, N, Y,   Y),
 }
 # fmt: on
 

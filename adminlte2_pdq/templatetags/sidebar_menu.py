@@ -508,16 +508,6 @@ def is_allowed_node(user, node):
     # Otherwise if any permission values exist, user needs to pass a permission check.
     elif one_of_permissions or full_permissions:
 
-        # TODO: Fairly certain that this handles the way we want. Starts out False and only becomes True if things pass.
-        # Should handle if only "one of perms" or "full perms" is set.
-        # Meaning it is not required that both pass. Only the one that is set.
-        # Should also handle stacking of "one of perms" and "full perms". Where both have to pass.
-        #
-        # May need to add tests for this. Not sure if there are specific tests to verify that it can do
-        # No perms, One of Perm, Full Perms, and both One of Perm and Full Perms.
-        # Probably only need a test for each of those scenarios if we do not have it already.
-        # Double-check and then remove todo when we know it is properly tested.
-
         # Default to not passing checks and not requiring both.
         passes_one_check = False
         passes_all_check = False
