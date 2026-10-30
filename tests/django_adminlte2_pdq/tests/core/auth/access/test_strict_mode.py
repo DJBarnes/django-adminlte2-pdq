@@ -11,7 +11,7 @@ from unittest.mock import patch
 from django.test import override_settings
 
 # Internal Imports.
-from .base_test_case import AccessTestCase, E, H, L, LOGIN_WHITELIST, Notice, PERMISSION_WHITELIST, Y
+from .base_test_case import AccessTestCase, E, H, L, Notice, Y
 
 
 # Module Variables.
@@ -111,11 +111,11 @@ class StrictModeAccessTestCase(AccessTestCase):
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST)
     def test__strict_mode__login_whitelist(self):
         """Strict mode, every view in the login whitelist."""
         self.assert_access(
             STRICT_MODE__LOGIN_WHITELIST,
+            whitelists=["login"],
             notices={
                 "none": [
                     Notice("ineffective_login_whitelist"),
@@ -138,11 +138,11 @@ class StrictModeAccessTestCase(AccessTestCase):
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", PERMISSION_WHITELIST)
     def test__strict_mode__permission_whitelist(self):
         """Strict mode, every view in the permission whitelist."""
         self.assert_access(
             STRICT_MODE__PERMISSION_WHITELIST,
+            whitelists=["permission"],
             notices={
                 "allow_without_permissions": [Notice("allow_without_permissions_and_permission_whitelist")],
             },
@@ -157,12 +157,11 @@ class StrictModeAccessTestCase(AccessTestCase):
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST)
-    @patch("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", PERMISSION_WHITELIST)
     def test__strict_mode__both_whitelists(self):
         """Strict mode, every view in both whitelists."""
         self.assert_access(
             STRICT_MODE__BOTH_WHITELISTS,
+            whitelists=["login", "permission"],
             notices={
                 "allow_anonymous_access": [Notice("allow_anonymous_access_and_login_whitelist")],
                 "allow_without_permissions": [Notice("allow_without_permissions_and_permission_whitelist")],

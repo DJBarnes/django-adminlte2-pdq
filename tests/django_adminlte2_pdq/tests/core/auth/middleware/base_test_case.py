@@ -35,25 +35,6 @@ class MiddlewareBaseTestCase(TestCase):
 
     # region Expected Test Messages
 
-    pdq_strict__no_decorator_message = (
-        "AdminLtePdq Warning: This project is set to run in strict mode, and "
-        "the function-based view 'demo_css' does not have any decorators set. "
-        "This means that this view is inaccessible until permission decorators "
-        "are set for the view, or the view is added to the "
-        "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-        "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-    )
-
-    pdq_strict__ineffective_login_whitelist_message = (
-        "AdminLtePdq Warning: The function-based view 'demo_css' is login whitelisted, "
-        "but the view still requires permissions. A user must login to have permissions, so the login whitelist is "
-        "redundant and probably not achieving the desired effect. Correct this by adding the view to "
-        "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
-        "'allow_without_permissions' decorator."
-    )
-
     pdq_strict__no_permissions_set_message = (
         "AdminLtePdq Warning: The class-based view 'StandardView' has permission requirements, "
         "but does not have any permissions set. This means that this view is inaccessible until "

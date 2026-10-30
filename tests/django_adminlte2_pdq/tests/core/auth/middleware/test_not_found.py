@@ -3,11 +3,9 @@ Tests for AuthMiddleware's handling of unknown URLs (404s).
 """
 
 # System Imports.
-from copy import copy
 from unittest.mock import patch
 
 # Third-Party Imports.
-from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.messages import get_messages
 from django.test import override_settings, RequestFactory
@@ -21,20 +19,6 @@ from adminlte2_pdq.middleware import (
     RESPONSE_404_PRODUCTION_MESSAGE,
 )
 from .base_test_case import MiddlewareBaseTestCase
-
-
-# Module Variables.
-
-NO_SESSION_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_SESSION_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
-NO_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
-NO_MESSAGES_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_MESSAGES_MIDDLEWARE.remove("django.contrib.messages.middleware.MessageMiddleware")
-
-NO_SESSION_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_SESSION_AUTH_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
-NO_SESSION_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
 
 
 class NotFound404HandlingTestCase(MiddlewareBaseTestCase):
@@ -146,6 +130,12 @@ class NotFound404LoginWallTestCase(MiddlewareBaseTestCase):
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
     def test__login_required__logged_in(self):
         """Logged-in users are redirected home with the message."""
+        self._assert_home_with_message(True, user=self.test_user_w_perms)
+
+    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+    def test__strict__logged_in(self):
+        """Logged-in users are redirected home with the message in strict mode."""
         self._assert_home_with_message(True, user=self.test_user_w_perms)
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)

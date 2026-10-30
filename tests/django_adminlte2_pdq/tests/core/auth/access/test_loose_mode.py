@@ -77,13 +77,24 @@ class LooseModeAccessTestCase(AccessTestCase):
 
     @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", False)
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", False)
-    @patch(
-        "adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST",
-        ["adminlte2_pdq_tests:function-login-required", "adminlte2_pdq_tests:class-login-required"],
-    )
     def test__loose_mode__login_required_view_in_login_whitelist(self):
-        """A login_required view can't also be in the login whitelist."""
-        for view_type in VIEW_TYPES:
-            for user_name, user in self._create_table_users().items():
-                with self.subTest(view=f"{view_type} view, login_required", user=user_name):
-                    self.assert_outcome(view_type, "login_required", user, E, [], "login_required_and_login_whitelist")
+        """A login_required view can't also be in the login whitelist, exact or fuzzy."""
+        whitelists = {
+            "exact": (
+                "adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST",
+                ["adminlte2_pdq_tests:function-login-required", "adminlte2_pdq_tests:class-login-required"],
+            ),
+            "fuzzy": (
+                "adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST",
+                ("/tests/function/login/", "/tests/class/login/"),
+            ),
+        }
+        users = self._create_table_users()
+        for form, (setting, value) in whitelists.items():
+            with patch(setting, value):
+                for view_type in VIEW_TYPES:
+                    for user_name, user in users.items():
+                        with self.subTest(view=f"{view_type} view, login_required", user=user_name, whitelists=form):
+                            self.assert_outcome(
+                                view_type, "login_required", user, E, [], "login_required_and_login_whitelist"
+                            )

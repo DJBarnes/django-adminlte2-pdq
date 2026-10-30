@@ -8,6 +8,8 @@ from django.test import TestCase, override_settings
 
 # First-Party Imports
 from adminlte2_pdq.constants.route_and_policy_constants import (
+    LOGIN_EXEMPT_WHITELIST,
+    STRICT_POLICY_WHITELIST,
     get_login_required_policy,
     get_renamed_setting,
     get_strict_policy,
@@ -115,3 +117,30 @@ class RenamedSettingTestCase(TestCase):
     def test__default(self):
         """With neither set, the default is used."""
         self.assertEqual("default", get_renamed_setting("ADMINLTE2_NEW_NAME", "OLD_NAME", "default"))
+
+
+class DefaultWhitelistsTestCase(TestCase):
+    """The whitelists hold the package's own routes when the project adds none (as in the test project)."""
+
+    def test__login_exempt_whitelist(self):
+        """The login, logout, password reset, and register routes don't require login."""
+        self.assertEqual(
+            [
+                "/accounts/login/",
+                "/accounts/logout/",
+                "password_reset",
+                "password_reset_done",
+                "password_reset_confirm",
+                "password_reset_complete",
+                "adminlte2_pdq:register",
+            ],
+            [str(route) for route in LOGIN_EXEMPT_WHITELIST],
+        )
+
+    def test__strict_policy_whitelist(self):
+        """The home and password change routes, and every login-exempt route, don't require permissions."""
+        self.assertEqual(
+            ["adminlte2_pdq:home", "password_change", "password_change_done"]
+            + [str(route) for route in LOGIN_EXEMPT_WHITELIST],
+            [str(route) for route in STRICT_POLICY_WHITELIST],
+        )

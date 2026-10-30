@@ -10,11 +10,15 @@ cell is the expected outcome of the user opening the view:
     E = The middleware raises ImproperlyConfigured (the view's decorator or mixin conflicts with the policy).
 
 Every row is checked for a function view (decorators) and for a class view (mixins). Every cell also checks the exact
-set of warnings the middleware raises, and that each warning is also shown as a message.
+set of warnings the middleware raises, and that each warning is also shown as a message. The whitelist tests run every
+table twice: with each view's route in the whitelist (exact), and with the views' path prefix in the matching fuzzy
+whitelist (fuzzy).
 """
 
 # System Imports.
 import warnings
+from contextlib import ExitStack
+from unittest.mock import patch
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
@@ -140,6 +144,21 @@ VIEW_ROUTES = [
 ]
 LOGIN_WHITELIST = LOGIN_EXEMPT_WHITELIST + VIEW_ROUTES
 PERMISSION_WHITELIST = STRICT_POLICY_WHITELIST + VIEW_ROUTES
+
+# The path prefix of every view above, for the fuzzy whitelist tests.
+FUZZY_WHITELIST = ("/tests/",)
+
+# The setting each whitelist test patches, in each form, and its value.
+WHITELISTS = {
+    "login": {
+        "exact": ("adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST", LOGIN_WHITELIST),
+        "fuzzy": ("adminlte2_pdq.middleware.LOGIN_EXEMPT_FUZZY_WHITELIST", FUZZY_WHITELIST),
+    },
+    "permission": {
+        "exact": ("adminlte2_pdq.middleware.STRICT_POLICY_WHITELIST", PERMISSION_WHITELIST),
+        "fuzzy": ("adminlte2_pdq.middleware.STRICT_POLICY_FUZZY_WHITELIST", FUZZY_WHITELIST),
+    },
+}
 
 # The permissions and groups each kind of user gets. The views use auth.add_foo and auth.change_foo. Group add_bar
 # grants add_foo and change_bar grants change_foo. Wrong permissions and groups grant neither.
@@ -303,10 +322,13 @@ class AccessTestCase(IntegrationTestCase):
         """Create one user for each table column."""
         return {name: self._create_table_user(name) for name in USERS}
 
-    def assert_access(self, table, notices=None, errors=None):
+    def assert_access(self, table, whitelists=(), forms=("exact", "fuzzy"), notices=None, errors=None):
         """Check every view and user in a table, for function views and class views.
 
         :param table: The expected outcome for each row and user.
+        :param whitelists: The whitelists ("login", "permission") every view is in. The table is checked once for
+            each form of the whitelists.
+        :param forms: The forms of the whitelists to check: "exact", "fuzzy", or both.
         :param notices: For each row, the Notices (warnings) the middleware raises.
         :param errors: For each row with E cells, the name of the ImproperlyConfigured message.
         """
@@ -317,17 +339,24 @@ class AccessTestCase(IntegrationTestCase):
         self.assertEqual(error_rows, set(errors), "Every row with E cells, and only those, must name its error.")
 
         users = self._create_table_users()
-        for view_type in VIEW_TYPES:
-            for row, cells in table.items():
-                self.assertEqual(len(cells), len(USERS), f"The {row} row must have a column for every user.")
-                for (user_name, user), outcome in zip(users.items(), cells):
-                    with self.subTest(view=f"{view_type} view, {row}", user=user_name):
-                        expected_notices = [
-                            message(notice.name, view_type, row)
-                            for notice in notices.get(row, [])
-                            if notice.applies(view_type, user)
-                        ]
-                        self.assert_outcome(view_type, row, user, outcome, expected_notices, errors.get(row))
+        for form in forms if whitelists else (None,):
+            with ExitStack() as stack:
+                for whitelist in whitelists:
+                    stack.enter_context(patch(*WHITELISTS[whitelist][form]))
+                for view_type in VIEW_TYPES:
+                    for row, cells in table.items():
+                        self.assertEqual(len(cells), len(USERS), f"The {row} row must have a column for every user.")
+                        for (user_name, user), outcome in zip(users.items(), cells):
+                            labels = {"view": f"{view_type} view, {row}", "user": user_name}
+                            if form:
+                                labels["whitelists"] = form
+                            with self.subTest(**labels):
+                                expected_notices = [
+                                    message(notice.name, view_type, row)
+                                    for notice in notices.get(row, [])
+                                    if notice.applies(view_type, user)
+                                ]
+                                self.assert_outcome(view_type, row, user, outcome, expected_notices, errors.get(row))
 
     def assert_outcome(self, view_type, row, user, outcome, expected_notices, error):
         """Open the view as the user, and check the outcome, warnings, and messages."""

@@ -2,32 +2,20 @@
 Tests for AuthMiddleware when the project's MIDDLEWARE setting is incomplete.
 """
 
-# System Imports.
-from copy import copy
-
 # Third-Party Imports.
 import django
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import override_settings
 from django.urls import reverse
 
 # Internal Imports.
-from .base_test_case import MiddlewareBaseTestCase
-
-
-# Module Variables.
-
-NO_SESSION_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_SESSION_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
-NO_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
-NO_MESSAGES_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_MESSAGES_MIDDLEWARE.remove("django.contrib.messages.middleware.MessageMiddleware")
-
-NO_SESSION_AUTH_MIDDLEWARE = copy(settings.MIDDLEWARE)
-NO_SESSION_AUTH_MIDDLEWARE.remove("django.contrib.sessions.middleware.SessionMiddleware")
-NO_SESSION_AUTH_MIDDLEWARE.remove("django.contrib.auth.middleware.AuthenticationMiddleware")
+from .base_test_case import (
+    MiddlewareBaseTestCase,
+    NO_AUTH_MIDDLEWARE,
+    NO_MESSAGES_MIDDLEWARE,
+    NO_SESSION_AUTH_MIDDLEWARE,
+    NO_SESSION_MIDDLEWARE,
+)
 
 
 class ConfigurationMiddlewareTestCase(MiddlewareBaseTestCase):
