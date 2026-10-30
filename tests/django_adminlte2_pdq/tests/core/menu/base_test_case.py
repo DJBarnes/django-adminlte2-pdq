@@ -11,10 +11,35 @@ from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 
 # Internal Imports.
+from adminlte2_pdq.templatetags import sidebar_menu
 
 
 # Module Variables.
 UserModel = get_user_model()
+
+# The permissions and groups each kind of user gets. The tests' permissions are auth.add_foo and auth.change_foo.
+# Group add_bar grants add_foo and change_bar grants change_foo. Wrong permissions and groups are ones no test needs.
+PERMISSION_SETS = {
+    "no permissions": {},
+    "wrong permissions": {"permissions": ["view_foo", "delete_foo"]},
+    "partial permissions": {"permissions": ["add_foo"]},
+    "full permissions": {"permissions": ["add_foo", "change_foo"]},
+    "wrong groups": {"groups": ["view_bar", "delete_bar"]},
+    "partial groups": {"groups": ["add_bar"]},
+    "full groups": {"groups": ["add_bar", "change_bar"]},
+}
+
+# The columns of the visibility tables, in order: an = anonymous; for a user and a staff user: no = no permissions,
+# wp/pp/fp = wrong/partial/full permissions, wg/pg/fg = wrong/partial/full groups; su = superuser.
+USERS = (
+    ["anonymous"]
+    + [f"user with {name}" for name in PERMISSION_SETS]
+    + [f"staff user with {name}" for name in PERMISSION_SETS]
+    + ["superuser"]
+)
+
+Y = True  # The node is shown.
+N = False  # The node is hidden.
 
 
 class SidebarMenuBaseTestCase(TestCase):
@@ -186,4 +211,35 @@ class SidebarMenuBaseTestCase(TestCase):
         self.super_user.is_superuser = True
         self.super_user.save()
 
+    def _create_table_user(self, name):
+        """Create the user for a visibility table column."""
+        if name == "anonymous":
+            return AnonymousUser()
+        if name == "superuser":
+            return UserModel.objects.create(username="superuser", is_superuser=True)
+        is_staff = name.startswith("staff user with ")
+        permission_set = PERMISSION_SETS[name.split(" with ", 1)[1]]
+        user = UserModel.objects.create(username=name.replace(" ", "_"), is_staff=is_staff)
+        user.user_permissions.set(Permission.objects.filter(codename__in=permission_set.get("permissions", [])))
+        user.groups.set(Group.objects.filter(name__in=permission_set.get("groups", [])))
+        return user
+
+    def _create_table_users(self):
+        """Create one user for each visibility table column."""
+        return {name: self._create_table_user(name) for name in USERS}
+
     # endregion Setup
+
+    def assert_node_visibility(self, users, node, row, **labels):
+        """Check that the node is shown or hidden for each user, as the table row says.
+
+        The labels name the row in failure messages.
+        """
+        self.assertEqual(len(row), len(USERS), f"The row {labels} must have a column for every user.")
+        for (user_name, user), expected in zip(users.items(), row):
+            with self.subTest(**labels, user=user_name):
+                self.assertEqual(
+                    sidebar_menu.is_allowed_node(user, node),
+                    expected,
+                    f"Expected the node to be {'shown' if expected else 'hidden'}.",
+                )

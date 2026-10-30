@@ -10,16 +10,13 @@ the policy setup (the test), the view, and the user.
 from unittest.mock import patch
 
 # Third-party Imports.
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser, Group, Permission
+from django.contrib.auth.models import Group, Permission
 
 # Internal Imports.
-from adminlte2_pdq.templatetags import sidebar_menu
-from tests.django_adminlte2_pdq.tests.core.menu.base_test_case import SidebarMenuBaseTestCase
+from tests.django_adminlte2_pdq.tests.core.menu.base_test_case import N, PERMISSION_SETS, SidebarMenuBaseTestCase, Y
 
 
 # Module Variables.
-UserModel = get_user_model()
 
 # Each kind of view, and its route. "{view_type}" is "function" or "class".
 # "none" is the package's demo-css view, which has no decorator or mixin.
@@ -42,29 +39,22 @@ VIEW_WHITELIST = sorted(
 )
 
 # The views that require permissions use auth.add_foo and auth.change_foo: "one" views need either, "full" views need
-# both, and the "(string)" views need auth.add_foo. Wrong permissions and groups are ones the views don't use.
-PERMISSION_SETS = {
-    "no permissions": {},
-    "wrong permissions": {"permissions": ["view_foo", "delete_foo"]},
-    "partial permissions": {"permissions": ["add_foo"]},
-    "full permissions": {"permissions": ["add_foo", "change_foo"]},
-    "wrong groups": {"groups": ["view_bar", "delete_bar"]},
-    "partial groups": {"groups": ["add_bar"]},
-    "full groups": {"groups": ["add_bar", "change_bar"]},
-}
+# both, and the "(string)" views need auth.add_foo.
 
-# The table columns, in order: an = anonymous; for a user and a staff user: no = no permissions,
-# wp/pp/fp = wrong/partial/full permissions, wg/pg/fg = wrong/partial/full groups; su = superuser.
-USERS = (
-    ["anonymous"]
-    + [f"user with {name}" for name in PERMISSION_SETS]
-    + [f"staff user with {name}" for name in PERMISSION_SETS]
-    + ["superuser"]
-)
-
-Y = True  # The node is shown.
-N = False  # The node is hidden.
-
+# Cells:
+#   Y = shown
+#   N = hidden
+#
+# Columns (the "user" and "staff" groups each have the no to fg columns):
+#   an = anonymous
+#   no = no permissions
+#   wp = wrong permissions
+#   pp = partial permissions
+#   fp = full permissions
+#   wg = wrong groups
+#   pg = partial groups
+#   fg = full groups
+#   su = superuser
 # fmt: off
 LOOSE_MODE = {
     #                                            user                   staff
@@ -162,38 +152,18 @@ STRICT_MODE__BOTH_WHITELISTS = {
 class NodeViewFallbackTestCase(SidebarMenuBaseTestCase):
     """Tests for nodes without permissions, which use the permissions of the view they link to."""
 
-    def _create_user(self, name):
-        """Create the user for a table column."""
-        if name == "anonymous":
-            return AnonymousUser()
-        if name == "superuser":
-            return UserModel.objects.create(username="superuser", is_superuser=True)
-        is_staff = name.startswith("staff user with ")
-        permission_set = PERMISSION_SETS[name.split(" with ", 1)[1]]
-        user = UserModel.objects.create(username=name.replace(" ", "_"), is_staff=is_staff)
-        user.user_permissions.set(Permission.objects.filter(codename__in=permission_set.get("permissions", [])))
-        user.groups.set(Group.objects.filter(name__in=permission_set.get("groups", [])))
-        return user
-
     def assert_visibility(self, table):
         """Check every view and user in a table, for function views and class views."""
         self.assertEqual(list(table), list(VIEW_ROUTES), "The table must have a row for every kind of view.")
-        users = {name: self._create_user(name) for name in USERS}
+        users = self._create_table_users()
         for view_type in VIEW_TYPES:
             for kind, row in table.items():
-                self.assertEqual(len(row), len(USERS), f"The {kind} row must have a column for every user.")
                 node = {
                     "route": VIEW_ROUTES[kind].format(view_type=view_type),
                     "text": "Test Node",
                     "icon": "fa fa-file",
                 }
-                for (user_name, user), expected in zip(users.items(), row):
-                    with self.subTest(view=f"{view_type} view, {kind}", user=user_name):
-                        self.assertEqual(
-                            sidebar_menu.is_allowed_node(user, node),
-                            expected,
-                            f"Expected the node to be {'shown' if expected else 'hidden'}.",
-                        )
+                self.assert_node_visibility(users, node, row, view=f"{view_type} view, {kind}")
 
     def test__group_and_permission_names_exist(self):
         """Every permission and group the users get exists, so no user silently has fewer than intended."""
