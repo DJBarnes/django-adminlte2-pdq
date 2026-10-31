@@ -7,6 +7,15 @@ Unreleased
 Action Needed When Upgrading
 ----------------------------
 
+* **Changed: fuzzy whitelists are checked against the policy.**
+  ``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST`` now raises
+  ``ImproperlyConfigured`` at startup unless ``ADMINLTE2_USE_LOGIN_REQUIRED``
+  or ``ADMINLTE2_USE_STRICT_POLICY`` is True, and
+  ``ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST`` unless
+  ``ADMINLTE2_USE_STRICT_POLICY`` is True, the same as the exact whitelists.
+  Remove these settings from projects, or environments, that don't use the
+  matching policy. An empty whitelist is allowed in any mode.
+
 * **Changed: two permission_required_one decorators on one view raise an
   error.** A view can only record one "one of" list, so stacking two
   ``permission_required_one`` decorators now raises ``ImproperlyConfigured``

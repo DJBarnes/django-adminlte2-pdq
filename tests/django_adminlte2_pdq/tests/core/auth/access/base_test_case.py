@@ -322,13 +322,12 @@ class AccessTestCase(IntegrationTestCase):
         """Create one user for each table column."""
         return {name: self._create_table_user(name) for name in USERS}
 
-    def assert_access(self, table, whitelists=(), forms=("exact", "fuzzy"), notices=None, errors=None):
+    def assert_access(self, table, whitelists=(), notices=None, errors=None):
         """Check every view and user in a table, for function views and class views.
 
         :param table: The expected outcome for each row and user.
-        :param whitelists: The whitelists ("login", "permission") every view is in. The table is checked once for
-            each form of the whitelists.
-        :param forms: The forms of the whitelists to check: "exact", "fuzzy", or both.
+        :param whitelists: The whitelists ("login", "permission") every view is in. The table is checked once with
+            the exact whitelists and once with the fuzzy whitelists.
         :param notices: For each row, the Notices (warnings) the middleware raises.
         :param errors: For each row with E cells, the name of the ImproperlyConfigured message.
         """
@@ -339,7 +338,7 @@ class AccessTestCase(IntegrationTestCase):
         self.assertEqual(error_rows, set(errors), "Every row with E cells, and only those, must name its error.")
 
         users = self._create_table_users()
-        for form in forms if whitelists else (None,):
+        for form in ("exact", "fuzzy") if whitelists else (None,):
             with ExitStack() as stack:
                 for whitelist in whitelists:
                     stack.enter_context(patch(*WHITELISTS[whitelist][form]))

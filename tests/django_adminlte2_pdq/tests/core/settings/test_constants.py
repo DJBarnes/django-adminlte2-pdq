@@ -67,31 +67,55 @@ class PolicyConstantsTestCase(TestCase):
         self.assertTrue(get_strict_policy())
         self.assertTrue(get_login_required_policy(True))
 
-    @override_settings(ADMINLTE2_USE_STRICT_POLICY=False, ADMINLTE2_STRICT_POLICY_WHITELIST=["foobar"])
     def test_improperly_configured_error_is_raised_when_strict_whitelist_set_and_not_in_strict_mode(self):
-        """Test that an ImproperlyConfigured error is raised when there is a setting for the strict
-        whitelist and the strict policy is set to False."""
+        """The exact and fuzzy permission whitelists raise ImproperlyConfigured outside of strict mode."""
+        for whitelist in ("ADMINLTE2_STRICT_POLICY_WHITELIST", "ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST"):
+            with self.subTest(whitelist=whitelist):
+                with override_settings(ADMINLTE2_USE_STRICT_POLICY=False, **{whitelist: ["/foobar/"]}):
+                    with self.assertRaises(ImproperlyConfigured) as cm:
+                        get_strict_policy()
 
-        with self.assertRaises(ImproperlyConfigured) as cm:
-            # pylint:disable=unused-import
-            # from adminlte2_pdq.constants import LOGIN_REQUIRED, STRICT_POLICY
-            get_strict_policy()
+                self.assertEqual(f"Can't use {whitelist} outside of STRICT_POLICY = True.", str(cm.exception))
 
-        error_message = "Can't use ADMINLTE2_STRICT_POLICY_WHITELIST outside of STRICT_POLICY = True."
-        self.assertEqual(str(cm.exception), error_message)
-
-    @override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=False, ADMINLTE2_LOGIN_EXEMPT_WHITELIST=["foobar"])
     def test_improperly_configured_error_is_raised_when_login_whitelist_set_and_not_in_login_required_mode(self):
-        """Test that an ImproperlyConfigured error is raised when there is a setting for the login
-        whitelist and the login required policy is set to False."""
+        """The exact and fuzzy login whitelists raise ImproperlyConfigured outside of login-required mode."""
+        for whitelist in ("ADMINLTE2_LOGIN_EXEMPT_WHITELIST", "ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST"):
+            with self.subTest(whitelist=whitelist):
+                with override_settings(ADMINLTE2_USE_LOGIN_REQUIRED=False, **{whitelist: ["/foobar/"]}):
+                    with self.assertRaises(ImproperlyConfigured) as cm:
+                        get_login_required_policy(False)
 
-        with self.assertRaises(ImproperlyConfigured) as cm:
-            # pylint:disable=unused-import
-            # from adminlte2_pdq.constants import LOGIN_REQUIRED, STRICT_POLICY
-            get_login_required_policy(False)
+                self.assertEqual(f"Can't use {whitelist} outside of LOGIN_REQUIRED = True.", str(cm.exception))
 
-        error_message = "Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True."
-        self.assertEqual(str(cm.exception), error_message)
+    def test_whitelists_are_allowed_in_their_mode(self):
+        """Each whitelist can be set in its own mode, and an empty whitelist in any mode."""
+        cases = {
+            "permission whitelists in strict mode": (
+                {"ADMINLTE2_USE_STRICT_POLICY": True},
+                {"ADMINLTE2_STRICT_POLICY_WHITELIST": ["/a/"], "ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST": ["/b/"]},
+            ),
+            "login whitelists in login-required mode": (
+                {"ADMINLTE2_USE_LOGIN_REQUIRED": True},
+                {"ADMINLTE2_LOGIN_EXEMPT_WHITELIST": ["/a/"], "ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST": ["/b/"]},
+            ),
+            "login whitelists in strict mode": (
+                {"ADMINLTE2_USE_STRICT_POLICY": True},
+                {"ADMINLTE2_LOGIN_EXEMPT_WHITELIST": ["/a/"], "ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST": ["/b/"]},
+            ),
+            "empty whitelists in loose mode": (
+                {},
+                {
+                    "ADMINLTE2_STRICT_POLICY_WHITELIST": (),
+                    "ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST": [],
+                    "ADMINLTE2_LOGIN_EXEMPT_WHITELIST": (),
+                    "ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST": [],
+                },
+            ),
+        }
+        for name, (policy, whitelists) in cases.items():
+            with self.subTest(setup=name):
+                with override_settings(**policy, **whitelists):
+                    get_login_required_policy(get_strict_policy())
 
 
 class RenamedSettingTestCase(TestCase):

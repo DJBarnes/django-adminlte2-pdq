@@ -60,31 +60,6 @@ LOGIN_REQUIRED_MODE__LOGIN_WHITELIST = {
     "full_permissions_required (string)": (L, L,   H, H, Y, Y, H, Y, Y,   H, H, Y, Y, H, Y, Y,   Y),
 }
 
-LOGIN_REQUIRED_MODE__PERMISSION_WHITELIST = {
-    #                                          user                   staff
-    #                                     an in   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                               (L, L,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":             (Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":                     (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "allow_without_permissions":          (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "one_permission_required":            (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "one_permission_required (string)":   (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "full_permissions_required":          (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "full_permissions_required (string)": (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-}
-
-LOGIN_REQUIRED_MODE__BOTH_WHITELISTS = {
-    #                                          user                   staff
-    #                                     an in   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
-    "none":                               (Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "allow_anonymous_access":             (Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y, Y, Y, Y, Y, Y, Y,   Y),
-    "login_required":                     (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "allow_without_permissions":          (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "one_permission_required":            (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "one_permission_required (string)":   (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "full_permissions_required":          (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-    "full_permissions_required (string)": (E, E,   E, E, E, E, E, E, E,   E, E, E, E, E, E, E,   E),
-}
 # fmt: on
 
 
@@ -119,43 +94,5 @@ class LoginRequiredModeAccessTestCase(AccessTestCase):
             errors={
                 "login_required": "login_required_mode__login_required_not_supported",
                 "allow_without_permissions": "login_required_mode__allow_without_permissions_not_supported",
-            },
-        )
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    def test__login_required_mode__permission_whitelist(self):
-        """Login-required mode, every view in the fuzzy permission whitelist. The exact permission whitelist can't be
-        set outside strict mode (the settings check rejects it), but the fuzzy one can."""
-        self.assert_access(
-            LOGIN_REQUIRED_MODE__PERMISSION_WHITELIST,
-            whitelists=["permission"],
-            forms=["fuzzy"],
-            errors={
-                "login_required": "login_required_mode__login_required_not_supported",
-                "allow_without_permissions": "login_required_mode__allow_without_permissions_not_supported",
-                "one_permission_required": "permissions_and_permission_whitelist",
-                "one_permission_required (string)": "permissions_and_permission_whitelist",
-                "full_permissions_required": "permissions_and_permission_whitelist",
-                "full_permissions_required (string)": "permissions_and_permission_whitelist",
-            },
-        )
-
-    @patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
-    def test__login_required_mode__both_whitelists(self):
-        """Login-required mode, every view in the login whitelist and the fuzzy permission whitelist."""
-        self.assert_access(
-            LOGIN_REQUIRED_MODE__BOTH_WHITELISTS,
-            whitelists=["login", "permission"],
-            forms=["fuzzy"],
-            notices={
-                "allow_anonymous_access": [Notice("allow_anonymous_access_and_login_whitelist")],
-            },
-            errors={
-                "login_required": "login_required_mode__login_required_not_supported",
-                "allow_without_permissions": "login_required_mode__allow_without_permissions_not_supported",
-                "one_permission_required": "permissions_and_permission_whitelist",
-                "one_permission_required (string)": "permissions_and_permission_whitelist",
-                "full_permissions_required": "permissions_and_permission_whitelist",
-                "full_permissions_required (string)": "permissions_and_permission_whitelist",
             },
         )

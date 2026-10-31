@@ -60,6 +60,9 @@ Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
 accessible, despite a user not being logged in.
 
+Setting it when ``ADMINLTE2_USE_LOGIN_REQUIRED`` and
+``ADMINLTE2_USE_STRICT_POLICY`` are both False raises ``ImproperlyConfigured``.
+
 .. note::
 
     Even though the default value for this list is an empty list,
@@ -86,6 +89,9 @@ the entries is accessible without logging in, and is shown on the sidebar
 menu. Use this for a whole section of a site, such as the Django Debug
 Toolbar.
 
+Setting it when ``ADMINLTE2_USE_LOGIN_REQUIRED`` and
+``ADMINLTE2_USE_STRICT_POLICY`` are both False raises ``ImproperlyConfigured``.
+
 Entries are paths, so they start with ``/``.
 
 :Type: ``list``
@@ -102,6 +108,9 @@ ADMINLTE2_STRICT_POLICY_WHITELIST
 Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True,
 this is the list of routes that will be shown on the sidebar menu and
 accessible, despite said routes having no defined permission.
+
+Setting it when ``ADMINLTE2_USE_STRICT_POLICY`` is False raises
+``ImproperlyConfigured``.
 
 .. note::
 
@@ -127,6 +136,9 @@ Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True, a list of path
 prefixes that do not require permissions. Every URL whose path starts with one
 of the entries is accessible, and shown on the sidebar menu, without defined
 permissions.
+
+Setting it when ``ADMINLTE2_USE_STRICT_POLICY`` is False raises
+``ImproperlyConfigured``.
 
 Entries are paths, so they start with ``/``.
 

@@ -140,9 +140,10 @@ def get_strict_policy():
     strict_policy = getattr(settings, "ADMINLTE2_USE_STRICT_POLICY", False)
 
     # Verify state of whitelist values against chosen policy.
-    if not strict_policy and getattr(settings, "ADMINLTE2_STRICT_POLICY_WHITELIST", []) != []:
-        # Permission whitelisted, but outside of STRICT mode.
-        raise ImproperlyConfigured("Can't use ADMINLTE2_STRICT_POLICY_WHITELIST outside of STRICT_POLICY = True.")
+    for whitelist in ("ADMINLTE2_STRICT_POLICY_WHITELIST", "ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST"):
+        if not strict_policy and getattr(settings, whitelist, None):
+            # Permission whitelisted, but outside of STRICT mode.
+            raise ImproperlyConfigured(f"Can't use {whitelist} outside of STRICT_POLICY = True.")
 
     # Return the strict policy
     return strict_policy
@@ -159,9 +160,10 @@ def get_login_required_policy(strict_policy):
         login_policy = True
 
     # Verify state of whitelist values against chosen policy.
-    if not login_policy and getattr(settings, "ADMINLTE2_LOGIN_EXEMPT_WHITELIST", []) != []:
-        # Login whitelisted, but outside of LOGIN_REQUIRED mode.
-        raise ImproperlyConfigured("Can't use ADMINLTE2_LOGIN_EXEMPT_WHITELIST outside of LOGIN_REQUIRED = True.")
+    for whitelist in ("ADMINLTE2_LOGIN_EXEMPT_WHITELIST", "ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST"):
+        if not login_policy and getattr(settings, whitelist, None):
+            # Login whitelisted, but outside of LOGIN_REQUIRED mode.
+            raise ImproperlyConfigured(f"Can't use {whitelist} outside of LOGIN_REQUIRED = True.")
 
     # Return the strict policy
     return login_policy
