@@ -38,6 +38,42 @@ Here are a few things you can do that will increase the likelihood of your pull 
 
 Work in Progress pull requests are also welcome to get feedback early on, or if there is something blocking you.
 
+## Tests
+
+The tests live in `tests/django_adminlte2_pdq/tests/`, in two folders:
+
+- `core/`: tests that don't depend on AdminLTE 2: authentication and authorization (`auth/`), which menu nodes a user can see (`menu/`), and settings (`settings/`).
+- `ui/`: tests for the AdminLTE 2 side: template tags, CSS, views, and static files.
+
+The test project in `tests/django_adminlte2_pdq/django_test_project/` has one test view for each decorator and mixin.
+
+To run one file or one test:
+
+```bash
+pipenv run pytest tests/django_adminlte2_pdq/tests/core/menu/test_helpers.py
+pipenv run pytest "tests/django_adminlte2_pdq/tests/core/auth/access/test_strict_mode.py::StrictModeAccessTestCase::test__strict_mode"
+```
+
+To run the full matrix of Python and Django versions, run `tox`.
+
+### Tables of expected results
+
+What each kind of user can open (`core/auth/access/`) and see in the menu (`core/menu/`) is tested with tables. Each policy setup (loose, login required, or strict, with or without whitelists) has a table. Each row is a kind of view or menu node, and each column a kind of user. Each table file has a legend of the cell values and columns. For example:
+
+```python
+STRICT_MODE = {
+    #                                          user                   staff
+    #                                     an in   no wp pp fp wg pg fg   no wp pp fp wg pg fg   su
+    "none":                               (L, L,   H, H, H, H, H, H, H,   H, H, H, H, H, H, H,   H),
+    "one_permission_required":            (L, L,   H, H, Y, Y, H, Y, Y,   H, H, Y, Y, H, Y, Y,   Y),
+```
+
+When you change what a user can open or see, change the cells in the table. When you add a kind of view or user, add a row or column. The tests check that every table has every row and column.
+
+### subTest
+
+Use `self.subTest` only to loop over data, and name the values with keywords, for example `self.subTest(view=..., user=...)`. A failure then shows which values failed. If a case needs its own setup, write it as a separate test method.
+
 ## Resources
 
 - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
