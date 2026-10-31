@@ -9,7 +9,6 @@ from unittest.mock import patch
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
-from django.contrib import messages
 from django.test import override_settings, RequestFactory, TestCase
 from django.urls import reverse
 
@@ -97,7 +96,7 @@ class ViewsTestCase(TestCase):
     def test_sample_views_link_to_the_adminlte_demo_and_demo_css(self):
         """The home and sample pages link to the official AdminLTE demo and the Demo CSS pages"""
         for view in (views.home, views.sample_form, views.sample1, views.sample2):
-            with self.subTest(view.__name__):
+            with self.subTest(view=view.__name__):
                 request = RequestFactory().get("/")
                 request.user = self.test_user_w_perms
                 request.site = MOCK_SITE
@@ -292,7 +291,7 @@ class DemoCssViewsTestCase(TestCase):
     def test__pages_render(self):
         """Each demo page renders its template, its content, and the demo menu."""
         for url_name, template_name, page_text in DEMO_CSS_PAGES:
-            with self.subTest(url_name):
+            with self.subTest(url=url_name):
                 response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
 
                 self.assertEqual(response.status_code, 200)
@@ -307,7 +306,7 @@ class DemoCssViewsTestCase(TestCase):
         """Each demo page's breadcrumbs link to the demo home and end with the page's name."""
         demo_home_link = f'<a href="{reverse("adminlte2_pdq:demo-css")}">Demo CSS</a>'
         for url_name, _template_name, _page_text in DEMO_CSS_PAGES:
-            with self.subTest(url_name):
+            with self.subTest(url=url_name):
                 response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
                 breadcrumbs = response.content.decode().split('<ol class="breadcrumb">', 1)[1].split("</ol>", 1)[0]
 
@@ -332,7 +331,7 @@ class DemoCssViewsTestCase(TestCase):
     def test__pages_render_without_password_change_url(self):
         """Without the password change URL, demo pages render and leave out the default menu's sections."""
         for url_name, _template_name, _page_text in DEMO_CSS_PAGES:
-            with self.subTest(url_name):
+            with self.subTest(url=url_name):
                 response = self.client.get(reverse(f"adminlte2_pdq:{url_name}"))
 
                 self.assertEqual(response.status_code, 200)

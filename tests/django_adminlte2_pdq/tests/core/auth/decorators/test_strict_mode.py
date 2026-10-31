@@ -61,20 +61,23 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
 
     @override_settings(DEBUG=False)
     @patch("adminlte2_pdq.middleware.RESPONSE_403_PRODUCTION_MESSAGE", "")
-    def test__no_decorators__empty_production_403_message_adds_no_message(self):
-        """An empty 403 production message adds no message, whether redirecting or raising PermissionDenied."""
-
+    def test__no_decorators__empty_production_403_message__redirect(self):
+        """An empty 403 production message adds no message when redirecting home."""
         self.client.force_login(self.none_user)
 
-        with self.subTest("Redirect to home"):
-            response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
-            self.assertEqual([], list(get_messages(response.wsgi_request)))
+        response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
+        self.assertEqual([], list(get_messages(response.wsgi_request)))
 
-        with self.subTest("PermissionDenied"):
-            with patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False):
-                response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
-            self.assertEqual(403, response.status_code)
-            self.assertEqual([], list(get_messages(response.wsgi_request)))
+    @override_settings(DEBUG=False)
+    @patch("adminlte2_pdq.middleware.RESPONSE_403_PRODUCTION_MESSAGE", "")
+    def test__no_decorators__empty_production_403_message__permission_denied(self):
+        """An empty 403 production message adds no message when raising PermissionDenied."""
+        self.client.force_login(self.none_user)
+
+        with patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False):
+            response = self.client.get(reverse("adminlte2_pdq_tests:function-standard"))
+        self.assertEqual(403, response.status_code)
+        self.assertEqual([], list(get_messages(response.wsgi_request)))
 
     @override_settings(DEBUG=False)
     @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False)
@@ -86,7 +89,7 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 response = self.assertGetResponse(
                     # View setup.
@@ -110,7 +113,7 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
 
         # Should fail and redirect to home with a warning message, for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -178,7 +181,7 @@ class TestStrictAuthenticationDecoratorsWithOverlap(BaseDecoratorTestCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -213,7 +216,7 @@ class TestStrictAuthenticationDecoratorsWithOverlap(BaseDecoratorTestCase):
             [self.full_perm_staff_user, "staff user with full permissions"],
             [self.full_group_user, "user with full groups"],
         ):
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -245,7 +248,7 @@ class TestStrictAuthenticationDecoratorsWithOverlap(BaseDecoratorTestCase):
             [self.full_group_user_plus_one, "user with orig full groups, plus extra stacked one"],
             [self.super_user, "superuser"],
         ):
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(

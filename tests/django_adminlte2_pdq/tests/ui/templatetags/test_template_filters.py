@@ -89,66 +89,34 @@ class TemplateFilterTestCase(TestCase):
     # endregion Setup
 
     def test_filter__fieldtype(self):
-        """Tests for the "fieldtype" filter."""
+        """The "fieldtype" filter returns the name of the field's widget class."""
+        widgets = {
+            "test_hidden": "HiddenInput",
+            "test_checkbox": "CheckboxInput",
+            "test_select": "Select",
+            "test_date": "DateInput",
+            "test_text": "TextInput",
+        }
+        for field, widget in widgets.items():
+            with self.subTest(field=field):
+                test_form = self.TestForm()
 
-        with self.subTest("Verify returns the correct fieldtype for a hidden field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.fieldtype(test_form["test_hidden"])
-
-            # Verify retrieved value.
-            self.assertEqual("HiddenInput", result)
-
-        with self.subTest("Verify returns the correct fieldtype for a checkbox field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.fieldtype(test_form["test_checkbox"])
-
-            # Verify retrieved value.
-            self.assertEqual("CheckboxInput", result)
-
-        with self.subTest("Verify returns the correct fieldtype for a select field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.fieldtype(test_form["test_select"])
-
-            # Verify retrieved value.
-            self.assertEqual("Select", result)
-
-        with self.subTest("Verify returns the correct fieldtype for a date field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.fieldtype(test_form["test_date"])
-
-            # Verify retrieved value.
-            self.assertEqual("DateInput", result)
-
-        with self.subTest("Verify returns the correct fieldtype for a text field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.fieldtype(test_form["test_text"])
-
-            # Verify retrieved value.
-            self.assertEqual("TextInput", result)
+                self.assertEqual(widget, adminlte_filters.fieldtype(test_form[field]))
 
     def test_filter__with_attrs(self):
         """Tests for the "with_attrs" filter."""
 
-        with self.subTest("Verify adds attributes to existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_attrs(
-                test_form["test_text"], '{"attribute-1":"value-1", "attribute-2":"value-2"}'
-            )
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_attrs(
+            test_form["test_text"], '{"attribute-1":"value-1", "attribute-2":"value-2"}'
+        )
 
-            # Verify retrieved value.
-            self.assertInHTML(
-                (
-                    '<input type="text" name="test_text" attribute-2="value-2" '
-                    'attribute-1="value-1" id="id_test_text" />'
-                ),
-                str(result),
-            )
+        # Verify retrieved value.
+        self.assertInHTML(
+            '<input type="text" name="test_text" attribute-2="value-2" attribute-1="value-1" id="id_test_text" />',
+            str(result),
+        )
 
         # TODO: Should this also have a "handles missing field" like the below test?
         #       In fact, should most of these custom filters?
@@ -156,266 +124,250 @@ class TemplateFilterTestCase(TestCase):
         #       yet none of the rest of these do? Doesn't seem documented.
 
     def test_filter__with_class(self):
-        """Tests for the "with_class" filter."""
+        """Adds class to existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_class(test_form["test_text"], "my-class-name")
 
-        with self.subTest("Verify adds class to existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_class(test_form["test_text"], "my-class-name")
+        # Verify retrieved value.
+        self.assertIn('class="my-class-name"', str(result))
 
-            # Verify retrieved value.
-            self.assertIn('class="my-class-name"', str(result))
-
-        with self.subTest("Verify handles missing field"):
-            result = adminlte_filters.with_class(None, "my-class-name")
-            self.assertIsNone(result)
+    def test_filter__with_class__missing_field(self):
+        """The "with_class" filter returns None for a missing field."""
+        result = adminlte_filters.with_class(None, "my-class-name")
+        self.assertIsNone(result)
 
     def test_filter__with_data(self):
         """Tests for the "with_data" filter."""
 
-        with self.subTest("Verify adds data attributes to existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_data(
-                test_form["test_text"], '{"attribute-1":"value-1", "attribute-2":"value-2"}'
-            )
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_data(
+            test_form["test_text"], '{"attribute-1":"value-1", "attribute-2":"value-2"}'
+        )
 
-            # Verify retrieved value.
-            self.assertInHTML(
-                '<input type="text" name="test_text" data-attribute-2="value-2"'
-                ' data-attribute-1="value-1" id="id_test_text" />',
-                str(result),
-            )
+        # Verify retrieved value.
+        self.assertInHTML(
+            '<input type="text" name="test_text" data-attribute-2="value-2"'
+            ' data-attribute-1="value-1" id="id_test_text" />',
+            str(result),
+        )
 
-    def test_filter__with_placeholder(self):
-        """Tests for the "with_placeholder" filter."""
+    def test_filter__with_placeholder__default(self):
+        """Adds a default placeholder attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_placeholder(test_form["test_text"])
 
-        with self.subTest("Verify adds a default placeholder attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_placeholder(test_form["test_text"])
+        # Verify retrieved value.
+        self.assertIn("Test text", str(result))
 
-            # Verify retrieved value.
-            self.assertIn("Test text", str(result))
+    def test_filter__with_placeholder__given(self):
+        """Adds a specific placeholder attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_placeholder(test_form["test_text"], placeholder="My Placeholder Text")
 
-        with self.subTest("Verify adds a specific placeholder attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_placeholder(test_form["test_text"], placeholder="My Placeholder Text")
+        # Verify retrieved value.
+        self.assertIn("My Placeholder Text", str(result))
 
-            # Verify retrieved value.
-            self.assertIn("My Placeholder Text", str(result))
+    def test_filter__with_placeholder__keeps_existing(self):
+        """Does not override existing placeholder on existing form field."""
+        # Manually apply some placeholder to form.
+        test_form = self.TestForm()
+        attrs = test_form["test_text"].field.widget.attrs
+        attrs["placeholder"] = "Original Placeholder"
+        test_form["test_text"].field.widget.attrs = {**test_form["test_text"].field.widget.attrs, **attrs}
 
-        with self.subTest("Verify does not override existing placeholder on existing form field"):
-            # Manually apply some placeholder to form.
-            test_form = self.TestForm()
-            attrs = test_form["test_text"].field.widget.attrs
-            attrs["placeholder"] = "Original Placeholder"
-            test_form["test_text"].field.widget.attrs = {**test_form["test_text"].field.widget.attrs, **attrs}
+        # Get value from filter.
+        result = adminlte_filters.with_placeholder(test_form["test_text"])
 
-            # Get value from filter.
-            result = adminlte_filters.with_placeholder(test_form["test_text"])
+        # Verify retrieved value.
+        self.assertIn("Original Placeholder", str(result))
 
-            # Verify retrieved value.
-            self.assertIn("Original Placeholder", str(result))
+    def test_filter__with_list__default(self):
+        """Adds a default list attribute to existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_list(test_form["test_text"])
 
-    def test_filter__with_list(self):
-        """Tests for the "with_list" filter."""
+        # Verify retrieved value.
+        self.assertIn("test_text_list", str(result))
 
-        with self.subTest("Verify adds a default list attribute to existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_list(test_form["test_text"])
+    def test_filter__with_list__given(self):
+        """Adds a specific list attribute to existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_list(test_form["test_text"], name="my_fancy_list")
 
-            # Verify retrieved value.
-            self.assertIn("test_text_list", str(result))
+        # Verify retrieved value.
+        self.assertIn("my_fancy_list", str(result))
 
-        with self.subTest("Verify adds a default list attribute to existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_list(test_form["test_text"], name="my_fancy_list")
+    def test_filter__with_pattern__default(self):
+        """Adds a default pattern attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_pattern(test_form["test_text"])
 
-            # Verify retrieved value.
-            self.assertIn("my_fancy_list", str(result))
+        # Verify retrieved value.
+        self.assertIn(r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}", str(result))
 
-    def test_filter__with_pattern(self):
-        """Tests for the "with_pattern" filter."""
+    def test_filter__with_pattern__given(self):
+        """Adds a specific pattern attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_pattern(test_form["test_text"], pattern=r"[0-9]{3}-[0-9]{4}")
 
-        with self.subTest("Verify adds a default pattern attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_pattern(test_form["test_text"])
+        # Verify retrieved value.
+        self.assertIn('pattern="[0-9]{3}-[0-9]{4}"', str(result))
 
-            # Verify retrieved value.
-            self.assertIn(r"\([0-9]{3}\) [0-9]{3}-[0-9]{4}", str(result))
+    def test_filter__with_inputmask__default(self):
+        """Adds a default inputmask attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_inputmask(test_form["test_text"])
 
-        with self.subTest("Verify adds a specific pattern attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_pattern(test_form["test_text"], pattern=r"[0-9]{3}-[0-9]{4}")
+        # Verify retrieved value.
+        self.assertIn("(999) 999-9999", str(result))
 
-            # Verify retrieved value.
-            self.assertIn('pattern="[0-9]{3}-[0-9]{4}"', str(result))
+    def test_filter__with_inputmask__given(self):
+        """Adds a specific inputmask attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_inputmask(test_form["test_text"], inputmask="999-9999")
 
-    def test_filter__with_inputmask(self):
-        """Tests for the "with_inputmask" filter."""
+        # Verify retrieved value.
+        self.assertIn("999-9999", str(result))
 
-        with self.subTest("Verify adds a default inputmask attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_inputmask(test_form["test_text"])
+    def test_filter__with_min__default(self):
+        """Adds a default min attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_min(test_form["test_text"])
 
-            # Verify retrieved value.
-            self.assertIn("(999) 999-9999", str(result))
+        # Verify retrieved value.
+        self.assertIn('min="0"', str(result))
 
-        with self.subTest("Verify adds a specific inputmask attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_inputmask(test_form["test_text"], inputmask="999-9999")
+    def test_filter__with_min__given(self):
+        """Adds a specific min attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_min(test_form["test_text"], min_val=10)
 
-            # Verify retrieved value.
-            self.assertIn("999-9999", str(result))
+        # Verify retrieved value.
+        self.assertIn('min="10"', str(result))
 
-    def test_filter__with_min(self):
-        """Tests for the "with_min" filter."""
+    def test_filter__with_max__default(self):
+        """Adds a default max attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_max(test_form["test_text"])
 
-        with self.subTest("Verify adds a default min attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_min(test_form["test_text"])
+        # Verify retrieved value.
+        self.assertIn('max="100"', str(result))
 
-            # Verify retrieved value.
-            self.assertIn('min="0"', str(result))
+    def test_filter__with_max__given(self):
+        """Adds a specific max attribute to an existing form field."""
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_max(test_form["test_text"], max_val=90)
 
-        with self.subTest("Verify adds a specific min attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_min(test_form["test_text"], min_val=10)
-
-            # Verify retrieved value.
-            self.assertIn('min="10"', str(result))
-
-    def test_filter__with_max(self):
-        """Tests for the "with_max" filter."""
-
-        with self.subTest("Verify adds a default max attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_max(test_form["test_text"])
-
-            # Verify retrieved value.
-            self.assertIn('max="100"', str(result))
-
-        with self.subTest("Verify adds a specific max attribute to an existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_max(test_form["test_text"], max_val=90)
-
-            # Verify retrieved value.
-            self.assertIn('max="90"', str(result))
+        # Verify retrieved value.
+        self.assertIn('max="90"', str(result))
 
     def test_filter__with_input_type(self):
         """Tests for the "with_input_type" filter."""
 
-        with self.subTest("Verify changes the input type of existing form field"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.with_input_type(test_form["test_text"], new_type="url")
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.with_input_type(test_form["test_text"], new_type="url")
 
-            # Verify retrieved value.
-            self.assertIn('type="url"', str(result))
+        # Verify retrieved value.
+        self.assertIn('type="url"', str(result))
 
     def test_filter__dir(self):
         """Tests for the "dir" filter."""
 
-        with self.subTest("Verify lists the directory of an object"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.directory(test_form["test_text"])
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.directory(test_form["test_text"])
 
-            # Verify retrieved value.
-            self.assertIn("'as_hidden', 'as_text'", str(result))
+        # Verify retrieved value.
+        self.assertIn("'as_hidden', 'as_text'", str(result))
 
     def test_filter__dictionary(self):
         """Tests for the "dictionary" filter."""
 
-        with self.subTest("Verify lists the directory of an object"):
-            # Get value from filter.
-            test_form = self.TestForm()
-            result = adminlte_filters.dictionary(test_form["test_text"])
+        # Get value from filter.
+        test_form = self.TestForm()
+        result = adminlte_filters.dictionary(test_form["test_text"])
 
-            # Verify retrieved value.
-            self.assertIn("'field': <django.forms.fields.CharField", str(result))
+        # Verify retrieved value.
+        self.assertIn("'field': <django.forms.fields.CharField", str(result))
 
     def test_filter__unsnake(self):
         """Tests for the "unsnake" filter."""
 
-        with self.subTest("Verify converts underscores to spaces and capitalizes first letter"):
-            # Get value from filter.
-            result = adminlte_filters.unsnake("this_is_only_a_test")
+        # Get value from filter.
+        result = adminlte_filters.unsnake("this_is_only_a_test")
 
-            # Verify retrieved value.
-            self.assertIn("This is only a test", result)
+        # Verify retrieved value.
+        self.assertIn("This is only a test", result)
 
     def test_filter__unslugify(self):
         """Tests for the "unslugify" filter."""
 
-        with self.subTest("Verify converts hyphens to spaces and capitalizes first letter"):
-            # Get value from filter.
-            result = adminlte_filters.unslugify("this-is-only-a-test")
+        # Get value from filter.
+        result = adminlte_filters.unslugify("this-is-only-a-test")
 
-            # Verify retrieved value.
-            self.assertIn("This is only a test", result)
+        # Verify retrieved value.
+        self.assertIn("This is only a test", result)
 
     def test_filter__dict_get(self):
-        """Tests for the "dict_get" filter."""
+        """Returns dict value if it exists."""
+        # Create test dict
+        test_dict = {"foo": "bar"}
 
-        with self.subTest("Verify returns dict value if it exists"):
-            # Create test dict
-            test_dict = {"foo": "bar"}
+        # Get value from filter.
+        result = adminlte_filters.dict_get(test_dict, "foo")
 
-            # Get value from filter.
-            result = adminlte_filters.dict_get(test_dict, "foo")
+        # Verify retrieved value.
+        self.assertEqual("bar", result)
 
-            # Verify retrieved value.
-            self.assertEqual("bar", result)
+    def test_filter__dict_get__missing_key(self):
+        """Returns None if dict value does not exist."""
+        # Create test dict
+        test_dict = {"foo": "bar"}
 
-        with self.subTest("Verify returns None if dict value does not exist"):
-            # Create test dict
-            test_dict = {"foo": "bar"}
+        # Get value from filter.
+        result = adminlte_filters.dict_get(test_dict, "baz")
 
-            # Get value from filter.
-            result = adminlte_filters.dict_get(test_dict, "baz")
-
-            # Verify retrieved value.
-            self.assertIsNone(result)
+        # Verify retrieved value.
+        self.assertIsNone(result)
 
     def test_filter__multiply(self):
         """Tests for the "multiply" filter."""
 
-        with self.subTest("Verify multiplies first and second parameters together"):
-            # Get value from filter.
-            result = adminlte_filters.multiply(6, 3)
+        # Get value from filter.
+        result = adminlte_filters.multiply(6, 3)
 
-            # Verify retrieved value.
-            self.assertEqual(18, result)
+        # Verify retrieved value.
+        self.assertEqual(18, result)
 
     def test_filter__divide(self):
         """Tests for the "divide" filter."""
 
-        with self.subTest("Verify divides first parameter by the second parameter"):
-            # Get value from filter.
-            result = adminlte_filters.divide(18, 3)
+        # Get value from filter.
+        result = adminlte_filters.divide(18, 3)
 
-            # Verify retrieved value.
-            self.assertEqual(6, result)
+        # Verify retrieved value.
+        self.assertEqual(6, result)
 
     def test_filter__modulo(self):
         """Tests for the "modulo" filter."""
 
-        with self.subTest("Verify remainder from dividing first parameter by the second parameter"):
-            # Get value from filter.
-            result = adminlte_filters.modulo(20, 3)
+        # Get value from filter.
+        result = adminlte_filters.modulo(20, 3)
 
-            # Verify retrieved value.
-            self.assertEqual(2, result)
+        # Verify retrieved value.
+        self.assertEqual(2, result)

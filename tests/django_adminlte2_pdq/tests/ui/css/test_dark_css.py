@@ -32,7 +32,7 @@ class DarkCssTestCase(SimpleTestCase):
     def test__committed_css_matches_generator(self):
         """The committed CSS files are the generator's current output."""
         for file_name, render in dark_css.OUTPUTS.items():
-            with self.subTest(file_name):
+            with self.subTest(file=file_name):
                 committed = (dark_css.OUTPUT_DIR / file_name).read_text(encoding="utf-8")
                 self.assertEqual(
                     committed,
@@ -60,7 +60,7 @@ class DarkCssTestCase(SimpleTestCase):
         """Each dark skin is AdminLTE's skin with only the class renamed."""
         rendered = dark_css.render_skins()
         for skin in dark_css.SKINS:
-            with self.subTest(skin):
+            with self.subTest(skin=skin):
                 adminlte = (dark_css.ADMINLTE_SKINS_DIR / f"skin-{skin}.css").read_text(encoding="utf-8")
                 renamed = re.sub(rf"\.skin-{skin}(?![\w-])", f".skin-{skin}-dark", adminlte).strip()
                 self.assertIn(renamed, rendered)
@@ -88,7 +88,7 @@ class DarkCssTestCase(SimpleTestCase):
         for name in color_css.NAMES:
             base = color_css.COLORS_BY_NAME[color_css.ALIASES.get(name, name)].base
             tint, hover = dark_css.dark_tint(base), dark_css.dark_tint(base, hover=True)
-            with self.subTest(name):
+            with self.subTest(name=name):
                 self.assertGreaterEqual(dark_css._contrast(tint, dark_css.DARK_TEXT_SOFT), dark_css.TINT_MIN_CONTRAST)
                 self.assertGreaterEqual(dark_css._contrast(hover, dark_css.DARK_TEXT_SOFT), dark_css.TINT_MIN_CONTRAST)
                 self.assertNotEqual(tint, hover)
@@ -98,7 +98,7 @@ class DarkCssTestCase(SimpleTestCase):
         tints = {name: dark_css.dark_tint(color_css.COLORS_BY_NAME[name].base) for name in ("navy", "blue", "primary")}
         rgb = {name: [int(value[i : i + 2], 16) for i in (1, 3, 5)] for name, value in tints.items()}
         for first, second in (("navy", "blue"), ("blue", "primary"), ("navy", "primary")):
-            with self.subTest(f"{first} and {second}"):
+            with self.subTest(first=first, second=second):
                 distance = sum((a - b) ** 2 for a, b in zip(rgb[first], rgb[second])) ** 0.5
                 self.assertGreaterEqual(distance, 15, tints)
 
@@ -108,5 +108,5 @@ class DarkCssTestCase(SimpleTestCase):
             with redirect_stdout(io.StringIO()):
                 self.assertEqual(dark_css.main(), 0)
             for file_name, render in dark_css.OUTPUTS.items():
-                with self.subTest(file_name):
+                with self.subTest(file=file_name):
                     self.assertEqual((Path(output_dir) / file_name).read_text(encoding="utf-8"), render())

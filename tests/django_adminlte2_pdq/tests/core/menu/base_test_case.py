@@ -68,8 +68,6 @@ class SidebarMenuBaseTestCase(TestCase):
     # endregion Expected Test Messages
 
     def setUp(self):
-        self.anonymous_user = None
-        self.user = None
         self.staff_user = None
         self.super_user = None
 
@@ -126,45 +124,6 @@ class SidebarMenuBaseTestCase(TestCase):
         # Define various group sets to test against.
         self.full_groups = Group.objects.filter(name__in=("add_bar", "change_bar"))
         self.partial_groups = Group.objects.filter(name="add_bar")
-
-    def _setup_anonymous_user(self):
-        """Set up anonymous user"""
-        self.anonymous_user = AnonymousUser()
-
-    def _setup_user(self, permissions=None, groups=None):
-        """Set up basic user"""
-
-        # Remove user if already exists.
-        # Ensures no potential overlap between subtests.
-        if self.user:
-            self.user.delete()
-
-        # Create basic user.
-        self.user = UserModel()
-        self.user.username = "test_user"
-        self.user.save()
-
-        # Handle if perms provided.
-        if permissions:
-            if isinstance(permissions, str):
-                permissions = [permissions]
-            for permission in permissions:
-                perm_object = Permission.objects.filter(
-                    codename__exact=permission,
-                ).first()
-                self.user.user_permissions.add(perm_object)
-                self.user.save()
-
-        # Handle if groups provided.
-        if groups:
-            if isinstance(groups, str):
-                groups = [groups]
-            for group in groups:
-                group_object = Group.objects.filter(
-                    name=group,
-                ).first()
-                self.user.groups.add(group_object)
-                self.user.save()
 
     def _setup_staff_user(self, permissions=None, groups=None):
         """Set up Staff user"""

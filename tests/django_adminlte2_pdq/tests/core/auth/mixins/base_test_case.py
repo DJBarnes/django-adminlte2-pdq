@@ -67,31 +67,6 @@ class BaseMixinTextCase(IntegrationTestCase):
         "mixin, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
         "achieve the same functionality."
     )
-    pdq_login__login_required_mixin_message = (
-        "AdminLtePdq Error: The 'LoginRequired' mixin is not supported in AdminLtePdq LOGIN REQUIRED mode. "
-        "Having LOGIN REQUIRED mode on implicitly assumes login is required "
-        "for all views that are not in a whitelist setting."
-        "\n\n"
-        "Also consider the 'AllowAnonymousAccess' mixin."
-    )
-    pdq_loose__login_required_mixin_login_whitelist_message = (
-        "AdminLtePdq Error: The class-based view 'LoginRequiredView' has a 'LoginRequired' "
-        "mixin, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
-    )
-    pdq_login__allow_without_permissions_mixin_message = (
-        "AdminLtePdq Error: The 'AllowWithoutPermissions' mixin is not supported in AdminLtePdq "
-        "LOGIN REQUIRED mode. This mixin only exists for clarity of permission access in STRICT mode."
-    )
-
-    pdq_strict__no_mixin_message = (
-        "AdminLtePdq Warning: The class-based view 'StandardView' has permission "
-        "requirements, but does not have any permissions set. "
-        "This means that this view is inaccessible until permissions "
-        "are set for the view.\n"
-        "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-    )
     pdq_strict__login_required_mixin_message = (
         "AdminLtePdq Error: The 'LoginRequired' mixin is not supported in AdminLtePdq STRICT mode. "
         "Having STRICT mode on implicitly assumes login and permissions are required "
@@ -118,9 +93,6 @@ class BaseMixinTextCase(IntegrationTestCase):
         "redundant and probably not achieving the desired effect. Correct this by adding the view to "
         "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
         "'AllowWithoutPermissions' mixin."
-    )
-    pdq_strict__ineffective_login_whitelist_message__no_mixin = pdq_strict__ineffective_login_whitelist_message.format(
-        view_name="StandardView"
     )
     pdq_strict__ineffective_login_whitelist_message__anonymous_access = (
         pdq_strict__ineffective_login_whitelist_message.format(view_name="AllowAnonymousAccessView")

@@ -19,56 +19,16 @@ from tests.django_adminlte2_pdq.tests.core.menu.base_test_case import SidebarMen
 class SidebarRenderTestCase(SidebarMenuBaseTestCase):
     """Tests for expected rendering of the Template Tag Sidebar Menu."""
 
-    def test__render_types(self):
-        """Test render types"""
-        with self.subTest("Render section - standard"):
-            self._setup_staff_user("add_permission")
+    def test__render_section(self):
+        """render_section renders the section header and its nodes."""
+        self._setup_staff_user("add_permission")
 
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
 
-            section = {
-                "text": "Samples",
-                "nodes": [
-                    {
-                        "text": "Sample Tree",
-                        "icon": "fa fa-leaf",
-                        "nodes": [
-                            {
-                                "route": "adminlte2_pdq:sample2",
-                                "text": "Sample2",
-                                "icon": "fa fa-building",
-                            },
-                        ],
-                    },
-                ],
-            }
-
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "section": section,
-                    "request": request,
-                }
-            )
-
-            template_to_render = Template("{% load sidebar_menu %}{% render_section section %}")
-
-            rendered_template = template_to_render.render(context)
-
-            self.assertIn('<li class="header">', rendered_template)
-            self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview active">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
-
-        with self.subTest("Render nodes - Standard"):
-            self._setup_staff_user("add_permission")
-
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
-
-            nodes = [
+        section = {
+            "text": "Samples",
+            "nodes": [
                 {
                     "text": "Sample Tree",
                     "icon": "fa fa-leaf",
@@ -80,31 +40,36 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
                         },
                     ],
                 },
-            ]
+            ],
+        }
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "nodes": nodes,
-                    "request": request,
-                }
-            )
+        context = Context(
+            {
+                "user": self.staff_user,
+                "section": section,
+                "request": request,
+            }
+        )
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_nodes nodes %}")
+        template_to_render = Template("{% load sidebar_menu %}{% render_section section %}")
 
-            rendered_template = template_to_render.render(context)
+        rendered_template = template_to_render.render(context)
 
-            self.assertIn('<li class="treeview active">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn("Samples", rendered_template)
+        self.assertIn('<li class="treeview active">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
 
-        with self.subTest("Render tree - Standard"):
-            self._setup_staff_user("add_permission")
+    def test__render_nodes(self):
+        """render_nodes renders each node."""
+        self._setup_staff_user("add_permission")
 
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
 
-            node = {
+        nodes = [
+            {
                 "text": "Sample Tree",
                 "icon": "fa fa-leaf",
                 "nodes": [
@@ -114,278 +79,320 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
                         "icon": "fa fa-building",
                     },
                 ],
+            },
+        ]
+
+        context = Context(
+            {
+                "user": self.staff_user,
+                "nodes": nodes,
+                "request": request,
             }
+        )
 
-            context = Context(
+        template_to_render = Template("{% load sidebar_menu %}{% render_nodes nodes %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn('<li class="treeview active">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
+
+    def test__render_tree(self):
+        """render_tree renders the tree and its child nodes."""
+        self._setup_staff_user("add_permission")
+
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
+
+        node = {
+            "text": "Sample Tree",
+            "icon": "fa fa-leaf",
+            "nodes": [
                 {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+                    "route": "adminlte2_pdq:sample2",
+                    "text": "Sample2",
+                    "icon": "fa fa-building",
+                },
+            ],
+        }
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
-
-            rendered_template = template_to_render.render(context)
-
-            self.assertIn('<li class="treeview active">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
-
-        with self.subTest("Render tree - Node lacks icon"):
-            self._setup_staff_user("add_permission")
-
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
-
-            node = {
-                "text": "Sample Tree",
-                "nodes": [
-                    {
-                        "route": "adminlte2_pdq:sample2",
-                        "text": "Sample2",
-                        "icon": "fa fa-building",
-                    },
-                ],
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
+        template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn('<li class="treeview active">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
+
+    def test__render_tree__node_without_icon(self):
+        """render_tree renders a tree without an icon."""
+        self._setup_staff_user("add_permission")
+
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
+
+        node = {
+            "text": "Sample Tree",
+            "nodes": [
                 {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+                    "route": "adminlte2_pdq:sample2",
+                    "text": "Sample2",
+                    "icon": "fa fa-building",
+                },
+            ],
+        }
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
-
-            rendered_template = template_to_render.render(context)
-
-            self.assertIn('<li class="treeview active">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertNotIn("fa fa-leaf", rendered_template)
-            self.assertIn("not-found", rendered_template)
-
-        with self.subTest("Render tree - Root has a route"):
-            self._setup_staff_user("add_permission")
-
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
-
-            node = {
-                "route": "adminlte2_pdq:sample1",
-                "text": "Sample Tree",
-                "icon": "fa fa-leaf",
-                "nodes": [
-                    {
-                        "route": "adminlte2_pdq:sample2",
-                        "text": "Sample2",
-                        "icon": "fa fa-building",
-                    },
-                ],
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
+        template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn('<li class="treeview active">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertNotIn("fa fa-leaf", rendered_template)
+        self.assertIn("not-found", rendered_template)
+
+    def test__render_tree__root_with_route(self):
+        """render_tree renders a tree whose root has a route."""
+        self._setup_staff_user("add_permission")
+
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
+
+        node = {
+            "route": "adminlte2_pdq:sample1",
+            "text": "Sample Tree",
+            "icon": "fa fa-leaf",
+            "nodes": [
                 {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+                    "route": "adminlte2_pdq:sample2",
+                    "text": "Sample2",
+                    "icon": "fa fa-building",
+                },
+            ],
+        }
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
-
-            rendered_template = " ".join(template_to_render.render(context).split())
-
-            # The root is a plain link, and the toggle is a separate element right before the menu,
-            # which is the element AdminLTE's tree code toggles.
-            self.assertIn('<li class="treeview treeview-split active">', rendered_template)
-            self.assertIn('<a href="/sample1/" class="node-link" >', rendered_template)
-            self.assertIn('class="treeview-toggle"', rendered_template)
-            self.assertRegex(rendered_template, r'class="treeview-toggle".*?</a> <ul class="treeview-menu"')
-            self.assertNotIn("pull-right-container", rendered_template.split('class="treeview-toggle"')[0])
-
-        with self.subTest("Render tree - Root without a route has no separate toggle"):
-            self._setup_staff_user("add_permission")
-
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
-
-            node = {
-                "text": "Sample Tree",
-                "icon": "fa fa-leaf",
-                "nodes": [
-                    {
-                        "route": "adminlte2_pdq:sample2",
-                        "text": "Sample2",
-                        "icon": "fa fa-building",
-                    },
-                ],
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
+        template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
+
+        rendered_template = " ".join(template_to_render.render(context).split())
+
+        # The root is a plain link, and the toggle is a separate element right before the menu,
+        # which is the element AdminLTE's tree code toggles.
+        self.assertIn('<li class="treeview treeview-split active">', rendered_template)
+        self.assertIn('<a href="/sample1/" class="node-link" >', rendered_template)
+        self.assertIn('class="treeview-toggle"', rendered_template)
+        self.assertRegex(rendered_template, r'class="treeview-toggle".*?</a> <ul class="treeview-menu"')
+        self.assertNotIn("pull-right-container", rendered_template.split('class="treeview-toggle"')[0])
+
+    def test__render_tree__root_without_route(self):
+        """render_tree renders no separate toggle for a tree whose root has no route."""
+        self._setup_staff_user("add_permission")
+
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
+
+        node = {
+            "text": "Sample Tree",
+            "icon": "fa fa-leaf",
+            "nodes": [
                 {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+                    "route": "adminlte2_pdq:sample2",
+                    "text": "Sample2",
+                    "icon": "fa fa-building",
+                },
+            ],
+        }
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
-
-            rendered_template = template_to_render.render(context)
-
-            self.assertIn('<li class="treeview active">', rendered_template)
-            self.assertNotIn("treeview-toggle", rendered_template)
-
-        with self.subTest("Render tree - Nested tree lacks route"):
-            self._setup_staff_user("add_permission")
-
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
-
-            node = {
-                "text": "Outer Tree",
-                "icon": "fa fa-leaf",
-                "nodes": [
-                    {
-                        "text": "Inner Tree",
-                        "icon": "fa fa-tree",
-                        "nodes": [
-                            {
-                                "route": "adminlte2_pdq:sample2",
-                                "text": "Sample2",
-                                "icon": "fa fa-building",
-                            },
-                        ],
-                    },
-                ],
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
+        template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn('<li class="treeview active">', rendered_template)
+        self.assertNotIn("treeview-toggle", rendered_template)
+
+    def test__render_tree__nested_tree_without_route(self):
+        """render_tree renders a nested tree without a route."""
+        self._setup_staff_user("add_permission")
+
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
+
+        node = {
+            "text": "Outer Tree",
+            "icon": "fa fa-leaf",
+            "nodes": [
                 {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+                    "text": "Inner Tree",
+                    "icon": "fa fa-tree",
+                    "nodes": [
+                        {
+                            "route": "adminlte2_pdq:sample2",
+                            "text": "Sample2",
+                            "icon": "fa fa-building",
+                        },
+                    ],
+                },
+            ],
+        }
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
-
-            rendered_template = template_to_render.render(context)
-
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-tree", rendered_template)
-            self.assertEqual(node["nodes"][0]["url"], "#")
-
-        with self.subTest("Render link - Standard"):
-            self._setup_staff_user("add_permission")
-
-            request = RequestFactory().get("/some/path/")
-
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "icon": "fa fa-building",
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+        template_to_render = Template("{% load sidebar_menu %}{% render_tree node %}")
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
+        rendered_template = template_to_render.render(context)
 
-            rendered_template = template_to_render.render(context)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-tree", rendered_template)
+        self.assertEqual(node["nodes"][0]["url"], "#")
 
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
+    def test__render_link(self):
+        """render_link renders the link's text and icon."""
+        self._setup_staff_user("add_permission")
 
-        with self.subTest("Render link - No icon provided"):
-            self._setup_staff_user("add_permission")
+        request = RequestFactory().get("/some/path/")
 
-            request = RequestFactory().get("/some/path/")
+        node = {
+            "route": "adminlte2_pdq:sample2",
+            "text": "Sample2",
+            "icon": "fa fa-building",
+        }
 
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+        template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
+        rendered_template = template_to_render.render(context)
 
-            rendered_template = template_to_render.render(context)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
 
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertNotIn("fa fa-building", rendered_template)
+    def test__render_link__without_icon(self):
+        """render_link renders a link without an icon."""
+        self._setup_staff_user("add_permission")
 
-        with self.subTest("Render link - Dynamic text via string"):
-            self._setup_staff_user("add_permission")
+        request = RequestFactory().get("/some/path/")
 
-            request = RequestFactory().get("/some/path/")
+        node = {
+            "route": "adminlte2_pdq:sample2",
+            "text": "Sample2",
+        }
 
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "hook": "tests.django_adminlte2_pdq.django_test_project.utils.valid_string_hook_function",
-                "hook_args": ["foo"],
-                "hook_kwargs": {"kwarg1": "bar"},
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+        template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
+        rendered_template = template_to_render.render(context)
 
-            rendered_template = template_to_render.render(context)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertNotIn("fa fa-building", rendered_template)
 
-            self.assertIn(
-                '<span class="node-link-text" title="foobar foo bar">foobar foo bar</span>', rendered_template
-            )
-            self.assertNotIn("fa fa-building", rendered_template)
+    def test__render_link__dynamic_text_string(self):
+        """render_link uses the text a hook function returns as a string, for both the text and the title."""
+        self._setup_staff_user("add_permission")
 
-        with self.subTest("Render link - Dynamic text via tuple"):
-            self._setup_staff_user("add_permission")
+        request = RequestFactory().get("/some/path/")
 
-            request = RequestFactory().get("/some/path/")
+        node = {
+            "route": "adminlte2_pdq:sample2",
+            "text": "Sample2",
+            "hook": "tests.django_adminlte2_pdq.django_test_project.utils.valid_string_hook_function",
+            "hook_args": ["foo"],
+            "hook_kwargs": {"kwarg1": "bar"},
+        }
 
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "hook": "tests.django_adminlte2_pdq.django_test_project.utils.valid_tuple_hook_function",
-                "hook_args": ["foo"],
-                "hook_kwargs": {"kwarg1": "bar"},
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
             }
+        )
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "node": node,
-                    "request": request,
-                }
-            )
+        template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
+        rendered_template = template_to_render.render(context)
 
-            rendered_template = template_to_render.render(context)
+        self.assertIn('<span class="node-link-text" title="foobar foo bar">foobar foo bar</span>', rendered_template)
+        self.assertNotIn("fa fa-building", rendered_template)
 
-            self.assertIn('<span class="node-link-text" title="foo bar">foobar</span>', rendered_template)
-            self.assertNotIn("fa fa-building", rendered_template)
+    def test__render_link__dynamic_text_tuple(self):
+        """render_link uses the text and title a hook function returns as a tuple."""
+        self._setup_staff_user("add_permission")
+
+        request = RequestFactory().get("/some/path/")
+
+        node = {
+            "route": "adminlte2_pdq:sample2",
+            "text": "Sample2",
+            "hook": "tests.django_adminlte2_pdq.django_test_project.utils.valid_tuple_hook_function",
+            "hook_args": ["foo"],
+            "hook_kwargs": {"kwarg1": "bar"},
+        }
+
+        context = Context(
+            {
+                "user": self.staff_user,
+                "node": node,
+                "request": request,
+            }
+        )
+
+        template_to_render = Template("{% load sidebar_menu %}{% render_link node %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn('<span class="node-link-text" title="foo bar">foobar</span>', rendered_template)
+        self.assertNotIn("fa fa-building", rendered_template)
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=False)
     def test__user_has_access_and_admin_include_is_off(self):
@@ -445,288 +452,292 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
 
     @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
     def test__user_has_access_and_admin_include_is_on(self):
-        """Test user has access and admin include is on"""
-
-        with self.subTest("With menu not first"):
-            self._setup_staff_user(
-                [
-                    "add_permission",
-                    "change_permission",
-                    "delete_permission",
-                    "add_user",
-                    "change_user",
-                    "delete_user",
-                ]
-            )
-
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
-
-            menu = [
-                {
-                    "text": "Samples",
-                    "nodes": [
-                        {
-                            "text": "Sample Tree",
-                            "icon": "fa fa-leaf",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                }
+        """With the admin menu included, the admin nodes are shown with the main menu."""
+        self._setup_staff_user(
+            [
+                "add_permission",
+                "change_permission",
+                "delete_permission",
+                "add_user",
+                "change_user",
+                "delete_user",
             ]
+        )
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "ADMINLTE2_MENU": menu,
-                    "request": request,
-                }
-            )
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
+        menu = [
+            {
+                "text": "Samples",
+                "nodes": [
+                    {
+                        "text": "Sample Tree",
+                        "icon": "fa fa-leaf",
+                        "nodes": [
+                            {
+                                "route": "adminlte2_pdq:sample2",
+                                "text": "Sample2",
+                                "icon": "fa fa-building",
+                            },
+                        ],
+                    },
+                ],
+            }
+        ]
 
-            rendered_template = template_to_render.render(context)
+        context = Context(
+            {
+                "user": self.staff_user,
+                "ADMINLTE2_MENU": menu,
+                "request": request,
+            }
+        )
 
-            self.assertIn("Authentication", rendered_template)
-            self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
-            self.assertIn("Home", rendered_template)
-            self.assertIn('<li class="header">', rendered_template)
-            self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview treeview-split">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
+        template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
-        with self.subTest("With menu first"):
-            self._setup_staff_user(
-                [
-                    "add_permission",
-                    "change_permission",
-                    "delete_permission",
-                    "add_user",
-                    "change_user",
-                    "delete_user",
-                ]
-            )
+        rendered_template = template_to_render.render(context)
 
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
+        self.assertIn("Authentication", rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn("Home", rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn("Samples", rendered_template)
+        self.assertIn('<li class="treeview treeview-split">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
 
-            menu = [
-                {
-                    "text": "Samples",
-                    "nodes": [
-                        {
-                            "text": "Sample Tree",
-                            "icon": "fa fa-leaf",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                }
+    @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
+    def test__user_has_access_and_admin_include_is_on__menu_first(self):
+        """With the admin menu included, the admin nodes are shown with ADMINLTE2_MENU_FIRST."""
+        self._setup_staff_user(
+            [
+                "add_permission",
+                "change_permission",
+                "delete_permission",
+                "add_user",
+                "change_user",
+                "delete_user",
             ]
+        )
 
-            menu_first = [
-                {
-                    "text": "First",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample1",
-                            "text": "Sample1",
-                            "icon": "fa fa-building",
-                        }
-                    ],
-                }
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
+
+        menu = [
+            {
+                "text": "Samples",
+                "nodes": [
+                    {
+                        "text": "Sample Tree",
+                        "icon": "fa fa-leaf",
+                        "nodes": [
+                            {
+                                "route": "adminlte2_pdq:sample2",
+                                "text": "Sample2",
+                                "icon": "fa fa-building",
+                            },
+                        ],
+                    },
+                ],
+            }
+        ]
+
+        menu_first = [
+            {
+                "text": "First",
+                "nodes": [
+                    {
+                        "route": "adminlte2_pdq:sample1",
+                        "text": "Sample1",
+                        "icon": "fa fa-building",
+                    }
+                ],
+            }
+        ]
+
+        context = Context(
+            {
+                "user": self.staff_user,
+                "ADMINLTE2_MENU": menu,
+                "ADMINLTE2_MENU_FIRST": menu_first,
+                "request": request,
+            }
+        )
+
+        template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
+
+        rendered_template = template_to_render.render(context)
+
+        self.assertIn("Authentication", rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn("Home", rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn("Samples", rendered_template)
+        self.assertIn('<li class="treeview treeview-split">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
+        self.assertIn('<li class="separator">', rendered_template)
+
+    @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
+    def test__user_has_access_and_admin_include_is_on__menu_last(self):
+        """With the admin menu included, the admin nodes are shown with ADMINLTE2_MENU_LAST."""
+        self._setup_staff_user(
+            [
+                "add_permission",
+                "change_permission",
+                "delete_permission",
+                "add_user",
+                "change_user",
+                "delete_user",
             ]
+        )
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "ADMINLTE2_MENU": menu,
-                    "ADMINLTE2_MENU_FIRST": menu_first,
-                    "request": request,
-                }
-            )
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
+        menu = [
+            {
+                "text": "Samples",
+                "nodes": [
+                    {
+                        "text": "Sample Tree",
+                        "icon": "fa fa-leaf",
+                        "nodes": [
+                            {
+                                "route": "adminlte2_pdq:sample2",
+                                "text": "Sample2",
+                                "icon": "fa fa-building",
+                            },
+                        ],
+                    },
+                ],
+            }
+        ]
 
-            rendered_template = template_to_render.render(context)
+        menu_last = [
+            {
+                "text": "Last",
+                "nodes": [
+                    {
+                        "route": "adminlte2_pdq:sample1",
+                        "text": "Sample1",
+                        "icon": "fa fa-building",
+                    }
+                ],
+            }
+        ]
 
-            self.assertIn("Authentication", rendered_template)
-            self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
-            self.assertIn("Home", rendered_template)
-            self.assertIn('<li class="header">', rendered_template)
-            self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview treeview-split">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
-            self.assertIn('<li class="separator">', rendered_template)
+        context = Context(
+            {
+                "user": self.staff_user,
+                "ADMINLTE2_MENU": menu,
+                "ADMINLTE2_MENU_LAST": menu_last,
+                "request": request,
+            }
+        )
 
-        with self.subTest("With menu last"):
-            self._setup_staff_user(
-                [
-                    "add_permission",
-                    "change_permission",
-                    "delete_permission",
-                    "add_user",
-                    "change_user",
-                    "delete_user",
-                ]
-            )
+        template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
+        rendered_template = template_to_render.render(context)
 
-            menu = [
-                {
-                    "text": "Samples",
-                    "nodes": [
-                        {
-                            "text": "Sample Tree",
-                            "icon": "fa fa-leaf",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                }
+        self.assertIn("Authentication", rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn("Home", rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn("Samples", rendered_template)
+        self.assertIn('<li class="treeview treeview-split">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
+        self.assertIn('<li class="separator">', rendered_template)
+
+    @override_settings(ADMINLTE2_INCLUDE_ADMIN_NAV_ON_MAIN_PAGES=True)
+    def test__user_has_access_and_admin_include_is_on__menu_first_and_last(self):
+        """With the admin menu included, the admin nodes are shown with both extra menus."""
+        self._setup_staff_user(
+            [
+                "add_permission",
+                "change_permission",
+                "delete_permission",
+                "add_user",
+                "change_user",
+                "delete_user",
             ]
+        )
 
-            menu_last = [
-                {
-                    "text": "Last",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample1",
-                            "text": "Sample1",
-                            "icon": "fa fa-building",
-                        }
-                    ],
-                }
-            ]
+        request = RequestFactory().get("/sample2/")
+        request.user = self.staff_user
 
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "ADMINLTE2_MENU": menu,
-                    "ADMINLTE2_MENU_LAST": menu_last,
-                    "request": request,
-                }
-            )
+        menu = [
+            {
+                "text": "Samples",
+                "nodes": [
+                    {
+                        "text": "Sample Tree",
+                        "icon": "fa fa-leaf",
+                        "nodes": [
+                            {
+                                "route": "adminlte2_pdq:sample2",
+                                "text": "Sample2",
+                                "icon": "fa fa-building",
+                            },
+                        ],
+                    },
+                ],
+            }
+        ]
 
-            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
+        menu_first = [
+            {
+                "text": "First",
+                "nodes": [
+                    {
+                        "route": "adminlte2_pdq:demo-css",
+                        "text": "DemoCSS",
+                        "icon": "fa fa-building-o",
+                    }
+                ],
+            }
+        ]
 
-            rendered_template = template_to_render.render(context)
+        menu_last = [
+            {
+                "text": "Last",
+                "nodes": [
+                    {
+                        "route": "adminlte2_pdq:sample1",
+                        "text": "Sample1",
+                        "icon": "fa fa-building",
+                    }
+                ],
+            }
+        ]
 
-            self.assertIn("Authentication", rendered_template)
-            self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
-            self.assertIn("Home", rendered_template)
-            self.assertIn('<li class="header">', rendered_template)
-            self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview treeview-split">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
-            self.assertIn('<li class="separator">', rendered_template)
+        context = Context(
+            {
+                "user": self.staff_user,
+                "ADMINLTE2_MENU": menu,
+                "ADMINLTE2_MENU_FIRST": menu_first,
+                "ADMINLTE2_MENU_LAST": menu_last,
+                "request": request,
+            }
+        )
 
-        with self.subTest("With menu first and last"):
-            self._setup_staff_user(
-                [
-                    "add_permission",
-                    "change_permission",
-                    "delete_permission",
-                    "add_user",
-                    "change_user",
-                    "delete_user",
-                ]
-            )
+        template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
 
-            request = RequestFactory().get("/sample2/")
-            request.user = self.staff_user
+        rendered_template = template_to_render.render(context)
 
-            menu = [
-                {
-                    "text": "Samples",
-                    "nodes": [
-                        {
-                            "text": "Sample Tree",
-                            "icon": "fa fa-leaf",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                }
-            ]
-
-            menu_first = [
-                {
-                    "text": "First",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:demo-css",
-                            "text": "DemoCSS",
-                            "icon": "fa fa-building-o",
-                        }
-                    ],
-                }
-            ]
-
-            menu_last = [
-                {
-                    "text": "Last",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample1",
-                            "text": "Sample1",
-                            "icon": "fa fa-building",
-                        }
-                    ],
-                }
-            ]
-
-            context = Context(
-                {
-                    "user": self.staff_user,
-                    "ADMINLTE2_MENU": menu,
-                    "ADMINLTE2_MENU_FIRST": menu_first,
-                    "ADMINLTE2_MENU_LAST": menu_last,
-                    "request": request,
-                }
-            )
-
-            template_to_render = Template("{% load sidebar_menu %}{% render_menu %}")
-
-            rendered_template = template_to_render.render(context)
-
-            self.assertIn("Authentication", rendered_template)
-            self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
-            self.assertIn("Home", rendered_template)
-            self.assertIn('<li class="header">', rendered_template)
-            self.assertIn("Samples", rendered_template)
-            self.assertIn('<li class="treeview treeview-split">', rendered_template)
-            self.assertIn('<span class="node-link-text" title="DemoCSS">DemoCSS</span>', rendered_template)
-            self.assertIn("fa fa-building-o", rendered_template)
-            self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
-            self.assertIn("fa fa-building", rendered_template)
-            self.assertIn('<li class="separator">', rendered_template)
+        self.assertIn("Authentication", rendered_template)
+        self.assertIn('<span class="node-link-text" title="User">User</span>', rendered_template)
+        self.assertIn("Home", rendered_template)
+        self.assertIn('<li class="header">', rendered_template)
+        self.assertIn("Samples", rendered_template)
+        self.assertIn('<li class="treeview treeview-split">', rendered_template)
+        self.assertIn('<span class="node-link-text" title="DemoCSS">DemoCSS</span>', rendered_template)
+        self.assertIn("fa fa-building-o", rendered_template)
+        self.assertIn('<span class="node-link-text" title="Sample2">Sample2</span>', rendered_template)
+        self.assertIn("fa fa-building", rendered_template)
+        self.assertIn('<li class="separator">', rendered_template)
 
 
 class SidebarFullStackRenderTestCase(

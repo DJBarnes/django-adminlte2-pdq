@@ -52,44 +52,12 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "LOOSE mode. This decorator only exists for clarity of permission access in STRICT mode."
     )
 
-    pdq_login__login_required_decorator_message = (
-        "AdminLtePdq Error: The 'login_required' decorator is not supported in AdminLtePdq LOGIN REQUIRED mode. "
-        "Having LOGIN REQUIRED mode on implicitly assumes login is required "
-        "for all views that are not in a whitelist setting."
-        "\n\n"
-        "Also consider the 'allow_anonymous_access' decorator."
-    )
-    pdq_loose__login_required_decorator_login_whitelist_message = (
-        "AdminLtePdq Error: The function-based view 'login_required_view' has a 'login_required' "
-        "decorator, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
-    )
-    pdq_login__allow_without_permissions_decorator_message = (
-        "AdminLtePdq Error: The 'allow_without_permissions' decorator is not supported in AdminLtePdq "
-        "LOGIN REQUIRED mode. This decorator only exists for clarity of permission access in STRICT mode."
-    )
     pdq_login__allow_anonymous_access_whitelist_overlap_message = (
         "AdminLtePdq Warning: The function-based view 'allow_anonymous_access_view' has an 'allow_anonymous_access' "
         "decorator, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
         "achieve the same functionality."
     )
 
-    pdq_strict__no_decorator_message = (
-        "AdminLtePdq Warning: This project is set to run in strict mode, and "
-        "the function-based view 'standard_view' does not have any decorators set. "
-        "This means that this view is inaccessible until permission decorators "
-        "are set for the view, or the view is added to the "
-        "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-        "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-    )
-    pdq_strict__login_required_decorator_message = (
-        "AdminLtePdq Error: The 'login_required' decorator is not supported in AdminLtePdq STRICT mode. "
-        "Having STRICT mode on implicitly assumes login and permissions are required "
-        "for all views that are not in a whitelist setting."
-        "\n\n"
-        "Also consider the 'allow_anonymous_access' or 'allow_without_permissions' decorators."
-    )
     pdq_strict__allow_without_permissions_whitelist_overlap_message = (
         "AdminLtePdq Warning: The function-based view 'allow_without_permissions_view' has an "
         "'allow_without_permissions' decorator, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. "
@@ -109,9 +77,6 @@ class BaseDecoratorTestCase(IntegrationTestCase):
         "redundant and probably not achieving the desired effect. Correct this by adding the view to "
         "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
         "'allow_without_permissions' decorator."
-    )
-    pdq_strict__ineffective_login_whitelist_message__no_decorator = (
-        pdq_strict__ineffective_login_whitelist_message.format(view_name="standard_view")
     )
     pdq_strict__ineffective_login_whitelist_message__anonymous_access = (
         pdq_strict__ineffective_login_whitelist_message.format(view_name="allow_anonymous_access_view")

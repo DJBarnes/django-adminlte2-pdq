@@ -6,7 +6,6 @@ Tests for the sidebar menu's node helpers: permissions, urls, whitelists, and ac
 from unittest.mock import patch
 
 # Third-party Imports.
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.http import HttpRequest
 from django.test import override_settings, RequestFactory
@@ -18,12 +17,144 @@ from tests.django_adminlte2_pdq.tests.core.menu.base_test_case import SidebarMen
 
 
 # Module Variables.
+HOME = "adminlte2_pdq:home"
+DEMO_CSS = "adminlte2_pdq:demo-css"
+EXTERNAL_URL = "https://github.com"
+
+# The sample views' permissions: sample1 requires all of them, sample2 one of them. Both also require login.
+SAMPLE1_PERMISSIONS = ["auth.add_group", "auth.change_group", "auth.delete_group"]
+SAMPLE2_PERMISSIONS = ["auth.add_permission", "auth.change_permission", "auth.delete_permission"]
+
+# What get_permissions_from_node() returns for a node without any settings, or that links to a view without any.
+NO_PERMISSIONS = {
+    "allow_anonymous_access": False,
+    "login_required": False,
+    "allow_without_permissions": False,
+    "one_of_permissions": [],
+    "full_permissions": [],
+    "node_requires_permissions": False,
+}
+
+# Each node's settings (besides its text and icon), and how its result differs from NO_PERMISSIONS. A setting on the
+# node is used instead of the view's. node_requires_permissions is True when the node itself sets permissions.
+PERMISSIONS_FROM_NODE = {
+    "hash route": ({"route": "#"}, {}),
+    "view without settings": ({"route": HOME}, {}),
+    "external url": ({"route": "#", "url": EXTERNAL_URL}, {}),
+    # login_required.
+    "login_required on the node": ({"route": DEMO_CSS, "login_required": True}, {"login_required": True}),
+    "login_required from the view": ({"route": "adminlte2_pdq:sample_form"}, {"login_required": True}),
+    "login_required from the view, by url": ({"route": "#", "url": "/sample_form/"}, {"login_required": True}),
+    "login_required on the node and the view": (
+        {"route": "adminlte2_pdq:sample_form", "login_required": False},
+        {},
+    ),
+    "login_required on a node with an external url": (
+        {"route": "#", "url": EXTERNAL_URL, "login_required": True},
+        {"login_required": True},
+    ),
+    # one_of_permissions.
+    "one_of_permissions on the node": (
+        {"route": DEMO_CSS, "one_of_permissions": ["add_sample2", "update_sample2"]},
+        {"one_of_permissions": ["add_sample2", "update_sample2"], "node_requires_permissions": True},
+    ),
+    "one_of_permissions on the node, as a string": (
+        {"route": DEMO_CSS, "one_of_permissions": "add_sample2"},
+        {"one_of_permissions": ["add_sample2"], "node_requires_permissions": True},
+    ),
+    "one_of_permissions from the view": (
+        {"route": "adminlte2_pdq:sample2"},
+        {"login_required": True, "one_of_permissions": SAMPLE2_PERMISSIONS},
+    ),
+    "one_of_permissions from the view, by url": (
+        {"route": "#", "url": "/sample2/"},
+        {"login_required": True, "one_of_permissions": SAMPLE2_PERMISSIONS},
+    ),
+    "one_of_permissions on the node and the view": (
+        {"route": "adminlte2_pdq:sample2", "one_of_permissions": []},
+        {"login_required": True},
+    ),
+    "one_of_permissions on a node with an external url": (
+        {"route": "#", "url": EXTERNAL_URL, "one_of_permissions": ["add_sample2", "update_sample2"]},
+        {"one_of_permissions": ["add_sample2", "update_sample2"], "node_requires_permissions": True},
+    ),
+    # permissions.
+    "permissions on the node": (
+        {"route": DEMO_CSS, "permissions": ["add_sample1", "update_sample1"]},
+        {"full_permissions": ["add_sample1", "update_sample1"], "node_requires_permissions": True},
+    ),
+    "permissions on the node, as a string": (
+        {"route": DEMO_CSS, "permissions": "add_sample1"},
+        {"full_permissions": ["add_sample1"], "node_requires_permissions": True},
+    ),
+    "permissions from the view": (
+        {"route": "adminlte2_pdq:sample1"},
+        {"login_required": True, "full_permissions": SAMPLE1_PERMISSIONS},
+    ),
+    "permissions from the view, by url": (
+        {"route": "#", "url": "/sample1/"},
+        {"login_required": True, "full_permissions": SAMPLE1_PERMISSIONS},
+    ),
+    "permissions on the node and the view": (
+        {"route": "adminlte2_pdq:sample1", "permissions": []},
+        {"login_required": True},
+    ),
+    "permissions on a node with an external url": (
+        {"route": "#", "url": EXTERNAL_URL, "permissions": ["add_sample1", "update_sample1"]},
+        {"full_permissions": ["add_sample1", "update_sample1"], "node_requires_permissions": True},
+    ),
+}
+
+# Node settings that conflict. Each raises ImproperlyConfigured, whether set on the node or on the linked view.
+CONFLICTING_SETTINGS = {
+    "allow_anonymous_access and login_required": {"allow_anonymous_access": True, "login_required": True},
+    "allow_without_permissions and permissions": {"allow_without_permissions": True, "permissions": ["foobar"]},
+    "allow_anonymous_access and permissions": {"allow_anonymous_access": True, "permissions": ["foobar"]},
+}
+
+# Each staff user's permissions and the permissions checked, and whether check_for_one_permission() and
+# check_for_all_permissions() pass. "superuser" is a superuser without permissions.
+PERMISSION_CHECKS = {
+    "missing permission": ([], ["user_does_not_have_this_one"], False, False),
+    "one of two permissions": (["add_group"], ["auth.add_group", "auth.update_group"], True, False),
+    "all permissions": (["add_group"], ["auth.add_group"], True, True),
+    "no permissions to check": (["add_group"], [], False, False),
+    "superuser": ("superuser", ["does_not_matter_since_superuser"], True, True),
+}
+
+# Each request path, whether the node needs an exact url match, and whether a node for /home/ is active.
+ACTIVE_STATUS = {
+    "exact match": ("/home/", False, True),
+    "starts with": ("/home/some/sub/url/", False, True),
+    "no match": ("/homey_da_clown/", False, False),
+    "exact match, exact required": ("/home/", True, True),
+    "starts with, exact required": ("/home/some/sub/url/", True, False),
+}
+
+
+def nest(node, depth):
+    """Put the node in a menu tree, at the given depth (1 = top level). Returns the top-level node list."""
+    nodes = [node]
+    for level in range(depth - 1, 0, -1):
+        nodes = [{"text": f"Tree level {level}", "icon": "fa fa-leaf", "nodes": nodes}]
+    return nodes
+
+
+def sample2_node():
+    """A node for the sample2 view, which requires one of the add, change, or delete permission permissions."""
+    return {"route": "adminlte2_pdq:sample2", "text": "Sample2", "icon": "fa fa-building"}
 
 
 class SidebarMenuHelpersTestCase(SidebarMenuBaseTestCase):
     """
     Tests basic logic for sidebar Template Tags and Helper functions used in those template tags.
     """
+
+    def _superuser(self):
+        """The superuser, created on first use."""
+        if not self.super_user:
+            self._setup_super_user()
+        return self.super_user
 
     # region Demo Url
 
@@ -42,1260 +173,185 @@ class SidebarMenuHelpersTestCase(SidebarMenuBaseTestCase):
 
     # region get_permissions_from_node() Function
 
-    def test__get_permissions_from_node__errors(self):
-        """Tests for various expected errors in get_permissions_from_node() function."""
+    def test__get_permissions_from_node(self):
+        """The permission settings come from the node, or else from the view it links to."""
+        for name, (settings, differences) in PERMISSIONS_FROM_NODE.items():
+            with self.subTest(node=name):
+                node = {"text": "Sample", "icon": "fa fa-file", **settings}
 
-        with self.subTest("Raises KeyError when route is missing."):
-            # Define node with no route.
-            node = {
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
+                result = sidebar_menu.get_permissions_from_node(node)
 
-            # Call function to test.
-            with self.assertRaises(KeyError) as err:
-                sidebar_menu.get_permissions_from_node(node)
-            self.assertEqual(self.node_error__key_error_message, str(err.exception))
-
-        with self.subTest("Propagates route reverse error"):
-            # Define node with invalid route.
-            node = {
-                "route": "foobar",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
-
-            # Call function to test.
-            with self.assertRaises(NoReverseMatch) as err:
-                sidebar_menu.get_permissions_from_node(node)
-            self.assertEqual(self.node_error__invalid_route_message, str(err.exception))
-
-        with self.subTest("Raises Improperly Configured node when both anonymous and login required"):
-            # Define node that will trigger improperly configured error
-            node = {
-                "route": "foobar",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-                "allow_anonymous_access": True,
-                "login_required": True,
-            }
-
-            # Call function to test.
-            with self.assertRaises(ImproperlyConfigured) as err:
-                sidebar_menu.get_permissions_from_node(node)
-
-        with self.subTest("Raises Improperly Configured node when both no perms and permission required"):
-            # Define node that will trigger improperly configured error
-            node = {
-                "route": "foobar",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-                "allow_without_permissions": True,
-                "permissions": ["foobar"],
-            }
-
-            # Call function to test.
-            with self.assertRaises(ImproperlyConfigured) as err:
-                sidebar_menu.get_permissions_from_node(node)
-
-        with self.subTest("Raises Improperly Configured node when both anonymous and permission required"):
-            # Define node that will trigger improperly configured error
-            node = {
-                "route": "foobar",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-                "allow_anonymous_access": True,
-                "permissions": ["foobar"],
-            }
-
-            # Call function to test.
-            with self.assertRaises(ImproperlyConfigured) as err:
-                sidebar_menu.get_permissions_from_node(node)
-
-        with self.subTest("Raises Improperly Configured view when both anonymous and login required"):
-            # Define a valid node.
-            node = {
-                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
-            # Patch the "get_permissions_from_view" method to return data that
-            # would reflect a view that is improperly configured. Then attempt
-            # to get the permissions from the node, which will ultimately pull
-            # from the patched view method and cause the improperly configured
-            with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as get_perm_from_view:
-                get_perm_from_view.return_value = {
-                    "allow_anonymous_access": True,
-                    "login_required": True,
-                    "allow_without_permissions": False,
-                    "one_of_permissions": None,
-                    "full_permissions": None,
+                # The allow_* settings may be None or False when unset, and the permissions a list or tuple.
+                actual = {
+                    key: list(result[key]) if key in ("one_of_permissions", "full_permissions") else bool(result[key])
+                    for key in NO_PERMISSIONS
                 }
-                with self.assertRaises(ImproperlyConfigured) as err:
+                self.assertEqual({**NO_PERMISSIONS, **differences}, actual)
+
+    def test__get_permissions_from_node__missing_route(self):
+        """A node without a route raises KeyError."""
+        with self.assertRaises(KeyError) as err:
+            sidebar_menu.get_permissions_from_node({"text": "Sample1", "icon": "fa fa-group"})
+        self.assertEqual(self.node_error__key_error_message, str(err.exception))
+
+    def test__get_permissions_from_node__invalid_route(self):
+        """A node with a route that doesn't exist raises NoReverseMatch."""
+        with self.assertRaises(NoReverseMatch) as err:
+            sidebar_menu.get_permissions_from_node({"route": "foobar", "text": "Sample1", "icon": "fa fa-group"})
+        self.assertEqual(self.node_error__invalid_route_message, str(err.exception))
+
+    def test__get_permissions_from_node__conflicting_node_settings(self):
+        """A node with conflicting settings raises ImproperlyConfigured."""
+        for name, settings in CONFLICTING_SETTINGS.items():
+            with self.subTest(settings=name):
+                node = {"route": "foobar", "text": "Sample1", "icon": "fa fa-group", **settings}
+
+                with self.assertRaises(ImproperlyConfigured):
                     sidebar_menu.get_permissions_from_node(node)
 
-        with self.subTest("Raises Improperly Configured view when both no perms and permission required"):
-            # Define a valid node.
-            node = {
-                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
-            # Patch the "get_permissions_from_view" method to return data that
-            # would reflect a view that is improperly configured. Then attempt
-            # to get the permissions from the node, which will ultimately pull
-            # from the patched view method and cause the improperly configured
-            with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as get_perm_from_view:
-                get_perm_from_view.return_value = {
-                    "allow_anonymous_access": False,
-                    "login_required": False,
-                    "allow_without_permissions": True,
-                    "one_of_permissions": ["foobar"],
+    def test__get_permissions_from_node__conflicting_view_settings(self):
+        """A node that links to a view with conflicting settings raises ImproperlyConfigured."""
+        for name, settings in CONFLICTING_SETTINGS.items():
+            with self.subTest(settings=name):
+                node = {"route": HOME, "text": "Sample1", "icon": "fa fa-group"}
+                view_data = {
+                    "allow_anonymous_access": settings.get("allow_anonymous_access", False),
+                    "login_required": settings.get("login_required", False),
+                    "allow_without_permissions": settings.get("allow_without_permissions", False),
+                    "one_of_permissions": settings.get("permissions"),
                     "full_permissions": None,
                 }
-                with self.assertRaises(ImproperlyConfigured) as err:
-                    sidebar_menu.get_permissions_from_node(node)
 
-        with self.subTest("Raises Improperly Configured view when both anonymous and permission required"):
-            # Define a valid node.
-            node = {
-                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
-            # Patch the "get_permissions_from_view" method to return data that
-            # would reflect a view that is improperly configured. Then attempt
-            # to get the permissions from the node, which will ultimately pull
-            # from the patched view method and cause the improperly configured
-            with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as get_perm_from_view:
-                get_perm_from_view.return_value = {
-                    "allow_anonymous_access": True,
-                    "login_required": False,
-                    "allow_without_permissions": False,
-                    "one_of_permissions": ["foobar"],
-                    "full_permissions": None,
-                }
-                with self.assertRaises(ImproperlyConfigured) as err:
-                    sidebar_menu.get_permissions_from_node(node)
-
-    def test__get_permissions_from_node__standard(self):
-        """Tests for get_permissions_from_node() function when passing a basic node."""
-
-        with self.subTest("Route is a hash"):
-            # Define node with hash as route.
-            # Used as placeholder when desired route url may not yet be fully defined.
-            node = {
-                "route": "#",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Route was hash so should get empty lists.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-    def test__get_permissions_from_node__login_required(self):
-        """Tests various node login_required attributes for get_permissions_from_node() function."""
-
-        with self.subTest("Node returns false when login_required not set"):
-            # Define node.
-            node = {
-                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Home",
-                "icon": "fa fa-dashboard",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls login_required from direct assignment"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "login_required": True,
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls login_required from view function"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:sample_form",
-                "text": "Sample Form",
-                "icon": "fa fa-file",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls login_required from node when both are set"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:sample_form",
-                "text": "Sample Form",
-                "icon": "fa fa-file",
-                "login_required": False,
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls login_required from view with hash route and valid url"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "Sample Form",
-                "icon": "fa fa-building",
-                "url": "/sample_form/",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls login_required from direct assignment with external url"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "GitHub",
-                "icon": "fa fa-github",
-                "url": "https://github.com",
-                "login_required": True,
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node returns false when node is for external resource"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "External",
-                "icon": "fa fa-github",
-                "url": "https://github.com",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-    def test__get_permissions_from_node__one_of_permissions(self):
-        """Tests various node one_of_permissions attributes for get_permissions_from_node() function."""
-
-        with self.subTest("Node returns empty lists when permissions not set"):
-            # Define node.
-            node = {
-                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Home",
-                "icon": "fa fa-dashboard",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from direct assignment"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": ["add_sample2", "update_sample2"],
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual(node["one_of_permissions"], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from view function"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertIn("auth.add_permission", one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from node when both are set"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-                "one_of_permissions": [],
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from view with hash route and valid url"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-                "url": "/sample2/",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertIn("auth.add_permission", one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from direct assignment with external url"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "GitHub",
-                "icon": "fa fa-github",
-                "url": "https://github.com",
-                "one_of_permissions": ["add_sample2", "update_sample2"],
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual(node["one_of_permissions"], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node returns empty list when node is for external resource"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "External",
-                "icon": "fa fa-github",
-                "url": "https://github.com",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node permissions set as string"):
-            # Should succeed, and permission is converted to iterable of size 1.
-
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "one_of_permissions": "add_sample2",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual((node["one_of_permissions"],), one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-    def test__get_permissions_from_node__full_permissions(self):
-        """Tests various node full_permissions attributes for get_permissions_from_node() function."""
-
-        with self.subTest("Node returns empty lists when permissions not set"):
-            # Define node.
-            node = {
-                "route": getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home"),
-                "text": "Home",
-                "icon": "fa fa-dashboard",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from direct assignment"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": ["add_sample1", "update_sample1"],
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual(node["permissions"], full_permissions)
-
-        with self.subTest("Node pulls permissions from view function"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:sample1",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertIn("auth.add_group", full_permissions)
-
-        with self.subTest("Node pulls permissions from node when both are set"):
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:sample1",
-                "text": "Sample1",
-                "icon": "fa fa-group",
-                "permissions": [],
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node pulls permissions from view with hash route and valid url"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "Sample1",
-                "icon": "fa fa-building",
-                "url": "/sample1/",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertTrue(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertIn("auth.add_group", full_permissions)
-
-        with self.subTest("Node pulls permissions from direct assignment with external url"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "GitHub",
-                "icon": "fa fa-github",
-                "url": "https://github.com",
-                "permissions": ["add_sample1", "update_sample1"],
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual(node["permissions"], full_permissions)
-
-        with self.subTest("Node returns empty list when node is for external resource"):
-            # Define node.
-            node = {
-                "route": "#",
-                "text": "External",
-                "icon": "fa fa-github",
-                "url": "https://github.com",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual([], full_permissions)
-
-        with self.subTest("Node permissions set as string"):
-            # Should succeed, and permission is converted to iterable of size 1.
-
-            # Define node.
-            node = {
-                "route": "adminlte2_pdq:demo-css",
-                "text": "Demo CSS",
-                "icon": "fa fa-file",
-                "permissions": "add_sample1",
-            }
-
-            # Call function to test.
-            return_data = sidebar_menu.get_permissions_from_node(node)
-            allow_anonymous_access = return_data["allow_anonymous_access"]
-            login_required = return_data["login_required"]
-            allow_without_permissions = return_data["allow_without_permissions"]
-            one_of_permissions = return_data["one_of_permissions"]
-            full_permissions = return_data["full_permissions"]
-
-            # Verify returned data.
-            self.assertFalse(allow_anonymous_access)
-            self.assertFalse(login_required)
-            self.assertFalse(allow_without_permissions)
-            self.assertEqual([], one_of_permissions)
-            self.assertEqual((node["permissions"],), full_permissions)
+                with patch("adminlte2_pdq.templatetags.sidebar_menu.get_permissions_from_view") as view_permissions:
+                    view_permissions.return_value = view_data
+                    with self.assertRaises(ImproperlyConfigured):
+                        sidebar_menu.get_permissions_from_node(node)
 
     # endregion get_permissions_from_node() Function
 
     # region ensure_node_has_url_property() Function
 
-    def test__ensure_node_has_url_property__success(self):
-        """Test ensure node has url property success"""
+    def test__ensure_node_has_url_property(self):
+        """The node's url is kept if set, otherwise built from its route."""
+        urls = {
+            "url already set": ({"route": "adminlte2_pdq:sample2", "url": "/foobar/"}, "/foobar/"),
+            "url from the route": ({"route": "adminlte2_pdq:sample2"}, "/sample2/"),
+            "hash route": ({"route": "#"}, "#"),
+        }
+        for name, (settings, expected_url) in urls.items():
+            with self.subTest(node=name):
+                node = {"text": "Sample2", "icon": "fa fa-building", **settings}
 
-        with self.subTest("Works when node has url property defined"):
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-                "url": "/foobar/",
-            }
-
-            sidebar_menu.ensure_node_has_url_property(node)
-
-            self.assertEqual("/foobar/", node["url"])
-
-        with self.subTest("Adds url property from valid route"):
-            node = {
-                "route": "adminlte2_pdq:sample2",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-            }
-
-            sidebar_menu.ensure_node_has_url_property(node)
-
-            self.assertEqual("/sample2/", node["url"])
-
-        with self.subTest("Sets url to hash when route is a hash"):
-            node = {
-                "route": "#",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-            }
-
-            sidebar_menu.ensure_node_has_url_property(node)
-
-            self.assertEqual("#", node["url"])
-
-    def test__ensure_node_has_url_property__failure(self):
-        """Test ensure node has url property failure"""
-
-        with self.subTest("Raises KeyError when route field is missing"):
-            node = {
-                "text": "Sample2",
-                "icon": "fa fa-building",
-            }
-
-            with self.assertRaises(KeyError) as err:
                 sidebar_menu.ensure_node_has_url_property(node)
-            self.assertEqual(self.node_error__key_error_message, str(err.exception))
 
-        with self.subTest("Propagates route reverse error"):
-            node = {
-                "route": "foobar",
-                "text": "Sample2",
-                "icon": "fa fa-building",
-            }
+                self.assertEqual(expected_url, node["url"])
 
-            with self.assertRaises(NoReverseMatch) as err:
-                sidebar_menu.ensure_node_has_url_property(node)
-            self.assertEqual(self.node_error__invalid_route_message, str(err.exception))
+    def test__ensure_node_has_url_property__missing_route(self):
+        """A node without a route raises KeyError."""
+        with self.assertRaises(KeyError) as err:
+            sidebar_menu.ensure_node_has_url_property({"text": "Sample2", "icon": "fa fa-building"})
+        self.assertEqual(self.node_error__key_error_message, str(err.exception))
+
+    def test__ensure_node_has_url_property__invalid_route(self):
+        """A node with a route that doesn't exist raises NoReverseMatch."""
+        with self.assertRaises(NoReverseMatch) as err:
+            sidebar_menu.ensure_node_has_url_property({"route": "foobar", "text": "Sample2", "icon": "fa fa-building"})
+        self.assertEqual(self.node_error__invalid_route_message, str(err.exception))
 
     # endregion ensure_node_has_url_property() Function
 
-    # region check_for_login_whitelisted_node() Function
+    # region Whitelist Functions
 
     def test__check_for_login_whitelisted_node__node_not_in_list(self):
-        """Test check for login whitelisted node where node not in list"""
-        node = {
-            "route": "foobar",
-            "text": "Sample Form",
-            "icon": "fa fa-file",
-        }
+        """A node whose route isn't in the login whitelist isn't login whitelisted."""
+        node = {"route": "foobar", "text": "Sample Form", "icon": "fa fa-file"}
 
-        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
+        self.assertFalse(sidebar_menu.check_for_login_whitelisted_node(node))
 
-        self.assertFalse(is_whitelisted)
-
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:sample_form"])
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:sample_form"])
     def test__check_for_login_whitelisted_node__node_in_list(self):
-        """Test check for login whitelisted node where node is in list"""
-        node = {
-            "route": "adminlte2_pdq:sample_form",
-            "text": "Sample Form",
-            "icon": "fa fa-file",
-        }
+        """A node whose route is in the login whitelist is login whitelisted."""
+        node = {"route": "adminlte2_pdq:sample_form", "text": "Sample Form", "icon": "fa fa-file"}
 
-        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
-
-        self.assertTrue(is_whitelisted)
-
-    # endregion check_for_login_whitelisted_node() Function
-
-    # region check_for_strict_whitelisted_node() Function
+        self.assertTrue(sidebar_menu.check_for_login_whitelisted_node(node))
 
     def test__check_for_strict_whitelisted_node__node_not_in_list(self):
-        """Test check for strict whitelisted node where node not in list."""
-        node = {
-            "route": "foobar",
-            "text": "Sample2",
-            "icon": "fa fa-building",
-        }
+        """A node whose route isn't in the permission whitelist isn't permission whitelisted."""
+        node = {"route": "foobar", "text": "Sample2", "icon": "fa fa-building"}
 
-        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
-
-        self.assertFalse(is_whitelisted)
+        self.assertFalse(sidebar_menu.check_for_strict_whitelisted_node(node))
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:sample2"])
     def test__check_for_strict_whitelisted_node__node_in_list(self):
-        """Test check for strict whitelisted node where node is in list."""
-        node = {
-            "route": "adminlte2_pdq:sample2",
-            "text": "Sample2",
-            "icon": "fa fa-building",
-        }
+        """A node whose route is in the permission whitelist is permission whitelisted."""
+        node = {"route": "adminlte2_pdq:sample2", "text": "Sample2", "icon": "fa fa-building"}
 
-        is_whitelisted = sidebar_menu.check_for_strict_whitelisted_node(node)
+        self.assertTrue(sidebar_menu.check_for_strict_whitelisted_node(node))
 
-        self.assertTrue(is_whitelisted)
-
-    # endregion check_for_strict_whitelisted_node() Function
+    # endregion Whitelist Functions
 
     # region Permission Check Functions
 
-    def test__check_for_one_permission(self):
-        """Test check for one permission."""
+    def test__check_for_permissions(self):
+        """check_for_one_permission() needs one of the permissions, check_for_all_permissions() all of them."""
+        for name, (user_permissions, permissions, one_allowed, all_allowed) in PERMISSION_CHECKS.items():
+            with self.subTest(user=name):
+                if user_permissions == "superuser":
+                    user = self._superuser()
+                else:
+                    self._setup_staff_user(user_permissions)
+                    user = self.staff_user
 
-        with self.subTest("As user with most permissions, except one required"):
-            self._setup_staff_user()
+                self.assertEqual(one_allowed, sidebar_menu.check_for_one_permission(user, permissions))
+                self.assertEqual(all_allowed, sidebar_menu.check_for_all_permissions(user, permissions))
 
-            permissions = ["user_does_not_have_this_one"]
+    def test__check_for_one_permission_in_node_list(self):
+        """A user passes if they can open one node in the list, at any depth of the menu tree."""
+        users = {"superuser": True, "user with the permission": True, "user without the permission": False}
+        for depth in (1, 2, 3):
+            for user_name, expected in users.items():
+                with self.subTest(depth=depth, user=user_name):
+                    if user_name == "superuser":
+                        user = self._superuser()
+                    else:
+                        self._setup_staff_user("add_permission" if expected else "add_group")
+                        user = self.staff_user
 
-            allowed = sidebar_menu.check_for_one_permission(self.staff_user, permissions)
+                    nodes = nest(sample2_node(), depth)
 
-            self.assertFalse(allowed)
-
-        with self.subTest("As user with full permissions"):
-            self._setup_staff_user("add_group")
-
-            permissions = ["auth.add_group", "auth.update_group"]
-
-            allowed = sidebar_menu.check_for_one_permission(self.staff_user, permissions)
-
-            self.assertTrue(allowed)
-
-        with self.subTest("As user with full permissions, but none are passed"):
-            self._setup_staff_user("add_group")
-
-            permissions = []
-
-            allowed = sidebar_menu.check_for_one_permission(self.staff_user, permissions)
-
-            self.assertFalse(allowed)
-
-        with self.subTest("As superuser"):
-            self._setup_super_user()
-
-            permissions = ["does_not_matter_since_superuser"]
-
-            allowed = sidebar_menu.check_for_one_permission(self.super_user, permissions)
-
-            self.assertTrue(allowed)
-
-    def test__check_for_all_permissions(self):
-        """Test check for all permissions"""
-
-        with self.subTest("As user with most permissions, except the one required"):
-            self._setup_staff_user()
-
-            permissions = ["user_does_not_have_this_one"]
-
-            allowed = sidebar_menu.check_for_all_permissions(self.staff_user, permissions)
-
-            self.assertFalse(allowed)
-
-        with self.subTest("As user with full permissions"):
-            self._setup_staff_user("add_group")
-
-            permissions = ["auth.add_group"]
-
-            allowed = sidebar_menu.check_for_all_permissions(self.staff_user, permissions)
-
-            self.assertTrue(allowed)
-
-        with self.subTest("As user with full permissions, but none are passed"):
-            self._setup_staff_user("add_group")
-
-            permissions = []
-
-            allowed = sidebar_menu.check_for_all_permissions(self.staff_user, permissions)
-
-            self.assertFalse(allowed)
-
-        with self.subTest("As superuser"):
-            self._setup_super_user()
-
-            permissions = ["does_not_matter_since_superuser"]
-
-            allowed = sidebar_menu.check_for_all_permissions(self.super_user, permissions)
-
-            self.assertTrue(allowed)
+                    self.assertEqual(expected, sidebar_menu.check_for_one_permission_in_node_list(user, nodes))
 
     # endregion Permission Check Functions
 
-    def test__check_for_one_permission_in_node_list(self):
-        """Test check for one permission in node list"""
+    # region Active Node Functions
 
-        with self.subTest("Returns true for superuser regardless of tree size"):
-            self._setup_super_user()
+    def test__check_for_node_that_matches_request_path__no_nodes(self):
+        """An empty node list has no match."""
+        request = RequestFactory().get("/sample2/")
 
-            nodes = [
-                {
-                    "route": "adminlte2_pdq:sample2",
-                    "text": "Sample2",
-                    "icon": "fa fa-building",
-                }
-            ]
-
-            nodetree = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "text": "Sample Sub Tree",
-                            "icon": "fa fa-cube",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.super_user, nodes)
-            self.assertTrue(allowed)
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.super_user, nodetree)
-            self.assertTrue(allowed)
-
-        with self.subTest("Returns true for single node user can access"):
-            self._setup_staff_user("add_permission")
-
-            nodes = [
-                {
-                    "route": "adminlte2_pdq:sample2",
-                    "text": "Sample2",
-                    "icon": "fa fa-building",
-                }
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
-
-            self.assertTrue(allowed)
-
-        with self.subTest("Returns true for two nodes user can access"):
-            self._setup_staff_user("add_permission")
-
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample2",
-                            "text": "Sample2",
-                            "icon": "fa fa-building",
-                        },
-                    ],
-                },
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
-            self.assertTrue(allowed)
-
-        with self.subTest("Returns true for three nodes user can access"):
-            self._setup_staff_user("add_permission")
-
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "text": "Sample Sub Tree",
-                            "icon": "fa fa-cube",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
-            self.assertTrue(allowed)
-
-        with self.subTest("Returns false for single node user cannot access"):
-            self._setup_staff_user("add_group")
-
-            nodes = [
-                {
-                    "route": "adminlte2_pdq:sample2",
-                    "text": "Sample2",
-                    "icon": "fa fa-building",
-                }
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
-            self.assertFalse(allowed)
-
-        with self.subTest("Returns false for two nodes user cannot access"):
-            self._setup_staff_user("add_group")
-
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample2",
-                            "text": "Sample2",
-                            "icon": "fa fa-building",
-                        },
-                    ],
-                },
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
-            self.assertFalse(allowed)
-
-        with self.subTest("Returns false for three nodes user cannot access"):
-            self._setup_staff_user("add_group")
-
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "text": "Sample Sub Tree",
-                            "icon": "fa fa-cube",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ]
-
-            allowed = sidebar_menu.check_for_one_permission_in_node_list(self.staff_user, nodes)
-            self.assertFalse(allowed)
+        self.assertFalse(sidebar_menu.check_for_node_that_matches_request_path(request, []))
 
     def test__check_for_node_that_matches_request_path(self):
-        """Test check for node that matches request path."""
+        """A node at any depth of the menu tree matches the request path of its url."""
+        for depth in (1, 2, 3):
+            for path, expected in (("/sample2/", True), ("/sample1/", False)):
+                with self.subTest(depth=depth, path=path):
+                    request = RequestFactory().get(path)
+                    nodes = nest(sample2_node(), depth)
 
-        with self.subTest("Returns false for no nodes"):
-            nodes = []
-            request = RequestFactory().get("/sample2/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertFalse(match)
-
-        with self.subTest("Returns true for single node with match"):
-            nodes = [
-                {
-                    "route": "adminlte2_pdq:sample2",
-                    "text": "Sample2",
-                    "icon": "fa fa-building",
-                }
-            ]
-            request = RequestFactory().get("/sample2/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertTrue(match)
-
-        with self.subTest("Returns true for two nodes with match"):
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample2",
-                            "text": "Sample2",
-                            "icon": "fa fa-building",
-                        },
-                    ],
-                },
-            ]
-            request = RequestFactory().get("/sample2/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertTrue(match)
-
-        with self.subTest("Returns true for three nodes with match"):
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "text": "Sample Sub Tree",
-                            "icon": "fa fa-cube",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ]
-            request = RequestFactory().get("/sample2/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertTrue(match)
-
-        with self.subTest("Returns false for single node without match"):
-            nodes = [
-                {
-                    "route": "adminlte2_pdq:sample2",
-                    "text": "Sample2",
-                    "icon": "fa fa-building",
-                }
-            ]
-            request = RequestFactory().get("/sample1/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertFalse(match)
-
-        with self.subTest("Returns false for two nodes without match"):
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "route": "adminlte2_pdq:sample2",
-                            "text": "Sample2",
-                            "icon": "fa fa-building",
-                        },
-                    ],
-                },
-            ]
-            request = RequestFactory().get("/sample1/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertFalse(match)
-
-        with self.subTest("Returns false for three nodes without match"):
-            nodes = [
-                {
-                    "text": "Sample Tree",
-                    "icon": "fa fa-leaf",
-                    "nodes": [
-                        {
-                            "text": "Sample Sub Tree",
-                            "icon": "fa fa-cube",
-                            "nodes": [
-                                {
-                                    "route": "adminlte2_pdq:sample2",
-                                    "text": "Sample2",
-                                    "icon": "fa fa-building",
-                                },
-                            ],
-                        },
-                    ],
-                },
-            ]
-            request = RequestFactory().get("/sample1/")
-            match = sidebar_menu.check_for_node_that_matches_request_path(request, nodes)
-
-            self.assertFalse(match)
+                    self.assertEqual(expected, sidebar_menu.check_for_node_that_matches_request_path(request, nodes))
 
     def test__determine_node_active_status(self):
-        """Test the the active status for a node is set properly"""
+        """A node is active when the request path starts with its url, or matches it exactly if required."""
         # pylint:disable=protected-access
+        for name, (path, exact_required, expected) in ACTIVE_STATUS.items():
+            with self.subTest(path=name):
+                node = {"url": "/home/", "text": "Sample1", "icon": "fa fa-group"}
+                if exact_required:
+                    node["active_requires_exact_url_match"] = True
+                request = HttpRequest()
+                request.path = path
 
-        # Setup a basic node used for the tests
-        node = {
-            "url": "/home/",
-            "text": "Sample1",
-            "icon": "fa fa-group",
-        }
-        # Setup a fake request object to use with testing
-        request = HttpRequest()
-        request.path = "/home/"
+                self.assertEqual(expected, sidebar_menu._determine_node_active_status(node, request))
 
-        with self.subTest("Active True when exact match"):
-            request.path = "/home/"
-            active = sidebar_menu._determine_node_active_status(node, request)
-            self.assertTrue(active)
-
-        with self.subTest("Active True when starts with match"):
-            request.path = "/home/some/sub/url/"
-            active = sidebar_menu._determine_node_active_status(node, request)
-            self.assertTrue(active)
-
-        with self.subTest("Active False when no match"):
-            request.path = "/homey_da_clown/"
-            active = sidebar_menu._determine_node_active_status(node, request)
-            self.assertFalse(active)
-
-        with self.subTest("Active True when exact match and exact required"):
-            node["active_requires_exact_url_match"] = True
-            request.path = "/home/"
-            active = sidebar_menu._determine_node_active_status(node, request)
-            self.assertTrue(active)
-
-        with self.subTest("Active False when not exact match and exact required"):
-            node["active_requires_exact_url_match"] = True
-            request.path = "/home/some/sub/url/"
-            active = sidebar_menu._determine_node_active_status(node, request)
-            self.assertFalse(active)
+    # endregion Active Node Functions

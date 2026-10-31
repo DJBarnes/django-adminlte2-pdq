@@ -59,7 +59,7 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 response = self.assertGetResponse(
                     # View setup.
@@ -84,7 +84,7 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase):
         # Should fail and return 403 message, for all authenticated users lacking correct perms.
         user_list_missing_perms = self.user_list__no_permissions + self.user_list__partial_permissions
         for user_instance, user_str in user_list_missing_perms:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -107,7 +107,7 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase):
 
         # Should succeed for all users that have correct perms
         for user_instance, user_str in self.user_list__full_permissions:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 # Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -178,7 +178,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
         # Should succeed and load as expected for all users.
         for user_instance, user_str in self.user_list__full_permissions:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -209,7 +209,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
         # Invalid mixin used for Strict mode. Should raise error for all user types.
         for user_instance, user_str in self.user_list__full:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 with self.assertRaises(ImproperlyConfigured) as err:
                     self.assertGetResponse(
@@ -226,7 +226,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -263,7 +263,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -306,7 +306,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -345,7 +345,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Permission view incorrectly defined on view.
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 # Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -388,7 +388,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -427,7 +427,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         # Permission view incorrectly defined on view.
         # Should fail and redirect to "home" page for anyone authenticated.
         for user_instance, user_str in self.user_list__authenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 with warns(Warning) as warning_info:
@@ -512,7 +512,7 @@ class TestStrictAuthenticationMixinsWithOverlap(BaseMixinTextCase):
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -547,7 +547,7 @@ class TestStrictAuthenticationMixinsWithOverlap(BaseMixinTextCase):
             [self.full_perm_staff_user, "staff user with full permissions"],
             [self.full_group_user, "user with full groups"],
         ):
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -579,7 +579,7 @@ class TestStrictAuthenticationMixinsWithOverlap(BaseMixinTextCase):
             [self.full_group_user_plus_one, "user with orig full groups, plus extra stacked one"],
             [self.super_user, "superuser"],
         ):
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
                     # View setup.
@@ -652,7 +652,7 @@ class TestStrictAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCase
 
         # Should fail and redirect to login for anyone unauthenticated.
         for user_instance, user_str in self.user_list__unauthenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(
@@ -676,7 +676,7 @@ class TestStrictAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCase
 
         # Should succeed and load as expected for all authenticated users.
         for user_instance, user_str in self.user_list__authenticated:
-            with self.subTest(f"As {user_str}"):
+            with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
                 response = self.assertGetResponse(

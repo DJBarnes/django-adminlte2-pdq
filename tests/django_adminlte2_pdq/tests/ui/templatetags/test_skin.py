@@ -24,7 +24,7 @@ class SkinClassTagsTestCase(TestCase):
             ("skin-red-dark", "skin-red-light", "skin-red-dark"),
             ("skin-black", "skin-black", "skin-black-dark"),
         ):
-            with self.subTest(skin_class):
+            with self.subTest(skin=skin_class):
                 with override_settings(ADMINLTE2_SKIN_CLASS=skin_class):
                     self.assertEqual(adminlte_tags.get_skin_class_light(), light)
                     self.assertEqual(adminlte_tags.get_skin_class_dark(), dark)

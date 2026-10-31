@@ -64,7 +64,7 @@ class ColorCssTestCase(SimpleTestCase):
     def test__committed_css_matches_generator(self):
         """The committed CSS files are the generator's current output."""
         for file_name, render in color_css.OUTPUTS.items():
-            with self.subTest(file_name):
+            with self.subTest(file=file_name):
                 committed = (color_css.OUTPUT_DIR / file_name).read_text(encoding="utf-8")
                 self.assertEqual(
                     committed,
@@ -88,7 +88,7 @@ class ColorCssTestCase(SimpleTestCase):
         """Base and active values equal AdminLTE's `.bg-{c}` and `.bg-{c}-active` for its palette."""
         for name in sorted(color_css.ADMINLTE_PALETTE):
             color = color_css._color_for(name)  # pylint: disable=protected-access
-            with self.subTest(name):
+            with self.subTest(name=name):
                 self.assertEqual(
                     _normalize_hex(color.base),
                     _normalize_hex(_value_for(self.adminlte_rules, f".bg-{name}", "background-color")),
@@ -102,7 +102,7 @@ class ColorCssTestCase(SimpleTestCase):
         """hover and border equal AdminLTE's alert, button, callout, and modal borders."""
         for name in ("info", "success", "warning", "danger"):
             color = color_css._color_for(name)  # pylint: disable=protected-access
-            with self.subTest(name):
+            with self.subTest(name=name):
                 self.assertEqual(color.hover, _value_for(self.adminlte_rules, f".alert-{name}", "border-color"))
                 self.assertEqual(color.hover, _value_for(self.adminlte_rules, f".btn-{name}", "border-color"))
                 self.assertEqual(
@@ -146,7 +146,7 @@ class ColorCssTestCase(SimpleTestCase):
     def test__custom_color_rejects_invalid_names(self):
         """A custom color can't reuse a package color name or contain other characters."""
         for name in ("navy", "light-blue", "Brand", "my color"):
-            with self.subTest(name):
+            with self.subTest(name=name):
                 with self.assertRaises(ValueError):
                     color_css.render_custom_color(color_css.Color(name, base="#6610f2"))
 
@@ -158,7 +158,7 @@ class ColorCssTestCase(SimpleTestCase):
             return (lighter + 0.05) / (darker + 0.05)
 
         for color in color_css.COLORS:
-            with self.subTest(color.name):
+            with self.subTest(color=color.name):
                 self.assertGreaterEqual(contrast(color.light_accent, color_css.LIGHT_ACCENT_TEXT), 4.5)
                 self.assertGreaterEqual(contrast(color.table_hover, color_css.TABLE_BODY_TEXT), 4.5)
 
@@ -171,7 +171,7 @@ class ColorCssTestCase(SimpleTestCase):
         colors = color_css.COLORS
         for index, first in enumerate(colors):
             for second in colors[index + 1 :]:
-                with self.subTest(f"{first.name} and {second.name}"):
+                with self.subTest(first=first.name, second=second.name):
                     distance = (
                         sum((a - b) ** 2 for a, b in zip(rgb(first.light_accent), rgb(second.light_accent))) ** 0.5
                     )
@@ -183,7 +183,7 @@ class ColorCssTestCase(SimpleTestCase):
             with redirect_stdout(io.StringIO()):
                 self.assertEqual(color_css.main([]), 0)
             for file_name, render in color_css.OUTPUTS.items():
-                with self.subTest(file_name):
+                with self.subTest(file=file_name):
                     self.assertEqual((Path(output_dir) / file_name).read_text(encoding="utf-8"), render())
 
     def test__main__prints_a_custom_color(self):

@@ -8,7 +8,6 @@ from copy import copy
 # Third-Party Imports.
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.models import Permission
 from django.test import TestCase
 
@@ -45,7 +44,6 @@ class MiddlewareBaseTestCase(TestCase):
     # endregion Expected Test Messages
 
     def setUp(self):
-        self.test_anonymous_user = AnonymousUser()
 
         self.test_user_no_perms = UserModel()
         self.test_user_no_perms.username = "test_user_no_perms"
