@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import (
     permission_required as django_permission_required,
     user_passes_test,
 )
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.urls import reverse_lazy
 
 # Internal Imports.
@@ -61,6 +61,29 @@ def _sanitize_permissions(permission):
         raise TypeError(f"Unknown type ({type(permission)}) for permission. Expected list, tuple, or string.")
 
     return permissions
+
+
+def _record_permissions(function, one_of_permissions=None, full_permissions=None):
+    """Record a permission decorator's permissions on the view function, for the middleware and the sidebar.
+
+    Permission decorators can be stacked, and the view requires all of their permissions. So each one adds to the
+    permissions recorded by the decorators below it. Two permission_required_one decorators can't be recorded as one
+    "one of" list, so they raise ImproperlyConfigured. Use one permission_required_one with a single list instead.
+    """
+    recorded_one_of = getattr(function, "permission_required_one", None)
+    recorded_full = getattr(function, "permission_required", None)
+
+    if one_of_permissions and recorded_one_of:
+        raise ImproperlyConfigured(
+            f"The view '{function.__qualname__}' has more than one permission_required_one decorator. "
+            "Use a single permission_required_one decorator with all of the permissions."
+        )
+
+    # Must have one, if any.
+    function.permission_required_one = one_of_permissions or recorded_one_of
+    # Must have all, if any. Same as Django.
+    combined_full = tuple(dict.fromkeys((recorded_full or ()) + (full_permissions or ())))
+    function.permission_required = combined_full or None
 
 
 # endregion Utility Functions
@@ -196,8 +219,7 @@ def permission_required_one(permission, login_url=None, raise_exception=False):
 
         # Save values to view fetch function for middleware handling +  potential debugging.
         function.admin_pdq_data = admin_pdq_data
-        function.permission_required_one = permissions  # Must have one, if any.
-        function.permission_required = None  # Must have all, if any. Same as Django.
+        _record_permissions(function, one_of_permissions=permissions)
 
         @wraps(function)
         @_one_of_permission_required(permission, login_url, raise_exception)
@@ -240,8 +262,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
 
         # Save values to view fetch function for middleware handling + potential debugging.
         function.admin_pdq_data = admin_pdq_data
-        function.permission_required_one = None  # Must have one, if any.
-        function.permission_required = permissions  # Must have all, if any. Same as Django.
+        _record_permissions(function, full_permissions=permissions)
 
         @wraps(function)
         @django_permission_required(permission, login_url, raise_exception)

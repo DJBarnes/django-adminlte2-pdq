@@ -264,13 +264,11 @@ class TestStrictAuthenticationDecoratorsWithOverlap(BaseDecoratorTestCase):
                 )
 
                 # Verify values associated with returned view.
-                # TODO: Doesn't seem to return expected view data, but the login/auth redirects seem to
-                #   handle as desired, so maybe it's fine?
-                #   Should have both one_of_permissions and full_permissions defined, due to stacking.
-                #   Same as how the equivalent mixin tests work.
+                # Stacked decorators record both sets of permissions, the same as the equivalent mixin.
                 self.assertAdminPdqData(
                     response,
                     decorator_name="permission_required",
                     login_required=True,
                     one_of_permissions=("auth.view_foo", "auth.delete_foo"),
+                    full_permissions=("auth.add_foo", "auth.change_foo"),
                 )

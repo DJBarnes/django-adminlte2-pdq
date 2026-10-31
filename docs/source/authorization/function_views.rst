@@ -143,6 +143,28 @@ permissions, they will see the sidebar link and have access.
 This decorator also accepts a single permission as a string.
 
 
+Combining Permission Decorators
+-------------------------------
+
+``@permission_required_one`` and ``@permission_required`` can be used on the
+same view. The user then needs at least one of the first list and all of the
+second, and the sidebar shows the link only to users who have both.
+
+.. code:: python
+
+    from adminlte2_pdq.decorators import permission_required, permission_required_one
+
+    @permission_required_one(['auth.view_group', 'auth.change_group'])
+    @permission_required(['auth.view_user'])
+    def group_members(request):
+        """Show the members of each group"""
+        return render(request, 'groups/members.html', {})
+
+Several ``@permission_required`` decorators combine into one list of required
+permissions. A view can only have one ``@permission_required_one`` decorator;
+a second one raises ``ImproperlyConfigured``.
+
+
 Decorator Examples
 ==================
 

@@ -8,7 +8,7 @@ Tests for Decorators
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser, Permission
 from django.contrib.contenttypes.models import ContentType
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.http import HttpResponse
 from django.test import RequestFactory, TestCase
 
@@ -375,3 +375,54 @@ class TestIsolatedDecorators(TestCase):
         )
 
     # endregion Permission Required Tests
+
+
+class TestStackedPermissionDecorators(TestCase):
+    """Stacked permission decorators record all of their permissions on the view, for the middleware and sidebar."""
+
+    def test__permission_required_one_and_permission_required(self):
+        """Both lists are recorded, in either order."""
+        stacks = {
+            "permission_required_one outside": lambda view: permission_required_one(["auth.view_foo"])(
+                permission_required(["auth.add_foo"])(view)
+            ),
+            "permission_required outside": lambda view: permission_required(["auth.add_foo"])(
+                permission_required_one(["auth.view_foo"])(view)
+            ),
+        }
+        for name, stack in stacks.items():
+            with self.subTest(stack=name):
+                view = stack(lambda request: HttpResponse())
+
+                self.assertEqual(("auth.view_foo",), view.permission_required_one)
+                self.assertEqual(("auth.add_foo",), view.permission_required)
+
+    def test__two_permission_required(self):
+        """The view requires all permissions of both, without duplicates."""
+        view = permission_required(["auth.add_foo", "auth.change_foo"])(
+            permission_required(["auth.change_foo", "auth.view_foo"])(lambda request: HttpResponse())
+        )
+
+        self.assertIsNone(view.permission_required_one)
+        self.assertEqual(("auth.change_foo", "auth.view_foo", "auth.add_foo"), view.permission_required)
+
+    def test__two_permission_required_one(self):
+        """Two "one of" lists can't be recorded as one, so stacking them raises ImproperlyConfigured."""
+
+        def view(request):
+            return HttpResponse()
+
+        with self.assertRaises(ImproperlyConfigured) as err:
+            permission_required_one(["auth.add_foo"])(permission_required_one(["auth.view_foo"])(view))
+
+        self.assertIn("more than one permission_required_one decorator", str(err.exception))
+
+    def test__single_decorators(self):
+        """A single decorator records its own permissions, and None for the other kind."""
+        one_of_view = permission_required_one("auth.add_foo")(lambda request: HttpResponse())
+        full_view = permission_required("auth.add_foo")(lambda request: HttpResponse())
+
+        self.assertEqual(
+            (("auth.add_foo",), None), (one_of_view.permission_required_one, one_of_view.permission_required)
+        )
+        self.assertEqual((None, ("auth.add_foo",)), (full_view.permission_required_one, full_view.permission_required))

@@ -99,6 +99,14 @@ PERMISSIONS_FROM_NODE = {
         {"route": "adminlte2_pdq:sample1", "permissions": []},
         {"login_required": True},
     ),
+    "permissions from stacked view decorators": (
+        {"route": "adminlte2_pdq_tests:function-stacked-permissions-required"},
+        {
+            "login_required": True,
+            "one_of_permissions": ["auth.view_foo", "auth.delete_foo"],
+            "full_permissions": ["auth.add_foo", "auth.change_foo"],
+        },
+    ),
     "permissions on a node with an external url": (
         {"route": "#", "url": EXTERNAL_URL, "permissions": ["add_sample1", "update_sample1"]},
         {"full_permissions": ["add_sample1", "update_sample1"], "node_requires_permissions": True},

@@ -7,6 +7,12 @@ Unreleased
 Action Needed When Upgrading
 ----------------------------
 
+* **Changed: two permission_required_one decorators on one view raise an
+  error.** A view can only record one "one of" list, so stacking two
+  ``permission_required_one`` decorators now raises ``ImproperlyConfigured``
+  when the view is defined. Use one ``permission_required_one`` decorator with
+  all of the permissions.
+
 * **Removed: old static file paths.** The package's static files moved into
   ``css/`` and ``js/`` folders under ``adminlte2_pdq/``, and the old paths no
   longer exist. Templates that link an old path get a 404 for that file. The
@@ -46,6 +52,11 @@ Action Needed When Upgrading
 
 Other Changes
 -------------
+
+* Stacked ``permission_required`` and ``permission_required_one`` decorators
+  now record the permissions of every decorator on the view. Before, only the
+  outermost decorator's permissions were recorded, so the sidebar could show a
+  link to users who were then denied access.
 
 * Add support for Django 6.0 and 6.1 and Python 3.14. The package is tested
   with Python 3.7 to 3.14 and Django 3.2, 4.2, 5.2, 6.0, and 6.1.
