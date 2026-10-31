@@ -147,13 +147,19 @@ STRICT_MODE__BOTH_WHITELISTS = {
 class NodeVisibilityTestCase(SidebarMenuBaseTestCase):
     """Tests for nodes with their own access settings."""
 
-    def assert_visibility(self, table):
-        """Check every node setting and user in a table."""
+    def assert_visibility(self, table, whitelists=()):
+        """Check every node setting and user in a table.
+
+        :param whitelists: The whitelists ("login", "permission") the node is in. The table is checked once with the
+            exact whitelists and once with the fuzzy whitelists.
+        """
         self.assertEqual(list(table), list(NODE_SETTINGS), "The table must have a row for every node setting.")
         users = self._create_table_users()
-        for setting, row in table.items():
-            node = {"route": ROUTE, "text": "Test Node", "icon": "fa fa-file", **NODE_SETTINGS[setting]}
-            self.assert_node_visibility(users, node, row, node_setting=setting)
+        for form in self.each_whitelist_form(whitelists, [ROUTE], ("/demo-css/",)):
+            labels = {"whitelists": form} if form else {}
+            for setting, row in table.items():
+                node = {"route": ROUTE, "text": "Test Node", "icon": "fa fa-file", **NODE_SETTINGS[setting]}
+                self.assert_node_visibility(users, node, row, node_setting=setting, **labels)
 
     def test__loose_mode(self):
         """Loose mode."""
@@ -165,10 +171,9 @@ class NodeVisibilityTestCase(SidebarMenuBaseTestCase):
         self.assert_visibility(LOGIN_REQUIRED_MODE)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", [ROUTE])
     def test__login_required_mode__login_whitelist(self):
         """Login-required mode, the route in the login whitelist."""
-        self.assert_visibility(LOGIN_REQUIRED_MODE__LOGIN_WHITELIST)
+        self.assert_visibility(LOGIN_REQUIRED_MODE__LOGIN_WHITELIST, whitelists=["login"])
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
@@ -178,25 +183,21 @@ class NodeVisibilityTestCase(SidebarMenuBaseTestCase):
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", [ROUTE])
     def test__strict_mode__login_whitelist(self):
         """Strict mode, the route in the login whitelist.
 
         The login whitelist only lets anonymous users pass the login check. Permissions are still required.
         """
-        self.assert_visibility(STRICT_MODE__LOGIN_WHITELIST)
+        self.assert_visibility(STRICT_MODE__LOGIN_WHITELIST, whitelists=["login"])
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", [ROUTE])
     def test__strict_mode__permission_whitelist(self):
         """Strict mode, the route in the permission whitelist."""
-        self.assert_visibility(STRICT_MODE__PERMISSION_WHITELIST)
+        self.assert_visibility(STRICT_MODE__PERMISSION_WHITELIST, whitelists=["permission"])
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", [ROUTE])
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", [ROUTE])
     def test__strict_mode__both_whitelists(self):
         """Strict mode, the route in both whitelists."""
-        self.assert_visibility(STRICT_MODE__BOTH_WHITELISTS)
+        self.assert_visibility(STRICT_MODE__BOTH_WHITELISTS, whitelists=["login", "permission"])

@@ -82,8 +82,9 @@ ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST
 
 Assuming ``ADMINLTE2_USE_LOGIN_REQUIRED`` is set to True, a list of path
 prefixes that do not require login. Every URL whose path starts with one of
-the entries is accessible without logging in. Use this for a whole section of
-a site, such as the Django Debug Toolbar.
+the entries is accessible without logging in, and is shown on the sidebar
+menu. Use this for a whole section of a site, such as the Django Debug
+Toolbar.
 
 Entries are paths, so they start with ``/``.
 
@@ -124,7 +125,8 @@ ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST
 
 Assuming ``ADMINLTE2_USE_STRICT_POLICY`` is set to True, a list of path
 prefixes that do not require permissions. Every URL whose path starts with one
-of the entries is accessible without defined permissions.
+of the entries is accessible, and shown on the sidebar menu, without defined
+permissions.
 
 Entries are paths, so they start with ``/``.
 

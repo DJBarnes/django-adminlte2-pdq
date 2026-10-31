@@ -37,6 +37,8 @@ VIEW_TYPES = ("function", "class")
 VIEW_WHITELIST = sorted(
     {route.format(view_type=view_type) for route in VIEW_ROUTES.values() for view_type in VIEW_TYPES}
 )
+# The path prefixes of every route above, for the fuzzy whitelist tests.
+FUZZY_WHITELIST = ("/tests/", "/demo-css/")
 
 # The views that require permissions use auth.add_foo and auth.change_foo: "one" views need either, "full" views need
 # both, and the "(string)" views need auth.add_foo.
@@ -152,18 +154,24 @@ STRICT_MODE__BOTH_WHITELISTS = {
 class NodeViewFallbackTestCase(SidebarMenuBaseTestCase):
     """Tests for nodes without permissions, which use the permissions of the view they link to."""
 
-    def assert_visibility(self, table):
-        """Check every view and user in a table, for function views and class views."""
+    def assert_visibility(self, table, whitelists=()):
+        """Check every view and user in a table, for function views and class views.
+
+        :param whitelists: The whitelists ("login", "permission") every view is in. The table is checked once with
+            the exact whitelists and once with the fuzzy whitelists.
+        """
         self.assertEqual(list(table), list(VIEW_ROUTES), "The table must have a row for every kind of view.")
         users = self._create_table_users()
-        for view_type in VIEW_TYPES:
-            for kind, row in table.items():
-                node = {
-                    "route": VIEW_ROUTES[kind].format(view_type=view_type),
-                    "text": "Test Node",
-                    "icon": "fa fa-file",
-                }
-                self.assert_node_visibility(users, node, row, view=f"{view_type} view, {kind}")
+        for form in self.each_whitelist_form(whitelists, VIEW_WHITELIST, FUZZY_WHITELIST):
+            labels = {"whitelists": form} if form else {}
+            for view_type in VIEW_TYPES:
+                for kind, row in table.items():
+                    node = {
+                        "route": VIEW_ROUTES[kind].format(view_type=view_type),
+                        "text": "Test Node",
+                        "icon": "fa fa-file",
+                    }
+                    self.assert_node_visibility(users, node, row, view=f"{view_type} view, {kind}", **labels)
 
     def test__group_and_permission_names_exist(self):
         """Every permission and group the users get exists, so no user silently has fewer than intended."""
@@ -183,10 +191,9 @@ class NodeViewFallbackTestCase(SidebarMenuBaseTestCase):
         self.assert_visibility(LOGIN_REQUIRED_MODE)
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", VIEW_WHITELIST)
     def test__login_required_mode__login_whitelist(self):
         """Login-required mode, every view in the login whitelist."""
-        self.assert_visibility(LOGIN_REQUIRED_MODE__LOGIN_WHITELIST)
+        self.assert_visibility(LOGIN_REQUIRED_MODE__LOGIN_WHITELIST, whitelists=["login"])
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
@@ -196,22 +203,18 @@ class NodeViewFallbackTestCase(SidebarMenuBaseTestCase):
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", VIEW_WHITELIST)
     def test__strict_mode__login_whitelist(self):
         """Strict mode, every view in the login whitelist."""
-        self.assert_visibility(STRICT_MODE__LOGIN_WHITELIST)
+        self.assert_visibility(STRICT_MODE__LOGIN_WHITELIST, whitelists=["login"])
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", VIEW_WHITELIST)
     def test__strict_mode__permission_whitelist(self):
         """Strict mode, every view in the permission whitelist."""
-        self.assert_visibility(STRICT_MODE__PERMISSION_WHITELIST)
+        self.assert_visibility(STRICT_MODE__PERMISSION_WHITELIST, whitelists=["permission"])
 
     @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
     @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", VIEW_WHITELIST)
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", VIEW_WHITELIST)
     def test__strict_mode__both_whitelists(self):
         """Strict mode, every view in both whitelists."""
-        self.assert_visibility(STRICT_MODE__BOTH_WHITELISTS)
+        self.assert_visibility(STRICT_MODE__BOTH_WHITELISTS, whitelists=["login", "permission"])

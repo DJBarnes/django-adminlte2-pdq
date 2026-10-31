@@ -53,6 +53,12 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* The sidebar menu now uses ``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST`` and
+  ``ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST``, and matches the exact
+  whitelists by route name, url name, or path, the same as the middleware.
+  Before, it only matched a node's route against the exact whitelists, so it
+  could hide links to pages a user was allowed to open.
+
 * An anonymous user who doesn't have a view's permissions, for example on a
   login whitelisted view, is now redirected to the login page, with the view
   as ``next``. Before, they were redirected to the home page with the

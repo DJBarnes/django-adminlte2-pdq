@@ -15,8 +15,10 @@ from django.utils.module_loading import import_string
 # Internal Imports.
 from adminlte2_pdq.constants import (
     LOGIN_REQUIRED,
+    LOGIN_EXEMPT_FUZZY_WHITELIST,
     LOGIN_EXEMPT_WHITELIST,
     STRICT_POLICY,
+    STRICT_POLICY_FUZZY_WHITELIST,
     STRICT_POLICY_WHITELIST,
 )
 from adminlte2_pdq.menu import MENU
@@ -630,13 +632,55 @@ def check_for_one_permission_in_node_list(user, nodes):
 
 
 def check_for_login_whitelisted_node(node):
-    """Check to see if the route property on the node is in the login whitelist"""
-    return node.get("route") in LOGIN_EXEMPT_WHITELIST
+    """Check to see if the node is in the login whitelist, or the fuzzy login whitelist."""
+    return _is_whitelisted_node(node, LOGIN_EXEMPT_WHITELIST, LOGIN_EXEMPT_FUZZY_WHITELIST)
 
 
 def check_for_strict_whitelisted_node(node):
-    """Check to see if the route property on the node is in the whitelist"""
-    return node.get("route") in STRICT_POLICY_WHITELIST
+    """Check to see if the node is in the permission whitelist, or the fuzzy permission whitelist."""
+    return _is_whitelisted_node(node, STRICT_POLICY_WHITELIST, STRICT_POLICY_FUZZY_WHITELIST)
+
+
+def _is_whitelisted_node(node, whitelist, fuzzy_whitelist):
+    """Check the node against a whitelist the same way the middleware checks a request.
+
+    The node is whitelisted if its route is in the whitelist, its path or url name is in the whitelist,
+    or its path starts with an entry in the fuzzy whitelist.
+    """
+    if node.get("route") in whitelist:
+        return True
+
+    path = _get_node_path(node)
+    if not path:
+        return False
+
+    try:
+        resolver = resolve(path)
+        url_names = (resolver.url_name, resolver.view_name)
+    except Http404:
+        url_names = ()
+
+    return (
+        path in whitelist
+        or any(url_name and url_name in whitelist for url_name in url_names)
+        or any(path.startswith(entry) for entry in fuzzy_whitelist)
+    )
+
+
+def _get_node_path(node):
+    """Get the path of the node's url on this site. None for placeholder and external urls."""
+    url = node.get("url")
+    if url is None:
+        route = node.get("route", "#")
+        if route == "#":
+            return None
+        try:
+            url = reverse(route, args=node.get("route_args", []), kwargs=node.get("route_kwargs", {}))
+        except NoReverseMatch:
+            return None
+
+    path = url.split("#")[0]
+    return path if path.startswith("/") else None
 
 
 # endregion Permission Handling Functions

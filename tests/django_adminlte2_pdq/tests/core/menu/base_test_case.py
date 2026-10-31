@@ -3,6 +3,8 @@ Base test case for the sidebar menu tests.
 """
 
 # System Imports.
+from contextlib import ExitStack
+from unittest.mock import patch
 
 # Third-party Imports.
 from django.contrib.auth import get_user_model
@@ -37,6 +39,12 @@ USERS = (
     + [f"staff user with {name}" for name in PERMISSION_SETS]
     + ["superuser"]
 )
+
+# The sidebar settings for each whitelist, in its exact and fuzzy form.
+WHITELIST_SETTINGS = {
+    "login": ("LOGIN_EXEMPT_WHITELIST", "LOGIN_EXEMPT_FUZZY_WHITELIST"),
+    "permission": ("STRICT_POLICY_WHITELIST", "STRICT_POLICY_FUZZY_WHITELIST"),
+}
 
 Y = True  # The node is shown.
 N = False  # The node is hidden.
@@ -188,6 +196,24 @@ class SidebarMenuBaseTestCase(TestCase):
         return {name: self._create_table_user(name) for name in USERS}
 
     # endregion Setup
+
+    def each_whitelist_form(self, whitelists, exact, fuzzy):
+        """Yield each form of the whitelists ("exact", then "fuzzy"), with the sidebar's whitelists patched to it.
+
+        :param whitelists: The whitelists ("login", "permission") to patch. Without any, yields None once.
+        :param exact: The routes the exact whitelists hold.
+        :param fuzzy: The path prefixes the fuzzy whitelists hold.
+        """
+        if not whitelists:
+            yield None
+            return
+        for form in ("exact", "fuzzy"):
+            with ExitStack() as stack:
+                for whitelist in whitelists:
+                    exact_setting, fuzzy_setting = WHITELIST_SETTINGS[whitelist]
+                    setting, value = (exact_setting, exact) if form == "exact" else (fuzzy_setting, fuzzy)
+                    stack.enter_context(patch(f"adminlte2_pdq.templatetags.sidebar_menu.{setting}", value))
+                yield form
 
     def assert_node_visibility(self, users, node, row, **labels):
         """Check that the node is shown or hidden for each user, as the table row says.

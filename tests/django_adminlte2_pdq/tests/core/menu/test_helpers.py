@@ -120,6 +120,22 @@ CONFLICTING_SETTINGS = {
     "allow_anonymous_access and permissions": {"allow_anonymous_access": True, "permissions": ["foobar"]},
 }
 
+# Each node's settings, the exact and fuzzy whitelists, and whether the node is whitelisted.
+WHITELISTED_NODES = {
+    "route in the whitelist": ({"route": "adminlte2_pdq:sample2"}, ["adminlte2_pdq:sample2"], (), True),
+    "route not in the whitelist": ({"route": "adminlte2_pdq:sample2"}, ["adminlte2_pdq:sample1"], (), False),
+    "path in the whitelist": ({"route": "adminlte2_pdq:sample2"}, ["/sample2/"], (), True),
+    "url name in the whitelist": ({"route": "adminlte2_pdq:sample2"}, ["sample2"], (), True),
+    "url set on the node": ({"route": "#", "url": "/sample2/"}, ["adminlte2_pdq:sample2"], (), True),
+    "path starts with a fuzzy entry": ({"route": "adminlte2_pdq:sample2"}, [], ("/sample2",), True),
+    "path doesn't start with a fuzzy entry": ({"route": "adminlte2_pdq:sample2"}, [], ("/sample1",), False),
+    "hash route in the whitelist": ({"route": "#"}, ["#"], (), True),
+    "hash route": ({"route": "#"}, [], ("/",), False),
+    "external url": ({"route": "#", "url": EXTERNAL_URL}, [EXTERNAL_URL], ("https://",), False),
+    "url that doesn't resolve": ({"route": "#", "url": "/no-such-page/"}, [], ("/no-such",), True),
+    "route that doesn't exist": ({"route": "foobar"}, [], ("/",), False),
+}
+
 # Each staff user's permissions and the permissions checked, and whether check_for_one_permission() and
 # check_for_all_permissions() pass. "superuser" is a superuser without permissions.
 PERMISSION_CHECKS = {
@@ -270,31 +286,25 @@ class SidebarMenuHelpersTestCase(SidebarMenuBaseTestCase):
 
     # region Whitelist Functions
 
-    def test__check_for_login_whitelisted_node__node_not_in_list(self):
-        """A node whose route isn't in the login whitelist isn't login whitelisted."""
-        node = {"route": "foobar", "text": "Sample Form", "icon": "fa fa-file"}
+    def test__whitelisted_node(self):
+        """A node is whitelisted the same way the middleware whitelists a request."""
+        checks = {
+            "login": ("check_for_login_whitelisted_node", "LOGIN_EXEMPT_WHITELIST", "LOGIN_EXEMPT_FUZZY_WHITELIST"),
+            "permission": (
+                "check_for_strict_whitelisted_node",
+                "STRICT_POLICY_WHITELIST",
+                "STRICT_POLICY_FUZZY_WHITELIST",
+            ),
+        }
+        for whitelist, (function, exact_setting, fuzzy_setting) in checks.items():
+            for name, (settings, exact, fuzzy, expected) in WHITELISTED_NODES.items():
+                with self.subTest(whitelist=whitelist, node=name):
+                    node = {"text": "Sample2", "icon": "fa fa-building", **settings}
 
-        self.assertFalse(sidebar_menu.check_for_login_whitelisted_node(node))
-
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_EXEMPT_WHITELIST", ["adminlte2_pdq:sample_form"])
-    def test__check_for_login_whitelisted_node__node_in_list(self):
-        """A node whose route is in the login whitelist is login whitelisted."""
-        node = {"route": "adminlte2_pdq:sample_form", "text": "Sample Form", "icon": "fa fa-file"}
-
-        self.assertTrue(sidebar_menu.check_for_login_whitelisted_node(node))
-
-    def test__check_for_strict_whitelisted_node__node_not_in_list(self):
-        """A node whose route isn't in the permission whitelist isn't permission whitelisted."""
-        node = {"route": "foobar", "text": "Sample2", "icon": "fa fa-building"}
-
-        self.assertFalse(sidebar_menu.check_for_strict_whitelisted_node(node))
-
-    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY_WHITELIST", ["adminlte2_pdq:sample2"])
-    def test__check_for_strict_whitelisted_node__node_in_list(self):
-        """A node whose route is in the permission whitelist is permission whitelisted."""
-        node = {"route": "adminlte2_pdq:sample2", "text": "Sample2", "icon": "fa fa-building"}
-
-        self.assertTrue(sidebar_menu.check_for_strict_whitelisted_node(node))
+                    with patch(f"adminlte2_pdq.templatetags.sidebar_menu.{exact_setting}", exact), patch(
+                        f"adminlte2_pdq.templatetags.sidebar_menu.{fuzzy_setting}", fuzzy
+                    ):
+                        self.assertEqual(expected, getattr(sidebar_menu, function)(node))
 
     # endregion Whitelist Functions
 
