@@ -778,7 +778,7 @@ class AuthMiddleware:
             or (full_url_name and full_url_name in LOGIN_EXEMPT_WHITELIST)
         )
 
-        # In "app-wide" exemption list.
+        # In "project-wide" exemption list.
         # Verify whether path var is not an empty string and is in the fuzzy whitelist.
         whitelisted_fuzzy = self.path_starts_with_whitelist_entry(path, LOGIN_EXEMPT_FUZZY_WHITELIST)
 
