@@ -162,6 +162,11 @@ class AuthMiddleware:
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
         permission_required = view_data["decorator_name"] in ("permission_required", "permission_required_one")
         if (STRICT_POLICY or permission_required) and not self.verify_permissions(request, view_data):
+            # An anonymous user can get here when the view doesn't require login, such as a login whitelisted view.
+            # They may have the permissions once logged in, so send them to the login page, without a message.
+            if not request.user.is_authenticated:
+                return redirect_to_login(request.get_full_path(), LOGIN_URL)
+
             # Create potential warnings messages
             if settings.DEBUG:
                 # Warning if in development mode.

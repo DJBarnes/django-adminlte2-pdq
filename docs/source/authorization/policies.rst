@@ -309,7 +309,9 @@ Additionally, if a view does have required permissions or login required
 criteria defined on the view, and the user does not meet that criteria, they
 will be redirected to the
 :ref:`configuration/home:adminlte2_home_route`
-route.
+route. An anonymous user who doesn't have a view's permissions, for example on
+a view in the login whitelist, is redirected to the login page instead, since
+they may have the permissions once logged in.
 
 A view with ``allow_without_permissions`` requires login but no permissions.
 If its route is also in the login whitelist

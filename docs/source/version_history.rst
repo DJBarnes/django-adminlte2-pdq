@@ -53,6 +53,12 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* An anonymous user who doesn't have a view's permissions, for example on a
+  login whitelisted view, is now redirected to the login page, with the view
+  as ``next``. Before, they were redirected to the home page with the
+  "permission requirements were not met" message, and from there to the login
+  page, which then showed the message.
+
 * In strict mode, a view with ``allow_without_permissions`` that is also in
   the login whitelist can now be accessed without login. Before, the decorator
   or mixin still sent anonymous users to the login page, while the sidebar

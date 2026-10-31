@@ -381,6 +381,7 @@ class AccessTestCase(IntegrationTestCase):
                     expected_title="Login |",
                     expected_content=["Sign in to start your session", "Remember Me", "I forgot my password"],
                     expected_messages=expected_notices,
+                    expected_not_messages=[failed_permission_check],
                 )
 
             elif outcome == H:
