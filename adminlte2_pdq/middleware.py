@@ -142,6 +142,10 @@ class AuthMiddleware:
         # Raise errors on conflicting decorator/mixin states.
         self.check_main_error_states(request, view_data)
 
+        # Tell the allow_without_permissions decorator and mixin whether the view is login whitelisted.
+        # They require login themselves, unless the view is in a login whitelist.
+        request.admin_pdq_login_whitelisted = self.is_login_whitelisted(view_data)
+
         # Handle if view requires user login to proceed.
         # Determined by combination of the ADMINLTE2_USE_LOGIN_REQUIRED and ADMINLTE2_LOGIN_EXEMPT_WHITELIST settings.
         if (LOGIN_REQUIRED or view_data["login_required"]) and not self.verify_logged_in(request, view_data):

@@ -67,6 +67,9 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
 class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
     """Mixin for strict mode, that defines a view which requires login, but no permissions.
 
+    A view that is also in a login whitelist doesn't require login, so anyone can access it.
+    The middleware tells the view whether it is login whitelisted.
+
     General logic comes from the login_required project decorator.
     """
 
@@ -87,6 +90,12 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
         """
         super().__init_subclass__(**kwargs)
         cls.subclasses.append(cls.__name__)
+
+    def dispatch(self, request, *args, **kwargs):
+        """Skip the login check for login whitelisted views."""
+        if getattr(request, "admin_pdq_login_whitelisted", False):
+            return super(DjangoLoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class PermissionRequiredMixin(DjangoPermissionRequiredMixin):

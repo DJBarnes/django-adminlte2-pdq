@@ -162,9 +162,10 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
 def allow_without_permissions(function=None, redirect_field_name="next", login_url=None):
     """Decorator for strict mode, that defines a view which requires login, but no permissions.
 
+    A view that is also in a login whitelist doesn't require login, so anyone can access it.
+    The middleware tells the view whether it is login whitelisted.
+
     Also adds the required logic to render the view on the sidebar template.
-    TODO: Consider changing how the "allow_without_permission" decorator works so that it also
-    looks at the whitelists to know if it should actually use the "login_required decorator".
     """
 
     admin_pdq_data = {
@@ -178,12 +179,19 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
         # Save values to view fetch function for middleware handling + potential debugging.
         function.admin_pdq_data = admin_pdq_data
 
+        login_required_function = django_login_required(
+            function, redirect_field_name=redirect_field_name, login_url=login_url
+        )
+
         @wraps(function)
-        @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
         def wrap(request, *args, **kwargs):
 
+            # Skip the login check for login whitelisted views.
+            if getattr(request, "admin_pdq_login_whitelisted", False):
+                return function(request, *args, **kwargs)
+
             # Get our view response object.
-            function_view = function(request, *args, **kwargs)
+            function_view = login_required_function(request, *args, **kwargs)
 
             return function_view
 

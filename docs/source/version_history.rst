@@ -53,6 +53,11 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* In strict mode, a view with ``allow_without_permissions`` that is also in
+  the login whitelist can now be accessed without login. Before, the decorator
+  or mixin still sent anonymous users to the login page, while the sidebar
+  showed them the link.
+
 * Stacked ``permission_required`` and ``permission_required_one`` decorators
   now record the permissions of every decorator on the view. Before, only the
   outermost decorator's permissions were recorded, so the sidebar could show a

@@ -311,6 +311,12 @@ will be redirected to the
 :ref:`configuration/home:adminlte2_home_route`
 route.
 
+A view with ``allow_without_permissions`` requires login but no permissions.
+If its route is also in the login whitelist
+(``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` or
+``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST``), it requires neither, so anyone can
+access it, and the sidebar shows its link to anonymous users.
+
 
 
 Refer to the :doc:`../configuration/authorization` section for information about
