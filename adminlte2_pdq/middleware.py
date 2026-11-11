@@ -400,9 +400,8 @@ class AuthMiddleware:
 
     def check_post_login_check_error_states(self, request, view_data):
         """Check for various permission required errors
-        TODO: See if there is a way to combine this with the other error states above
-        Though it might be hard because this check currently needs to happen
-        after we handle redirecting for login required checks."""
+        This check needs to happen after the redirect for login required checks, so it is separate from the
+        other error states above. Combining them is #42."""
 
         view_missing_decorators = view_data["decorator_name"] not in [
             "login_required",

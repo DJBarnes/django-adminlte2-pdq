@@ -118,10 +118,7 @@ class TemplateFilterTestCase(TestCase):
             str(result),
         )
 
-        # TODO: Should this also have a "handles missing field" like the below test?
-        #       In fact, should most of these custom filters?
-        #       What is the context that makes "with_class" need to handle a missing field,
-        #       yet none of the rest of these do? Doesn't seem documented.
+        # Only "with_class" handles a missing field (see its test below). Whether the other filters should is #44.
 
     def test_filter__with_class(self):
         """Adds class to existing form field."""
