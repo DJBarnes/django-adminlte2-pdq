@@ -140,6 +140,7 @@ and more, to aid in the rapid development of a site.
    authorization/policies
    authorization/function_views
    authorization/class_views
+   authorization/security
 
 
 .. toctree::

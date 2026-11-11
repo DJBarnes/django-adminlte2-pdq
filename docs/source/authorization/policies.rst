@@ -491,7 +491,7 @@ of two ways.
 
 When this happens, the package handles it like a 404 instead of returning
 Django's 403 response, so the response does not confirm that the page exists.
-See :ref:`authorization/policies:Security Notes` for the limits of this.
+See :doc:`security` for the limits of this.
 
 Just like the built-in functionality for 404s,
 this package comes with built-in behavior to handle 403s, which is also on by
@@ -593,21 +593,5 @@ For every message setting and its default, see
 :doc:`../configuration/authorization`.
 
 
-Security Notes
-==============
-
-* Under the login-required and strict policies, anonymous users get the same
-  response for every URL that requires login, whether or not it exists: a
-  redirect to the login page. Paths in
-  ``ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST`` are the exception,
-  because they always get Django's 404 response.
-* Under the loose policy, pages are public, so a URL that exists loads and an
-  unknown URL is redirected or returns a 404.
-* The default 403 and 404 production messages are the same, so the message
-  does not tell a page the user lacks permission for apart from a page that
-  does not exist. Changing one of them makes them different.
-* The :ref:`authorization/policies:strict policy` is the most restrictive
-  policy: every view needs a login and defined permissions, a whitelist
-  entry, or the ``allow_anonymous_access`` or ``allow_without_permissions``
-  decorator or mixin.
+See :doc:`security` for what the policies protect, and what they don't.
 

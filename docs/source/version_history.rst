@@ -62,6 +62,9 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Add a :doc:`authorization/security` page, on what the authentication and
+  authorization protect, and what they don't.
+
 * The sidebar menu now uses ``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST`` and
   ``ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST``, and matches the exact
   whitelists by route name, url name, or path, the same as the middleware.
