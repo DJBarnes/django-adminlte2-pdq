@@ -74,6 +74,15 @@ When you change what a user can open or see, change the cells in the table. When
 
 Use `self.subTest` only to loop over data, and name the values with keywords, for example `self.subTest(view=..., user=...)`. A failure then shows which values failed. If a case needs its own setup, write it as a separate test method.
 
+## Releasing
+
+For maintainers:
+
+1. In a pull request, set `__version__` in `adminlte2_pdq/__init__.py`, and rename the "Unreleased" section of `docs/source/version_history.rst` to the version.
+1. After it is merged, tag the merged commit with the same version, without a `v`, and push the tag: `git tag -s 0.3.0 -m "0.3.0"` and `git push origin 0.3.0`.
+1. The "Publish Release" workflow builds the package and checks that the tag matches the built version. The publish job then waits for approval in the `release` environment: open the workflow run and choose "Review deployments".
+1. After approval, it publishes to PyPI with trusted publishing.
+
 ## Resources
 
 - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)

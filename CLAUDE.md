@@ -38,6 +38,8 @@ pipenv run sphinx-build -WE docs/source docs/build
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): summary`, with the summary in lowercase imperative and no trailing period. Types used here: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `build`, `ci`, `chore`. `style` means code formatting only; CSS changes are `feat(css)` or `fix(css)`. Common scopes: `middleware`, `sidebar`, `menu`, `css`, `js`, `templates`, `views`, `docs`, `tests`. Mark breaking changes with `!` (e.g. `feat(css)!: ...`) and a `BREAKING CHANGE:` footer.
 - Commits are GPG-signed (`commit.gpgsign` is set in this repo's local git config).
 - Each user-facing change adds an entry to the "Unreleased" section at the top of `docs/source/version_history.rst` in the same commit. At release, that section is renamed to the version number.
+- Workflows pin every action to a commit, with its version in a comment (`uses: actions/checkout@<sha> # v7.0.1`), and Dependabot (`.github/dependabot.yml`) proposes updates weekly. Pin any new action the same way, and check workflow changes with `actionlint` and `zizmor`.
+- Releases: see "Releasing" in CONTRIBUTING.md. `release.yaml` runs only for `X.Y.Z` tags, fails if the tag doesn't match the built version, and the `release` environment waits for a reviewer before publishing to PyPI.
 - Docs, changelog entries, and commit messages are direct and neutral: state what changed and how to use it. No opinions or emotional wording ("it was bad", "really needed it").
 
 ## Architecture

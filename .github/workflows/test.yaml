@@ -1,5 +1,4 @@
 name: Run Tests
-run-name: Tests run on ${{ github.event.repository.updated_at }}
 on:
   push:
     branches:
@@ -7,32 +6,88 @@ on:
       - coverage
   pull_request:
 
+# The tests only need to read the repository.
+permissions:
+  contents: read
 
 jobs:
-  test-py37:
-    uses: ./.github/workflows/test_3.7.yaml
+  test:
+    # Only run tests when NOT pushing tags. Assumes tests already passed from pushed commit that tag is based on.
+    if: ${{ !startsWith(github.ref, 'refs/tags') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
+          - "3.14"
+        include:
+          # Python 3.7 to 3.9 are not available on newer runner images.
+          - os: ubuntu-22.04
+            python-version: "3.7"
+          - os: ubuntu-22.04
+            python-version: "3.8"
+          - os: ubuntu-22.04
+            python-version: "3.9"
+    name: Test Py${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # No job pushes to the repository, so the checkout doesn't keep the token.
+          persist-credentials: false
 
-  test-py38:
-    uses: ./.github/workflows/test_3.8.yaml
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Each tox environment installs its own Django and the package's test extras.
+      - name: Install tox
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install tox tox-gh-actions
+
+      - name: Test with tox
+        run: tox
+
+      - name: Rename coverage results
+        env:
+          PYTHON_VERSION: ${{ matrix.python-version }}
+        run: mv .coverage ".coverage.${PYTHON_VERSION}"
+
+      - name: Upload coverage results
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: coverage-${{ matrix.python-version }}
+          path: .coverage.${{ matrix.python-version }}
+          overwrite: true
+          include-hidden-files: true
 
   coverage:
     name: Upload coverage results to Coveralls
     runs-on: ubuntu-latest
     # Need to run this after tests succeed so that coverage reflects test runs with all django and python combinations.
     needs:
-      - test-py37
-      - test-py38
+      - test
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # No job pushes to the repository, so the checkout doesn't keep the token.
+          persist-credentials: false
 
       - name: Set up Python 3.14
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.14"
 
       - name: Retrieve coverage results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           pattern: coverage-*
           merge-multiple: true
@@ -47,4 +102,4 @@ jobs:
         run: coverage lcov
 
       - name: Upload Coverage to Coveralls
-        uses: coverallsapp/github-action@v2
+        uses: coverallsapp/github-action@8d6379e14d29928660c4ba802d8e85393440b329 # v2.3.8
