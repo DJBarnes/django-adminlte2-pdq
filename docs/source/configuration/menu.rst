@@ -30,9 +30,8 @@ regardless of what page they are on, set this value to ``True``.
 
 .. note::
 
-    Visibility is still subject to a user having the ``is_staff`` property.
-    Without that property, the admin section of the sidebar will still be
-    hidden to the user, regardless of this setting.
+    Only staff users and superusers see the admin section. Staff users see
+    only the models they have a permission for.
 
 :Type: ``bool``
 :Default: ``False``
@@ -47,10 +46,10 @@ ADMINLTE2_USE_MENU_GROUP_SEPARATOR
 
 By default, there will be an implicit separator bar rendered between each menu
 group.
-These groups include: **MENU_FIRST**, **MENU**, **MENU_LAST**, and the
-**Admin Menu**.
+These groups are, in order: **MENU_FIRST**, **MENU**, the **Admin Menu**, and
+**MENU_LAST**.
 More information about these groups can be found on the
-:doc:`../menu/admin` page. If you would like to disable this
+:doc:`../menu/advanced` page. If you would like to disable this
 separator from being automatically rendered, set this value to ``False``.
 
 
@@ -67,11 +66,14 @@ ADMINLTE2_MENU
 
 This setting is the definition for the main navigation menu.
 There are a lot of options when creating this menu.
-See the :doc:`../menu/admin` section for a detailed explanation of how to
-create this menu and all of the available options that can be used.
+See the :doc:`../menu/general_information` and :doc:`../menu/building_blocks`
+sections for a detailed explanation of how to create this menu and all of the
+available options that can be used.
 
 :Type: ``list``
-:Default: ``[]``
+:Default: the package's demo menu (``adminlte2_pdq.menu.MENU``) when its routes
+    are registered, which they are when the project includes
+    ``adminlte2_pdq.urls``. Otherwise ``[]``.
 
 Example::
 

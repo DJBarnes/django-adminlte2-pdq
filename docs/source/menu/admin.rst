@@ -49,7 +49,7 @@ have their icons updated to be something more useful.
     AdminMenu.set_model_icon('Post', 'fa fa-pencil-square-o')
 
     # Register Comment model with admin.
-    admin.site.register(Post)
+    admin.site.register(Comment)
     # Update icon for Comment model in admin menu.
     AdminMenu.set_model_icon('Comment', 'fa fa-comment')
 
@@ -108,6 +108,9 @@ In any ``admin.py`` file, call one additional method on the
 
     # Update icon for the Admin Home link.
     AdminMenu.set_admin_icon('fa fa-magic')
+
+The same icon is used for the "Admin" tree when
+:ref:`configuration/admin:adminlte2_admin_menu_in_tree` is ``True``.
 
 
 Admin Tri-Cog

@@ -18,8 +18,9 @@ ADMINLTE2_INCLUDE_ADMIN_HOME_LINK
 =================================
 
 By default, the admin menu sidebar will not have a link to the admin index page.
-If you would like to append a link to the admin index page in the sidebar,
-set this value to ``True``.
+If you would like a link to the admin index page in the sidebar, set this
+value to ``True``. The link is added above the app entries, and is shown only
+when the user can see at least one admin app.
 
 .. note::
 

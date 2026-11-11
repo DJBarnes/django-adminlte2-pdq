@@ -19,19 +19,11 @@ Section
 A section is a grouping of other related navigational elements. Technically,
 a section is simply a Python dictionary, with a specific set of expected values.
 
-A section will consist of section text and any nodes that
-make up the remaining parts of the section. Neither the text nor the
-nodes are required.
-
-For Example:
-
-* You can have no text and no nodes if you just want some extra space in the
-  sidebar between other sections.
-* You can have text with no nodes if you only want a header.
-* You can have nodes without text if you want a blank header.
-
-Generally speaking, the most common implementation will consist of defining both
-text and nodes.
+A section will consist of section text and the nodes that make up the rest of
+the section. The section, including its header, is shown only when the user can
+see at least one link in it (see `When a Tree Is Shown`_), so a section needs
+nodes. Without text, the section has a blank header. To separate sections with a
+line, use a separator_.
 
 
 ----
@@ -69,7 +61,13 @@ Section Example
 
     {
         'text': 'Home',
-        'nodes': []
+        'nodes': [
+            {
+                'route': 'adminlte2_pdq:home',
+                'text': 'Home',
+                'icon': 'fa fa-dashboard',
+            },
+        ],
     }
 
 
@@ -106,11 +104,11 @@ A blank string.
 
 **nodes**
 
-An empty list.
+An empty list. Separators don't use it.
 
 :Key: ``nodes``
 :Type: ``list``
-:Required: ``True``
+:Required: ``False``
 
 
 **separator**
@@ -216,9 +214,26 @@ This allows the ability to dynamically create the node's text.
     Django-AdminLTE2-PDQ will try to import the value for this key as a function
     and then invoke the function and use its results as the text for the node.
 
+    The function is called with the template context as the ``context``
+    keyword argument, plus the node's ``hook_args`` and ``hook_kwargs``, if
+    set: ``function(*hook_args, context=context, **hook_kwargs)``.
+
     The function should return either a string that will be used for both the
     text and the title text of the node, or a 2-tuple with string values for
     both text and title separately.
+
+    A returned string of exactly two characters is read as a 2-tuple, so its
+    first character becomes the text and its second the title. Return a
+    2-tuple for two-character text.
+
+
+**hook_args**, **hook_kwargs**
+
+Positional and keyword arguments to pass to the ``hook`` function.
+
+:Key: ``hook_args``, ``hook_kwargs``
+:Type: ``list``, ``dict``
+:Required: ``False``
 
 .. tip::
 
@@ -346,6 +361,54 @@ the system to see the node.
     be shown or hidden based on the user being logged in.
 
 
+**allow_anonymous_access**, **allow_without_permissions**
+
+Optional keys on the node, with the same meaning as the decorators and mixins
+of the same name (see :doc:`../authorization/policies`). They are mostly
+useful for nodes with an external ``url``, which have no view to take the
+settings from:
+
+* In login-required and strict mode, an external link is hidden from anonymous
+  users unless it sets ``allow_anonymous_access``.
+* In strict mode, an external link without ``permissions`` or
+  ``one_of_permissions`` is hidden unless it sets
+  ``allow_without_permissions`` or ``allow_anonymous_access``, or ``'#'`` is in
+  ``ADMINLTE2_STRICT_POLICY_WHITELIST``.
+
+:Key: ``allow_anonymous_access``, ``allow_without_permissions``
+:Type: ``bool``
+:Required: ``False``
+
+
+**class**
+
+Extra CSS classes for the node's link.
+
+:Key: ``class``
+:Type: ``string``
+:Required: ``False``
+
+
+**attributes**
+
+Extra HTML attributes for the node's link, such as ``{'target': '_blank'}``.
+
+:Key: ``attributes``
+:Type: ``dict``
+:Required: ``False``
+
+
+**active_requires_exact_url_match**
+
+The link is highlighted as active only when the current page's URL is exactly
+the link's URL. Otherwise it is active when the current URL starts with the
+link's URL (see `Active Links`_).
+
+:Key: ``active_requires_exact_url_match``
+:Type: ``bool``
+:Required: ``False``
+
+
 Node Example
 ------------
 
@@ -370,19 +433,19 @@ Complex Node Example
         'text': 'Github',
         'icon': 'fa fa-github',
         'url': 'https://github.com',
-        'hook': 'core.utils.home_link_text',
-        'permissions': ['is_developer'],
+        'hook': 'core.utils.github_link_text',
+        'permissions': ['core.is_developer'],
     }
 
 **core/utils.py**
 
 .. code:: python
 
-    def home_link_text(context):
-        "Custom home link text"
-        text = 'Home'
-        if user.is_staff:
-            text = 'Home!!!!!'
+    def github_link_text(context):
+        """Custom GitHub link text."""
+        text = 'GitHub'
+        if context['user'].is_staff:
+            text = 'GitHub (staff)'
         return text
 
 
@@ -418,7 +481,22 @@ an empty tree or a tree of links the user can't open.
   the user can see at least one link in the section.
 
 A tree is shown expanded when the current page's URL starts with the URL of
-one of its links, so the user sees where they are in the menu.
+one of its links, so the user sees where they are in the menu. A tree with a
+placeholder link (``'route': '#'``) or a link to ``/`` therefore always starts
+expanded.
+
+A tree must contain at least one node. A tree with an empty ``nodes`` list
+raises ``KeyError`` when the menu is rendered for a user who isn't a
+superuser.
+
+
+Active Links
+------------
+
+A link is highlighted as active when the current page's URL starts with the
+link's URL. A link to ``/``, or a node with
+``active_requires_exact_url_match``, is active only when the URLs are equal. A
+tree is highlighted when its own link or one of its direct links is active.
 
 
 ----
@@ -451,11 +529,11 @@ All required classes needed to make the icon show up must be listed.
 **nodes**
 
 A list of node dictionaries that will render out each sidebar link,
-or a tree that will contain more nodes.
+or a tree that will contain more nodes. It needs at least one entry.
 
 :Key: ``nodes``
 :Type: ``list``
-:Required: ``False``
+:Required: ``True``
 
 
 **route**
@@ -499,17 +577,6 @@ this key is meant for external URLs.
 
 Tree Example
 ------------
-.. code:: python
-
-    {
-        'text': 'Sample Tree',
-        'icon': 'fa fa-leaf',
-        'nodes': [],
-    },
-
-
-Tree Example with a Node
-------------------------
 
 .. code:: python
 
