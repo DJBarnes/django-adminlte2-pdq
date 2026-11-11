@@ -27,11 +27,17 @@ Quickstart
     available authentication and authorization policies from this package to
     function.
 
-    Add this middleware to your middleware list in ``<PROJECT_FOLDER>/settings.py``.
+    Add this middleware to your middleware list in ``<PROJECT_FOLDER>/settings.py``, after
+    Django's session, authentication, and message middleware.
 
     .. code-block:: python
 
        MIDDLEWARE = [
+           ...
+           'django.contrib.sessions.middleware.SessionMiddleware',
+           ...
+           'django.contrib.auth.middleware.AuthenticationMiddleware',
+           'django.contrib.messages.middleware.MessageMiddleware',
            ...
            'adminlte2_pdq.middleware.AuthMiddleware',
        ]
@@ -44,7 +50,7 @@ Quickstart
     .. code-block:: python
 
         from django.contrib import admin
-        from django.urls import include
+        from django.urls import include, path
 
         urlpatterns = [
             # Adminlte2 default routes for demo purposes
@@ -58,9 +64,9 @@ Quickstart
 5.  Ensure that successful logins redirect to a valid endpoint.
 
     Django-AdminLTE2-PDQ does not include a route or templates for
-    ``/accounts/profile`` which is the default
+    ``/accounts/profile/`` which is the default
     `Django Login redirect. <https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url>`_
-    Adding the above entry to your ``settings.py`` file
+    Adding the entry below to your ``settings.py`` file
     will allow successful logins to redirect to the default provided home
     page included in step 4.
 

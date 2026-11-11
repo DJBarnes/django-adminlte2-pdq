@@ -188,7 +188,7 @@ Other Changes
 
 * The user's image in the header, the user menu, and the sidebar shows the
   user's initials when they don't have a Gravatar, instead of Gravatar's
-  default person image. Users without a first or last name still get the
+  default person image. Users with neither a first nor a last name still get the
   default person image. The ``user_image_initials`` template tag that renders
   it changed:
 
@@ -259,8 +259,8 @@ Other Changes
   ``ADMINLTE2_REDIRECT_TO_HOME_ON_404`` is ``False``.
 
 * Add the system check ``adminlte2_pdq.W001``, which lists views that require
-  permissions but define none. It runs automatically with ``manage.py check``,
-  ``runserver``, ``migrate``, and tests.
+  permissions but define none, when ``AuthMiddleware`` is installed. It runs
+  with ``manage.py check``, ``runserver``, ``migrate``, and ``manage.py test``.
 
 * In production, a view that requires permissions but defines none no longer
   causes a server error (500). The middleware logs the problem at the

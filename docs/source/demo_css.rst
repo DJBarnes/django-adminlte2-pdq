@@ -11,8 +11,8 @@ With the package's routes included in your project:
 
     path('', include('adminlte2_pdq.urls')),
 
-the demo pages are at ``<domain>/demo-css/``. The demo home page links to each
-page: typography, widgets, general UI and the color palette, alerts, basic and
+the demo pages are at ``<domain>/demo-css/``. The demo pages have their own sidebar
+menu, which links to each page: typography, widgets, general UI and the color palette, alerts, basic and
 specialized buttons, carousels, labels and tooltips, modals, full-span links,
 standard and solid boxes, tables, and forms.
 
@@ -100,6 +100,7 @@ Property                              Used for
 ``--pdq-{color}-base``                Main color
 ``--pdq-{color}-text``                Text on the main color
 ``--pdq-{color}-active``              ``bg-{color}-active``, modal headers
+                                      and footers
 ``--pdq-{color}-hover``               Button hover and borders, alert
                                       borders
 ``--pdq-{color}-border``              Callout and modal borders
