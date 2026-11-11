@@ -5,9 +5,10 @@ build:
   tools:
     python: "3.14"
 
-# Build from the docs/ directory with Sphinx
+# Build from the docs/ directory with Sphinx. Warnings fail the build, as with -WE in CI.
 sphinx:
   configuration: docs/source/conf.py
+  fail_on_warning: true
 
 # Explicitly set the version of Python and its requirements
 python:
