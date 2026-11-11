@@ -16,9 +16,10 @@ If this setting is set to False, then all routes will be accessible and
 still visible on the sidebar menu.
 
 If this setting is set to True, then all routes will not be accessible nor will
-there be links on the sidebar menu unless the user is logged in or the route is
-found in the
-``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` setting.
+there be links on the sidebar menu unless the user is logged in, the route is
+found in the ``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` or
+``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST`` setting, or its view uses
+``allow_anonymous_access``.
 
 :Type: ``bool``
 :Default: ``False``
@@ -38,8 +39,11 @@ If this setting is set to False, then all routes without a defined permission
 are still visible on the sidebar menu.
 
 If this setting is set to True, then all routes without a defined permission
-are hidden on the sidebar menu unless the route is found in the
-``ADMINLTE2_STRICT_POLICY_WHITELIST`` setting.
+are hidden on the sidebar menu, and redirect logged-in users to the home page,
+unless the route is found in the ``ADMINLTE2_STRICT_POLICY_WHITELIST`` or
+``ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST`` setting, or its view uses
+``allow_without_permissions`` or ``allow_anonymous_access``. Setting it to True
+also turns on ``ADMINLTE2_USE_LOGIN_REQUIRED``.
 
 :Type: ``bool``
 :Default: ``False``
@@ -172,8 +176,8 @@ ADMINLTE2_STRICT_POLICY_SERVE_404_FUZZY_WHITELIST
 -------------------------------------------------
 
 A list of path prefixes that always get Django's 404 response instead of the
-redirect to the home page. Static files, media files, and the favicon already
-get Django's 404 response.
+redirect to the home page. Static files, media files, websocket paths, and the
+favicon already get Django's 404 response.
 
 Entries are paths, so they start with ``/``.
 
@@ -194,6 +198,10 @@ Whether a failed permission check redirects to the home page with a message,
 instead of raising ``PermissionDenied``. See
 :ref:`authorization/policies:Handling 403 Errors`.
 
+For views with the ``permission_required`` or ``permission_required_one``
+decorator, pass ``raise_exception=True`` to the decorator to get the 403;
+otherwise it redirects to the home page, as Django's own decorator does.
+
 :Type: ``bool``
 :Default: ``True``
 
@@ -209,6 +217,10 @@ A list of path prefixes where a failed permission check raises
 ``PermissionDenied`` instead of redirecting to the home page. Use this for
 sections that handle permissions themselves, such as an API that returns
 JSON errors.
+
+For views with the ``permission_required`` or ``permission_required_one``
+decorator, pass ``raise_exception=True`` to the decorator to get the 403;
+otherwise it redirects to the home page, as Django's own decorator does.
 
 Entries are paths, so they start with ``/``.
 

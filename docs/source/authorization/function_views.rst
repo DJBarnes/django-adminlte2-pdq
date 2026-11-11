@@ -5,7 +5,7 @@ Authorizing Function Based Views
 Decorators
 ==========
 
-There are three decorators provided by Django-AdminLTE2-PDQ that can be used on a
+There are five decorators provided by Django-AdminLTE2-PDQ that can be used on a
 function-based view to control whether a user:
 
 * Has access to the decorated view.
@@ -18,6 +18,20 @@ Those decorators are:
   .. code:: python
 
       from adminlte2_pdq.decorators import login_required
+
+* :ref:`authorization/function_views:allow anonymous access decorator`
+  imported with
+
+  .. code:: python
+
+      from adminlte2_pdq.decorators import allow_anonymous_access
+
+* :ref:`authorization/function_views:allow without permissions decorator`
+  imported with
+
+  .. code:: python
+
+      from adminlte2_pdq.decorators import allow_without_permissions
 
 * :ref:`authorization/function_views:permission required decorator` imported
   with
@@ -58,6 +72,82 @@ they will see the sidebar link and have access.
     def demo_css(request):
         """Show the demo CSS home page."""
         return render(request, 'adminlte2_demo_css/home.html')
+
+.. note::
+
+    This decorator is for the
+    :ref:`authorization/policies:loose policy`. With
+    :ref:`authorization/policies:login required` or the
+    :ref:`authorization/policies:strict policy`, every view already requires
+    login, and the middleware raises ``ImproperlyConfigured`` for a view with
+    this decorator. Use no decorator (login required) or
+    ``allow_without_permissions`` (strict) instead.
+
+
+Allow Anonymous Access Decorator
+--------------------------------
+
+``@allow_anonymous_access``
+
+This decorator lets anyone open the view, logged in or not, and shows its
+sidebar link to everyone. With the strict policy, the view also doesn't need
+permissions.
+
+It is for the :ref:`authorization/policies:login required` and
+:ref:`authorization/policies:strict policy` modes. In the loose policy every
+view is already public, and the middleware raises ``ImproperlyConfigured`` for
+a view with this decorator.
+
+.. code:: python
+
+    from adminlte2_pdq.decorators import allow_anonymous_access
+
+    @allow_anonymous_access
+    def about(request):
+        """Show the public about page."""
+        return render(request, 'about.html')
+
+.. note::
+
+    A view with this decorator doesn't also need to be in
+    ``ADMINLTE2_LOGIN_EXEMPT_WHITELIST``. When it is, the middleware warns,
+    because the two do the same thing.
+
+
+Allow Without Permissions Decorator
+-----------------------------------
+
+``@allow_without_permissions``
+
+This decorator lets every logged-in user open the view, without any
+permissions, and shows its sidebar link to logged-in users. Anonymous users are
+redirected to the login page. It accepts the same ``redirect_field_name`` and
+``login_url`` arguments as Django's ``login_required`` decorator.
+
+It is for the :ref:`authorization/policies:strict policy`, for pages every
+logged-in user may see, such as a dashboard or a profile page. In the loose and
+login required policies, views don't need permissions, and the middleware
+raises ``ImproperlyConfigured`` for a view with this decorator.
+
+.. code:: python
+
+    from adminlte2_pdq.decorators import allow_without_permissions
+
+    @allow_without_permissions
+    def profile(request):
+        """Show the user's profile."""
+        return render(request, 'profile.html')
+
+If the view's route is also in ``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` or
+``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST``, it needs neither login nor
+permissions, so anyone can open it, and the sidebar shows its link to anonymous
+users too.
+
+.. note::
+
+    A view with this decorator doesn't also need to be in
+    ``ADMINLTE2_STRICT_POLICY_WHITELIST``. When it is, the middleware warns,
+    because the two do the same thing.
 
 
 Permission Required Decorator
@@ -392,8 +482,8 @@ demonstrate how our package works, we intentionally mess up the **Sample2** and
 **Demo CSS** routes at first, then show how to correct them. The views are as
 follows:
 
-* **Home** - Should be visible to all users, regardless of being logged in or
-  having permission.
+* **Home** - Should be visible to all logged-in users, regardless of
+  permissions.
 * **Sample Form** - Requires simply being logged in to see and access.
 * **Sample 1** - Requires two permissions (and thus being logged in) to see and
   access.
@@ -403,6 +493,7 @@ follows:
 * **Demo CSS** - Should be visible to all users, regardless of being logged in
   or having permission. But we intentionally forgot to add that view's route to
   the
+  :ref:`configuration/authorization:ADMINLTE2_LOGIN_EXEMPT_WHITELIST` and the
   :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`
   to demonstrate what will happen.
 
@@ -420,11 +511,11 @@ Below is all the code required to generate these views.
 
 .. important::
 
-    For this example, we have turned off the global
-    :ref:`authorization/policies:login required` setting and instead choose
-    to define whether or not a view requires being logged in directly on
-    the view rather than globally. This way we can demonstrate all three of
-    the various decorators.
+    The strict policy also turns on the global
+    :ref:`authorization/policies:login required` setting, so every view
+    requires login unless its route is in the login whitelist. Sample Form uses
+    the ``allow_without_permissions`` decorator, since the ``login_required``
+    decorator isn't supported in strict mode.
 
 
 .. _strict_decorator_settings.py:
@@ -468,6 +559,8 @@ Below is all the code required to generate these views.
     ]
     # Ensures that we are using the Strict Policy.
     ADMINLTE2_USE_STRICT_POLICY = True
+    # The home route, which the permission whitelist includes by default.
+    ADMINLTE2_HOME_ROUTE = 'home'
 
 
 .. _strict_decorator_urls.py:
@@ -493,7 +586,7 @@ Below is all the code required to generate these views.
 
     from django.shortcuts import render
     from adminlte2_pdq.decorators import (
-        login_required,
+        allow_without_permissions,
         permission_required,
         permission_required_one,
     )
@@ -503,7 +596,7 @@ Below is all the code required to generate these views.
         return render(request, 'adminlte2/home.html', {})
 
 
-    @login_required()
+    @allow_without_permissions
     def sample_form(request):
         """Show sample form"""
         form = SampleForm()
@@ -530,12 +623,12 @@ Below is all the code required to generate these views.
 
     .. note::
 
-        As seen in the following screenshots, the **Home** route still works and
-        the user still has access to it.
-
-        This is because the **Home** route is one of the routes that are
-        automatically included as part of the
-        :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`.
+        Logged out users are redirected to the login page for every route,
+        including **Home**, since the strict policy requires login. **Home** is
+        in the
+        :ref:`configuration/authorization:adminlte2_strict_policy_whitelist`
+        by default, so it doesn't need permissions, but it isn't in the login
+        whitelist.
 
 .. image:: ../../img/authorization/strict_policy_anonymous_wrong.png
     :alt: Strict Policy with anonymous user and missed decorator and setting.
@@ -556,10 +649,11 @@ Below is all the code required to generate these views.
 **What logged in superusers can see and access:**
 
     .. note::
-        Even though we forgot to add the **Demo CSS** route to the whitelist and
-        add permissions to the **Sample2** view, the superuser can still see those
-        sidebar entries and has access to those pages as superusers can always see
-        everything.
+        Even though we forgot to add the **Demo CSS** route to the whitelists and
+        add permissions to the **Sample2** view, the superuser still sees those
+        sidebar entries, as superusers see every link. But opening them
+        redirects to the home page: a view without permissions can't be opened
+        by anyone in strict mode, superusers included.
 
 .. image:: ../../img/authorization/strict_policy_superuser_wrong.png
     :alt: Strict Policy with superuser and missed decorator/setting.
@@ -569,8 +663,8 @@ Below is all the code required to generate these views.
 .. warning::
 
     We wanted the **Demo CSS** view to be visible and accessible to all users.
-    But as configured, it is not visible to anyone. In addition, the
-    **Sample2** page is also not visible to anyone.
+    But as configured, only superusers see its link, and no one can open it.
+    The same is true for the **Sample2** page.
 
     Because we are using the Strict Policy, all sidebar menu links are hidden
     by default. This is the **"Strict"** part of the Strict Policy as it
@@ -580,10 +674,12 @@ Below is all the code required to generate these views.
     :ref:`configuration/authorization:ADMINLTE2_STRICT_POLICY_WHITELIST`.
 
     In the case of the **Demo CSS** view, we add the route to the
-    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` as we don't want to require
+    ``ADMINLTE2_LOGIN_EXEMPT_WHITELIST`` and the
+    ``ADMINLTE2_STRICT_POLICY_WHITELIST``, as we don't want to require
     any criteria to see it and instead want to ensure that everyone will be
     able to see the link and page regardless of their permissions or being
-    logged in.
+    logged in. Using the ``allow_anonymous_access`` decorator on the view
+    instead would have the same effect.
 
     In the case of **Sample2**, we are going to add the missing permissions that
     we accidentally omitted earlier.
@@ -596,12 +692,14 @@ who they are supposed to be.
 
 **settings.py**
 
-Add the missing whitelist to the settings file and ensure it includes the
+Add the missing whitelists to the settings file and ensure they include the
 demo-css route.
 
 .. code:: python
 
-    # Lists the routes that do not need permissions to be seen by all users.
+    # Lists the routes that do not need login.
+    ADMINLTE2_LOGIN_EXEMPT_WHITELIST = ['demo-css']
+    # Lists the routes that do not need permissions.
     ADMINLTE2_STRICT_POLICY_WHITELIST = ['demo-css']
 
 

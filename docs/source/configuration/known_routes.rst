@@ -6,7 +6,9 @@ without logging in (login, logout, password reset, registration), the pages
 that must work without permissions (home, password change), and the URL
 prefixes of files that are not views (static, media, websockets). These pages
 are added to the login exempt and strict policy whitelists automatically (see
-:doc:`authorization`).
+:doc:`authorization`). The file and websocket prefixes aren't whitelist
+entries; the middleware skips them instead (see
+`File and Websocket Routes`_).
 
 The defaults match Django's ``django.contrib.auth.urls`` and this package's
 URLs. Change them only if your project uses different routes.
@@ -175,7 +177,10 @@ redirecting to the home page.
 MEDIA_URL and STATIC_URL
 ------------------------
 
-Django's own settings. The package reads them as they are.
+Django's own settings. The package reads them as they are, except that a value
+of ``/`` is ignored, so it doesn't skip the checks for the whole site. Django
+turns the default ``MEDIA_URL`` of ``''`` into ``/``, so with the default no
+media path is skipped.
 
 
 ADMINLTE2_WEBSOCKET_URL

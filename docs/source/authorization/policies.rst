@@ -67,8 +67,14 @@ The default whitelist contains the following standard anonymous routes:
 * password_reset_done
 * password_reset_confirm
 * password_reset_complete
-* media url - As defined via the ``MEDIA_URL`` setting in ``settings.py``
-  so long as it is not the default value of ``''``. See note below.
+* register - As defined via the ``ADMINLTE2_REGISTER_ROUTE`` setting in
+  ``settings.py``
+
+The middleware also never checks the paths of static files (``STATIC_URL``),
+media files (``MEDIA_URL``), websockets (``ADMINLTE2_WEBSOCKET_URL``, default
+``/ws/``), and ``/favicon.ico``. A ``MEDIA_URL``, ``STATIC_URL``, or websocket
+URL of ``/`` is ignored, so it doesn't exempt the whole site. See the note
+below.
 
 If you would like to add additional routes to this list, you can do so by
 adding either the route name or URL for the endpoint to the
@@ -184,8 +190,8 @@ Your choices are:
     .. note::
 
         With the :ref:`authorization/policies:Strict Policy`, if you forget to
-        add permissions to a view, the view will be inaccessible to everyone
-        except for superusers.
+        add permissions to a view, the view will be inaccessible to everyone,
+        including superusers. Superusers still see its sidebar link.
         This is a good way to ensure that you don't accidentally create
         features that everyone automatically has access to.
         You have to explicitly think about what permissions are required for
@@ -259,14 +265,17 @@ Strict Policy
 This policy assumes users should have restricted access to links and views, by
 default.
 
+The strict policy also turns on :ref:`authorization/policies:login required`.
+
 When enabled, all views that do not use one of the included
 :ref:`authorization/function_views:Decorators` or
-:ref:`authorization/class_views:Mixins` will redirect all requests to the
-:ref:`configuration/home:adminlte2_home_route` unless the route or url that
-they are trying to access is explicitly listed in a whitelist.
-The default whitelist contains the following standard anonymous routes as well
-as the password change, :ref:`configuration/home:adminlte2_home_route`, media
-routes, and websocket routes:
+:ref:`authorization/class_views:Mixins` will redirect logged-in users to the
+:ref:`configuration/home:adminlte2_home_route`, and anonymous users to the login
+page, unless the route or url that they are trying to access is explicitly
+listed in a whitelist.
+The default permission whitelist contains the default login whitelist, as well
+as the password change routes and the
+:ref:`configuration/home:adminlte2_home_route`:
 
 * login - As defined via the ``LOGIN_URL`` setting in ``settings.py``
 * logout
@@ -276,11 +285,18 @@ routes, and websocket routes:
 * password_reset_complete
 * password_change
 * password_change_done
+* register - As defined via the ``ADMINLTE2_REGISTER_ROUTE`` setting in
+  ``settings.py``
 * home - As defined via the ``ADMINLTE2_HOME_ROUTE`` setting in ``settings.py``
-* media url - As defined via the ``MEDIA_URL`` setting in ``settings.py``
-  so long as it is not the default value of ``''``. See note below.
-* websocket url - As defined via the ``ADMINLTE2_WEBSOCKET_URL`` setting in
-  ``settings.py``. Defaults to ``/ws/``.
+
+The permission whitelist exempts routes from the permission checks only. They
+still require login, unless they are also in the login whitelist.
+
+The middleware also never checks the paths of static files (``STATIC_URL``),
+media files (``MEDIA_URL``), websockets (``ADMINLTE2_WEBSOCKET_URL``, default
+``/ws/``), and ``/favicon.ico``. A ``MEDIA_URL``, ``STATIC_URL``, or websocket
+URL of ``/`` is ignored, so it doesn't exempt the whole site. See the note
+below.
 
 .. important::
 
@@ -305,9 +321,8 @@ routes, and websocket routes:
     serve media files from that location with the login required turned on,
     those files will not be able to be served to anonymous users.
 
-Additionally, if a view does have required permissions or login required
-criteria defined on the view, and the user does not meet that criteria, they
-will be redirected to the
+Additionally, if a view does have required permissions defined on the view,
+and the user doesn't have them, they will be redirected to the
 :ref:`configuration/home:adminlte2_home_route`
 route. An anonymous user who doesn't have a view's permissions, for example on
 a view in the login whitelist, is redirected to the login page instead, since
@@ -344,8 +359,11 @@ the specific settings in settings.py mentioned below.
     view permissions that require permission to access.
 
 4.  Add any routes that do not require specific permissions and should
-    be available to everyone to the ``ADMINLTE2_STRICT_POLICY_WHITELIST``
-    in ``settings.py``
+    be available to every logged-in user to the
+    ``ADMINLTE2_STRICT_POLICY_WHITELIST`` in ``settings.py``, or use the
+    ``allow_without_permissions`` decorator or mixin on their views. To make a
+    route available to anonymous users as well, also add it to
+    ``ADMINLTE2_LOGIN_EXEMPT_WHITELIST``, or use ``allow_anonymous_access``.
 
     **settings.py**
 
@@ -404,22 +422,17 @@ Handling 404s with the Built-In Behavior
 This package comes with built-in behavior to handle 404s, which is on by default
 The built-in functionality is to add a warning message via the
 `Django messages framework <https://docs.djangoproject.com/en/dev/ref/contrib/messages/>`_
-indicating that the page does not exist. It will additionally add a debug
-message and log entry with specifics about what caused the 404 exception.
+indicating that the page does not exist. When ``DEBUG`` is ``True``, the
+message is ``ADMINLTE2_RESPONSE_404_DEBUG_MESSAGE``, which is also logged as a
+warning. Otherwise it is ``ADMINLTE2_RESPONSE_404_PRODUCTION_MESSAGE``.
 It then redirects to the
 :ref:`configuration/home:adminlte2_home_route`
-where the user can see those messages.
-
-.. note::
-
-    The actual exception specifics are only rendered in a Debug message.
-    This means that developers who have their message level set to include
-    debug messages can see it, but in production where debug messages should
-    not be shown, it will be not rendered.
+where the user can see the message.
 
 The package does have some exceptions to the above handling of 404s.
 If the requested url is part of the **static files**, the **media files**,
-a **favicon**, or part of a **special list** in the settings,
+the **websocket** URL, a **favicon**, or part of a **special list** in the
+settings,
 it will do the default Django 404 action by just raising a ``Http404`` error
 and allowing Django to handle it.
 
@@ -484,11 +497,12 @@ Just like the built-in functionality for 404s,
 this package comes with built-in behavior to handle 403s, which is also on by
 default. The built-in functionality is to also add a warning message via the
 `Django messages framework <https://docs.djangoproject.com/en/dev/ref/contrib/messages/>`_
-indicating that the page does not exist. It will additionally add a debug
-message and log entry with specifics about what caused the 403 exception.
+indicating that the user can't access the page. When ``DEBUG`` is ``True``,
+the message is ``ADMINLTE2_RESPONSE_403_DEBUG_MESSAGE``, which names the view.
+Otherwise it is ``ADMINLTE2_RESPONSE_403_PRODUCTION_MESSAGE``.
 It then redirects to the
 :ref:`configuration/home:adminlte2_home_route`
-where the user can see those messages.
+where the user can see the message.
 
 For 403s, there is another special setting that allows you to just raise a
 ``PermissionDenied`` error instead of having the package handle it. The setting
@@ -525,6 +539,16 @@ with the following setting:
     .. code:: python
 
         ADMINLTE2_REDIRECT_TO_HOME_ON_403 = False
+
+.. note::
+
+    With the built-in handling off, or for a path in
+    ``ADMINLTE2_STRICT_POLICY_SERVE_403_FUZZY_WHITELIST``, a user without the
+    permissions gets Django's ``PermissionDenied`` (a 403 response) for views
+    without a decorator or mixin, and for views with ``PermissionRequiredMixin``.
+    The ``permission_required`` and ``permission_required_one`` decorators
+    redirect to the home route instead, the same as Django's own decorator,
+    unless they are given ``raise_exception=True``.
 
 
 Customizing the built-in 404 and 403 messages
@@ -583,6 +607,7 @@ Security Notes
   does not tell a page the user lacks permission for apart from a page that
   does not exist. Changing one of them makes them different.
 * The :ref:`authorization/policies:strict policy` is the most restrictive
-  policy: every view needs a login and defined permissions, or a whitelist
-  entry.
+  policy: every view needs a login and defined permissions, a whitelist
+  entry, or the ``allow_anonymous_access`` or ``allow_without_permissions``
+  decorator or mixin.
 
