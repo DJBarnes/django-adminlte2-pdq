@@ -17,7 +17,7 @@ and feel of the site, depending on project needs. Rather than listing out every
 single file and every single block within those files that can be overridden,
 it is preferable that you just reference the files yourself. The files can be
 found on
-`GitHub <https://github.com/DJBarnes/django-adminlte2-pdq/tree/master/adminlte2_pdq/templates>`_.
+`GitHub <https://github.com/DJBarnes/django-adminlte2-pdq/tree/main/adminlte2_pdq/templates>`_.
 
 .. important::
 
@@ -87,5 +87,5 @@ To change this page, we can create a template to override the original behavior:
 
 
 Reminder to reference the
-`GitHub files <https://github.com/DJBarnes/django-adminlte2-pdq/tree/master/adminlte2_pdq/templates>`_
+`GitHub files <https://github.com/DJBarnes/django-adminlte2-pdq/tree/main/adminlte2_pdq/templates>`_
 to see all possible package templates that can be overridden.

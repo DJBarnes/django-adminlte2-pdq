@@ -18,10 +18,11 @@ top of your template.
 fieldtype
 =========
 
-Get a string representation of what field type a given field is.
+Get the class name of a form field's widget, such as ``TextInput`` or
+``CheckboxInput``.
 
 :param field: Form Field to get the type of.
-:return: String representation of form field type.
+:return: Class name of the field's widget.
 
 **Example:**
 
@@ -37,8 +38,8 @@ Add generic attributes to a form field and return the form field so filters can
 be chained.
 
 :param field: Form field to add attributes to.
-:param attrs_as_json: The attrs to add to the field.
- Must be in the form of JSON. Defaults to None.
+:param attrs_as_json: The attrs to add to the field, as a JSON object string.
+ Required.
 :return: Field that was passed in with attrs added.
 
 **Example:**
@@ -47,8 +48,7 @@ be chained.
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_attrs:'{"attribute-1":"value-1", "attribute-2":"value-2"}' %}
-        {% field %}
+        {{ field|with_attrs:'{"attribute-1":"value-1", "attribute-2":"value-2"}' }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -75,8 +75,7 @@ be chained.
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_class:'my-added-class' %}
-        {% field %}
+        {{ field|with_class:'my-added-class' }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -93,8 +92,8 @@ Add data attributes to a form field and return the form field so filters can be
 chained.
 
 :param field: Form field to add data attributes to.
-:param data_attrs_json: The data fields to add. Must be in the form of JSON.
- Defaults to None.
+:param data_attrs_json: The data fields to add, as a JSON object string.
+ Required.
 :return: Field that was passed in with data attributes added.
 
 **Example:**
@@ -103,8 +102,7 @@ chained.
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_data:'{"attribute-1":"value-1", "attribute-2":"value-2"}' %}
-        {% field %}
+        {{ field|with_data:'{"attribute-1":"value-1", "attribute-2":"value-2"}' }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -137,8 +135,7 @@ chained.
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_placeholder 'My Placeholder Text' %}
-        {% field %}
+        {{ field|with_placeholder:'My Placeholder Text' }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -163,7 +160,7 @@ It will only add the list attribute to the element with the name provided.
 
 :param field: Form field to add attributes to.
 :param name: The datalist name.
- Defaults to None.
+ Defaults to the field's name followed by ``_list``.
 :return: Field that was passed in with list attribute added.
 
 **Example:**
@@ -172,8 +169,7 @@ It will only add the list attribute to the element with the name provided.
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_list:"my_awesome_list" %}
-        {% field %}
+        {{ field|with_list:"my_awesome_list" }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -213,8 +209,7 @@ Add ``pattern`` attribute to a form field and return the form field so filters c
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_pattern:field.pattern %}
-        {% field %}
+        {{ field|with_pattern:field.pattern }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -222,9 +217,9 @@ Which will update the form field to look like the following:
 .. code:: html
 
     <input
-        type="tel"
+        type="text"
         name="field"
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        pattern="\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
         id="id_field"
     />
 
@@ -257,14 +252,9 @@ site.
 
 .. code:: html+django
 
-    # Assuming the field has a property called pattern with a string value
-    # that is the needed regex: "\([0-9]{3}\) [0-9]{3}-[0-9]{4}"
-    # We can send that variable to the filter.
-
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_inputmask:'(999) 999-9999' %}
-        {% field %}
+        {{ field|with_inputmask:'(999) 999-9999' }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -272,7 +262,7 @@ Which will update the form field to look like the following:
 .. code:: html
 
     <input
-        type="tel"
+        type="text"
         name="field"
         data-inputmask="'mask':'(999) 999-9999'"
         id="id_field"
@@ -298,8 +288,7 @@ Add ``min`` attribute to a form field and return the form field so filters can b
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_min:5 %}
-        {% field %}
+        {{ field|with_min:5 }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -328,8 +317,7 @@ Add ``max`` attribute to a form field and return the form field so filters can b
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|with_max:9 %}
-        {% field %}
+        {{ field|with_max:9 }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -345,6 +333,7 @@ with_input_type
 Change widget input_type to the passed value.
 
 :param field: Form field to change type on.
+:param new_type: New HTML input type for the field.
 :return: Field that was passed in with input_type changed to the passed value.
 
 **Example:**
@@ -353,8 +342,7 @@ Change widget input_type to the passed value.
 
     {% load adminlte_filters %}
     {% for field in form %}
-        {% field|as_input_type:'date' %}
-        {% field %}
+        {{ field|with_input_type:'date' }}
     {% endfor %}
 
 Which will update the form field to look like the following:
@@ -364,8 +352,8 @@ Which will update the form field to look like the following:
     <input type="date" name="field" id="id_field" />
 
 
-directory
-=========
+dir
+===
 
 Return the result of calling dir on an object.
 
@@ -376,7 +364,7 @@ Return the result of calling dir on an object.
 
 .. code:: html+django
 
-    {{ field|directory }}
+    {{ field|dir }}
 
 
 dictionary
@@ -397,8 +385,8 @@ Return the result of calling __dict__ on an object.
 unsnake
 =======
 
-Return a string that converts underscore to spaces and capitalizes first
-letter.
+Return a string with underscores converted to spaces, the first letter
+capitalized, and the rest lowercase (Python's ``str.capitalize()``).
 
 :param field: Form field to unsnake.
 :return: unsnaked string of the field passed in.
@@ -413,10 +401,11 @@ letter.
 unslugify
 =========
 
-Return a string that converts dash to spaces and capitalizes the first letter.
+Return a string with dashes converted to spaces, the first letter capitalized,
+and the rest lowercase (Python's ``str.capitalize()``).
 
 :param field: Form field to unslugify.
-:return: dir of the field passed in.
+:return: unslugified string of the field passed in.
 
 **Example:**
 

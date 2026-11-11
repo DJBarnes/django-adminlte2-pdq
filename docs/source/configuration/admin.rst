@@ -111,7 +111,7 @@ look at and potentially override are:
 * ``admin/partials/_control_sidebar/_extra_tab_panes.html``
 
 See the project
-`GitHub files <https://github.com/DJBarnes/django-adminlte2-pdq/tree/master/adminlte2_pdq/templates>`_
+`GitHub files <https://github.com/DJBarnes/django-adminlte2-pdq/tree/main/adminlte2_pdq/templates>`_
 for the current implementation.
 
 

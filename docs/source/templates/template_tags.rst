@@ -41,19 +41,19 @@ render_fields
 
 Render given fields with optional labels vertically.
 
-:param fields_to_render: List or tuple of fields to render out.
+:param fields_to_render: One or more bound fields, each as its own argument.
 :param labels: Whether to use labels for fields. Defaults to True.
 :param media: Media that needs to be used in the form. Defaults to None.
 :return: Context for the template.
 
-:Tag Type: ``inclusion``
+:Type: ``inclusion``
 :Template: ``adminlte2/partials/_form.html``
 
 **Example:**
 
 .. code:: html+django
 
-    {% render_fields fields %}
+    {% render_fields form.name form.email labels=False %}
 
 render_form
 ===========
@@ -79,7 +79,7 @@ render_horizontal_fields
 
 Render given fields with optional labels horizontally.
 
-:param fields_to_render: List or tuple of fields to render.
+:param fields_to_render: One or more bound fields, each as its own argument.
 :param labels: Whether to use labels for fields. Defaults to True.
 :param media: Media that needs to be used in the form. Defaults to None.
 :return: Context for the template.
@@ -91,7 +91,7 @@ Render given fields with optional labels horizontally.
 
 .. code:: html+django
 
-    {% render_horizontal_fields field %}
+    {% render_horizontal_fields form.name form.email %}
 
 render_horizontal_form
 ======================
@@ -130,10 +130,25 @@ Render a horizontal formset.
 
     {% render_horizontal_formset formset section_heading %}
 
+get_login_url
+=============
+
+Get the login URL from Django's ``LOGIN_URL`` setting, and default to the
+``login`` route.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_login_url %}
+
 get_logout_url
 ==============
 
-Get the logout URL from the settings.
+Get the logout URL from the ``ADMINLTE2_LOGOUT_URL`` setting, and default to
+the ``logout`` route.
 
 :Type: ``simple``
 
@@ -198,6 +213,53 @@ Used internally by the package.
 
     {% get_skin_class %}
 
+get_skin_class_light
+====================
+
+Get the skin class to use when the skin follows the browser and the browser is
+in light mode. Uses the ``ADMINLTE2_SKIN_CLASS_LIGHT`` setting, and defaults to
+``ADMINLTE2_SKIN_CLASS``, or its ``-light`` version when that is a dark skin.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_skin_class_light %}
+
+get_skin_class_dark
+===================
+
+Get the skin class to use when the skin follows the browser and the browser is
+in dark mode. Uses the ``ADMINLTE2_SKIN_CLASS_DARK`` setting, and defaults to
+the ``-dark`` version of ``ADMINLTE2_SKIN_CLASS``.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_skin_class_dark %}
+
+get_skin_follow_browser
+=======================
+
+Get whether the skin follows the browser's light or dark mode, from the
+``ADMINLTE2_SKIN_FOLLOW_BROWSER`` setting. Defaults to True.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_skin_follow_browser %}
+
 get_datetime_widget
 ===================
 
@@ -217,7 +279,7 @@ get_date_widget
 ===============
 
 Get the HTML5 / JS date widget from the settings and default to 'native'
-This will get the widget to use when showing a DateTime field in a form.
+This will get the widget to use when showing a Date field in a form.
 Used internally by the package.
 
 :Type: ``simple``
@@ -232,7 +294,7 @@ get_time_widget
 ===============
 
 Get the HTML5 / JS time widget from the settings and default to 'native'
-This will get the widget to use when showing a DateTime field in a form.
+This will get the widget to use when showing a Time field in a form.
 Used internally by the package.
 
 :Type: ``simple``
@@ -299,7 +361,7 @@ should be used.
 :param class_name: CSS classes to add to the image, such as ``img-circle``
     for a round image.
 
-:Type: ``inclusive``
+:Type: ``inclusion``
 :Template: ``adminlte2/partials/_user_image_initials.html``
 
 **Example:**

@@ -27,11 +27,21 @@ This setting only affects the demo pages. It does not add or remove CSS.
     ``teal``, ``olive``, ``lime``, ``orange``, ``fuchsia``, ``indigo``,
     ``purple``, ``maroon``, ``gray``, ``black``
 
-Example::
+Example, with some of the package's colors and one of the project's own::
 
-    from adminlte2_pdq.constants import DEMO_CSS_COLORS
+    # adminlte2_pdq.color_css doesn't read any settings, so it can be imported in settings.py.
+    from adminlte2_pdq.color_css import COLORS_BY_NAME
 
-    ADMINLTE2_DEMO_CSS_COLORS = {**DEMO_CSS_COLORS, "brand": "#6610f2"}
+    ADMINLTE2_DEMO_CSS_COLORS = {
+        **{name: COLORS_BY_NAME[name].base for name in ("primary", "success", "warning", "danger")},
+        "brand": "#6610f2",
+    }
+
+.. warning::
+
+    Don't import ``adminlte2_pdq.constants`` in ``settings.py``. It reads every
+    ``ADMINLTE2_*`` setting when it is imported, so settings defined after the
+    import are ignored.
 
 
 ----
@@ -147,8 +157,10 @@ For example, to load your own colors after the package's colors, override
       <link rel="stylesheet" href="{% static 'css/brand.css' %}">
     {% endblock styles_main_fixes__extra_colors %}
 
-The package's JavaScript loads in the ``scripts_main_fixes`` block of
-``adminlte2/partials/_scripts.html``.
+Most of the package's JavaScript loads in the ``scripts_main_fixes`` block of
+``adminlte2/partials/_scripts.html``. The scripts that follow the browser's
+light or dark mode and remember the sidebar's state load in the
+``skin_follow_browser`` and ``sidebar_state`` blocks of ``adminlte2/base.html``.
 
 .. note::
 

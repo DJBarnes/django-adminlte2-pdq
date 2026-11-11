@@ -18,12 +18,17 @@ Those enhancements and properties are explained below.
 Enhancements
 ============
 
+These apply to fields rendered with the package's form template tags, such as
+``render_form`` and ``render_fields`` (see :doc:`template_tags`).
+
 DateTimeField
 -------------
 Any `DateTimeField <https://docs.djangoproject.com/en/dev/ref/forms/fields/#datetimefield>`_
 will be rendered out with the input type set to
 ``datetime-local``, which will allow an automatic DateTime picker widget
-provided by the browser per the HTML5 spec.
+provided by the browser per the HTML5 spec. This is the default; the
+``ADMINLTE2_DATETIME_WIDGET`` setting can use a JavaScript widget instead (see
+:doc:`../configuration/form`).
 
 
 
@@ -32,7 +37,9 @@ DateField
 Any `DateField <https://docs.djangoproject.com/en/dev/ref/forms/fields/#datefield>`_
 will be rendered out with the input type set to
 ``date``, which will allow an automatic date picker widget
-provided by the browser per the HTML5 spec.
+provided by the browser per the HTML5 spec. This is the default; the
+``ADMINLTE2_DATE_WIDGET`` setting can use a JavaScript widget instead (see
+:doc:`../configuration/form`).
 
 
 
@@ -41,7 +48,9 @@ TimeField
 Any `TimeField <https://docs.djangoproject.com/en/dev/ref/forms/fields/#timefield>`_
 will be rendered out with the input type set to
 ``time``, which will allow an automatic time picker widget
-provided by the browser per the HTML5 spec.
+provided by the browser per the HTML5 spec. This is the default; the
+``ADMINLTE2_TIME_WIDGET`` setting can use a JavaScript widget instead (see
+:doc:`../configuration/form`).
 
 
 ----
@@ -57,8 +66,8 @@ URLField.
 However, there are some other types that Django does not support out of the box.
 Rather than making a whole new field that would have to be imported from this
 package rather than the default Django forms module, we choose to do some extra
-processing on a standard TextField if you set a specific property on the form
-field. This extra processing will make the TextField behave with some extra
+processing on a standard CharField if you set a specific property on the form
+field. This extra processing will make the CharField behave with some extra
 added functionality.
 
 phone_info

@@ -54,7 +54,7 @@ bar, when the sidebar is expanded.
     HTML will be escaped.
 
 :Type: ``string``
-:Default: ``AdminLTE``
+:Default: ``<b>Admin</b>LTE``
 
 Example::
 
@@ -74,7 +74,7 @@ top bar, when the sidebar is collapsed.
     HTML will be escaped.
 
 :Type: ``string``
-:Default: ``ALTE``
+:Default: ``<b>A</b>LTE``
 
 Example::
 

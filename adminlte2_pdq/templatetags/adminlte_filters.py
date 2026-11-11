@@ -19,10 +19,10 @@ register = template.Library()
 @register.filter("fieldtype")
 def fieldtype(field):
     """
-    Get a string representation of what fieldtype a given field is.
+    Get the class name of a form field's widget, such as "TextInput" or "CheckboxInput".
 
     :param field: Form Field to get the type of.
-    :return: String representation of form field type.
+    :return: Class name of the field's widget.
     """
 
     return field.field.widget.__class__.__name__
@@ -34,16 +34,14 @@ def with_attrs(field, attrs_as_json=None):
     Add generic attributes to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add attributes to.
-    :param attrs_as_json: The attrs to add to the field. Must be in the form of json.
-     Defaults to None.
+    :param attrs_as_json: The attrs to add to the field, as a JSON object string. Required.
     :return: Field that was passed in with attrs added.
 
     Example::
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_attrs:'{"attribute-1":"value-1", "attribute-2":"value-2"}' %}
-            {% field %}
+            {{ field|with_attrs:'{"attribute-1":"value-1", "attribute-2":"value-2"}' }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -73,8 +71,7 @@ def with_class(field, class_name=""):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_class:'my-added-class' %}
-            {% field %}
+            {{ field|with_class:'my-added-class' }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -98,15 +95,14 @@ def with_data(field, data_attrs_json=None):
     Add data attributes to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add data attributes to.
-    :param data_attrs_json: The data fields to add. Must be in the form of json. Defaults to None.
+    :param data_attrs_json: The data fields to add, as a JSON object string. Required.
     :return: Field that was passed in with data attributes added.
 
     Example::
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_data:'{"attribute-1":"value-1", "attribute-2":"value-2"}' %}
-            {% field %}
+            {{ field|with_data:'{"attribute-1":"value-1", "attribute-2":"value-2"}' }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -142,8 +138,7 @@ def with_placeholder(field, placeholder=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_placeholder 'My Placeholder Text' %}
-            {% field %}
+            {{ field|with_placeholder:'My Placeholder Text' }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -186,8 +181,7 @@ def with_list(field, name=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_list:"my_awesome_list" %}
-            {% field %}
+            {{ field|with_list:"my_awesome_list" }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -231,8 +225,7 @@ def with_pattern(field, pattern=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_pattern:field.pattern %}
-            {% field %}
+            {{ field|with_pattern:field.pattern }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -267,8 +260,7 @@ def with_inputmask(field, inputmask=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_inputmask:'(999) 999-9999' %}
-            {% field %}
+            {{ field|with_inputmask:'(999) 999-9999' }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -299,8 +291,7 @@ def with_min(field, min_val=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_min:5 %}
-            {% field %}
+            {{ field|with_min:5 }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -332,8 +323,7 @@ def with_max(field, max_val=None):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_max:9 %}
-            {% field %}
+            {{ field|with_max:9 }}
         {% endfor %}
 
         Which will update the form field to look like the following:
@@ -364,8 +354,7 @@ def with_input_type(field, new_type):
 
         {% load adminlte_filters %}
         {% for field in form %}
-            {% field|with_input_type:'date' %}
-            {% field %}
+            {{ field|with_input_type:'date' }}
         {% endfor %}
 
         Which will update the form field to look like the following:
