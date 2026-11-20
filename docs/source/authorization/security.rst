@@ -100,3 +100,30 @@ them narrow, and test them like any other access rule.
 * With ``DEBUG`` on, the 403 message names the view, and the middleware warns
   about misconfigured views in messages. As with Django's own debug page,
   never turn ``DEBUG`` on for a site that other people can reach.
+
+
+Login Redirects
+===============
+
+Redirects to the login page pass the requested URL, with its query string, as
+``next``, and Django's ``LoginView`` sends the user there after they log in.
+
+* Django's ``LoginView`` only follows ``next`` to pages on the same site, and
+  goes to ``LOGIN_REDIRECT_URL`` for anything else, so ``next`` can't send
+  users to another site. A custom login view needs the same check
+  (``url_has_allowed_host_and_scheme``).
+* The page that ``next`` leads to runs the same login and permission checks as
+  any other request, so ``next`` doesn't let anyone past them.
+* Under the login required and strict policies, every URL that requires login
+  gets the same redirect, so ``next`` doesn't show which URLs exist.
+* The requested URL appears in the login page's URL, so it ends up in browser
+  history, in server logs, and in links people copy. Django's default
+  ``SECURE_REFERRER_POLICY`` of ``"same-origin"`` keeps it out of requests to
+  other sites. Avoid putting sensitive values in query strings.
+
+To leave ``next`` out, set
+:ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT` to False. Every
+login then goes to ``LOGIN_REDIRECT_URL``. The setting only applies to this
+package's middleware, decorators, and mixins. Django's own, such as
+``user_passes_test``, still add ``next`` unless you pass them
+``redirect_field_name=None``.

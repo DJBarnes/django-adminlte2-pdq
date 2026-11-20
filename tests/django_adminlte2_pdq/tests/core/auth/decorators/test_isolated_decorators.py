@@ -3,6 +3,7 @@ Tests for Decorators
 """
 
 # System Imports.
+from unittest.mock import patch
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
@@ -375,6 +376,112 @@ class TestIsolatedDecorators(TestCase):
         )
 
     # endregion Permission Required Tests
+
+
+class TestDecoratorLoginNext(TestCase):
+    """The decorators' redirects pass the requested url as "next", unless ADMINLTE2_USE_LOGIN_NEXT is False.
+
+    login_required and allow_without_permissions redirect anonymous users to the login page. The permission decorators
+    redirect users without the permissions to the home page.
+    """
+
+    def setUp(self):
+        self.factory = RequestFactory()
+        self.user = UserModel.objects.create(username="joenone", password="qwerty")
+
+    def get(self, view, user):
+        """Call the view for /some/page/?tab=1 as the user, and return the redirect location."""
+        request = self.factory.get("/some/page/", {"tab": "1"})
+        request.user = user
+        response = view(request)
+        self.assertEqual(302, response.status_code)
+        return response["Location"]
+
+    def test__login_required(self):
+        """login_required passes "next" to the login page."""
+
+        @login_required
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(a_view, AnonymousUser()))
+
+    @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
+    def test__login_required__without_next(self):
+        """With the setting off, login_required doesn't pass "next"."""
+
+        @login_required
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/accounts/login/", self.get(a_view, AnonymousUser()))
+
+    @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
+    def test__login_required__without_next__redirect_field_name(self):
+        """With the setting off, login_required doesn't pass "next", even with a redirect_field_name."""
+
+        @login_required(redirect_field_name="return_to")
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/accounts/login/", self.get(a_view, AnonymousUser()))
+
+    def test__allow_without_permissions(self):
+        """allow_without_permissions passes "next" to the login page."""
+
+        @allow_without_permissions
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(a_view, AnonymousUser()))
+
+    @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
+    def test__allow_without_permissions__without_next(self):
+        """With the setting off, allow_without_permissions doesn't pass "next"."""
+
+        @allow_without_permissions
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/accounts/login/", self.get(a_view, AnonymousUser()))
+
+    def test__permission_required_one(self):
+        """permission_required_one passes "next" to the home page."""
+
+        @permission_required_one("auth.add_foo")
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/home/?next=/some/page/%3Ftab%3D1", self.get(a_view, self.user))
+
+    @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
+    def test__permission_required_one__without_next(self):
+        """With the setting off, permission_required_one doesn't pass "next"."""
+
+        @permission_required_one("auth.add_foo")
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/home/", self.get(a_view, self.user))
+
+    def test__permission_required(self):
+        """permission_required passes "next" to the home page."""
+
+        @permission_required("auth.add_foo")
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/home/?next=/some/page/%3Ftab%3D1", self.get(a_view, self.user))
+
+    @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
+    def test__permission_required__without_next(self):
+        """With the setting off, permission_required doesn't pass "next"."""
+
+        @permission_required("auth.add_foo")
+        def a_view(request):
+            return HttpResponse("foobar")
+
+        self.assertEqual("/home/", self.get(a_view, self.user))
 
 
 class TestStackedPermissionDecorators(TestCase):

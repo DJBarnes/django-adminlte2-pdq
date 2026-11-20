@@ -48,7 +48,8 @@ This mixin will enforce that a user is logged into the system before they
 can access the view. Django's default
 `LoginRequiredMixin <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-loginrequired-mixin>`_
 is used behind the scenes and is only recreated in this package to add
-the magic of automatic sidebar link rendering.
+the magic of automatic sidebar link rendering and to follow
+:ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`.
 
 When using this mixin on a class based view, if the user is not logged in,
 the user will not be able to access this view nor will they see a sidebar menu
@@ -113,7 +114,8 @@ This mixin lets every logged-in user open the view, without any permissions,
 and shows its sidebar link to logged-in users. Anonymous users are redirected
 to the login page. It is based on Django's ``LoginRequiredMixin``, so its
 ``login_url``, ``redirect_field_name``, and ``raise_exception`` attributes
-work the same way.
+work the same way. It follows
+:ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`.
 
 It is for the :ref:`authorization/policies:strict policy`, for pages every
 logged-in user may see, such as a dashboard or a profile page. In the loose and
@@ -150,7 +152,8 @@ This mixin will enforce that a user has either all or one of a list of
 permissions before they can access the view. Django's default
 `PermissionRequired <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-permissionrequiredmixin-mixin>`_
 is used behind the scenes and is only recreated in this package to add
-the magic of automatic sidebar link rendering.
+the magic of automatic sidebar link rendering and to follow
+:ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`.
 
 There are two class attributes used in conjunction with this mixin.
 They are called ``permission_required`` and ``permission_required_one``.

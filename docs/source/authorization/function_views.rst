@@ -54,10 +54,12 @@ Login Required Decorator
 ``@login_required``
 
 This decorator will enforce that a user is logged into the system before they
-can access the view. Django's default
+can access the view. It works like Django's default
 `login_required <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-login-required-decorator>`_
-decorator is used behind the scenes and is only recreated in this package
-to add the magic of automatic sidebar link rendering.
+decorator, and accepts the same ``redirect_field_name`` and ``login_url``
+arguments. It is recreated in this package to add automatic sidebar link
+rendering and to follow
+:ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`.
 
 When using this decorator on a function view, if the user is not logged in,
 the user will not be able to access this view, nor will they see a sidebar menu
@@ -122,7 +124,8 @@ Allow Without Permissions Decorator
 This decorator lets every logged-in user open the view, without any
 permissions, and shows its sidebar link to logged-in users. Anonymous users are
 redirected to the login page. It accepts the same ``redirect_field_name`` and
-``login_url`` arguments as Django's ``login_required`` decorator.
+``login_url`` arguments as Django's ``login_required`` decorator, and follows
+:ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`.
 
 It is for the :ref:`authorization/policies:strict policy`, for pages every
 logged-in user may see, such as a dashboard or a profile page. In the loose and

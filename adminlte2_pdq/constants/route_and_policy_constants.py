@@ -44,6 +44,10 @@ MEDIA_ROUTE = getattr(settings, "MEDIA_URL", "/media/")
 STATIC_ROUTE = getattr(settings, "STATIC_URL", "/static/")
 WEBSOCKET_ROUTE = get_renamed_setting("ADMINLTE2_WEBSOCKET_URL", "WEBSOCKET_URL", "/ws/")
 
+# Whether login redirects pass the requested url as "next", so the login page returns the user there.
+# When False, the login page goes to LOGIN_REDIRECT_URL instead.
+USE_LOGIN_NEXT = getattr(settings, "ADMINLTE2_USE_LOGIN_NEXT", True)
+
 
 # Known routes that should never require a permission check.
 HOME_ROUTE = getattr(settings, "ADMINLTE2_HOME_ROUTE", "adminlte2_pdq:home")

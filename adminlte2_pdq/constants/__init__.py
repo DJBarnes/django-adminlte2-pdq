@@ -32,6 +32,7 @@ from .route_and_policy_constants import (
     MEDIA_ROUTE,
     STATIC_ROUTE,
     WEBSOCKET_ROUTE,
+    USE_LOGIN_NEXT,
     HOME_ROUTE,
     PWD_CHANGE,
     PWD_CHANGE_DONE,

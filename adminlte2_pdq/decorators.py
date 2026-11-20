@@ -4,19 +4,34 @@
 from functools import wraps
 
 # Third-Party Imports.
-from django.contrib.auth.decorators import (
-    login_required as django_login_required,
-    permission_required as django_permission_required,
-    user_passes_test,
-)
+from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.decorators import user_passes_test
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.urls import reverse_lazy
 
 # Internal Imports.
-from .constants import HOME_ROUTE
+from .constants import HOME_ROUTE, USE_LOGIN_NEXT
 
 
 # region Utility Functions
+
+
+def _user_passes_test(test_func, login_url=None, redirect_field_name=REDIRECT_FIELD_NAME):
+    """Django's user_passes_test, except that the redirect has no "next" when ADMINLTE2_USE_LOGIN_NEXT is False.
+
+    The setting is read when the view is called, not when it is decorated.
+    """
+
+    def decorator(function):
+        @wraps(function)
+        def wrap(request, *args, **kwargs):
+            field_name = redirect_field_name if USE_LOGIN_NEXT else None
+            check = user_passes_test(test_func, login_url=login_url, redirect_field_name=field_name)
+            return check(function)(request, *args, **kwargs)
+
+        return wrap
+
+    return decorator
 
 
 def _one_of_permission_required(perm, login_url=None, raise_exception=False):
@@ -44,7 +59,40 @@ def _one_of_permission_required(perm, login_url=None, raise_exception=False):
         # As the last resort, show the login form.
         return False
 
-    return user_passes_test(check_perms, login_url=login_url)
+    return _user_passes_test(check_perms, login_url=login_url)
+
+
+def _all_permissions_required(perm, login_url=None, raise_exception=False):
+    """
+    Decorator for views that checks whether a user has all of the given
+    permissions, redirecting to the log-in page if necessary. The same as
+    Django's permission_required decorator.
+    If the raise_exception parameter is given the PermissionDenied exception
+    is raised.
+    """
+
+    def check_perms(user):
+        if isinstance(perm, str):
+            perm_list = (perm,)
+        else:
+            perm_list = perm
+
+        if user.has_perms(perm_list):
+            return True
+
+        # In case the 403 handler should be called raise the exception.
+        if raise_exception:
+            raise PermissionDenied
+
+        # As the last resort, show the login form.
+        return False
+
+    return _user_passes_test(check_perms, login_url=login_url)
+
+
+def _is_authenticated(user):
+    """The test for the login_required and allow_without_permissions decorators."""
+    return user.is_authenticated
 
 
 def _sanitize_permissions(permission):
@@ -146,7 +194,7 @@ def login_required(function=None, redirect_field_name="next", login_url=None):
         function.admin_pdq_data = admin_pdq_data
 
         @wraps(function)
-        @django_login_required(redirect_field_name=redirect_field_name, login_url=login_url)
+        @_user_passes_test(_is_authenticated, login_url=login_url, redirect_field_name=redirect_field_name)
         def wrap(request, *args, **kwargs):
 
             # Get our view response object.
@@ -179,9 +227,9 @@ def allow_without_permissions(function=None, redirect_field_name="next", login_u
         # Save values to view fetch function for middleware handling + potential debugging.
         function.admin_pdq_data = admin_pdq_data
 
-        login_required_function = django_login_required(
-            function, redirect_field_name=redirect_field_name, login_url=login_url
-        )
+        login_required_function = _user_passes_test(
+            _is_authenticated, login_url=login_url, redirect_field_name=redirect_field_name
+        )(function)
 
         @wraps(function)
         def wrap(request, *args, **kwargs):
@@ -273,7 +321,7 @@ def permission_required(permission, login_url=None, raise_exception=False):
         _record_permissions(function, full_permissions=permissions)
 
         @wraps(function)
-        @django_permission_required(permission, login_url, raise_exception)
+        @_all_permissions_required(permission, login_url, raise_exception)
         def wrap(request, *args, **kwargs):
 
             # Get our view response object.

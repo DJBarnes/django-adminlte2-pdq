@@ -78,3 +78,34 @@ class FailedPermissionLoginRedirectTestCase(MiddlewareBaseTestCase):
             response = self.client.get("/tests/function/one_permission/")
 
         self.assertRedirects(response, reverse("adminlte2_pdq:home"), fetch_redirect_response=False)
+
+
+@override_settings(DEBUG=True)
+@patch("adminlte2_pdq.middleware.USE_LOGIN_NEXT", False)
+@patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", True)
+class LoginRedirectWithoutNextTestCase(MiddlewareBaseTestCase):
+    """With ADMINLTE2_USE_LOGIN_NEXT set to False, no login redirect passes "next"."""
+
+    def test__existing_page(self):
+        """A page that requires login redirects to the login page without "next"."""
+        response = self.client.get("/demo-css/?tab=1")
+
+        self.assertRedirects(response, "/accounts/login/", fetch_redirect_response=False)
+
+    def test__unknown_url(self):
+        """An unknown URL behind the login wall redirects to the login page without "next"."""
+        response = self.client.get("/does-not-exist/")
+
+        self.assertRedirects(response, "/accounts/login/", fetch_redirect_response=False)
+
+    @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
+    @patch(
+        "adminlte2_pdq.middleware.LOGIN_EXEMPT_WHITELIST",
+        LOGIN_EXEMPT_WHITELIST + ["adminlte2_pdq_tests:function-one-permission-required"],
+    )
+    def test__failed_permission_check(self):
+        """An anonymous user who fails a permission check is redirected to the login page without "next"."""
+        with self.assertWarns(RuntimeWarning):
+            response = self.client.get("/tests/function/one_permission/")
+
+        self.assertRedirects(response, "/accounts/login/", fetch_redirect_response=False)

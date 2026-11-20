@@ -9,6 +9,7 @@ import warnings
 from django.http import Http404
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from django.shortcuts import redirect, resolve_url
@@ -33,6 +34,7 @@ from .constants import (
     STRICT_POLICY_WHITELIST,
     STRICT_POLICY_FUZZY_WHITELIST,
     LOGIN_URL,
+    USE_LOGIN_NEXT,
     HOME_ROUTE,
     MEDIA_ROUTE,
     STATIC_ROUTE,
@@ -115,7 +117,7 @@ class AuthMiddleware:
             # Behind a login wall, send anonymous users to the login page, the same as for a page that exists.
             # Otherwise the response would show which urls exist.
             if LOGIN_REQUIRED and not self.verify_logged_in(request, view_data):
-                return redirect_to_login(request.get_full_path(), LOGIN_URL)
+                return self.redirect_to_login_page(request)
 
             # Site setup to handle 404s manually.
             if not REDIRECT_TO_HOME_ON_404:
@@ -152,7 +154,7 @@ class AuthMiddleware:
             # User not logged in and view requires login to access.
 
             # Redirect to login page.
-            return redirect_to_login(request.get_full_path(), LOGIN_URL)
+            return self.redirect_to_login_page(request)
 
         # Check any post login error states.
         # NOTE: This call need to happen after we do the above Login Required checking.
@@ -165,7 +167,7 @@ class AuthMiddleware:
             # An anonymous user can get here when the view doesn't require login, such as a login whitelisted view.
             # They may have the permissions once logged in, so send them to the login page, without a message.
             if not request.user.is_authenticated:
-                return redirect_to_login(request.get_full_path(), LOGIN_URL)
+                return self.redirect_to_login_page(request)
 
             # Create potential warnings messages
             if settings.DEBUG:
@@ -691,6 +693,11 @@ class AuthMiddleware:
             # If url is for a special route that does not need processing
             or self.is_special_route(view_data)
         )
+
+    def redirect_to_login_page(self, request):
+        """Redirect to the login page, with the requested url as "next" unless ADMINLTE2_USE_LOGIN_NEXT is False."""
+        redirect_field_name = REDIRECT_FIELD_NAME if USE_LOGIN_NEXT else None
+        return redirect_to_login(request.get_full_path(), LOGIN_URL, redirect_field_name)
 
     def home_requires_login(self, request):
         """Determines if the home page would send this user to the login page."""

@@ -62,6 +62,12 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Add the :ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`
+  setting. Set it to False to leave ``next`` out of every login redirect from
+  this package's middleware, decorators, and mixins, so every login goes to
+  ``LOGIN_REDIRECT_URL``. The security page has a
+  :ref:`authorization/security:login redirects` section.
+
 * Add a :doc:`authorization/security` page, on what the authentication and
   authorization protect, and what they don't.
 

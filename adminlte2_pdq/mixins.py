@@ -14,7 +14,18 @@ from .constants import (
     HOME_ROUTE,
     REDIRECT_TO_HOME_ON_403,
     STRICT_POLICY_SERVE_403_FUZZY_WHITELIST,
+    USE_LOGIN_NEXT,
 )
+
+
+class _LoginNextMixin:
+    """Leaves "next" out of the login redirect when ADMINLTE2_USE_LOGIN_NEXT is False."""
+
+    def get_redirect_field_name(self):
+        """The query parameter for the page to return to after login, or None for no parameter."""
+        if not USE_LOGIN_NEXT:
+            return None
+        return super().get_redirect_field_name()
 
 
 class AllowAnonymousAccessMixin:
@@ -42,7 +53,7 @@ class AllowAnonymousAccessMixin:
         cls.subclasses.append(cls.__name__)
 
 
-class LoginRequiredMixin(DjangoLoginRequiredMixin):
+class LoginRequiredMixin(_LoginNextMixin, DjangoLoginRequiredMixin):
     """Mixin for views that defines login is required."""
 
     # Pdq data processing dict.
@@ -64,7 +75,7 @@ class LoginRequiredMixin(DjangoLoginRequiredMixin):
         cls.subclasses.append(cls.__name__)
 
 
-class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
+class AllowWithoutPermissionsMixin(_LoginNextMixin, DjangoLoginRequiredMixin):
     """Mixin for strict mode, that defines a view which requires login, but no permissions.
 
     A view that is also in a login whitelist doesn't require login, so anyone can access it.
@@ -98,7 +109,7 @@ class AllowWithoutPermissionsMixin(DjangoLoginRequiredMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class PermissionRequiredMixin(DjangoPermissionRequiredMixin):
+class PermissionRequiredMixin(_LoginNextMixin, DjangoPermissionRequiredMixin):
     """Mixin for views that defines permissions are required."""
 
     # Values for user to override.

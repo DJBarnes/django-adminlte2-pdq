@@ -154,6 +154,39 @@ Example::
     ADMINLTE2_STRICT_POLICY_FUZZY_WHITELIST = ["/__debug__/"]
 
 
+Login Redirect Settings
+=======================
+
+
+ADMINLTE2_USE_LOGIN_NEXT
+------------------------
+
+Whether redirects to the login page pass the requested URL, with its query
+string, as ``next``. After logging in, Django's ``LoginView`` sends the user to
+``next`` if it is on the same site, and to ``LOGIN_REDIRECT_URL`` otherwise.
+
+When False, no redirect from this package's middleware, decorators, or
+mixins adds ``next``, even for a decorator or mixin with a
+``redirect_field_name``, so every login goes to ``LOGIN_REDIRECT_URL`` and
+requested URLs don't appear in the login page's URL. The permission
+decorators' redirects to the home page leave out ``next`` too. The login page
+still follows a ``next`` that is already in its URL, such as in a link someone
+shares; Django only follows it to pages on the same site. See
+:ref:`authorization/security:login redirects`.
+
+Django's own decorators and mixins, such as ``user_passes_test`` and
+``UserPassesTestMixin``, don't read this setting and still add ``next``. To
+leave it out of their redirects too, pass ``redirect_field_name=None`` to the
+decorator, or set ``redirect_field_name = None`` on the view class.
+
+:Type: ``bool``
+:Default: ``True``
+
+Example::
+
+    ADMINLTE2_USE_LOGIN_NEXT = False
+
+
 403 and 404 Handling Settings
 =============================
 

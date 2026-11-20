@@ -3,6 +3,7 @@ Tests for Mixins
 """
 
 # System Imports.
+from unittest.mock import patch
 
 # Third-Party Imports.
 from django.contrib.auth import get_user_model
@@ -396,6 +397,79 @@ class TestIsolatedMixins(TestCase):
         )
 
     # endregion Permission Required Tests
+
+
+class TestMixinLoginNext(TestCase):
+    """The mixins' login redirects pass the requested url as "next", unless ADMINLTE2_USE_LOGIN_NEXT is False.
+
+    PermissionRequiredMixin only redirects to the login page when it doesn't redirect home, so those tests turn off
+    ADMINLTE2_REDIRECT_TO_HOME_ON_403.
+    """
+
+    def get(self, view_class):
+        """Call the view for /some/page/?tab=1 as an anonymous user, and return the redirect location."""
+        request = RequestFactory().get("/some/page/", {"tab": "1"})
+        request.user = AnonymousUser()
+        response = view_class.as_view()(request)
+        self.assertEqual(302, response.status_code)
+        return response["Location"]
+
+    def test__login_required_mixin(self):
+        """LoginRequiredMixin passes "next" to the login page."""
+
+        class TestView(LoginRequiredMixin, View):
+            """Test View Class"""
+
+        self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(TestView))
+
+    @patch("adminlte2_pdq.mixins.USE_LOGIN_NEXT", False)
+    def test__login_required_mixin__without_next(self):
+        """With the setting off, LoginRequiredMixin doesn't pass "next"."""
+
+        class TestView(LoginRequiredMixin, View):
+            """Test View Class"""
+
+        self.assertEqual("/accounts/login/", self.get(TestView))
+
+    def test__allow_without_permissions_mixin(self):
+        """AllowWithoutPermissionsMixin passes "next" to the login page."""
+
+        class TestView(AllowWithoutPermissionsMixin, View):
+            """Test View Class"""
+
+        self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(TestView))
+
+    @patch("adminlte2_pdq.mixins.USE_LOGIN_NEXT", False)
+    def test__allow_without_permissions_mixin__without_next(self):
+        """With the setting off, AllowWithoutPermissionsMixin doesn't pass "next"."""
+
+        class TestView(AllowWithoutPermissionsMixin, View):
+            """Test View Class"""
+
+        self.assertEqual("/accounts/login/", self.get(TestView))
+
+    @patch("adminlte2_pdq.mixins.REDIRECT_TO_HOME_ON_403", False)
+    def test__permission_required_mixin(self):
+        """PermissionRequiredMixin passes "next" to the login page."""
+
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+
+            permission_required = "auth.add_foo"
+
+        self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(TestView))
+
+    @patch("adminlte2_pdq.mixins.REDIRECT_TO_HOME_ON_403", False)
+    @patch("adminlte2_pdq.mixins.USE_LOGIN_NEXT", False)
+    def test__permission_required_mixin__without_next(self):
+        """With the setting off, PermissionRequiredMixin doesn't pass "next"."""
+
+        class TestView(PermissionRequiredMixin, View):
+            """Test View Class"""
+
+            permission_required = "auth.add_foo"
+
+        self.assertEqual("/accounts/login/", self.get(TestView))
 
 
 class TestPathStartsWithWhitelistEntry(TestCase):
