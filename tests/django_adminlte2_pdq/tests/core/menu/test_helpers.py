@@ -205,12 +205,7 @@ class SidebarMenuHelpersTestCase(SidebarMenuBaseTestCase):
 
                 result = sidebar_menu.get_permissions_from_node(node)
 
-                # The allow_* settings may be None or False when unset, and the permissions a list or tuple.
-                actual = {
-                    key: list(result[key]) if key in ("one_of_permissions", "full_permissions") else bool(result[key])
-                    for key in NO_PERMISSIONS
-                }
-                self.assertEqual({**NO_PERMISSIONS, **differences}, actual)
+                self.assertEqual({**NO_PERMISSIONS, **differences}, result)
 
     def test__get_permissions_from_node__missing_route(self):
         """A node without a route raises KeyError."""

@@ -291,6 +291,8 @@ def get_permissions_from_node(node):
 
     If the view also is missing one or more values, then logic falls back to expected default
     behavior as per project settings. Mostly those defined by STRICT mode and LOGIN_REQUIRED mode.
+
+    Returns the allow_* settings and login_required as booleans, and the permissions as lists.
     """
 
     err_str__anonymous_and_login_required = "Cannot allow_anonymous_access and have login_required at the same time."
@@ -447,11 +449,11 @@ def get_permissions_from_node(node):
 
     # Return calculated values.
     return {
-        "allow_anonymous_access": allow_anonymous_access,
-        "login_required": login_required,
-        "allow_without_permissions": allow_without_permissions,
-        "one_of_permissions": one_of_permissions,
-        "full_permissions": full_permissions,
+        "allow_anonymous_access": bool(allow_anonymous_access),
+        "login_required": bool(login_required),
+        "allow_without_permissions": bool(allow_without_permissions),
+        "one_of_permissions": list(one_of_permissions or []),
+        "full_permissions": list(full_permissions or []),
         # Special case for handling a view in STRICT POLICY WHITELIST but the node says permission is required.
         "node_requires_permissions": (bool(node_one_of_permissions) or bool(node_full_permissions)),
     }
