@@ -320,14 +320,19 @@ class SidebarMenuHelpersTestCase(SidebarMenuBaseTestCase):
 
     def test__check_for_one_permission_in_node_list(self):
         """A user passes if they can open one node in the list, at any depth of the menu tree."""
-        users = {"superuser": True, "user with the permission": True, "user without the permission": False}
+        # Each user's permissions, and whether they can open the sample2 node.
+        users = {
+            "superuser": ("superuser", True),
+            "user with one of the permissions": ("add_permission", True),
+            "user without the permissions": ("add_group", False),
+        }
         for depth in (1, 2, 3):
-            for user_name, expected in users.items():
+            for user_name, (user_permissions, expected) in users.items():
                 with self.subTest(depth=depth, user=user_name):
-                    if user_name == "superuser":
+                    if user_permissions == "superuser":
                         user = self._superuser()
                     else:
-                        self._setup_staff_user("add_permission" if expected else "add_group")
+                        self._setup_staff_user(user_permissions)
                         user = self.staff_user
 
                     nodes = nest(sample2_node(), depth)
