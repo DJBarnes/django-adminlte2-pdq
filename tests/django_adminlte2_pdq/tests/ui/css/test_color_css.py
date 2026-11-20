@@ -11,7 +11,8 @@ from pathlib import Path
 from unittest.mock import patch
 
 # Third-Party Imports.
-from django.test import SimpleTestCase
+from django.test import SimpleTestCase, TestCase
+from django.urls import reverse
 
 # Internal Imports.
 from adminlte2_pdq import color_css
@@ -114,24 +115,145 @@ class ColorCssTestCase(SimpleTestCase):
                     _value_for(self.adminlte_rules, f".modal-{name} .modal-header", "border-color"),
                 )
 
-    def test__stock_classes_are_not_redefined(self):
-        """No generated component class is one that AdminLTE or Bootstrap already defines."""
-        vendor_classes = set()
-        for path in (ADMINLTE_CSS, BOOTSTRAP_CSS):
-            vendor_classes |= set(re.findall(r"\.([a-zA-Z][\w-]*)", path.read_text(encoding="utf-8")))
+    def test__stock_classes_use_the_variables(self):
+        """The classes AdminLTE and Bootstrap define get rules with the variables, with !important where AdminLTE uses it."""
+        css = color_css.render_components()
 
-        # Deliberate exception: lime uses dark text, which needs to override AdminLTE's white.
-        allowed = {"bg-lime", "bg-lime-active"}
+        for rule in (
+            # AdminLTE's palette, without the border the package's own colors add.
+            ".bg-maroon {\n"
+            "    color: var(--pdq-maroon-text) !important;\n"
+            "    background-color: var(--pdq-maroon-base) !important;\n"
+            "}",
+            ".text-maroon {\n    color: var(--pdq-maroon-base) !important;\n}",
+            ".bg-red-active {\n"
+            "    color: var(--pdq-red-text) !important;\n"
+            "    background-color: var(--pdq-red-active) !important;\n"
+            "}",
+            # AdminLTE's gray background is the only one whose text color isn't !important.
+            ".bg-gray {\n    color: var(--pdq-gray-text);\n    background-color: var(--pdq-gray-base) !important;\n}",
+            # AdminLTE's own selectors, so they tie with its other rules as before.
+            ".label-danger {\n"
+            "    color: var(--pdq-danger-text) !important;\n"
+            "    background-color: var(--pdq-danger-base) !important;\n"
+            "}",
+            ".alert-error {\n"
+            "    color: var(--pdq-error-text) !important;\n"
+            "    background-color: var(--pdq-error-base) !important;\n"
+            "    border-color: var(--pdq-error-hover);\n"
+            "}",
+            ".box.box-success {\n    border-top-color: var(--pdq-success-base);\n}",
+            # Bootstrap's bg-{c} tint and text-{c} shade.
+            ".bg-info {\n    background-color: var(--pdq-info-bootstrap-bg);\n}",
+            ".bg-primary {\n    color: var(--pdq-primary-text);\n    background-color: var(--pdq-primary-bootstrap-bg);\n}",
+            ".text-danger {\n    color: var(--pdq-danger-bootstrap-text);\n}",
+            # AdminLTE's default box and label gray, and its default label isn't !important.
+            ".box.box-default {\n    border-top-color: var(--pdq-default-box-label);\n}",
+            ".label.label-default {\n"
+            "    color: var(--pdq-default-text);\n"
+            "    background-color: var(--pdq-default-box-label);\n"
+            "}",
+            # Bootstrap's table rows are its pale tint, header and footer rows included.
+            ".table > thead > tr > td.info,",
+        ):
+            with self.subTest(rule=rule.split(" {")[0]):
+                self.assertIn(rule, css)
 
-        generated = color_css.render_components()
-        defined = set()
-        for match in re.finditer(r"^\.(alert|btn|label|callout|box|modal)\.\1-([a-z-]+)(?= \{|,)", generated, re.M):
-            defined.add(f"{match.group(1)}-{match.group(2)}")
-        for match in re.finditer(r"^\.((?:bg|text)-[a-z-]+)(?= \{|,)", generated, re.M):
-            defined.add(match.group(1))
+    def test__package_colors_keep_their_border_and_header_rows(self):
+        """The package's own colors color the border of bg-{c}, and their table header rows take the color itself."""
+        css = color_css.render_components()
 
-        self.assertTrue(defined, "No component classes found in the generated CSS.")
-        self.assertEqual(set(), (defined & vendor_classes) - allowed)
+        self.assertIn(".bg-indigo {\n", css)
+        self.assertIn("    border-color: var(--pdq-indigo-border);\n}", css)
+        self.assertIn(
+            ".table > thead > tr > td.indigo,",
+            css.split("/* region table */")[1].split("background-color: var(--pdq-indigo-base)")[0],
+        )
+
+    def test__stock_buttons_repeat_bootstrap_and_adminlte_rules(self):
+        """Each stock button has Bootstrap's and AdminLTE's rules, with the same selectors, in the same order."""
+        bootstrap_rules = _parse_rules(BOOTSTRAP_CSS.read_text(encoding="utf-8"))
+        generated_rules = _parse_rules(color_css.render_components())
+
+        for name in sorted(color_css.SHIPPED["btn"]):
+            with self.subTest(button=name):
+                expected = [
+                    selectors
+                    for selectors, declarations in bootstrap_rules + self.adminlte_rules
+                    if all(f"btn-{name}" in selector for selector in selectors)
+                    and {"color", "background-color", "border-color"} & set(declarations)
+                    and not any(".box" in selector or "user-footer" in selector for selector in selectors)
+                ]
+                generated = [
+                    selectors
+                    for selectors, _ in generated_rules
+                    if all(f"btn-{name}" in selector for selector in selectors)
+                    and not any(".box" in selector for selector in selectors)
+                ]
+                self.assertEqual(expected, generated)
+
+    def test__bootstrap_shades_match_bootstrap(self):
+        """The bootstrap-* variables of Bootstrap's colors are Bootstrap's compiled values."""
+        bootstrap_rules = _parse_rules(BOOTSTRAP_CSS.read_text(encoding="utf-8"))
+
+        def bootstrap(selector, prop):
+            return _normalize_hex(_value_for(bootstrap_rules, selector, prop))
+
+        for name in sorted(color_css.SHIPPED["btn"]):
+            values = color_css.COLORS_BY_NAME[name].bootstrap_values()
+            button = f".btn-{name}"
+            expected = {
+                "bootstrap-btn": bootstrap(button, "background-color"),
+                "bootstrap-btn-border": bootstrap(button, "border-color"),
+                "bootstrap-btn-text": bootstrap(button, "color"),
+                "bootstrap-btn-hover": bootstrap(f"{button}:hover", "background-color"),
+                "bootstrap-btn-hover-border": bootstrap(f"{button}:hover", "border-color"),
+                "bootstrap-btn-focus-border": bootstrap(f"{button}:focus", "border-color"),
+                "bootstrap-btn-pressed": bootstrap(f"{button}:active:hover", "background-color"),
+            }
+            if name in color_css.BOOTSTRAP_CONTEXTUAL:
+                expected.update(
+                    {
+                        "bootstrap-bg": bootstrap(f".bg-{name}", "background-color"),
+                        "bootstrap-bg-hover": bootstrap(f"a.bg-{name}:hover", "background-color"),
+                        "bootstrap-text": bootstrap(f".text-{name}", "color"),
+                        "bootstrap-text-hover": bootstrap(f"a.text-{name}:hover", "color"),
+                    }
+                )
+            for part, value in expected.items():
+                with self.subTest(color=name, part=part):
+                    self.assertEqual(_normalize_hex(values[part]), value)
+
+    def test__default_box_and_label_match_adminlte(self):
+        """The default color's box-label value is AdminLTE's default box border and default label background."""
+        box_label = color_css.COLORS_BY_NAME["default"].box_label
+
+        self.assertEqual(box_label, _value_for(self.adminlte_rules, ".box.box-default", "border-top-color"))
+        self.assertEqual(box_label, _value_for(self.adminlte_rules, ".label-default", "background-color"))
+
+    def test__every_color_has_every_class(self):
+        """Every color has every component class, and every AdminLTE and Bootstrap color its bg and text classes."""
+        css = color_css.render_components()
+        # A component class starts a selector, such as ".btn.btn-maroon {", ".btn-primary {", or ".modal-info .modal-body".
+        component_class = (
+            r"(?m)^\.(?:(?:alert|btn|label|callout|box|modal)\.)?((?:alert|btn|label|callout|box|modal)-[a-z-]+)[ ,]"
+        )
+        defined = set(re.findall(component_class, css))
+        defined |= set(re.findall(r"(?m)^\.((?:bg|text)-[a-z-]+)(?= \{|,)", css))
+
+        for name in color_css.NAMES:
+            for component in ("alert", "btn", "label", "callout", "box", "modal", "bg", "text"):
+                with self.subTest(color=name, component=component):
+                    self.assertIn(f"{component}-{name}", defined)
+
+    def test__modal_borders_come_after_the_alerts(self):
+        """AdminLTE's modal header and footer borders still win on an alert that is also a modal header or footer."""
+        css = color_css.render_components()
+
+        self.assertLess(css.index(".alert-danger {"), css.index(".modal-footer {\n    border-top-color: #f4f4f4;\n}"))
+        self.assertLess(
+            css.index(".alert-danger {"), css.index(".modal-header {\n    border-bottom-color: #f4f4f4;\n}")
+        )
 
     def test__custom_color(self):
         """--custom prints variables and every component class for a new color."""
@@ -201,3 +323,17 @@ class ColorCssTestCase(SimpleTestCase):
         with redirect_stderr(io.StringIO()) as errors, self.assertRaises(SystemExit):
             color_css.main(["--custom", "navy", "#6610f2"])
         self.assertIn("navy", errors.getvalue())
+
+
+class ExtraColorsStylesheetTestCase(TestCase):
+    """extra-colors.css is loaded on every page."""
+
+    def test__loaded_before_dark_mode(self):
+        """The page loads extra-colors.css after the color variables and before dark mode, which restyles its classes."""
+        content = self.client.get(reverse("adminlte2_pdq:home")).content.decode()
+
+        variables = content.index("adminlte2_pdq/css/extra-colors/color-variables.css")
+        extra_colors = content.index("adminlte2_pdq/css/extra-colors/extra-colors.css")
+        dark_mode = content.index("adminlte2_pdq/css/dark-mode/dark-mode.css")
+        self.assertLess(variables, extra_colors)
+        self.assertLess(extra_colors, dark_mode)

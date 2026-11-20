@@ -21,6 +21,14 @@
     --pdq-default-light-accent: #f7f7f7;
     --pdq-default-light-accent-text: #444;
     --pdq-default-table-hover: #f2f2f2;
+    --pdq-default-bootstrap-btn: #fff;
+    --pdq-default-bootstrap-btn-border: #ccc;
+    --pdq-default-bootstrap-btn-text: #333;
+    --pdq-default-bootstrap-btn-hover: #e6e6e6;
+    --pdq-default-bootstrap-btn-hover-border: #adadad;
+    --pdq-default-bootstrap-btn-focus-border: #8c8c8c;
+    --pdq-default-bootstrap-btn-pressed: #d4d4d4;
+    --pdq-default-box-label: #d2d6de;
     /* primary */
     --pdq-primary-text: #fff;
     --pdq-primary-base: #3c8dbc;
@@ -30,6 +38,17 @@
     --pdq-primary-light-accent: #c2d8e5;
     --pdq-primary-light-accent-text: #444;
     --pdq-primary-table-hover: #a5c6d9;
+    --pdq-primary-bootstrap-btn: #337ab7;
+    --pdq-primary-bootstrap-btn-border: #2e6da4;
+    --pdq-primary-bootstrap-btn-text: #fff;
+    --pdq-primary-bootstrap-btn-hover: #286090;
+    --pdq-primary-bootstrap-btn-hover-border: #204d74;
+    --pdq-primary-bootstrap-btn-focus-border: #122b40;
+    --pdq-primary-bootstrap-btn-pressed: #204d74;
+    --pdq-primary-bootstrap-bg: #337ab7;
+    --pdq-primary-bootstrap-bg-hover: #286090;
+    --pdq-primary-bootstrap-text: #337ab7;
+    --pdq-primary-bootstrap-text-hover: #286090;
     /* light-blue: alias of primary. */
     --pdq-light-blue-text: var(--pdq-primary-text);
     --pdq-light-blue-base: var(--pdq-primary-base);
@@ -48,6 +67,17 @@
     --pdq-info-light-accent: #d9edf7;
     --pdq-info-light-accent-text: #444;
     --pdq-info-table-hover: #c4e3f3;
+    --pdq-info-bootstrap-btn: #5bc0de;
+    --pdq-info-bootstrap-btn-border: #46b8da;
+    --pdq-info-bootstrap-btn-text: #fff;
+    --pdq-info-bootstrap-btn-hover: #31b0d5;
+    --pdq-info-bootstrap-btn-hover-border: #269abc;
+    --pdq-info-bootstrap-btn-focus-border: #1b6d85;
+    --pdq-info-bootstrap-btn-pressed: #269abc;
+    --pdq-info-bootstrap-bg: #d9edf7;
+    --pdq-info-bootstrap-bg-hover: #afd9ee;
+    --pdq-info-bootstrap-text: #31708f;
+    --pdq-info-bootstrap-text-hover: #245269;
     /* aqua: alias of info. */
     --pdq-aqua-text: var(--pdq-info-text);
     --pdq-aqua-base: var(--pdq-info-base);
@@ -66,6 +96,17 @@
     --pdq-success-light-accent: #dff0d8;
     --pdq-success-light-accent-text: #444;
     --pdq-success-table-hover: #d0e9c6;
+    --pdq-success-bootstrap-btn: #5cb85c;
+    --pdq-success-bootstrap-btn-border: #4cae4c;
+    --pdq-success-bootstrap-btn-text: #fff;
+    --pdq-success-bootstrap-btn-hover: #449d44;
+    --pdq-success-bootstrap-btn-hover-border: #398439;
+    --pdq-success-bootstrap-btn-focus-border: #255625;
+    --pdq-success-bootstrap-btn-pressed: #398439;
+    --pdq-success-bootstrap-bg: #dff0d8;
+    --pdq-success-bootstrap-bg-hover: #c1e2b3;
+    --pdq-success-bootstrap-text: #3c763d;
+    --pdq-success-bootstrap-text-hover: #2b542c;
     /* green: alias of success. */
     --pdq-green-text: var(--pdq-success-text);
     --pdq-green-base: var(--pdq-success-base);
@@ -84,6 +125,17 @@
     --pdq-warning-light-accent: #fcf8e3;
     --pdq-warning-light-accent-text: #444;
     --pdq-warning-table-hover: #faf2cc;
+    --pdq-warning-bootstrap-btn: #f0ad4e;
+    --pdq-warning-bootstrap-btn-border: #eea236;
+    --pdq-warning-bootstrap-btn-text: #fff;
+    --pdq-warning-bootstrap-btn-hover: #ec971f;
+    --pdq-warning-bootstrap-btn-hover-border: #d58512;
+    --pdq-warning-bootstrap-btn-focus-border: #985f0d;
+    --pdq-warning-bootstrap-btn-pressed: #d58512;
+    --pdq-warning-bootstrap-bg: #fcf8e3;
+    --pdq-warning-bootstrap-bg-hover: #f7ecb5;
+    --pdq-warning-bootstrap-text: #8a6d3b;
+    --pdq-warning-bootstrap-text-hover: #66512c;
     /* yellow: alias of warning. */
     --pdq-yellow-text: var(--pdq-warning-text);
     --pdq-yellow-base: var(--pdq-warning-base);
@@ -102,6 +154,17 @@
     --pdq-danger-light-accent: #f2dede;
     --pdq-danger-light-accent-text: #444;
     --pdq-danger-table-hover: #ebcccc;
+    --pdq-danger-bootstrap-btn: #d9534f;
+    --pdq-danger-bootstrap-btn-border: #d43f3a;
+    --pdq-danger-bootstrap-btn-text: #fff;
+    --pdq-danger-bootstrap-btn-hover: #c9302c;
+    --pdq-danger-bootstrap-btn-hover-border: #ac2925;
+    --pdq-danger-bootstrap-btn-focus-border: #761c19;
+    --pdq-danger-bootstrap-btn-pressed: #ac2925;
+    --pdq-danger-bootstrap-bg: #f2dede;
+    --pdq-danger-bootstrap-bg-hover: #e4b9b9;
+    --pdq-danger-bootstrap-text: #a94442;
+    --pdq-danger-bootstrap-text-hover: #843534;
     /* red: alias of danger. */
     --pdq-red-text: var(--pdq-danger-text);
     --pdq-red-base: var(--pdq-danger-base);

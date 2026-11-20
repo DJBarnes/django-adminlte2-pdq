@@ -29,12 +29,9 @@
     {% endblock styles_main_fixes__color_variables %}
 
     {% block styles_main_fixes__extra_colors %}
-      {# Definitions for colors applied to various AdminLte2 html components. #}
-      {# Some colors were already defined in the base AdminLte2 components, but it was inconsistent and not all #}
-      {# colors applied to all components. This attempts to fix that. #}
-      {# This also overrides the original AdminLte2 html components to use the above `color-variables.css`, that way #}
-      {# the colors can be adjusted/overridden on the fly, per project, if desired. The actual color values should be #}
-      {# the same (or at least very close), but now they can be adjusted dynamically. #}
+      {# Color classes for every color on every AdminLte2 component, using the above `color-variables.css`. #}
+      {# Includes the classes AdminLte2 and Bootstrap define, with their stock look, so they use the variables too. #}
+      {# Loaded before dark mode, so the dark skins still restyle these classes. #}
       <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/extra-colors.css' %}">
     {% endblock styles_main_fixes__extra_colors %}
 

@@ -106,16 +106,15 @@ Other Changes
   (``carousel-{color}``), dropdown menus (``dropdown-menu-{color}``), labels,
   modals, table rows and cells, bordered tables (``table-border-{color}``),
   and tooltips (``tooltip-{color}``). Classes that AdminLTE or Bootstrap
-  already define are not changed, except table header and footer rows.
-
-* Table header and footer rows (``thead``, ``tfoot``) with Bootstrap's
-  ``success``, ``info``, ``warning``, or ``danger`` classes now take the color
-  itself, as the package's other colors do, instead of Bootstrap's pale tint.
-  Body rows keep Bootstrap's colors.
+  already define keep their stock look.
 
 * Colors are CSS custom properties named ``--pdq-{color}-{part}``, defined in
-  ``adminlte2_pdq/css/extra-colors/color-variables.css``. Redefine them in
-  your own CSS to change a color.
+  ``adminlte2_pdq/css/extra-colors/color-variables.css``. Every class of a
+  color uses them, including the classes AdminLTE and Bootstrap define, such
+  as ``bg-maroon``, ``btn-primary``, and ``label-danger``. Redefine them in
+  your own CSS to change a color. Where Bootstrap's classes use Bootstrap's
+  own shades, such as a focused ``btn-primary`` or the pale ``bg-info``, those
+  shades have their own ``--pdq-{color}-bootstrap-*`` properties.
 
 * Add dark mode: dark versions of the AdminLTE skins, ``skin-blue-dark``,
   ``skin-black-dark``, ``skin-purple-dark``, ``skin-yellow-dark``,
@@ -154,8 +153,8 @@ Other Changes
   * Table row, cell, and code tints are computed from each color and keep
     part of its lightness and saturation, so colors that share a hue (navy,
     blue, and primary) stay apart. ``success``, ``info``, ``warning``, and
-    ``danger`` use Bootstrap's own pale tints. Header and footer cells use the
-    solid color. Text on code tints is ``#444``.
+    ``danger`` use Bootstrap's own pale tints. Header and footer cells of the
+    other colors use the solid color. Text on code tints is ``#444``.
   * Button hover colors and callout and modal border colors for the extra
     colors follow AdminLTE's convention (5% and 10% darker).
   * Text on lime is ``#444``.

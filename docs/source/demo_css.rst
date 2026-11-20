@@ -77,15 +77,28 @@ Tooltip                    ``tooltip-{color}`` class or
                            element that has the tooltip
 =========================  ==================================================
 
-Classes that AdminLTE or Bootstrap already define keep their stock look. For
-example, ``btn-primary`` and ``label-danger`` are unchanged, and table body
-rows with Bootstrap's ``success``, ``info``, ``warning``, and ``danger``
-classes keep Bootstrap's colors.
+Classes that AdminLTE or Bootstrap already define, such as ``btn-primary``,
+``label-danger``, and ``bg-maroon``, look the same as with AdminLTE alone, in
+every state (hover, focus, pressed, and disabled). They use the package's color
+variables too, so changing a color changes every class of that color (see
+:ref:`demo_css:Changing a color`).
 
-The one exception is table header and footer rows (``thead`` and ``tfoot``).
-They take the color itself for every color, including Bootstrap's ``success``,
-``info``, ``warning``, and ``danger``, which Bootstrap draws in the same pale
-tint as body rows. This way every colored table looks alike.
+Some of these classes keep shades that differ from the rest of their color,
+because AdminLTE and Bootstrap draw them differently:
+
+* Bootstrap's ``bg-primary``, ``bg-info``, ``bg-success``, ``bg-warning``, and
+  ``bg-danger`` are pale tints (``bg-primary`` is a darker blue), and its
+  ``text-{color}`` classes for the same colors are darker shades. AdminLTE's
+  names for these colors, such as ``bg-aqua`` and ``text-red``, are the color
+  itself.
+* Table rows and cells with Bootstrap's ``success``, ``info``, ``warning``,
+  and ``danger`` classes are a pale tint, header and footer rows included. For
+  every other color, header and footer rows take the color itself.
+* AdminLTE only replaces a Bootstrap button's normal and hover colors. Its
+  focus, pressed, and disabled states and its badge keep Bootstrap's shades.
+* AdminLTE's default box and label are a darker gray than its default button.
+* The package's own ``bg-{color}`` classes also color the border, which shows
+  on app buttons (``btn-app``). AdminLTE's ``bg-{color}`` classes don't.
 
 
 Changing a color
@@ -109,6 +122,32 @@ Property                              Used for
 ``--pdq-{color}-table-hover``         Table row hover
 ====================================  =====================================
 
+Bootstrap's colors (``default``, ``primary``, ``info``, ``success``,
+``warning``, and ``danger``) have more properties, for the classes that keep
+Bootstrap's shades:
+
+============================================  ================================
+Property                                      Used for
+============================================  ================================
+``--pdq-{color}-bootstrap-btn``               Button badge, disabled button on
+                                              hover
+``--pdq-{color}-bootstrap-btn-border``        Disabled button border on hover
+``--pdq-{color}-bootstrap-btn-text``          Button text (for ``default``, only
+                                              when focused, hovered, or pressed)
+``--pdq-{color}-bootstrap-btn-hover``         Focused or ``.active`` button
+``--pdq-{color}-bootstrap-btn-hover-border``  Button border on hover and when
+                                              pressed
+``--pdq-{color}-bootstrap-btn-focus-border``  Focused button border
+``--pdq-{color}-bootstrap-btn-pressed``       Button pressed while focused or
+                                              hovered
+``--pdq-{color}-bootstrap-bg``                ``bg-{color}`` (not ``default``)
+``--pdq-{color}-bootstrap-bg-hover``          Linked ``bg-{color}`` on hover
+``--pdq-{color}-bootstrap-text``              ``text-{color}`` (not
+                                              ``default``)
+``--pdq-{color}-bootstrap-text-hover``        Linked ``text-{color}`` on hover
+``--pdq-default-box-label``                   Default box and label
+============================================  ================================
+
 To change a color, redefine its properties in a stylesheet that loads after
 the package's CSS. For example:
 
@@ -118,6 +157,16 @@ the package's CSS. For example:
         --pdq-indigo-base: #6610f2;
         --pdq-indigo-active: #5b0cdd;
     }
+
+Each property is a separate value, so changing ``--pdq-{color}-base`` doesn't
+change the others. Change every property of the color for a consistent
+result.
+
+The alternate names ``light-blue``, ``aqua``, ``green``, ``yellow``, ``red``,
+and ``error`` use the properties of ``primary``, ``info``, ``success``,
+``warning``, and ``danger``, so changing ``primary`` also changes
+``light-blue``. To change only ``light-blue``, redefine its own
+``--pdq-light-blue-*`` properties.
 
 
 Adding a color
