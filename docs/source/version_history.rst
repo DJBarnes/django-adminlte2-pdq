@@ -62,6 +62,9 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Add a :doc:`testing` page, on faster password hashing in tests and on
+  changing the package's settings in tests.
+
 * Add the :ref:`configuration/authorization:ADMINLTE2_USE_LOGIN_NEXT`
   setting. Set it to False to leave ``next`` out of every login redirect from
   this package's middleware, decorators, and mixins, so every login goes to

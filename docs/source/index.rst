@@ -96,6 +96,7 @@ and more, to aid in the rapid development of a site.
 
    quickstart
    longstart
+   testing
 
 
 .. toctree::

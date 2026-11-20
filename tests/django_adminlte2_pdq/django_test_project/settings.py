@@ -78,6 +78,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Make messaging work in tests that use RequestFactory.
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
+# Hash test user passwords quickly. MD5 is not safe for real passwords.
+PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
+
 
 # **********************************************
 # Added settings to make adminlte2_pdq work
