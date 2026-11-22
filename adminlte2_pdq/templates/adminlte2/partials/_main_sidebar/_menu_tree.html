@@ -2,12 +2,16 @@
 
 
 {% if allowed %}
+
+  {% comment %}
+    The tree's root is a link. The link and the expand/collapse toggle are separate elements:
+    AdminLTE toggles the tree when the toggle (the element right before the menu) is clicked,
+    and the link works like any other link.
+  {% endcomment %}
+
   {% if node.url and node.url != "#" %}
-    {% comment %}
-      The tree's root is a link. The link and the expand/collapse toggle are separate elements:
-      AdminLTE toggles the tree when the toggle (the element right before the menu) is clicked,
-      and the link works like any other link.
-    {% endcomment %}
+    {# Handle when tree root node is a valid url. #}
+
     <li class="treeview treeview-split{% if node.active %} active{% endif %}">
       <a
         href="{{ node.url }}"
@@ -24,11 +28,20 @@
           <i class="fa fa-angle-left pull-right"></i>
         </span>
       </a>
-      <ul class="treeview-menu" {% if add_display_block %}style="display:block;"{% endif %}>
+      <ul class="treeview-menu"
+        {% if not node.active %}
+          style="display: none;"
+        {% elif add_display_block %}
+          style="display: block;"
+        {% endif %}
+      >
         {% render_nodes node.nodes %}
       </ul>
     </li>
+
   {% else %}
+    {# Handle when tree root node is not a url. #}
+
     <li class="treeview{% if node.active %} active{% endif %}">
       <a
         href="#"
@@ -43,9 +56,16 @@
           <i class="fa fa-angle-left pull-right"></i>
         </span>
       </a>
-      <ul class="treeview-menu" {% if add_display_block %}style="display:block;"{% endif %}>
+      <ul class="treeview-menu"
+        {% if not node.active %}
+          style="display: none;"
+        {% elif add_display_block %}
+          style="display: block;"
+        {% endif %}
+      >
         {% render_nodes node.nodes %}
       </ul>
     </li>
   {% endif %}
+
 {% endif %}
