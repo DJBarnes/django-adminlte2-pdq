@@ -20,6 +20,16 @@ type the URL.
 * The ``permissions``, ``one_of_permissions``, and ``login_required`` keys on
   a menu node only hide that link. Set permissions on the view instead (see
   :doc:`function_views` and :doc:`class_views`).
+* The middleware and the sidebar only read this package's decorators and
+  mixins. They can't see the test in Django's ``user_passes_test`` decorator
+  or ``UserPassesTestMixin``, so the view still runs the test, but the sidebar
+  shows its link to every user who passes the policy's login and permission
+  rules, including users who fail the test. Under the strict policy, a view
+  with only a user test has no defined permissions, so the middleware blocks
+  it until it also has ``allow_without_permissions``, a permission decorator
+  or mixin, or a whitelist entry. When the test can be written as
+  permissions, set ``permissions`` or ``one_of_permissions`` on the menu node
+  to hide the link from users who fail it.
 
 
 Each Policy's Default
