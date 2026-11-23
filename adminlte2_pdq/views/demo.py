@@ -10,7 +10,7 @@ from django.shortcuts import render
 
 # Internal Imports.
 from adminlte2_pdq.constants import DEMO_CSS_COLORS
-from adminlte2_pdq.color_css import BG_NAMES
+from adminlte2_pdq.generate_color_css import BG_NAMES
 from adminlte2_pdq.menu import CSS_MENU, MENU
 from adminlte2_pdq.templatetags.sidebar_menu import _default_routes_are_registered
 

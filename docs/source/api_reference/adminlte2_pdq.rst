@@ -39,14 +39,6 @@ adminlte2\_pdq.checks module
    :show-inheritance:
    :undoc-members:
 
-adminlte2\_pdq.color\_css module
---------------------------------
-
-.. automodule:: adminlte2_pdq.color_css
-   :members:
-   :show-inheritance:
-   :undoc-members:
-
 adminlte2\_pdq.dark\_css module
 -------------------------------
 
@@ -67,6 +59,14 @@ adminlte2\_pdq.forms module
 ---------------------------
 
 .. automodule:: adminlte2_pdq.forms
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+adminlte2\_pdq.generate\_color\_css module
+------------------------------------------
+
+.. automodule:: adminlte2_pdq.generate_color_css
    :members:
    :show-inheritance:
    :undoc-members:

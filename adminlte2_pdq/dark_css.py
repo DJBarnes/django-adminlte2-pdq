@@ -26,7 +26,7 @@ import sys
 from pathlib import Path
 
 # Internal Imports.
-from adminlte2_pdq import color_css
+from adminlte2_pdq import generate_color_css as color_css
 
 
 PACKAGE_DIR = Path(__file__).resolve().parent

@@ -146,9 +146,11 @@ Other Changes
   pages now keep Django's light colors and let the skin decide, as on Django
   4.2 and later.
 
-* Add ``python -m adminlte2_pdq.color_css --custom NAME BASE``, which prints
-  the CSS for a project's own color: its custom properties and every color
-  class.
+* Add the ``generate_color_css`` management command. ``python manage.py
+  generate_color_css NAME BASE`` writes a stylesheet for a project's own color,
+  with its custom properties and every color class, or, for one of the
+  package's color names, new values for every property of that color. It then
+  prints how to load the file. See :ref:`demo_css:Generating a color`.
 
 * Existing extra color classes now use AdminLTE's color values:
 

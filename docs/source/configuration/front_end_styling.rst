@@ -29,8 +29,8 @@ This setting only affects the demo pages. It does not add or remove CSS.
 
 Example, with some of the package's colors and one of the project's own::
 
-    # adminlte2_pdq.color_css doesn't read any settings, so it can be imported in settings.py.
-    from adminlte2_pdq.color_css import COLORS_BY_NAME
+    # adminlte2_pdq.generate_color_css doesn't read any settings, so it can be imported in settings.py.
+    from adminlte2_pdq.generate_color_css import COLORS_BY_NAME
 
     ADMINLTE2_DEMO_CSS_COLORS = {
         **{name: COLORS_BY_NAME[name].base for name in ("primary", "success", "warning", "danger")},

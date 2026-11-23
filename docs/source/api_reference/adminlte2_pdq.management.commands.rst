@@ -4,6 +4,14 @@ adminlte2\_pdq.management.commands package
 Submodules
 ----------
 
+adminlte2\_pdq.management.commands.generate\_color\_css module
+--------------------------------------------------------------
+
+.. automodule:: adminlte2_pdq.management.commands.generate_color_css
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 adminlte2\_pdq.management.commands.showperms module
 ---------------------------------------------------
 

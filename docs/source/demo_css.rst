@@ -152,44 +152,83 @@ Property                                      Used for
 ``--pdq-default-box-label``                   Default box and label
 ============================================  ================================
 
-To change a color, redefine its properties in a stylesheet that loads after
-the package's CSS. For example:
+To change a color, generate new values for all of its properties with the
+``generate_color_css`` management command, and load the file after the
+package's CSS (see :ref:`demo_css:Generating a color`):
 
-.. code:: css
+.. code:: bash
 
-    :root {
-        --pdq-indigo-base: #6610f2;
-        --pdq-indigo-active: #5b0cdd;
-    }
+    python manage.py generate_color_css light-blue '#87ceeb'
 
-Each property is a separate value, so changing ``--pdq-{color}-base`` doesn't
-change the others. Change every property of the color for a consistent
-result.
+The file sets every property of the color, including the Bootstrap shades,
+which follow the new color: its buttons use the new color in every state, its
+``bg-{color}`` is a pale tint of it, and its ``text-{color}`` a darker shade.
+Each property is a separate value, so redefining only ``--pdq-{color}-base``
+by hand leaves the other shades as they were.
+
+To go back to the package's color, delete the file, or stop loading it.
 
 The alternate names ``light-blue``, ``aqua``, ``green``, ``yellow``, ``red``,
 and ``error`` use the properties of ``primary``, ``info``, ``success``,
-``warning``, and ``danger``, so changing ``primary`` also changes
-``light-blue``. To change only ``light-blue``, redefine its own
-``--pdq-light-blue-*`` properties.
+``warning``, and ``danger``, so changing ``info`` also changes ``aqua``. To
+change only ``aqua``, generate values for ``aqua``.
 
 
 Adding a color
 --------------
 
-To add a color, generate its CSS and load the result after the package's CSS:
+To add a color, generate its CSS with the ``generate_color_css`` management
+command, and load the file after the package's CSS (see
+:ref:`demo_css:Generating a color`):
 
 .. code:: bash
 
-    python -m adminlte2_pdq.color_css --custom brand '#6610f2' > static/css/brand.css
+    python manage.py generate_color_css brand '#6610f2'
 
-This prints the custom properties and every color class for ``brand``. Options:
-
-* ``--active '#5b0cdd'``: the darker shade for ``bg-brand-active`` and modal
-  headers. Defaults to the base color darkened by 5%.
-* ``--dark-text``: use dark text instead of white, for light colors.
+The file has the color's properties and every color class for ``brand``.
 
 To show the new color on the demo pages, add it to
 :ref:`configuration/front_end_styling:ADMINLTE2_DEMO_CSS_COLORS`.
+
+
+Generating a color
+------------------
+
+.. code:: bash
+
+    python manage.py generate_color_css NAME BASE [options]
+
+``NAME`` is the color's name: lowercase letters, digits, and hyphens,
+starting with a letter. A package color's name, such as ``info`` or
+``light-blue``, gives that color new values. Any other name adds a color.
+``BASE`` is the color itself, as a hex value, such as ``'#6610f2'``. Every
+other shade is derived from it.
+
+Options:
+
+* ``--active '#5b0cdd'``: the darker shade for ``bg-{color}-active`` and modal
+  headers. Defaults to the base color darkened by 5%.
+* ``--dark-text`` or ``--light-text``: dark or white text on the color.
+  Defaults to whichever is easier to read.
+* ``--output PATH``: the file to write. Defaults to ``css/colors/NAME.css`` in
+  the first ``STATICFILES_DIRS`` directory, or ``NAME.css`` in the current
+  directory when ``STATICFILES_DIRS`` is empty.
+* ``--force``: replace the file if it exists. Otherwise the command asks
+  first.
+
+After writing the file, the command prints how to load it. Load it after the
+package's colors, in the ``styles_main_fixes__extra_colors`` block, by adding
+``adminlte2/partials/_styles.html`` to your project's templates:
+
+.. code:: html+django
+
+    {% extends "adminlte2/partials/_styles.html" %}
+    {% load static %}
+
+    {% block styles_main_fixes__extra_colors %}
+      {{ block.super }}
+      <link rel="stylesheet" href="{% static 'css/colors/brand.css' %}">
+    {% endblock styles_main_fixes__extra_colors %}
 
 
 Other classes

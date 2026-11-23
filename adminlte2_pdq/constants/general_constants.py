@@ -4,7 +4,7 @@
 from django.conf import settings
 
 # Internal Imports.
-from adminlte2_pdq import color_css as _color_css
+from adminlte2_pdq import generate_color_css as _color_css
 
 
 # Date/Time picker widgets to use. Valid values are "native", "jquery", "bootstrap".

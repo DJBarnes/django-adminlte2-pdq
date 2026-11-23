@@ -14,7 +14,8 @@ from unittest.mock import patch
 from django.test import SimpleTestCase
 
 # Internal Imports.
-from adminlte2_pdq import color_css, dark_css
+from adminlte2_pdq import dark_css
+from adminlte2_pdq import generate_color_css as color_css
 
 
 def _selectors(css_text):
