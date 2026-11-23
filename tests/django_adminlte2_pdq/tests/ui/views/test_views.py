@@ -319,13 +319,34 @@ class DemoCssViewsTestCase(TestCase):
                     self.assertTrue(page_name)
 
     def test__colors_are_listed(self):
-        """Pages show every color from ADMINLTE2_DEMO_CSS_COLORS."""
+        """The color palette shows every color from ADMINLTE2_DEMO_CSS_COLORS, from its own variables."""
         response = self.client.get(reverse("adminlte2_pdq:demo-css-ui-general"))
 
-        # Bootstrap's contextual colors use AdminLTE's `bg-*` names.
-        for bg_name in ("light-blue", "aqua", "navy", "indigo", "black"):
-            self.assertContains(response, f"bg-{bg_name} color-palette")
+        for name in ("primary", "info", "navy", "indigo", "black"):
+            with self.subTest(color=name):
+                self.assertContains(response, f"background-color: var(--pdq-{name}-base);")
+                self.assertContains(response, f"background-color: var(--pdq-{name}-active);")
+        self.assertNotContains(response, "bg-light-blue color-palette")
         self.assertContains(response, "#0073b7")
+
+    def test__background_examples_use_adminlte_names(self):
+        """Background examples use AdminLTE's names for Bootstrap's colors, whose own bg-{color} is a pale tint."""
+        response = self.client.get(reverse("adminlte2_pdq:demo-css-widgets"))
+
+        for bg_name in ("light-blue", "aqua", "navy"):
+            with self.subTest(bg_name=bg_name):
+                self.assertContains(response, f"small-box bg-{bg_name}")
+        self.assertNotContains(response, "small-box bg-primary")
+
+    @override_settings(ADMINLTE2_CONSISTENT_COLORS=True)
+    def test__background_examples_with_consistent_colors(self):
+        """With ADMINLTE2_CONSISTENT_COLORS, bg-{color} is the color itself, so the examples use each color's name."""
+        response = self.client.get(reverse("adminlte2_pdq:demo-css-widgets"))
+
+        for bg_name in ("primary", "info", "navy"):
+            with self.subTest(bg_name=bg_name):
+                self.assertContains(response, f"small-box bg-{bg_name}")
+        self.assertNotContains(response, "small-box bg-light-blue")
 
     @override_settings(ROOT_URLCONF="tests.django_adminlte2_pdq.django_test_project.urls_without_auth")
     def test__pages_render_without_password_change_url(self):

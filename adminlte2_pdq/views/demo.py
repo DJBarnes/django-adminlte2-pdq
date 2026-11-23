@@ -12,6 +12,7 @@ from django.shortcuts import render
 from adminlte2_pdq.constants import DEMO_CSS_COLORS
 from adminlte2_pdq.generate_color_css import BG_NAMES
 from adminlte2_pdq.menu import CSS_MENU, MENU
+from adminlte2_pdq.templatetags.adminlte_tags import get_consistent_colors
 from adminlte2_pdq.templatetags.sidebar_menu import _default_routes_are_registered
 
 
@@ -27,8 +28,11 @@ def _render_demo_page(request, template_name, context=None):
         "bootstrap_types": list(DEMO_CSS_COLORS),
         "demo_css_colors": DEMO_CSS_COLORS,
         # Name used in `bg-{color}` classes. Bootstrap's own `bg-primary`, `bg-info`, etc. are pale
-        # tints, so the demo uses AdminLTE's names for those colors.
-        "demo_bg_names": {name: BG_NAMES.get(name, name) for name in DEMO_CSS_COLORS},
+        # tints, so the demo uses AdminLTE's names for those colors, unless ADMINLTE2_CONSISTENT_COLORS
+        # makes them the color itself.
+        "demo_bg_names": {
+            name: name if get_consistent_colors() else BG_NAMES.get(name, name) for name in DEMO_CSS_COLORS
+        },
     }
     page_context.update(context or {})
     return render(request, f"adminlte2_demo_css/{template_name}", page_context)

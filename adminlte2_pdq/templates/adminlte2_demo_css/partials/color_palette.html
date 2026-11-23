@@ -21,17 +21,23 @@
   <div class="box-body">
 
     <p>
-      Note that the following values are equivalent in CSS:
+      Some colors have other names, which use the color's values unless they are given their own:
     </p>
     <ul>
       <ul>
-        <li><code>primary</code> &nbsp; &#124; &nbsp; <code>light-blue</code></li>
-        <li><code>info</code> &nbsp; &#124; &nbsp; <code>aqua</code></li>
-        <li><code>success</code> &nbsp; &#124; &nbsp; <code>green</code></li>
-        <li><code>warning</code> &nbsp; &#124; &nbsp; <code>yellow</code></li>
-        <li><code>danger</code> &nbsp; &#124; &nbsp; <code>red</code></li>
+        <li><code>light-blue</code> for <code>primary</code></li>
+        <li><code>aqua</code> for <code>info</code></li>
+        <li><code>green</code> for <code>success</code></li>
+        <li><code>yellow</code> for <code>warning</code></li>
+        <li><code>red</code> and <code>error</code> for <code>danger</code></li>
       </ul>
     </ul>
+    <p>
+      Bootstrap's <code>bg-primary</code>, <code>bg-info</code>, <code>bg-success</code>, <code>bg-warning</code>,
+      and <code>bg-danger</code> are pale tints, unless <code>ADMINLTE2_CONSISTENT_COLORS</code> is set, so the
+      background examples on these pages use the other names for those colors. The swatches below show each color's
+      own values.
+    </p>
 
     {% for bootstrap_type in bootstrap_types %}
 
@@ -43,13 +49,13 @@
       <div class="col-sm-4 col-md-2">
         <h4 class="text-center" style="color: var(--pdq-{{ bootstrap_type }}-text);">{{ bootstrap_type }}</h4>
         <div class="color-palette-set">
-          <div class="bg-{{ demo_bg_names|dict_get:bootstrap_type }} disabled color-palette">
+          <div class="color-palette" style="color: var(--pdq-{{ bootstrap_type }}-text); background-color: var(--pdq-{{ bootstrap_type }}-base); opacity: 0.65;">
             <span>Disabled</span>
           </div>
-          <div class="bg-{{ demo_bg_names|dict_get:bootstrap_type }} color-palette">
+          <div class="color-palette" style="color: var(--pdq-{{ bootstrap_type }}-text); background-color: var(--pdq-{{ bootstrap_type }}-base);">
             <span>{{ demo_css_colors|dict_get:bootstrap_type }}</span>
           </div>
-          <div class="bg-{{ demo_bg_names|dict_get:bootstrap_type }}-active color-palette">
+          <div class="color-palette" style="color: var(--pdq-{{ bootstrap_type }}-text); background-color: var(--pdq-{{ bootstrap_type }}-active);">
             <span>Active</span>
           </div>
         </div>
