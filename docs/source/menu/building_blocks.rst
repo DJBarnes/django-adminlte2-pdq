@@ -480,10 +480,9 @@ an empty tree or a tree of links the user can't open.
 * Sections follow the same rule: a section and its header are shown only when
   the user can see at least one link in the section.
 
-A tree is shown expanded when the current page's URL starts with the URL of
-one of its links, so the user sees where they are in the menu. A tree with a
-placeholder link (``'route': '#'``) or a link to ``/`` therefore always starts
-expanded.
+A tree starts expanded when it is highlighted as active (see `Active
+Links`_), so the user sees where they are in the menu. Other trees start
+collapsed.
 
 A tree must contain at least one node. A tree with an empty ``nodes`` list
 raises ``KeyError`` when the menu is rendered for a user who isn't a
@@ -496,7 +495,11 @@ Active Links
 A link is highlighted as active when the current page's URL starts with the
 link's URL. A link to ``/``, or a node with
 ``active_requires_exact_url_match``, is active only when the URLs are equal. A
-tree is highlighted when its own link or one of its direct links is active.
+placeholder link (``'route': '#'``) is never active.
+
+A tree is highlighted when its own link is active, or when a link at any depth
+inside it is, including the link of a nested tree. A tree around a nested tree
+that holds the current page is highlighted too.
 
 
 ----

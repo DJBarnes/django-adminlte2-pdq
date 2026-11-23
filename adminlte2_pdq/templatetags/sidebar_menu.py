@@ -155,28 +155,28 @@ def render_tree(context, node):
     ensure_node_has_url_property(node, required=False)
     nodes = node.get("nodes")
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
-    add_display_block = check_for_node_that_matches_request_path(context["request"], nodes)
 
     # Determine if root has an icon.
     if not node.get("icon"):
         node["icon"] = "not-found"
 
-    # Determine "active" state. This controls what on the menu is highlighted.
-    active = False
-    if _determine_node_active_status(node, context["request"]):
-        active = True
+    # Get url for each inner node.
     for inner_node in node["nodes"]:
         # Nested trees may omit a route, the same as top-level trees. Links must have one.
         ensure_node_has_url_property(inner_node, required=not inner_node.get("nodes"))
-        if _determine_node_active_status(inner_node, context["request"]):
-            active = True
-    node["active"] = active
+
+    # Determine "active" state. This controls what on the menu is highlighted, and which trees start expanded.
+    # A tree is active when its own root links to the current page, or when a node at any depth inside it does.
+    # Both checks use the same rule, so a tree is never highlighted without being expanded, or the other way around.
+    node["active"] = bool(
+        _determine_node_active_status(node, context["request"])
+        or check_for_node_that_matches_request_path(context["request"], nodes)
+    )
 
     # Return parsed values for node.
     return {
         "node": node,
         "allowed": allowed,
-        "add_display_block": add_display_block,
         "user": context["user"],
         "request": context["request"],
     }
@@ -772,42 +772,31 @@ def ensure_node_has_url_property(node, required=True):
 
 
 def check_for_node_that_matches_request_path(request, nodes):
-    """Check for a node that matches the request path. Used for loading a page with expanded trees.
+    """Check for a node that is active for the request path, at any depth. Used for loading a page with expanded trees.
 
-    Note that this check includes children of this node.
+    A node matches the same way it is highlighted (see _determine_node_active_status), so a tree starts expanded only
+    when it is active. A nested tree matches when its own root links to the page, or a node inside it matches.
     """
 
     match = False
 
-    if nodes:
+    # Handle for each node in our set of nodes.
+    for node in nodes or []:
+        child_nodes = node.get("nodes")
 
-        # Handle for each node in our set of nodes.
-        for node in nodes:
+        # Get url to check against. Nested trees may omit a route. Links must have one.
+        # Note that the url is parsed from the "route" value, if "url" is not explicitly given.
+        ensure_node_has_url_property(node, required=not child_nodes)
 
-            # Check children of this node, if any.
-            child_nodes = node.get("nodes")
-            if child_nodes:
-                # Found children. Recursively check.
-                child_match = check_for_node_that_matches_request_path(request, child_nodes)
-                if child_match:
-                    match = True
+        if _determine_node_active_status(node, request):
+            # The node itself links to the current page. For a nested tree, this is its root.
+            # Uses the same check as the menu highlight, so active_requires_exact_url_match and the exact match for "/"
+            # apply here too.
+            match = True
 
-            else:
-                # No children found. Check properties of current node.
-                # If it matches the request URL, then this tree starts expanded on page load.
-
-                # Get url to check against.
-                # Note that the url is parsed from the "route" value, if "url" is not explicitly given.
-                ensure_node_has_url_property(node)
-
-                # Sanitize both our request url and node url.
-                stripped_request_path = strip_hash_bookmark_from_url(request.path)
-                stripped_node_url = strip_hash_bookmark_from_url(node["url"])
-
-                # Verify that the start of the request url matches our node.
-                # If so, we consider this a match and start with our tree expanded.
-                if stripped_request_path.startswith(stripped_node_url):
-                    match = True
+        elif child_nodes and check_for_node_that_matches_request_path(request, child_nodes):
+            # Found children, and one of them matches at some depth. Recursively checked.
+            match = True
 
     return match
 

@@ -62,6 +62,14 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Fix sidebar trees starting expanded when they don't hold the current page.
+  A tree started expanded when a link in it had a url that the current page's
+  url starts with, such as a link to ``/`` or a link with
+  ``active_requires_exact_url_match``, even though the link wasn't
+  highlighted. A tree now starts expanded only when it is highlighted, and it
+  is highlighted when the current page is at any depth inside it, so a tree
+  around a nested tree with the current page is highlighted and expanded too.
+
 * Add the
   :ref:`configuration/front_end_styling:ADMINLTE2_CONSISTENT_COLORS`
   setting. When True, the classes that keep Bootstrap's own shades, such as

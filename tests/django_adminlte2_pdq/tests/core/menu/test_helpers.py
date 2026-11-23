@@ -359,6 +359,24 @@ class SidebarMenuHelpersTestCase(SidebarMenuBaseTestCase):
 
                     self.assertEqual(expected, sidebar_menu.check_for_node_that_matches_request_path(request, nodes))
 
+    def test__check_for_node_that_matches_request_path__same_rule_as_active(self):
+        """A node matches the same way it is highlighted, so a link to "/" doesn't match every page."""
+        home = {"url": "/", "text": "Home", "icon": "fa fa-home"}
+        exact_sample2 = {**sample2_node(), "active_requires_exact_url_match": True}
+        linked_tree = {"route": "adminlte2_pdq:sample2", "text": "Tree", "icon": "fa fa-leaf", "nodes": [home]}
+
+        for name, (path, nodes, expected) in {
+            "home, on another page": ("/sample2/", [home], False),
+            "home, on the home page": ("/", [home], True),
+            "exact required, on a sub page": ("/sample2/sub/", [exact_sample2], False),
+            "exact required, on the page": ("/sample2/", [exact_sample2], True),
+            "nested tree root links to the page": ("/sample2/", [linked_tree], True),
+        }.items():
+            with self.subTest(name=name):
+                request = RequestFactory().get(path)
+
+                self.assertEqual(expected, sidebar_menu.check_for_node_that_matches_request_path(request, nodes))
+
     def test__determine_node_active_status(self):
         """A node is active when the request path starts with its url, or matches it exactly if required."""
         # pylint:disable=protected-access

@@ -28,13 +28,8 @@
           <i class="fa fa-angle-left pull-right"></i>
         </span>
       </a>
-      <ul class="treeview-menu"
-        {% if not node.active %}
-          style="display: none;"
-        {% elif add_display_block %}
-          style="display: block;"
-        {% endif %}
-      >
+      {# Only an active tree (one that holds the current page) starts expanded. AdminLTE hides the rest. #}
+      <ul class="treeview-menu"{% if node.active %} style="display: block;"{% endif %}>
         {% render_nodes node.nodes %}
       </ul>
     </li>
@@ -56,13 +51,8 @@
           <i class="fa fa-angle-left pull-right"></i>
         </span>
       </a>
-      <ul class="treeview-menu"
-        {% if not node.active %}
-          style="display: none;"
-        {% elif add_display_block %}
-          style="display: block;"
-        {% endif %}
-      >
+      {# Only an active tree (one that holds the current page) starts expanded. AdminLTE hides the rest. #}
+      <ul class="treeview-menu"{% if node.active %} style="display: block;"{% endif %}>
         {% render_nodes node.nodes %}
       </ul>
     </li>

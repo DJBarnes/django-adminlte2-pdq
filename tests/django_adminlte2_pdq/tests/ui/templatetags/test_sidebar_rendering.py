@@ -242,6 +242,57 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
         self.assertIn('<li class="treeview active">', rendered_template)
         self.assertNotIn("treeview-toggle", rendered_template)
 
+    def _render_tree(self, node, path):
+        """Render a tree for a staff user with the sample permissions, on the given page."""
+        self._setup_staff_user("add_permission")
+        request = RequestFactory().get(path)
+        request.user = self.staff_user
+        context = Context({"user": self.staff_user, "node": node, "request": request})
+        return Template("{% load sidebar_menu %}{% render_tree node %}").render(context)
+
+    def test__render_tree__expanded_only_when_active(self):
+        """A tree starts expanded only when it is active. A link that requires an exact url match doesn't expand its
+        tree on the pages under its url, as it isn't highlighted there either."""
+        node = {
+            "text": "Home Tree",
+            "icon": "fa fa-home",
+            "nodes": [
+                {
+                    "route": "adminlte2_pdq:home",
+                    "text": "Home",
+                    "icon": "fa fa-home",
+                    "active_requires_exact_url_match": True,
+                }
+            ],
+        }
+
+        on_sub_page = self._render_tree(dict(node, nodes=[dict(node["nodes"][0])]), "/home/sub/")
+        on_page = self._render_tree(dict(node, nodes=[dict(node["nodes"][0])]), "/home/")
+
+        self.assertIn('<li class="treeview">', on_sub_page)
+        self.assertIn('<ul class="treeview-menu">', on_sub_page)
+        self.assertIn('<li class="treeview active">', on_page)
+        self.assertIn('<ul class="treeview-menu" style="display: block;">', on_page)
+
+    def test__render_tree__nested_tree_expanded(self):
+        """A tree with the current page two levels down is active and expanded, as is the tree inside it."""
+        node = {
+            "text": "Outer Tree",
+            "icon": "fa fa-leaf",
+            "nodes": [
+                {
+                    "text": "Inner Tree",
+                    "icon": "fa fa-tree",
+                    "nodes": [{"route": "adminlte2_pdq:sample2", "text": "Sample2", "icon": "fa fa-building"}],
+                },
+            ],
+        }
+
+        rendered_template = self._render_tree(node, "/sample2/")
+
+        self.assertEqual(2, rendered_template.count('<li class="treeview active">'))
+        self.assertEqual(2, rendered_template.count('<ul class="treeview-menu" style="display: block;">'))
+
     def test__render_tree__nested_tree_without_route(self):
         """render_tree renders a nested tree without a route."""
         self._setup_staff_user("add_permission")
