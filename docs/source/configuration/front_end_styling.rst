@@ -44,6 +44,41 @@ Example, with some of the package's colors and one of the project's own::
     import are ignored.
 
 
+ADMINLTE2_CONSISTENT_COLORS
+---------------------------
+
+Whether each color name is one color on every class. By default, colors look
+exactly as in AdminLTE and Bootstrap, where some classes use shades that
+differ from the rest of their color (see :ref:`demo_css:Color classes`).
+
+When True, the page also loads
+``adminlte2_pdq/css/extra-colors/consistent-colors.css``, and:
+
+* Bootstrap's ``bg-primary``, ``bg-info``, ``bg-success``, ``bg-warning``, and
+  ``bg-danger`` look like AdminLTE's ``bg-light-blue``, ``bg-aqua``,
+  ``bg-green``, ``bg-yellow``, and ``bg-red``, and get ``bg-{color}-active``
+  classes. Bootstrap's ``text-{color}`` classes for the same colors look like
+  AdminLTE's.
+* Table header and footer rows with Bootstrap's ``success``, ``info``,
+  ``warning``, and ``danger`` classes take the color itself, as every other
+  color does.
+* Buttons of these colors, and ``btn-default``, use the color's AdminLTE
+  shades when focused, pressed, or disabled, and for their badge.
+* The default box and label are the light gray of the default button's edge,
+  ``--pdq-default-border``, instead of AdminLTE's darker gray, which is the
+  ``gray`` color.
+
+These classes still use the color variables, so a changed color applies to
+them too.
+
+:Type: ``bool``
+:Default: ``False``
+
+Example::
+
+    ADMINLTE2_CONSISTENT_COLORS = True
+
+
 ----
 
 
@@ -136,6 +171,10 @@ can replace or remove one part:
 
 ``styles_main_fixes__extra_colors``
     Loads ``adminlte2_pdq/css/extra-colors/extra-colors.css``.
+
+``styles_main_fixes__consistent_colors``
+    Loads ``adminlte2_pdq/css/extra-colors/consistent-colors.css`` when
+    ``ADMINLTE2_CONSISTENT_COLORS`` is True.
 
 ``styles_main_fixes__extra_features``
     Loads ``adminlte2_pdq/css/extra-features/extra-features.css``.

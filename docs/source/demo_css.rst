@@ -100,6 +100,10 @@ because AdminLTE and Bootstrap draw them differently:
 * The package's own ``bg-{color}`` classes also color the border, which shows
   on app buttons (``btn-app``). AdminLTE's ``bg-{color}`` classes don't.
 
+To draw all of these except the borders in their color's AdminLTE shades, so
+that each color name is one color everywhere, set
+:ref:`configuration/front_end_styling:ADMINLTE2_CONSISTENT_COLORS` to True.
+
 
 Changing a color
 ----------------

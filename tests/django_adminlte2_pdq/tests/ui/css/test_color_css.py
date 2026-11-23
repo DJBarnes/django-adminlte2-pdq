@@ -11,7 +11,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 # Third-Party Imports.
-from django.test import SimpleTestCase, TestCase
+from django.test import SimpleTestCase, TestCase, override_settings
 from django.urls import reverse
 
 # Internal Imports.
@@ -255,6 +255,50 @@ class ColorCssTestCase(SimpleTestCase):
             css.index(".alert-danger {"), css.index(".modal-header {\n    border-bottom-color: #f4f4f4;\n}")
         )
 
+    def test__consistent_colors_use_each_colors_own_shades(self):
+        """consistent-colors.css points Bootstrap's shades at the color's AdminLTE shades."""
+        css = color_css.render_consistent_colors()
+
+        for line in (
+            "--pdq-primary-bootstrap-btn: var(--pdq-primary-base);",
+            "--pdq-primary-bootstrap-btn-border: var(--pdq-primary-hover);",
+            "--pdq-danger-bootstrap-btn-focus-border: var(--pdq-danger-border);",
+            "--pdq-info-bootstrap-btn-pressed: var(--pdq-info-hover);",
+            # AdminLTE's default button border is the default color's border shade.
+            "--pdq-default-bootstrap-btn-border: var(--pdq-default-border);",
+            # Default boxes and labels take the edge of the default button, so default stays apart from gray.
+            "--pdq-default-box-label: var(--pdq-default-border);",
+        ):
+            with self.subTest(line=line):
+                self.assertIn(f"    {line}\n", css)
+        for name in sorted(color_css.SHIPPED["btn"]):
+            for part in color_css.CONSISTENT_BUTTON_PARTS:
+                with self.subTest(color=name, part=part):
+                    self.assertIn(f"    --pdq-{name}-{part}: var(--pdq-{name}-", css)
+
+    def test__consistent_colors_draw_bootstrap_classes_like_adminlte(self):
+        """bg-{c} and text-{c} of Bootstrap's colors are drawn like AdminLTE's names for them, and table header rows
+        take the color itself."""
+        css = color_css.render_consistent_colors()
+
+        for rule in (
+            ".bg-info {\n"
+            "    color: var(--pdq-info-text) !important;\n"
+            "    background-color: var(--pdq-info-base) !important;\n"
+            "}",
+            ".bg-danger-active {\n"
+            "    color: var(--pdq-danger-text) !important;\n"
+            "    background-color: var(--pdq-danger-active) !important;\n"
+            "}",
+            ".text-success {\n    color: var(--pdq-success-base) !important;\n}",
+        ):
+            with self.subTest(rule=rule.split(" {")[0]):
+                self.assertIn(rule, css)
+        for name in sorted(color_css.BOOTSTRAP_TABLE_ROWS):
+            with self.subTest(table_row=name):
+                self.assertIn(f".table > thead > tr > td.{name},", css)
+                self.assertIn(f"    background-color: var(--pdq-{name}-base) !important;\n", css)
+
     def test__custom_color(self):
         """--custom prints variables and every component class for a new color."""
         color = color_css.Color("brand", base="#6610f2")
@@ -325,8 +369,8 @@ class ColorCssTestCase(SimpleTestCase):
         self.assertIn("navy", errors.getvalue())
 
 
-class ExtraColorsStylesheetTestCase(TestCase):
-    """extra-colors.css is loaded on every page."""
+class ColorStylesheetsTestCase(TestCase):
+    """Which color stylesheets a page loads, and in which order."""
 
     def test__loaded_before_dark_mode(self):
         """The page loads extra-colors.css after the color variables and before dark mode, which restyles its classes."""
@@ -337,3 +381,21 @@ class ExtraColorsStylesheetTestCase(TestCase):
         dark_mode = content.index("adminlte2_pdq/css/dark-mode/dark-mode.css")
         self.assertLess(variables, extra_colors)
         self.assertLess(extra_colors, dark_mode)
+
+    def test__consistent_colors_not_loaded_by_default(self):
+        """Without ADMINLTE2_CONSISTENT_COLORS, the page doesn't load consistent-colors.css."""
+        response = self.client.get(reverse("adminlte2_pdq:home"))
+
+        self.assertNotContains(response, "adminlte2_pdq/css/extra-colors/consistent-colors.css")
+
+    @override_settings(ADMINLTE2_CONSISTENT_COLORS=True)
+    def test__consistent_colors_loaded_before_dark_mode(self):
+        """With ADMINLTE2_CONSISTENT_COLORS, the page loads consistent-colors.css after extra-colors.css and before
+        dark mode."""
+        content = self.client.get(reverse("adminlte2_pdq:home")).content.decode()
+
+        extra_colors = content.index("adminlte2_pdq/css/extra-colors/extra-colors.css")
+        consistent_colors = content.index("adminlte2_pdq/css/extra-colors/consistent-colors.css")
+        dark_mode = content.index("adminlte2_pdq/css/dark-mode/dark-mode.css")
+        self.assertLess(extra_colors, consistent_colors)
+        self.assertLess(consistent_colors, dark_mode)

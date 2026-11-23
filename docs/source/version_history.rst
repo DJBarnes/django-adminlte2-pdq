@@ -62,6 +62,15 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Add the
+  :ref:`configuration/front_end_styling:ADMINLTE2_CONSISTENT_COLORS`
+  setting. When True, the classes that keep Bootstrap's own shades, such as
+  ``bg-info``, ``text-danger``, and a focused ``btn-primary``, and AdminLTE's
+  darker gray for default boxes and labels, use their color's AdminLTE shades
+  instead, so each color name is one color everywhere. The page loads the new
+  ``css/extra-colors/consistent-colors.css`` in the new
+  ``styles_main_fixes__consistent_colors`` block.
+
 * Add a :doc:`testing` page, on faster password hashing in tests and on
   changing the package's settings in tests.
 

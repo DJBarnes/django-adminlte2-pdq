@@ -35,6 +35,15 @@
       <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/extra-colors.css' %}">
     {% endblock styles_main_fixes__extra_colors %}
 
+    {% block styles_main_fixes__consistent_colors %}
+      {# With ADMINLTE2_CONSISTENT_COLORS, classes that keep Bootstrap's shades or AdminLte2's other default gray #}
+      {# use their color's AdminLte2 shades instead. #}
+      {% get_consistent_colors as consistent_colors %}
+      {% if consistent_colors %}
+        <link rel="stylesheet" type="text/css" href="{% static 'adminlte2_pdq/css/extra-colors/consistent-colors.css' %}">
+      {% endif %}
+    {% endblock styles_main_fixes__consistent_colors %}
+
     {% block styles_main_fixes__extra_features %}
       {# Additional features and logic to make the CSS work. #}
       {# Mostly includes compatability fixes between Django and AdminLte2. In rare cases, also contains more modern #}

@@ -340,6 +340,12 @@ def get_skin_class_dark():
 
 
 @register.simple_tag()
+def get_consistent_colors():
+    """Get whether each color name is one color on every class, instead of the stock shades. Defaults to False."""
+    return bool(getattr(settings, "ADMINLTE2_CONSISTENT_COLORS", False))
+
+
+@register.simple_tag()
 def get_skin_follow_browser():
     """Get whether the skin follows the browser's light or dark mode. Defaults to True."""
     return bool(getattr(settings, "ADMINLTE2_SKIN_FOLLOW_BROWSER", True))
