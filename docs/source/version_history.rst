@@ -1,8 +1,8 @@
 Version History
 ***************
 
-Unreleased
-==========
+0.3.0 - Dark Mode, Color Classes, Auth Fixes, and Sidebar Trees
+===============================================================
 
 Action Needed When Upgrading
 ----------------------------
