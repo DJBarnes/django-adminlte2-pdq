@@ -171,7 +171,8 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
 
     def test__render_tree__root_with_route(self):
         """render_tree renders a tree whose root has a route."""
-        self._setup_staff_user("add_permission")
+        # The user can open the sample1 root and the sample2 link.
+        self._setup_staff_user(["add_permission", "add_group", "change_group", "delete_group"])
 
         request = RequestFactory().get("/sample2/")
         request.user = self.staff_user
@@ -242,6 +243,14 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
 
         self.assertIn('<li class="treeview active">', rendered_template)
         self.assertNotIn("treeview-toggle", rendered_template)
+
+    def _render_tree_for(self, node, permissions):
+        """Render a tree on the home page, for a staff user with the given permissions. Whitespace is collapsed."""
+        self._setup_staff_user(permissions)
+        request = RequestFactory().get("/home/")
+        request.user = self.staff_user
+        context = Context({"user": self.staff_user, "node": node, "request": request})
+        return " ".join(Template("{% load sidebar_menu %}{% render_tree node %}").render(context).split())
 
     def _render_tree(self, node, path):
         """Render a tree for a staff user with the sample permissions, on the given page."""
@@ -324,6 +333,74 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
                     Context({"user": self.staff_user, "node": dict(tree_without_page), "request": request})
                 )
                 self.assertNotIn("No Page", rendered_template)
+
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
+    def test__render_tree__root_and_link_access(self):
+        """In strict mode, a tree's root and the links inside it are shown only to the users who can open them."""
+        # The sample2 root needs one of the add, change, or delete permission permissions, and the link inside the tree
+        # needs auth.add_foo or auth.change_foo.
+        tree = {
+            "route": "adminlte2_pdq:sample2",
+            "text": "My Tree",
+            "icon": "fa fa-folder",
+            "nodes": [
+                {"route": "adminlte2_pdq_tests:function-one-permission-required", "text": "Foo", "icon": "fa fa-file"}
+            ],
+        }
+        tree_link = '<a href="/sample2/" class="node-link" > <i class="fa fa-folder"></i> <span class="treeview-text"'
+        plain_link = '<a href="/sample2/" class="node-link" > <i class="fa fa-folder"></i> <span class="node-link-text"'
+        toggle_root = '<a href="#" class="node-link" > <i class="fa fa-folder"></i> <span class="treeview-text"'
+
+        for permissions, expected in {
+            "root and link": (["add_permission", "add_foo"], {"tree": True, "root link": True}),
+            "link only": (["add_foo"], {"tree": True, "root link": False}),
+            "root only": (["add_permission"], {"tree": False, "root link": True}),
+            "neither": ([], {"tree": False, "root link": False}),
+        }.items():
+            with self.subTest(permissions=permissions):
+                rendered_template = self._render_tree_for(dict(tree), expected[0])
+                expected = expected[1]
+
+                # The tree, with its link inside.
+                self.assertEqual(expected["tree"], "treeview-menu" in rendered_template)
+                self.assertEqual(expected["tree"], "Foo" in rendered_template)
+                # The root: a link in the tree, a toggle in the tree, a plain link, or nothing.
+                self.assertEqual(expected["tree"] and expected["root link"], tree_link in rendered_template)
+                self.assertEqual(expected["tree"] and not expected["root link"], toggle_root in rendered_template)
+                self.assertEqual(not expected["tree"] and expected["root link"], plain_link in rendered_template)
+                self.assertEqual(expected["tree"] or expected["root link"], "My Tree" in rendered_template)
+
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
+    def test__render_tree__nested_tree_root_only(self):
+        """In strict mode, a nested tree whose root is the only thing the user can open keeps its outer tree shown,
+        with the nested tree's root as a plain link."""
+        tree = {
+            "text": "Outer Tree",
+            "icon": "fa fa-leaf",
+            "nodes": [
+                {
+                    "route": "adminlte2_pdq:sample2",
+                    "text": "Inner Tree",
+                    "icon": "fa fa-folder",
+                    "nodes": [
+                        {
+                            "route": "adminlte2_pdq_tests:function-one-permission-required",
+                            "text": "Foo",
+                            "icon": "fa fa-file",
+                        }
+                    ],
+                },
+            ],
+        }
+
+        rendered_template = self._render_tree_for(tree, ["add_permission"])
+
+        self.assertIn("Outer Tree", rendered_template)
+        self.assertIn('<span class="node-link-text" title="Inner Tree">Inner Tree</span>', rendered_template)
+        self.assertEqual(1, rendered_template.count("treeview-menu"))
+        self.assertNotIn("Foo", rendered_template)
 
     def test__render_tree__nested_tree_without_route(self):
         """render_tree renders a nested tree without a route."""

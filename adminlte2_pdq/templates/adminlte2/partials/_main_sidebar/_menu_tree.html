@@ -9,8 +9,8 @@
     and the link works like any other link.
   {% endcomment %}
 
-  {% if node.url and node.url != "#" %}
-    {# Handle when tree root node is a valid url. #}
+  {% if root_allowed %}
+    {# Handle when tree root node is a valid url, which the user can open. #}
 
     <li class="treeview treeview-split{% if node.active %} active{% endif %}">
       <a
@@ -35,7 +35,8 @@
     </li>
 
   {% else %}
-    {# Handle when tree root node is not a url. #}
+    {# Handle when tree root node is not a url, or is a url that the user can't open. #}
+    {# The root only expands and collapses the tree. #}
 
     <li class="treeview{% if node.active %} active{% endif %}">
       <a
@@ -57,5 +58,10 @@
       </ul>
     </li>
   {% endif %}
+
+{% elif link %}
+  {# Handle when the user can open the tree root node's url, but none of the links inside the tree. #}
+  {# The root is shown as a plain link, without the tree. #}
+  {% include "adminlte2/partials/_main_sidebar/_menu_link.html" with node=link allowed=True %}
 
 {% endif %}

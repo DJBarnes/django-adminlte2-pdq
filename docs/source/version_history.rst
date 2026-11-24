@@ -7,6 +7,23 @@ Unreleased
 Action Needed When Upgrading
 ----------------------------
 
+* **Changed: a sidebar tree's root link is checked like any other link.**
+  Before, a tree was shown only when the user could open a link inside it, and
+  its root linked to its page whether or not the user could open that page.
+  Now:
+
+  * A user who can open the root's page, but no link inside the tree, sees the
+    root as a plain link. Before, the whole tree was hidden, so some users now
+    see a link they didn't see before.
+  * A user who can open a link inside the tree, but not the root's page, sees
+    a root that only expands and collapses the tree, instead of a link to a
+    page they can't open.
+  * Permission keys on a tree, such as ``permissions``, apply to its root
+    link.
+
+  Check that each tree's root page has the permissions intended for it. See
+  :ref:`menu/building_blocks:When a Tree Is Shown`.
+
 * **Changed: fuzzy whitelists are checked against the policy.**
   ``ADMINLTE2_LOGIN_EXEMPT_FUZZY_WHITELIST`` now raises
   ``ImproperlyConfigured`` at startup unless ``ADMINLTE2_USE_LOGIN_REQUIRED``

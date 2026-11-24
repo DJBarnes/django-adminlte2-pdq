@@ -149,6 +149,12 @@ def render_tree(context, node):
     """Render out a menu tree.
 
     A tree is an optional, expandable item with nodes within it.
+
+    The tree's root and the links inside it are checked separately, so the user only sees links they can open:
+     * Root and at least one link allowed: the tree, with its root as a link.
+     * Only links allowed: the tree, with its root only expanding and collapsing it.
+     * Only the root allowed: the root as a plain link, without the tree.
+     * Neither allowed: nothing.
     """
 
     # Process variables.
@@ -156,6 +162,7 @@ def render_tree(context, node):
     nodes = node.get("nodes")
     set_anchor_link_access_urls(node, nodes)
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
+    root_allowed = is_allowed_tree_root(context["user"], node)
 
     # Determine if root has an icon.
     if not node.get("icon"):
@@ -174,10 +181,19 @@ def render_tree(context, node):
         or check_for_node_that_matches_request_path(context["request"], nodes)
     )
 
+    # Without any link inside it to show, a tree whose root the user can open is rendered as a plain link.
+    link = None
+    if root_allowed and not allowed:
+        link = _get_tree_root_node(node)
+        link["title"] = link.get("text") or ""
+        link["active"] = _determine_node_active_status(node, context["request"])
+
     # Return parsed values for node.
     return {
         "node": node,
         "allowed": allowed,
+        "root_allowed": root_allowed,
+        "link": link,
         "user": context["user"],
         "request": context["request"],
     }
@@ -616,12 +632,16 @@ def check_for_one_permission_in_node_list(user, nodes):
             # Check children of this node, if any.
             child_nodes = node.get("nodes")
             if child_nodes:
-                # Found children. Recursively check.
+                # Found a nested tree. The user can open a link in it when they can open its root, which is shown as a
+                # link even when nothing inside it is, or a link inside it. Recursively check.
                 # Anchor links in a nested tree are checked against that tree's page, the same as in render_tree.
                 set_anchor_link_access_urls(node, child_nodes)
-                child_allowed = check_for_one_permission_in_node_list(user, child_nodes)
+                child_allowed = is_allowed_tree_root(user, node) or check_for_one_permission_in_node_list(
+                    user, child_nodes
+                )
                 if child_allowed:
                     allowed = True
+                    break
 
             else:
                 # No children found. Check properties of current node.
@@ -634,6 +654,28 @@ def check_for_one_permission_in_node_list(user, nodes):
                     break
 
     return allowed
+
+
+def _get_tree_root_node(tree):
+    """Get the tree's root as a link node: the tree's keys without its nodes, and a "#" route if it has none."""
+    root = {key: value for key, value in tree.items() if key != "nodes"}
+    root.setdefault("route", "#")
+    return root
+
+
+def is_allowed_tree_root(user, tree):
+    """Check if the tree's root is a link that the user can open.
+
+    The root is checked the same way as any other link: the permissions of the view it points to, or the tree's own
+    permission keys, and the whitelists. A root that isn't a link (no route or url) is never allowed.
+    """
+
+    # Get url to check against. Trees may omit a route.
+    ensure_node_has_url_property(tree, required=False)
+    if not tree["url"] or tree["url"] == "#":
+        return False
+
+    return is_allowed_node(user, _get_tree_root_node(tree))
 
 
 def check_for_login_whitelisted_node(node):

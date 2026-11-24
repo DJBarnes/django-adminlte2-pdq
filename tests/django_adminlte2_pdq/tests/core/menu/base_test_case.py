@@ -236,6 +236,26 @@ class SidebarMenuBaseTestCase(TestCase):
                     f"Expected the anchor link to be {'shown' if expected else 'hidden'}.",
                 )
 
+    def assert_tree_root_visibility(self, users, tree, row, **labels):
+        """Check that the tree's root, and so the tree, is shown or hidden for each user, as the table row says.
+
+        Use a tree with nothing inside it that the users can see, so that the tree is shown exactly when its root is.
+        The labels name the row in failure messages.
+        """
+        self.assertEqual(len(row), len(USERS), f"The row {labels} must have a column for every user.")
+        for (user_name, user), expected in zip(users.items(), row):
+            with self.subTest(**labels, user=user_name):
+                self.assertEqual(
+                    sidebar_menu.is_allowed_tree_root(user, tree),
+                    expected,
+                    f"Expected the tree root to be {'shown' if expected else 'hidden'}.",
+                )
+                self.assertEqual(
+                    sidebar_menu.check_for_one_permission_in_node_list(user, [tree]),
+                    expected,
+                    f"Expected the tree to be {'shown' if expected else 'hidden'}.",
+                )
+
     def assert_node_visibility(self, users, node, row, **labels):
         """Check that the node is shown or hidden for each user, as the table row says.
 

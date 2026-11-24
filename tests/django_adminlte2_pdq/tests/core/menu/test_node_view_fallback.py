@@ -7,6 +7,9 @@ the policy setup (the test), the view, and the user.
 
 Every row is also checked for an anchor link ("#section-a") in a tree that links to the view. An anchor link points
 inside the tree's page, so it is shown to the same users as a link to that page.
+
+And every row is checked for the root of a tree that links to the view, with nothing inside it that the user can see
+(but superusers). The root is shown as a link, and the tree, to the same users as a link to the view.
 """
 
 # System Imports.
@@ -177,6 +180,19 @@ class NodeViewFallbackTestCase(SidebarMenuBaseTestCase):
                     tree = {"route": route, "text": "Test Tree", "icon": "fa fa-folder", "nodes": [anchor_link]}
                     self.assert_anchor_link_visibility(
                         users, tree, row, view=f"{view_type} view, {kind}, anchor link in a tree", **labels
+                    )
+
+                    # Only superusers have this permission, so only superusers can see the link inside the tree.
+                    hidden_link = {
+                        "route": "#",
+                        "url": "https://example.com/",
+                        "text": "Hidden",
+                        "icon": "fa fa-file",
+                        "permissions": ["auth.no_such_permission"],
+                    }
+                    tree = {"route": route, "text": "Test Tree", "icon": "fa fa-folder", "nodes": [hidden_link]}
+                    self.assert_tree_root_visibility(
+                        users, tree, row, view=f"{view_type} view, {kind}, tree root", **labels
                     )
 
     def test__group_and_permission_names_exist(self):

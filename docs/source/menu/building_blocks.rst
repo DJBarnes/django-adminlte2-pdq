@@ -466,16 +466,31 @@ ability to expand and collapse each tree section.
 When a Tree Is Shown
 --------------------
 
-A tree is shown only when the user can see at least one of the links inside
-it, including the links in nested trees. Each link follows the same rules as
-any other node: the permissions of the view it points to (see
-:doc:`../authorization/policies`), or the node's own ``permissions``,
-``one_of_permissions``, and ``login_required`` keys. When the user can't see
-any of a tree's links, the whole tree is left out, so the sidebar never shows
-an empty tree or a tree of links the user can't open.
+The sidebar only shows links that the user can open. A tree's root, when it is
+a link (see the ``route`` and ``url`` `Tree Keys`_), and the links inside the
+tree are checked separately. Each one follows the same rules as any other
+node: the permissions of the view it points to (see
+:doc:`../authorization/policies`), or its own ``permissions``,
+``one_of_permissions``, ``login_required``, and other permission keys (see
+`Node Keys`_), and the whitelists.
 
-* The tree's own ``route`` or ``url`` (see `Tree Keys`_) doesn't count. A tree
-  whose root is a link is still hidden when none of its links are visible.
+=========================================  ==================================
+The user can open                          The sidebar shows
+=========================================  ==================================
+The root, and at least one link inside     The tree, with its root as a link
+At least one link inside, but not the      The tree, with a root that only
+root, or the root isn't a link             expands and collapses it
+The root, but no link inside               The root as a plain link, without
+                                           the tree
+Neither                                    Nothing
+=========================================  ==================================
+
+So the sidebar never shows an empty tree, a tree of links the user can't open,
+or a root link to a page the user can't open.
+
+* A nested tree counts as a link inside its outer tree when the user can open
+  its root or a link inside it, so the outer tree is shown with the nested
+  tree's root as a plain link.
 * An anchor link, with ``'route': '#'`` and a ``url`` such as
   ``'#section-a'``, points inside the page that its tree links to. It follows
   the permissions of that page's view, as if its ``url`` were
@@ -499,9 +514,9 @@ an empty tree or a tree of links the user can't open.
               {'route': '#', 'text': 'Section B', 'url': '#section-b'},
           ],
       }
-* Superusers see every tree.
+* Superusers see every tree, with its root as a link.
 * Sections follow the same rule: a section and its header are shown only when
-  the user can see at least one link in the section.
+  the user can see at least one link in the section, a tree's root included.
 
 A tree starts expanded when it is highlighted as active (see `Active
 Links`_), so the user sees where they are in the menu. Other trees start
@@ -573,12 +588,9 @@ collapses it.
 :Type: ``string``
 :Required: ``False``
 
-.. note::
-
-    The tree's link isn't checked against the permissions of the view it
-    points to; the tree is shown whenever one of its links is visible (see
-    `When a Tree Is Shown`_). Link it to a page that everyone who can see the
-    tree's links can open, such as a landing page for the section.
+The tree's link is only shown to the users who can open its page. Other users
+see a root that only expands and collapses the tree (see `When a Tree Is
+Shown`_).
 
 
 **route_args**, **route_kwargs**
