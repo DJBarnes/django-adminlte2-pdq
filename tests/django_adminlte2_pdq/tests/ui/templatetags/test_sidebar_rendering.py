@@ -3,6 +3,7 @@ Tests for rendering the sidebar menu.
 """
 
 # System Imports.
+from unittest.mock import patch
 
 # Third-party Imports.
 from django.template import Template, Context
@@ -292,6 +293,37 @@ class SidebarRenderTestCase(SidebarMenuBaseTestCase):
 
         self.assertEqual(2, rendered_template.count('<li class="treeview active">'))
         self.assertEqual(2, rendered_template.count('<ul class="treeview-menu" style="display: block;">'))
+
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.LOGIN_REQUIRED", True)
+    @patch("adminlte2_pdq.templatetags.sidebar_menu.STRICT_POLICY", True)
+    def test__render_tree__anchor_links(self):
+        """In strict mode, a tree of anchor links is shown to the users who can open the tree's page, and the links
+        still point to the anchors. A tree without a page of its own has no page to check them against."""
+        anchor_links = [
+            {"route": "#", "text": "Section A", "url": "#section-a"},
+            {"route": "#", "text": "Section B", "url": "#section-b"},
+        ]
+        tree = {"route": "adminlte2_pdq:sample2", "text": "My Page", "icon": "fa fa-file", "nodes": anchor_links}
+        tree_without_page = {"text": "No Page", "icon": "fa fa-file", "nodes": [dict(link) for link in anchor_links]}
+
+        # The sample2 page needs one of the add, change, or delete permission permissions.
+        for permission, expected in (("add_permission", True), ("add_group", False)):
+            with self.subTest(permission=permission):
+                self._setup_staff_user(permission)
+                request = RequestFactory().get("/home/")
+                request.user = self.staff_user
+                rendered_template = Template("{% load sidebar_menu %}{% render_tree node %}").render(
+                    Context({"user": self.staff_user, "node": dict(tree), "request": request})
+                )
+
+                self.assertEqual(expected, "My Page" in rendered_template)
+                self.assertEqual(expected, 'href="#section-a"' in rendered_template)
+                self.assertEqual(expected, 'href="#section-b"' in rendered_template)
+
+                rendered_template = Template("{% load sidebar_menu %}{% render_tree node %}").render(
+                    Context({"user": self.staff_user, "node": dict(tree_without_page), "request": request})
+                )
+                self.assertNotIn("No Page", rendered_template)
 
     def test__render_tree__nested_tree_without_route(self):
         """render_tree renders a nested tree without a route."""

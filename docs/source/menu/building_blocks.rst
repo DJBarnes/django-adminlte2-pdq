@@ -476,6 +476,29 @@ an empty tree or a tree of links the user can't open.
 
 * The tree's own ``route`` or ``url`` (see `Tree Keys`_) doesn't count. A tree
   whose root is a link is still hidden when none of its links are visible.
+* An anchor link, with ``'route': '#'`` and a ``url`` such as
+  ``'#section-a'``, points inside the page that its tree links to. It follows
+  the permissions of that page's view, as if its ``url`` were
+  ``'/my-page/#section-a'``, and still links to ``#section-a``. This applies to
+  the anchor links directly inside a tree whose ``route`` or ``url`` is a page
+  on the site. Elsewhere, an anchor link has no view, the same as an external
+  link (see the ``allow_anonymous_access`` and ``allow_without_permissions``
+  keys).
+
+  For example, in strict mode, the users who can open the ``my_page`` view see
+  this tree and both of its links:
+
+  .. code:: python
+
+      {
+          'route': 'my_app:my_page',
+          'text': 'My Page',
+          'icon': 'fa fa-file',
+          'nodes': [
+              {'route': '#', 'text': 'Section A', 'url': '#section-a'},
+              {'route': '#', 'text': 'Section B', 'url': '#section-b'},
+          ],
+      }
 * Superusers see every tree.
 * Sections follow the same rule: a section and its header are shown only when
   the user can see at least one link in the section.

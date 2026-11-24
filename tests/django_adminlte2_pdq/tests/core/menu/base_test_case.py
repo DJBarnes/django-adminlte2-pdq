@@ -215,6 +215,27 @@ class SidebarMenuBaseTestCase(TestCase):
                     stack.enter_context(patch(f"adminlte2_pdq.templatetags.sidebar_menu.{setting}", value))
                 yield form
 
+    def assert_anchor_link_visibility(self, users, tree, row, **labels):
+        """Check that the tree and the anchor link in it are shown or hidden for each user, as the table row says.
+
+        The tree's only node is an anchor link, so the tree is shown exactly when the link is. The labels name the row
+        in failure messages.
+        """
+        self.assertEqual(len(row), len(USERS), f"The row {labels} must have a column for every user.")
+        (anchor_link,) = tree["nodes"]
+        for (user_name, user), expected in zip(users.items(), row):
+            with self.subTest(**labels, user=user_name):
+                self.assertEqual(
+                    sidebar_menu.check_for_one_permission_in_node_list(user, [tree]),
+                    expected,
+                    f"Expected the tree to be {'shown' if expected else 'hidden'}.",
+                )
+                self.assertEqual(
+                    sidebar_menu.is_allowed_node(user, anchor_link),
+                    expected,
+                    f"Expected the anchor link to be {'shown' if expected else 'hidden'}.",
+                )
+
     def assert_node_visibility(self, users, node, row, **labels):
         """Check that the node is shown or hidden for each user, as the table row says.
 

@@ -4,6 +4,9 @@ Tests for nodes without their own permissions, which fall back to the permission
 Each table lists, for one policy setup, whether a node is shown (Y) or hidden (N) for each kind of view and each kind
 of user. Every row is checked twice: for a function view (decorators) and for a class view (mixins). A failure names
 the policy setup (the test), the view, and the user.
+
+Every row is also checked for an anchor link ("#section-a") in a tree that links to the view. An anchor link points
+inside the tree's page, so it is shown to the same users as a link to that page.
 """
 
 # System Imports.
@@ -166,12 +169,15 @@ class NodeViewFallbackTestCase(SidebarMenuBaseTestCase):
             labels = {"whitelists": form} if form else {}
             for view_type in VIEW_TYPES:
                 for kind, row in table.items():
-                    node = {
-                        "route": VIEW_ROUTES[kind].format(view_type=view_type),
-                        "text": "Test Node",
-                        "icon": "fa fa-file",
-                    }
+                    route = VIEW_ROUTES[kind].format(view_type=view_type)
+                    node = {"route": route, "text": "Test Node", "icon": "fa fa-file"}
                     self.assert_node_visibility(users, node, row, view=f"{view_type} view, {kind}", **labels)
+
+                    anchor_link = {"route": "#", "url": "#section-a", "text": "Section A", "icon": "fa fa-file"}
+                    tree = {"route": route, "text": "Test Tree", "icon": "fa fa-folder", "nodes": [anchor_link]}
+                    self.assert_anchor_link_visibility(
+                        users, tree, row, view=f"{view_type} view, {kind}, anchor link in a tree", **labels
+                    )
 
     def test__group_and_permission_names_exist(self):
         """Every permission and group the users get exists, so no user silently has fewer than intended."""

@@ -154,6 +154,7 @@ def render_tree(context, node):
     # Process variables.
     ensure_node_has_url_property(node, required=False)
     nodes = node.get("nodes")
+    set_anchor_link_access_urls(node, nodes)
     allowed = check_for_one_permission_in_node_list(context["user"], nodes)
 
     # Determine if root has an icon.
@@ -616,6 +617,8 @@ def check_for_one_permission_in_node_list(user, nodes):
             child_nodes = node.get("nodes")
             if child_nodes:
                 # Found children. Recursively check.
+                # Anchor links in a nested tree are checked against that tree's page, the same as in render_tree.
+                set_anchor_link_access_urls(node, child_nodes)
                 child_allowed = check_for_one_permission_in_node_list(user, child_nodes)
                 if child_allowed:
                     allowed = True
@@ -671,7 +674,8 @@ def _is_whitelisted_node(node, whitelist, fuzzy_whitelist):
 
 def _get_node_path(node):
     """Get the path of the node's url on this site. None for placeholder and external urls."""
-    url = node.get("url")
+    # An anchor link in a tree is checked against the tree's page (see set_anchor_link_access_urls).
+    url = node.get("access_url") or node.get("url")
     if url is None:
         route = node.get("route", "#")
         if route == "#":
@@ -683,6 +687,34 @@ def _get_node_path(node):
 
     path = url.split("#")[0]
     return path if path.startswith("/") else None
+
+
+def is_anchor_url(url):
+    """Determine if a url is only an anchor on the current page, such as "#section-a". The "#" placeholder isn't."""
+    return bool(url) and url.startswith("#") and url != "#"
+
+
+def set_anchor_link_access_urls(tree, nodes):
+    """Check the tree's anchor links against the page that the tree links to.
+
+    An anchor link (a "#" route with a url such as "#section-a") points inside a page, but has no view of its own to
+    take permissions from. In a tree whose root links to a page, it points inside that page. So for access checks, it
+    is treated as that anchor on the tree's page ("/my-page/#section-a"), and its node is shown to the users who can
+    see a link to that page. The link itself still points to "#section-a".
+
+    Sets "access_url" on each of the tree's direct anchor links. Anchor links in a tree without a page of its own are
+    left as they are.
+    """
+
+    # Get the path of the page that the tree links to, if any.
+    tree_path = _get_node_path(tree)
+    if not tree_path:
+        return
+
+    # Handle for each direct node in the tree. Nested trees handle their own anchor links.
+    for node in nodes or []:
+        if node.get("route") == "#" and is_anchor_url(node.get("url")):
+            node["access_url"] = tree_path + node["url"]
 
 
 # endregion Permission Handling Functions
@@ -699,7 +731,8 @@ def get_view_from_node(node):
         route_args = node.get("route_args", [])
         route_kwargs = node.get("route_kwargs", {})
         # Get url value, if present.
-        url_with_hash = node.get("url", None)
+        # An anchor link in a tree is checked against the tree's page (see set_anchor_link_access_urls).
+        url_with_hash = node.get("access_url") or node.get("url", None)
         url = url_with_hash.split("#")[0] if url_with_hash else None
 
         try:

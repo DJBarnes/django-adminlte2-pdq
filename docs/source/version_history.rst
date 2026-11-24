@@ -62,6 +62,13 @@ Action Needed When Upgrading
 Other Changes
 -------------
 
+* Fix sidebar trees of anchor links being hidden. In login-required and strict
+  mode, a tree whose links were only anchors on its own page (``'url':
+  '#section-a'``) was hidden from every user except superusers, because an
+  anchor link has no view to take permissions from. An anchor link directly
+  inside a tree that links to a page now follows the permissions of that page's
+  view. See :ref:`menu/building_blocks:When a Tree Is Shown`.
+
 * Fix sidebar trees starting expanded when they don't hold the current page.
   A tree started expanded when a link in it had a url that the current page's
   url starts with, such as a link to ``/`` or a link with
