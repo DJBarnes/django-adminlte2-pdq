@@ -47,7 +47,8 @@ body {
   position: relative;
 }
 .layout-boxed {
-  background: url('../img/boxed-bg.jpg') repeat fixed;
+  /* adminlte2-pdq: path corrected from ../img/, which doesn't exist from this alt/ folder. */
+  background: url('../../img/boxed-bg.jpg') repeat fixed;
 }
 /*
  * Content Wrapper - contains the main content

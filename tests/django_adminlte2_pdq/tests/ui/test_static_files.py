@@ -4,10 +4,13 @@ Tests for the package's static files and the template references to them.
 
 # System Imports.
 import re
+import tempfile
 from pathlib import Path
 
 # Third-Party Imports.
-from django.test import SimpleTestCase
+import django
+from django.core.management import call_command
+from django.test import SimpleTestCase, override_settings
 
 # Internal Imports.
 import adminlte2_pdq
@@ -18,6 +21,8 @@ PACKAGE_DIR = Path(adminlte2_pdq.__file__).resolve().parent
 STATIC_DIR = PACKAGE_DIR / "static"
 TEMPLATE_DIR = PACKAGE_DIR / "templates"
 PDQ_STATIC_DIR = STATIC_DIR / "adminlte2_pdq"
+
+MANIFEST_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 
 class StaticFilesTestCase(SimpleTestCase):
@@ -45,3 +50,22 @@ class StaticFilesTestCase(SimpleTestCase):
             for path in pattern.findall(stylesheet.read_text(encoding="utf-8")):
                 with self.subTest(stylesheet=str(stylesheet.relative_to(PDQ_STATIC_DIR)), path=path):
                     self.assertTrue((stylesheet.parent / path).resolve().is_file(), f"{path} does not exist.")
+
+    def test__collectstatic_with_manifest_storage(self):
+        """collectstatic works with ManifestStaticFilesStorage, which fails on any url(), @import, or source map that
+        points at a missing file, in any static file, vendored ones included."""
+        if django.VERSION >= (4, 2):
+            storage_settings = {
+                "STORAGES": {
+                    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+                    "staticfiles": {"BACKEND": MANIFEST_STORAGE},
+                }
+            }
+        else:
+            storage_settings = {"STATICFILES_STORAGE": MANIFEST_STORAGE}
+
+        with tempfile.TemporaryDirectory() as static_root:
+            with override_settings(STATIC_ROOT=static_root, **storage_settings):
+                call_command("collectstatic", interactive=False, verbosity=0)
+
+            self.assertTrue((Path(static_root) / "staticfiles.json").is_file())

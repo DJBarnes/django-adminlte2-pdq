@@ -1,6 +1,16 @@
 Version History
 ***************
 
+Unreleased
+==========
+
+* Fix ``collectstatic`` failing with ``ManifestStaticFilesStorage``, or a
+  storage based on it such as WhiteNoise's
+  ``CompressedManifestStaticFilesStorage``. AdminLTE's
+  ``css/alt/AdminLTE-without-plugins.css`` and ``.min.css`` referenced
+  ``../img/boxed-bg.jpg``, which doesn't exist from that folder. They now
+  reference the package's copy of the image.
+
 0.3.0 - Dark Mode, Color Classes, Auth Fixes, and Sidebar Trees
 ===============================================================
 
