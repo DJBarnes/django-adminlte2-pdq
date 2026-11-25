@@ -142,7 +142,8 @@ class AuthMiddleware:
             return redirect(HOME_ROUTE)
 
         # Raise errors on conflicting decorator/mixin states.
-        self.check_main_error_states(request, view_data)
+        # This runs before the login check, so that a misconfigured view fails for every visitor, logged in or not.
+        self.check_configuration_errors(request, view_data)
 
         # Tell the allow_without_permissions decorator and mixin whether the view is login whitelisted.
         # They require login themselves, unless the view is in a login whitelist.
@@ -156,9 +157,11 @@ class AuthMiddleware:
             # Redirect to login page.
             return self.redirect_to_login_page(request)
 
-        # Check any post login error states.
-        # NOTE: This call need to happen after we do the above Login Required checking.
-        self.check_post_login_check_error_states(request, view_data)
+        # Warn about decorator/mixin states that work, but probably don't do what was intended.
+        # This runs after the login check. A user who is sent to the login page is there because they aren't logged in,
+        # and the warnings only make sense once they are. An anonymous user who passes the login check, such as on a
+        # login whitelisted view, still gets them.
+        self.check_configuration_warnings(request, view_data)
 
         # Handle if view requires specific user permissions to proceed.
         # Determined by combination of the ADMINLTE2_USE_STRICT_POLICY and ADMINLTE2_STRICT_POLICY_WHITELIST settings.
@@ -210,25 +213,24 @@ class AuthMiddleware:
 
         return response
 
-    def check_main_error_states(self, request, view_data):
-        """Check for various conflicting decorator/mixin states, raise error upon finding any."""
+    def check_configuration_errors(self, request, view_data):
+        """Check for decorator/mixin states that conflict with the policy or the whitelists, and raise
+        ImproperlyConfigured upon finding any.
+
+        Runs before the login check, so a misconfigured view fails for every visitor. The states that work, but
+        probably not as intended, are warnings instead (see check_configuration_warnings).
+        """
 
         # Check if view is in any whitelists.
         is_login_whitelisted = self.is_login_whitelisted(view_data)
         is_perm_whitelisted = self.is_permission_whitelisted(view_data)
-        view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
 
         # Pull out some data from the view_data for easier processing
         view_decorator_name = view_data["decorator_name"]
         view_type = view_data["view_type"]
         view_name = view_data["view_name"]
         view_perm_type = view_data["view_perm_type"]
-
-        # Get the actual name of the decorator used based on whether it is a function-based or class-based view.
-        if view_perm_type == "decorator":
-            decorator_name = view_decorator_name
-        else:
-            decorator_name = view_decorator_name.replace("_", " ").title().replace(" ", "")
+        decorator_name = self.decorator_display_name(view_data)
 
         # Handle if using login_required decorator within STRICT mode or Login Required mode.
         if (STRICT_POLICY or LOGIN_REQUIRED) and view_decorator_name == "login_required":
@@ -284,49 +286,62 @@ class AuthMiddleware:
             )
             raise ImproperlyConfigured(error_message)
 
-        # Handle if view is strict-mode whitelisted but using a decorator/mixin state that doesn't make sense.
-        if is_perm_whitelisted:
-            # Whitelisted, yet using a decorator that requires permissions. Raise error.
-            if view_decorator_name == "permission_required":
-                error_message = (
-                    f"AdminLtePdq Error: The {view_type} view '{view_name}' has a permission {view_perm_type}, "
-                    "but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
-                )
-                raise ImproperlyConfigured(error_message)
+        # Handle if view is strict-mode whitelisted, yet using a decorator that requires permissions.
+        if is_perm_whitelisted and view_decorator_name == "permission_required":
+            error_message = (
+                f"AdminLtePdq Error: The {view_type} view '{view_name}' has a permission {view_perm_type}, "
+                "but is in the ADMINLTE2_STRICT_POLICY_WHITELIST setting. Please remove one."
+            )
+            raise ImproperlyConfigured(error_message)
 
-            # Whitelisted, and using a decorator that also removes permissions. Raise warning.
-            if view_decorator_name == "allow_without_permissions":
-                warning_message = (
-                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
-                    f"{view_perm_type}, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. These two effectively "
-                    "achieve the same functionality."
-                )
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
+        # Handle if view is login whitelisted, yet using a decorator that requires login.
+        if is_login_whitelisted and view_decorator_name == "login_required":
+            error_message = (
+                f"AdminLtePdq Error: The {view_type} view '{view_name}' has a '{decorator_name}' "
+                f"{view_perm_type}, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
+            )
+            raise ImproperlyConfigured(error_message)
+
+    def check_configuration_warnings(self, request, view_data):
+        """Check for decorator/mixin states that work, but probably don't do what was intended, and warn upon finding
+        any. In DEBUG mode, each warning is also shown as a message on the page.
+
+        Runs after the login check, so a user who is sent to the login page because they aren't logged in doesn't get
+        warnings that only make sense once they are. The states that can't work are errors instead (see
+        check_configuration_errors), which run before the login check.
+        """
+
+        # Check if view is in any whitelists.
+        is_login_whitelisted = self.is_login_whitelisted(view_data)
+        is_perm_whitelisted = self.is_permission_whitelisted(view_data)
+        view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
+
+        # Pull out some data from the view_data for easier processing
+        view_decorator_name = view_data["decorator_name"]
+        view_type = view_data["view_type"]
+        view_name = view_data["view_name"]
+        view_perm_type = view_data["view_perm_type"]
+        decorator_name = self.decorator_display_name(view_data)
+
+        # Handle if view is strict-mode whitelisted, and using a decorator that also removes permissions.
+        if is_perm_whitelisted and view_decorator_name == "allow_without_permissions":
+            self.warn(
+                request,
+                f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
+                f"{view_perm_type}, but is also in the ADMINLTE2_STRICT_POLICY_WHITELIST. These two effectively "
+                "achieve the same functionality.",
+            )
 
         # Handle if view is login whitelisted but using a decorator/mixin state that doesn't make sense.
         if is_login_whitelisted:
-            # Whitelisted, yet using a decorator that requires login. Raise error.
-            if view_decorator_name == "login_required":
-                error_message = (
-                    f"AdminLtePdq Error: The {view_type} view '{view_name}' has a '{decorator_name}' "
-                    f"{view_perm_type}, but is in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST setting. Please remove one."
-                )
-                raise ImproperlyConfigured(error_message)
-
-            # Whitelisted, and using a decorator that also removes permissions. Raise warning.
+            # Whitelisted, and using a decorator that also removes login. Raise warning.
             if view_decorator_name == "allow_anonymous_access":
-                warning_message = (
+                self.warn(
+                    request,
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' has an '{decorator_name}' "
                     f"{view_perm_type}, but is also in the ADMINLTE2_LOGIN_EXEMPT_WHITELIST. These two effectively "
-                    "achieve the same functionality."
+                    "achieve the same functionality.",
                 )
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
 
             # Handle if whitelists don't make sense.
             # Specifically if view is login whitelisted, but permissions are still required in some way.
@@ -350,32 +365,25 @@ class AuthMiddleware:
                 else:
                     suggested_decorator = "AllowWithoutPermissions"
 
-                warning_message = (
+                self.warn(
+                    request,
                     f"AdminLtePdq Warning: The {view_type} view '{view_name}' is login whitelisted, but the view "
                     "still requires permissions. A user must login to have permissions, so the login whitelist is "
                     "redundant and probably not achieving the desired effect. Correct this by adding the view to "
                     "the permission whitelist setting (ADMINLTE2_STRICT_POLICY_WHITELIST), or by adding the "
-                    f"'{suggested_decorator}' {view_perm_type}."
+                    f"'{suggested_decorator}' {view_perm_type}.",
                 )
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
 
-        # Handle if view is a permission view but does NOT have permission requirements defined.
-        if self.view_missing_permissions(view_data):
-            warning_message = self.missing_permissions_message(view_data)
-            if settings.DEBUG:
-                # Warning if in development mode.
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
-            else:
-                # In production, log the problem for the developers. The request continues, so the user gets
-                # the same response as for any other page they can't access: the login page if not logged in,
-                # otherwise the 403 handling, since no user has the view's (undefined) permissions.
-                logger.error(warning_message)
+        # Handle if the view can't be opened by anyone, because it requires permissions but doesn't set any.
+        # In production, log the problem for the developers. The request continues, so the user gets the same
+        # response as for any other page they can't access: the 403 handling, since no user has the view's
+        # (undefined) permissions.
+        if self.strict_view_without_decorator(request, view_data):
+            # Strict mode, and the view has no decorator or mixin. Function and class views are treated the same.
+            self.warn(request, self.strict_view_without_decorator_message(view_data), production_log=True)
+        elif self.permission_view_without_permissions(view_data):
+            # The decorator or mixin requires permissions, but doesn't set any.
+            self.warn(request, self.missing_permissions_message(view_data), production_log=True)
 
         # Handle if view is permission exempt view, but has permission requirements defined.
         if (
@@ -384,74 +392,82 @@ class AuthMiddleware:
             # But permission values are defined.
             and view_defines_permissions
         ):
-            if settings.DEBUG:
-                # Warning if in development mode.
-                warning_message = (
-                    f"AdminLtePdq Warning: The {view_type} view '{view_name}' is permission exempt, "
-                    "but has some permission requirements set. "
-                    "This means that this view is accessible to anyone authenticated, and the "
-                    "permissions are ineffective.\n"
-                    "\n\n"
-                    "For further information, please see the docs: "
-                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-                )
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
+            self.warn(
+                request,
+                f"AdminLtePdq Warning: The {view_type} view '{view_name}' is permission exempt, "
+                "but has some permission requirements set. "
+                "This means that this view is accessible to anyone authenticated, and the "
+                "permissions are ineffective.\n"
+                "\n\n"
+                "For further information, please see the docs: "
+                "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy",
+                debug_only=True,
+            )
 
-    def check_post_login_check_error_states(self, request, view_data):
-        """Check for various permission required errors
-        This check needs to happen after the redirect for login required checks, so it is separate from the
-        other error states above. Combining them is #42."""
+    @staticmethod
+    def warn(request, warning_message, production_log=False, debug_only=False):
+        """Raise a configuration warning, and show it as a message on the page.
 
-        view_missing_decorators = view_data["decorator_name"] not in [
-            "login_required",
-            "permission_required",
-            "allow_anonymous_access",
-            "allow_without_permissions",
-        ]
+        :param production_log: In production (DEBUG = False), log the warning as an error for the developers instead.
+        :param debug_only: Only warn in DEBUG mode.
+        """
+        if not settings.DEBUG and production_log:
+            logger.error(warning_message)
+            return
+        if not settings.DEBUG and debug_only:
+            return
 
-        view_type = view_data["view_type"]
+        # Create console warning message.
+        warnings.warn(warning_message, RuntimeWarning)
+        # Create Django Messages warning.
+        messages.warning(request, warning_message)
 
-        # Handle if using Strict mode and there are no permission set on the view.
-        if (
+    @staticmethod
+    def decorator_display_name(view_data):
+        """The name of the view's decorator, or of its mixin class for a class-based view."""
+        if view_data["view_perm_type"] == "decorator":
+            return view_data["decorator_name"]
+        return view_data["decorator_name"].replace("_", " ").title().replace(" ", "")
+
+    def strict_view_without_decorator(self, request, view_data):
+        """Determines if, in strict mode, the view has no decorator or mixin, and isn't exempt from permissions.
+
+        No user can pass the permission check for such a view, function or class based.
+        """
+        return (
             # In strict mode
             STRICT_POLICY
-            # and view is function-based
-            and view_type == "function-based"
-            # and missing decorators
-            and view_missing_decorators
-            # and the view is not exempt from requiring permissions
-            and not self.view_is_permission_exempt(request, view_data)
-            # and the view does not have any one of permissions set
+            # and the view has no decorator or mixin
+            and not view_data["decorator_name"]
+            # and the view does not have any permissions set
             and not view_data["one_of_permissions"]
-            # and the view does not have any full permissions set
             and not view_data["full_permissions"]
             # and not login required
             and not view_data["login_required"]
-        ):
+            # and the view is not exempt from requiring permissions
+            and not self.view_is_permission_exempt(request, view_data)
+        )
 
-            view_name = view_data["view_name"]
-            view_perm_type = view_data["view_perm_type"]
+    @staticmethod
+    def strict_view_without_decorator_message(view_data):
+        """The explanation for a view without a decorator or mixin in strict mode."""
+        view_perm_type = view_data["view_perm_type"]
+        return (
+            "AdminLtePdq Warning: This project is set to run in strict mode, and "
+            f"the {view_data['view_type']} view '{view_data['view_name']}' does not have any {view_perm_type}s set. "
+            f"This means that this view is inaccessible until permission {view_perm_type}s "
+            "are set for the view, or the view is added to the "
+            "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
+            "\n\n"
+            "For further information, please see the docs: "
+            "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
+        )
 
-            if settings.DEBUG:
-                # Warning if in development mode.
-                warning_message = (
-                    "AdminLtePdq Warning: This project is set to run in strict mode, and "
-                    f"the {view_type} view '{view_name}' does not have any {view_perm_type}s set. "
-                    f"This means that this view is inaccessible until permission {view_perm_type}s "
-                    "are set for the view, or the view is added to the "
-                    "ADMINLTE2_STRICT_POLICY_WHITELIST setting."
-                    "\n\n"
-                    "For further information, please see the docs: "
-                    "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-                )
-                # Create console warning message.
-                warnings.warn(warning_message, RuntimeWarning)
-                # Create Django Messages warning.
-                messages.warning(request, warning_message)
-            # In production, the 403 handling in run_auth_checks adds the production message.
+    @staticmethod
+    def permission_view_without_permissions(view_data):
+        """Determines if the view's decorator or mixin requires permissions, but the view doesn't set any."""
+        view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
+        return view_data["decorator_name"] == "permission_required" and not view_defines_permissions
 
     def view_missing_permissions(self, view_data):
         """Determines if the view requires permissions, but does not define any.

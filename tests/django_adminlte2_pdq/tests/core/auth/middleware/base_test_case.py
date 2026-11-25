@@ -34,10 +34,12 @@ class MiddlewareBaseTestCase(TestCase):
 
     # region Expected Test Messages
 
-    pdq_strict__no_permissions_set_message = (
-        "AdminLtePdq Warning: The class-based view 'StandardView' has permission requirements, "
-        "but does not have any permissions set. This means that this view is inaccessible until "
-        "permissions are set for the view.\n\n\nFor further information, please see the docs: "
+    # The warning for StandardView, a class view without a mixin, in strict mode.
+    pdq_strict__no_mixins_message = (
+        "AdminLtePdq Warning: This project is set to run in strict mode, and the class-based view 'StandardView' "
+        "does not have any mixins set. This means that this view is inaccessible until permission mixins are set "
+        "for the view, or the view is added to the ADMINLTE2_STRICT_POLICY_WHITELIST setting.\n\n"
+        "For further information, please see the docs: "
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
     )
 

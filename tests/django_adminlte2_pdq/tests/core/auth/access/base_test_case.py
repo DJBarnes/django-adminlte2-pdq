@@ -10,7 +10,8 @@ cell is the expected outcome of the user opening the view:
     E = The middleware raises ImproperlyConfigured (the view's decorator or mixin conflicts with the policy).
 
 Every row is checked for a function view (decorators) and for a class view (mixins). Every cell also checks the exact
-set of warnings the middleware raises, and that each warning is also shown as a message. The whitelist tests run every
+set of warnings the middleware raises, and that each warning is also shown as a message. The middleware raises warnings
+after its login check, so a user it sends to the login page gets none. The whitelist tests run every
 table twice: with each view's route in the whitelist (exact), and with the views' path prefix in the matching fuzzy
 whitelist (fuzzy).
 """
@@ -28,6 +29,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django_expanded_test_cases import IntegrationTestCase
 
 # Internal Imports.
+from adminlte2_pdq import middleware
 from adminlte2_pdq.constants import LOGIN_EXEMPT_WHITELIST, STRICT_POLICY_WHITELIST
 
 
@@ -252,15 +254,6 @@ MESSAGES = {
         "For further information, please see the docs: "
         "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
     ),
-    "missing_permissions": (
-        "AdminLtePdq Warning: The {based} view '{view}' has permission "
-        "requirements, but does not have any permissions set. "
-        "This means that this view is inaccessible until permissions "
-        "are set for the view.\n"
-        "\n\n"
-        "For further information, please see the docs: "
-        "https://django-adminlte2-pdq.readthedocs.io/en/latest/authorization/policies.html#strict-policy"
-    ),
 }
 
 
@@ -272,20 +265,33 @@ def message(name, view_type, row, **extra):
 class Notice:
     """A warning the middleware raises for a row, which is also shown as a message (DEBUG mode).
 
-    By default the notice applies to both view types and to every user. With logged_in_only, only users who pass
-    the login check get it, because the middleware raises it after that check.
+    By default the notice applies to both view types. The middleware raises it after its login check, so only the
+    users who pass that check get it (see passes_login_check).
     """
 
-    def __init__(self, name, view_type=None, logged_in_only=False):
+    def __init__(self, name, view_type=None):
         self.name = name
         self.view_type = view_type
-        self.logged_in_only = logged_in_only
 
-    def applies(self, view_type, user):
-        """Whether the user gets this notice, when opening the view type."""
-        if self.view_type not in (None, view_type):
-            return False
-        return not self.logged_in_only or (user.is_authenticated and user.is_active)
+    def applies(self, view_type):
+        """Whether the notice applies to the view type."""
+        return self.view_type in (None, view_type)
+
+
+def passes_login_check(row, user, whitelists):
+    """Whether the user gets past the middleware's login check, on the row's view.
+
+    A logged in user always does. An anonymous user, or an inactive user, who can't log in, does when the view doesn't
+    require login: no login-required policy and no login requirement on the view, or the view allows anonymous access
+    or is in the login whitelist.
+    """
+    if user.is_authenticated and user.is_active:
+        return True
+    if row == "allow_anonymous_access" or "login" in whitelists:
+        return True
+    view_requires_login = bool((VIEWS[row]["data"] or {}).get("login_required"))
+    # Read through the module, so the test's patch of the policy applies.
+    return not (middleware.LOGIN_REQUIRED or view_requires_login)
 
 
 class AccessTestCase(IntegrationTestCase):
@@ -353,7 +359,7 @@ class AccessTestCase(IntegrationTestCase):
                                 expected_notices = [
                                     message(notice.name, view_type, row)
                                     for notice in notices.get(row, [])
-                                    if notice.applies(view_type, user)
+                                    if notice.applies(view_type) and passes_login_check(row, user, whitelists)
                                 ]
                                 self.assert_outcome(view_type, row, user, outcome, expected_notices, errors.get(row))
 

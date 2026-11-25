@@ -3,6 +3,7 @@ Tests for Mixin login in project "strict" authentication mode.
 """
 
 # System Imports.
+import warnings
 from unittest.mock import patch
 
 # Third-Party Imports.
@@ -229,7 +230,8 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
-                with warns(Warning) as warning_info:
+                with warnings.catch_warnings(record=True) as caught:
+                    warnings.simplefilter("always")
                     response = self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-conflicting-permissions",
@@ -244,19 +246,15 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                             "Remember Me",
                             "I forgot my password",
                         ],
-                        expected_messages=[
+                        expected_not_messages=[
                             self.pdq__allow_without_permissions__conflicting_message,
                         ],
                     )
 
-                # Collect actual warnings that occurred.
-                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
-                # Define expected warnings that should have occurred.
-                expected_warns = {
-                    (RuntimeWarning, self.pdq__allow_without_permissions__conflicting_message),
-                }
-                # Assert warnings match.
-                self.assertEqual(expected_warns, actual_warns)
+                # The warnings come after the login check, so a user sent to the login page doesn't get them.
+                self.assertEqual(
+                    [], [str(warning.message) for warning in caught if "AdminLtePdq" in str(warning.message)]
+                )
 
                 # Verify values associated with returned view.
                 self.assertAdminPdqData(response, is_empty=True)
@@ -309,7 +307,8 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
-                with warns(Warning) as warning_info:
+                with warnings.catch_warnings(record=True) as caught:
+                    warnings.simplefilter("always")
                     response = self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-one-permission-missing-permissions",
@@ -324,19 +323,15 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                             "Remember Me",
                             "I forgot my password",
                         ],
-                        expected_messages=[
+                        expected_not_messages=[
                             self.pdq__no_permissions_one__message,
                         ],
                     )
 
-                # Collect actual warnings that occurred.
-                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
-                # Define expected warnings that should have occurred.
-                expected_warns = {
-                    (RuntimeWarning, self.pdq__no_permissions_one__message),
-                }
-                # Assert warnings match.
-                self.assertEqual(expected_warns, actual_warns)
+                # The warnings come after the login check, so a user sent to the login page doesn't get them.
+                self.assertEqual(
+                    [], [str(warning.message) for warning in caught if "AdminLtePdq" in str(warning.message)]
+                )
 
                 # Verify values associated with returned view.
                 # Was redirected to login so should be no data.
@@ -391,7 +386,8 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
             with self.subTest(user=user_str):
 
                 #  Verify we get the expected page.
-                with warns(Warning) as warning_info:
+                with warnings.catch_warnings(record=True) as caught:
+                    warnings.simplefilter("always")
                     response = self.assertGetResponse(
                         # View setup.
                         "adminlte2_pdq_tests:class-bleeding-full-permission-missing-permissions",
@@ -406,19 +402,15 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
                             "Remember Me",
                             "I forgot my password",
                         ],
-                        expected_messages=[
+                        expected_not_messages=[
                             self.pdq__no_permissions_full__message,
                         ],
                     )
 
-                # Collect actual warnings that occurred.
-                actual_warns = {(warn.category, warn.message.args[0]) for warn in warning_info}
-                # Define expected warnings that should have occurred.
-                expected_warns = {
-                    (RuntimeWarning, self.pdq__no_permissions_full__message),
-                }
-                # Assert warnings match.
-                self.assertEqual(expected_warns, actual_warns)
+                # The warnings come after the login check, so a user sent to the login page doesn't get them.
+                self.assertEqual(
+                    [], [str(warning.message) for warning in caught if "AdminLtePdq" in str(warning.message)]
+                )
 
                 # Verify values associated with returned view.
                 # Was redirected to login so should be no data.

@@ -4,6 +4,18 @@ Version History
 Unreleased
 ==========
 
+* The middleware's configuration warnings now come after its login check. A
+  user who isn't logged in is sent to the login page without them, where
+  before some warnings were shown as messages on the login page. Configuration
+  errors are still raised for every visitor. See
+  :ref:`authorization/policies:Views Without Permissions`.
+
+* Under the strict policy, function-based views without a decorator and
+  class-based views without a mixin get the same warning, which names the
+  whitelist setting as a fix. Before, class-based views got a different
+  warning. In production, both are now logged at the ``ERROR`` level, where
+  before only class-based views were.
+
 * Fix the form field filters failing with an ``AttributeError`` on a field
   the form doesn't have, such as ``{{ form.email|with_placeholder:'Email' }}``
   on a form without an ``email`` field. ``fieldtype`` and every ``with_*``

@@ -385,20 +385,28 @@ Views Without Permissions
 
 A view that requires permissions but does not define any can't be accessed
 by any user. This happens when a view uses ``permission_required`` (or a
-permission mixin) without listing permissions, or when a class-based view
-under the strict policy has no mixin and no whitelist entry.
+permission mixin) without listing permissions, or when a view under the strict
+policy has no decorator or mixin and no whitelist entry.
 
 The package reports these views in three ways:
 
 * **System check:** ``manage.py check``, ``runserver``, ``migrate``, and the
   test runner list each such view as warning ``adminlte2_pdq.W001``. This needs
   no setup: it runs whenever the package and ``AuthMiddleware`` are installed.
+  Under the strict policy, it lists class-based views without a mixin, but not
+  yet function-based views without a decorator.
 * **Development:** when ``DEBUG`` is True, visiting the view shows a warning
   message and writes a ``RuntimeWarning``.
 * **Production:** when ``DEBUG`` is False, visiting the view logs the problem
   at the ``ERROR`` level on the ``adminlte2_pdq.middleware`` logger. The user
-  gets the same response as for any page they can't access: the login page
-  when not logged in, otherwise the 403 handling.
+  gets the same response as for any page they can't access: the 403 handling.
+
+The warning message and the log entry come after the login check. A user who
+isn't logged in is sent to the login page first, without them, because the
+reason they can't open the page is that they aren't logged in. The package's
+other configuration warnings, such as a view that is in a whitelist and also
+has a decorator that does the same thing, work the same way. Configuration
+errors (``ImproperlyConfigured``) are raised for every visitor.
 
 To turn off the system check, add it to Django's
 ``SILENCED_SYSTEM_CHECKS`` setting:

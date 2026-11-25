@@ -100,8 +100,7 @@ class StrictModeAccessTestCase(AccessTestCase):
             STRICT_MODE,
             notices={
                 "none": [
-                    Notice("strict_mode__no_decorators", "function", logged_in_only=True),
-                    Notice("missing_permissions", "class"),
+                    Notice("strict_mode__no_decorators"),
                 ],
             },
             errors={
@@ -119,8 +118,7 @@ class StrictModeAccessTestCase(AccessTestCase):
             notices={
                 "none": [
                     Notice("ineffective_login_whitelist"),
-                    Notice("strict_mode__no_decorators", "function"),
-                    Notice("missing_permissions", "class"),
+                    Notice("strict_mode__no_decorators"),
                 ],
                 "allow_anonymous_access": [
                     Notice("allow_anonymous_access_and_login_whitelist"),

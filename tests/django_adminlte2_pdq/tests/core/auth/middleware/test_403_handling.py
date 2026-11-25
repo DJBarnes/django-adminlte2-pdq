@@ -27,15 +27,31 @@ class StrictMode403HandlingTestCase(MiddlewareBaseTestCase):
     """Test the 403 handling in strict mode."""
 
     @override_settings(DEBUG=False)
+    def test__view_without_decorator_or_mixin_in_production__both_view_types(self):
+        """In production, function and class views without a decorator or mixin log the same problem."""
+        self.client.force_login(self.test_user_no_perms)
+
+        for view_type, view_name, kind in (
+            ("function", "standard_view", "decorator"),
+            ("class", "StandardView", "mixin"),
+        ):
+            with self.subTest(view_type=view_type):
+                with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
+                    self.client.get(reverse(f"adminlte2_pdq_tests:{view_type}-standard"))
+
+                self.assertEqual(1, len(logs.output))
+                self.assertIn(f"the {view_type}-based view '{view_name}' does not have any {kind}s set", logs.output[0])
+
+    @override_settings(DEBUG=False)
     def test__view_without_permissions_in_production(self):
-        """In production, a view with permission requirements but no permissions logs the problem, and the user
-        gets the 403 handling: a redirect home with the 403 production message."""
+        """In production, a view that no user can open, here a class view without a mixin in strict mode, logs the
+        problem, and the user gets the 403 handling: a redirect home with the 403 production message."""
         self.client.force_login(self.test_user_no_perms)
 
         with self.assertLogs("adminlte2_pdq.middleware", level="ERROR") as logs:
             response = self.client.get(reverse("adminlte2_pdq_tests:class-standard"))
 
-        self.assertEqual(["ERROR:adminlte2_pdq.middleware:" + self.pdq_strict__no_permissions_set_message], logs.output)
+        self.assertEqual(["ERROR:adminlte2_pdq.middleware:" + self.pdq_strict__no_mixins_message], logs.output)
         self.assertRedirects(response, reverse("adminlte2_pdq:home"), fetch_redirect_response=False)
         self.assertEqual(
             [RESPONSE_403_PRODUCTION_MESSAGE], [str(message) for message in get_messages(response.wsgi_request)]
@@ -70,7 +86,8 @@ class Serve403FuzzyWhitelistTestCase(MiddlewareBaseTestCase):
         self.assertEqual(response.status_code, 403)
 
     def test__view_without_permissions(self):
-        """A view with permission requirements but no permissions set gets a 403, with a warning."""
+        """A view that no user can open, here a class view without a mixin in strict mode, gets a 403, with a
+        warning."""
         self.client.force_login(self.test_user_no_perms)
 
         with warns(Warning) as warning_info:
@@ -78,6 +95,6 @@ class Serve403FuzzyWhitelistTestCase(MiddlewareBaseTestCase):
 
         self.assertEqual(response.status_code, 403)
         self.assertEqual(
-            {(RuntimeWarning, self.pdq_strict__no_permissions_set_message)},
+            {(RuntimeWarning, self.pdq_strict__no_mixins_message)},
             {(warn.category, warn.message.args[0]) for warn in warning_info},
         )
