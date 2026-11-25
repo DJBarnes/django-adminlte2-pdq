@@ -395,8 +395,12 @@ The package reports these views in three ways:
 * **System check:** ``manage.py check``, ``runserver``, ``migrate``, and the
   test runner list each such view as warning ``adminlte2_pdq.W001``. This needs
   no setup: it runs whenever the package and ``AuthMiddleware`` are installed.
-  Under the strict policy, it lists class-based views without a mixin, but not
-  yet function-based views without a decorator.
+  It uses the same rules as the warnings below, so under the strict policy it
+  lists function-based views without a decorator and class-based views without
+  a mixin. The check doesn't run when ``MIDDLEWARE`` lists a subclass of
+  ``AuthMiddleware`` instead, because a subclass's
+  ``permission_required_hook(request)`` can open views that the check, which
+  has no request, can't know about.
 * **Development:** when ``DEBUG`` is True, visiting the view shows a warning
   message and writes a ``RuntimeWarning``.
 * **Production:** when ``DEBUG`` is False, visiting the view logs the problem

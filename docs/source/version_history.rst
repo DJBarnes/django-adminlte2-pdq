@@ -4,6 +4,13 @@ Version History
 Unreleased
 ==========
 
+* Under the strict policy, the ``adminlte2_pdq.W001`` system check now lists
+  function-based views without a decorator, as it already did class-based
+  views without a mixin. It uses the same rules as the middleware's warnings
+  when such a view is visited, so it no longer lists views those warnings
+  skip, such as the Django admin's. See
+  :ref:`authorization/policies:Views Without Permissions`.
+
 * Fix the package's Sample Form page failing with ``ImproperlyConfigured``
   under the login required and strict policies, and the demo CSS pages
   redirecting every user home under the strict policy. Both now work under

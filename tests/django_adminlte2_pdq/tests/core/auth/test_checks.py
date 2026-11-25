@@ -41,10 +41,25 @@ class ViewsDefinePermissionsCheckTestCase(SimpleTestCase):
 
     @patch("adminlte2_pdq.middleware.STRICT_POLICY", True)
     def test__strict_mode(self):
-        """In strict mode, class-based views without a mixin also need permissions."""
-        flagged = _flagged_view_names(check_views_define_permissions(None))
+        """In strict mode, views without a decorator or mixin also need permissions, function and class based.
 
-        self.assertEqual(BROKEN_VIEWS | {"StandardView"}, flagged)
+        Views exempt from permissions aren't listed: whitelisted views (such as the package's home, sample form,
+        and demo pages), the Django admin, and redirect views. The test project's home and demo_css views are
+        listed: their no-slash routes aren't in the whitelist.
+        """
+        warnings = check_views_define_permissions(None)
+
+        self.assertEqual(
+            BROKEN_VIEWS | {"StandardView", "standard_view", "home", "demo_css"}, _flagged_view_names(warnings)
+        )
+        # The package's own home and demo_css routes are whitelisted, so each view is listed once, for its test route.
+        self.assertEqual(
+            {"home": ["(/tests/home)"], "demo_css": ["(/tests/demo-css-no-slash)"]},
+            {
+                name: [warning.msg.split(" ")[4] for warning in warnings if warning.obj.__name__ == name]
+                for name in ("home", "demo_css")
+            },
+        )
 
     @override_settings(
         MIDDLEWARE=[entry for entry in settings.MIDDLEWARE if entry != "adminlte2_pdq.middleware.AuthMiddleware"]

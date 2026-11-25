@@ -52,8 +52,8 @@ def _resolved_patterns(patterns, prefix="", app_names=(), namespaces=()):
 def check_views_define_permissions(app_configs, **kwargs):  # pylint: disable=unused-argument
     """adminlte2_pdq.W001: views that require permissions but define none.
 
-    No user can access such a view. The check uses the same logic as AuthMiddleware,
-    so it only runs when the middleware is installed.
+    No user can access such a view. The check uses the same rules as AuthMiddleware's warnings
+    when such a view is visited, so it only runs when the middleware is installed.
     """
     if AUTH_MIDDLEWARE not in getattr(settings, "MIDDLEWARE", []):
         return []
@@ -65,7 +65,11 @@ def check_views_define_permissions(app_configs, **kwargs):  # pylint: disable=un
     warnings = []
     for path, match in _resolved_patterns(get_resolver().url_patterns):
         view_data = middleware.parse_view_data(path, match, update_view=False)
-        if middleware.view_missing_permissions(view_data):
+        # There is no request at startup. The base AuthMiddleware's permission_required_hook() doesn't use it,
+        # and the check only runs with the base AuthMiddleware, not with a project's subclass.
+        no_user_can_access = middleware.strict_view_without_decorator(None, view_data)
+        no_user_can_access = no_user_can_access or middleware.permission_view_without_permissions(view_data)
+        if no_user_can_access:
             warnings.append(
                 CheckWarning(
                     f"The {view_data['view_type']} view '{view_data['view_name']}' ({path}) requires "

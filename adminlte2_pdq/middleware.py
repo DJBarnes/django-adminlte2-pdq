@@ -432,7 +432,8 @@ class AuthMiddleware:
     def strict_view_without_decorator(self, request, view_data):
         """Determines if, in strict mode, the view has no decorator or mixin, and isn't exempt from permissions.
 
-        No user can pass the permission check for such a view, function or class based.
+        No user can pass the permission check for such a view, function or class based. Also used by the
+        adminlte2_pdq.W001 system check, with no request.
         """
         return (
             # In strict mode
@@ -465,35 +466,12 @@ class AuthMiddleware:
 
     @staticmethod
     def permission_view_without_permissions(view_data):
-        """Determines if the view's decorator or mixin requires permissions, but the view doesn't set any."""
+        """Determines if the view's decorator or mixin requires permissions, but the view doesn't set any.
+
+        Also used by the adminlte2_pdq.W001 system check.
+        """
         view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
         return view_data["decorator_name"] == "permission_required" and not view_defines_permissions
-
-    def view_missing_permissions(self, view_data):
-        """Determines if the view requires permissions, but does not define any.
-
-        No user can pass the permission check for such a view. Also used by the
-        adminlte2_pdq.W001 system check.
-        """
-        is_perm_view = (
-            # Has decorator or mixin explicitly saying that permission is required.
-            view_data["decorator_name"] == "permission_required"
-            # Or, we are a non-whitelisted, class-based view, with no other mixins, in strict mode.
-            or (
-                # In Strict Mode
-                STRICT_POLICY
-                # and is a class based view, which implicitly assumes permission required. (unlike function-based)
-                and view_data["view_type"] == "class-based"
-                # and there is no mixin on the view (We called it decorator regardless of mixin or decorator)
-                and not view_data["decorator_name"]
-                # The view is not whitelisted and thus should have some permissions defined on it.
-                and not self.is_permission_whitelisted(view_data)
-                # The view is not a redirect view
-                and not self.verify_redirect_route(view_data["view_class"])
-            )
-        )
-        view_defines_permissions = bool(view_data["one_of_permissions"]) or bool(view_data["full_permissions"])
-        return is_perm_view and not view_defines_permissions
 
     def missing_permissions_message(self, view_data):
         """The explanation for a view that requires permissions, but does not define any."""
