@@ -74,6 +74,16 @@ When you change what a user can open or see, change the cells in the table. When
 
 Use `self.subTest` only to loop over data, and name the values with keywords, for example `self.subTest(view=..., user=...)`. A failure then shows which values failed. If a case needs its own setup, write it as a separate test method.
 
+## Docs screenshots
+
+The screenshots on the templates docs page (`docs/img/template/`) are taken by `docs/screenshots/take_screenshots.py`. Each example's template is a file under `docs/screenshots/templates/`, which the docs include, so the code in the docs is the code in the screenshot. When you change an example, or a template that shows in the screenshots, take them again:
+
+```bash
+pipenv run pytest docs/screenshots/take_screenshots.py
+```
+
+It needs Firefox. If Selenium doesn't find a usable Firefox or geckodriver, set `FIREFOX_BINARY` and `GECKODRIVER`; the file's docstring has the paths for the snap Firefox on Ubuntu. The logged-in user's gravatar comes from the first author's email in `pyproject.toml`; set `DOCS_SCREENSHOT_EMAIL` to use another one. Running it twice gives the same files, so `git diff` shows only the screenshots that changed.
+
 ## Releasing
 
 For maintainers:

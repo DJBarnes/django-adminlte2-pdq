@@ -1,0 +1,13 @@
+{% extends "registration/login.html" %}
+
+{% block title %}Sign In | Example Company{% endblock title %}
+
+{% block anonymous_form_instructions %}
+  <p class="login-box-msg">Sign in with your Example Company account</p>
+{% endblock anonymous_form_instructions %}
+
+{% block social_auth_links %}{% endblock social_auth_links %}
+
+{% block anonymous_links %}
+  <a href="{% url 'password_reset' %}">I forgot my password</a>
+{% endblock anonymous_links %}

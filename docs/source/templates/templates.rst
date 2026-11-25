@@ -85,11 +85,8 @@ To change it:
 
 An empty ``social_auth_links`` block removes the social login buttons:
 
-.. code:: html+django
-
-    {% extends "registration/login.html" %}
-
-    {% block social_auth_links %}{% endblock social_auth_links %}
+.. literalinclude:: ../../screenshots/templates/login_no_social/registration/login.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-login-template-no-social.png
     :alt: The login page without the social login buttons
@@ -98,19 +95,8 @@ An empty ``social_auth_links`` block removes the social login buttons:
 
 A ``social_auth_links`` block with content replaces the buttons:
 
-.. code:: html+django
-
-    {% extends "registration/login.html" %}
-
-    {% block social_auth_links %}
-      <div class="social-auth-links text-center">
-        <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-social btn-github btn-flat">
-          <i class="fa fa-github"></i>
-          Sign in using GitHub
-        </a>
-      </div>
-    {% endblock social_auth_links %}
+.. literalinclude:: ../../screenshots/templates/login_github/registration/login.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-login-template-github.png
     :alt: The login page with a GitHub sign-in button
@@ -122,21 +108,8 @@ title shown in the browser tab, changes the instructions, removes the social
 links, and removes the "Register a new membership" link, for a site that
 doesn't let users register themselves:
 
-.. code:: html+django
-
-    {% extends "registration/login.html" %}
-
-    {% block title %}Sign In | Example Company{% endblock title %}
-
-    {% block anonymous_form_instructions %}
-      <p class="login-box-msg">Sign in with your Example Company account</p>
-    {% endblock anonymous_form_instructions %}
-
-    {% block social_auth_links %}{% endblock social_auth_links %}
-
-    {% block anonymous_links %}
-      <a href="{% url 'password_reset' %}">I forgot my password</a>
-    {% endblock anonymous_links %}
+.. literalinclude:: ../../screenshots/templates/login_more/registration/login.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-login-template-more.png
     :alt: The login page with new instructions, no social links, and no register link
@@ -152,9 +125,8 @@ A page template extends ``adminlte2/base.html`` and overrides its page
 blocks. With no blocks overridden, a page has the header, sidebar, and footer,
 and nothing else:
 
-.. code:: html+django
-
-    {% extends "adminlte2/base.html" %}
+.. literalinclude:: ../../screenshots/templates/page_before/reports/monthly_report.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-page-original.png
     :alt: A page with no blocks overridden
@@ -164,34 +136,8 @@ description, the breadcrumbs, and the content:
 
 **reports/monthly_report.html**
 
-.. code:: html+django
-
-    {% extends "adminlte2/base.html" %}
-
-    {% block title %}Monthly Report | Example Company{% endblock title %}
-
-    {% block page_name %}Monthly Report{% endblock page_name %}
-
-    {% block page_description %}November 2026{% endblock page_description %}
-
-    {% block breadcrumbs %}
-      <ol class="breadcrumb">
-        <li><a href="{% url 'adminlte2_pdq:home' %}"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Monthly Report</li>
-      </ol>
-    {% endblock breadcrumbs %}
-
-    {% block content %}
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Orders</h3>
-        </div>
-        <div class="box-body">
-          <p class="report-total">1,204</p>
-          <p id="report-updated"></p>
-        </div>
-      </div>
-    {% endblock content %}
+.. literalinclude:: ../../screenshots/templates/page/reports/monthly_report.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-page-custom.png
     :alt: The monthly report page with a title, breadcrumbs, and content
@@ -233,19 +179,13 @@ and show when the page was loaded:
 
 **reports/css/report.css**
 
-.. code:: css
-
-    .report-total {
-      font-size: 3em;
-      font-weight: bold;
-      color: #00a65a;
-    }
+.. literalinclude:: ../../screenshots/static/reports/css/report.css
+    :language: css
 
 **reports/js/report.js**
 
-.. code:: javascript
-
-    document.getElementById("report-updated").textContent = "Updated " + new Date().toLocaleDateString();
+.. literalinclude:: ../../screenshots/static/reports/js/report.js
+    :language: javascript
 
 Before, as in the previous example:
 
@@ -287,30 +227,25 @@ it empty to remove the header, sidebar, or footer from that page.
 The Footer
 ----------
 
-The footer shows a copyright with the current year, and a version number that
-defaults to 0.1:
+The footer shows a copyright with the current year, and a version number. To
+set the version number, use the :ref:`configuration/home:ADMINLTE2_VERSION`
+setting; no template is needed.
 
 .. image:: ../../img/template/django-adminlte2-pdq-footer-original.png
     :alt: The default footer
 
-Its blocks are in ``adminlte2/partials/_main_footer.html``, so override that
-template. This one sets the copyright text and the version number on every
-page:
+For other changes, override the footer's blocks. They are in
+``adminlte2/partials/_main_footer.html``, so override that template. This one
+sets the copyright text, and removes the version with an empty ``version``
+block:
 
 **adminlte2/partials/_main_footer.html**
 
-.. code:: html+django
-
-    {% extends "adminlte2/partials/_main_footer.html" %}
-
-    {% block legal %}
-      <strong>Copyright &copy; {% now "Y" %} Example Company.</strong> All rights reserved.
-    {% endblock legal %}
-
-    {% block version_number %}2.4.1{% endblock version_number %}
+.. literalinclude:: ../../screenshots/templates/footer/adminlte2/partials/_main_footer.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-footer-custom.png
-    :alt: The footer with a company copyright and version 2.4.1
+    :alt: The footer with a company copyright and no version
 
 
 The User Dropdown
@@ -329,15 +264,8 @@ your project's profile view:
 
 **adminlte2/partials/_main_header.html**
 
-.. code:: html+django
-
-    {% extends "adminlte2/partials/_main_header.html" %}
-
-    {% block user_footer_left_button %}
-      <div class="pull-left">
-        <a href="{% url 'profile' %}" class="btn btn-default btn-flat">Profile</a>
-      </div>
-    {% endblock user_footer_left_button %}
+.. literalinclude:: ../../screenshots/templates/dropdown/adminlte2/partials/_main_header.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-user-dropdown-custom.png
     :alt: The user dropdown with a Profile button
@@ -359,11 +287,8 @@ Its blocks are in ``adminlte2/partials/_main_sidebar.html``. An empty
 
 **adminlte2/partials/_main_sidebar.html**
 
-.. code:: html+django
-
-    {% extends "adminlte2/partials/_main_sidebar.html" %}
-
-    {% block sb_user_panel %}{% endblock sb_user_panel %}
+.. literalinclude:: ../../screenshots/templates/sidebar/adminlte2/partials/_main_sidebar.html
+    :language: html+django
 
 .. image:: ../../img/template/django-adminlte2-pdq-sidebar-custom.png
     :alt: The sidebar without the user panel

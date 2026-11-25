@@ -77,8 +77,10 @@ dev = [
 ]
 doc = [
     "doc8",
+    "pillow",
     "pip-tools",
     "rstcheck",
+    "selenium",
     "sphinx",
     "sphinx-autobuild",
     "sphinx-rtd-theme",
