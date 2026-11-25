@@ -4,6 +4,13 @@ Version History
 Unreleased
 ==========
 
+* Documentation: the :doc:`templates/templates` page explains the difference
+  between page blocks and blocks in the header, sidebar, and footer
+  templates, which a page can't override. It has new examples for the login
+  page, a page, a page's stylesheets and scripts, the footer, the user
+  dropdown, and the sidebar user panel, each with before and after
+  screenshots.
+
 * Under the strict policy, the ``adminlte2_pdq.W001`` system check now lists
   function-based views without a decorator, as it already did class-based
   views without a mixin. It uses the same rules as the middleware's warnings
