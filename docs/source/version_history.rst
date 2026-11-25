@@ -4,6 +4,14 @@ Version History
 Unreleased
 ==========
 
+* Fix the form field filters failing with an ``AttributeError`` on a field
+  the form doesn't have, such as ``{{ form.email|with_placeholder:'Email' }}``
+  on a form without an ``email`` field. ``fieldtype`` and every ``with_*``
+  filter now render nothing when there is no field, as ``with_class`` already
+  did, also when filters are chained. A ``None`` variable also renders
+  nothing, where ``with_class`` rendered "None". See
+  :doc:`templates/template_filters`.
+
 * Fix ``collectstatic`` failing with ``ManifestStaticFilesStorage``, or a
   storage based on it such as WhiteNoise's
   ``CompressedManifestStaticFilesStorage``. AdminLTE's

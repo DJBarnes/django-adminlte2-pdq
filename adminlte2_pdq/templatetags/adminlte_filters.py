@@ -6,6 +6,7 @@ attributes that the user would like the form fields to have.
 """
 
 # System Imports.
+import functools
 import json
 
 # Third-Party Imports.
@@ -16,7 +17,28 @@ from django import template
 register = template.Library()
 
 
+def renders_nothing_for_missing_field(filter_function):
+    """Make a form field filter return an empty string, which renders nothing, when it gets no field.
+
+    A template that asks for a field the form doesn't have, such as ``{{ form.email|with_class:"form-control" }}``
+    on a form without an ``email`` field, gets an empty string from Django's template engine instead of a field. A
+    variable can also be ``None``. Either way, the filter returns an empty string, so the page renders nothing for
+    the field, the same as ``{{ form.email }}`` without a filter, instead of failing with an ``AttributeError``.
+    Chained filters pass the empty string along.
+    """
+
+    @functools.wraps(filter_function)
+    def wrapper(field, *args, **kwargs):
+        # No field: Django's empty string for a missing variable, or None.
+        if field is None or field == "":
+            return ""
+        return filter_function(field, *args, **kwargs)
+
+    return wrapper
+
+
 @register.filter("fieldtype")
+@renders_nothing_for_missing_field
 def fieldtype(field):
     """
     Get the class name of a form field's widget, such as "TextInput" or "CheckboxInput".
@@ -29,6 +51,7 @@ def fieldtype(field):
 
 
 @register.filter("with_attrs")
+@renders_nothing_for_missing_field
 def with_attrs(field, attrs_as_json=None):
     """
     Add generic attributes to a form field and return the form field so filters can be chained.
@@ -59,6 +82,7 @@ def with_attrs(field, attrs_as_json=None):
 
 
 @register.filter("with_class")
+@renders_nothing_for_missing_field
 def with_class(field, class_name=""):
     """
     Add a class attribute to a form field and return the form field so filters can be chained.
@@ -79,8 +103,6 @@ def with_class(field, class_name=""):
         <input type="text" name="field" class="my-added-class" id="id_field" />
     """
 
-    if not field:
-        return field
     attrs = field.field.widget.attrs
     current_class_list = attrs.get("class", "").split()
     current_class_list.append(class_name)
@@ -90,6 +112,7 @@ def with_class(field, class_name=""):
 
 
 @register.filter("with_data")
+@renders_nothing_for_missing_field
 def with_data(field, data_attrs_json=None):
     """
     Add data attributes to a form field and return the form field so filters can be chained.
@@ -126,6 +149,7 @@ def with_data(field, data_attrs_json=None):
 
 
 @register.filter("with_placeholder")
+@renders_nothing_for_missing_field
 def with_placeholder(field, placeholder=None):
     """
     Add placeholder to a form field and return the form field so filters can be chained.
@@ -166,6 +190,7 @@ def with_placeholder(field, placeholder=None):
 
 
 @register.filter("with_list")
+@renders_nothing_for_missing_field
 def with_list(field, name=None):
     """
     Add list attribute to a form field and return the form field so filters can be chained.
@@ -200,6 +225,7 @@ def with_list(field, name=None):
 
 
 @register.filter("with_pattern")
+@renders_nothing_for_missing_field
 def with_pattern(field, pattern=None):
     """
     Add pattern to a form field and return the form field so filters can be chained.
@@ -243,6 +269,7 @@ def with_pattern(field, pattern=None):
 
 
 @register.filter("with_inputmask")
+@renders_nothing_for_missing_field
 def with_inputmask(field, inputmask=None):
     """
     Add inputmask to a form field and return the form field so filters can be chained.
@@ -278,6 +305,7 @@ def with_inputmask(field, inputmask=None):
 
 
 @register.filter("with_min")
+@renders_nothing_for_missing_field
 def with_min(field, min_val=None):
     """
     Add min attribute to a form field and return the form field so filters can be chained.
@@ -310,6 +338,7 @@ def with_min(field, min_val=None):
 
 
 @register.filter("with_max")
+@renders_nothing_for_missing_field
 def with_max(field, max_val=None):
     """
     Add max attribute to a form field and return the form field so filters can be chained.
@@ -342,6 +371,7 @@ def with_max(field, max_val=None):
 
 
 @register.filter("with_input_type")
+@renders_nothing_for_missing_field
 def with_input_type(field, new_type):
     """
     Change widget input_type to passed value.

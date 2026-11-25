@@ -8,6 +8,7 @@ Tests for Template Tags
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission
+from django.template import Context, Template
 from django.test import TestCase
 
 # Internal Imports.
@@ -16,6 +17,21 @@ from adminlte2_pdq.templatetags import adminlte_filters
 
 # Module Variables.
 UserModel = get_user_model()
+
+# Every filter that takes a form field, with an argument to use in a template ("" for filters without one).
+FIELD_FILTERS = {
+    "fieldtype": "",
+    "with_attrs": """:'{"autocomplete": "off"}'""",
+    "with_class": ':"form-control"',
+    "with_data": """:'{"toggle": "tooltip"}'""",
+    "with_placeholder": ':"Your email"',
+    "with_list": ':"email_list"',
+    "with_pattern": ':"[a-z]+"',
+    "with_inputmask": ':"(999) 999-9999"',
+    "with_min": ":5",
+    "with_max": ":9",
+    "with_input_type": ':"email"',
+}
 
 
 class TemplateFilterTestCase(TestCase):
@@ -118,8 +134,6 @@ class TemplateFilterTestCase(TestCase):
             str(result),
         )
 
-        # Only "with_class" handles a missing field (see its test below). Whether the other filters should is #44.
-
     def test_filter__with_class(self):
         """Adds class to existing form field."""
         # Get value from filter.
@@ -129,10 +143,28 @@ class TemplateFilterTestCase(TestCase):
         # Verify retrieved value.
         self.assertIn('class="my-class-name"', str(result))
 
-    def test_filter__with_class__missing_field(self):
-        """The "with_class" filter returns None for a missing field."""
-        result = adminlte_filters.with_class(None, "my-class-name")
-        self.assertIsNone(result)
+    def test_field_filters__missing_field(self):
+        """Every field filter returns an empty string when it gets no field: Django's empty string for a missing
+        variable, or None."""
+        for name in FIELD_FILTERS:
+            filter_function = getattr(adminlte_filters, name)
+            for field in ("", None):
+                with self.subTest(filter=name, field=field):
+                    args = () if name == "fieldtype" else ("value",)
+                    self.assertEqual("", filter_function(field, *args))
+
+    def test_field_filters__missing_field_in_template(self):
+        """A template that uses a field filter on a field the form doesn't have renders nothing for it, also when
+        filters are chained, the same as the field without a filter."""
+        context = Context({"form": self.TestForm(), "field": None})
+        for name, argument in FIELD_FILTERS.items():
+            for variable in ("form.not_a_field", "field"):
+                with self.subTest(filter=name, variable=variable):
+                    template = Template(
+                        f"{{% load adminlte_filters %}}[{{{{ {variable}|{name}{argument} }}}}]"
+                        f"[{{{{ {variable}|{name}{argument}|with_class:'chained' }}}}]"
+                    )
+                    self.assertEqual("[][]", template.render(context))
 
     def test_filter__with_data(self):
         """Tests for the "with_data" filter."""

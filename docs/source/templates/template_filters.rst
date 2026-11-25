@@ -11,6 +11,21 @@ top of your template.
 
     {% load adminlte_filters %}
 
+The filters that take a form field, ``fieldtype`` and the ``with_*`` filters,
+render nothing when there is no field. For example, on a form without an
+``email`` field, this renders nothing, the same as ``{{ form.email }}`` without
+a filter:
+
+.. code:: html+django
+
+    {{ form.email|with_class:'form-control'|with_placeholder:'Your email' }}
+
+This lets a template, or a partial shared between forms, use filters on a
+field that is only on some forms. A variable that is ``None`` also renders
+nothing. To find misspelled field names, set Django's ``string_if_invalid``
+template option while developing: Django then renders that marker for a
+missing variable instead of running the filters.
+
 
 ----
 
