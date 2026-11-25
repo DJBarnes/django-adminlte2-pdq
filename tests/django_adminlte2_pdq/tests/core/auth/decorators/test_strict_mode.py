@@ -47,7 +47,7 @@ class TestStrictAuthenticationDecorators(BaseDecoratorTestCase):
         self.assertTrue(LOGIN_REQUIRED)
         self.assertTrue(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
-        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+        self.assertEqual(26, len(STRICT_POLICY_WHITELIST))  # 10 routes, and the package's 16 pages.
 
     @override_settings(DEBUG=False)
     def test__no_decorators__production_403_message_shown_once(self):

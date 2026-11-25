@@ -3,7 +3,8 @@ Known Routes Configuration
 
 The package needs to know the routes of some pages: the pages that must work
 without logging in (login, logout, password reset, registration), the pages
-that must work without permissions (home, password change), and the URL
+that must work without permissions (home, password change, and the package's
+sample form and demo pages), and the URL
 prefixes of files that are not views (static, media, websockets). These pages
 are added to the login exempt and strict policy whitelists automatically (see
 :doc:`authorization`). The file and websocket prefixes aren't whitelist

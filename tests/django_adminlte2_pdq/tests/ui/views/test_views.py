@@ -3,6 +3,7 @@ Tests for Views
 """
 
 # System Imports.
+import warnings
 from unittest.mock import patch
 
 # Third-Party Imports.
@@ -14,6 +15,7 @@ from django.urls import reverse
 
 # Internal Imports.
 from adminlte2_pdq import views
+from adminlte2_pdq.constants import PACKAGE_PAGE_ROUTES
 
 
 UserModel = get_user_model()  # pylint: disable=invalid-name
@@ -122,13 +124,11 @@ class ViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Register")
 
-    def test_sample_form_view_redirects_to_login_when_not_authenticated(self):
-        """Test sample_form view redirects to login when not authenticated"""
-        response = self.client.get(reverse("adminlte2_pdq:sample_form"), follow=True)
+    def test_sample_form_view_works_when_not_authenticated(self):
+        """In loose mode, anonymous users can open the sample form, like the home page."""
+        response = self.client.get(reverse("adminlte2_pdq:sample_form"))
         self.assertEqual(response.status_code, 200)
-        self.assertNotContains(response, "This is the sample_form page!")
-        self.assertContains(response, "Username")
-        self.assertContains(response, "Login")
+        self.assertContains(response, "This is the sample form page!")
 
     def test_sample1_view_redirects_to_login_when_not_authenticated(self):
         """Test sample1 view redirects to login when not authenticated"""
@@ -357,3 +357,44 @@ class DemoCssViewsTestCase(TestCase):
 
                 self.assertEqual(response.status_code, 200)
                 self.assertNotContains(response, "Change Password")
+
+
+class PackagePageAccessTestCase(TestCase):
+    """The home page, the sample form, and the demo CSS pages work in every policy mode, without warnings: for
+    everyone in loose mode, and for every logged-in user in login-required and strict mode."""
+
+    # Each mode: (LOGIN_REQUIRED, STRICT_POLICY, whether anonymous users can open the pages).
+    MODES = {
+        "loose": (False, False, True),
+        "login required": (True, False, False),
+        "strict": (True, True, False),
+    }
+
+    def setUp(self):
+        self.user = UserModel.objects.create_user(username="test_user_no_perms", password="password")
+
+    def test__pages_in_every_mode(self):
+        """Each page in each mode, for an anonymous user and a logged-in user without permissions."""
+        for mode, (login_required, strict_policy, anonymous_allowed) in self.MODES.items():
+            for route in ["adminlte2_pdq:home"] + PACKAGE_PAGE_ROUTES:
+                for user in ("anonymous", "logged in"):
+                    with self.subTest(mode=mode, route=route, user=user):
+                        if user == "logged in":
+                            self.client.force_login(self.user)
+                        else:
+                            self.client.logout()
+                        url = reverse(route)
+
+                        with patch("adminlte2_pdq.middleware.LOGIN_REQUIRED", login_required), patch(
+                            "adminlte2_pdq.middleware.STRICT_POLICY", strict_policy
+                        ), warnings.catch_warnings(record=True) as caught:
+                            warnings.simplefilter("always")
+                            response = self.client.get(url)
+
+                        self.assertEqual([], [str(warning.message) for warning in caught])
+                        if user == "logged in" or anonymous_allowed:
+                            self.assertEqual(response.status_code, 200)
+                        else:
+                            self.assertRedirects(
+                                response, f"{reverse('login')}?next={url}", fetch_redirect_response=False
+                            )

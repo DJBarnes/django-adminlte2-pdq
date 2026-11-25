@@ -43,10 +43,13 @@ PERMISSIONS_FROM_NODE = {
     "external url": ({"route": "#", "url": EXTERNAL_URL}, {}),
     # login_required.
     "login_required on the node": ({"route": DEMO_CSS, "login_required": True}, {"login_required": True}),
-    "login_required from the view": ({"route": "adminlte2_pdq:sample_form"}, {"login_required": True}),
-    "login_required from the view, by url": ({"route": "#", "url": "/sample_form/"}, {"login_required": True}),
+    "login_required from the view": (
+        {"route": "adminlte2_pdq_tests:function-login-required"},
+        {"login_required": True},
+    ),
+    "login_required from the view, by url": ({"route": "#", "url": "/tests/function/login/"}, {"login_required": True}),
     "login_required on the node and the view": (
-        {"route": "adminlte2_pdq:sample_form", "login_required": False},
+        {"route": "adminlte2_pdq_tests:function-login-required", "login_required": False},
         {},
     ),
     "login_required on a node with an external url": (

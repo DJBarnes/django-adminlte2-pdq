@@ -25,10 +25,10 @@ from tests.django_adminlte2_pdq.tests.core.menu.base_test_case import N, PERMISS
 # Module Variables.
 
 # Each kind of view, and its route. "{view_type}" is "function" or "class".
-# "none" is the package's demo-css view, which has no decorator or mixin.
+# "none" is a view without a decorator or mixin.
 # The "(string)" views define a single permission as a string: auth.add_foo.
 VIEW_ROUTES = {
-    "none": "adminlte2_pdq:demo-css",
+    "none": "adminlte2_pdq_tests:{view_type}-standard",
     "allow_anonymous_access": "adminlte2_pdq_tests:{view_type}-allow-anonymous-access",
     "login_required": "adminlte2_pdq_tests:{view_type}-login-required",
     "allow_without_permissions": "adminlte2_pdq_tests:{view_type}-allow-without-permissions",
@@ -44,7 +44,7 @@ VIEW_WHITELIST = sorted(
     {route.format(view_type=view_type) for route in VIEW_ROUTES.values() for view_type in VIEW_TYPES}
 )
 # The path prefixes of every route above, for the fuzzy whitelist tests.
-FUZZY_WHITELIST = ("/tests/", "/demo-css/")
+FUZZY_WHITELIST = ("/tests/",)
 
 # The views that require permissions use auth.add_foo and auth.change_foo: "one" views need either, "full" views need
 # both, and the "(string)" views need auth.add_foo.

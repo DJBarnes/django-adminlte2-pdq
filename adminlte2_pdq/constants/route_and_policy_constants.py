@@ -55,6 +55,28 @@ PWD_CHANGE = get_renamed_setting("ADMINLTE2_PASSWORD_CHANGE_ROUTE", "PWD_CHANGE"
 PWD_CHANGE_DONE = get_renamed_setting("ADMINLTE2_PASSWORD_CHANGE_DONE_ROUTE", "PWD_CHANGE_DONE", "password_change_done")
 
 
+# The package's own pages that every logged-in user can open in every policy mode, like the home page.
+# A decorator can't do this: each one is an error in at least one mode, so these pages use the whitelist.
+PACKAGE_PAGE_ROUTES = [
+    "adminlte2_pdq:sample_form",
+    "adminlte2_pdq:demo-css",
+    "adminlte2_pdq:demo-css-alerts",
+    "adminlte2_pdq:demo-css-boxes-solid",
+    "adminlte2_pdq:demo-css-boxes-standard",
+    "adminlte2_pdq:demo-css-buttons-basic",
+    "adminlte2_pdq:demo-css-buttons-specialized",
+    "adminlte2_pdq:demo-css-carousels",
+    "adminlte2_pdq:demo-css-forms",
+    "adminlte2_pdq:demo-css-full-span-links",
+    "adminlte2_pdq:demo-css-labels",
+    "adminlte2_pdq:demo-css-modals",
+    "adminlte2_pdq:demo-css-tables",
+    "adminlte2_pdq:demo-css-typography",
+    "adminlte2_pdq:demo-css-ui-general",
+    "adminlte2_pdq:demo-css-widgets",
+]
+
+
 # List of known routes that should never require being logged in.
 LOGIN_EXEMPT_WHITELIST = [
     LOGIN_URL,
@@ -70,6 +92,7 @@ STRICT_POLICY_WHITELIST = [
     HOME_ROUTE,
     PWD_CHANGE,
     PWD_CHANGE_DONE,
+    *PACKAGE_PAGE_ROUTES,
 ] + LOGIN_EXEMPT_WHITELIST
 
 

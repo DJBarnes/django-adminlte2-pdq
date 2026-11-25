@@ -63,7 +63,7 @@ class TestLooseAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         self.assertFalse(LOGIN_REQUIRED)
         self.assertFalse(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
-        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+        self.assertEqual(26, len(STRICT_POLICY_WHITELIST))  # 10 routes, and the package's 16 pages.
 
     def test__bleeding_anonymous_with_permissions(self):
         """Bleeding tests for allow_anonymous_access mixin, in project "Loose" mode."""
@@ -353,7 +353,7 @@ class TestLooseAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCase)
         self.assertFalse(LOGIN_REQUIRED)
         self.assertFalse(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
-        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+        self.assertEqual(26, len(STRICT_POLICY_WHITELIST))  # 10 routes, and the package's 16 pages.
 
     def test__bleeding_one_permission_missing_permissions__in_production(self):
         """A permission mixin without permissions, in production: the error is logged, and users get

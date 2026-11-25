@@ -8,7 +8,6 @@ from django.shortcuts import render
 
 # Internal Imports.
 from adminlte2_pdq.decorators import (
-    login_required,
     permission_required,
     permission_required_one,
 )
@@ -39,7 +38,6 @@ def register(request):
     )
 
 
-@login_required()
 def sample_form(request):
     """Show sample form page"""
     form = SampleForm()

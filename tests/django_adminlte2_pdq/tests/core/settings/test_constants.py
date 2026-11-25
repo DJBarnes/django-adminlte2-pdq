@@ -7,8 +7,11 @@ from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase, override_settings
 
 # First-Party Imports
+from adminlte2_pdq import urls as package_urls
+from adminlte2_pdq.checks import _resolved_patterns
 from adminlte2_pdq.constants.route_and_policy_constants import (
     LOGIN_EXEMPT_WHITELIST,
+    PACKAGE_PAGE_ROUTES,
     STRICT_POLICY_WHITELIST,
     get_login_required_policy,
     get_renamed_setting,
@@ -162,9 +165,23 @@ class DefaultWhitelistsTestCase(TestCase):
         )
 
     def test__strict_policy_whitelist(self):
-        """The home and password change routes, and every login-exempt route, don't require permissions."""
+        """The home and password change routes, the package's pages, and every login-exempt route, don't require
+        permissions."""
         self.assertEqual(
             ["adminlte2_pdq:home", "password_change", "password_change_done"]
+            + PACKAGE_PAGE_ROUTES
             + [str(route) for route in LOGIN_EXEMPT_WHITELIST],
             [str(route) for route in STRICT_POLICY_WHITELIST],
         )
+
+    def test__package_pages(self):
+        """The package's pages are the sample form and every demo CSS page."""
+        demo_routes = {
+            f"adminlte2_pdq:{match.url_name}"
+            for _path, match in _resolved_patterns(package_urls.urlpatterns)
+            if match.url_name and match.url_name.startswith("demo-css")
+        }
+
+        self.assertEqual(15, len(demo_routes))
+        self.assertEqual({"adminlte2_pdq:sample_form"} | demo_routes, set(PACKAGE_PAGE_ROUTES))
+        self.assertEqual(len(PACKAGE_PAGE_ROUTES), len(set(PACKAGE_PAGE_ROUTES)))

@@ -2,7 +2,7 @@
 Tests for nodes that define their own access settings, which is_allowed_node() uses instead of the view's.
 
 Each table lists, for one policy setup, whether a node is shown (Y) or hidden (N) for each node setting and each kind
-of user. The node links to the package's demo-css view, which has no decorator or mixin. A failure names the policy
+of user. The node links to a test view without a decorator. A failure names the policy
 setup (the test), the node setting, and the user.
 """
 
@@ -16,7 +16,7 @@ from tests.django_adminlte2_pdq.tests.core.menu.base_test_case import N, Sidebar
 
 
 # Module Variables.
-ROUTE = "adminlte2_pdq:demo-css"
+ROUTE = "adminlte2_pdq_tests:function-standard"
 
 # Each row's node setting. "none" is a node with only a route, text, and icon. The "(two)" row needs either of two
 # permissions, so a user with only one of them shows the difference between one_of_permissions and permissions.
@@ -155,7 +155,7 @@ class NodeVisibilityTestCase(SidebarMenuBaseTestCase):
         """
         self.assertEqual(list(table), list(NODE_SETTINGS), "The table must have a row for every node setting.")
         users = self._create_table_users()
-        for form in self.each_whitelist_form(whitelists, [ROUTE], ("/demo-css/",)):
+        for form in self.each_whitelist_form(whitelists, [ROUTE], ("/tests/function/standard/",)):
             labels = {"whitelists": form} if form else {}
             for setting, row in table.items():
                 node = {"route": ROUTE, "text": "Test Node", "icon": "fa fa-file", **NODE_SETTINGS[setting]}

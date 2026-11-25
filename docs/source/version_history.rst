@@ -4,6 +4,14 @@ Version History
 Unreleased
 ==========
 
+* Fix the package's Sample Form page failing with ``ImproperlyConfigured``
+  under the login required and strict policies, and the demo CSS pages
+  redirecting every user home under the strict policy. Both now work under
+  every policy, as the home page does: for everyone under the loose policy,
+  and for every logged-in user under the login required and strict policies.
+  They are in the default strict policy whitelist. Under the loose policy,
+  the Sample Form no longer requires login.
+
 * The middleware's configuration warnings now come after its login check. A
   user who isn't logged in is sent to the login page without them, where
   before some warnings were shown as messages on the login page. Configuration

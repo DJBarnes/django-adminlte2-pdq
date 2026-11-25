@@ -274,8 +274,8 @@ When enabled, all views that do not use one of the included
 page, unless the route or url that they are trying to access is explicitly
 listed in a whitelist.
 The default permission whitelist contains the default login whitelist, as well
-as the password change routes and the
-:ref:`configuration/home:adminlte2_home_route`:
+as the password change routes, the
+:ref:`configuration/home:adminlte2_home_route`, and the package's own pages:
 
 * login - As defined via the ``LOGIN_URL`` setting in ``settings.py``
 * logout
@@ -288,6 +288,8 @@ as the password change routes and the
 * register - As defined via the ``ADMINLTE2_REGISTER_ROUTE`` setting in
   ``settings.py``
 * home - As defined via the ``ADMINLTE2_HOME_ROUTE`` setting in ``settings.py``
+* adminlte2_pdq:sample_form, and the :doc:`../demo_css` pages
+  (adminlte2_pdq:demo-css and the other adminlte2_pdq:demo-css-* routes)
 
 The permission whitelist exempts routes from the permission checks only. They
 still require login, unless they are also in the login whitelist.

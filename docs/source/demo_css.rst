@@ -16,6 +16,11 @@ menu, which links to each page: typography, widgets, general UI and the color pa
 specialized buttons, carousels, labels and tooltips, modals, full-span links,
 standard and solid boxes, tables, and forms.
 
+The demo pages work under every policy: for everyone under the loose policy,
+and for every logged-in user under the login required and strict policies, as
+the home page does. They are in the default strict policy whitelist (see
+:ref:`authorization/policies:strict policy`).
+
 To change which colors the demo pages show, see
 :ref:`configuration/front_end_styling:ADMINLTE2_DEMO_CSS_COLORS`.
 

@@ -47,7 +47,7 @@ class TestStrictAuthenticationMixins(BaseMixinTextCase):
         self.assertTrue(LOGIN_REQUIRED)
         self.assertTrue(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
-        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+        self.assertEqual(26, len(STRICT_POLICY_WHITELIST))  # 10 routes, and the package's 16 pages.
 
     @override_settings(DEBUG=False)
     @patch("adminlte2_pdq.middleware.REDIRECT_TO_HOME_ON_403", False)
@@ -172,7 +172,7 @@ class TestStrictAuthenticationMixinsWithLogicBleed(BaseMixinTextCase):
         self.assertTrue(LOGIN_REQUIRED)
         self.assertTrue(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
-        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+        self.assertEqual(26, len(STRICT_POLICY_WHITELIST))  # 10 routes, and the package's 16 pages.
 
     def test__bleeding_anonymous_with_permissions(self):
         """Bleeding tests for allow_anonymous_access mixin, in project "Strict" mode."""
@@ -637,7 +637,7 @@ class TestStrictAuthenticationMixinsWithLogicBleedInProduction(BaseMixinTextCase
         self.assertTrue(LOGIN_REQUIRED)
         self.assertTrue(STRICT_POLICY)
         self.assertEqual(7, len(LOGIN_EXEMPT_WHITELIST))
-        self.assertEqual(10, len(STRICT_POLICY_WHITELIST))
+        self.assertEqual(26, len(STRICT_POLICY_WHITELIST))  # 10 routes, and the package's 16 pages.
 
     def test__bleeding_conflicting_permissions__in_production(self):
         """Bleeding tests for allow_without_permissions mixin, in project "Strict" mode in production."""

@@ -34,6 +34,7 @@ from .route_and_policy_constants import (
     WEBSOCKET_ROUTE,
     USE_LOGIN_NEXT,
     HOME_ROUTE,
+    PACKAGE_PAGE_ROUTES,
     PWD_CHANGE,
     PWD_CHANGE_DONE,
 )
