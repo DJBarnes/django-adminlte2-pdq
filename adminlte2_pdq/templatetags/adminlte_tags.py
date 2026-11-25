@@ -307,6 +307,12 @@ def get_logo_text_small():
 
 
 @register.simple_tag()
+def get_version():
+    """Get the version shown in the footer from the settings and default to 0.1"""
+    return getattr(settings, "ADMINLTE2_VERSION", "0.1")
+
+
+@register.simple_tag()
 def get_skin_class():
     """Get the skin class to use from the settings and default to skin-blue"""
     return getattr(settings, "ADMINLTE2_SKIN_CLASS", "skin-blue")

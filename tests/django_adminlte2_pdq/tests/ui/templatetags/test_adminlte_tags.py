@@ -719,6 +719,22 @@ class TemplateTagTestCase(TestCase):
 
         self.assertIn("/foobar/logout", rendered_template)
 
+    def test__get_version__no_entry_in_settings(self):
+        """Defaults to 0.1."""
+        rendered_template = Template("{% load adminlte_tags %}{% get_version %}").render(Context({}))
+
+        self.assertEqual("0.1", rendered_template)
+
+    @override_settings(ADMINLTE2_VERSION="2.4.1")
+    def test__get_version__entry_in_settings(self):
+        """Uses ADMINLTE2_VERSION when it is set, in the footer too."""
+        rendered_template = Template("{% load adminlte_tags %}{% get_version %}").render(Context({}))
+        footer = Template("{% include 'adminlte2/partials/_main_footer.html' %}").render(Context({}))
+
+        self.assertEqual("2.4.1", rendered_template)
+        self.assertIn("2.4.1", footer)
+        self.assertNotIn("0.1", footer)
+
     def _render_with_user(self, template, user):
         """Render the template with the user in the context, as the request's user."""
         request = RequestFactory().get("/foo")

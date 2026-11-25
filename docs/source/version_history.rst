@@ -4,6 +4,9 @@ Version History
 Unreleased
 ==========
 
+* Add the :ref:`configuration/home:ADMINLTE2_VERSION` setting, for the
+  version shown in the footer. The default is still ``0.1``.
+
 * Documentation: the :doc:`templates/templates` page explains the difference
   between page blocks and blocks in the header, sidebar, and footer
   templates, which a page can't override. It has new examples for the login

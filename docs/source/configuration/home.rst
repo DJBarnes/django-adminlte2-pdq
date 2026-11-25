@@ -38,8 +38,8 @@ Example::
 ----
 
 
-Logo & Skin Color Configuration
-===============================
+Logo, Footer & Skin Color Configuration
+=======================================
 
 ADMINLTE2_LOGO_TEXT
 -------------------
@@ -79,6 +79,21 @@ top bar, when the sidebar is collapsed.
 Example::
 
     ADMINLTE2_LOGO_TEXT_SMALL = 'MAS'
+
+
+ADMINLTE2_VERSION
+-----------------
+
+Set the version shown on the right of the footer, such as your project's
+release number. To change the footer in other ways, such as removing the
+version, see :ref:`templates/templates:The Footer`.
+
+:Type: ``string``
+:Default: ``0.1``
+
+Example::
+
+    ADMINLTE2_VERSION = '2.4.1'
 
 
 ADMINLTE2_SKIN_CLASS

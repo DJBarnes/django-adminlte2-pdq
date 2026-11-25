@@ -1,3 +1,4 @@
+{% load adminlte_tags %}
 <footer class="main-footer">
   {% block main_footer %}
 
@@ -16,7 +17,7 @@
         {% block version %}
           <b>Version </b>
           {% block version_number %}
-            0.1
+            {% get_version %}
           {% endblock version_number %}
         {% endblock version %}
       </div>
