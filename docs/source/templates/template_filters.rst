@@ -298,9 +298,6 @@ Add ``min`` attribute to a form field and return the form field so filters can b
 
 .. code:: html+django
 
-    # Assuming that the field has a range_min_max property and it is set to the
-    # following: {'min':5, 'max':9}
-
     {% load adminlte_filters %}
     {% for field in form %}
         {{ field|with_min:5 }}
@@ -326,9 +323,6 @@ Add ``max`` attribute to a form field and return the form field so filters can b
 **Example:**
 
 .. code:: html+django
-
-    # Assuming that the field has a range_min_max property and it is set to the
-    # following: {'min':5, 'max':9}
 
     {% load adminlte_filters %}
     {% for field in form %}
@@ -448,7 +442,7 @@ Return value for a dict key or None if key does not exist.
 multiply
 ========
 
-Return result of multiplying two values. Same as python's `*` operator.
+Return result of multiplying two values. Same as python's ``*`` operator.
 
 :param a: First value in multiplication operation.
 :param b: Second value in multiplication operation.
@@ -464,7 +458,8 @@ Return result of multiplying two values. Same as python's `*` operator.
 divide
 ======
 
-Return result of dividing the first value by the second. Same as python's `/` operator.
+Return result of dividing the first value by the second. Same as python's ``/``
+operator, so dividing by zero raises ``ZeroDivisionError``.
 
 :param a: Dividend in the division operation.
 :param b: Divisor in the division operation.
@@ -480,10 +475,11 @@ Return result of dividing the first value by the second. Same as python's `/` op
 modulo
 ======
 
-Return remainder after dividing the first value by the second. Same as python's `%` operator.
+Return remainder after dividing the first value by the second. Same as
+python's ``%`` operator, so a second value of zero raises ``ZeroDivisionError``.
 
 :param a: Dividend in the modulo operation.
-:param b: Division in the modulo operation.
+:param b: Divisor in the modulo operation.
 :return: Result of the modulo operation.
 
 **Example:**

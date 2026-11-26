@@ -199,6 +199,20 @@ Used internally by the package.
 
     {% get_logo_text_small %}
 
+get_version
+===========
+
+Get the version shown in the footer from the ``ADMINLTE2_VERSION`` setting, and
+default to 0.1. Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_version %}
+
 get_skin_class
 ==============
 
@@ -260,6 +274,21 @@ Used internally by the package.
 
     {% get_skin_follow_browser %}
 
+get_consistent_colors
+=====================
+
+Get whether each color name is one color on every class, from the
+``ADMINLTE2_CONSISTENT_COLORS`` setting. Defaults to False.
+Used internally by the package.
+
+:Type: ``simple``
+
+**Example:**
+
+.. code:: html+django
+
+    {% get_consistent_colors %}
+
 get_datetime_widget
 ===================
 
@@ -318,11 +347,11 @@ This function will get the profile email in this order:
 1. The 'email' argument,
 2. The 'user' argument if it has an 'email' attribute.
 
-:param context: Context that is not used.
 :param user: User that may have an email that can be used for gravatar.
 :param email: Email that can be used for gravatar.
-:param size: Size if it needs to be overridden.
-:param default: The default gravatar that will be used if no email.
+:param size: Width and height of the image in pixels. Defaults to 25.
+:param default: The image Gravatar returns when the email has no Gravatar.
+    Defaults to ``mp``, Gravatar's default person image.
 
 :Type: ``simple``
 
@@ -330,7 +359,7 @@ This function will get the profile email in this order:
 
 .. code:: html+django
 
-    {% get_avatar_url %}
+    <img src="{% get_avatar_url user=request.user size=45 %}" alt="">
 
 user_image_initials
 ===================
