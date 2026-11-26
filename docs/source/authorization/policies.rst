@@ -100,16 +100,11 @@ adding either the route name or URL for the endpoint to the
 
 .. note::
 
-    The ``MEDIA_URL`` is exempt from the login required processing so long as
-    it has a value other than the default.
-
-    By default, the ``MEDIA_URL`` setting is set to ``''``, the blank string.
-    This automatically gets converted to the root URL ``'/'`` to ensure that
-    it is a valid URL and that there will be no issues when running your app.
-
-    If you leave the ``MEDIA_URL`` setting as the default and then try to
-    serve media files from that location with the login required turned on,
-    those files will not be able to be served to anonymous users.
+    ``MEDIA_URL`` is only exempt from the login check when it is set. Django's
+    default ``MEDIA_URL`` is ``''``, the blank string, which Django turns into
+    the root URL ``'/'``. The middleware ignores a ``MEDIA_URL`` of ``'/'``, so
+    with the default, media files go through the login check, and anonymous
+    users can't load them when login is required.
 
 
 Authorization
@@ -312,16 +307,11 @@ below.
 
 .. note::
 
-    The ``MEDIA_URL`` is exempt from the login required
-    processing so long as it has a value other than the default.
-
-    By default, the ``MEDIA_URL`` setting is set to ``''``, the blank string.
-    This automatically gets converted to the root URL ``'/'`` to ensure that
-    it is a valid URL and that there will be no issues when running your app.
-
-    If you leave the ``MEDIA_URL`` setting as the default and then try to
-    serve media files from that location with the login required turned on,
-    those files will not be able to be served to anonymous users.
+    ``MEDIA_URL`` is only exempt from the login check when it is set. Django's
+    default ``MEDIA_URL`` is ``''``, the blank string, which Django turns into
+    the root URL ``'/'``. The middleware ignores a ``MEDIA_URL`` of ``'/'``, so
+    with the default, media files go through the login check, and anonymous
+    users can't load them when login is required.
 
 Additionally, if a view does have required permissions defined on the view,
 and the user doesn't have them, they will be redirected to the
@@ -561,8 +551,8 @@ with the following setting:
     permissions gets Django's ``PermissionDenied`` (a 403 response) for views
     without a decorator or mixin, and for views with ``PermissionRequiredMixin``.
     The ``permission_required`` and ``permission_required_one`` decorators
-    redirect to the home route instead, the same as Django's own decorator,
-    unless they are given ``raise_exception=True``.
+    redirect to the home route instead, because their ``login_url`` defaults
+    to it, unless they are given ``raise_exception=True``.
 
 
 Customizing the built-in 404 and 403 messages

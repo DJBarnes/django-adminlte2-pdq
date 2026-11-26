@@ -87,7 +87,9 @@ Middleware Hooks
 
 ``AuthMiddleware`` has two methods for projects to override in a subclass:
 ``login_required_hook(request)`` and ``permission_required_hook(request)``.
-When one returns ``True``, the request passes that check, for every view. Keep
+When one returns ``True``, the request passes the middleware's login or
+permission check, for every view. A view's own decorator or mixin still runs
+its check, so the hooks only open views that rely on the policy alone. Keep
 them narrow, and test them like any other access rule.
 
 

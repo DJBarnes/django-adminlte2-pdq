@@ -233,7 +233,7 @@ instead of raising ``PermissionDenied``. See
 
 For views with the ``permission_required`` or ``permission_required_one``
 decorator, pass ``raise_exception=True`` to the decorator to get the 403;
-otherwise it redirects to the home page, as Django's own decorator does.
+otherwise it redirects to the home page (its ``login_url`` default).
 
 :Type: ``bool``
 :Default: ``True``
@@ -253,7 +253,7 @@ JSON errors.
 
 For views with the ``permission_required`` or ``permission_required_one``
 decorator, pass ``raise_exception=True`` to the decorator to get the 403;
-otherwise it redirects to the home page, as Django's own decorator does.
+otherwise it redirects to the home page (its ``login_url`` default).
 
 Entries are paths, so they start with ``/``.
 

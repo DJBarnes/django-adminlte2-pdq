@@ -158,10 +158,10 @@ Permission Required Decorator
 
 ``@permission_required``
 
-This decorator will list all required permissions for the view. Django's default
+This decorator will list all required permissions for the view. It works like
+Django's
 `permission_required <https://docs.djangoproject.com/en/dev/topics/auth/default/#the-permission-required-decorator>`_
-decorator is used behind the scenes and is only recreated in this package
-to add the magic of automatic sidebar link rendering.
+decorator, and also shows or hides the view's sidebar links.
 
 When using this decorator on a function view, if the user does not have all of
 the permissions that we define in this decorator, the user will not be able to
@@ -191,6 +191,19 @@ list:
     def group_list(request):
         """Show the list of groups"""
         return render(request, 'groups/list.html', {})
+
+Both permission decorators also take these arguments:
+
+* ``login_url``: where a user without the permissions is redirected. It
+  defaults to the :ref:`configuration/home:adminlte2_home_route`, where
+  Django's decorator defaults to the login page.
+* ``raise_exception``: when True, raise ``PermissionDenied`` (a 403 response)
+  instead of redirecting.
+
+With the middleware's built-in 403 handling on (the default), the middleware
+redirects the user home before the view runs, so these arguments only apply
+when that handling is off (see :ref:`authorization/policies:Handling 403s
+Manually`).
 
 
 Permission Required One Decorator
