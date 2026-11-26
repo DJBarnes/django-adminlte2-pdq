@@ -23,10 +23,11 @@ See Django's
 Changing Package Settings in Tests
 ==================================
 
-The package reads its ``ADMINLTE2_*`` settings once, when it is imported, so
-``override_settings`` has no effect on them. To change one in a test, patch
-the name in the module that uses it. For example, to test a view under the
-strict policy:
+The package reads some of its ``ADMINLTE2_*`` settings once, when it is
+imported: the policy, whitelist, route, 403 and 404 handling, form, and demo
+color settings, which are in ``adminlte2_pdq.constants``. ``override_settings``
+has no effect on these. To change one in a test, patch the name in the module
+that uses it. For example, to test a view under the strict policy:
 
 .. code:: python
 
@@ -40,3 +41,15 @@ strict policy:
 The sidebar reads the policy settings in
 ``adminlte2_pdq.templatetags.sidebar_menu``, so a test that checks sidebar
 links patches the names there as well.
+
+The other settings, such as the logo, skin, version, menu, and admin
+settings, are read each time they are used, so ``override_settings`` works for
+them:
+
+.. code:: python
+
+    from django.test import override_settings
+
+    @override_settings(ADMINLTE2_LOGO_TEXT="My Site")
+    def test_logo(self):
+        ...

@@ -98,6 +98,7 @@ It needs Firefox. If Selenium doesn't find a usable Firefox or geckodriver, set 
 
 For maintainers:
 
+1. Check the docs against the changes in the "Unreleased" section of `docs/source/version_history.rst`: each change is described everywhere the docs cover that behavior, and the examples still work. Now and then, check all of the docs against the code instead.
 1. In a pull request, set `__version__` in `adminlte2_pdq/__init__.py`, and rename the "Unreleased" section of `docs/source/version_history.rst` to the version.
 1. After it is merged, tag the merged commit with the same version, without a `v`, and push the tag: `git tag -s 0.3.0 -m "0.3.0"` and `git push origin 0.3.0`.
 1. The "Publish Release" workflow builds the package and checks that the tag matches the built version. The publish job then waits for approval in the `release` environment: open the workflow run and choose "Review deployments".

@@ -28,6 +28,11 @@ Features include:
   [Django Admin](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
   styling that matches AdminLTE2.
 * Automatic inclusion of Admin links in the sidebar.
+* Color classes for every AdminLTE color on every element.
+* Dark mode, which follows the browser's light or dark setting by default.
+* Three access policies: loose (the Django default), login required, and
+  strict (every view needs permissions), with decorators and mixins for each
+  view.
 * Automatic menu link hiding based on user permissions to views.
 * Template filters to aid in manual styling.
 * Template tags for form rendering that matches AdminLTE2.
