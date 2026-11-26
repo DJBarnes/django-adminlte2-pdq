@@ -225,6 +225,30 @@ Permission Required One Attribute
             return render(request, 'adminlte2/sample2.html', {})
 
 
+Combining Permission Attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``permission_required`` and ``permission_required_one`` can be set on the same
+view. The user then needs all of the first and at least one of the second, and
+the sidebar shows the link only to users who have both. This is the class view
+equivalent of
+:ref:`authorization/function_views:combining permission decorators`.
+
+.. code:: python
+
+    from adminlte2_pdq.mixins import PermissionRequiredMixin
+
+    class GroupMembers(PermissionRequiredMixin, View):
+        """Show the members of each group"""
+
+        # Require the user permission, and at least one of the group permissions.
+        permission_required = ['auth.view_user']
+        permission_required_one = ['auth.view_group', 'auth.change_group']
+
+        def get(self, request, *args, **kwargs):
+            return render(request, 'groups/members.html', {})
+
+
 Mixin Examples
 ==============
 
