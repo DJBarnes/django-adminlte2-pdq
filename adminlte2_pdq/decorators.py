@@ -6,11 +6,13 @@ from functools import wraps
 # Third-Party Imports.
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import ImproperlyConfigured, PermissionDenied
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 # Internal Imports.
-from .constants import HOME_ROUTE, USE_LOGIN_NEXT
+from .constants import HOME_ROUTE, LOGIN_URL, USE_LOGIN_NEXT
 
 
 # region Utility Functions
@@ -34,60 +36,44 @@ def _user_passes_test(test_func, login_url=None, redirect_field_name=REDIRECT_FI
     return decorator
 
 
-def _one_of_permission_required(perm, login_url=None, raise_exception=False):
-    """
-    Decorator for views that checks whether a user has at least one particular
-    permission enabled, redirecting to the log-in page if necessary.
-    If the raise_exception parameter is given the PermissionDenied exception
-    is raised.
-    """
+def _permissions_required(check_perms, login_url, raise_exception):
+    """Decorator for views that checks the user's permissions with check_perms(user).
 
-    def check_perms(user):
-        if isinstance(perm, str):
-            perm_list = (perm,)
-        else:
-            perm_list = perm
-
-        # Return if the user has any of the permissions in the perm_list
-        if any(user.has_perm(perm) for perm in perm_list):
-            return True
-
-        # In case the 403 handler should be called raise the exception.
-        if raise_exception:
-            raise PermissionDenied
-
-        # As the last resort, show the login form.
-        return False
-
-    return _user_passes_test(check_perms, login_url=login_url)
-
-
-def _all_permissions_required(perm, login_url=None, raise_exception=False):
-    """
-    Decorator for views that checks whether a user has all of the given
-    permissions, redirecting to the log-in page if necessary. The same as
-    Django's permission_required decorator.
-    If the raise_exception parameter is given the PermissionDenied exception
-    is raised.
+    A user who fails the check is handled as by the middleware: an anonymous user goes to the login page, with the
+    requested url as "next" unless ADMINLTE2_USE_LOGIN_NEXT is False, since they may have the permissions once logged
+    in. A logged-in user goes to login_url, without "next". With raise_exception, both get PermissionDenied instead.
     """
 
-    def check_perms(user):
-        if isinstance(perm, str):
-            perm_list = (perm,)
-        else:
-            perm_list = perm
+    def decorator(function):
+        @wraps(function)
+        def wrap(request, *args, **kwargs):
+            if check_perms(request.user):
+                return function(request, *args, **kwargs)
+            if raise_exception:
+                raise PermissionDenied
+            if not request.user.is_authenticated:
+                redirect_field_name = REDIRECT_FIELD_NAME if USE_LOGIN_NEXT else None
+                return redirect_to_login(request.get_full_path(), LOGIN_URL, redirect_field_name)
+            return redirect(login_url)
 
-        if user.has_perms(perm_list):
-            return True
+        return wrap
 
-        # In case the 403 handler should be called raise the exception.
-        if raise_exception:
-            raise PermissionDenied
+    return decorator
 
-        # As the last resort, show the login form.
-        return False
 
-    return _user_passes_test(check_perms, login_url=login_url)
+def _one_of_permission_required(perm, login_url, raise_exception=False):
+    """Decorator for views that checks whether a user has at least one of the permissions."""
+    perm_list = (perm,) if isinstance(perm, str) else perm
+    return _permissions_required(
+        lambda user: any(user.has_perm(one_perm) for one_perm in perm_list), login_url, raise_exception
+    )
+
+
+def _all_permissions_required(perm, login_url, raise_exception=False):
+    """Decorator for views that checks whether a user has all of the permissions. Same as Django's
+    permission_required decorator, except for where a user without them is redirected."""
+    perm_list = (perm,) if isinstance(perm, str) else perm
+    return _permissions_required(lambda user: user.has_perms(perm_list), login_url, raise_exception)
 
 
 def _is_authenticated(user):

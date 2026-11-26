@@ -194,9 +194,11 @@ list:
 
 Both permission decorators also take these arguments:
 
-* ``login_url``: where a user without the permissions is redirected. It
-  defaults to the :ref:`configuration/home:adminlte2_home_route`, where
-  Django's decorator defaults to the login page.
+* ``login_url``: where a logged-in user without the permissions is
+  redirected. It defaults to the :ref:`configuration/home:adminlte2_home_route`,
+  where Django's decorator defaults to the login page. An anonymous user is
+  redirected to the login page, since they may have the permissions once
+  logged in.
 * ``raise_exception``: when True, raise ``PermissionDenied`` (a 403 response)
   instead of redirecting.
 

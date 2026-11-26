@@ -382,7 +382,7 @@ class TestDecoratorLoginNext(TestCase):
     """The decorators' redirects pass the requested url as "next", unless ADMINLTE2_USE_LOGIN_NEXT is False.
 
     login_required and allow_without_permissions redirect anonymous users to the login page. The permission decorators
-    redirect users without the permissions to the home page.
+    redirect anonymous users to the login page too, and logged-in users without the permissions to the home page.
     """
 
     def setUp(self):
@@ -445,43 +445,41 @@ class TestDecoratorLoginNext(TestCase):
 
         self.assertEqual("/accounts/login/", self.get(a_view, AnonymousUser()))
 
-    def test__permission_required_one(self):
-        """permission_required_one passes "next" to the home page."""
+    def test__permission_decorators(self):
+        """The permission decorators send anonymous users to the login page with "next", since they may have the
+        permissions once logged in, and logged-in users home without "next"."""
+        for decorator in (permission_required_one, permission_required):
+            with self.subTest(decorator=decorator.__name__):
 
-        @permission_required_one("auth.add_foo")
-        def a_view(request):
-            return HttpResponse("foobar")
+                @decorator("auth.add_foo")
+                def a_view(request):
+                    return HttpResponse("foobar")
 
-        self.assertEqual("/home/?next=/some/page/%3Ftab%3D1", self.get(a_view, self.user))
-
-    @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
-    def test__permission_required_one__without_next(self):
-        """With the setting off, permission_required_one doesn't pass "next"."""
-
-        @permission_required_one("auth.add_foo")
-        def a_view(request):
-            return HttpResponse("foobar")
-
-        self.assertEqual("/home/", self.get(a_view, self.user))
-
-    def test__permission_required(self):
-        """permission_required passes "next" to the home page."""
-
-        @permission_required("auth.add_foo")
-        def a_view(request):
-            return HttpResponse("foobar")
-
-        self.assertEqual("/home/?next=/some/page/%3Ftab%3D1", self.get(a_view, self.user))
+                self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(a_view, AnonymousUser()))
+                self.assertEqual("/home/", self.get(a_view, self.user))
 
     @patch("adminlte2_pdq.decorators.USE_LOGIN_NEXT", False)
-    def test__permission_required__without_next(self):
-        """With the setting off, permission_required doesn't pass "next"."""
+    def test__permission_decorators__without_next(self):
+        """With the setting off, the permission decorators don't pass "next" to the login page."""
+        for decorator in (permission_required_one, permission_required):
+            with self.subTest(decorator=decorator.__name__):
 
-        @permission_required("auth.add_foo")
+                @decorator("auth.add_foo")
+                def a_view(request):
+                    return HttpResponse("foobar")
+
+                self.assertEqual("/accounts/login/", self.get(a_view, AnonymousUser()))
+                self.assertEqual("/home/", self.get(a_view, self.user))
+
+    def test__permission_decorators__login_url(self):
+        """A permission decorator's login_url is where logged-in users without the permissions go."""
+
+        @permission_required("auth.add_foo", login_url="/no-access/")
         def a_view(request):
             return HttpResponse("foobar")
 
-        self.assertEqual("/home/", self.get(a_view, self.user))
+        self.assertEqual("/accounts/login/?next=/some/page/%3Ftab%3D1", self.get(a_view, AnonymousUser()))
+        self.assertEqual("/no-access/", self.get(a_view, self.user))
 
 
 class TestStackedPermissionDecorators(TestCase):

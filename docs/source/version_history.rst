@@ -4,6 +4,13 @@ Version History
 Unreleased
 ==========
 
+* With the middleware's 403 handling off, the ``permission_required`` and
+  ``permission_required_one`` decorators redirect the same way as the
+  middleware: anonymous users to the login page, with ``next``, and logged-in
+  users to the home route (their ``login_url``), without ``next``. Before,
+  both went to the home route with ``next`` set to the page they couldn't
+  open.
+
 * Add the :ref:`configuration/home:ADMINLTE2_VERSION` setting, for the
   version shown in the footer. The default is still ``0.1``.
 
