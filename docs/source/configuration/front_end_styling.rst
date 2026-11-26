@@ -205,3 +205,47 @@ light or dark mode and remember the sidebar's state load in the
 
     The package requires a browser that supports CSS custom properties. All
     current browsers do; Internet Explorer does not.
+
+
+Where Third-Party Files Load From
+=================================
+
+The package's own CSS and JavaScript always load from its static files. The
+third-party libraries it uses (jQuery, jQuery UI, Bootstrap, Font Awesome,
+AdminLTE, DataTables, Inputmask, and the date pickers) load from one of two
+places, depending on the template variable ``debug``:
+
+* When ``debug`` is True, from the package's static files, under
+  ``third-party/``.
+* Otherwise, from ``cdnjs.cloudflare.com`` and ``cdn.datatables.net``. Each
+  file has an integrity hash, so the browser refuses a file that differs from
+  the one the package was tested with.
+
+Django sets ``debug`` only when ``DEBUG`` is True, the
+``django.template.context_processors.debug`` context processor is installed,
+and the request comes from an address in ``INTERNAL_IPS``. So a development
+site without ``INTERNAL_IPS`` loads the libraries from the CDNs too.
+
+To always load them from the static files, for example on a network without
+internet access, or with a Content Security Policy that doesn't allow the
+CDNs, override the two partial templates in your project:
+
+**adminlte2/partials/_styles.html**
+
+.. code:: html+django
+
+    {% extends "adminlte2/partials/_styles.html" %}
+
+    {% block styles_prod %}
+      {% include "adminlte2/partials/_styles/_styles_debug.html" %}
+    {% endblock styles_prod %}
+
+**adminlte2/partials/_scripts.html**
+
+.. code:: html+django
+
+    {% extends "adminlte2/partials/_scripts.html" %}
+
+    {% block scripts_prod %}
+      {% include "adminlte2/partials/_scripts/_scripts_debug.html" %}
+    {% endblock scripts_prod %}
