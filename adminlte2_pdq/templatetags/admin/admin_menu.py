@@ -5,6 +5,7 @@ from django.conf import settings
 
 from adminlte2_pdq.menu import MENU
 from adminlte2_pdq.admin_menu import AdminMenu
+from adminlte2_pdq.templatetags.sidebar_menu import _default_routes_are_registered
 
 
 register = template.Library()
@@ -24,12 +25,18 @@ def render_admin_menu(context):
         "separator": True,
     }
 
+    # Use the "default" menu only when its routes are registered, as the main sidebar does.
+    default_menu = MENU if _default_routes_are_registered() else []
+
     menu_first = context.get("ADMINLTE2_MENU_FIRST", [])
-    menu_main = context.get("ADMINLTE2_MENU", getattr(settings, "ADMINLTE2_MENU", MENU)) if include_main_nav else []
+    menu_main = (
+        context.get("ADMINLTE2_MENU", getattr(settings, "ADMINLTE2_MENU", default_menu)) if include_main_nav else []
+    )
     menu_admin = AdminMenu.create_menu(context)
     menu_last = context.get("ADMINLTE2_MENU_LAST", [])
 
-    section_list = menu_first
+    # A new list, so adding to it doesn't change the menu list from the context, which a project may reuse.
+    section_list = list(menu_first)
     if use_menu_group_separator and menu_first and (menu_main or menu_admin or menu_last):
         section_list += [separator]
 

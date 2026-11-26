@@ -4,6 +4,16 @@ Version History
 Unreleased
 ==========
 
+* Fix the admin pages' sidebar adding to the ``ADMINLTE2_MENU_FIRST`` list
+  from the template context. A list passed on every request, for example
+  from a context processor, grew with each admin page shown.
+
+* Fix admin pages failing with ``NoReverseMatch`` when
+  ``ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES`` is True, ``ADMINLTE2_MENU``
+  isn't set, and the project doesn't include ``adminlte2_pdq.urls``. The main
+  menu on admin pages now defaults to the package's menu only when its routes
+  are registered, as on other pages.
+
 * Add integrity hashes to the DataTables files that production pages load
   from ``cdn.datatables.net``, as the files from ``cdnjs.cloudflare.com``
   already had, so the browser refuses a file that has changed.

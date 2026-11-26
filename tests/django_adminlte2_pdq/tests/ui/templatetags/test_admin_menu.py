@@ -312,6 +312,43 @@ class TemplateTagAdminMenuTestCase(TestCase):
 
         self.assertIn('<li class="header">', rendered_template)
 
+    @override_settings(ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=True)
+    def test__render_admin_menu__context_menus_are_not_changed(self):
+        """Rendering doesn't add to the menu lists from the context, which a project may pass on every request."""
+        user = self.create_user()
+        user.is_superuser = True
+        request = RequestFactory().get("/rand/")
+        setattr(request, "user", user)
+        menus = {
+            name: [{"text": name, "nodes": [{"route": "#", "text": "Link", "url": "https://example.com"}]}]
+            for name in ("ADMINLTE2_MENU_FIRST", "ADMINLTE2_MENU", "ADMINLTE2_MENU_LAST")
+        }
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
+
+        for _ in range(2):
+            template_to_render.render(Context({"request": request, "user": user, **menus}))
+
+        for name, menu in menus.items():
+            with self.subTest(menu=name):
+                self.assertEqual(1, len(menu))
+
+    @override_settings(
+        ADMINLTE2_INCLUDE_MAIN_NAV_ON_ADMIN_PAGES=True,
+        ROOT_URLCONF="tests.django_adminlte2_pdq.django_test_project.urls_admin_only",
+    )
+    def test__render_admin_menu__include_main_nav__package_urls_not_included(self):
+        """Without ADMINLTE2_MENU, the main nav on admin pages is the package's default menu only when the package's
+        URLs are included, as in the main sidebar. Otherwise it is empty, instead of failing to reverse its routes."""
+        user = self.create_user()
+        user.is_superuser = True
+        request = RequestFactory().get("/admin/")
+        setattr(request, "user", user)
+        template_to_render = Template("{% load admin.admin_menu %}{% render_admin_menu %}")
+
+        rendered_template = template_to_render.render(Context({"request": request, "user": user}))
+
+        self.assertNotIn("Dashboard", rendered_template)
+
     # endregion render_admin_menu() Function
 
     def test__render_admin_tree_icon(self):

@@ -22,7 +22,7 @@ from adminlte2_pdq.constants import (
     STRICT_POLICY_WHITELIST,
 )
 from adminlte2_pdq.menu import MENU
-from adminlte2_pdq.templatetags.admin.admin_menu import AdminMenu
+from adminlte2_pdq.admin_menu import AdminMenu
 
 
 # Template tag registration.
