@@ -1,8 +1,8 @@
 Version History
 ***************
 
-Unreleased
-==========
+0.3.1 - Fixes, Footer Version Setting, and Template Examples
+============================================================
 
 * The ``with_class`` filter no longer adds a class the field already has, so
   a field rendered twice doesn't get its classes twice, and with no class name
