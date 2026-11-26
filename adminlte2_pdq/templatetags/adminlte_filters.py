@@ -88,7 +88,8 @@ def with_class(field, class_name=""):
     Add a class attribute to a form field and return the form field so filters can be chained.
 
     :param field: Form field to add attributes to.
-    :param class_name: Class name to add to add to the field. Defaults to blank string.
+    :param class_name: Class name, or space-separated class names, to add to the field. A class the field already has
+        isn't added again. Defaults to blank string, which adds nothing.
     :return: Field that was passed in with classes added.
 
     Example::
@@ -104,9 +105,13 @@ def with_class(field, class_name=""):
     """
 
     attrs = field.field.widget.attrs
-    current_class_list = attrs.get("class", "").split()
-    current_class_list.append(class_name)
-    attrs["class"] = " ".join(current_class_list)
+    class_list = attrs.get("class", "").split()
+    # Add each class once, so a field rendered twice doesn't get its classes twice. A blank class_name adds nothing.
+    for name in str(class_name).split():
+        if name not in class_list:
+            class_list.append(name)
+    if class_list:
+        attrs["class"] = " ".join(class_list)
     field.field.widget.attrs = {**field.field.widget.attrs, **attrs}
     return field
 

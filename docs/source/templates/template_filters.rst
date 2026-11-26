@@ -80,8 +80,9 @@ Add a ``class`` attribute to a form field and return the form field so filters c
 be chained.
 
 :param field: Form field to add attributes to.
-:param class_name: Class name to add to the field.
- Defaults to a blank string.
+:param class_name: Class name to add to the field, or several separated by
+ spaces. A class the field already has isn't added again. Defaults to a blank
+ string, which adds nothing.
 :return: Field that was passed in with classes added.
 
 **Example:**

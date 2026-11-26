@@ -4,6 +4,10 @@ Version History
 Unreleased
 ==========
 
+* The ``with_class`` filter no longer adds a class the field already has, so
+  a field rendered twice doesn't get its classes twice, and with no class name
+  it no longer adds a trailing space or an empty ``class`` attribute.
+
 * Fix the ``with_inputmask`` filter's default mask. Without an argument, it
   rendered ``'mask':'('(999) 999-9999',)'`` instead of
   ``'mask':'(999) 999-9999'``.

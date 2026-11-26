@@ -143,6 +143,26 @@ class TemplateFilterTestCase(TestCase):
         # Verify retrieved value.
         self.assertIn('class="my-class-name"', str(result))
 
+    def test_filter__with_class__no_class_name(self):
+        """Without a class name, the field's classes don't change, and a field without classes gets no class
+        attribute."""
+        test_form = self.TestForm()
+
+        self.assertNotIn("class=", str(adminlte_filters.with_class(test_form["test_text"])))
+
+        adminlte_filters.with_class(test_form["test_text"], "my-class-name")
+        self.assertIn('class="my-class-name"', str(adminlte_filters.with_class(test_form["test_text"])))
+
+    def test_filter__with_class__existing_classes(self):
+        """A class the field already has isn't added again, such as when the field is rendered twice. A class name
+        with spaces adds each class."""
+        test_form = self.TestForm()
+        adminlte_filters.with_class(test_form["test_text"], "form-control")
+
+        result = adminlte_filters.with_class(test_form["test_text"], "form-control input-lg")
+
+        self.assertIn('class="form-control input-lg"', str(result))
+
     def test_field_filters__missing_field(self):
         """Every field filter returns an empty string when it gets no field: Django's empty string for a missing
         variable, or None."""
