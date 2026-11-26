@@ -51,6 +51,18 @@ class StaticFilesTestCase(SimpleTestCase):
                 with self.subTest(stylesheet=str(stylesheet.relative_to(PDQ_STATIC_DIR)), path=path):
                     self.assertTrue((stylesheet.parent / path).resolve().is_file(), f"{path} does not exist.")
 
+    def test__cdn_files_have_integrity_hashes(self):
+        """Every script and stylesheet that the production templates load from a CDN has an integrity hash, so the
+        browser refuses a file that differs from the one the package was tested with."""
+        pattern = re.compile(r"""<(?:script|link)\b[^>]*\b(?:src|href)="https://[^>]*>""")
+        templates = list((TEMPLATE_DIR / "adminlte2" / "partials").rglob("*_prod.html"))
+        self.assertTrue(templates, "No production templates found.")
+        for template in templates:
+            for tag in pattern.findall(template.read_text(encoding="utf-8")):
+                with self.subTest(template=template.name, tag=tag[:80]):
+                    self.assertIn('integrity="sha', tag)
+                    self.assertIn('crossorigin="anonymous"', tag)
+
     def test__collectstatic_with_manifest_storage(self):
         """collectstatic works with ManifestStaticFilesStorage, which fails on any url(), @import, or source map that
         points at a missing file, in any static file, vendored ones included."""

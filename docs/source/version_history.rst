@@ -4,6 +4,10 @@ Version History
 Unreleased
 ==========
 
+* Add integrity hashes to the DataTables files that production pages load
+  from ``cdn.datatables.net``, as the files from ``cdnjs.cloudflare.com``
+  already had, so the browser refuses a file that has changed.
+
 * With the middleware's 403 handling off, the ``permission_required`` and
   ``permission_required_one`` decorators redirect the same way as the
   middleware: anonymous users to the login page, with ``next``, and logged-in
