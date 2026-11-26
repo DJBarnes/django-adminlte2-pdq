@@ -257,7 +257,7 @@ class TemplateFilterTestCase(TestCase):
         result = adminlte_filters.with_inputmask(test_form["test_text"])
 
         # Verify retrieved value.
-        self.assertIn("(999) 999-9999", str(result))
+        self.assertIn('data-inputmask="&#x27;mask&#x27;:&#x27;(999) 999-9999&#x27;"', str(result))
 
     def test_filter__with_inputmask__given(self):
         """Adds a specific inputmask attribute to an existing form field."""
@@ -266,7 +266,7 @@ class TemplateFilterTestCase(TestCase):
         result = adminlte_filters.with_inputmask(test_form["test_text"], inputmask="999-9999")
 
         # Verify retrieved value.
-        self.assertIn("999-9999", str(result))
+        self.assertIn('data-inputmask="&#x27;mask&#x27;:&#x27;999-9999&#x27;"', str(result))
 
     def test_filter__with_min__default(self):
         """Adds a default min attribute to an existing form field."""

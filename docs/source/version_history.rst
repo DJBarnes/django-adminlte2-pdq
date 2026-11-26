@@ -4,6 +4,10 @@ Version History
 Unreleased
 ==========
 
+* Fix the ``with_inputmask`` filter's default mask. Without an argument, it
+  rendered ``'mask':'('(999) 999-9999',)'`` instead of
+  ``'mask':'(999) 999-9999'``.
+
 * Fix the admin pages' sidebar adding to the ``ADMINLTE2_MENU_FIRST`` list
   from the template context. A list passed on every request, for example
   from a context processor, grew with each admin page shown.
