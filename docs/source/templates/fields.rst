@@ -306,7 +306,7 @@ Additional Datalist Examples
 
 It is also possible to combine the work of adding a datalist with one of the
 other properties to enhance the field further. In the below examples we are
-using the datalist on the range input to add tickmarks to the range input at
+using the datalist on the range input to add tick marks to the range input at
 the values in the datalist. As you can see, it is only a matter of setting
 both properties on the field.
 

@@ -9,7 +9,7 @@ creation of `Django <https://www.djangoproject.com/>`_ sites, using the
 `AdminLTE2 <https://adminlte.io/themes/AdminLTE/index2.html>`_ theme.
 
 As such, this package comes with many templates that are used right out of the
-box and an automagically-customized site look and feel, just by following the
+box and a customized site look and feel, just by following the
 minimal steps as described in :doc:`../quickstart`.
 
 All of these templates can be overridden to further customize the look

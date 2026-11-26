@@ -648,7 +648,7 @@ def check_for_one_permission_in_node_list(user, nodes):
                 # If user has at least one permission set on this node, then we return true.
                 check_result = is_allowed_node(user, node)
 
-                # If we found even one permission, then no futher handling required.
+                # If we found even one permission, then no further handling required.
                 if check_result:
                     allowed = True
                     break

@@ -74,6 +74,16 @@ When you change what a user can open or see, change the cells in the table. When
 
 Use `self.subTest` only to loop over data, and name the values with keywords, for example `self.subTest(view=..., user=...)`. A failure then shows which values failed. If a case needs its own setup, write it as a separate test method.
 
+## Spelling
+
+`cspell.json` configures [CSpell](https://cspell.org/), which editors such as VS Code (with the Code Spell Checker extension) use to flag misspellings. To check the whole repository from the command line, with Node.js installed:
+
+```bash
+npx cspell "**" ".github/**"
+```
+
+Add project terms, such as template variable names, to the `words` list in `cspell.json`.
+
 ## Docs screenshots
 
 The screenshots on the templates docs page (`docs/img/template/`) are taken by `docs/screenshots/take_screenshots.py`. Each example's template is a file under `docs/screenshots/templates/`, which the docs include, so the code in the docs is the code in the screenshot. When you change an example, or a template that shows in the screenshots, take them again:
